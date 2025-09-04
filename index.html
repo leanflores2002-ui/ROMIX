@@ -309,7 +309,7 @@
         
         .product-actions {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
         }
         
         .btn {
@@ -332,7 +332,7 @@
             background-color: var(--primary);
             color: white;
             flex-grow: 1;
-            margin-right: 10px;
+            width: 100%;
         }
         
         .btn-primary:hover {
@@ -608,8 +608,12 @@
         .quantity-btn {
             padding: 5px 10px;
             font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
         }
-        
+
         .quantity-input {
             width: 50px;
             padding: 5px;
@@ -617,6 +621,51 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             text-align: center;
+        }
+        
+        .custom-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 3000;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            animation: fadeIn 0.3s;
+        }
+        
+        .custom-alert h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .custom-alert p {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .custom-alert button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .custom-alert button:hover {
+            background-color: #d23371;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         @media (max-width: 768px) {
@@ -836,7 +885,7 @@
     let favorites = [];
     let currentProduct = null;
     let currentType = null;
-    let productsData = [];  // Variable global para almacenar los productos cargados
+    let productsData = [];
 
     document.addEventListener('DOMContentLoaded', () => {
         loadProducts();
@@ -847,7 +896,7 @@
         fetch('products.json')
             .then(response => response.json())
             .then(products => {
-                productsData = products;  // Almacenar los productos en una variable global
+                productsData = products;
                 const sections = {
                     'mujer': document.getElementById('mujer-grid'),
                     'hombre': document.getElementById('hombre-grid'),
@@ -898,7 +947,6 @@
                             </div>
                             <div class="product-actions">
                                 <button class="btn btn-primary" onclick="openModal('${product.name}', '${product.type}', this)">Comprar</button>
-                                <button class="btn btn-outline"><i class="far fa-heart"></i></button>
                             </div>
                         </div>
                     `;
@@ -906,7 +954,6 @@
                     sections[product.section].appendChild(card);
                 });
 
-                // Re-inicializar eventos para colores y talles
                 document.querySelectorAll('.color-option').forEach(color => {
                     color.addEventListener('click', () => selectColor(color));
                 });
@@ -915,7 +962,6 @@
                     size.addEventListener('click', () => selectSize(size));
                 });
 
-                // Inicializar controles de cantidad en las tarjetas
                 initializeQuantityControls();
 
                 filterProducts('mujer', 'all');
@@ -977,14 +1023,22 @@
         return true;
     }
 
-    function openModal(productName, productType, button) {
-        const card = button.closest('.product-card');
-        if (!validateSelection(card)) return;
+    function showSelectionConfirmation(productName, selectedColor, selectedSize, selectedQuantity) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'custom-alert';
+        alertDiv.innerHTML = `
+            <h4>Confirmación de Selección</h4>
+            <p>Has seleccionado:</p>
+            <p><strong>Producto:</strong> ${productName}</p>
+            <p><strong>Color:</strong> ${selectedColor}</p>
+            <p><strong>Talle:</strong> ${selectedSize}</p>
+            <p><strong>Cantidad:</strong> ${selectedQuantity}</p>
+            <button onclick="this.parentElement.remove(); openModalAfterConfirmation()">Continuar</button>
+        `;
+        document.body.appendChild(alertDiv);
+    }
 
-        currentProduct = productName;
-        currentType = productType;
-        const colors = card.querySelectorAll('.color-option');
-        const sizes = card.querySelectorAll('.size-option');
+    function openModalAfterConfirmation() {
         const modal = document.getElementById('buy-modal');
         const modalTitle = document.getElementById('modal-title');
         const modalColor = document.getElementById('modal-color');
@@ -992,36 +1046,16 @@
         const modalQuantity = document.getElementById('modal-quantity');
         const stockInfo = document.getElementById('stock-info');
 
-        modalTitle.textContent = `Confirmar Compra: ${productName}`;
-        modalColor.innerHTML = '';
-        modalSize.innerHTML = '';
-
-        colors.forEach(color => {
-            const option = document.createElement('option');
-            option.value = color.dataset.color;
-            option.textContent = color.dataset.color;
-            modalColor.appendChild(option);
-        });
-
-        sizes.forEach(size => {
-            if (!size.classList.contains('unavailable')) {
-                const option = document.createElement('option');
-                option.value = size.dataset.size;
-                option.textContent = size.dataset.size;
-                modalSize.appendChild(option);
-            }
-        });
-
-        const selectedColor = card.querySelector('.color-option.selected');
-        const selectedSize = card.querySelector('.size-option.selected');
+        const card = Array.from(document.querySelectorAll('.product-card')).find(
+            card => card.querySelector('.product-title').textContent === currentProduct
+        );
         const quantityInput = card.querySelector('.quantity-input');
-        const product = productsData.find(p => p.name === productName);
+        const product = productsData.find(p => p.name === currentProduct);
         stockInfo.textContent = `Stock disponible: ${product.stock}`;
-        if (selectedColor) modalColor.value = selectedColor.dataset.color;
-        if (selectedSize) modalSize.value = selectedSize.dataset.size;
+        if (card.querySelector('.color-option.selected')) modalColor.value = card.querySelector('.color-option.selected').dataset.color;
+        if (card.querySelector('.size-option.selected')) modalSize.value = card.querySelector('.size-option.selected').dataset.size;
         modalQuantity.value = quantityInput ? quantityInput.value : '1';
 
-        // Inicializar controles de cantidad en el modal
         const decreaseBtn = modal.querySelector('.decrease');
         const increaseBtn = modal.querySelector('.increase');
 
@@ -1053,6 +1087,20 @@
 
         modal.style.display = 'flex';
         modal.classList.add('animate__animated', 'animate__fadeIn');
+    }
+
+    function openModal(productName, productType, button) {
+        const card = button.closest('.product-card');
+        if (!validateSelection(card)) return;
+
+        currentProduct = productName;
+        currentType = productType;
+        const selectedColor = card.querySelector('.color-option.selected').dataset.color;
+        const selectedSize = card.querySelector('.size-option.selected').dataset.size;
+        const quantityInput = card.querySelector('.quantity-input');
+        const selectedQuantity = quantityInput ? quantityInput.value : '1';
+
+        showSelectionConfirmation(productName, selectedColor, selectedSize, selectedQuantity);
     }
 
     function closeModal() {

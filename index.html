@@ -46,10 +46,47 @@
     .product-colors, .size-options { display: flex; flex-wrap: wrap; gap: 6px; }
     .color-option { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #ddd; cursor: pointer; outline: none; }
     .color-option.selected { box-shadow: 0 0 0 2px var(--primary); }
-    .size-option { padding: 5px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: .85rem; cursor: pointer; }
-    .size-option:hover { border-color: var(--primary); }
-    .size-option.selected { border: 2px solid var(--primary); }
-    .size-option.unavailable { background: #f8f9fa; color: #6c757d; text-decoration: line-through; cursor: not-allowed; }
+        /* Estilos para talles */
+    .size-option {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: background-color .2s, color .2s, border-color .2s;
+    }
+    
+    .size-option:hover {
+      border-color: var(--primary);
+    }
+    
+    .size-option.selected {
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 0 2px rgba(232, 62, 140, .15);
+    }
+    
+    /* Estados visibles para talles */
+    .size-option.available {
+      background: #28a745;
+      color: #fff;
+      border-color: #28a745;
+    }
+    
+    .size-option.low-stock {
+      background: #ffc107;
+      color: #343a40;
+      border-color: #ffc107;
+    }
+    
+    .size-option.unavailable {
+      background: #ffe5e5;
+      color: #a60000;
+      text-decoration: line-through;
+      cursor: not-allowed;
+      border-color: #ffb3b3;
+      opacity: .8;
+    }
+
 
     .quantity-control { display: flex; align-items: center; gap: 6px; margin: 10px 0; }
     .quantity-title { font-size: .9rem; color: #6c757d; }

@@ -46,12 +46,10 @@
     .product-colors, .size-options { display: flex; flex-wrap: wrap; gap: 6px; }
     .color-option { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #ddd; cursor: pointer; outline: none; }
     .color-option.selected { box-shadow: 0 0 0 2px var(--primary); }
-    .size-option.available { background: #28a745; color: #fff; border-color: #28a745; }
-    .size-option.low-stock { background: #ffc107; color: #343a40; border-color: #ffc107; }
-    .size-option.unavailable {
-    background: #ffe5e5; color: #a60000; text-decoration: line-through;
-    cursor: not-allowed; border-color: #ffb3b3; opacity: .8;
-  }
+    .size-option { padding: 5px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: .85rem; cursor: pointer; }
+    .size-option:hover { border-color: var(--primary); }
+    .size-option.selected { border: 2px solid var(--primary); }
+    .size-option.unavailable { background: #f8f9fa; color: #6c757d; text-decoration: line-through; cursor: not-allowed; }
 
     .quantity-control { display: flex; align-items: center; gap: 6px; margin: 10px 0; }
     .quantity-title { font-size: .9rem; color: #6c757d; }
@@ -113,7 +111,7 @@
   <a class="skip-link" href="#mujer" style="position:absolute;left:-9999px;top:auto;">Saltar al contenido</a>
   <header>
     <div class="header-container">
-      <div class="logo" aria-label="Romix"><i class="fas fa-tshirt" aria-hidden="true"></i><span>ROMIX 👚</span></div>
+      <div class="logo" aria-label="Romix"><i class="fas fa-tshirt" aria-hidden="true"></i><span>ROMIX</span></div>
       <div class="contact-header">
         <a href="https://wa.me/5491154272065" class="whatsapp-header" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Romix"><i class="fab fa-whatsapp" aria-hidden="true"></i> +54 9 11 5427-2065</a>
         <button type="button" class="cart-icon-btn" onclick="toggleCart()" aria-haspopup="region" aria-controls="cart" aria-expanded="false">
@@ -141,7 +139,7 @@
     <div id="feedback" class="hidden" role="status" aria-live="polite" style="margin-bottom:10px;color:#c00;"></div>
 
     <section id="cart" class="cart-section hidden" role="region" aria-label="Carrito de compras">
-      <h2 class="section-title"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Carrito de Compras 🛒</h2>
+      <h2 class="section-title"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Carrito de Compras</h2>
       <table class="cart-table">
         <thead>
           <tr>

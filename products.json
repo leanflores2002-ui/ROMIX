@@ -1,0 +1,459 @@
+[
+  {
+    "section": "mujer",
+    "type": "calzas",
+    "name": "Calza Térmica Lycra Chupin",
+    "image": "images/calza_termica_lycra.jpg",
+    "price": 8499,
+    "originalPrice": 9999,
+    "badge": "Nuevo",
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Gris oscuro", "hex": "#333333"},
+      {"name": "Marrón", "hex": "#654321"}
+    ],
+    "sizes": [
+      {"size": "1", "status": "available"},
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "low-stock"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "calzas",
+    "name": "Calza Térmica Jaspeado Saplex Chupin",
+    "image": "images/calza_jaspeado_saplex.jpg",
+    "price": 9299,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Azul jaspeado", "hex": "#6b8cff"},
+      {"name": "Rojo jaspeado", "hex": "#ff6b6b"},
+      {"name": "Verde jaspeado", "hex": "#6bff6b"}
+    ],
+    "sizes": [
+      {"size": "1", "status": "available"},
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "pantalones",
+    "name": "Pantalón Jogger Térmico Lycra",
+    "image": "images/pantalon_jogger_termico.jpg",
+    "price": 12999,
+    "originalPrice": 14999,
+    "badge": "Más vendido",
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Marrón", "hex": "#654321"},
+      {"name": "Gris oscuro", "hex": "#333333"}
+    ],
+    "sizes": [
+      {"size": "1", "status": "available"},
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "pantalones",
+    "name": "Palazo Morley Lanilla",
+    "image": "images/palazo_morley_lanilla.jpg",
+    "price": 15499,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Rojo", "hex": "#ff6b6b"},
+      {"name": "Azul", "hex": "#6b8cff"},
+      {"name": "Verde", "hex": "#6bff6b"},
+      {"name": "Beige", "hex": "#ffcc6b"}
+    ],
+    "sizes": [
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "low-stock"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "camperas",
+    "name": "Campera Térmica Jaspeado Saplex",
+    "image": "images/campera_termica_jaspeado.jpg",
+    "price": 24999,
+    "originalPrice": 29999,
+    "badge": "Oferta",
+    "colors": [
+      {"name": "Azul jaspeado", "hex": "#6b8cff"},
+      {"name": "Rojo jaspeado", "hex": "#ff6b6b"},
+      {"name": "Verde jaspeado", "hex": "#6bff6b"}
+    ],
+    "sizes": [
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "camperas",
+    "name": "Campera Polar Corderito Largo",
+    "image": "images/campera_polar_corderito.jpg",
+    "price": 32999,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Marrón", "hex": "#654321"},
+      {"name": "Gris", "hex": "#333333"}
+    ],
+    "sizes": [
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "buzos",
+    "name": "Buzo Algodón Frisado",
+    "image": "images/buzo_algodon_frisado.jpg",
+    "price": 14499,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Rojo", "hex": "#ff6b6b"},
+      {"name": "Azul", "hex": "#6b8cff"},
+      {"name": "Verde", "hex": "#6bff6b"}
+    ],
+    "sizes": [
+      {"size": "1", "status": "available"},
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"}
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "buzos",
+    "name": "Maxibuzo Frisado Algodón",
+    "image": "images/maxibuzo_frisado.jpg",
+    "price": 18999,
+    "originalPrice": null,
+    "badge": "Nuevo",
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Gris", "hex": "#333333"},
+      {"name": "Marrón", "hex": "#654321"}
+    ],
+    "sizes": [
+      {"size": "1", "status": "available"},
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "hombre",
+    "type": "pantalones",
+    "name": "Pantalón Algodón Frisado Premium",
+    "image": "images/pantalon_algodon_frisado_hombre.jpg",
+    "price": 16999,
+    "originalPrice": 19999,
+    "badge": null,
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Gris oscuro", "hex": "#333333"},
+      {"name": "Marrón", "hex": "#654321"}
+    ],
+    "sizes": [
+      {"size": "1", "status": "available"},
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "hombre",
+    "type": "pantalones",
+    "name": "Babucha Frisado Algodón Premium",
+    "image": "images/babucha_frisado_hombre.jpg",
+    "price": 14499,
+    "originalPrice": null,
+    "badge": "Oferta",
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Gris", "hex": "#333333"},
+      {"name": "Marrón", "hex": "#654321"}
+    ],
+    "sizes": [
+      {"size": "1", "status": "available"},
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"}
+    ]
+  },
+  {
+    "section": "hombre",
+    "type": "camperas",
+    "name": "Campera Algodón Frisado",
+    "image": "images/campera_algodon_frisado_hombre.jpg",
+    "price": 27999,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Gris oscuro", "hex": "#333333"},
+      {"name": "Marrón", "hex": "#654321"}
+    ],
+    "sizes": [
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "hombre",
+    "type": "camperas",
+    "name": "Campera Corderoy con Corderito",
+    "image": "images/campera_corderoy_hombre.jpg",
+    "price": 34999,
+    "originalPrice": 39999,
+    "badge": "Más vendido",
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Marrón", "hex": "#654321"}
+    ],
+    "sizes": [
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "hombre",
+    "type": "camisetas",
+    "name": "Camiseta Térmica Frisado",
+    "image": "images/camiseta_termica_hombre.jpg",
+    "price": 7999,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Blanco", "hex": "#ffffff"},
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Gris", "hex": "#333333"}
+    ],
+    "sizes": [
+      {"size": "2", "status": "available"},
+      {"size": "3", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"},
+      {"size": "8", "status": "available"}
+    ]
+  },
+  {
+    "section": "hombre",
+    "type": "buzos",
+    "name": "Buzo Rustico con Lycra",
+    "image": "images/buzo_rustico_lycra_hombre.jpg",
+    "price": 15999,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Gris", "hex": "#333333"},
+      {"name": "Marrón", "hex": "#654321"}
+    ],
+    "sizes": [
+      {"size": "2", "status": "available"},
+      {"size": "4", "status": "available"},
+      {"size": "5", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "7", "status": "available"}
+    ]
+  },
+  {
+    "section": "ninos",
+    "type": "buzos",
+    "name": "Buzo Algodón Frisado Niño",
+    "image": "images/buzo_nino.jpg",
+    "price": 9999,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Azul", "hex": "#6b8cff"},
+      {"name": "Rojo", "hex": "#ff6b6b"},
+      {"name": "Verde", "hex": "#6bff6b"}
+    ],
+    "sizes": [
+      {"size": "6", "status": "available"},
+      {"size": "8", "status": "available"},
+      {"size": "10", "status": "available"},
+      {"size": "12", "status": "available"},
+      {"size": "14", "status": "available"},
+      {"size": "16", "status": "available"}
+    ]
+  },
+  {
+    "section": "ninos",
+    "type": "pantalones",
+    "name": "Pantalón Algodón Frisado Niño",
+    "image": "images/pantalon_nino.jpg",
+    "price": 8499,
+    "originalPrice": null,
+    "badge": "Nuevo",
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Gris", "hex": "#333333"},
+      {"name": "Marrón", "hex": "#654321"}
+    ],
+    "sizes": [
+      {"size": "6", "status": "available"},
+      {"size": "8", "status": "available"},
+      {"size": "10", "status": "available"},
+      {"size": "12", "status": "available"},
+      {"size": "14", "status": "available"},
+      {"size": "16", "status": "available"}
+    ]
+  },
+  {
+    "section": "ninos",
+    "type": "calzas",
+    "name": "Calza Térmica Niña",
+    "image": "images/calza_termica_nina.jpg",
+    "price": 7999,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Rosa", "hex": "#ff6b6b"},
+      {"name": "Azul", "hex": "#6b8cff"},
+      {"name": "Verde", "hex": "#6bff6b"},
+      {"name": "Amarillo", "hex": "#ffcc6b"}
+    ],
+    "sizes": [
+      {"size": "6", "status": "available"},
+      {"size": "8", "status": "available"},
+      {"size": "10", "status": "available"},
+      {"size": "12", "status": "available"},
+      {"size": "14", "status": "available"},
+      {"size": "16", "status": "available"}
+    ]
+  },
+  {
+    "section": "ninos",
+    "type": "calzas",
+    "name": "Calza Jaspeado Saplex Niña",
+    "image": "images/calza_jaspeado_nina.jpg",
+    "price": 8499,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Rosa jaspeado", "hex": "#ff6b6b"},
+      {"name": "Azul jaspeado", "hex": "#6b8cff"},
+      {"name": "Verde jaspeado", "hex": "#6bff6b"}
+    ],
+    "sizes": [
+      {"size": "6", "status": "available"},
+      {"size": "8", "status": "available"},
+      {"size": "10", "status": "available"},
+      {"size": "12", "status": "available"},
+      {"size": "14", "status": "available"},
+      {"size": "16", "status": "available"}
+    ]
+  },
+  {
+    "section": "ninos",
+    "type": "camisetas",
+    "name": "Camiseta Térmica Niños",
+    "image": "images/camiseta_termica_ninos.jpg",
+    "price": 6999,
+    "originalPrice": 7999,
+    "badge": "Oferta",
+    "colors": [
+      {"name": "Blanco", "hex": "#ffffff"},
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Azul", "hex": "#6b8cff"},
+      {"name": "Rojo", "hex": "#ff6b6b"}
+    ],
+    "sizes": [
+      {"size": "6", "status": "available"},
+      {"size": "8", "status": "available"},
+      {"size": "10", "status": "available"},
+      {"size": "12", "status": "available"},
+      {"size": "14", "status": "available"},
+      {"size": "16", "status": "available"}
+    ]
+  },
+  {
+    "section": "ninos",
+    "type": "camperas",
+    "name": "Campera Ketten Frisado Niño",
+    "image": "images/campera_ketten_nino.jpg",
+    "price": 19999,
+    "originalPrice": null,
+    "badge": null,
+    "colors": [
+      {"name": "Negro", "hex": "#000000"},
+      {"name": "Azul", "hex": "#6b8cff"},
+      {"name": "Rojo", "hex": "#ff6b6b"}
+    ],
+    "sizes": [
+      {"size": "4", "status": "available"},
+      {"size": "6", "status": "available"},
+      {"size": "8", "status": "available"},
+      {"size": "10", "status": "available"},
+      {"size": "12", "status": "available"},
+      {"size": "14", "status": "available"}
+    ]
+  }
+]

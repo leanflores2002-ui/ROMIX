@@ -3,7 +3,12 @@
     "section": "mujer",
     "type": "calzas",
     "name": "Calza Térmica Lycra Chupin",
-    "image": "images/calza_termica_lycra.jpg",
+    "image": "images/calza_termica_lycra_negro.jpg",
+    "images": {
+      "Negro": "images/calza_termica_lycra_negro.jpg",
+      "Gris oscuro": "images/calza_termica_lycra_gris.jpg",
+      "Marrón": "images/calza_termica_lycra_marron.jpg"
+    },
     "price": 8499,
     "originalPrice": 9999,
     "badge": "Nuevo",
@@ -27,7 +32,12 @@
     "section": "mujer",
     "type": "calzas",
     "name": "Calza Térmica Jaspeado Saplex Chupin",
-    "image": "images/calza_jaspeado_saplex.jpg",
+    "image": "images/calza_jaspeado_saplex_azul.jpg",
+    "images": {
+      "Azul jaspeado": "images/calza_jaspeado_saplex_azul.jpg",
+      "Rojo jaspeado": "images/calza_jaspeado_saplex_rojo.jpg",
+      "Verde jaspeado": "images/calza_jaspeado_saplex_verde.jpg"
+    },
     "price": 9299,
     "originalPrice": null,
     "badge": null,
@@ -51,7 +61,12 @@
     "section": "mujer",
     "type": "pantalones",
     "name": "Pantalón Jogger Térmico Lycra",
-    "image": "images/pantalon_jogger_termico.jpg",
+    "image": "images/pantalon_jogger_termico_negro.jpg",
+    "images": {
+      "Negro": "images/pantalon_jogger_termico_negro.jpg",
+      "Marrón": "images/pantalon_jogger_termico_marron.jpg",
+      "Gris oscuro": "images/pantalon_jogger_termico_gris.jpg"
+    },
     "price": 12999,
     "originalPrice": 14999,
     "badge": "Más vendido",
@@ -75,7 +90,13 @@
     "section": "mujer",
     "type": "pantalones",
     "name": "Palazo Morley Lanilla",
-    "image": "images/palazo_morley_lanilla.jpg",
+    "image": "images/palazo_morley_lanilla_rojo.jpg",
+    "images": {
+      "Rojo": "images/palazo_morley_lanilla_rojo.jpg",
+      "Azul": "images/palazo_morley_lanilla_azul.jpg",
+      "Verde": "images/palazo_morley_lanilla_verde.jpg",
+      "Beige": "images/palazo_morley_lanilla_beige.jpg"
+    },
     "price": 15499,
     "originalPrice": null,
     "badge": null,
@@ -99,7 +120,12 @@
     "section": "mujer",
     "type": "camperas",
     "name": "Campera Térmica Jaspeado Saplex",
-    "image": "images/campera_termica_jaspeado.jpg",
+    "image": "images/campera_termica_jaspeado_azul.jpg",
+    "images": {
+      "Azul jaspeado": "images/campera_termica_jaspeado_azul.jpg",
+      "Rojo jaspeado": "images/campera_termica_jaspeado_rojo.jpg",
+      "Verde jaspeado": "images/campera_termica_jaspeado_verde.jpg"
+    },
     "price": 24999,
     "originalPrice": 29999,
     "badge": "Oferta",
@@ -122,7 +148,12 @@
     "section": "mujer",
     "type": "camperas",
     "name": "Campera Polar Corderito Largo",
-    "image": "images/campera_polar_corderito.jpg",
+    "image": "images/campera_polar_corderito_negro.jpg",
+    "images": {
+      "Negro": "images/campera_polar_corderito_negro.jpg",
+      "Marrón": "images/campera_polar_corderito_marron.jpg",
+      "Gris": "images/campera_polar_corderito_gris.jpg"
+    },
     "price": 32999,
     "originalPrice": null,
     "badge": null,
@@ -145,7 +176,13 @@
     "section": "mujer",
     "type": "buzos",
     "name": "Buzo Algodón Frisado",
-    "image": "images/buzo_algodon_frisado.jpg",
+    "image": "images/buzo_algodon_frisado_negro.jpg",
+    "images": {
+      "Negro": "images/buzo_algodon_frisado_negro.jpg",
+      "Rojo": "images/buzo_algodon_frisado_rojo.jpg",
+      "Azul": "images/buzo_algodon_frisado_azul.jpg",
+      "Verde": "images/buzo_algodon_frisado_verde.jpg"
+    },
     "price": 14499,
     "originalPrice": null,
     "badge": null,
@@ -167,7 +204,12 @@
     "section": "mujer",
     "type": "buzos",
     "name": "Maxibuzo Frisado Algodón",
-    "image": "images/maxibuzo_frisado.jpg",
+    "image": "images/maxibuzo_frisado_negro.jpg",
+    "images": {
+      "Negro": "images/maxibuzo_frisado_negro.jpg",
+      "Gris": "images/maxibuzo_frisado_gris.jpg",
+      "Marrón": "images/maxibuzo_frisado_marron.jpg"
+    },
     "price": 18999,
     "originalPrice": null,
     "badge": "Nuevo",
@@ -191,7 +233,12 @@
     "section": "hombre",
     "type": "pantalones",
     "name": "Pantalón Algodón Frisado Premium",
-    "image": "images/pantalon_algodon_frisado_hombre.jpg",
+    "image": "images/pantalon_algodon_frisado_hombre_negro.jpg",
+    "images": {
+      "Negro": "images/pantalon_algodon_frisado_hombre_negro.jpg",
+      "Gris oscuro": "images/pantalon_algodon_frisado_hombre_gris.jpg",
+      "Marrón": "images/pantalon_algodon_frisado_hombre_marron.jpg"
+    },
     "price": 16999,
     "originalPrice": 19999,
     "badge": null,
@@ -215,7 +262,12 @@
     "section": "hombre",
     "type": "pantalones",
     "name": "Babucha Frisado Algodón Premium",
-    "image": "images/babucha_frisado_hombre.jpg",
+    "image": "images/babucha_frisado_hombre_negro.jpg",
+    "images": {
+      "Negro": "images/babucha_frisado_hombre_negro.jpg",
+      "Gris": "images/babucha_frisado_hombre_gris.jpg",
+      "Marrón": "images/babucha_frisado_hombre_marron.jpg"
+    },
     "price": 14499,
     "originalPrice": null,
     "badge": "Oferta",
@@ -236,7 +288,12 @@
     "section": "hombre",
     "type": "camperas",
     "name": "Campera Algodón Frisado",
-    "image": "images/campera_algodon_frisado_hombre.jpg",
+    "image": "images/campera_algodon_frisado_hombre_negro.jpg",
+    "images": {
+      "Negro": "images/campera_algodon_frisado_hombre_negro.jpg",
+      "Gris oscuro": "images/campera_algodon_frisado_hombre_gris.jpg",
+      "Marrón": "images/campera_algodon_frisado_hombre_marron.jpg"
+    },
     "price": 27999,
     "originalPrice": null,
     "badge": null,
@@ -259,7 +316,11 @@
     "section": "hombre",
     "type": "camperas",
     "name": "Campera Corderoy con Corderito",
-    "image": "images/campera_corderoy_hombre.jpg",
+    "image": "images/campera_corderoy_hombre_negro.jpg",
+    "images": {
+      "Negro": "images/campera_corderoy_hombre_negro.jpg",
+      "Marrón": "images/campera_corderoy_hombre_marron.jpg"
+    },
     "price": 34999,
     "originalPrice": 39999,
     "badge": "Más vendido",
@@ -281,7 +342,12 @@
     "section": "hombre",
     "type": "camisetas",
     "name": "Camiseta Térmica Frisado",
-    "image": "images/camiseta_termica_hombre.jpg",
+    "image": "images/camiseta_termica_hombre_blanco.jpg",
+    "images": {
+      "Blanco": "images/camiseta_termica_hombre_blanco.jpg",
+      "Negro": "images/camiseta_termica_hombre_negro.jpg",
+      "Gris": "images/camiseta_termica_hombre_gris.jpg"
+    },
     "price": 7999,
     "originalPrice": null,
     "badge": null,
@@ -304,7 +370,12 @@
     "section": "hombre",
     "type": "buzos",
     "name": "Buzo Rustico con Lycra",
-    "image": "images/buzo_rustico_lycra_hombre.jpg",
+    "image": "images/buzo_rustico_lycra_hombre_negro.jpg",
+    "images": {
+      "Negro": "images/buzo_rustico_lycra_hombre_negro.jpg",
+      "Gris": "images/buzo_rustico_lycra_hombre_gris.jpg",
+      "Marrón": "images/buzo_rustico_lycra_hombre_marron.jpg"
+    },
     "price": 15999,
     "originalPrice": null,
     "badge": null,
@@ -325,7 +396,13 @@
     "section": "ninos",
     "type": "buzos",
     "name": "Buzo Algodón Frisado Niño",
-    "image": "images/buzo_nino.jpg",
+    "image": "images/buzo_nino_negro.jpg",
+    "images": {
+      "Negro": "images/buzo_nino_negro.jpg",
+      "Azul": "images/buzo_nino_azul.jpg",
+      "Rojo": "images/buzo_nino_rojo.jpg",
+      "Verde": "images/buzo_nino_verde.jpg"
+    },
     "price": 9999,
     "originalPrice": null,
     "badge": null,
@@ -348,7 +425,12 @@
     "section": "ninos",
     "type": "pantalones",
     "name": "Pantalón Algodón Frisado Niño",
-    "image": "images/pantalon_nino.jpg",
+    "image": "images/pantalon_nino_negro.jpg",
+    "images": {
+      "Negro": "images/pantalon_nino_negro.jpg",
+      "Gris": "images/pantalon_nino_gris.jpg",
+      "Marrón": "images/pantalon_nino_marron.jpg"
+    },
     "price": 8499,
     "originalPrice": null,
     "badge": "Nuevo",
@@ -370,7 +452,13 @@
     "section": "ninos",
     "type": "calzas",
     "name": "Calza Térmica Niña",
-    "image": "images/calza_termica_nina.jpg",
+    "image": "images/calza_termica_nina_rosa.jpg",
+    "images": {
+      "Rosa": "images/calza_termica_nina_rosa.jpg",
+      "Azul": "images/calza_termica_nina_azul.jpg",
+      "Verde": "images/calza_termica_nina_verde.jpg",
+      "Amarillo": "images/calza_termica_nina_amarillo.jpg"
+    },
     "price": 7999,
     "originalPrice": null,
     "badge": null,
@@ -393,7 +481,12 @@
     "section": "ninos",
     "type": "calzas",
     "name": "Calza Jaspeado Saplex Niña",
-    "image": "images/calza_jaspeado_nina.jpg",
+    "image": "images/calza_jaspeado_nina_rosa.jpg",
+    "images": {
+      "Rosa jaspeado": "images/calza_jaspeado_nina_rosa.jpg",
+      "Azul jaspeado": "images/calza_jaspeado_nina_azul.jpg",
+      "Verde jaspeado": "images/calza_jaspeado_nina_verde.jpg"
+    },
     "price": 8499,
     "originalPrice": null,
     "badge": null,
@@ -415,7 +508,13 @@
     "section": "ninos",
     "type": "camisetas",
     "name": "Camiseta Térmica Niños",
-    "image": "images/camiseta_termica_ninos.jpg",
+    "image": "images/camiseta_termica_ninos_blanco.jpg",
+    "images": {
+      "Blanco": "images/camiseta_termica_ninos_blanco.jpg",
+      "Negro": "images/camiseta_termica_ninos_negro.jpg",
+      "Azul": "images/camiseta_termica_ninos_azul.jpg",
+      "Rojo": "images/camiseta_termica_ninos_rojo.jpg"
+    },
     "price": 6999,
     "originalPrice": 7999,
     "badge": "Oferta",
@@ -438,7 +537,12 @@
     "section": "ninos",
     "type": "camperas",
     "name": "Campera Ketten Frisado Niño",
-    "image": "images/campera_ketten_nino.jpg",
+    "image": "images/campera_ketten_nino_negro.jpg",
+    "images": {
+      "Negro": "images/campera_ketten_nino_negro.jpg",
+      "Azul": "images/campera_ketten_nino_azul.jpg",
+      "Rojo": "images/campera_ketten_nino_rojo.jpg"
+    },
     "price": 19999,
     "originalPrice": null,
     "badge": null,

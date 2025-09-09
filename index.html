@@ -121,7 +121,8 @@
     }
   </style>
 </head>
-<body>
+<body
+  onerror="console.error('window error', event)">
   <a class="skip-link" href="#mujer" style="position:absolute;left:-9999px;top:auto;">Saltar al contenido</a>
   <header>
     <div class="header-container">
@@ -339,7 +340,7 @@
     }
 
     function loadProducts() {
-      return fetch('products.json')
+      return fetch('products.json').catch(err => { console.error('[ROMIX] fetch products.json failed:', err); const b=document.getElementById('load-error-banner'); if(b)b.style.display='block'; return new Response(JSON.stringify([]), {headers:{'Content-Type':'application/json'}}); })
         .then((r) => r.json())
         .then((products) => {
           const sections = {
@@ -788,5 +789,21 @@
       window.open(`https://wa.me/${phone}?text=${encoded}`, '_blank');
     }
   </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const tryLoad = () => {
+    const anyCard = document.querySelector('.product-card');
+    if (anyCard) return;
+    // Attempt to fetch products.json and call loadProducts if available
+    if (typeof loadProducts === 'function') {
+      fetch('products.json').then(r=>r.json()).then(data=>{
+        try { loadProducts(data); } catch (e) { console.error('[ROMIX] loadProducts retry failed:', e); }
+      }).catch(err=>console.error('[ROMIX] watchdog fetch failed:', err));
+    }
+  };
+  setTimeout(tryLoad, 400);
+});
+</script>
 </body>
 </html>

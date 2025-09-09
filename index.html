@@ -430,14 +430,16 @@
       // Fallback: si sólo hay product.sizes con 'status', generamos un mapa único para todos los colores
       const map = {};
       const defaultSizes = (product.sizes || []).reduce((acc, s) => {
-        // status: 'available' | 'low' | 'unavailable' (si existiera). Nuestro HTML original usaba 'unavailable' o nada.
-        const st = s.status === 'unavailable' ? 0 : 5;
-        acc[String(s.size)] = st;
+        const status = String(s.status || '').toLowerCase();
+        let qty = 5;
+        if (status.includes('unavail')) qty = 0;
+        else if (status.includes('low')) qty = 2;
+        acc[String(s.size)] = qty;
         return acc;
       }, {});
-      (product.colors || []).forEach(c => { map[c.name] = { **defaultSizes } });
+      (product.colors || []).forEach(c => { map[c.name] = { ...defaultSizes } });
       // Si no hubiera colores definidos, creamos uno genérico
-      if (!product.colors || !product.colors.length) map['único'] = { **defaultSizes };
+      if (!product.colors || !product.colors.length) map['único'] = { ...defaultSizes };
       return map;
     }
 
@@ -511,6 +513,7 @@
     }
 
     // Sobrescribimos selectColor para que dispare render dinámico de talles y animación
+    if (typeof selectColor !== 'function') { function selectColor(){} }
     const _originalSelectColor = selectColor;
     selectColor = function(el) {
       const card = el.closest('.product-card');
@@ -528,6 +531,7 @@
     };
 
     // Sobrescribimos selectSize para mantener compatibilidad si hay elementos legacy .size-option
+    if (typeof selectSize !== 'function') { function selectSize(){} }
     const _originalSelectSize = selectSize;
     selectSize = function(el) {
       if (el.classList.contains('unavailable') || el.getAttribute('aria-disabled') === 'true') return;

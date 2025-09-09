@@ -7,6 +7,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-SnMh5Zq9wTW8QLm2k7w3z2wQz0s0nKxHq4xFf9m4V3LQ8v7V4n9H2m3Wn7g0qUQy9VwQ1p4f8U8tH1hJ0nqQwQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-b7ZPnUPQK1G3z2d4l0f7Gm2M1eJp4z8f5s1p9o3r2x6z0kYd8l9r4Qv5B1c2D3E4F5G6H7I8J9K0L1M2N3O4PQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+
+    /* === Estados de talles (según disponibilidad) === */
+    .size-chip { position: relative; padding: 6px 10px; border-radius: 10px; font-weight: 700; border: 1px solid #ddd; cursor: pointer; user-select: none; }
+    .size-chip[data-state="available"] { background: var(--success); color: #fff; }
+    .size-chip[data-state="low"] { background: var(--warning); color: #212529; }
+    .size-chip[data-state="out"] { background: #6c757d; color: #fff; text-decoration: line-through; cursor: not-allowed; }
+    .size-chip .badge { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: 800; border: 1px solid rgba(0,0,0,.12); }
+    .size-chip[data-state="available"] .badge { background: var(--success); color: #fff; }
+    .size-chip[data-state="low"] .badge { background: var(--warning); color: #212529; }
+    .size-chip[data-state="out"] .badge { background: var(--danger); color: #fff; }
+    .size-chip.selected { outline: 2px solid #343a40; }
+    .product-selection-status { margin: 8px 0 4px; font-size: .9rem; color: #495057; }
+    .btn[aria-disabled="true"] { opacity: .6; cursor: not-allowed; }
+
     :root {
       --primary: #e83e8c; --secondary: #6f42c1; --light: #f8f9fa; --dark: #343a40;
       --success: #28a745; --danger: #dc3545; --warning: #ffc107;
@@ -338,6 +352,7 @@
             const card = document.createElement('div');
             card.className = 'product-card';
             card.dataset.type = product.type;
+            card.dataset.product = JSON.stringify(product);
 
             let priceHTML = `$${Number(product.price).toLocaleString('es-AR')}`;
             if (product.originalPrice) {
@@ -374,8 +389,9 @@
                   <input type="number" class="quantity-input" min="1" value="1" inputmode="numeric" />
                   <button class="btn quantity-btn increase" type="button" aria-label="Aumentar cantidad">+</button>
                 </div>
+                <div class="product-selection-status" aria-live="polite">Sin selección</div>
                 <div class="product-actions">
-                  <button class="btn btn-primary" type="button">Comprar</button>
+                  <button class="btn btn-primary" type="button" aria-disabled="true">Comprar</button>
                 </div>
               </div>`;
 
@@ -391,7 +407,7 @@
               el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectSize(el); } });
             });
             initQtyControls(card);
-            card.querySelector('.btn.btn-primary').addEventListener('click', () => openReview(card, product));
+            card.querySelector('.btn.btn-primary').addEventListener('click', (e) => { if (e.currentTarget.getAttribute('aria-disabled') === 'true') { e.preventDefault(); e.currentTarget.classList.add('animate__animated','animate__shakeX'); setTimeout(()=>e.currentTarget.classList.remove('animate__animated','animate__shakeX'), 500); return; } openReview(card, product); });
           });
 
           filterProducts('mujer', 'all');
@@ -403,6 +419,128 @@
           showError('No se pudieron cargar los productos. Intentá recargar la página.');
         });
     }
+
+
+    // ===== Selector Color/Talle con estados dinámicos =====
+    const COLOR_HEX_FALLBACK = { negro: '#000000', violeta: '#7F00FF', fucsia: '#FF00A8', gris: '#6c757d', rojo: '#dc3545' };
+
+    function normalizeStockByColor(product) {
+      // Espera product.stockByColor = { colorName: { '1': 5, '2': 0, ... } }
+      if (product && product.stockByColor) return product.stockByColor;
+      // Fallback: si sólo hay product.sizes con 'status', generamos un mapa único para todos los colores
+      const map = {};
+      const defaultSizes = (product.sizes || []).reduce((acc, s) => {
+        // status: 'available' | 'low' | 'unavailable' (si existiera). Nuestro HTML original usaba 'unavailable' o nada.
+        const st = s.status === 'unavailable' ? 0 : 5;
+        acc[String(s.size)] = st;
+        return acc;
+      }, {});
+      (product.colors || []).forEach(c => { map[c.name] = { **defaultSizes } });
+      // Si no hubiera colores definidos, creamos uno genérico
+      if (!product.colors || !product.colors.length) map['único'] = { **defaultSizes };
+      return map;
+    }
+
+    function stateFromStock(n) {
+      if (n <= 0) return 'out';
+      if (n <= 3) return 'low';
+      return 'available';
+    }
+
+    function labelFromState(st) {
+      if (st === 'out') return 'AGOTADO';
+      if (st === 'low') return 'Por agotarse';
+      return 'Disponible';
+    }
+
+    function updateSelectionStatus(card, color, size) {
+      const statusEl = card.querySelector('.product-selection-status');
+      if (!statusEl) return;
+      if (color && size) statusEl.innerHTML = `Seleccionado: <strong>${color}</strong> – Talle: <strong>${size}</strong>`;
+      else if (color) statusEl.innerHTML = `Seleccionado: <strong>${color}</strong> – Talle: <strong>Sin selección</strong>`;
+      else statusEl.textContent = 'Sin selección';
+    }
+
+    function setBuyEnabled(card, enabled) {
+      const btn = card.querySelector('.product-actions .btn.btn-primary');
+      if (!btn) return;
+      if (enabled) {
+        btn.setAttribute('aria-disabled', 'false');
+        btn.classList.remove('animate__shakeX');
+        btn.classList.add('animate__animated','animate__fadeInUp');
+        setTimeout(() => btn.classList.remove('animate__animated','animate__fadeInUp'), 500);
+      } else {
+        btn.setAttribute('aria-disabled', 'true');
+      }
+    }
+
+    function renderSizesForColor(card, product, colorName) {
+      const sizeWrap = card.querySelector('.size-options');
+      if (!sizeWrap) return;
+      const stockByColor = normalizeStockByColor(product);
+      const stockMap = stockByColor[colorName] || {};
+      // Si el producto trae una lista explícita de talles, la usamos como orden/base.
+      const allSizes = (product.sizes || []).map(s => s.size);
+      const toRender = (allSizes.length ? allSizes : Object.keys(stockMap)).sort((a,b)=>Number(a)-Number(b));
+      sizeWrap.innerHTML = toRender.map(sz => {
+        const st = Number(stockMap[String(sz)] ?? 0);
+        const state = stateFromStock(st);
+        return `<span class="size-chip" data-state="${state}" role="button" tabindex="0" data-size="${sz}">
+                  <span class="badge">${labelFromState(state)}</span>${sz}
+                </span>`;
+      }).join('');
+      // Eventos de interacción + animación
+      sizeWrap.querySelectorAll('.size-chip').forEach(el => {
+        const handle = () => {
+          if (el.dataset.state === 'out') return;
+          sizeWrap.querySelectorAll('.size-chip').forEach(s => s.classList.remove('selected'));
+          el.classList.add('selected');
+          // Animación de click (rebote)
+          el.classList.add('animate__animated','animate__pulse');
+          setTimeout(()=> el.classList.remove('animate__animated','animate__pulse'), 500);
+          const clr = card.querySelector('.color-option.selected')?.dataset.color || null;
+          updateSelectionStatus(card, clr, el.dataset.size);
+          setBuyEnabled(card, true);
+        };
+        el.addEventListener('click', handle);
+        el.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); handle(); } });
+      });
+      // Al cambiar color, aún no hay talle elegido ⇒ deshabilitar compra
+      setBuyEnabled(card, false);
+      updateSelectionStatus(card, colorName, null);
+    }
+
+    // Sobrescribimos selectColor para que dispare render dinámico de talles y animación
+    const _originalSelectColor = selectColor;
+    selectColor = function(el) {
+      const card = el.closest('.product-card');
+      // Visual
+      card.querySelectorAll('.color-option').forEach((c) => c.classList.remove('selected'));
+      el.classList.add('selected');
+      // Animación del circulito
+      el.classList.add('animate__animated','animate__rubberBand');
+      setTimeout(()=> el.classList.remove('animate__animated','animate__rubberBand'), 500);
+
+      // Buscar objeto product asociado a esta card (lo guardamos en dataset al crearla)
+      const product = JSON.parse(card.dataset.product || '{}');
+      const colorName = el.dataset.color;
+      renderSizesForColor(card, product, colorName);
+    };
+
+    // Sobrescribimos selectSize para mantener compatibilidad si hay elementos legacy .size-option
+    const _originalSelectSize = selectSize;
+    selectSize = function(el) {
+      if (el.classList.contains('unavailable') || el.getAttribute('aria-disabled') === 'true') return;
+      const card = el.closest('.product-card');
+      card.querySelectorAll('.size-option').forEach((s) => s.classList.remove('selected'));
+      el.classList.add('selected');
+      el.classList.add('animate__animated','animate__pulse');
+      setTimeout(()=> el.classList.remove('animate__animated','animate__pulse'), 500);
+      const colorName = card.querySelector('.color-option.selected')?.dataset.color || null;
+      const size = el.dataset.size;
+      updateSelectionStatus(card, colorName, size);
+      setBuyEnabled(card, Boolean(colorName && !el.classList.contains('unavailable')));
+    };
 
     function initQtyControls(card) {
       const dec = card.querySelector('.decrease');
@@ -522,6 +660,25 @@
       closeReviewModal();
       alert('¡Listo! Se agregó al carrito.');
     }
+
+    
+    // ===== Test básico (activar con ?test=1) =====
+    (function runBasicTests(){
+      if (!/[?&]test=1\b/.test(location.search)) return;
+      const log = (...a)=>console.log('[TEST]', ...a);
+      const mujerCard = document.querySelector('#mujer-grid .product-card');
+      if (!mujerCard) { log('No hay cards para probar'); return; }
+      const firstColor = mujerCard.querySelector('.color-option');
+      if (!firstColor) { log('No hay colores'); return; }
+      firstColor.click();
+      const anySize = mujerCard.querySelector('.size-chip[data-state="available"], .size-option:not(.unavailable)');
+      if (!anySize) { log('No hay talles disponibles'); return; }
+      anySize.click();
+      const status = mujerCard.querySelector('.product-selection-status')?.textContent || '';
+      const btn = mujerCard.querySelector('.btn.btn-primary');
+      log('Estado de selección:', status);
+      log('Botón habilitado:', btn.getAttribute('aria-disabled') === 'false');
+    })();
 
     // ===== Carrito =====
     function removeFromCart(id) {

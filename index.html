@@ -13,7 +13,7 @@
     .size-chip[data-state="available"] { background: var(--success); color: #fff; }
     .size-chip[data-state="low"] { background: var(--warning); color: #212529; }
     .size-chip[data-state="out"] { background: #6c757d; color: #fff; text-decoration: line-through; cursor: not-allowed; }
-    .size-chip .badge { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: 800; border: 1px solid rgba(0,0,0,.12); }
+    .size-chip .badge { display:none !important; }
     .size-chip[data-state="available"] .badge { background: var(--success); color: #fff; }
     .size-chip[data-state="low"] .badge { background: var(--warning); color: #212529; }
     .size-chip[data-state="out"] .badge { background: var(--danger); color: #fff; }
@@ -390,12 +390,19 @@
                   <button class="btn quantity-btn increase" type="button" aria-label="Aumentar cantidad">+</button>
                 </div>
                 <div class="product-selection-status" aria-live="polite">Sin selección</div>
+                <div class="product-stock-note" aria-label="Stock total disponible" style="font-size:.8rem;color:#6c757d;margin-top:2px;"></div>
                 <div class="product-actions">
                   <button class="btn btn-primary" type="button" aria-disabled="true">Comprar</button>
                 </div>
               </div>`;
 
-            sections[product.section].appendChild(card);
+            sections[product.section]const stockNote = card.querySelector('.product-stock-note');
+            if (stockNote) {
+              const total = computeTotalStock(product);
+              const label = total === 1 ? '1 unidad' : (total + ' unidades');
+              stockNote.textContent = 'Stock total: ' + label;
+            }
+            .appendChild(card);
 
             // Eventos
             card.querySelectorAll('.color-option').forEach((el) => {
@@ -441,6 +448,25 @@
       // Si no hubiera colores definidos, creamos uno genérico
       if (!product.colors || !product.colors.length) map['único'] = { ...defaultSizes };
       return map;
+    }
+
+    function computeTotalStock(product) {
+      // Prioridad: stockByColor si existe (sumando cantidades)
+      if (product && product.stockByColor) {
+        let total = 0;
+        for (const colorName of Object.keys(product.stockByColor)) {
+          const m = product.stockByColor[colorName] || {};
+          for (const key of Object.keys(m)) total += Number(m[key] || 0);
+        }
+        return total;
+      }
+      // Fallback desde sizes/status
+      const statuses = (product.sizes || []).map(s => String(s.status || '').toLowerCase());
+      return statuses.reduce((sum, st) => {
+        if (st.includes('unavail')) return sum + 0;
+        if (st.includes('low')) return sum + 2;
+        return sum + 5; // available u otro -> asumimos 5
+      }, 0);
     }
 
     function stateFromStock(n) {
@@ -682,6 +708,8 @@
       const btn = mujerCard.querySelector('.btn.btn-primary');
       log('Estado de selección:', status);
       log('Botón habilitado:', btn.getAttribute('aria-disabled') === 'false');
+      const stockTxt = mujerCard.querySelector('.product-stock-note')?.textContent;
+      log('Nota de stock:', stockTxt);
     })();
 
     // ===== Carrito =====

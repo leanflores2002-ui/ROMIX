@@ -441,7 +441,7 @@
               el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectSize(el); } });
             });
             initQtyControls(card);
-            card.querySelector('.btn.btn-primary').addEventListener('click', (e) => { if (e.currentTarget.getAttribute('aria-disabled') === 'true') { e.preventDefault(); e.currentTarget.classList.add('animate__animated','animate__shakeX'); setTimeout(()=>e.currentTarget.classList.remove('animate__animated','animate__shakeX'), 500); return; } openReview(card, product); });
+            card.querySelector('.btn.btn-primary').addEventListener('click', (e) => { if (e.currentTarget.getAttribute('aria-disabled') === 'true') { e.preventDefault(); e.currentTarget.classList.add('animate__animated','animate__shakeX'); setTimeout(()=>e.currentTarget.classList.remove('animate__animated','animate__shakeX'), 500); return; } openReviewSafe(card, product); });
           });
 
           filterProducts('mujer', 'all');
@@ -547,7 +547,7 @@
       }
       return base;
     }
-    function getSelectedSize(card) { return (card.querySelector('.size-option.selected') || card.querySelector('.size-chip.selected'))?.dataset.size || null; }
+    function getSelectedSize(card) { return card.dataset.selectedSize || (card.querySelector('.size-option.selected') || card.querySelector('.size-chip.selected'))?.dataset.size || null; }
     function updateCardPrice(card, product) {
       const size = getSelectedSize(card);
       const priceBox = card.querySelector('.product-price');
@@ -562,7 +562,10 @@
       if (!imgEl) return;
       const gallery = [];
       if (product.images && typeof product.images === 'object') {
-        for (const k of Object.keys(product.images)) gallery.push({ color: k, src: product.images[k] });
+        for (const k of Object.keys(product.images)) {
+          const label = (typeof fixText === 'function') ? fixText(k) : k;
+          gallery.push({ color: label, src: product.images[k] });
+        }
       }
       if (!gallery.length) gallery.push({ color: null, src: product.image });
       card._gallery = gallery; card._gIndex = 0;
@@ -613,6 +616,7 @@
           el.classList.add('animate__animated','animate__pulse');
           setTimeout(()=> el.classList.remove('animate__animated','animate__pulse'), 500);
           const clr = card.querySelector('.color-option.selected')?.dataset.color || null;
+          card.dataset.selectedSize = el.dataset.size;
           updateSelectionStatus(card, clr, el.dataset.size);
           updateCardPrice(card, product);
           setBuyEnabled(card, true);
@@ -641,10 +645,20 @@
       // Buscar objeto product asociado a esta card (lo guardamos en dataset al crearla)
       const product = JSON.parse(card.dataset.product || '{}');
       const colorName = el.dataset.color;
+      card.dataset.selectedColor = colorName;
+      card.dataset.selectedSize = '';
       // Actualizar imagen principal según color seleccionado y sincronizar galería
       try {
         const key = colorName;
-        const imgUrl = (product.images && (product.images[key] || product.images[colorName])) || product.image;
+        let imgUrl = product.image;
+        if (product.images) {
+          imgUrl = product.images[key] || product.images[colorName] || imgUrl;
+          if (imgUrl === product.image) {
+            for (const k of Object.keys(product.images)) {
+              if (((typeof fixText==='function')?fixText(k):k) === colorName) { imgUrl = product.images[k]; break; }
+            }
+          }
+        }
         const imgEl = card.querySelector('.product-image img');
         if (imgEl) { imgEl.src = imgUrl; imgEl.alt = (fixText ? fixText(product.name) : product.name) + ' - ' + colorName; }
         if (card._gallery && Array.isArray(card._gallery)) {
@@ -774,6 +788,74 @@
       qtyInput.oninput = updateSubtotal;
 
       // focus al modal
+      setTimeout(() => modalContent.focus(), 0);
+      updateSubtotal();
+    }
+
+    // Versión robusta: usa dataset seleccionado y recalcula precio según talle
+    function openReviewSafe(card, product) {
+      const selectedColor = card.dataset.selectedColor || card.querySelector('.color-option.selected')?.dataset.color || null;
+      const selectedSize = card.dataset.selectedSize || card.querySelector('.size-option.selected, .size-chip.selected')?.dataset.size || null;
+      if (!selectedColor || !selectedSize) { alert('Por favor, seleccioná un color y un talle antes de continuar.'); return; }
+
+      currentType = product.type;
+      const qty = parseInt(card.querySelector('.quantity-input').value) || 1;
+
+      const modal = document.getElementById('review-modal');
+      const modalContent = modal.querySelector('.modal-content');
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+
+      document.getElementById('review-image').src = card.querySelector('.product-image img').getAttribute('src');
+      document.getElementById('review-name').textContent = fixText(product.name);
+      document.getElementById('review-type').textContent = `(${product.type})`;
+
+      const priceEl = document.getElementById('review-price');
+      const unitNow = getUnitPrice(product, selectedSize);
+      priceEl.dataset.unitPrice = String(unitNow);
+      priceEl.textContent = Number(unitNow).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      const colorSel = document.getElementById('review-color');
+      colorSel.innerHTML = '';
+      (product.colors || []).forEach((c) => {
+        const opt = document.createElement('option');
+        const cname = fixText(c.name);
+        opt.value = cname; opt.textContent = cname; if (cname === selectedColor) opt.selected = true; colorSel.appendChild(opt);
+      });
+
+      const sizeSel = document.getElementById('review-size');
+      sizeSel.innerHTML = '';
+      (product.sizes || []).forEach((s) => {
+        const opt = document.createElement('option');
+        opt.value = s.size; opt.textContent = s.size + (s.status === 'unavailable' ? ' (sin stock)' : '');
+        opt.disabled = s.status === 'unavailable';
+        if (s.size === selectedSize) opt.selected = true;
+        sizeSel.appendChild(opt);
+      });
+      sizeSel.onchange = () => {
+        const u = getUnitPrice(product, sizeSel.value);
+        priceEl.dataset.unitPrice = String(u);
+        priceEl.textContent = Number(u).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        updateSubtotal();
+      };
+
+      const qtyInput = document.getElementById('review-qty');
+      const stockInfo = document.getElementById('review-stock');
+      const stock = product.stock || 9999;
+      stockInfo.textContent = `Stock disponible: ${stock}`;
+      qtyInput.value = Math.min(qty, stock);
+
+      const updateSubtotal = () => {
+        const unit = Number(priceEl.dataset.unitPrice || '0');
+        const q = Math.max(1, Math.min(parseInt(qtyInput.value) || 1, stock));
+        qtyInput.value = q;
+        document.getElementById('review-subtotal').textContent = (unit * q).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      };
+
+      document.getElementById('qty-dec').onclick = () => { qtyInput.value = Math.max(1, (parseInt(qtyInput.value) || 1) - 1); updateSubtotal(); };
+      document.getElementById('qty-inc').onclick = () => { qtyInput.value = Math.min(stock, (parseInt(qtyInput.value) || 1) + 1); updateSubtotal(); };
+      qtyInput.oninput = updateSubtotal;
+
       setTimeout(() => modalContent.focus(), 0);
       updateSubtotal();
     }

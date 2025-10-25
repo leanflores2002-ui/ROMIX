@@ -339,6 +339,21 @@
       setTimeout(() => fb.classList.add('hidden'), 4000);
     }
 
+    // Normaliza textos con acentos mal codificados en contenido dinámico (visual)
+    function fixText(s) {
+      if (!s || typeof s !== 'string') return s;
+      const pairs = [
+        ['Ni�os','Niños'], ['Ni�a','Niña'], ['Ni�o','Niño'],
+        ['T�rmica','Térmica'], ['T�rmico','Térmico'],
+        ['Marr�n','Marrón'], ['Pantal�n','Pantalón'], ['Algod�n','Algodón'],
+        ['Selecci�n','Selección'], ['seleccion�','seleccioná'],
+        ['p�gina','página'], ['est�','está'], ['agreg�','agregó'], ['vac�o','vacío']
+      ];
+      let out = s;
+      for (const [a,b] of pairs) out = out.split(a).join(b);
+      return out;
+    }
+
     function loadProducts() {
       return fetch('products.json').catch(err => { console.error('[ROMIX] fetch products.json failed:', err); const b=document.getElementById('load-error-banner'); if(b)b.style.display='block'; return new Response(JSON.stringify([]), {headers:{'Content-Type':'application/json'}}); })
         .then((r) => r.json())
@@ -363,7 +378,8 @@
 
             const colorsHTML = (product.colors || []).map((color) => {
               const border = color.hex === '#ffffff' ? 'border:1px solid #ddd;' : '';
-              return `<div class="color-option" role="button" tabindex="0" aria-label="Color ${color.name}" style="background-color:${color.hex};${border}" title="${color.name}" data-color="${color.name}"></div>`;
+              const cname = fixText(color.name);
+              return `<div class="color-option" role="button" tabindex="0" aria-label="Color ${cname}" style="background-color:${color.hex};${border}" title="${cname}" data-color="${cname}"></div>`;
             }).join('');
 
             const sizesHTML = (product.sizes || []).map((s) => {
@@ -373,11 +389,11 @@
 
             card.innerHTML = `
               <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" loading="lazy" />
+                <img src="${product.image}" alt="${fixText(product.name)}" loading="lazy" />
                 ${badgeHTML}
               </div>
               <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
+                <h3 class="product-title">${fixText(product.name)}</h3>
                 <div class="product-price">${priceHTML}</div>
                 <div class="product-colors">${colorsHTML}</div>
                 <div class="product-sizes">
@@ -397,13 +413,13 @@
                 </div>
               </div>`;
 
-            sections[product.section]const stockNote = card.querySelector('.product-stock-note');
+            sections[product.section].appendChild(card);
+            const stockNote = card.querySelector('.product-stock-note');
             if (stockNote) {
               const total = computeTotalStock(product);
               const label = total === 1 ? '1 unidad' : (total + ' unidades');
               stockNote.textContent = 'Stock total: ' + label;
             }
-            .appendChild(card);
 
             // Eventos
             card.querySelectorAll('.color-option').forEach((el) => {
@@ -588,12 +604,7 @@
       el.classList.add('selected');
     }
 
-    function selectSize(el) {
-      if (el.classList.contains('unavailable') || el.getAttribute('aria-disabled') === 'true') return; // no permitir
-      const card = el.closest('.product-card');
-      card.querySelectorAll('.size-option').forEach((s) => s.classList.remove('selected'));
-      el.classList.add('selected');
-    }
+    // (limpieza) selectSize legacy duplicado eliminado; se usa la versión mejorada más arriba
 
     function redirectToHelp() { window.location.href = 'ayuda.html'; }
 
@@ -625,7 +636,7 @@
       modal.setAttribute('aria-hidden', 'false');
 
       document.getElementById('review-image').src = card.querySelector('.product-image img').getAttribute('src');
-      document.getElementById('review-name').textContent = product.name;
+      document.getElementById('review-name').textContent = fixText(product.name);
       document.getElementById('review-type').textContent = `(${product.type})`;
 
       const priceEl = document.getElementById('review-price');
@@ -636,7 +647,8 @@
       colorSel.innerHTML = '';
       (product.colors || []).forEach((c) => {
         const opt = document.createElement('option');
-        opt.value = c.name; opt.textContent = c.name; if (c.name === selectedColor) opt.selected = true; colorSel.appendChild(opt);
+        const cname = fixText(c.name);
+        opt.value = cname; opt.textContent = cname; if (cname === selectedColor) opt.selected = true; colorSel.appendChild(opt);
       });
 
       const sizeSel = document.getElementById('review-size');

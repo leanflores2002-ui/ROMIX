@@ -66,17 +66,7 @@
             align-items: center;
         }
         
-        .whatsapp-header {
-            background-color: #25D366;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            margin-left: 15px;
-        }
+        .whatsapp-header { background-color:#25D366; color:#fff; padding:8px 15px; border-radius:20px; text-decoration:none; display:inline-flex; align-items:center; font-weight:700; gap:6px; }
         
         .whatsapp-header i {
             margin-right: 5px;
@@ -86,13 +76,7 @@
         .cart-icon-btn:focus-visible { outline:3px solid #fff; outline-offset:2px; }
         #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
         
-        nav {
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 80px;
-            z-index: 999;
-        }
+        nav { background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.1); position:sticky; top:72px; z-index:999; }
         
         .nav-container {
             max-width: 1200px;
@@ -100,10 +84,7 @@
             padding: 0 20px;
         }
         
-        .nav-menu {
-            display: flex;
-            list-style: none;
-        }
+        .nav-menu { display:flex; list-style:none; overflow-x:auto; white-space:nowrap; }
         .nav-menu li a i { margin-right: 6px; }
         
         .nav-menu li {
@@ -119,10 +100,7 @@
             transition: all 0.3s;
         }
         
-        .nav-menu li a:hover {
-            color: var(--primary);
-            background-color: #f8f9fa;
-        }
+        .nav-menu li a:hover { color: var(--primary); background-color:#f8f9fa; }
         
         .nav-menu li.active a {
             color: var(--primary);
@@ -387,7 +365,7 @@
         </div>
     </header>
     
-    <nav>
+    <nav aria-label="Principal">
         <div class="nav-container">
             <ul class="nav-menu">
                 <li><a href="index.html#mujer"><i class="fas fa-female" aria-hidden="true"></i> Mujer</a></li>

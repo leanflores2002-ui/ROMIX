@@ -554,7 +554,17 @@
           return Number(product.priceBySize[String(sz)]);
         }
         if (product.priceByGroup) {
-          const group = sz >= 6 ? 'special' : 'common';
+          // Determinar si el talle pertenece al grupo especial
+          let isSpecial = false;
+          if (Array.isArray(product.specialSizes)) {
+            isSpecial = product.specialSizes.map(x=>Number(x)).includes(sz);
+          } else if (product.groupSpecialMin) {
+            isSpecial = sz >= Number(product.groupSpecialMin);
+          } else {
+            // Regla por defecto (adultos): 6–8 especiales
+            isSpecial = sz >= 6;
+          }
+          const group = isSpecial ? 'special' : 'common';
           if (product.priceByGroup[group] != null) return Number(product.priceByGroup[group]);
         }
         const mult = sz >= 6 ? (SIZE_GROUP_PRICING.special || 1) : (SIZE_GROUP_PRICING.common || 1);

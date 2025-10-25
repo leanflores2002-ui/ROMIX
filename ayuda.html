@@ -82,25 +82,9 @@
             margin-right: 5px;
         }
         
-        .cart-icon {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            font-size: 1.2rem;
-            margin-left: 15px;
-            position: relative;
-        }
-        
-        .cart-icon #cart-count {
-            background-color: var(--danger);
-            color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 0.8rem;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-        }
+        .cart-icon-btn { position: relative; display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 12px; border-radius:20px; border:1px solid rgba(255,255,255,.4); background: rgba(0,0,0,.1); color:#fff; cursor:pointer; margin-left: 15px; }
+        .cart-icon-btn:focus-visible { outline:3px solid #fff; outline-offset:2px; }
+        #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
         
         nav {
             background-color: white;
@@ -120,6 +104,7 @@
             display: flex;
             list-style: none;
         }
+        .nav-menu li a i { margin-right: 6px; }
         
         .nav-menu li {
             position: relative;
@@ -390,18 +375,14 @@
 <body>
     <header>
         <div class="header-container">
-            <div class="logo">
-                <i class="fas fa-tshirt"></i>
-                <span>ROMIX</span>
-            </div>
+            <div class="logo" aria-label="Romix"><i class="fas fa-tshirt" aria-hidden="true"></i><span>ROMIX</span></div>
             <div class="contact-header">
-                <a href="https://wa.me/5491154272065" class="whatsapp-header">
-                    <i class="fab fa-whatsapp"></i> +54 9 11 5427-2065
-                </a>
-                <div class="cart-icon" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count">0</span>
-                </div>
+                <a href="https://wa.me/5491154272065" class="whatsapp-header" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Romix"><i class="fab fa-whatsapp" aria-hidden="true"></i> +54 9 11 5427-2065</a>
+                <button type="button" class="cart-icon-btn" onclick="toggleCart()" aria-haspopup="region" aria-controls="cart" aria-expanded="false">
+                  <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                  <span>Carrito</span>
+                  <span id="cart-count">0</span>
+                </button>
             </div>
         </div>
     </header>
@@ -409,11 +390,11 @@
     <nav>
         <div class="nav-container">
             <ul class="nav-menu">
-                <li><a href="index.html#mujer"><i class="fas fa-female"></i> Mujer</a></li>
-                <li><a href="index.html#hombre"><i class="fas fa-male"></i> Hombre</a></li>
+                <li><a href="index.html#mujer"><i class="fas fa-female" aria-hidden="true"></i> Mujer</a></li>
+                <li><a href="index.html#hombre"><i class="fas fa-male" aria-hidden="true"></i> Hombre</a></li>
                 <li><a href="index.html#ninos"><i class="fas fa-child"></i> Niños</a></li>
-                <li><a href="index.html#contacto"><i class="fas fa-map-marker-alt"></i> Contacto</a></li>
-                <li class="active"><a href="ayuda.html"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+                <li><a href="index.html#contacto"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Contacto</a></li>
+                <li class="active"><a href="ayuda.html"><i class="fas fa-question-circle" aria-hidden="true"></i> Ayuda</a></li>
             </ul>
         </div>
     </nav>
@@ -617,6 +598,14 @@
     </footer>
     
     <script>
+        // Normaliza textos estáticos del menú con acentos
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                document.querySelectorAll('.nav-menu a').forEach(a => {
+                    a.innerHTML = a.innerHTML.replace('Ni��os','Niños').replace('Ni�os','Niños');
+                });
+            } catch {}
+        });
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         document.addEventListener('DOMContentLoaded', () => {

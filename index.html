@@ -326,6 +326,13 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadProducts();
       updateCart();
+      // Normaliza algunos textos estáticos con codificación rota
+      try {
+        document.querySelectorAll('.nav-menu a').forEach(a => {
+          a.innerHTML = a.innerHTML.replace('Ni��os','Niños').replace('Ni�os','Niños');
+        });
+        document.title = document.title.replace('Colecci��n','Colección').replace('Colecci�n','Colección');
+      } catch {}
       // Cerrar modal con ESC y clic fuera
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeReviewModal(); });
       document.getElementById('review-modal').addEventListener('click', (e) => {
@@ -519,6 +526,65 @@
       }
     }
 
+    // ===== Precios por grupo de talles y helpers =====
+    const SIZE_GROUP_PRICING = { common: 1.0, special: 1.15 };
+    function getUnitPrice(product, size) {
+      const base = Number(product.price) || 0;
+      const sz = Number(size);
+      if (!isNaN(sz)) {
+        if (product.priceBySize && product.priceBySize[String(sz)] != null) {
+          return Number(product.priceBySize[String(sz)]);
+        }
+        if (product.priceByGroup) {
+          const group = sz >= 6 ? 'special' : 'common';
+          if (product.priceByGroup[group] != null) return Number(product.priceByGroup[group]);
+        }
+        const mult = sz >= 6 ? (SIZE_GROUP_PRICING.special || 1) : (SIZE_GROUP_PRICING.common || 1);
+        return Math.round(base * mult * 100) / 100;
+      }
+      return base;
+    }
+    function getSelectedSize(card) { return (card.querySelector('.size-option.selected') || card.querySelector('.size-chip.selected'))?.dataset.size || null; }
+    function updateCardPrice(card, product) {
+      const size = getSelectedSize(card);
+      const priceBox = card.querySelector('.product-price');
+      if (!priceBox) return;
+      const unit = size ? getUnitPrice(product, size) : Number(product.price) || 0;
+      priceBox.innerHTML = `$${Number(unit).toLocaleString('es-AR')}` + (product.originalPrice ? ` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>` : '');
+    }
+
+    // ===== Galería por producto (simple) =====
+    function initGallery(card, product) {
+      const imgEl = card.querySelector('.product-image img');
+      if (!imgEl) return;
+      const gallery = [];
+      if (product.images && typeof product.images === 'object') {
+        for (const k of Object.keys(product.images)) gallery.push({ color: k, src: product.images[k] });
+      }
+      if (!gallery.length) gallery.push({ color: null, src: product.image });
+      card._gallery = gallery; card._gIndex = 0;
+      const wrap = card.querySelector('.product-image');
+      if (!wrap) return;
+      if (!card.querySelector('.gallery-prev')) {
+        wrap.insertAdjacentHTML('beforeend', `
+          <button class="gallery-prev" aria-label="Anterior" type="button" style="position:absolute;left:6px;top:calc(50% - 16px);background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:16px;width:32px;height:32px;cursor:pointer;">‹</button>
+          <button class="gallery-next" aria-label="Siguiente" type="button" style="position:absolute;right:6px;top:calc(50% - 16px);background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:16px;width:32px;height:32px;cursor:pointer;">›</button>
+          <div class="gallery-dots" style="position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center;gap:6px;"></div>`);
+      }
+      const dots = card.querySelector('.gallery-dots');
+      dots.innerHTML = gallery.map((_,i)=>`<span class="dot" data-i="${i}" style="width:8px;height:8px;border-radius:50%;background:${i===0?'#fff':'#bbb'};display:inline-block;opacity:.9;"></span>`).join('');
+      const render = () => {
+        const it = gallery[card._gIndex];
+        imgEl.src = it?.src || product.image;
+        imgEl.alt = (fixText ? fixText(product.name) : product.name) + (it?.color ? ` - ${it.color}` : '');
+        dots.querySelectorAll('.dot').forEach((d, i) => d.style.background = i === card._gIndex ? '#fff' : '#bbb');
+      };
+      card.querySelector('.gallery-prev').onclick = () => { card._gIndex = (card._gIndex - 1 + gallery.length) % gallery.length; render(); };
+      card.querySelector('.gallery-next').onclick = () => { card._gIndex = (card._gIndex + 1) % gallery.length; render(); };
+      dots.querySelectorAll('.dot').forEach((d)=>{ d.addEventListener('click', ()=>{ card._gIndex = Number(d.dataset.i)||0; render(); }); });
+      render();
+    }
+
     function renderSizesForColor(card, product, colorName) {
       const sizeWrap = card.querySelector('.size-options');
       if (!sizeWrap) return;
@@ -545,6 +611,7 @@
           setTimeout(()=> el.classList.remove('animate__animated','animate__pulse'), 500);
           const clr = card.querySelector('.color-option.selected')?.dataset.color || null;
           updateSelectionStatus(card, clr, el.dataset.size);
+          updateCardPrice(card, product);
           setBuyEnabled(card, true);
         };
         el.addEventListener('click', handle);
@@ -553,6 +620,7 @@
       // Al cambiar color, aún no hay talle elegido ⇒ deshabilitar compra
       setBuyEnabled(card, false);
       updateSelectionStatus(card, colorName, null);
+      updateCardPrice(card, product);
     }
 
     // Sobrescribimos selectColor para que dispare render dinámico de talles y animación

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Romix - Colección Invierno 2025</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-b7ZPnUPQK1G3z2d4l0f7Gm2M1eJp4z8f5s1p9o3r2x6z0kYd8l9r4Qv5B1c2D3E4F5G6H7I8J9K0L1M2N3O4PQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
 
@@ -334,6 +334,19 @@
           a.innerHTML = a.innerHTML.replace('Ni��os','Niños').replace('Ni�os','Niños');
         });
         document.title = document.title.replace('Colecci��n','Colección').replace('Colecci�n','Colección');
+      } catch {}
+      // Si viene de ayuda con #cart o ?cart=1, abrir carrito
+      try {
+        const wantsCart = location.hash === '#cart' || /[?&]cart=1\b/.test(location.search);
+        if (wantsCart) {
+          const sec = document.getElementById('cart');
+          if (cart && cart.length && sec) {
+            sec.classList.remove('hidden');
+            const btn = document.querySelector('.cart-icon-btn');
+            btn && btn.setAttribute('aria-expanded', 'true');
+            setTimeout(()=>sec.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+          }
+        }
       } catch {}
       // Cerrar modal con ESC y clic fuera
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeReviewModal(); });

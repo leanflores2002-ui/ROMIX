@@ -179,7 +179,18 @@
         <select id="filter-mujer" onchange="filterProducts('mujer', this.value)">
           <option value="all">Todos</option>
           <option value="calzas">Calzas</option>
+          <option value="oxford">Oxford</option>
           <option value="pantalones">Pantalones</option>
+          <option value="capri">Capri</option>
+          <option value="ciclistas">Ciclistas</option>
+          <option value="shorts">Shorts</option>
+          <option value="polleras">Polleras</option>
+          <option value="remeras">Remeras</option>
+          <option value="musculosas">Musculosas</option>
+          <option value="sudaderas">Sudaderas</option>
+          <option value="camisolas">Camisolas</option>
+          <option value="bermudas">Bermudas</option>
+          <option value="tops">Tops</option>
           <option value="camperas">Camperas</option>
           <option value="buzos">Buzos</option>
         </select>
@@ -194,8 +205,10 @@
         <select id="filter-hombre" onchange="filterProducts('hombre', this.value)">
           <option value="all">Todos</option>
           <option value="pantalones">Pantalones</option>
+          <option value="bermudas">Bermudas</option>
           <option value="camperas">Camperas</option>
           <option value="buzos">Buzos</option>
+          <option value="remeras">Remeras</option>
           <option value="camisetas">Camisetas</option>
         </select>
       </div>
@@ -211,6 +224,9 @@
           <option value="buzos">Buzos</option>
           <option value="pantalones">Pantalones</option>
           <option value="calzas">Calzas</option>
+          <option value="ciclistas">Ciclistas</option>
+          <option value="tops">Tops</option>
+          <option value="bermudas">Bermudas</option>
           <option value="camisetas">Camisetas</option>
           <option value="camperas">Camperas</option>
         </select>
@@ -575,12 +591,7 @@
           return isSuper ? 'superspecial' : (isSpecial ? 'special' : 'common');
         };
         const group = resolveGroup(sz);
-        if (product.priceByGroupByColor && colorName) {
-          const cname = (typeof fixText==='function') ? fixText(colorName) : colorName;
-          const pg = product.priceByGroupByColor[cname];
-          if (pg && pg[group] != null) return Number(pg[group]);
-          if (product.priceByGroup && product.priceByGroup[group] != null) return Number(product.priceByGroup[group]);
-        }
+        // Nota: no variamos el precio por estampa/color. Ignoramos priceByGroupByColor.
         if (product.priceByGroup && product.priceByGroup[group] != null) return Number(product.priceByGroup[group]);
         if (product.priceByGroup) {
           // Determinar si el talle pertenece al grupo especial

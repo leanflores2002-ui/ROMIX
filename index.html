@@ -427,6 +427,9 @@
               const label = total === 1 ? '1 unidad' : (total + ' unidades');
               stockNote.textContent = 'Stock total: ' + label;
             }
+            // Inicializar galería y precio base
+            initGallery(card, product);
+            updateCardPrice(card, product);
 
             // Eventos
             card.querySelectorAll('.color-option').forEach((el) => {
@@ -638,7 +641,23 @@
       // Buscar objeto product asociado a esta card (lo guardamos en dataset al crearla)
       const product = JSON.parse(card.dataset.product || '{}');
       const colorName = el.dataset.color;
+      // Actualizar imagen principal según color seleccionado y sincronizar galería
+      try {
+        const key = colorName;
+        const imgUrl = (product.images && (product.images[key] || product.images[colorName])) || product.image;
+        const imgEl = card.querySelector('.product-image img');
+        if (imgEl) { imgEl.src = imgUrl; imgEl.alt = (fixText ? fixText(product.name) : product.name) + ' - ' + colorName; }
+        if (card._gallery && Array.isArray(card._gallery)) {
+          const idx = card._gallery.findIndex(g => (g.color === key) || (g.color === colorName));
+          if (idx >= 0) {
+            card._gIndex = idx;
+            const dots = card.querySelector('.gallery-dots');
+            if (dots) dots.querySelectorAll('.dot').forEach((d, i) => d.style.background = i === idx ? '#fff' : '#bbb');
+          }
+        }
+      } catch {}
       renderSizesForColor(card, product, colorName);
+      updateCardPrice(card, product);
     };
 
     // Sobrescribimos selectSize para mantener compatibilidad si hay elementos legacy .size-option
@@ -654,6 +673,7 @@
       const colorName = card.querySelector('.color-option.selected')?.dataset.color || null;
       const size = el.dataset.size;
       updateSelectionStatus(card, colorName, size);
+      try { const product = JSON.parse(card.dataset.product || '{}'); updateCardPrice(card, product); } catch {}
       setBuyEnabled(card, Boolean(colorName && !el.classList.contains('unavailable')));
     };
 
@@ -666,7 +686,7 @@
       input.addEventListener('input', () => { let v = parseInt(input.value); if (isNaN(v) || v < 1) input.value = 1; });
     }
 
-    function selectColor(el) {
+    /* legacy */ function selectColorLegacy(el) {
       const card = el.closest('.product-card');
       card.querySelectorAll('.color-option').forEach((c) => c.classList.remove('selected'));
       el.classList.add('selected');
@@ -690,7 +710,7 @@
     // ===== Modal =====
     function openReview(card, product) {
       const colorEl = card.querySelector('.color-option.selected');
-      const sizeEl = card.querySelector('.size-option.selected');
+      const sizeEl = card.querySelector('.size-option.selected, .size-chip.selected');
       if (!colorEl || !sizeEl) { alert('Por favor, seleccioná un color y un talle antes de continuar.'); return; }
 
       currentType = product.type;
@@ -708,8 +728,9 @@
       document.getElementById('review-type').textContent = `(${product.type})`;
 
       const priceEl = document.getElementById('review-price');
-      priceEl.dataset.unitPrice = String(Number(product.price));
-      priceEl.textContent = Number(product.price).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const unitNow = getUnitPrice(product, selectedSize);
+      priceEl.dataset.unitPrice = String(unitNow);
+      priceEl.textContent = Number(unitNow).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
       const colorSel = document.getElementById('review-color');
       colorSel.innerHTML = '';
@@ -728,6 +749,12 @@
         if (s.size === selectedSize) opt.selected = true;
         sizeSel.appendChild(opt);
       });
+      sizeSel.onchange = () => {
+        const u = getUnitPrice(product, sizeSel.value);
+        priceEl.dataset.unitPrice = String(u);
+        priceEl.textContent = Number(u).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        updateSubtotal();
+      };
 
       const qtyInput = document.getElementById('review-qty');
       const stockInfo = document.getElementById('review-stock');

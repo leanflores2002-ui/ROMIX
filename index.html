@@ -545,14 +545,43 @@
     }
 
     // ===== Precios por grupo de talles y helpers =====
-    const SIZE_GROUP_PRICING = { common: 1.0, special: 1.15 };
-    function getUnitPrice(product, size) {
+    const SIZE_GROUP_PRICING = { common: 1.0, special: 1.15, superspecial: 1.15 };
+    function getUnitPrice(product, size, colorName) {
       const base = Number(product.price) || 0;
       const sz = Number(size);
       if (!isNaN(sz)) {
         if (product.priceBySize && product.priceBySize[String(sz)] != null) {
           return Number(product.priceBySize[String(sz)]);
         }
+        // Determinar grupo por talle (común/especial/súper especial)
+        const resolveGroup = (szNum) => {
+          let isSuper = false, isSpecial = false;
+          if (Array.isArray(product.superSpecialSizes)) {
+            isSuper = product.superSpecialSizes.map(x=>Number(x)).includes(szNum);
+          } else if (product.groupSuperMin) {
+            isSuper = szNum >= Number(product.groupSuperMin);
+          } else {
+            isSuper = szNum >= 9; // por defecto 9–10
+          }
+          if (!isSuper) {
+            if (Array.isArray(product.specialSizes)) {
+              isSpecial = product.specialSizes.map(x=>Number(x)).includes(szNum);
+            } else if (product.groupSpecialMin) {
+              isSpecial = szNum >= Number(product.groupSpecialMin);
+            } else {
+              isSpecial = szNum >= 6; // por defecto 6–8
+            }
+          }
+          return isSuper ? 'superspecial' : (isSpecial ? 'special' : 'common');
+        };
+        const group = resolveGroup(sz);
+        if (product.priceByGroupByColor && colorName) {
+          const cname = (typeof fixText==='function') ? fixText(colorName) : colorName;
+          const pg = product.priceByGroupByColor[cname];
+          if (pg && pg[group] != null) return Number(pg[group]);
+          if (product.priceByGroup && product.priceByGroup[group] != null) return Number(product.priceByGroup[group]);
+        }
+        if (product.priceByGroup && product.priceByGroup[group] != null) return Number(product.priceByGroup[group]);
         if (product.priceByGroup) {
           // Determinar si el talle pertenece al grupo especial
           let isSpecial = false;
@@ -567,7 +596,7 @@
           const group = isSpecial ? 'special' : 'common';
           if (product.priceByGroup[group] != null) return Number(product.priceByGroup[group]);
         }
-        const mult = sz >= 6 ? (SIZE_GROUP_PRICING.special || 1) : (SIZE_GROUP_PRICING.common || 1);
+        const mult = SIZE_GROUP_PRICING[group] || 1;
         return Math.round(base * mult * 100) / 100;
       }
       return base;
@@ -575,9 +604,10 @@
     function getSelectedSize(card) { return card.dataset.selectedSize || (card.querySelector('.size-option.selected') || card.querySelector('.size-chip.selected'))?.dataset.size || null; }
     function updateCardPrice(card, product) {
       const size = getSelectedSize(card);
+      const color = card.dataset.selectedColor || (card.querySelector('.color-option.selected')?.dataset.color) || null;
       const priceBox = card.querySelector('.product-price');
       if (!priceBox) return;
-      const unit = size ? getUnitPrice(product, size) : Number(product.price) || 0;
+      const unit = size ? getUnitPrice(product, size, color) : Number(product.price) || 0;
       priceBox.innerHTML = `$${Number(unit).toLocaleString('es-AR')}` + (product.originalPrice ? ` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>` : '');
     }
 
@@ -767,7 +797,7 @@
       document.getElementById('review-type').textContent = `(${product.type})`;
 
       const priceEl = document.getElementById('review-price');
-      const unitNow = getUnitPrice(product, selectedSize);
+      const unitNow = getUnitPrice(product, selectedSize, selectedColor);
       priceEl.dataset.unitPrice = String(unitNow);
       priceEl.textContent = Number(unitNow).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -789,7 +819,7 @@
         sizeSel.appendChild(opt);
       });
       sizeSel.onchange = () => {
-        const u = getUnitPrice(product, sizeSel.value);
+        const u = getUnitPrice(product, sizeSel.value, colorSel.value);
         priceEl.dataset.unitPrice = String(u);
         priceEl.textContent = Number(u).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         updateSubtotal();
@@ -1021,3 +1051,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
+
+
+

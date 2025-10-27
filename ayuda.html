@@ -73,8 +73,12 @@
         }
         
         .cart-icon-btn { position: relative; display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 12px; border-radius:20px; border:1px solid rgba(255,255,255,.4); background: rgba(0,0,0,.1); color:#fff; cursor:pointer; margin-left: 15px; }
-        .cart-icon-btn:focus-visible { outline:3px solid #fff; outline-offset:2px; }
-        #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
+            .cart-icon-btn:focus-visible { outline:3px solid #fff; outline-offset:2px; }
+            #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
+            /* Search */
+            .global-search { display:flex; align-items:center; gap:8px; margin-left: 15px; }
+            .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; }
+            .global-search button { padding: 7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color: var(--primary); cursor:pointer; }
         
         nav { background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.1); position:sticky; top:72px; z-index:999; }
         
@@ -361,6 +365,10 @@
                   <span>Carrito</span>
                   <span id="cart-count">0</span>
                 </button>
+                <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+                  <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
+                  <button type="submit"><i class="fas fa-search" aria-hidden="true"></i> Buscar</button>
+                </form>
             </div>
         </div>
     </header>
@@ -674,6 +682,7 @@
             window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
         }
     </script>
+    <script src="search.js"></script>
 </body>
 </html>
 

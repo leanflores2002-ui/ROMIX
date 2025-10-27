@@ -20,6 +20,11 @@
     .size-chip.selected { outline: 2px solid #343a40; }
     .product-selection-status { margin: 8px 0 4px; font-size: .9rem; color: #495057; }
     .btn[aria-disabled="true"] { opacity: .6; cursor: not-allowed; }
+    /* Search */
+    .global-search { display:flex; align-items:center; gap:8px; margin-left: 10px; }
+    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; }
+    .global-search button { padding: 7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color: var(--primary); cursor:pointer; }
+    .search-highlight { outline: 3px solid #ffc107; outline-offset: 2px; border-radius: 10px; }
 
     :root {
       --primary: #e83e8c; --secondary: #6f42c1; --light: #f8f9fa; --dark: #343a40;
@@ -137,6 +142,10 @@
           <span>Carrito</span>
           <span id="cart-count" aria-live="polite">0</span>
         </button>
+        <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+          <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
+          <button type="submit"><i class="fas fa-search" aria-hidden="true"></i> Buscar</button>
+        </form>
       </div>
     </div>
   </header>
@@ -1108,7 +1117,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(tryLoad, 400);
 });
 </script>
+<script src="search.js"></script>
 </body>
+</html>
+
 </html>
 
 

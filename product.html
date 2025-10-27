@@ -211,8 +211,8 @@ renderSizesForColor(firstColor);
           const name = String(p.name||'');
           const feats = [];
           // Temporada
-          const inv = /(térmic|termic|polar|fris|corderito|lanilla|abrigo)/i.test(name);
-          const ver = /(verano|liviano|fibrana|capri|ciclista|musculosa|short)/i.test(name);
+          const inv = /(frizad[oa]|frisad[oa]|t[ée]rmic|polar)/i.test(name);
+          const ver = /(verano|media|liviano|fibrana|capri|ciclista|musculosa|short)/i.test(name);
           feats.push({k:'Temporada', v: inv ? 'Invierno' : (ver ? 'Verano' : 'Todo el año')});
           // Material principal (heurística)
           const mats = [];
@@ -261,14 +261,53 @@ renderSizesForColor(firstColor);
         if (!p && q) { const nq = q.toLowerCase(); p = (list||[]).find(x => String(x.name||'').toLowerCase().includes(nq)); }
         if (!p) { document.getElementById('detail').innerHTML = '<p>No se encontrÃ³ el producto.</p>'; return; }
         render(p);
+        // Productos relacionados
+        try { renderRelated(list, p); } catch (e) { console && console.warn && console.warn('[related]', e); }
         try { const c = JSON.parse(localStorage.getItem('cart')||'[]'); document.getElementById('cart-count').textContent = String(c.reduce((t,i)=>t + (i.quantity||0),0)); } catch {}
         const input = document.querySelector('#global-search-form input[name="q"]'); if (input) input.value = p.name.split(' ')[0];
       }).catch(()=>{ document.getElementById('detail').innerHTML = '<p>Error al cargar el producto.</p>'; });
     })();
+  
+    function renderRelated(list, product) {
+      try {
+        let wrap = document.getElementById('related');
+        let grid = document.getElementById('related-list');
+        if (!wrap) {
+          const container = document.querySelector('.container');
+          wrap = document.createElement('div'); wrap.id = 'related'; wrap.className = 'features'; wrap.hidden = true;
+          wrap.innerHTML = '<h3>Productos relacionados</h3><div id="related-list" class="feature-grid"></div>';
+          container && container.appendChild(wrap);
+          grid = document.getElementById('related-list');
+        }
+        const slugifyFn = (s)=> (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+        const items = (list||[]).filter(p => p.name !== product.name && (p.type === product.type || p.section === product.section)).slice(0,6);
+        if (!items.length) { wrap.hidden = true; return; }
+        wrap.hidden = false;
+        grid.innerHTML = items.map(p=>{
+          const img = p.image || (p.images && (p.images['Negro'] || Object.values(p.images)[0])) || 'images/placeholder.jpg';
+          const price = Number(p.price||0).toLocaleString('es-AR');
+          const slug = slugifyFn(p.name);
+          return `<div class="feature-item" style="cursor:pointer" onclick="location.href='product.html?slug=${slug}'">
+            <div style="height:140px;background:#f8f9fa;display:flex;align-items:center;justify-content:center;border-radius:6px;overflow:hidden;margin-bottom:8px;">
+              <img src="${img}" alt="${p.name}" style="max-width:100%;max-height:100%;object-fit:contain;"/>
+            </div>
+            <div style="font-weight:700;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div>
+            <div style="color:#6c757d">${p.type}</div>
+            <div style="color:#6f42c1;font-weight:800;">$${price}</div>
+          </div>`;
+        }).join('');
+      } catch {}
+    }
   </script>
   <script src="search.js"></script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 

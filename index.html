@@ -266,8 +266,8 @@
   <div id="review-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="review-title" aria-hidden="true">
     <div class="modal-content animate__animated animate__fadeIn" tabindex="-1">
       <h3 id="review-title">Revisar pedido</h3>
-      <div class="modal-row">
-        <div class="modal-thumb"><img id="review-image" alt="Producto seleccionado" /></div>
+          <div class="modal-row">
+            <div class="modal-thumb"><img id="review-image" alt="Producto seleccionado" onerror="this.onerror=null; this.src='images/placeholder.jpg';" /></div>
         <div>
           <div class="summary">
             <p><strong id="review-name">Producto</strong> <span id="review-type" style="color:#6c757d"></span></p>
@@ -429,7 +429,7 @@
 
             card.innerHTML = `
               <div class="product-image">
-                <img src="${product.image}" alt="${fixText(product.name)}" loading="lazy" />
+                <img src="${product.image || 'images/placeholder.jpg'}" onerror="this.onerror=null; this.src='images/placeholder.jpg';" alt="${fixText(product.name)}" loading="lazy" />
                 ${badgeHTML}
               </div>
               <div class="product-info">

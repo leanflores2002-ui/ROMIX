@@ -128,7 +128,8 @@
           </div>
           <div class="size-row">
             <div style="margin:10px 0 6px;color:#6c757d;font-weight:700">Talle</div>
-            <div id="size-wrap"></div>`n            <div id="stock-note" class="stock-note"></div>
+            <div id="size-wrap"></div>
+            <div id="stock-note" class="stock-note"></div>
           </div>
           <div class="qty-row">
             <span style="color:#6c757d;font-weight:700">Cantidad</span>
@@ -150,7 +151,10 @@
         if (idx===0) d.classList.add('selected'); cw.appendChild(d);
         d.addEventListener('click', ()=>{ cw.querySelectorAll('.color-option').forEach(x=>x.classList.remove('selected')); d.classList.add('selected');
           // Si hay imagen por color, cambiar
-          if (product.images && product.images[c.name]) mainImg.src = product.images[c.name];`n          renderSizesForColor(c.name);`n        });`n      });
+          if (product.images && product.images[c.name]) mainImg.src = product.images[c.name];
+          renderSizesForColor(c.name);
+        });
+      });
       // Disponibilidad por color/talle
 function normalizeStockByColor(product){
   if (product && product.stockByColor) return product.stockByColor;
@@ -249,9 +253,12 @@ renderSizesForColor(firstColor);
       } catch {}
     }
     (function init(){
-      const slug = new URLSearchParams(location.search).get('slug') || '';
+      const params = new URLSearchParams(location.search);
+      const slug = params.get('slug') || '';
+      const q = params.get('q') || '';
       fetch('products.json').then(r=>r.json()).then(list=>{
-        const p = (list||[]).find(x => slugify(x.name||'') === slug);
+        let p = (list||[]).find(x => slug && slugify(x.name||'') === slug);
+        if (!p && q) { const nq = q.toLowerCase(); p = (list||[]).find(x => String(x.name||'').toLowerCase().includes(nq)); }
         if (!p) { document.getElementById('detail').innerHTML = '<p>No se encontrÃ³ el producto.</p>'; return; }
         render(p);
         try { const c = JSON.parse(localStorage.getItem('cart')||'[]'); document.getElementById('cart-count').textContent = String(c.reduce((t,i)=>t + (i.quantity||0),0)); } catch {}
@@ -262,6 +269,9 @@ renderSizesForColor(firstColor);
   <script src="search.js"></script>
 </body>
 </html>
+
+
+
 
 
 

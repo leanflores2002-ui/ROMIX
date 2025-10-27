@@ -91,6 +91,7 @@
     .modal-content h3 { margin-bottom: 15px; color: var(--secondary); }
     .modal-row { display: grid; grid-template-columns: 240px 1fr; gap: 18px; align-items: start; }
     .modal-thumb { width: 240px; height: 240px; background: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .modal-thumb img { width: 100%; height: 100%; object-fit: contain; }
     .summary { background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: .95rem; }
     .price-line { display: flex; justify-content: space-between; margin-top: 8px; }
     .modal-content label { display: block; margin: 12px 0 6px; font-weight: 700; }
@@ -420,7 +421,8 @@
               return `<div class="color-option" role="button" tabindex="0" aria-label="Color ${cname}" style="background-color:${color.hex};${border}" title="${cname}" data-color="${cname}"></div>`;
             }).join('');
 
-            const sizesHTML = (product.sizes || []).map((s) => {
+            const __sizes = (() => { const seen = new Set(); const out = []; (product.sizes || []).forEach(s=>{ const k=String(s.size); if(!seen.has(k)){ seen.add(k); out.push(s); } }); return out; })();
+            const sizesHTML = __sizes.map((s) => {
               const unavailable = s.status === 'unavailable';
               return `<span class="size-option ${s.status}" role="button" ${unavailable ? 'aria-disabled="true"' : ''} tabindex="0" data-size="${s.size}">${s.size}</span>`;
             }).join('');
@@ -663,7 +665,13 @@
       const stockByColor = normalizeStockByColor(product);
       const stockMap = stockByColor[colorName] || {};
       // Si el producto trae una lista explícita de talles, la usamos como orden/base.
-      const allSizes = (product.sizes || []).map(s => s.size);
+      const allSizes = (() => {
+        const raw = (product.sizes || []).map(s => String(s.size));
+        const seen = new Set();
+        const uniq = [];
+        for (const sz of raw) { if (!seen.has(sz)) { seen.add(sz); uniq.push(sz); } }
+        return uniq;
+      })();
       const toRender = (allSizes.length ? allSizes : Object.keys(stockMap)).sort((a,b)=>Number(a)-Number(b));
       sizeWrap.innerHTML = toRender.map(sz => {
         const st = Number(stockMap[String(sz)] ?? 0);

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -51,12 +51,30 @@
       .main-img { height: 360px; }
       .thumbs { flex-direction:row; width:auto; }
     }
+      /* Estados de talles y utilidades */
+    .size-chip[data-state="available"] { background:#28a745; color:#fff; }
+    .size-chip[data-state="low"] { background:#ffc107; color:#212529; }
+    .size-chip[data-state="out"] { background:#6c757d; color:#fff; text-decoration:line-through; cursor:not-allowed; }
+    .size-chip.selected { outline:2px solid #343a40; }
+    .stock-note { margin-top:8px; color:#6c757d; font-size:.95rem; }
+    .back-link { display:inline-flex; align-items:center; gap:6px; margin: 10px 0 14px; color:#6c757d; text-decoration:none; font-weight:700; }
+    .back-link:hover { color:#343a40; }
+    .cart-icon-btn { position: relative; display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 12px; border-radius:20px; border:1px solid rgba(255,255,255,.4); background: rgba(0,0,0,.1); color:#fff; cursor:pointer; }
+    #cart-count { background:#dc3545; color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
+    .features { background:#fff; border-radius:var(--radius); padding:20px; box-shadow:0 3px 10px rgba(0,0,0,.1); margin-top: 20px; }
+    .features h3 { color:var(--secondary); margin: 0 0 10px; }
+    .feature-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:14px; }
+    .feature-item { background:#fafafa; border:1px solid #eee; border-radius:8px; padding:10px 12px; }
   </style>
 </head>
 <body>
   <header>
     <div class="header-container">
       <div class="logo"><i class="fas fa-tshirt"></i> ROMIX</div>
+      <button type="button" class="cart-icon-btn" onclick="window.location.href='index.html#cart'" aria-label="Ir al carrito">
+        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+        <span id="cart-count">0</span>
+      </button>
       <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
         <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
         <button type="submit"><i class="fas fa-search"></i> Buscar</button>
@@ -65,8 +83,12 @@
   </header>
 
   <div class="container">
-    <a href="index.html" style="text-decoration:none;color:#6c757d">← Volver al inicio</a>
+    <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
     <div id="detail" class="detail" aria-live="polite"></div>
+  <div id="features" class="features" aria-live="polite" hidden>
+      <h3>Caracteristicas del producto</h3>
+      <div id="features-list" class="feature-grid"></div>
+    </div>
   </div>
 
   <script>
@@ -106,7 +128,7 @@
           </div>
           <div class="size-row">
             <div style="margin:10px 0 6px;color:#6c757d;font-weight:700">Talle</div>
-            <div id="size-wrap"></div>
+            <div id="size-wrap"></div>`n            <div id="stock-note" class="stock-note"></div>
           </div>
           <div class="qty-row">
             <span style="color:#6c757d;font-weight:700">Cantidad</span>
@@ -128,35 +150,62 @@
         if (idx===0) d.classList.add('selected'); cw.appendChild(d);
         d.addEventListener('click', ()=>{ cw.querySelectorAll('.color-option').forEach(x=>x.classList.remove('selected')); d.classList.add('selected');
           // Si hay imagen por color, cambiar
-          if (product.images && product.images[c.name]) mainImg.src = product.images[c.name];
-        });
-      });
-      // Sizes
-      const sw = document.getElementById('size-wrap');
-      const sizes = dedupSizes(product.sizes||[]);
-      sizes.forEach((s,idx)=>{
-        const sp=document.createElement('span'); sp.className='size-chip'; sp.textContent=s.size; sp.dataset.size=s.size; if(s.status==='unavailable') sp.classList.add('unavailable'); if(idx===0) sp.classList.add('selected'); sw.appendChild(sp);
-        sp.addEventListener('click', ()=>{ if(sp.classList.contains('unavailable')) return; sw.querySelectorAll('.size-chip').forEach(x=>x.classList.remove('selected')); sp.classList.add('selected'); });
-      });
-      // Buy
+          if (product.images && product.images[c.name]) mainImg.src = product.images[c.name];`n          renderSizesForColor(c.name);`n        });`n      });
+      // Disponibilidad por color/talle
+function normalizeStockByColor(product){
+  if (product && product.stockByColor) return product.stockByColor;
+  const map = {};
+  const defaultSizes = (product.sizes || []).reduce((acc, s) => {
+    const status = String(s.status || '').toLowerCase();
+    let qty = 5; if (status.includes('unavail')) qty=0; else if (status.includes('low')) qty=2; acc[String(s.size)] = qty; return acc;
+  }, {});
+  (product.colors || []).forEach(c => { map[c.name] = { ...defaultSizes } });
+  if (!product.colors || !product.colors.length) map['Unico'] = { ...defaultSizes };
+  return map;
+}
+function stateFromStock(n){ if (n<=0) return 'out'; if (n<=3) return 'low'; return 'available'; }
+const stockByColor = normalizeStockByColor(product);
+function renderSizesForColor(colorName){
+  const sw = document.getElementById('size-wrap'); const note = document.getElementById('stock-note');
+  sw.innerHTML='';
+  const map = stockByColor[colorName] || {};
+  const sizes = dedupSizes(product.sizes||[]);
+  let selectedEl = null; let total = 0;
+  sizes.forEach((s)=>{
+    const qty = Number(map[String(s.size)] ?? 0); total += qty;
+    const state = stateFromStock(qty);
+    const sp=document.createElement('span'); sp.className='size-chip'; sp.setAttribute('data-state', state); sp.textContent=s.size; sp.dataset.size=s.size;
+    if (state==='out') sp.classList.add('unavailable');
+    if (!selectedEl && state!=='out') { sp.classList.add('selected'); selectedEl = sp; }
+    sw.appendChild(sp);
+    sp.addEventListener('click', ()=>{ if(state==='out') return; sw.querySelectorAll('.size-chip').forEach(x=>x.classList.remove('selected')); sp.classList.add('selected'); });
+  });
+  if (!selectedEl && sw.firstChild) sw.firstChild.classList.add('selected');
+  const label = total<=0 ? 'Agotado' : (total<=3 ? 'Por agotarse' : 'Disponible');
+  if (note) note.textContent = `Stock total: ${total} (${label})`;
+}
+const firstColor = (product.colors && product.colors[0]?.name) || (gallery[0].label) || 'Unico';
+renderSizesForColor(firstColor);
+// Buy
       document.getElementById('buy').addEventListener('click', ()=>{
-        const color = cw.querySelector('.color-option.selected')?.dataset.color || (product.colors?.[0]?.name) || 'Único';
-        const size = sw.querySelector('.size-chip.selected')?.dataset.size || sizes?.[0]?.size || '';
+        const color = cw.querySelector('.color-option.selected')?.dataset.color || (product.colors?.[0]?.name) || 'Unico';
+        const size = document.querySelector('#size-wrap .size-chip.selected')?.dataset.size || ''; 
         const qty = Math.max(1, parseInt(document.getElementById('qty').value)||1);
         const unit = getUnitPrice(product, size);
         const subtotal = unit * qty;
         const item = { id: Date.now(), name: product.name, type: product.type, color, size, quantity: qty, price: unit, subtotal };
         let cart=[]; try { cart = JSON.parse(localStorage.getItem('cart')||'[]'); } catch {}
         cart.push(item); localStorage.setItem('cart', JSON.stringify(cart));
-        alert('Listo! Se agregó al carrito.');
+        alert('Listo! Se agrego al carrito.');
       });
     }
     (function init(){
       const slug = new URLSearchParams(location.search).get('slug') || '';
       fetch('products.json').then(r=>r.json()).then(list=>{
         const p = (list||[]).find(x => slugify(x.name||'') === slug);
-        if (!p) { document.getElementById('detail').innerHTML = '<p>No se encontró el producto.</p>'; return; }
+        if (!p) { document.getElementById('detail').innerHTML = '<p>No se encontrÃ³ el producto.</p>'; return; }
         render(p);
+        try { const c = JSON.parse(localStorage.getItem('cart')||'[]'); document.getElementById('cart-count').textContent = String(c.reduce((t,i)=>t + (i.quantity||0),0)); } catch {}
         const input = document.querySelector('#global-search-form input[name="q"]'); if (input) input.value = p.name.split(' ')[0];
       }).catch(()=>{ document.getElementById('detail').innerHTML = '<p>Error al cargar el producto.</p>'; });
     })();
@@ -164,4 +213,21 @@
   <script src="search.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

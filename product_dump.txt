@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -198,61 +198,12 @@ renderSizesForColor(firstColor);
         cart.push(item); localStorage.setItem('cart', JSON.stringify(cart));
         alert('Listo! Se agrego al carrito.');
       });
-
-      // Características del producto (automáticas + definidas)
-      try {
-        const featuresRoot = document.getElementById('features');
-        const listEl = document.getElementById('features-list');
-        const auto = (function buildAutoFeatures(p){
-          const name = String(p.name||'');
-          const feats = [];
-          // Temporada
-          const inv = /(térmic|termic|polar|fris|corderito|lanilla|abrigo)/i.test(name);
-          const ver = /(verano|liviano|fibrana|capri|ciclista|musculosa|short)/i.test(name);
-          feats.push({k:'Temporada', v: inv ? 'Invierno' : (ver ? 'Verano' : 'Todo el año')});
-          // Material principal (heurística)
-          const mats = [];
-          if (/lycra|saplex/i.test(name)) mats.push('Lycra');
-          if (/algod|algodón/i.test(name)) mats.push('Algodón');
-          if (/polar/i.test(name)) mats.push('Polar');
-          if (/morley/i.test(name)) mats.push('Morley');
-          if (/modal/i.test(name)) mats.push('Modal');
-          if (/fibrana/i.test(name)) mats.push('Fibrana');
-          if (/r[úu]stic/i.test(name)) mats.push('Rústico');
-          if (mats.length) feats.push({k:'Material principal', v: mats.join(', ')});
-          // Género, tipo, ajuste
-          const sec = String(p.section||'');
-          const genero = sec==='mujer'?'Mujer':sec==='hombre'?'Hombre':sec==='ninos'?'Niños':'';
-          if (genero) feats.push({k:'Género', v: genero});
-          if (p.type) feats.push({k:'Tipo', v: p.type});
-          if (/chupin|chup[íi]n/i.test(name)) feats.push({k:'Ajuste', v:'Chupín (ajustado)'});
-          if (/jogger/i.test(name)) feats.push({k:'Corte', v:'Jogger'});
-          if (/oxford/i.test(name)) feats.push({k:'Corte', v:'Oxford'});
-          if (/recto/i.test(name)) feats.push({k:'Corte', v:'Recto'});
-          // Largo
-          if (/capri/i.test(name)) feats.push({k:'Largo', v:'Capri'});
-          if (/ciclista|short/i.test(name)) feats.push({k:'Largo', v:'Corto'});
-          // Elasticidad
-          if (/lycra|elast|saplex/i.test(name)) feats.push({k:'Elasticidad', v:'Alta'});
-          return feats;
-        })(product);
-        const userFeats = Array.isArray(product.features) ? product.features.map(v=>({k:'', v:String(v)})) : [];
-        const specs = (product.specs && typeof product.specs==='object') ? Object.keys(product.specs).map(k=>({k, v:String(product.specs[k])})) : [];
-        const blocks = [...auto, ...userFeats, ...specs];
-        if (!blocks.length) {
-          blocks.push({k:'Sección', v: String(product.section||'')});
-          blocks.push({k:'Tipo', v: String(product.type||'')});
-          blocks.push({k:'Composición', v:'Ver etiqueta'});
-        }
-        listEl.innerHTML = blocks.map(b=>`<div class="feature-item">${b.k?`<strong>${b.k}:</strong> `:''}${b.v}</div>`).join('');
-        featuresRoot.hidden = false;
-      } catch {}
     }
     (function init(){
       const slug = new URLSearchParams(location.search).get('slug') || '';
       fetch('products.json').then(r=>r.json()).then(list=>{
         const p = (list||[]).find(x => slugify(x.name||'') === slug);
-        if (!p) { document.getElementById('detail').innerHTML = '<p>No se encontrÃ³ el producto.</p>'; return; }
+        if (!p) { document.getElementById('detail').innerHTML = '<p>No se encontró el producto.</p>'; return; }
         render(p);
         try { const c = JSON.parse(localStorage.getItem('cart')||'[]'); document.getElementById('cart-count').textContent = String(c.reduce((t,i)=>t + (i.quantity||0),0)); } catch {}
         const input = document.querySelector('#global-search-form input[name="q"]'); if (input) input.value = p.name.split(' ')[0];
@@ -262,7 +213,6 @@ renderSizesForColor(firstColor);
   <script src="search.js"></script>
 </body>
 </html>
-
 
 
 

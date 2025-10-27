@@ -25,6 +25,13 @@
     .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; }
     .global-search button { padding: 7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color: var(--primary); cursor:pointer; }
     .search-highlight { outline: 3px solid #ffc107; outline-offset: 2px; border-radius: 10px; }
+    .global-search { position: relative; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
+    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
+    .search-suggestion i { color:#adb5bd; }
+    .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
+    .search-suggestion .t { line-height:1.1; }
+    .search-suggestion small { color:#6c757d; }
 
     :root {
       --primary: #e83e8c; --secondary: #6f42c1; --light: #f8f9fa; --dark: #343a40;
@@ -442,7 +449,7 @@
                 ${badgeHTML}
               </div>
               <div class="product-info">
-                <h3 class="product-title">${fixText(product.name)}</h3>
+                <h3 class="product-title" style="cursor:pointer;">${fixText(product.name)}</h3>
                 <div class="product-price">${priceHTML}</div>
                 <div class="product-colors">${colorsHTML}</div>
                 <div class="product-sizes">
@@ -484,6 +491,10 @@
             });
             initQtyControls(card);
             card.querySelector('.btn.btn-primary').addEventListener('click', (e) => { if (e.currentTarget.getAttribute('aria-disabled') === 'true') { e.preventDefault(); e.currentTarget.classList.add('animate__animated','animate__shakeX'); setTimeout(()=>e.currentTarget.classList.remove('animate__animated','animate__shakeX'), 500); return; } openReviewSafe(card, product); });
+            // Ir al detalle
+            const toDetail = () => { const slug = (window.romixSearch && window.romixSearch.slug) ? window.romixSearch.slug(product.name) : (String(product.name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-')); window.location.href = 'product.html?slug=' + encodeURIComponent(slug); };
+            const imgWrap = card.querySelector('.product-image'); if (imgWrap) { imgWrap.style.cursor='pointer'; imgWrap.addEventListener('click', toDetail); }
+            const titleEl = card.querySelector('.product-title'); if (titleEl) { titleEl.addEventListener('click', toDetail); }
           });
 
           filterProducts('mujer', 'all');

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROMIX - Detalle</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
+    * { box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background:#f5f5f5; margin:0; color:#333; }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; padding: 16px 0; }
+    .header-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-size:1.6rem; font-weight:700; display:flex; align-items:center; gap:8px; }
+    .global-search { display:flex; align-items:center; gap:8px; position:relative; }
+    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width:240px; }
+    .global-search button { padding:7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color:var(--primary); cursor:pointer; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
+    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
+    .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
+
+    .container { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
+    .detail { display:grid; grid-template-columns: 1fr 1fr; gap:24px; background:#fff; border-radius:var(--radius); padding:20px; box-shadow:0 3px 10px rgba(0,0,0,.1); }
+    .gallery { display:flex; gap:10px; }
+    .main-img { flex:1; height: 460px; background:#f8f9fa; border-radius:8px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .main-img img { width:100%; height:100%; object-fit:contain; }
+    .thumbs { width: 86px; display:flex; flex-direction:column; gap:8px; }
+    .thumbs img { width: 86px; height: 86px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid transparent; }
+    .thumbs img.active { border-color: var(--primary); }
+
+    .title { font-size:1.6rem; font-weight:800; color:#222; margin: 8px 0; }
+    .type { color:#6c757d; margin-bottom: 8px; }
+    .price { font-size:1.8rem; color:var(--secondary); font-weight:800; }
+    .price small { color:#6c757d; text-decoration: line-through; font-weight:400; margin-left:8px; }
+
+    .color-row, .size-row { margin-top:16px; }
+    .color-option { width:26px; height:26px; border-radius:50%; border:1px solid #ddd; display:inline-block; margin-right:8px; cursor:pointer; }
+    .color-option.selected { outline:2px solid #343a40; }
+    .size-chip { display:inline-block; padding:6px 10px; border:1px solid #ddd; border-radius:8px; margin-right:8px; cursor:pointer; font-weight:700; }
+    .size-chip.unavailable { opacity:.5; text-decoration:line-through; cursor:not-allowed; }
+    .size-chip.selected { outline:2px solid #343a40; }
+    .qty-row { margin-top:16px; display:flex; align-items:center; gap:8px; }
+    .qty-row input { width:64px; padding:6px; text-align:center; border:1px solid #ddd; border-radius:6px; }
+    .actions { margin-top:16px; display:flex; gap:10px; }
+    .btn { padding:10px 16px; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
+    .btn-primary { background:var(--primary); color:#fff; }
+    .btn-outline { background:#fff; color:var(--primary); border:1px solid var(--primary); }
+
+    @media (max-width: 900px) {
+      .detail { grid-template-columns: 1fr; }
+      .main-img { height: 360px; }
+      .thumbs { flex-direction:row; width:auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo"><i class="fas fa-tshirt"></i> ROMIX</div>
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+        <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
+        <button type="submit"><i class="fas fa-search"></i> Buscar</button>
+      </form>
+    </div>
+  </header>
+
+  <div class="container">
+    <a href="index.html" style="text-decoration:none;color:#6c757d">← Volver al inicio</a>
+    <div id="detail" class="detail" aria-live="polite"></div>
+  </div>
+
+  <script>
+    function slugify(s){ return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+    function getUnitPrice(product, size){
+      const base = Number(product.price)||0; const sz = Number(size);
+      if (!isNaN(sz) && product.priceByGroup){
+        let isSpecial = false;
+        if (Array.isArray(product.specialSizes)) isSpecial = product.specialSizes.map(Number).includes(sz);
+        else isSpecial = sz >= 6;
+        const group = isSpecial ? 'special' : 'common';
+        if (product.priceByGroup[group]!=null) return Number(product.priceByGroup[group]);
+      }
+      return base;
+    }
+    function dedupSizes(arr){ const seen=new Set(); const out=[]; (arr||[]).forEach(s=>{const k=String(s.size); if(!seen.has(k)){seen.add(k); out.push(s);} }); return out; }
+    function render(product){
+      const root = document.getElementById('detail'); if (!root) return;
+      const gallery = [];
+      if (product.images && typeof product.images==='object'){
+        for (const k of Object.keys(product.images)) gallery.push({label:k, src:product.images[k]});
+      }
+      if (!gallery.length) gallery.push({label:null, src:product.image});
+      const thumbs = gallery.map((g,i)=>`<img data-i="${i}" src="${g.src}" alt="${g.label || 'Imagen'}">`).join('');
+      root.innerHTML = `
+        <div class="gallery">
+          <div class="thumbs">${thumbs}</div>
+          <div class="main-img"><img id="main-img" src="${gallery[0].src}" alt="${product.name}" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></div>
+        </div>
+        <div>
+          <div class="title">${product.name}</div>
+          <div class="type">(${product.type})</div>
+          <div class="price">$${Number(product.price).toLocaleString('es-AR')}${product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:''}</div>
+          <div class="color-row">
+            <div style="margin-bottom:6px;color:#6c757d;font-weight:700">Color</div>
+            <div id="color-wrap"></div>
+          </div>
+          <div class="size-row">
+            <div style="margin:10px 0 6px;color:#6c757d;font-weight:700">Talle</div>
+            <div id="size-wrap"></div>
+          </div>
+          <div class="qty-row">
+            <span style="color:#6c757d;font-weight:700">Cantidad</span>
+            <input id="qty" type="number" value="1" min="1" />
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" id="buy">Comprar</button>
+            <button class="btn btn-outline" onclick="location.href='index.html'">Seguir viendo</button>
+          </div>
+        </div>`;
+      // Thumbs
+      const thumbsEls = root.querySelectorAll('.thumbs img');
+      const mainImg = document.getElementById('main-img');
+      thumbsEls.forEach((el,i)=>{ if(i===0) el.classList.add('active'); el.addEventListener('click',()=>{ thumbsEls.forEach(x=>x.classList.remove('active')); el.classList.add('active'); mainImg.src = gallery[i].src; }); });
+      // Colors
+      const cw = document.getElementById('color-wrap');
+      (product.colors||[]).forEach((c,idx)=>{
+        const d=document.createElement('div'); d.className='color-option'; d.style.backgroundColor=c.hex||'#000'; d.title=c.name; d.setAttribute('data-color', c.name);
+        if (idx===0) d.classList.add('selected'); cw.appendChild(d);
+        d.addEventListener('click', ()=>{ cw.querySelectorAll('.color-option').forEach(x=>x.classList.remove('selected')); d.classList.add('selected');
+          // Si hay imagen por color, cambiar
+          if (product.images && product.images[c.name]) mainImg.src = product.images[c.name];
+        });
+      });
+      // Sizes
+      const sw = document.getElementById('size-wrap');
+      const sizes = dedupSizes(product.sizes||[]);
+      sizes.forEach((s,idx)=>{
+        const sp=document.createElement('span'); sp.className='size-chip'; sp.textContent=s.size; sp.dataset.size=s.size; if(s.status==='unavailable') sp.classList.add('unavailable'); if(idx===0) sp.classList.add('selected'); sw.appendChild(sp);
+        sp.addEventListener('click', ()=>{ if(sp.classList.contains('unavailable')) return; sw.querySelectorAll('.size-chip').forEach(x=>x.classList.remove('selected')); sp.classList.add('selected'); });
+      });
+      // Buy
+      document.getElementById('buy').addEventListener('click', ()=>{
+        const color = cw.querySelector('.color-option.selected')?.dataset.color || (product.colors?.[0]?.name) || 'Único';
+        const size = sw.querySelector('.size-chip.selected')?.dataset.size || sizes?.[0]?.size || '';
+        const qty = Math.max(1, parseInt(document.getElementById('qty').value)||1);
+        const unit = getUnitPrice(product, size);
+        const subtotal = unit * qty;
+        const item = { id: Date.now(), name: product.name, type: product.type, color, size, quantity: qty, price: unit, subtotal };
+        let cart=[]; try { cart = JSON.parse(localStorage.getItem('cart')||'[]'); } catch {}
+        cart.push(item); localStorage.setItem('cart', JSON.stringify(cart));
+        alert('Listo! Se agregó al carrito.');
+      });
+    }
+    (function init(){
+      const slug = new URLSearchParams(location.search).get('slug') || '';
+      fetch('products.json').then(r=>r.json()).then(list=>{
+        const p = (list||[]).find(x => slugify(x.name||'') === slug);
+        if (!p) { document.getElementById('detail').innerHTML = '<p>No se encontró el producto.</p>'; return; }
+        render(p);
+        const input = document.querySelector('#global-search-form input[name="q"]'); if (input) input.value = p.name.split(' ')[0];
+      }).catch(()=>{ document.getElementById('detail').innerHTML = '<p>Error al cargar el producto.</p>'; });
+    })();
+  </script>
+  <script src="search.js"></script>
+</body>
+</html>
+

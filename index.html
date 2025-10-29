@@ -3,20 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Calzas, tops y camperas ROMIX. Compra por color, talle y stock en vivo.">
-  <meta property="og:title" content="ROMIX - Invierno 2025" />
-  <meta property="og:description" content="Calzas, tops y camperas ROMIX. Compra por color, talle y stock en vivo." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="/index.html" />
-  <meta property="og:image" content="images/og-romix.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ROMIX - Invierno 2025" />
-  <meta name="twitter:description" content="Calzas, tops y camperas ROMIX. Compra por color, talle y stock en vivo." />
-  <meta name="twitter:image" content="images/og-romix.jpg" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https: data:; script-src 'self' https://cdnjs.cloudflare.com 'nonce-r0mix2025'; connect-src 'self'; upgrade-insecure-requests">
-  <link rel="prefetch" href="ayuda.html" as="document">
   <title>Romix - Colección Invierno 2025</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-b7ZPnUPQK1G3z2d4l0f7Gm2M1eJp4z8f5s1p9o3r2x6z0kYd8l9r4Qv5B1c2D3E4F5G6H7I8J9K0L1M2N3O4PQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
 
@@ -32,25 +20,20 @@
     .size-chip.selected { outline: 2px solid #343a40; }
     .product-selection-status { margin: 8px 0 4px; font-size: .9rem; color: #495057; }
     .btn[aria-disabled="true"] { opacity: .6; cursor: not-allowed; }
-    .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px}
+    .btn:disabled { opacity: .6; cursor: not-allowed; }
+    .skip-link:focus { left: 12px; top: 12px; z-index: 9999; background: #fff; color: #000; padding: 8px 10px; border-radius: 8px; position: absolute; }
     /* Search */
     .global-search { display:flex; align-items:center; gap:8px; margin-left: 10px; }
-    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; background:#fff; color:#212529; }
-    .global-search input[type="search"]::placeholder { color:#6c757d; opacity:1; }
+    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; color:#212529; background:#fff; caret-color: var(--secondary); }
+    .global-search input[type="search"]::placeholder { color:#6c757d; }
     .global-search button { padding: 7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color: var(--primary); cursor:pointer; }
     .search-highlight { outline: 3px solid #ffc107; outline-offset: 2px; border-radius: 10px; }
     .global-search { position: relative; }
-    /* Category bar (top center on index) */
-    .category-bar { display:flex; justify-content:center; gap:12px; margin:16px auto 8px; flex-wrap:wrap; }
-    .category-bar a { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px; background:#fff; border:1px solid rgba(0,0,0,.15); color:#1b1f24; text-decoration:none; font-weight:700; box-shadow:0 4px 10px rgba(0,0,0,.06); }
-    .category-bar a:hover { border-color: var(--primary); color: var(--primary); }
-    #categorias { display:none !important; }
-    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; color:#212529; }
-    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; color:#212529; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
+    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
     .search-suggestion i { color:#adb5bd; }
     .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
     .search-suggestion .t { line-height:1.1; color:#212529; }
-    .search-suggestion .t strong { color:#212529; }
     .search-suggestion small { color:#6c757d; }
 
     :root {
@@ -61,21 +44,26 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #f5f5f5; color: #333; }
     header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; padding: 20px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,.1); }
-    .header-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .header-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
+    .logo { font-size: 2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; text-decoration:none; color:#fff; }
     .contact-header { display: flex; align-items: center; gap: 10px; }
     .whatsapp-header { background-color: #25D366; color: #fff; padding: 8px 15px; border-radius: 20px; text-decoration: none; display: inline-flex; align-items: center; font-weight: 700; gap: 6px; }
     .cart-icon-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,.4); background: rgba(0,0,0,.1); color: #fff; cursor: pointer; }
     .cart-icon-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
     #cart-count { background: var(--danger); color: #fff; border-radius: 999px; padding: 0 6px; font-size: .8rem; position: absolute; top: -8px; right: -8px; min-width: 18px; text-align: center; }
 
-    nav { background: #fff; position: sticky; top: 72px; z-index: 999; box-shadow: 0 2px 5px rgba(0,0,0,.1); }
+    nav { display: none; }
     .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
     .nav-menu { display: flex; list-style: none; overflow-x: auto; white-space: nowrap; }
     .nav-menu li a { display: block; padding: 15px 20px; color: var(--dark); text-decoration: none; font-weight: 600; transition: .3s; }
     .nav-menu li a i { margin-right: 6px; }
     .nav-menu li a:hover, .nav-menu li.active a { color: var(--primary); }
     .nav-menu li.active a { border-bottom: 3px solid var(--primary); }
+
+    /* Inline header links style (foto 1) */
+    .nav-inline { justify-self: center; }
+    .nav-inline ul { list-style: none; display: flex; gap: 16px; padding: 0; margin: 0; }
+    .nav-inline a { color: #fff; text-decoration: none; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.08); }
 
     .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
     .section-title { font-size: 1.8rem; color: var(--secondary); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; display: flex; align-items: center; gap: 10px; }
@@ -157,9 +145,9 @@
     /* Visual refresh to match product detail */
     body { background: #fff1f6; }
     header { box-shadow: 0 4px 14px rgba(0,0,0,.12); }
-    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(0,0,0,.15); background:#fff; color:#1b1f24; border-radius:999px; min-width:260px; outline:none; }
-    .global-search input::placeholder { color:#6c757d; opacity:.9; }
-    .global-search button { padding:8px 14px; border-radius:999px; border:1px solid rgba(0,0,0,.15); background:#fff; color:var(--primary); cursor:pointer; font-weight:700; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid #ddd; background:#fff; color:#212529; border-radius:999px; min-width:260px; outline:none; }
+    .global-search input::placeholder { color:#6c757d; opacity:1; }
+    .global-search button { padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.6); background:#fff; color:var(--primary); cursor:pointer; font-weight:700; }
     .hero { background: transparent; padding: 16px 0 10px; text-align:center; }
     .hero h1 { font-size: 2.2rem; color:#1b1f24; margin: 4px 0 6px; font-weight: 900; }
     .hero p { color:#6c757d; max-width: 760px; margin: 0 auto; }
@@ -198,7 +186,15 @@
   <a class="skip-link" href="#mujer" style="position:absolute;left:-9999px;top:auto;">Saltar al contenido</a>
   <header>
     <div class="header-container">
-      <div class="logo" aria-label="Romix"><i class="fas fa-tshirt" aria-hidden="true"></i><span>ROMIX</span></div>
+      <a href="index.html" class="logo" aria-label="Romix"><i class="fas fa-store" aria-hidden="true"></i><span>ROMIX</span></a>
+      <div class="nav-inline" aria-label="Secciones">
+        <ul>
+          <li><a href="mujer.html">Mujer</a></li>
+          <li><a href="hombre.html">Hombre</a></li>
+          <li><a href="ninos.html">Niños</a></li>
+          <li><a href="ayuda.html">Ayuda</a></li>
+        </ul>
+      </div>
       <div class="contact-header">
         <button type="button" class="cart-icon-btn" onclick="toggleCart()" aria-haspopup="region" aria-controls="cart" aria-expanded="false">
           <i class="fas fa-shopping-cart" aria-hidden="true"></i>
@@ -290,11 +286,6 @@
       </div>
     </section>
     <div id="feedback" class="hidden" role="status" aria-live="polite" style="margin-bottom:10px;color:#c00;"></div>
-    <nav class="category-bar" aria-label="Categorías (atajos)">
-      <a href="#mujer"><i class="fas fa-female" aria-hidden="true"></i> Mujer</a>
-      <a href="#hombre"><i class="fas fa-male" aria-hidden="true"></i> Hombre</a>
-      <a href="#ninos"><i class="fas fa-child" aria-hidden="true"></i> Niños</a>
-    </nav>
 
     <section id="cart" class="cart-section hidden" role="region" aria-label="Carrito de compras">
       <h2 class="section-title"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Carrito de Compras</h2>
@@ -306,37 +297,10 @@
         </thead>
         <tbody id="cart-items"></tbody>
       </table>
-      <div class="cart-total">Total: $<span id="cart-total" aria-live="polite">0</span></div>
+      <div class="cart-total">Total: $<span id="cart-total">0</span></div>
       <div class="cart-actions">
         <button class="btn btn-danger" type="button" onclick="clearCart()"><i class="fas fa-trash" aria-hidden="true"></i> Vaciar Carrito</button>
         <button class="btn btn-success" type="button" onclick="sendToWhatsApp()"><i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar Pedido</button>
-      </div>
-    </section>
-
-    <section id="categorias">
-      <h2 class="section-title"><i class="fas fa-th-large" aria-hidden="true"></i> Explorar por categoría</h2>
-      <div class="products-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px,1fr));">
-        <a class="product-card" href="mujer.html" style="text-decoration:none">
-          <div class="product-image"><img src="images/placeholder.jpg" alt="Categoría Mujer" width="800" height="800" /></div>
-          <div class="product-info">
-            <h3 class="product-title">Mujer</h3>
-            <div class="product-price" style="color:#6c757d">Ver productos</div>
-          </div>
-        </a>
-        <a class="product-card" href="hombre.html" style="text-decoration:none">
-          <div class="product-image"><img src="images/placeholder.jpg" alt="Categoría Hombre" width="800" height="800" /></div>
-          <div class="product-info">
-            <h3 class="product-title">Hombre</h3>
-            <div class="product-price" style="color:#6c757d">Ver productos</div>
-          </div>
-        </a>
-        <a class="product-card" href="ninos.html" style="text-decoration:none">
-          <div class="product-image"><img src="images/placeholder.jpg" alt="Categoría Niños" width="800" height="800" /></div>
-          <div class="product-info">
-            <h3 class="product-title">Niños</h3>
-            <div class="product-price" style="color:#6c757d">Ver productos</div>
-          </div>
-        </a>
       </div>
     </section>
 
@@ -387,7 +351,7 @@
     <div class="modal-content animate__animated animate__fadeIn" tabindex="-1">
       <h3 id="review-title">Revisar pedido</h3>
           <div class="modal-row">
-            <div class="modal-thumb"><img id="review-image" alt="Producto seleccionado" onerror="this.onerror=null; this.src='images/placeholder.jpg';" width="800" height="800" /></div>
+            <div class="modal-thumb"><img id="review-image" alt="Producto seleccionado" onerror="this.onerror=null; this.src='images/placeholder.jpg';" /></div>
         <div>
           <div class="summary">
             <p><strong id="review-name">Producto</strong> <span id="review-type" style="color:#6c757d"></span></p>
@@ -423,9 +387,9 @@
       <div class="footer-column">
         <h4>Productos</h4>
         <ul>
-          <li><a href="#mujer">Ropa para Mujer</a></li>
-          <li><a href="#hombre">Ropa para Hombre</a></li>
-          <li><a href="#ninos">Ropa para Niños</a></li>
+          <li><a href="mujer.html">Ropa para Mujer</a></li>
+          <li><a href="hombre.html">Ropa para Hombre</a></li>
+          <li><a href="ninos.html">Ropa para Niños</a></li>
           <li><a href="#">Novedades</a></li>
           <li><a href="#">Ofertas</a></li>
         </ul>
@@ -450,7 +414,7 @@
     <div class="copyright"><p>&copy; 2025 Romix - Todos los derechos reservados</p></div>
   </footer>
 
-  <script nonce="r0mix2025">
+  <script>
     // ===== Estado seguro de localStorage =====
     function safeGetCart() {
       try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; }
@@ -513,19 +477,15 @@
       return out;
     }
 
-    // Escapar HTML para datos dinámicos en plantillas
-    function esc(s) {
-      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-      return String(s).replace(/[&<>"']/g, (m)=>map[m]);
-    }
-    window.romix = window.romix || {};
-    window.romix.utils = Object.assign({}, window.romix.utils || {}, { esc });
-
     function loadProducts() {
       return fetch('products.json').catch(err => { console.error('[ROMIX] fetch products.json failed:', err); const b=document.getElementById('load-error-banner'); if(b)b.style.display='block'; return new Response(JSON.stringify([]), {headers:{'Content-Type':'application/json'}}); })
         .then((r) => r.json())
         .then((products) => {
-          const sections = { mujer: document.getElementById('mujer-grid'), hombre: document.getElementById('hombre-grid'), ninos: document.getElementById('ninos-grid') };
+          const sections = {
+            mujer: document.getElementById('mujer-grid'),
+            hombre: document.getElementById('hombre-grid'),
+            ninos: document.getElementById('ninos-grid')
+          };
 
           products.forEach((product) => {
             const card = document.createElement('div');
@@ -537,11 +497,11 @@
             if (product.originalPrice) {
               priceHTML += ` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`;
             }
-            const badgeHTML = product.badge ? `<span class="product-badge">${esc(product.badge)}</span>` : '';
+            const badgeHTML = product.badge ? `<span class="product-badge">${product.badge}</span>` : '';
 
             const colorsHTML = (product.colors || []).map((color) => {
               const border = color.hex === '#ffffff' ? 'border:1px solid #ddd;' : '';
-              const cname = esc(fixText(color.name));
+              const cname = fixText(color.name);
               return `<div class="color-option" role="button" tabindex="0" aria-label="Color ${cname}" style="background-color:${color.hex};${border}" title="${cname}" data-color="${cname}"></div>`;
             }).join('');
 
@@ -553,11 +513,11 @@
 
             card.innerHTML = `
               <div class="product-image">
-                <img src="${product.image || 'images/placeholder.jpg'}" onerror="this.onerror=null; this.src='images/placeholder.jpg';" alt="${esc(fixText(product.name))}" loading="lazy" width="800" height="800" />
+                <img src="${product.image || 'images/placeholder.jpg'}" onerror="this.onerror=null; this.src='images/placeholder.jpg';" alt="${fixText(product.name)}" loading="lazy" />
                 ${badgeHTML}
               </div>
               <div class="product-info">
-                <h3 class="product-title" style="cursor:pointer;">${esc(fixText(product.name))}</h3>
+                <h3 class="product-title" style="cursor:pointer;">${fixText(product.name)}</h3>
                 <div class="product-price">${priceHTML}</div>
                 <div class="product-colors">${colorsHTML}</div>
                 <div class="product-sizes">
@@ -577,10 +537,7 @@
                 </div>
               </div>`;
 
-            // En página de inicio, mostramos solo tarjetas de categorías. Omitimos render de productos completo.
-            // Agregar la card a su sección correspondiente
-            if (sections[product.section]) sections[product.section].appendChild(card);
-            if (!dump) return;
+            sections[product.section].appendChild(card);
             const stockNote = card.querySelector('.product-stock-note');
             if (stockNote) {
               const total = computeTotalStock(product);
@@ -591,7 +548,7 @@
             initGallery(card, product);
             updateCardPrice(card, product);
 
-            // Eventos de color/talle y compra
+            // Eventos
             card.querySelectorAll('.color-option').forEach((el) => {
               el.addEventListener('click', () => selectColor(el));
               el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectColor(el); } });
@@ -601,42 +558,25 @@
               el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectSize(el); } });
             });
             initQtyControls(card);
-            card.querySelector('.btn.btn-primary').addEventListener('click', (e) => { if (e.currentTarget.getAttribute('aria-disabled') === 'true') { e.preventDefault(); e.currentTarget.classList.add('animate__animated','animate__shakeX'); setTimeout(()=>e.currentTarget.classList.remove('animate__animated','animate__shakeX'), 500); return; } openReviewSafe(card, product); });
-            // Ir al detalle desde imagen/título
+            card.querySelector('.btn.btn-primary').addEventListener('click', (e) => {
+              const btn = e.currentTarget;
+              if (btn.disabled || btn.getAttribute('aria-disabled') === 'true') {
+                e.preventDefault();
+                btn.classList.add('animate__animated','animate__shakeX');
+                setTimeout(()=>btn.classList.remove('animate__animated','animate__shakeX'), 500);
+                return;
+              }
+              openReviewSafe(card, product);
+            });
+            // Ir al detalle
             const toDetail = () => { const slug = (window.romixSearch && window.romixSearch.slug) ? window.romixSearch.slug(product.name) : (String(product.name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-')); window.location.href = 'product.html?slug=' + encodeURIComponent(slug); };
             const imgWrap = card.querySelector('.product-image'); if (imgWrap) { imgWrap.style.cursor='pointer'; imgWrap.addEventListener('click', toDetail); }
             const titleEl = card.querySelector('.product-title'); if (titleEl) { titleEl.addEventListener('click', toDetail); }
           });
 
-          // Schema.org JSON-LD para productos
-          try {
-            const ld = {
-              "@context": "https://schema.org",
-              "@type": "ItemList",
-              itemListElement: (products || []).map((p, idx) => ({
-                "@type": "ListItem",
-                position: idx + 1,
-                item: {
-                  "@type": "Product",
-                  name: (typeof fixText === 'function') ? fixText(p.name) : String(p.name||''),
-                  image: p.image || (p.images ? (p.images[Object.keys(p.images)[0]] || '') : ''),
-                  offers: {
-                    "@type": "Offer",
-                    priceCurrency: "ARS",
-                    price: String(Number(p.price||0)),
-                    availability: computeTotalStock(p) > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
-                  }
-                }
-              }))
-            };
-            const s = document.createElement('script');
-            s.type = 'application/ld+json';
-            s.textContent = JSON.stringify(ld);
-            document.head.appendChild(s);
-          } catch {}
-
-          // En inicio ya no filtramos secciones; invitamos al usuario a categorías.
-          try { filterProducts('mujer', 'all'); filterProducts('hombre', 'all'); filterProducts('ninos', 'all'); } catch {}
+          filterProducts('mujer', 'all');
+          filterProducts('hombre', 'all');
+          filterProducts('ninos', 'all');
         })
         .catch((e) => {
           console.error('Error al cargar productos:', e);
@@ -701,8 +641,8 @@
     function updateSelectionStatus(card, color, size) {
       const statusEl = card.querySelector('.product-selection-status');
       if (!statusEl) return;
-      if (color && size) statusEl.textContent = `Seleccionado: ${color} - Talle: ${size}`;
-      else if (color) statusEl.textContent = `Seleccionado: ${color} - Talle: Sin selección`;
+      if (color && size) statusEl.innerHTML = `Seleccionado: <strong>${color}</strong> – Talle: <strong>${size}</strong>`;
+      else if (color) statusEl.innerHTML = `Seleccionado: <strong>${color}</strong> – Talle: <strong>Sin selección</strong>`;
       else statusEl.textContent = 'Sin selección';
     }
 
@@ -710,14 +650,14 @@
       const btn = card.querySelector('.product-actions .btn.btn-primary');
       if (!btn) return;
       if (enabled) {
-        btn.disabled = false;
         btn.setAttribute('aria-disabled', 'false');
+        btn.disabled = false;
         btn.classList.remove('animate__shakeX');
         btn.classList.add('animate__animated','animate__fadeInUp');
         setTimeout(() => btn.classList.remove('animate__animated','animate__fadeInUp'), 500);
       } else {
-        btn.disabled = true;
         btn.setAttribute('aria-disabled', 'true');
+        btn.disabled = true;
       }
     }
 
@@ -780,13 +720,7 @@
       const priceBox = card.querySelector('.product-price');
       if (!priceBox) return;
       const unit = size ? getUnitPrice(product, size, color) : Number(product.price) || 0;
-      priceBox.textContent = `$${Number(unit).toLocaleString('es-AR')}`;
-      if (product.originalPrice) {
-        const small = document.createElement('small');
-        small.textContent = `$${Number(product.originalPrice).toLocaleString('es-AR')}`;
-        priceBox.append(' ');
-        priceBox.appendChild(small);
-      }
+      priceBox.innerHTML = `$${Number(unit).toLocaleString('es-AR')}` + (product.originalPrice ? ` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>` : '');
     }
 
     // ===== Galería por producto (simple) =====
@@ -1259,7 +1193,7 @@
     }
   </script>
 
-<script nonce="r0mix2025">
+<script>
 document.addEventListener('DOMContentLoaded', () => {
   const tryLoad = () => {
     const anyCard = document.querySelector('.product-card');
@@ -1274,7 +1208,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(tryLoad, 400);
 });
 </script>
-<script nonce="r0mix2025">
+<script>
 // ====== Global filter bar logic ======
 function normalize(s){ try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); } catch { return String(s||'').toLowerCase(); } }
 function initGlobalFilters(){
@@ -1287,16 +1221,8 @@ function initGlobalFilters(){
   const priceMax = document.getElementById('filter-price-max');
   const availabilitySel = document.getElementById('filter-availability');
   if (!qInput || !toggle || !body) return;
-  let debounce, idleId;
-  const apply = ()=>{
-    if (typeof cancelIdleCallback === 'function' && idleId) { try { cancelIdleCallback(idleId); } catch {} }
-    clearTimeout(debounce);
-    if (typeof requestIdleCallback === 'function') {
-      idleId = requestIdleCallback(applyGlobalFilters, { timeout: 500 });
-    } else {
-      debounce = setTimeout(applyGlobalFilters, 60);
-    }
-  };
+  let debounce;
+  const apply = ()=>{ clearTimeout(debounce); debounce = setTimeout(applyGlobalFilters, 60); };
   qInput.addEventListener('input', apply);
   chips.forEach(c=>c.addEventListener('change', apply));
   sectionSel && sectionSel.addEventListener('change', apply);
@@ -1346,7 +1272,6 @@ document.addEventListener('DOMContentLoaded', ()=>{ initGlobalFilters(); });
 </html>
 
 </html>
-
 
 
 

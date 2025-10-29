@@ -4,20 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROMIX - Detalle</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https: data:; script-src 'self' https://cdnjs.cloudflare.com 'nonce-r0mix2025'; connect-src 'self'; upgrade-insecure-requests">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <style>
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
     * { box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background:#f5f5f5; margin:0; color:#333; }
     header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; padding: 16px 0; }
     .header-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display:flex; align-items:center; justify-content:space-between; }
-    .logo { font-size:1.6rem; font-weight:700; display:flex; align-items:center; gap:8px; }
+    .logo { font-size:1.6rem; font-weight:700; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; }
     .global-search { display:flex; align-items:center; gap:8px; position:relative; }
-    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width:240px; background:#fff; color:#212529; }
+    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width:240px; color:#212529; background:#fff; caret-color: var(--secondary); }
+    .global-search input[type="search"]::placeholder { color:#6c757d; }
     .global-search button { padding:7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color:var(--primary); cursor:pointer; }
-    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; color:#212529; }
-    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; color:#212529; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
+    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
+    .search-suggestion .t { color:#212529; }
+    .search-suggestion small { color:#6c757d; }
     .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
 
     .container { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
@@ -69,13 +71,9 @@
     /* Visual refresh overrides */
     body { background: #fff1f6; }
     header { box-shadow: 0 4px 14px rgba(0,0,0,.12); }
-    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(0,0,0,.15); background:#fff; color:#1b1f24; border-radius:999px; min-width:260px; outline:none; }
-    .global-search input::placeholder { color:#6c757d; opacity:.9; }
-    .global-search button { padding:8px 14px; border-radius:999px; border:1px solid rgba(0,0,0,.15); background:#fff; color:var(--primary); cursor:pointer; font-weight:700; }
-    .search-suggestions { color:#212529; }
-    .search-suggestion .t { color:#212529; }
-    .search-suggestion .t strong { color:#212529; }
-    .search-suggestion small { color:#6c757d; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid #ddd; background:#fff; color:#212529; border-radius:999px; min-width:260px; outline:none; }
+    .global-search input::placeholder { color:#6c757d; opacity:1; }
+    .global-search button { padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.6); background:#fff; color:var(--primary); cursor:pointer; font-weight:700; }
     .detail { grid-template-columns: 1.05fr .95fr; gap:28px; padding:24px; box-shadow:0 14px 36px rgba(0,0,0,.10); border-radius:14px; }
     .gallery { gap:14px; }
     .main-img { height: 520px; border-radius:12px; box-shadow: inset 0 0 0 1px #eee; }
@@ -96,7 +94,7 @@
 <body>
   <header>
     <div class="header-container">
-      <div class="logo"><i class="fas fa-tshirt"></i> ROMIX</div>
+      <a href="index.html" class="logo"><i class="fas fa-store"></i> ROMIX</a>
       <button type="button" class="cart-icon-btn" onclick="window.location.href='index.html#cart'" aria-label="Ir al carrito">
         <i class="fas fa-shopping-cart" aria-hidden="true"></i>
         <span id="cart-count">0</span>
@@ -109,6 +107,7 @@
   </header>
 
   <div class="container">
+    <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
     <div id="detail" class="detail" aria-live="polite"></div>
   <div id="features" class="features" aria-live="polite" hidden>
       <h3>Caracteristicas del producto</h3>
@@ -116,31 +115,39 @@
     </div>
   </div>
 
-  <script nonce="r0mix2025">
-    function slugify(s){ try { return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); } catch { return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); } }
+  <script>
+    function slugify(s){ return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
     const SIZE_GROUP_PRICING = { common: 1.0, special: 1.15, superspecial: 1.15 };
-    function getUnitPrice(product, size){
-      const base = Number(product.price)||0; const sz = Number(size);
-      if (!isNaN(sz)){
-        if (product.priceBySize && product.priceBySize[String(sz)]!=null) return Number(product.priceBySize[String(sz)]);
-        const resolveGroup = (szNum)=>{
-          let isSuper=false, isSpecial=false;
-          if (Array.isArray(product.superSpecialSizes)) isSuper = product.superSpecialSizes.map(Number).includes(szNum);
-          else if (product.groupSuperMin) isSuper = szNum >= Number(product.groupSuperMin);
-          else isSuper = szNum >= 9;
-          if (!isSuper){
-            if (Array.isArray(product.specialSizes)) isSpecial = product.specialSizes.map(Number).includes(szNum);
-            else if (product.groupSpecialMin) isSpecial = szNum >= Number(product.groupSpecialMin);
-            else isSpecial = szNum >= 6;
-          }
-          return isSuper ? 'superspecial' : (isSpecial ? 'special' : 'common');
-        };
-        const group = resolveGroup(sz);
-        if (product.priceByGroup && product.priceByGroup[group]!=null) return Number(product.priceByGroup[group]);
-        const mult = SIZE_GROUP_PRICING[group] || 1;
-        return Math.round(base * mult * 100) / 100;
+    function normalizeSection(s){ try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); } catch { return String(s||'').toLowerCase(); } }
+    function groupForSize(product, size){
+      const sz = Number(size);
+      if (isNaN(sz)) return 'common';
+      const sec = normalizeSection(product && product.section);
+      // Regla específica Niños: comunes 4,6,8,10; especiales 12,14,16
+      if (sec === 'ninos' || sec === 'niños'){
+        const kidsCommon = [4,6,8,10];
+        const kidsSpecial = [12,14,16];
+        if (kidsCommon.includes(sz)) return 'common';
+        if (kidsSpecial.includes(sz)) return 'special';
       }
-      return base;
+      if (product && Array.isArray(product.superspecialSizes) && product.superspecialSizes.map(Number).includes(sz)) return 'superspecial';
+      if (product && Array.isArray(product.specialSizes) && product.specialSizes.map(Number).includes(sz)) return 'special';
+      if (sz >= 9) return 'superspecial';
+      if (sz >= 6) return 'special';
+      return 'common';
+    }
+    function getUnitPrice(product, size){
+      const base = Number(product.price)||0;
+      const group = groupForSize(product, size);
+      if (product && product.priceByGroup && product.priceByGroup[group]!=null) return Number(product.priceByGroup[group]);
+      const mult = SIZE_GROUP_PRICING[group] || 1.0; return Math.round(base * mult);
+    }
+    function updatePriceForSelection(product){
+      const priceEl = document.querySelector('.price'); if (!priceEl) return;
+      const sel = document.querySelector('#size-wrap .size-chip.selected');
+      const size = sel ? sel.dataset.size : undefined;
+      const unit = size ? getUnitPrice(product, size) : Number(product.price)||0;
+      priceEl.innerHTML = `$${Number(unit).toLocaleString('es-AR')}` + (product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:'');
     }
     function dedupSizes(arr){ const seen=new Set(); const out=[]; (arr||[]).forEach(s=>{const k=String(s.size); if(!seen.has(k)){seen.add(k); out.push(s);} }); return out; }
     function render(product){
@@ -150,16 +157,15 @@
         for (const k of Object.keys(product.images)) gallery.push({label:k, src:product.images[k]});
       }
       if (!gallery.length) gallery.push({label:null, src:product.image});
-      const esc = (s)=>String(s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
-      const thumbs = gallery.map((g,i)=>`<img data-i="${i}" src="${g.src}" alt="${esc(g.label || 'Imagen')}" width="96" height="96">`).join('');
+      const thumbs = gallery.map((g,i)=>`<img data-i="${i}" src="${g.src}" alt="${g.label || 'Imagen'}">`).join('');
       root.innerHTML = `
         <div class="gallery">
           <div class="thumbs">${thumbs}</div>
-          <div class="main-img"><img id="main-img" src="${gallery[0].src}" alt="${esc(product.name)}" onerror="this.onerror=null;this.src='images/placeholder.jpg';" width="800" height="800"></div>
+          <div class="main-img"><img id="main-img" src="${gallery[0].src}" alt="${product.name}" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></div>
         </div>
         <div>
-          <div class="title">${esc(product.name)}</div>
-          <div class="pills"><span class="pill">${esc(product.section || '')}</span><span class="pill">${esc(product.type || '')}</span></div>
+          <div class="title">${product.name}</div>
+          <div class="pills"><span class="pill">${product.section || ''}</span><span class="pill">${product.type || ''}</span></div>
           <div class="price">$${Number(product.price).toLocaleString('es-AR')}${product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:''}</div>
           <div class="color-row">
             <div style="margin-bottom:6px;color:#6c757d;font-weight:700">Color</div>
@@ -179,17 +185,6 @@
             <button class="btn btn-outline" onclick="location.href='index.html'">Seguir viendo</button>
           </div>
         </div>`;
-      // Función para actualizar precio visible según selección de talle
-      function updateTopPrice(){
-        try {
-          const priceEl = document.querySelector('.price');
-          if (!priceEl) return;
-          const sel = document.querySelector('#size-wrap .size-chip.selected')?.dataset.size || null;
-          const unit = sel ? getUnitPrice(product, sel) : Number(product.price)||0;
-          priceEl.innerHTML = `$${Number(unit).toLocaleString('es-AR')}` + (product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:'');
-        } catch {}
-      }
-
       // Thumbs
       const thumbsEls = root.querySelectorAll('.thumbs img');
       const mainImg = document.getElementById('main-img');
@@ -203,7 +198,6 @@
           // Si hay imagen por color, cambiar
           if (product.images && product.images[c.name]) mainImg.src = product.images[c.name];
           renderSizesForColor(c.name);
-          updateTopPrice();
         });
       });
       // Disponibilidad por color/talle
@@ -233,12 +227,12 @@ function renderSizesForColor(colorName){
     if (state==='out') sp.classList.add('unavailable');
     if (!selectedEl && state!=='out') { sp.classList.add('selected'); selectedEl = sp; }
     sw.appendChild(sp);
-    sp.addEventListener('click', ()=>{ if(state==='out') return; sw.querySelectorAll('.size-chip').forEach(x=>x.classList.remove('selected')); sp.classList.add('selected'); updateTopPrice(); });
+    sp.addEventListener('click', ()=>{ if(state==='out') return; sw.querySelectorAll('.size-chip').forEach(x=>x.classList.remove('selected')); sp.classList.add('selected'); updatePriceForSelection(product); });
   });
   if (!selectedEl && sw.firstChild) sw.firstChild.classList.add('selected');
   const label = total<=0 ? 'Agotado' : (total<=3 ? 'Por agotarse' : 'Disponible');
   if (note) note.textContent = `Stock total: ${total} (${label})`;
-  updateTopPrice();
+  updatePriceForSelection(product);
 }
 const firstColor = (product.colors && product.colors[0]?.name) || (gallery[0].label) || 'Unico';
 renderSizesForColor(firstColor);

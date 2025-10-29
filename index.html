@@ -13,7 +13,7 @@
   <meta name="twitter:title" content="ROMIX - Invierno 2025" />
   <meta name="twitter:description" content="Calzas, tops y camperas ROMIX. Compra por color, talle y stock en vivo." />
   <meta name="twitter:image" content="images/og-romix.jpg" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; script-src 'self' https://cdnjs.cloudflare.com 'nonce-r0mix2025'; connect-src 'self'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https: data:; script-src 'self' https://cdnjs.cloudflare.com 'nonce-r0mix2025'; connect-src 'self'; upgrade-insecure-requests">
   <link rel="prefetch" href="ayuda.html" as="document">
   <title>Romix - Colección Invierno 2025</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -35,15 +35,17 @@
     .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px}
     /* Search */
     .global-search { display:flex; align-items:center; gap:8px; margin-left: 10px; }
-    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; }
+    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; background:#fff; color:#212529; }
+    .global-search input[type="search"]::placeholder { color:#6c757d; opacity:1; }
     .global-search button { padding: 7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color: var(--primary); cursor:pointer; }
     .search-highlight { outline: 3px solid #ffc107; outline-offset: 2px; border-radius: 10px; }
     .global-search { position: relative; }
-    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
-    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; color:#212529; }
+    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; color:#212529; }
     .search-suggestion i { color:#adb5bd; }
     .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
-    .search-suggestion .t { line-height:1.1; }
+    .search-suggestion .t { line-height:1.1; color:#212529; }
+    .search-suggestion .t strong { color:#212529; }
     .search-suggestion small { color:#6c757d; }
 
     :root {
@@ -150,9 +152,9 @@
     /* Visual refresh to match product detail */
     body { background: #fff1f6; }
     header { box-shadow: 0 4px 14px rgba(0,0,0,.12); }
-    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.6); background:rgba(255,255,255,.15); color:#fff; border-radius:999px; min-width:260px; outline:none; }
-    .global-search input::placeholder { color:#f8f9fa; opacity:.85; }
-    .global-search button { padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.6); background:#fff; color:var(--primary); cursor:pointer; font-weight:700; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(0,0,0,.15); background:#fff; color:#1b1f24; border-radius:999px; min-width:260px; outline:none; }
+    .global-search input::placeholder { color:#6c757d; opacity:.9; }
+    .global-search button { padding:8px 14px; border-radius:999px; border:1px solid rgba(0,0,0,.15); background:#fff; color:var(--primary); cursor:pointer; font-weight:700; }
     .hero { background: transparent; padding: 16px 0 10px; text-align:center; }
     .hero h1 { font-size: 2.2rem; color:#1b1f24; margin: 4px 0 6px; font-weight: 900; }
     .hero p { color:#6c757d; max-width: 760px; margin: 0 auto; }

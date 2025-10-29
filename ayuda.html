@@ -12,7 +12,7 @@
     <meta name="twitter:title" content="ROMIX - Ayuda" />
     <meta name="twitter:description" content="Guía de talles, cambios y devoluciones. Preguntas frecuentes." />
     <meta name="twitter:image" content="images/og-romix.jpg" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; script-src 'self' https://cdnjs.cloudflare.com 'nonce-r0mix2025'; connect-src 'self'; upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https: data:; script-src 'self' https://cdnjs.cloudflare.com 'nonce-r0mix2025'; connect-src 'self'; upgrade-insecure-requests">
     <meta name="description" content="Guía de talles y políticas de cambios y devoluciones de Romix, tu tienda de ropa para invierno 2025.">
     <meta name="keywords" content="Romix, guía de talles, cambios, devoluciones, ropa invierno">
     <title>Romix - Ayuda</title>
@@ -87,13 +87,15 @@
             #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
             /* Search */
             .global-search { display:flex; align-items:center; gap:8px; margin-left: 15px; position: relative; }
-            .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; }
+            .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; background:#fff; color:#212529; }
+            .global-search input[type="search"]::placeholder { color:#6c757d; opacity:1; }
             .global-search button { padding: 7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color: var(--primary); cursor:pointer; }
-            .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
-            .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
+            .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; color:#212529; }
+            .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; color:#212529; }
             .search-suggestion i { color:#adb5bd; }
             .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
-            .search-suggestion .t { line-height:1.1; }
+            .search-suggestion .t { line-height:1.1; color:#212529; }
+            .search-suggestion .t strong { color:#212529; }
             .search-suggestion small { color:#6c757d; }
         
         nav { background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.1); position:sticky; top:72px; z-index:999; }

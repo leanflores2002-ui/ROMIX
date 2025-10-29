@@ -116,9 +116,18 @@
   <script>
     function slugify(s){ return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
     const SIZE_GROUP_PRICING = { common: 1.0, special: 1.15, superspecial: 1.15 };
+    function normalizeSection(s){ try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); } catch { return String(s||'').toLowerCase(); } }
     function groupForSize(product, size){
       const sz = Number(size);
       if (isNaN(sz)) return 'common';
+      const sec = normalizeSection(product && product.section);
+      // Regla específica Niños: comunes 4,6,8,10; especiales 12,14,16
+      if (sec === 'ninos' || sec === 'niños'){
+        const kidsCommon = [4,6,8,10];
+        const kidsSpecial = [12,14,16];
+        if (kidsCommon.includes(sz)) return 'common';
+        if (kidsSpecial.includes(sz)) return 'special';
+      }
       if (product && Array.isArray(product.superspecialSizes) && product.superspecialSizes.map(Number).includes(sz)) return 'superspecial';
       if (product && Array.isArray(product.specialSizes) && product.specialSizes.map(Number).includes(sz)) return 'special';
       if (sz >= 9) return 'superspecial';

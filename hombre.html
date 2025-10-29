@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROMIX - Hombre</title>
+  <meta name="description" content="Ropa para Hombre ROMIX: calzas, buzos y camperas. Stock y precios en vivo." />
+  <meta property="og:title" content="ROMIX - Hombre" />
+  <meta property="og:description" content="Catálogo de Hombre: calzas, buzos, camperas y más." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/hombre.html" />
+  <meta property="og:image" content="images/og-romix.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ROMIX - Hombre" />
+  <meta name="twitter:description" content="Catálogo de Hombre: calzas, buzos, camperas y más." />
+  <meta name="twitter:image" content="images/og-romix.jpg" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https: data:; script-src 'self' https://cdnjs.cloudflare.com 'nonce-r0mix2025'; connect-src 'self'; upgrade-insecure-requests" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root { --primary:#e83e8c; --secondary:#6f42c1; --light:#f8f9fa; --dark:#343a40; --success:#28a745; --danger:#dc3545; --radius:12px; }
+    *{ box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body{ margin:0; background:#fff1f6; color:#1b1f24; }
+    header{ background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:16px 0; position:sticky; top:0; z-index:1000; box-shadow:0 6px 16px rgba(0,0,0,.12); }
+    .header-container{ max-width:1200px; margin:0 auto; padding:0 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .logo{ font-size:1.6rem; font-weight:800; display:flex; align-items:center; gap:8px; }
+    .global-search{ display:flex; align-items:center; gap:8px; position:relative; }
+    .global-search input[type="search"]{ padding:10px 14px; border:1px solid rgba(0,0,0,.15); background:#fff; color:#1b1f24; border-radius:999px; min-width:260px; outline:none; }
+    .global-search input::placeholder{ color:#6c757d; opacity:.9; }
+    .global-search button{ padding:8px 14px; border-radius:999px; border:1px solid rgba(0,0,0,.15); background:#fff; color:var(--primary); cursor:pointer; font-weight:700; }
+    .search-suggestions{ position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; color:#212529; }
+    .search-suggestion{ display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; color:#212529; }
+    .search-suggestion .t{ color:#212529; }
+    .search-suggestion .t strong{ color:#212529; }
+    .search-suggestion small{ color:#6c757d; }
+    .cart-icon-btn{ position:relative; display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 12px; border-radius:20px; border:1px solid rgba(255,255,255,.45); background: rgba(0,0,0,.1); color:#fff; cursor:pointer; }
+    #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
+
+    .container{ max-width:1200px; margin:20px auto; padding:0 20px; }
+    .page-title{ font-size:2rem; color:#6f42c1; font-weight:900; margin:10px 0 14px; }
+    .products-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap:18px; }
+    .card{ background:#fff; border-radius:14px; box-shadow:0 12px 28px rgba(0,0,0,.08); overflow:hidden; transition: transform .25s ease, box-shadow .25s ease; }
+    .card:hover{ transform: translateY(-4px); box-shadow:0 18px 40px rgba(111,66,193,.18); }
+    .card-img{ height:220px; background:#f5f6f9; display:flex; align-items:center; justify-content:center; position:relative; }
+    .card-img img{ max-width:90%; max-height:90%; object-fit:contain; }
+    .badge{ position:absolute; top:10px; right:10px; background:var(--primary); color:#fff; padding:6px 10px; border-radius:999px; font-weight:800; font-size:.78rem; }
+    .card-body{ padding:14px; }
+    .card-title{ font-weight:800; color:#1b1f24; height:48px; overflow:hidden; }
+    .price{ color:#e83e8c; font-size:1.25rem; font-weight:900; }
+    .price small{ color:#6c757d; text-decoration:line-through; margin-left:6px; }
+    .card-actions{ margin-top:10px; display:flex; gap:10px; }
+    .btn{ padding:10px 14px; border-radius:10px; border:1px solid #eee; background:#fff; cursor:pointer; font-weight:800; }
+    .btn-primary{ background:linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
+    .skip-link{ position:absolute; left:-9999px; top:auto; }
+    .skip-link:focus{ left:12px; top:12px; z-index:9999; background:#fff; color:#000; padding:8px 10px; border-radius:8px }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header>
+    <div class="header-container">
+      <div class="logo" aria-label="Romix"><i class="fas fa-tshirt" aria-hidden="true"></i><span>ROMIX</span></div>
+      <button type="button" class="cart-icon-btn" onclick="window.location.href='index.html#cart'" aria-label="Ir al carrito">
+        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+        <span id="cart-count">0</span>
+      </button>
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+        <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
+        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i> Buscar</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="container" id="contenido">
+    <h1 class="page-title"><i class="fas fa-male" aria-hidden="true"></i> Hombre</h1>
+    <div id="grid" class="products-grid" aria-live="polite"></div>
+  </main>
+
+  <script nonce="r0mix2025">
+    function esc(s){ const m={"&":"&amp;","<":"&lt;",
+      ">":"&gt;","\"":"&quot;","'":"&#39;"}; return String(s).replace(/[&<>"']/g, ch=>m[ch]); }
+    function slugify(s){ try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); } catch { return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-'); } }
+    function updateCartCount(){ try { const c=(JSON.parse(localStorage.getItem('cart')||'[]').reduce((n,i)=>n+Number(i.quantity||0),0)); const el=document.getElementById('cart-count'); if(el) el.textContent=String(c); } catch{} }
+    function render(products){
+      const grid=document.getElementById('grid'); if(!grid) return; grid.innerHTML='';
+      products.filter(p=>String(p.section||'').toLowerCase()==='hombre').forEach(p=>{
+        const price=`$${Number(p.price||0).toLocaleString('es-AR')}`;
+        const orig=p.originalPrice?` <small>$${Number(p.originalPrice).toLocaleString('es-AR')}</small>`:'';
+        const card=document.createElement('div'); card.className='card';
+        card.innerHTML=
+          `<div class="card-img">
+             <img src="${p.image||'images/placeholder.jpg'}" alt="${esc(p.name)}" loading="lazy" width="360" height="360" onerror="this.onerror=null;this.src='images/placeholder.jpg';">
+             ${p.badge?`<span class="badge">${esc(p.badge)}</span>`:''}
+           </div>
+           <div class="card-body">
+             <div class="card-title">${esc(p.name)}</div>
+             <div class="price">${price}${orig}</div>
+             <div class="card-actions">
+               <button class="btn btn-primary" type="button" data-name="${esc(p.name)}">Ver detalle</button>
+             </div>
+           </div>`;
+        card.querySelector('.btn-primary').addEventListener('click',()=>{
+          const slug = (window.romixSearch && window.romixSearch.slug) ? window.romixSearch.slug(p.name) : slugify(p.name);
+          location.href='product.html?slug='+encodeURIComponent(slug);
+        });
+        grid.appendChild(card);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', ()=>{
+      updateCartCount();
+      fetch('products.json').then(r=>r.json()).then(render).catch(()=>render([]));
+    });
+  </script>
+  <script src="support-widget-romix.js" defer></script>
+  <script src="search.js"></script>
+</body>
+</html>
+

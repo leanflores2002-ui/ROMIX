@@ -22,7 +22,8 @@
     .container { max-width:1200px; margin:18px auto; padding:0 20px; }
     .summary { color:#6c757d; margin: 6px 2px 12px; font-weight:600; }
     .toolbar { display:flex; gap:10px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
-    .toolbar input[type="search"]{ padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; min-width:220px; }
+    .toolbar input[type="search"]{ padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; min-width:220px; color:#212529; background:#fff; caret-color: var(--secondary); }
+    .toolbar input[type="search"]::placeholder{ color:#6c757d; }
     .toolbar select{ padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; }
 
     .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:18px; }
@@ -204,4 +205,3 @@
   </script>
 </body>
 </html>
-

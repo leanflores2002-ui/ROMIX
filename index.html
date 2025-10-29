@@ -24,7 +24,8 @@
     .skip-link:focus { left: 12px; top: 12px; z-index: 9999; background: #fff; color: #000; padding: 8px 10px; border-radius: 8px; position: absolute; }
     /* Search */
     .global-search { display:flex; align-items:center; gap:8px; margin-left: 10px; }
-    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; }
+    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; color:#212529; background:#fff; caret-color: var(--secondary); }
+    .global-search input[type="search"]::placeholder { color:#6c757d; }
     .global-search button { padding: 7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color: var(--primary); cursor:pointer; }
     .search-highlight { outline: 3px solid #ffc107; outline-offset: 2px; border-radius: 10px; }
     .global-search { position: relative; }

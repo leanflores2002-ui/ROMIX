@@ -45,10 +45,10 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
             align-items: center;
-            position: relative;
+            gap: 12px;
         }
         
         .logo {
@@ -123,9 +123,9 @@
         .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px}
 
         /* Inline header links style (foto 1) */
-        .nav-inline { position: absolute; left: 50%; transform: translateX(-50%); }
-        .nav-inline ul { list-style: none; display: flex; gap: 10px; padding: 0; margin: 0; }
-        .nav-inline a { color: #fff; text-decoration: none; padding: 8px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.08); }
+        .nav-inline { justify-self: center; }
+        .nav-inline ul { list-style: none; display: flex; gap: 16px; padding: 0; margin: 0; }
+        .nav-inline a { color: #fff; text-decoration: none; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.08); }
 
         .container {
             max-width: 1200px;

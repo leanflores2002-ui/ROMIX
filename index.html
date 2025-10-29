@@ -44,7 +44,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #f5f5f5; color: #333; }
     header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; padding: 20px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,.1); }
-    .header-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .header-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
     .logo { font-size: 2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; text-decoration:none; color:#fff; }
     .contact-header { display: flex; align-items: center; gap: 10px; }
     .whatsapp-header { background-color: #25D366; color: #fff; padding: 8px 15px; border-radius: 20px; text-decoration: none; display: inline-flex; align-items: center; font-weight: 700; gap: 6px; }
@@ -61,9 +61,9 @@
     .nav-menu li.active a { border-bottom: 3px solid var(--primary); }
 
     /* Inline header links style (foto 1) */
-    .nav-inline { position: absolute; left: 50%; transform: translateX(-50%); }
-    .nav-inline ul { list-style: none; display: flex; gap: 10px; padding: 0; margin: 0; }
-    .nav-inline a { color: #fff; text-decoration: none; padding: 8px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.08); }
+    .nav-inline { justify-self: center; }
+    .nav-inline ul { list-style: none; display: flex; gap: 16px; padding: 0; margin: 0; }
+    .nav-inline a { color: #fff; text-decoration: none; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.08); }
 
     .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
     .section-title { font-size: 1.8rem; color: var(--secondary); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; display: flex; align-items: center; gap: 10px; }

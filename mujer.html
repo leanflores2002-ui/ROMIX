@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROMIX - Mujer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="prefetch" href="ayuda.html" as="document">
+  <style>
+    :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#1b1f24; }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { margin:0; background:#fff1f6; color:#232323; }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0; box-shadow:0 4px 14px rgba(0,0,0,.12); position: sticky; top: 0; z-index: 1000; }
+    .header-wrap { max-width:1200px; margin:0 auto; padding:0 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .logo { font-size:1.4rem; font-weight:900; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; }
+    nav ul { list-style:none; display:flex; gap:10px; padding:0; margin:0; }
+    nav a { color:#fff; text-decoration:none; padding:8px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); }
+    nav a[aria-current="page"] { background:rgba(255,255,255,.22); }
+    .cart-btn { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.5); color:#fff; padding:8px 12px; border-radius:999px; cursor:pointer; }
+    .cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; }
+
+    .container { max-width:1200px; margin:18px auto; padding:0 20px; }
+    .summary { color:#6c757d; margin: 6px 2px 12px; font-weight:600; }
+    .toolbar { display:flex; gap:10px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
+    .toolbar input[type="search"]{ padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; min-width:220px; }
+    .toolbar select{ padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; }
+
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:18px; }
+    .card { background:#fff; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,.10); overflow:hidden; display:flex; flex-direction:column; }
+    .thumb { position:relative; height:200px; background:#f8f9fb; display:flex; align-items:center; justify-content:center; }
+    .thumb img { max-width:100%; max-height:100%; object-fit:contain; }
+    .badge { position:absolute; top:10px; right:10px; background:#f1f3f5; color:#6c757d; border-radius:999px; padding:6px 10px; font-size:.8rem; font-weight:800; box-shadow:0 6px 16px rgba(0,0,0,.12); }
+    .body { padding:12px 14px; display:flex; flex-direction:column; gap:8px; }
+    .title { font-size:1.05rem; font-weight:900; color:#111; cursor:pointer; }
+    .subtitle { color:#6c757d; font-size:.95rem; }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .price { color: var(--primary); font-weight:900; font-size:1.2rem; }
+    .stock { color: var(--success); font-weight:800; font-size:.9rem; text-align:right; }
+    .stock small { display:block; color:#6c757d; font-weight:600; }
+    .actions { display:flex; gap:10px; margin-top:4px; }
+    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 12px; border-radius:10px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; }
+    .btn-details { background:#fff; color:#495057; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
+    .btn:hover { filter:brightness(.98); }
+    .skip-link{position:absolute;left:-9999px;top:auto}
+    .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px}
+    footer{background:#fff;border-top:1px solid #e9ecef;margin-top:24px}
+    .footer-wrap{max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;gap:18px;flex-wrap:wrap;color:#495057}
+    .footer-wrap a{color:#495057;text-decoration:none}
+    .footer-wrap a:hover{color:var(--primary)}
+    @media (max-width: 520px) {
+      .thumb { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#grid">Saltar al contenido</a>
+  <header>
+    <div class="header-wrap">
+      <a href="index.html" class="logo"><i class="fas fa-store" aria-hidden="true"></i> ROMIX</a>
+      <nav aria-label="Secciones">
+        <ul>
+          <li><a href="mujer.html" aria-current="page">Mujer</a></li>
+          <li><a href="hombre.html">Hombre</a></li>
+          <li><a href="ninos.html">Niños</a></li>
+          <li><a href="ayuda.html">Ayuda</a></li>
+        </ul>
+      </nav>
+      <button class="cart-btn" type="button" onclick="alert('Abrí el detalle de cualquier producto para finalizar compra.');">
+        <i class="fas fa-shopping-cart" aria-hidden="true"></i> Carrito <span id="cart-count" class="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container" aria-label="Productos para Mujer">
+    <h1 style="margin:6px 2px 10px">Colección Mujer</h1>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" />
+      <label for="sort" style="font-size:.9rem;color:#6c757d">Ordenar:</label>
+      <select id="sort" aria-label="Ordenar productos">
+        <option value="relevance">Relevancia</option>
+        <option value="price-asc">Precio: menor a mayor</option>
+        <option value="price-desc">Precio: mayor a menor</option>
+      </select>
+      <div id="summary" class="summary" aria-live="polite"></div>
+    </div>
+    <section id="grid" class="grid" aria-live="polite"></section>
+  </main>
+
+  <footer>
+    <div class="footer-wrap" role="contentinfo">
+      <div>
+        <strong>Ayuda</strong>
+        <div>
+          <a href="ayuda.html#size-guide">Guía de talles</a> •
+          <a href="ayuda.html#returns">Cambios y devoluciones</a> •
+          <a href="ayuda.html">Centro de ayuda</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const SECTION = 'mujer';
+    const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`\
+      <svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">\
+        <rect width="100%" height="100%" fill="#f8f9fb"/>\
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="22">Imagen no disponible</text>\
+      </svg>`);
+
+    const esc = s => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
+    function slugify(s){
+      try { return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+      catch { return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+    }
+    function estimateStock(p){
+      try {
+        if (typeof p.stock === 'number') return Math.max(0, p.stock);
+        const sizes = Array.isArray(p.sizes) ? p.sizes : [];
+        const perSize = sizes.reduce((t, s) => {
+          const st = String(s.status||'').toLowerCase();
+          if (st.includes('out') || st.includes('unavail')) return t;
+          if (st.includes('low')) return t + 2;
+          return t + 5;
+        }, 0);
+        const colorsCount = Array.isArray(p.colors) && p.colors.length ? p.colors.length : (p.images ? Object.keys(p.images).length : 1);
+        return perSize * Math.max(1, colorsCount);
+      } catch { return 0; }
+    }
+    function safeGetCart(){ try { return JSON.parse(localStorage.getItem('cart')||'[]'); } catch { return []; } }
+    function safeSetCart(v){ try { localStorage.setItem('cart', JSON.stringify(v)); } catch {} }
+    function updateCartCount(){ const c = safeGetCart(); const n = c.reduce((t,i)=>t + (i.quantity||0), 0); const el = document.getElementById('cart-count'); if (el) el.textContent = String(n); }
+    function quickAdd(product){ const cart = safeGetCart(); const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Único'; let size = 'U'; if (Array.isArray(product.sizes) && product.sizes.length){ const available = product.sizes.find(s => !/out|unavail/i.test(String(s.status||''))) || product.sizes[0]; size = String(available.size || 'U'); } const price = Number(product.price||0); cart.push({ id: Date.now(), name: product.name, type: product.type || '', color, size, quantity: 1, price, subtotal: price }); safeSetCart(cart); updateCartCount(); alert('Listo! Se agregó al carrito.'); }
+
+    function createCard(p){
+      const imgSrc = p.image || (p.images && (p.images['Negro'] || Object.values(p.images)[0])) || PLACEHOLDER;
+      const price = Number(p.price||0).toLocaleString('es-AR');
+      const slug = slugify(p.name);
+      const stock = estimateStock(p);
+
+      const article = document.createElement('article');
+      article.className = 'card';
+      article.setAttribute('aria-label', p.name);
+
+      const thumb = document.createElement('div'); thumb.className = 'thumb';
+      const img = document.createElement('img'); img.src = imgSrc; img.alt = p.name; img.width = 600; img.height = 400; img.onerror = () => { img.onerror = null; img.src = PLACEHOLDER; };
+      thumb.appendChild(img);
+      if (p.badge || p.type){ const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = p.badge ? p.badge : (p.type || ''); thumb.appendChild(badge); }
+
+      const body = document.createElement('div'); body.className = 'body';
+      const title = document.createElement('div'); title.className = 'title'; title.textContent = p.name;
+      const subtitle = document.createElement('div'); subtitle.className = 'subtitle'; subtitle.textContent = (p.section ? (String(p.section).charAt(0).toUpperCase()+String(p.section).slice(1)) : '') + (p.type ? ((p.section? ' • ' : '') + p.type) : '');
+      const row = document.createElement('div'); row.className = 'row';
+      const priceEl = document.createElement('div'); priceEl.className = 'price'; priceEl.textContent = '$' + price;
+      const stockEl = document.createElement('div'); stockEl.className = 'stock'; stockEl.innerHTML = 'Disponible<small>Stock: ' + esc(String(stock)) + '</small>';
+      row.appendChild(priceEl); row.appendChild(stockEl);
+
+      const actions = document.createElement('div'); actions.className = 'actions';
+      const details = document.createElement('a'); details.className = 'btn btn-details'; details.href = 'product.html?slug=' + encodeURIComponent(slug); details.setAttribute('aria-label', 'Ver detalles de ' + p.name); details.innerHTML = '<i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles';
+      const add = document.createElement('button'); add.className = 'btn btn-primary'; add.type = 'button'; add.innerHTML = '<i class="fas fa-cart-plus" aria-hidden="true"></i> Agregar'; add.addEventListener('click', () => quickAdd(p));
+      actions.appendChild(details); actions.appendChild(add);
+
+      body.appendChild(title); body.appendChild(subtitle); body.appendChild(row); body.appendChild(actions);
+      article.appendChild(thumb); article.appendChild(body);
+      return article;
+    }
+
+    let master = [];
+    let view = [];
+    let timer;
+    function applyView(){
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      view.forEach(p => grid.appendChild(createCard(p)));
+      const summary = document.getElementById('summary');
+      summary.textContent = `Mostrando ${view.length} de ${master.length} productos`;
+    }
+    function doSearchSort(){
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const sort = document.getElementById('sort').value;
+      view = master.filter(p => !q || String(p.name||'').toLowerCase().includes(q) || String(p.type||'').toLowerCase().includes(q));
+      if (sort === 'price-asc') view.sort((a,b)=> (Number(a.price||0) - Number(b.price||0)));
+      else if (sort === 'price-desc') view.sort((a,b)=> (Number(b.price||0) - Number(a.price||0)));
+      applyView();
+    }
+
+    async function init(){
+      updateCartCount();
+      try {
+        const res = await fetch('products.json');
+        const all = await res.json();
+        master = Array.isArray(all) ? all.filter(p => String(p.section||'').toLowerCase() === SECTION) : [];
+        view = master.slice();
+        applyView();
+      } catch (e) {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '<p>Error al cargar productos.</p>';
+        console && console.error && console.error('[mujer] Error:', e);
+      }
+      document.getElementById('search').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(doSearchSort, 120); });
+      document.getElementById('sort').addEventListener('change', doSearchSort);
+    }
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
+

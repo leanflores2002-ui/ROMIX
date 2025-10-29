@@ -73,8 +73,18 @@
         }
         
         .cart-icon-btn { position: relative; display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 12px; border-radius:20px; border:1px solid rgba(255,255,255,.4); background: rgba(0,0,0,.1); color:#fff; cursor:pointer; margin-left: 15px; }
-        .cart-icon-btn:focus-visible { outline:3px solid #fff; outline-offset:2px; }
-        #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
+            .cart-icon-btn:focus-visible { outline:3px solid #fff; outline-offset:2px; }
+            #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
+            /* Search */
+            .global-search { display:flex; align-items:center; gap:8px; margin-left: 15px; position: relative; }
+            .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width: 220px; }
+            .global-search button { padding: 7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color: var(--primary); cursor:pointer; }
+            .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
+            .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
+            .search-suggestion i { color:#adb5bd; }
+            .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
+            .search-suggestion .t { line-height:1.1; }
+            .search-suggestion small { color:#6c757d; }
         
         nav { background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.1); position:sticky; top:72px; z-index:999; }
         
@@ -355,12 +365,16 @@
         <div class="header-container">
             <div class="logo" aria-label="Romix"><i class="fas fa-tshirt" aria-hidden="true"></i><span>ROMIX</span></div>
             <div class="contact-header">
-                <a href="https://wa.me/5491154272065" class="whatsapp-header" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Romix"><i class="fab fa-whatsapp" aria-hidden="true"></i> +54 9 11 5427-2065</a>
+                
                 <button type="button" class="cart-icon-btn" onclick="redirectToCartPage()" aria-haspopup="region" aria-controls="cart" aria-expanded="false">
                   <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                   <span>Carrito</span>
                   <span id="cart-count">0</span>
                 </button>
+                <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+                  <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
+                  <button type="submit"><i class="fas fa-search" aria-hidden="true"></i> Buscar</button>
+                </form>
             </div>
         </div>
     </header>
@@ -674,6 +688,8 @@
             window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
         }
     </script>
+    <script src="support-widget-romix.js" defer></script>
+    <script src="search.js"></script>
 </body>
 </html>
 

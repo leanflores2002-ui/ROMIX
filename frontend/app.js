@@ -271,4 +271,3 @@
   // Init
   window.addEventListener('DOMContentLoaded', router.init);
 })();
-

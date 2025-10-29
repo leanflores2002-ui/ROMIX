@@ -154,6 +154,11 @@
     .filter-body { margin-top:12px; border-top:1px solid #f1f3f5; padding-top:12px; }
     .filters-row { display:flex; flex-direction:column; gap:10px; }
     .filters-title { color:#1b1f24; }
+    .filters-subtitle { color:#6c757d; font-weight:700; margin-top:4px; }
+    .filters-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:12px; }
+    .filters-grid label { display:flex; flex-direction:column; gap:6px; font-weight:700; color:#495057; }
+    .filters-grid input, .filters-grid select { padding:8px 10px; border:1px solid #e9ecef; border-radius:8px; }
+    .filters-actions { display:flex; align-items:end; }
     .filter-chips { display:flex; flex-wrap:wrap; gap:10px; }
     .filter-chips label { background:#f5f6f9; border:1px solid #e9ecef; border-radius:999px; padding:6px 10px; display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-weight:600; }
     .filter-chips input { accent-color: var(--primary); }
@@ -217,8 +222,36 @@
           <button id="filter-toggle" class="filter-toggle" type="button"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Mostrar filtros</span></button>
         </div>
         <div id="filter-body" class="filter-body hidden" aria-hidden="true">
-          <div class="filters-row" role="group" aria-label="Tipos de prenda">
+          <div class="filters-row">
             <strong class="filters-title">Filtros</strong>
+            <div class="filters-grid">
+              <label>Sección
+                <select id="filter-section">
+                  <option value="all">Todas</option>
+                  <option value="mujer">Mujer</option>
+                  <option value="hombre">Hombre</option>
+                  <option value="ninos">Niños</option>
+                </select>
+              </label>
+              <label>Precio Mínimo
+                <input id="filter-price-min" type="number" min="0" value="0" inputmode="numeric" />
+              </label>
+              <label>Precio Máximo
+                <input id="filter-price-max" type="number" min="0" value="999999" inputmode="numeric" />
+              </label>
+              <label>Disponibilidad
+                <select id="filter-availability">
+                  <option value="all">Todos</option>
+                  <option value="available">Disponible</option>
+                  <option value="low">Por agotarse</option>
+                  <option value="out">Agotado</option>
+                </select>
+              </label>
+              <div class="filters-actions">
+                <button id="filter-apply" type="button" class="btn btn-primary"><i class="fas fa-search" aria-hidden="true"></i> Aplicar filtros</button>
+              </div>
+            </div>
+            <div class="filters-subtitle">Tipo</div>
             <div class="filter-chips" id="filter-types">
               <label><input type="checkbox" value="calzas"/> Calzas</label>
               <label><input type="checkbox" value="oxford"/> Oxford</label>
@@ -265,63 +298,16 @@
 
     <section id="mujer">
       <h2 class="section-title"><i class="fas fa-female" aria-hidden="true"></i> Ropa para Mujer</h2>
-      <div class="filters">
-        <label class="visually-hidden" for="filter-mujer">Filtrar Mujer</label>
-        <select id="filter-mujer" onchange="filterProducts('mujer', this.value)">
-          <option value="all">Todos</option>
-          <option value="calzas">Calzas</option>
-          <option value="oxford">Oxford</option>
-          <option value="pantalones">Pantalones</option>
-          <option value="capri">Capri</option>
-          <option value="ciclistas">Ciclistas</option>
-          <option value="shorts">Shorts</option>
-          <option value="polleras">Polleras</option>
-          <option value="remeras">Remeras</option>
-          <option value="musculosas">Musculosas</option>
-          <option value="sudaderas">Sudaderas</option>
-          <option value="camisolas">Camisolas</option>
-          <option value="bermudas">Bermudas</option>
-          <option value="tops">Tops</option>
-          <option value="camperas">Camperas</option>
-          <option value="buzos">Buzos</option>
-        </select>
-      </div>
       <div class="products-grid" id="mujer-grid"></div>
     </section>
 
     <section id="hombre">
       <h2 class="section-title"><i class="fas fa-male" aria-hidden="true"></i> Ropa para Hombre</h2>
-      <div class="filters">
-        <label class="visually-hidden" for="filter-hombre">Filtrar Hombre</label>
-        <select id="filter-hombre" onchange="filterProducts('hombre', this.value)">
-          <option value="all">Todos</option>
-          <option value="pantalones">Pantalones</option>
-          <option value="bermudas">Bermudas</option>
-          <option value="camperas">Camperas</option>
-          <option value="buzos">Buzos</option>
-          <option value="remeras">Remeras</option>
-          <option value="camisetas">Camisetas</option>
-        </select>
-      </div>
       <div class="products-grid" id="hombre-grid"></div>
     </section>
 
     <section id="ninos">
       <h2 class="section-title"><i class="fas fa-child" aria-hidden="true"></i> Ropa para Niños</h2>
-      <div class="filters">
-        <label class="visually-hidden" for="filter-ninos">Filtrar Niños</label>
-        <select id="filter-ninos" onchange="filterProducts('ninos', this.value)">
-          <option value="all">Todos</option>
-          <option value="buzos">Buzos</option>
-          <option value="pantalones">Pantalones</option>
-          <option value="calzas">Calzas</option>
-          <option value="ciclistas">Ciclistas</option>
-          <option value="tops">Tops</option>
-          <option value="bermudas">Bermudas</option>
-          <option value="camisetas">Camisetas</option>
-          <option value="camperas">Camperas</option>
-        </select>
-      </div>
       <div class="products-grid" id="ninos-grid"></div>
     </section>
 
@@ -1210,16 +1196,30 @@ function initGlobalFilters(){
   const toggle = document.getElementById('filter-toggle');
   const body = document.getElementById('filter-body');
   const chips = document.querySelectorAll('#filter-types input[type="checkbox"]');
+  const sectionSel = document.getElementById('filter-section');
+  const priceMin = document.getElementById('filter-price-min');
+  const priceMax = document.getElementById('filter-price-max');
+  const availabilitySel = document.getElementById('filter-availability');
   if (!qInput || !toggle || !body) return;
   let debounce;
   const apply = ()=>{ clearTimeout(debounce); debounce = setTimeout(applyGlobalFilters, 60); };
   qInput.addEventListener('input', apply);
   chips.forEach(c=>c.addEventListener('change', apply));
+  sectionSel && sectionSel.addEventListener('change', apply);
+  priceMin && priceMin.addEventListener('input', apply);
+  priceMax && priceMax.addEventListener('input', apply);
+  availabilitySel && availabilitySel.addEventListener('change', apply);
+  const applyBtn = document.getElementById('filter-apply');
+  applyBtn && applyBtn.addEventListener('click', apply);
   toggle.addEventListener('click', ()=>{ const hidden = body.classList.toggle('hidden'); body.setAttribute('aria-hidden', String(hidden)); toggle.querySelector('span').textContent = hidden ? 'Mostrar filtros' : 'Ocultar filtros'; });
 }
 function applyGlobalFilters(){
   const q = normalize(document.getElementById('filter-q')?.value || '');
   const selTypes = Array.from(document.querySelectorAll('#filter-types input[type="checkbox"]:checked')).map(el=>normalize(el.value));
+  const sectionVal = (document.getElementById('filter-section')?.value || 'all').toLowerCase();
+  const minPrice = Number(document.getElementById('filter-price-min')?.value || '0');
+  const maxPrice = Number(document.getElementById('filter-price-max')?.value || '999999');
+  const availVal = (document.getElementById('filter-availability')?.value || 'all').toLowerCase();
   const cards = document.querySelectorAll('.product-card');
   let shown = 0;
   cards.forEach(card=>{
@@ -1228,8 +1228,15 @@ function applyGlobalFilters(){
       const prod = JSON.parse(card.dataset.product || '{}');
       const name = normalize(prod.name || '');
       const type = normalize(prod.type || '');
+      const section = normalize(prod.section || '');
+      const price = Number(prod.price) || 0;
+      const total = computeTotalStock(prod);
+      const state = stateFromStock(total);
       if (q && !name.includes(q)) ok = false;
       if (ok && selTypes.length && !selTypes.includes(type)) ok = false;
+      if (ok && sectionVal !== 'all' && section !== sectionVal) ok = false;
+      if (ok && (price < minPrice || price > maxPrice)) ok = false;
+      if (ok && availVal !== 'all' && state !== availVal) ok = false;
     } catch {}
     card.style.display = ok ? 'block' : 'none';
     if (ok) shown++;

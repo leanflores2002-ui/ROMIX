@@ -65,6 +65,27 @@
     .features h3 { color:var(--secondary); margin: 0 0 10px; }
     .feature-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:14px; }
     .feature-item { background:#fafafa; border:1px solid #eee; border-radius:8px; padding:10px 12px; }
+    /* Visual refresh overrides */
+    body { background: #fff1f6; }
+    header { box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.6); background:rgba(255,255,255,.15); color:#fff; border-radius:999px; min-width:260px; outline:none; }
+    .global-search input::placeholder { color:#f8f9fa; opacity:.85; }
+    .global-search button { padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.6); background:#fff; color:var(--primary); cursor:pointer; font-weight:700; }
+    .detail { grid-template-columns: 1.05fr .95fr; gap:28px; padding:24px; box-shadow:0 14px 36px rgba(0,0,0,.10); border-radius:14px; }
+    .gallery { gap:14px; }
+    .main-img { height: 520px; border-radius:12px; box-shadow: inset 0 0 0 1px #eee; }
+    .thumbs { width:96px; gap:10px; }
+    .thumbs img { width:96px; height:96px; border-radius:10px; }
+    .thumbs img.active { box-shadow:0 0 0 3px rgba(232,62,140,.15); }
+    .title { font-size:2rem; font-weight:900; color:#111; margin:4px 0 6px; }
+    .pills { display:flex; gap:8px; margin-bottom:8px; }
+    .pill { display:inline-flex; align-items:center; padding:6px 10px; border-radius:999px; background:#f5f6f9; color:#444; font-weight:700; font-size:.85rem; }
+    .price { font-size:2rem; font-weight:900; }
+    .size-chip { padding:8px 12px; border-radius:10px; }
+    .size-chip.selected { box-shadow:0 0 0 3px rgba(33,191,115,.2); outline:none; }
+    .btn { padding:12px 18px; border-radius:12px; font-weight:800; }
+    .btn-primary { background:linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow:0 8px 18px rgba(111,66,193,.25); }
+    .features { box-shadow:0 12px 28px rgba(0,0,0,.08); margin-top:24px; border-radius:14px; }
   </style>
 </head>
 <body>
@@ -120,7 +141,7 @@
         </div>
         <div>
           <div class="title">${product.name}</div>
-          <div class="type">(${product.type})</div>
+          <div class="pills"><span class="pill">${product.section || ''}</span><span class="pill">${product.type || ''}</span></div>
           <div class="price">$${Number(product.price).toLocaleString('es-AR')}${product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:''}</div>
           <div class="color-row">
             <div style="margin-bottom:6px;color:#6c757d;font-weight:700">Color</div>
@@ -302,6 +323,7 @@ renderSizesForColor(firstColor);
   <script src="search.js"></script>
 </body>
 </html>
+
 
 
 

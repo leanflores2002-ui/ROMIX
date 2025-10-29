@@ -33,11 +33,18 @@
   #romix-support-panel .romix-close{margin-left:auto;border:none;background:transparent;cursor:pointer;color:#6c757d;width:36px;height:36px;border-radius:8px}
   #romix-support-panel .romix-close:hover{background:rgba(0,0,0,.05)}
   #romix-support-panel .romix-support-body{padding:12px 14px 16px 14px}
+  #romix-support-panel .romix-tabs{display:flex;gap:8px;margin:10px 14px 2px}
+  #romix-support-panel .romix-tab{flex:0 0 auto;border:none;cursor:pointer;border-radius:999px;padding:6px 10px;font-weight:800;background:#fff;color:${CONFIG.brandColor};box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+  #romix-support-panel .romix-tab.active{background:${CONFIG.brandColor};color:#fff}
+  #romix-support-panel .romix-group{padding:0 14px 12px}
   #romix-support-panel .romix-action{display:flex;align-items:center;gap:10px;text-decoration:none;border-radius:12px;padding:12px 14px;font-weight:800;margin-top:10px}
   #romix-support-panel .romix-action svg{width:20px;height:20px}
   #romix-support-panel .romix-action.whatsapp{background:${CONFIG.brandColor};color:#fff}
   #romix-support-panel .romix-action.email{background:#fff;border:1px solid rgba(0,0,0,.08);color:#1b1f24}
   #romix-support-panel .romix-note{margin-top:12px;color:#6c757d;font-size:.85rem}
+  #romix-support-panel .romix-faq{display:none}
+  #romix-support-panel .romix-faq a{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:10px 12px;text-decoration:none;color:#1b1f24;font-weight:700;margin-top:8px}
+  #romix-support-panel .romix-faq a:hover{background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.06)}
 
   /* Open state */
   #romix-support-root.romix-open #romix-support-overlay{opacity:1;visibility:visible;transition:opacity .22s ease, visibility .22s step-start}
@@ -105,6 +112,17 @@
   const body = document.createElement('div');
   body.className = 'romix-support-body';
 
+  const tabs = document.createElement('div');
+  tabs.className = 'romix-tabs';
+  const tabContacts = document.createElement('button');
+  tabContacts.type = 'button'; tabContacts.className = 'romix-tab active'; tabContacts.textContent = 'Contactos';
+  const tabFaq = document.createElement('button');
+  tabFaq.type = 'button'; tabFaq.className = 'romix-tab'; tabFaq.textContent = 'FAQ interactivo';
+  tabs.append(tabContacts, tabFaq);
+
+  const contactsWrap = document.createElement('div');
+  contactsWrap.className = 'romix-group romix-contacts';
+
   const waLink = document.createElement('a');
   waLink.className = 'romix-action whatsapp';
   waLink.target = '_blank';
@@ -128,7 +146,17 @@
   note.className = 'romix-note';
   note.textContent = 'Respondemos de Lunes a Viernes 7:00–16:30.';
 
-  body.append(waLink, mailLink, note);
+  contactsWrap.append(waLink, mailLink, note);
+
+  const faqWrap = document.createElement('div');
+  faqWrap.className = 'romix-group romix-faq';
+  faqWrap.innerHTML = `
+    <a href="ayuda.html#size-guide"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6v6l4 2" stroke="#1b1f24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Guía de talles</span></a>
+    <a href="ayuda.html#returns"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="#1b1f24" stroke-width="2"/></svg><span>Cambios y devoluciones</span></a>
+    <a href="#contacto"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 10c0 6-9 11-9 11S3 16 3 10a9 9 0 1 1 18 0Z" stroke="#1b1f24" stroke-width="2"/></svg><span>Ver contacto y ubicación</span></a>
+  `;
+
+  body.append(tabs, contactsWrap, faqWrap);
   panel.append(header, body);
 
   // Attach
@@ -155,5 +183,24 @@
   closeBtn.addEventListener('click', close);
   overlay.addEventListener('click', close);
   document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') close(); });
-})();
 
+  // Tabs behavior
+  const activateContacts = () => {
+    tabContacts.classList.add('active');
+    tabFaq.classList.remove('active');
+    contactsWrap.style.display = '';
+    faqWrap.style.display = 'none';
+  };
+  const activateFaq = () => {
+    tabFaq.classList.add('active');
+    tabContacts.classList.remove('active');
+    contactsWrap.style.display = 'none';
+    faqWrap.style.display = '';
+  };
+  tabContacts.addEventListener('click', activateContacts);
+  tabFaq.addEventListener('click', activateFaq);
+  activateContacts();
+
+  // Expose public API
+  window.romixSupport = { open, close, toggle };
+})();

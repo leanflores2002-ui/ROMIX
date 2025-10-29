@@ -109,12 +109,6 @@
   </header>
 
   <div class="container">
-    <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
-    <nav style="margin:8px 0 16px">
-      <a class="pill" href="mujer.html">Mujer</a>
-      <a class="pill" href="hombre.html">Hombre</a>
-      <a class="pill" href="ninos.html">Niños</a>
-    </nav>
     <div id="detail" class="detail" aria-live="polite"></div>
   <div id="features" class="features" aria-live="polite" hidden>
       <h3>Caracteristicas del producto</h3>
@@ -123,15 +117,28 @@
   </div>
 
   <script nonce="r0mix2025">
-    function slugify(s){ return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+    function slugify(s){ try { return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); } catch { return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); } }
+    const SIZE_GROUP_PRICING = { common: 1.0, special: 1.15, superspecial: 1.15 };
     function getUnitPrice(product, size){
       const base = Number(product.price)||0; const sz = Number(size);
-      if (!isNaN(sz) && product.priceByGroup){
-        let isSpecial = false;
-        if (Array.isArray(product.specialSizes)) isSpecial = product.specialSizes.map(Number).includes(sz);
-        else isSpecial = sz >= 6;
-        const group = isSpecial ? 'special' : 'common';
-        if (product.priceByGroup[group]!=null) return Number(product.priceByGroup[group]);
+      if (!isNaN(sz)){
+        if (product.priceBySize && product.priceBySize[String(sz)]!=null) return Number(product.priceBySize[String(sz)]);
+        const resolveGroup = (szNum)=>{
+          let isSuper=false, isSpecial=false;
+          if (Array.isArray(product.superSpecialSizes)) isSuper = product.superSpecialSizes.map(Number).includes(szNum);
+          else if (product.groupSuperMin) isSuper = szNum >= Number(product.groupSuperMin);
+          else isSuper = szNum >= 9;
+          if (!isSuper){
+            if (Array.isArray(product.specialSizes)) isSpecial = product.specialSizes.map(Number).includes(szNum);
+            else if (product.groupSpecialMin) isSpecial = szNum >= Number(product.groupSpecialMin);
+            else isSpecial = szNum >= 6;
+          }
+          return isSuper ? 'superspecial' : (isSpecial ? 'special' : 'common');
+        };
+        const group = resolveGroup(sz);
+        if (product.priceByGroup && product.priceByGroup[group]!=null) return Number(product.priceByGroup[group]);
+        const mult = SIZE_GROUP_PRICING[group] || 1;
+        return Math.round(base * mult * 100) / 100;
       }
       return base;
     }
@@ -172,6 +179,17 @@
             <button class="btn btn-outline" onclick="location.href='index.html'">Seguir viendo</button>
           </div>
         </div>`;
+      // Función para actualizar precio visible según selección de talle
+      function updateTopPrice(){
+        try {
+          const priceEl = document.querySelector('.price');
+          if (!priceEl) return;
+          const sel = document.querySelector('#size-wrap .size-chip.selected')?.dataset.size || null;
+          const unit = sel ? getUnitPrice(product, sel) : Number(product.price)||0;
+          priceEl.innerHTML = `$${Number(unit).toLocaleString('es-AR')}` + (product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:'');
+        } catch {}
+      }
+
       // Thumbs
       const thumbsEls = root.querySelectorAll('.thumbs img');
       const mainImg = document.getElementById('main-img');
@@ -185,6 +203,7 @@
           // Si hay imagen por color, cambiar
           if (product.images && product.images[c.name]) mainImg.src = product.images[c.name];
           renderSizesForColor(c.name);
+          updateTopPrice();
         });
       });
       // Disponibilidad por color/talle
@@ -214,11 +233,12 @@ function renderSizesForColor(colorName){
     if (state==='out') sp.classList.add('unavailable');
     if (!selectedEl && state!=='out') { sp.classList.add('selected'); selectedEl = sp; }
     sw.appendChild(sp);
-    sp.addEventListener('click', ()=>{ if(state==='out') return; sw.querySelectorAll('.size-chip').forEach(x=>x.classList.remove('selected')); sp.classList.add('selected'); });
+    sp.addEventListener('click', ()=>{ if(state==='out') return; sw.querySelectorAll('.size-chip').forEach(x=>x.classList.remove('selected')); sp.classList.add('selected'); updateTopPrice(); });
   });
   if (!selectedEl && sw.firstChild) sw.firstChild.classList.add('selected');
   const label = total<=0 ? 'Agotado' : (total<=3 ? 'Por agotarse' : 'Disponible');
   if (note) note.textContent = `Stock total: ${total} (${label})`;
+  updateTopPrice();
 }
 const firstColor = (product.colors && product.colors[0]?.name) || (gallery[0].label) || 'Unico';
 renderSizesForColor(firstColor);

@@ -1,0 +1,321 @@
+
+
+    // ===== Selector Color/Talle con estados dinámicos =====
+    const COLOR_HEX_FALLBACK = { negro: '#000000', violeta: '#7F00FF', fucsia: '#FF00A8', gris: '#6c757d', rojo: '#dc3545' };
+
+    function normalizeStockByColor(product) {
+      // Espera product.stockByColor = { colorName: { '1': 5, '2': 0, ... } }
+      if (product && product.stockByColor) return product.stockByColor;
+      // Fallback: si sólo hay product.sizes con 'status', generamos un mapa único para todos los colores
+      const map = {};
+      const defaultSizes = (product.sizes || []).reduce((acc, s) => {
+        const status = String(s.status || '').toLowerCase();
+        let qty = 5;
+        if (status.includes('unavail')) qty = 0;
+        else if (status.includes('low')) qty = 2;
+        acc[String(s.size)] = qty;
+        return acc;
+      }, {});
+      (product.colors || []).forEach(c => { map[c.name] = { ...defaultSizes } });
+      // Si no hubiera colores definidos, creamos uno genérico
+      if (!product.colors || !product.colors.length) map['único'] = { ...defaultSizes };
+      return map;
+    }
+
+    function computeTotalStock(product) {
+      // Prioridad: stockByColor si existe (sumando cantidades)
+      if (product && product.stockByColor) {
+        let total = 0;
+        for (const colorName of Object.keys(product.stockByColor)) {
+          const m = product.stockByColor[colorName] || {};
+          for (const key of Object.keys(m)) total += Number(m[key] || 0);
+        }
+        return total;
+      }
+      // Fallback desde sizes/status
+      const statuses = (product.sizes || []).map(s => String(s.status || '').toLowerCase());
+      return statuses.reduce((sum, st) => {
+        if (st.includes('unavail')) return sum + 0;
+        if (st.includes('low')) return sum + 2;
+        return sum + 5; // available u otro -> asumimos 5
+      }, 0);
+    }
+
+    function stateFromStock(n) {
+      if (n <= 0) return 'out';
+      if (n <= 3) return 'low';
+      return 'available';
+    }
+
+    function labelFromState(st) {
+      if (st === 'out') return 'AGOTADO';
+      if (st === 'low') return 'Por agotarse';
+      return 'Disponible';
+    }
+
+    function updateSelectionStatus(card, color, size) {
+      const statusEl = card.querySelector('.product-selection-status');
+      if (!statusEl) return;
+      if (color && size) statusEl.textContent = `Seleccionado: ${color} - Talle: ${size}`;
+      else if (color) statusEl.textContent = `Seleccionado: ${color} - Talle: Sin selección`;
+      else statusEl.textContent = 'Sin selección';
+    }
+
+    function setBuyEnabled(card, enabled) {
+      const btn = card.querySelector('.product-actions .btn.btn-primary');
+      if (!btn) return;
+      if (enabled) {
+        btn.disabled = false;
+        btn.setAttribute('aria-disabled', 'false');
+        btn.classList.remove('animate__shakeX');
+        btn.classList.add('animate__animated','animate__fadeInUp');
+        setTimeout(() => btn.classList.remove('animate__animated','animate__fadeInUp'), 500);
+      } else {
+        btn.disabled = true;
+        btn.setAttribute('aria-disabled', 'true');
+      }
+    }
+
+    // ===== Precios por grupo de talles y helpers =====
+    const SIZE_GROUP_PRICING = { common: 1.0, special: 1.15, superspecial: 1.15 };
+    function getUnitPrice(product, size, colorName) {
+      const base = Number(product.price) || 0;
+      const sz = Number(size);
+      if (!isNaN(sz)) {
+        if (product.priceBySize && product.priceBySize[String(sz)] != null) {
+          return Number(product.priceBySize[String(sz)]);
+        }
+        // Determinar grupo por talle (común/especial/súper especial)
+        const resolveGroup = (szNum) => {
+          let isSuper = false, isSpecial = false;
+          if (Array.isArray(product.superSpecialSizes)) {
+            isSuper = product.superSpecialSizes.map(x=>Number(x)).includes(szNum);
+          } else if (product.groupSuperMin) {
+            isSuper = szNum >= Number(product.groupSuperMin);
+          } else {
+            isSuper = szNum >= 9; // por defecto 9–10
+          }
+          if (!isSuper) {
+            if (Array.isArray(product.specialSizes)) {
+              isSpecial = product.specialSizes.map(x=>Number(x)).includes(szNum);
+            } else if (product.groupSpecialMin) {
+              isSpecial = szNum >= Number(product.groupSpecialMin);
+            } else {
+              isSpecial = szNum >= 6; // por defecto 6–8
+            }
+          }
+          return isSuper ? 'superspecial' : (isSpecial ? 'special' : 'common');
+        };
+        const group = resolveGroup(sz);
+        // Nota: no variamos el precio por estampa/color. Ignoramos priceByGroupByColor.
+        if (product.priceByGroup && product.priceByGroup[group] != null) return Number(product.priceByGroup[group]);
+        if (product.priceByGroup) {
+          // Determinar si el talle pertenece al grupo especial
+          let isSpecial = false;
+          if (Array.isArray(product.specialSizes)) {
+            isSpecial = product.specialSizes.map(x=>Number(x)).includes(sz);
+          } else if (product.groupSpecialMin) {
+            isSpecial = sz >= Number(product.groupSpecialMin);
+          } else {
+            // Regla por defecto (adultos): 6–8 especiales
+            isSpecial = sz >= 6;
+          }
+          const group = isSpecial ? 'special' : 'common';
+          if (product.priceByGroup[group] != null) return Number(product.priceByGroup[group]);
+        }
+        const mult = SIZE_GROUP_PRICING[group] || 1;
+        return Math.round(base * mult * 100) / 100;
+      }
+      return base;
+    }
+    function getSelectedSize(card) { return card.dataset.selectedSize || (card.querySelector('.size-option.selected') || card.querySelector('.size-chip.selected'))?.dataset.size || null; }
+    function updateCardPrice(card, product) {
+      const size = getSelectedSize(card);
+      const color = card.dataset.selectedColor || (card.querySelector('.color-option.selected')?.dataset.color) || null;
+      const priceBox = card.querySelector('.product-price');
+      if (!priceBox) return;
+      const unit = size ? getUnitPrice(product, size, color) : Number(product.price) || 0;
+      priceBox.textContent = `$${Number(unit).toLocaleString('es-AR')}`;
+      if (product.originalPrice) {
+        const small = document.createElement('small');
+        small.textContent = `$${Number(product.originalPrice).toLocaleString('es-AR')}`;
+        priceBox.append(' ');
+        priceBox.appendChild(small);
+      }
+    }
+
+    // ===== Galería por producto (simple) =====
+    function initGallery(card, product) {
+      const imgEl = card.querySelector('.product-image img');
+      if (!imgEl) return;
+      const gallery = [];
+      if (product.images && typeof product.images === 'object') {
+        for (const k of Object.keys(product.images)) {
+          const label = (typeof fixText === 'function') ? fixText(k) : k;
+          gallery.push({ color: label, src: product.images[k] });
+        }
+      }
+      if (!gallery.length) gallery.push({ color: null, src: product.image });
+      card._gallery = gallery; card._gIndex = 0;
+      const wrap = card.querySelector('.product-image');
+      if (!wrap) return;
+      if (!card.querySelector('.gallery-prev')) {
+        wrap.insertAdjacentHTML('beforeend', `
+          <button class="gallery-prev" aria-label="Anterior" type="button" style="position:absolute;left:6px;top:calc(50% - 16px);background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:16px;width:32px;height:32px;cursor:pointer;">‹</button>
+          <button class="gallery-next" aria-label="Siguiente" type="button" style="position:absolute;right:6px;top:calc(50% - 16px);background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:16px;width:32px;height:32px;cursor:pointer;">›</button>
+          <div class="gallery-dots" style="position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center;gap:6px;"></div>`);
+      }
+      const dots = card.querySelector('.gallery-dots');
+      dots.innerHTML = gallery.map((_,i)=>`<span class="dot" data-i="${i}" style="width:8px;height:8px;border-radius:50%;background:${i===0?'#fff':'#bbb'};display:inline-block;opacity:.9;"></span>`).join('');
+      const render = () => {
+        const it = gallery[card._gIndex];
+        imgEl.src = it?.src || product.image;
+        imgEl.alt = (fixText ? fixText(product.name) : product.name) + (it?.color ? ` - ${it.color}` : '');
+        dots.querySelectorAll('.dot').forEach((d, i) => d.style.background = i === card._gIndex ? '#fff' : '#bbb');
+      };
+      card.querySelector('.gallery-prev').onclick = () => { card._gIndex = (card._gIndex - 1 + gallery.length) % gallery.length; render(); };
+      card.querySelector('.gallery-next').onclick = () => { card._gIndex = (card._gIndex + 1) % gallery.length; render(); };
+      dots.querySelectorAll('.dot').forEach((d)=>{ d.addEventListener('click', ()=>{ card._gIndex = Number(d.dataset.i)||0; render(); }); });
+      render();
+    }
+
+    function renderSizesForColor(card, product, colorName) {
+      const sizeWrap = card.querySelector('.size-options');
+      if (!sizeWrap) return;
+      const stockByColor = normalizeStockByColor(product);
+      const stockMap = stockByColor[colorName] || {};
+      // Si el producto trae una lista explícita de talles, la usamos como orden/base.
+      const allSizes = (() => {
+        const raw = (product.sizes || []).map(s => String(s.size));
+        const seen = new Set();
+        const uniq = [];
+        for (const sz of raw) { if (!seen.has(sz)) { seen.add(sz); uniq.push(sz); } }
+        return uniq;
+      })();
+      const toRender = (allSizes.length ? allSizes : Object.keys(stockMap)).sort((a,b)=>Number(a)-Number(b));
+      sizeWrap.innerHTML = toRender.map(sz => {
+        const st = Number(stockMap[String(sz)] ?? 0);
+        const state = stateFromStock(st);
+        return `<span class="size-chip" data-state="${state}" role="button" tabindex="0" data-size="${sz}">
+                  <span class="badge">${labelFromState(state)}</span>${sz}
+                </span>`;
+      }).join('');
+      // Eventos de interacción + animación
+      sizeWrap.querySelectorAll('.size-chip').forEach(el => {
+        const handle = () => {
+          if (el.dataset.state === 'out') return;
+          sizeWrap.querySelectorAll('.size-chip').forEach(s => s.classList.remove('selected'));
+          el.classList.add('selected');
+          // Animación de click (rebote)
+          el.classList.add('animate__animated','animate__pulse');
+          setTimeout(()=> el.classList.remove('animate__animated','animate__pulse'), 500);
+          const clr = card.querySelector('.color-option.selected')?.dataset.color || null;
+          card.dataset.selectedSize = el.dataset.size;
+          updateSelectionStatus(card, clr, el.dataset.size);
+          updateCardPrice(card, product);
+          setBuyEnabled(card, true);
+        };
+        el.addEventListener('click', handle);
+        el.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); handle(); } });
+      });
+      // Al cambiar color, aún no hay talle elegido ⇒ deshabilitar compra
+      setBuyEnabled(card, false);
+      updateSelectionStatus(card, colorName, null);
+      updateCardPrice(card, product);
+    }
+
+    // Sobrescribimos selectColor para que dispare render dinámico de talles y animación
+    if (typeof selectColor !== 'function') { function selectColor(){} }
+    const _originalSelectColor = selectColor;
+    selectColor = function(el) {
+      const card = el.closest('.product-card');
+      // Visual
+      card.querySelectorAll('.color-option').forEach((c) => c.classList.remove('selected'));
+      el.classList.add('selected');
+      // Animación del circulito
+      el.classList.add('animate__animated','animate__rubberBand');
+      setTimeout(()=> el.classList.remove('animate__animated','animate__rubberBand'), 500);
+
+      // Buscar objeto product asociado a esta card (lo guardamos en dataset al crearla)
+      const product = JSON.parse(card.dataset.product || '{}');
+      const colorName = el.dataset.color;
+      card.dataset.selectedColor = colorName;
+      card.dataset.selectedSize = '';
+      // Actualizar imagen principal según color seleccionado y sincronizar galería
+      try {
+        const key = colorName;
+        let imgUrl = product.image;
+        if (product.images) {
+          imgUrl = product.images[key] || product.images[colorName] || imgUrl;
+          if (imgUrl === product.image) {
+            for (const k of Object.keys(product.images)) {
+              if (((typeof fixText==='function')?fixText(k):k) === colorName) { imgUrl = product.images[k]; break; }
+            }
+          }
+        }
+        const imgEl = card.querySelector('.product-image img');
+        if (imgEl) { imgEl.src = imgUrl; imgEl.alt = (fixText ? fixText(product.name) : product.name) + ' - ' + colorName; }
+        if (card._gallery && Array.isArray(card._gallery)) {
+          const idx = card._gallery.findIndex(g => (g.color === key) || (g.color === colorName));
+          if (idx >= 0) {
+            card._gIndex = idx;
+            const dots = card.querySelector('.gallery-dots');
+            if (dots) dots.querySelectorAll('.dot').forEach((d, i) => d.style.background = i === idx ? '#fff' : '#bbb');
+          }
+        }
+      } catch {}
+      renderSizesForColor(card, product, colorName);
+      updateCardPrice(card, product);
+    };
+
+    // Sobrescribimos selectSize para mantener compatibilidad si hay elementos legacy .size-option
+    if (typeof selectSize !== 'function') { function selectSize(){} }
+    const _originalSelectSize = selectSize;
+    selectSize = function(el) {
+      if (el.classList.contains('unavailable') || el.getAttribute('aria-disabled') === 'true') return;
+      const card = el.closest('.product-card');
+      card.querySelectorAll('.size-option').forEach((s) => s.classList.remove('selected'));
+      el.classList.add('selected');
+      el.classList.add('animate__animated','animate__pulse');
+      setTimeout(()=> el.classList.remove('animate__animated','animate__pulse'), 500);
+      const colorName = card.querySelector('.color-option.selected')?.dataset.color || null;
+      const size = el.dataset.size;
+      updateSelectionStatus(card, colorName, size);
+      try { const product = JSON.parse(card.dataset.product || '{}'); updateCardPrice(card, product); } catch {}
+      setBuyEnabled(card, Boolean(colorName && !el.classList.contains('unavailable')));
+    };
+
+    function initQtyControls(card) {
+      const dec = card.querySelector('.decrease');
+      const inc = card.querySelector('.increase');
+      const input = card.querySelector('.quantity-input');
+      dec.addEventListener('click', () => { const v = parseInt(input.value) || 1; if (v > 1) input.value = v - 1; });
+      inc.addEventListener('click', () => { const v = parseInt(input.value) || 1; input.value = v + 1; });
+      input.addEventListener('input', () => { let v = parseInt(input.value); if (isNaN(v) || v < 1) input.value = 1; });
+    }
+
+    /* legacy */ function selectColorLegacy(el) {
+      const card = el.closest('.product-card');
+      card.querySelectorAll('.color-option').forEach((c) => c.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    // (limpieza) selectSize legacy duplicado eliminado; se usa la versión mejorada más arriba
+
+    
+
+    function filterProducts(sectionId, type) {
+      const section = document.getElementById(sectionId);
+      const cards = section.querySelectorAll('.product-card');
+      cards.forEach((card) => {
+        const show = (type === 'all' || card.dataset.type === type);
+        card.style.display = show ? 'block' : 'none';
+        card.setAttribute('aria-hidden', show ? 'false' : 'true');
+        if (show) { card.classList.add('animate__animated', 'animate__fadeIn'); setTimeout(() => card.classList.remove('animate__animated','animate__fadeIn'), 500); }
+      });
+    }
+
+    // ===== Modal =====
+    function openReview(card, product) {
+      const colorEl = card.querySelector('.color-option.selected');
+      const sizeEl = card.querySelector('.size-option.selected, .size-chip.selected');

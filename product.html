@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROMIX - Detalle</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; script-src 'self' https://cdnjs.cloudflare.com 'nonce-r0mix2025'; connect-src 'self'; upgrade-insecure-requests">
   <style>
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
     * { box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -112,7 +113,7 @@
     </div>
   </div>
 
-  <script>
+  <script nonce="r0mix2025">
     function slugify(s){ return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
     function getUnitPrice(product, size){
       const base = Number(product.price)||0; const sz = Number(size);
@@ -133,15 +134,16 @@
         for (const k of Object.keys(product.images)) gallery.push({label:k, src:product.images[k]});
       }
       if (!gallery.length) gallery.push({label:null, src:product.image});
-      const thumbs = gallery.map((g,i)=>`<img data-i="${i}" src="${g.src}" alt="${g.label || 'Imagen'}">`).join('');
+      const esc = (s)=>String(s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+      const thumbs = gallery.map((g,i)=>`<img data-i="${i}" src="${g.src}" alt="${esc(g.label || 'Imagen')}" width="96" height="96">`).join('');
       root.innerHTML = `
         <div class="gallery">
           <div class="thumbs">${thumbs}</div>
-          <div class="main-img"><img id="main-img" src="${gallery[0].src}" alt="${product.name}" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></div>
+          <div class="main-img"><img id="main-img" src="${gallery[0].src}" alt="${esc(product.name)}" onerror="this.onerror=null;this.src='images/placeholder.jpg';" width="800" height="800"></div>
         </div>
         <div>
-          <div class="title">${product.name}</div>
-          <div class="pills"><span class="pill">${product.section || ''}</span><span class="pill">${product.type || ''}</span></div>
+          <div class="title">${esc(product.name)}</div>
+          <div class="pills"><span class="pill">${esc(product.section || '')}</span><span class="pill">${esc(product.type || '')}</span></div>
           <div class="price">$${Number(product.price).toLocaleString('es-AR')}${product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:''}</div>
           <div class="color-row">
             <div style="margin-bottom:6px;color:#6c757d;font-weight:700">Color</div>

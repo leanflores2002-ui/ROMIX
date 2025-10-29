@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="ROMIX - Ayuda" />
+    <meta property="og:description" content="Guía de talles, cambios y devoluciones. Preguntas frecuentes." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/ayuda.html" />
+    <meta property="og:image" content="images/og-romix.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ROMIX - Ayuda" />
+    <meta name="twitter:description" content="Guía de talles, cambios y devoluciones. Preguntas frecuentes." />
+    <meta name="twitter:image" content="images/og-romix.jpg" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; script-src 'self' https://cdnjs.cloudflare.com 'nonce-r0mix2025'; connect-src 'self'; upgrade-insecure-requests">
     <meta name="description" content="Guía de talles y políticas de cambios y devoluciones de Romix, tu tienda de ropa para invierno 2025.">
     <meta name="keywords" content="Romix, guía de talles, cambios, devoluciones, ropa invierno">
     <title>Romix - Ayuda</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
@@ -549,7 +559,7 @@
     <div id="cart" class="hidden">
         <h2 style="color: var(--secondary); margin-bottom: 20px;">Tu Carrito</h2>
         <table id="cart-items"></table>
-        <div class="cart-total">Total: $<span id="cart-total">0.00</span></div>
+        <div class="cart-total">Total: $<span id="cart-total" aria-live="polite">0.00</span></div>
         <div class="cart-actions">
             <button class="btn btn-danger" onclick="clearCart()">Vaciar Carrito</button>
             <button class="btn btn-success" onclick="sendToWhatsApp()">Enviar Pedido</button>
@@ -579,7 +589,7 @@
                 <h4>Contacto</h4>
                 <ul>
                     <li><a href="index.html#contacto">Dirección y horarios</a></li>
-                    <li><a href="https://wa.me/5491154272065">WhatsApp</a></li>
+                    <li><a href="https://wa.me/5491154272065" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
                     <li><a href="tel:+5491154272065">Llamar por teléfono</a></li>
                 </ul>
             </div>
@@ -589,7 +599,7 @@
         </div>
     </footer>
     
-    <script>
+    <script nonce="r0mix2025">
         // Normaliza textos estáticos del menú con acentos
         document.addEventListener('DOMContentLoaded', () => {
             try {
@@ -618,16 +628,17 @@
             cartItems.innerHTML = '';
             cart.forEach(item => {
                 const row = document.createElement('tr');
+                const esc = (s)=>String(s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
                 row.innerHTML = `
-                    <td>${item.name}</td>
-                    <td>${item.type}</td>
-                    <td>${item.color}</td>
-                    <td>${item.size}</td>
-                    <td>${item.quantity}</td>
-                    <td>$${item.price.toFixed(2)}</td>
-                    <td>$${item.subtotal.toFixed(2)}</td>
+                    <td>${esc(item.name)}</td>
+                    <td>${esc(item.type)}</td>
+                    <td>${esc(item.color)}</td>
+                    <td>${esc(item.size)}</td>
+                    <td>${String(item.quantity)}</td>
+                    <td>$${Number(item.price).toFixed(2)}</td>
+                    <td>$${Number(item.subtotal).toFixed(2)}</td>
                     <td>
-                        <button class="btn btn-danger" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button>
+                        <button class="btn btn-danger" onclick="removeFromCart(${Number(item.id)})"><i class="fas fa-trash"></i></button>
                     </td>
                 `;
                 cartItems.appendChild(row);

@@ -52,13 +52,17 @@
     .cart-icon-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
     #cart-count { background: var(--danger); color: #fff; border-radius: 999px; padding: 0 6px; font-size: .8rem; position: absolute; top: -8px; right: -8px; min-width: 18px; text-align: center; }
 
-    nav { background: #fff; position: sticky; top: 72px; z-index: 999; box-shadow: 0 2px 5px rgba(0,0,0,.1); }
+    nav { display: none; }
     .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
     .nav-menu { display: flex; list-style: none; overflow-x: auto; white-space: nowrap; }
     .nav-menu li a { display: block; padding: 15px 20px; color: var(--dark); text-decoration: none; font-weight: 600; transition: .3s; }
     .nav-menu li a i { margin-right: 6px; }
     .nav-menu li a:hover, .nav-menu li.active a { color: var(--primary); }
     .nav-menu li.active a { border-bottom: 3px solid var(--primary); }
+
+    /* Inline header links style (foto 1) */
+    .nav-inline ul { list-style: none; display: flex; gap: 10px; padding: 0; margin: 0; }
+    .nav-inline a { color: #fff; text-decoration: none; padding: 8px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.08); }
 
     .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
     .section-title { font-size: 1.8rem; color: var(--secondary); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; display: flex; align-items: center; gap: 10px; }
@@ -181,7 +185,15 @@
   <a class="skip-link" href="#mujer" style="position:absolute;left:-9999px;top:auto;">Saltar al contenido</a>
   <header>
     <div class="header-container">
-      <div class="logo" aria-label="Romix"><i class="fas fa-tshirt" aria-hidden="true"></i><span>ROMIX</span></div>
+      <div class="logo" aria-label="Romix"><i class="fas fa-store" aria-hidden="true"></i><span>ROMIX</span></div>
+      <div class="nav-inline" aria-label="Secciones">
+        <ul>
+          <li><a href="mujer.html">Mujer</a></li>
+          <li><a href="hombre.html">Hombre</a></li>
+          <li><a href="ninos.html">Niños</a></li>
+          <li><a href="ayuda.html">Ayuda</a></li>
+        </ul>
+      </div>
       <div class="contact-header">
         <button type="button" class="cart-icon-btn" onclick="toggleCart()" aria-haspopup="region" aria-controls="cart" aria-expanded="false">
           <i class="fas fa-shopping-cart" aria-hidden="true"></i>

@@ -87,7 +87,7 @@
             .search-suggestion .t { line-height:1.1; }
             .search-suggestion small { color:#6c757d; }
         
-        nav { background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.1); position:sticky; top:72px; z-index:999; }
+        nav { display:none; }
         
         .nav-container {
             max-width: 1200px;
@@ -120,6 +120,10 @@
         
         .skip-link{position:absolute;left:-9999px;top:auto}
         .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px}
+
+        /* Inline header links style (foto 1) */
+        .nav-inline ul { list-style: none; display: flex; gap: 10px; padding: 0; margin: 0; }
+        .nav-inline a { color: #fff; text-decoration: none; padding: 8px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.08); }
 
         .container {
             max-width: 1200px;
@@ -369,17 +373,20 @@
     <header>
         <div class="header-container">
             <div class="logo" aria-label="Romix"><i class="fas fa-store" aria-hidden="true"></i><span>ROMIX</span></div>
+            <div class="nav-inline" aria-label="Secciones">
+                <ul>
+                    <li><a href="mujer.html">Mujer</a></li>
+                    <li><a href="hombre.html">Hombre</a></li>
+                    <li><a href="ninos.html">Niños</a></li>
+                    <li><a href="ayuda.html" aria-current="page">Ayuda</a></li>
+                </ul>
+            </div>
             <div class="contact-header">
-                
                 <button type="button" class="cart-icon-btn" onclick="redirectToCartPage()" aria-haspopup="region" aria-controls="cart" aria-expanded="false">
                   <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                   <span>Carrito</span>
                   <span id="cart-count">0</span>
                 </button>
-                <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
-                  <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
-                  <button type="submit"><i class="fas fa-search" aria-hidden="true"></i> Buscar</button>
-                </form>
             </div>
         </div>
     </header>

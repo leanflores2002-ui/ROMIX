@@ -39,6 +39,11 @@
     @media (max-width: 520px) {
       .thumb { height: 180px; }
     }
+    .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px;position:absolute}
+    footer{background:#fff;border-top:1px solid #e9ecef;margin-top:24px}
+    .footer-wrap{max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;gap:18px;flex-wrap:wrap;color:#495057}
+    .footer-wrap a{color:#495057;text-decoration:none}
+    .footer-wrap a:hover{color:var(--primary)}
   </style>
   <script>
     const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`\
@@ -191,5 +196,17 @@
     <div id="summary" class="summary">Mostrando 0 productos • Página 1 de 1</div>
     <section id="grid" class="grid" aria-live="polite"></section>
   </main>
+  <footer>
+    <div class="footer-wrap" role="contentinfo">
+      <div>
+        <strong>Ayuda</strong>
+        <div>
+          <a href="ayuda.html#size-guide">Guía de talles</a> •
+          <a href="ayuda.html#returns">Cambios y devoluciones</a> •
+          <a href="ayuda.html">Centro de ayuda</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

@@ -685,7 +685,8 @@
 
             const encodedMessage = encodeURIComponent(message);
             const phoneNumber = '+5491154272065';
-            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+            const w = window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+            if (w) w.opener = null;
         }
     </script>
     <script src="support-widget-romix.js" defer></script>

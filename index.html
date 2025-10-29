@@ -143,6 +143,23 @@
     .hero { background: transparent; padding: 16px 0 10px; text-align:center; }
     .hero h1 { font-size: 2.2rem; color:#1b1f24; margin: 4px 0 6px; font-weight: 900; }
     .hero p { color:#6c757d; max-width: 760px; margin: 0 auto; }
+    /* Filter bar */
+    .filter-bar { margin: 8px 0 18px; }
+    .filter-card { background:#fff; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,.10); padding: 14px; }
+    .filter-top { display:flex; align-items:center; gap:12px; }
+    .filter-search { flex:1; display:flex; align-items:center; gap:8px; background:#fff; border:1px solid #eee; border-radius:999px; padding:8px 12px; box-shadow: inset 0 0 0 1px #f0f2f4; }
+    .filter-search i { color:#adb5bd; }
+    .filter-search input { width:100%; border:none; outline:none; font-size: .95rem; }
+    .filter-toggle { border:none; background:#fff; color:var(--primary); font-weight:800; cursor:pointer; padding:8px 12px; border-radius:10px; display:inline-flex; align-items:center; gap:8px; }
+    .filter-body { margin-top:12px; border-top:1px solid #f1f3f5; padding-top:12px; }
+    .filters-row { display:flex; flex-direction:column; gap:10px; }
+    .filters-title { color:#1b1f24; }
+    .filter-chips { display:flex; flex-wrap:wrap; gap:10px; }
+    .filter-chips label { background:#f5f6f9; border:1px solid #e9ecef; border-radius:999px; padding:6px 10px; display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-weight:600; }
+    .filter-chips input { accent-color: var(--primary); }
+    .no-results { margin-top:12px; display:flex; align-items:center; gap:12px; justify-content:center; color:#6c757d; }
+    .no-results i { font-size:28px; color:#adb5bd; }
+    .no-results .tip { font-size:.9rem; }
     .products-grid { gap: 24px; }
     .product-card { border-radius: 14px; box-shadow: 0 14px 36px rgba(0,0,0,.10); }
     .product-image { height: 300px; background:#f8f9fb; }
@@ -188,6 +205,44 @@
     <section class="hero" aria-label="Presentación catálogo">
       <h1>Catálogo ROMIX</h1>
       <p>Encontrá calzas, tops, camperas y más. Seleccioná color y talle, revisá disponibilidad en vivo y sumalo al carrito.</p>
+    </section>
+
+    <section class="filter-bar" aria-label="Barra de filtros">
+      <div class="filter-card">
+        <div class="filter-top">
+          <div class="filter-search">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="filter-q" type="search" placeholder="Buscar prendas..." aria-label="Buscar prendas" />
+          </div>
+          <button id="filter-toggle" class="filter-toggle" type="button"><i class="fas fa-sliders-h" aria-hidden="true"></i> <span>Mostrar filtros</span></button>
+        </div>
+        <div id="filter-body" class="filter-body hidden" aria-hidden="true">
+          <div class="filters-row" role="group" aria-label="Tipos de prenda">
+            <strong class="filters-title">Filtros</strong>
+            <div class="filter-chips" id="filter-types">
+              <label><input type="checkbox" value="calzas"/> Calzas</label>
+              <label><input type="checkbox" value="oxford"/> Oxford</label>
+              <label><input type="checkbox" value="pantalones"/> Pantalones</label>
+              <label><input type="checkbox" value="capri"/> Capri</label>
+              <label><input type="checkbox" value="ciclistas"/> Ciclistas</label>
+              <label><input type="checkbox" value="shorts"/> Shorts</label>
+              <label><input type="checkbox" value="remeras"/> Remeras</label>
+              <label><input type="checkbox" value="musculosas"/> Musculosas</label>
+              <label><input type="checkbox" value="bermudas"/> Bermudas</label>
+              <label><input type="checkbox" value="tops"/> Tops</label>
+              <label><input type="checkbox" value="camperas"/> Camperas</label>
+              <label><input type="checkbox" value="buzos"/> Buzos</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="no-results" class="no-results hidden" role="status" aria-live="polite">
+        <i class="fas fa-filter" aria-hidden="true"></i>
+        <div>
+          <strong>No se encontraron productos</strong>
+          <div class="tip">Intentá ajustar los filtros para ver más resultados</div>
+        </div>
+      </div>
     </section>
     <div id="feedback" class="hidden" role="status" aria-live="polite" style="margin-bottom:10px;color:#c00;"></div>
 
@@ -1146,6 +1201,43 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   setTimeout(tryLoad, 400);
 });
+</script>
+<script>
+// ====== Global filter bar logic ======
+function normalize(s){ try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); } catch { return String(s||'').toLowerCase(); } }
+function initGlobalFilters(){
+  const qInput = document.getElementById('filter-q');
+  const toggle = document.getElementById('filter-toggle');
+  const body = document.getElementById('filter-body');
+  const chips = document.querySelectorAll('#filter-types input[type="checkbox"]');
+  if (!qInput || !toggle || !body) return;
+  let debounce;
+  const apply = ()=>{ clearTimeout(debounce); debounce = setTimeout(applyGlobalFilters, 60); };
+  qInput.addEventListener('input', apply);
+  chips.forEach(c=>c.addEventListener('change', apply));
+  toggle.addEventListener('click', ()=>{ const hidden = body.classList.toggle('hidden'); body.setAttribute('aria-hidden', String(hidden)); toggle.querySelector('span').textContent = hidden ? 'Mostrar filtros' : 'Ocultar filtros'; });
+}
+function applyGlobalFilters(){
+  const q = normalize(document.getElementById('filter-q')?.value || '');
+  const selTypes = Array.from(document.querySelectorAll('#filter-types input[type="checkbox"]:checked')).map(el=>normalize(el.value));
+  const cards = document.querySelectorAll('.product-card');
+  let shown = 0;
+  cards.forEach(card=>{
+    let ok = true;
+    try {
+      const prod = JSON.parse(card.dataset.product || '{}');
+      const name = normalize(prod.name || '');
+      const type = normalize(prod.type || '');
+      if (q && !name.includes(q)) ok = false;
+      if (ok && selTypes.length && !selTypes.includes(type)) ok = false;
+    } catch {}
+    card.style.display = ok ? 'block' : 'none';
+    if (ok) shown++;
+  });
+  const empty = document.getElementById('no-results');
+  if (empty) empty.classList.toggle('hidden', shown>0);
+}
+document.addEventListener('DOMContentLoaded', ()=>{ initGlobalFilters(); });
 </script>
 <script src="search.js"></script>
 </body>

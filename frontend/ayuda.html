@@ -634,7 +634,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             try {
                 document.querySelectorAll('.nav-menu a').forEach(a => {
-                    a.innerHTML = a.innerHTML.replace('Ni��os','Niños').replace('Ni�os','Niños');
+                    a.innerHTML = a.innerHTML.replace('Niños','Niños').replace('Niños','Niños');
                 });
                 // Reflejar cantidad en el botón carrito
                 const count = (JSON.parse(localStorage.getItem('cart')||'[]').reduce((n,i)=>n+Number(i.quantity||0),0));

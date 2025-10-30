@@ -479,10 +479,28 @@
       return out;
     }
 
+    function _normLocal(s){
+      try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); }
+      catch { return String(s||'').toLowerCase(); }
+    }
+    function _isHiddenWinter(product){
+      const src = [];
+      if (product && product.name) src.push(product.name);
+      if (product && product.type) src.push(product.type);
+      if (product && product.badge) src.push(product.badge);
+      if (product && product.image) src.push(product.image);
+      if (product && product.images) {
+        try { src.push(...Object.keys(product.images||{})); src.push(...Object.values(product.images||{})); } catch {}
+      }
+      const text = _normLocal(src.join(' '));
+      return text.includes('frizado') || text.includes('frisado') || text.includes('polar') || text.includes('termica');
+    }
     function loadProducts() {
       return fetch('products.json').catch(err => { console.error('[ROMIX] fetch products.json failed:', err); const b=document.getElementById('load-error-banner'); if(b)b.style.display='block'; return new Response(JSON.stringify([]), {headers:{'Content-Type':'application/json'}}); })
         .then((r) => r.json())
         .then((products) => {
+          // Ocultar productos de invierno (no borrar, solo no mostrarlos)
+          products = (Array.isArray(products) ? products : []).filter(p => !_isHiddenWinter(p));
           const sections = {
             mujer: document.getElementById('mujer-grid'),
             hombre: document.getElementById('hombre-grid'),

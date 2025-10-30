@@ -84,6 +84,29 @@
   // --- API ---
   const api = {
     async fetchProducts({ section, q, sort, page, pageSize }){
+      // Internal helper: hide winter-related items by keywords in product name/type
+      const isHiddenWinter = (p)=>{
+        try {
+          const src = [];
+          if (p && p.name) src.push(p.name);
+          if (p && p.type) src.push(p.type);
+          if (p && p.badge) src.push(p.badge);
+          if (p && p.image) src.push(p.image);
+          if (p && p.images) {
+            try {
+              src.push(...Object.keys(p.images||{}));
+              src.push(...Object.values(p.images||{}));
+            } catch {}
+          }
+          const s = utils.norm(src.join(' '));
+          return (
+            s.includes('frizado') ||
+            s.includes('frisado') ||
+            s.includes('polar') ||
+            s.includes('termica')
+          );
+        } catch { return false; }
+      };
       // Try API first
       const params = new URLSearchParams();
       if (section) params.set('section', section);
@@ -107,7 +130,8 @@
         const r = await fetch('products.json', { credentials:'same-origin' });
         const list = await r.json();
         const all = Array.isArray(list) ? list : [];
-        let items = all.slice();
+        // Hide winter items non-destructively
+        let items = all.slice().filter(p => !isHiddenWinter(p));
         if (section) items = items.filter(p => String(p.section||'').toLowerCase() === section);
         if (q) {
           const qn = utils.norm(q);

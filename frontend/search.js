@@ -19,7 +19,26 @@
   }
   function ensureProducts(){
     if (PRODUCTS) return Promise.resolve(PRODUCTS);
-    return fetch('products.json').then(r=>r.json()).then(d=>{ PRODUCTS=d||[]; return PRODUCTS; }).catch(()=>[]);
+    return fetch('products.json').then(r=>r.json()).then(d=>{
+      const list = Array.isArray(d) ? d : [];
+      // Hide winter products in suggestions (non-destructive)
+      const filtered = list.filter(p=>{
+        try {
+          const parts = [];
+          if (p && p.name) parts.push(p.name);
+          if (p && p.type) parts.push(p.type);
+          if (p && p.badge) parts.push(p.badge);
+          if (p && p.image) parts.push(p.image);
+          if (p && p.images) {
+            try { parts.push(...Object.keys(p.images||{})); parts.push(...Object.values(p.images||{})); } catch {}
+          }
+          const s = norm(parts.join(' '));
+          return !(s.includes('frizado') || s.includes('frisado') || s.includes('polar') || s.includes('termica'));
+        } catch { return true; }
+      });
+      PRODUCTS = filtered;
+      return PRODUCTS;
+    }).catch(()=>[]);
   }
   function findAndFocus(query){
     const q = norm(query);

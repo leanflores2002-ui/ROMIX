@@ -6,6 +6,7 @@ import logging
 from backend.db.database import get_db
 from backend.models.pedido import PedidoCreate, Pedido, map_pedido_create_to_orm
 from backend.services.notificacion_service import enviar_notificacion_pedido
+from backend.services.inventario_service import descontar_stock_por_pedido
 
 
 router = APIRouter(prefix="/api", tags=["pedidos"])
@@ -24,6 +25,12 @@ def crear_pedido(pedido: PedidoCreate, db: Session = Depends(get_db)):
         logger.exception("Error guardando pedido en DB: %s", e)
         return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             content={"error": "No se pudo guardar el pedido"})
+
+    # Intentar descontar stock; si falla, continuar (no bloquea el pedido)
+    try:
+        descontar_stock_por_pedido(db, pedido.productos)
+    except Exception:
+        logger.exception("Fallo al descontar stock del inventario para el pedido %s", registro.id)
 
     try:
         ok = enviar_notificacion_pedido(

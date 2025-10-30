@@ -87,7 +87,7 @@ def init_db() -> None:
     """Create tables if they don't exist."""
     try:
         from backend.models import pedido  # ensure models are imported
+        from backend.models import inventario  # ensure inventario table
         Base.metadata.create_all(bind=engine)
     except Exception as e:
         logger.exception("Error al inicializar la base de datos: %s", e)
-

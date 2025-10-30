@@ -65,6 +65,13 @@ def map_pedido_create_to_orm(dto: PedidoCreate) -> Pedido:
     data = dto.dict()
     productos_value = data["productos"]
     # If DB uses Text, store as JSON string. If JSON type, SQLAlchemy handles list/dict natively
+    try:
+        col_type = Pedido.__table__.c["productos"].type
+        from sqlalchemy import Text as _SAText
+        if isinstance(col_type, _SAText):
+            productos_value = json.dumps(productos_value, ensure_ascii=False)
+    except Exception:
+        pass
     return Pedido(
         nombre_cliente=data["nombre_cliente"],
         telefono=data["telefono"],
@@ -72,4 +79,3 @@ def map_pedido_create_to_orm(dto: PedidoCreate) -> Pedido:
         metodo_entrega=data["metodo_entrega"],
         estado=data.get("estado", "pendiente"),
     )
-

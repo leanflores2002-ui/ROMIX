@@ -368,6 +368,9 @@
                 padding: 8px;
             }
         }
+        /* Fix duplicación menús en Ayuda */
+        .nav-inline ul:first-of-type { display: none; }
+        .nav-container .nav-menu:first-of-type { display: none; }
     </style>
 </head>
 <body>
@@ -633,7 +636,7 @@
         // Normaliza textos estáticos del menú con acentos
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                document.querySelectorAll('.nav-menu a').forEach(a => {
+                document.querySelectorAll('.nav-menu a, .nav-inline a').forEach(a => {
                     a.innerHTML = a.innerHTML.replace('Niños','Niños').replace('Niños','Niños');
                 });
                 // Reflejar cantidad en el botón carrito
@@ -745,6 +748,7 @@
     <script src="search.js"></script>
 </body>
 </html>
+
 
 
 

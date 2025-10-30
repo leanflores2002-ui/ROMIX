@@ -13,6 +13,19 @@
   // --- Utils ---
   const utils = {
     esc(s){ return String(s==null? '': s); },
+    fix(s){
+      try {
+        let out = String(s==null? '': s);
+        const pairs = [
+          ['T?rmica','Térmica'], ['T?rmico','Térmico'], ['T�rmica','Térmica'], ['T�rmico','Térmico'], ['TǸrmica','Térmica'], ['TǸrmico','Térmico'],
+          ['Marr?n','Marrón'], ['Marr��n','Marrón'], ['Pantal?n','Pantalón'], ['Pantal��n','Pantalón'], ['Algod?n','Algodón'], ['Algod��n','Algodón'],
+          ['Ni�os','Niños'], ['Ni?a','Niña'], ['Ni?o','Niño'], ['Ni��os','Niños'], ['Ni��a','Niña'], ['Ni��o','Niño'], ['ni��a','niña'], ['ni��o','niño'],
+          ['rǧstico','rústico'], ['r��stico','rústico'], ['pu��o','puño']
+        ];
+        for (const [a,b] of pairs) out = out.split(a).join(b);
+        return out;
+      } catch { return String(s||''); }
+    },
     norm(s){
       try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); }
       catch { return String(s||'').toLowerCase(); }
@@ -177,16 +190,16 @@
       const slug = utils.slugify(p.name);
       const article = document.createElement('article');
       article.className = 'card';
-      article.setAttribute('aria-label', utils.esc(p.name));
+      article.setAttribute('aria-label', utils.fix(p.name));
 
       const thumb = document.createElement('div'); thumb.className = 'thumb';
-      const img = document.createElement('img'); img.src = imgSrc; img.alt = utils.esc(p.name); img.width = 600; img.height = 400; img.onerror = () => { img.onerror = null; img.src = utils.placeholder(); };
+      const img = document.createElement('img'); img.src = imgSrc; img.alt = utils.fix(p.name); img.width = 600; img.height = 400; img.onerror = () => { img.onerror = null; img.src = utils.placeholder(); };
       thumb.appendChild(img);
       const badgeText = p.badge ? p.badge : (p.type || '');
       if (badgeText) { const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = String(badgeText); thumb.appendChild(badge); }
 
       const body = document.createElement('div'); body.className = 'body';
-      const title = document.createElement('div'); title.className = 'title'; title.textContent = utils.esc(p.name);
+      const title = document.createElement('div'); title.className = 'title'; title.textContent = utils.fix(p.name);
       const subtitle = document.createElement('div'); subtitle.className = 'subtitle';
       const sectionNice = p.section ? (String(p.section).charAt(0).toUpperCase() + String(p.section).slice(1)) : '';
       subtitle.textContent = sectionNice + (p.type ? (sectionNice? ' · ' : '') + p.type : '');
@@ -197,7 +210,7 @@
       row.appendChild(priceEl); row.appendChild(stockEl);
 
       const actions = document.createElement('div'); actions.className = 'actions';
-      const details = document.createElement('a'); details.className = 'btn'; details.href = 'product.html?slug=' + encodeURIComponent(slug); details.setAttribute('aria-label', 'Ver detalles de ' + utils.esc(p.name)); details.textContent = 'Ver Detalles';
+      const details = document.createElement('a'); details.className = 'btn'; details.href = 'product.html?slug=' + encodeURIComponent(slug); details.setAttribute('aria-label', 'Ver detalles de ' + utils.fix(p.name)); details.textContent = 'Ver Detalles';
       const add = document.createElement('button'); add.className = 'btn btn-primary'; add.type = 'button'; add.textContent = 'Agregar'; add.addEventListener('click', () => quickAdd(p));
       actions.appendChild(details); actions.appendChild(add);
 

@@ -1,5 +1,18 @@
 // Simple shared search for ROMIX
 (function(){
+  function fixText(s){
+    try {
+      let out = String(s==null? '': s);
+      const pairs = [
+        ['T?rmica','Térmica'], ['T?rmico','Térmico'], ['T�rmica','Térmica'], ['T�rmico','Térmico'], ['TǸrmica','Térmica'], ['TǸrmico','Térmico'],
+        ['Marr?n','Marrón'], ['Marr��n','Marrón'], ['Pantal?n','Pantalón'], ['Pantal��n','Pantalón'], ['Algod?n','Algodón'], ['Algod��n','Algodón'],
+        ['Ni�os','Niños'], ['Ni?a','Niña'], ['Ni?o','Niño'], ['Ni��os','Niños'], ['Ni��a','Niña'], ['Ni��o','Niño'], ['ni��a','niña'], ['ni��o','niño'],
+        ['rǧstico','rústico'], ['r��stico','rústico'], ['pu��o','puño']
+      ];
+      for (const [a,b] of pairs) out = out.split(a).join(b);
+      return out;
+    } catch { return String(s||''); }
+  }
   let PRODUCTS = null;
   let SUGGEST_BOX = null;
   let SUGGEST_INDEX = -1;
@@ -89,7 +102,8 @@
     };
     SUGGEST_INDEX = -1;
     SUGGEST_BOX.innerHTML = items.map((it,i)=>{
-      return `<div class="search-suggestion" data-slug="${it.slug}"><i class="fas fa-search"></i><div><div class="t">${hi(it.name)}</div><small>${it.type||''}</small></div></div>`;
+      const dn = fixText(it.name);
+      return `<div class="search-suggestion" data-slug="${it.slug}"><i class="fas fa-search"></i><div><div class="t">${hi(dn)}</div><small>${it.type||''}</small></div></div>`;
     }).join('');
     SUGGEST_BOX.style.display='block';
     SUGGEST_BOX.querySelectorAll('.search-suggestion').forEach((el)=>{

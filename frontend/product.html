@@ -116,6 +116,19 @@
   </div>
 
   <script>
+    function fixText(s){
+      try {
+        let out = String(s==null? '': s);
+        const pairs = [
+          ['T?rmica','Térmica'], ['T?rmico','Térmico'], ['T�rmica','Térmica'], ['T�rmico','Térmico'], ['TǸrmica','Térmica'], ['TǸrmico','Térmico'],
+          ['Marr?n','Marrón'], ['Marr��n','Marrón'], ['Pantal?n','Pantalón'], ['Pantal��n','Pantalón'], ['Algod?n','Algodón'], ['Algod��n','Algodón'],
+          ['Ni�os','Niños'], ['Ni?a','Niña'], ['Ni?o','Niño'], ['Ni��os','Niños'], ['Ni��a','Niña'], ['Ni��o','Niño'], ['ni��a','niña'], ['ni��o','niño'],
+          ['rǧstico','rústico'], ['r��stico','rústico'], ['pu��o','puño']
+        ];
+        for (const [a,b] of pairs) out = out.split(a).join(b);
+        return out;
+      } catch { return String(s||''); }
+    }
     function slugify(s){ return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
     const SIZE_GROUP_PRICING = { common: 1.0, special: 1.15, superspecial: 1.15 };
     function normalizeSection(s){ try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); } catch { return String(s||'').toLowerCase(); } }
@@ -161,10 +174,10 @@
       root.innerHTML = `
         <div class="gallery">
           <div class="thumbs">${thumbs}</div>
-          <div class="main-img"><img id="main-img" src="${gallery[0].src}" alt="${product.name}" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></div>
+          <div class="main-img"><img id="main-img" src="${gallery[0].src}" alt="${fixText(product.name)}" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></div>
         </div>
         <div>
-          <div class="title">${product.name}</div>
+          <div class="title">${fixText(product.name)}</div>
           <div class="pills"><span class="pill">${product.section || ''}</span><span class="pill">${product.type || ''}</span></div>
           <div class="price">$${Number(product.price).toLocaleString('es-AR')}${product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:''}</div>
           <div class="color-row">

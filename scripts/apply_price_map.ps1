@@ -12,7 +12,18 @@ function Normalize([string]$s){
         [void]$sb.Append($ch)
       }
     }
-    return $sb.ToString().ToLower().Trim()
+    $out = $sb.ToString().ToLower().Trim()
+    # Heurísticas para mojibake comunes en dataset
+    $out = $out -replace 'tnrmic','termic'
+    $out = $out -replace 'tnrmica','termica'
+    $out = $out -replace 'pantaln','pantalon'
+    $out = $out -replace 'algodn','algodon'
+    $out = $out -replace 'marrn','marron'
+    $out = $out -replace 'rgstico','rustico'
+    $out = $out -replace '\bnios\b','ninos'
+    $out = $out -replace '\bnio\b','nino'
+    $out = $out -replace '\bnia\b','nina'
+    return $out
   } catch {
     return $s.ToLower().Trim()
   }
@@ -31,7 +42,16 @@ if (-not ($list -is [System.Collections.IEnumerable])) { Write-Error 'products.j
 
 function MatchesRule($product, $rule){
   if ($rule.section -and (Normalize($product.section) -ne (Normalize($rule.section)))) { return $false }
-  $name = (Normalize([string]$product.name) + ' ' + Normalize([string]$product.type))
+  $parts = @()
+  $parts += (Normalize([string]$product.name))
+  $parts += (Normalize([string]$product.type))
+  if ($product.badge) { $parts += (Normalize([string]$product.badge)) }
+  if ($product.image) { $parts += (Normalize([string]$product.image)) }
+  if ($product.images) {
+    foreach($n in $product.images.PSObject.Properties.Name){ $parts += (Normalize([string]$n)) }
+    foreach($n in $product.images.PSObject.Properties.Value){ $parts += (Normalize([string]$n)) }
+  }
+  $name = ($parts -join ' ').Trim()
   foreach ($pat in $rule.patterns) {
     if (-not $name.Contains((Normalize([string]$pat)))) { return $false }
   }

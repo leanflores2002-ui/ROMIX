@@ -144,11 +144,11 @@
         "originalPrice":  null,
         "priceByGroup":  {
                              "superspecial":  8300,
-                             "common":  15000,
-                             "special":  15600
+                             "common":  9500,
+                             "special":  10000
                          },
         "badge":  "Precio segÃºn estampa",
-        "price":  15000,
+        "price":  9500,
         "type":  "pantalones",
         "image":  "images/placeholder.jpg",
         "section":  "mujer"
@@ -163,7 +163,7 @@
                        "Rojo jaspeado":  "images/calza_jaspeado_saplex_rojo.jpg",
                        "Verde jaspeado":  "images/calza_jaspeado_saplex_verde.jpg"
                    },
-        "price":  9299,
+        "price":  9800,
         "originalPrice":  null,
         "badge":  null,
         "colors":  [
@@ -213,7 +213,11 @@
                           "size":  "8",
                           "status":  "available"
                       }
-                  ]
+                  ],
+        "priceByGroup":  {
+                             "common":  9800,
+                             "special":  10300
+                         }
     },
     {
         "section":  "mujer",
@@ -225,7 +229,7 @@
                        "MarrÃ³n":  "images/pantalon_jogger_termico_marron.jpg",
                        "Gris oscuro":  "images/pantalon_jogger_termico_gris.jpg"
                    },
-        "price":  12999,
+        "price":  12900,
         "originalPrice":  14999,
         "badge":  "MÃ¡s vendido",
         "colors":  [
@@ -275,7 +279,11 @@
                           "size":  "8",
                           "status":  "available"
                       }
-                  ]
+                  ],
+        "priceByGroup":  {
+                             "common":  12900,
+                             "special":  13400
+                         }
     },
     {
         "section":  "mujer",
@@ -288,7 +296,7 @@
                        "Verde":  "images/palazo_morley_lanilla_verde.jpg",
                        "Beige":  "images/palazo_morley_lanilla_beige.jpg"
                    },
-        "price":  15499,
+        "price":  11000,
         "originalPrice":  null,
         "badge":  null,
         "colors":  [
@@ -338,7 +346,11 @@
                           "size":  "8",
                           "status":  "available"
                       }
-                  ]
+                  ],
+        "priceByGroup":  {
+                             "common":  11000,
+                             "special":  11500
+                         }
     },
     {
         "section":  "mujer",
@@ -350,7 +362,7 @@
                        "Rojo jaspeado":  "images/campera_termica_jaspeado_rojo.jpg",
                        "Verde jaspeado":  "images/campera_termica_jaspeado_verde.jpg"
                    },
-        "price":  24999,
+        "price":  15800,
         "originalPrice":  29999,
         "badge":  "Oferta",
         "colors":  [
@@ -396,7 +408,11 @@
                           "size":  "8",
                           "status":  "available"
                       }
-                  ]
+                  ],
+        "priceByGroup":  {
+                             "common":  15800,
+                             "special":  16600
+                         }
     },
     {
         "section":  "mujer",
@@ -1563,10 +1579,10 @@
         "type":  "capri",
         "name":  "Capri algodÃ³n/lycra",
         "image":  "images/placeholder.jpg",
-        "price":  7900,
+        "price":  7800,
         "priceByGroup":  {
-                             "common":  7900,
-                             "special":  8400
+                             "common":  7800,
+                             "special":  8300
                          },
         "colors":  [
                        {
@@ -2074,10 +2090,10 @@
         "type":  "shorts",
         "name":  "Short algodÃ³n/lycra tiro alto",
         "image":  "images/placeholder.jpg",
-        "price":  7300,
+        "price":  7200,
         "priceByGroup":  {
-                             "common":  7300,
-                             "special":  7800
+                             "common":  7200,
+                             "special":  7700
                          },
         "colors":  [
                        {
@@ -2277,8 +2293,8 @@
         "image":  "images/placeholder.jpg",
         "price":  10800,
         "priceByGroup":  {
-                             "common":  10800,
-                             "special":  10800
+                             "special":  10800,
+                             "common":  10800
                          },
         "colors":  [
                        {
@@ -2440,10 +2456,10 @@
         "type":  "ciclistas",
         "name":  "Ciclista algodÃ³n/lycra",
         "image":  "images/placeholder.jpg",
-        "price":  7600,
+        "price":  7500,
         "priceByGroup":  {
-                             "common":  7600,
-                             "special":  8100
+                             "common":  7500,
+                             "special":  8000
                          },
         "colors":  [
                        {
@@ -2540,7 +2556,8 @@
         "image":  "images/placeholder.jpg",
         "price":  7500,
         "priceByGroup":  {
-                             "common":  7500
+                             "common":  7500,
+                             "special":  8000
                          },
         "colors":  {
                        "name":  "Estampado",
@@ -2576,7 +2593,8 @@
         "image":  "images/placeholder.jpg",
         "price":  7500,
         "priceByGroup":  {
-                             "common":  7500
+                             "common":  7500,
+                             "special":  8000
                          },
         "colors":  {
                        "name":  "Negro",

@@ -586,7 +586,7 @@
         <div class="cart-total">Total: $<span id="cart-total">0.00</span></div>
         <div class="cart-actions">
             <button class="btn btn-danger" onclick="clearCart()">Vaciar Carrito</button>
-            <button class="btn btn-success" onclick="sendToWhatsApp()">Enviar Pedido</button>
+            <button class="btn btn-success" onclick="enviarPedido()">Enviar Pedido</button>
         </div>
     </div>
     
@@ -632,6 +632,7 @@
         </div>
     </footer>
     
+    <script src="config.js"></script>
     <script>
         // Normaliza textos estáticos del menú con acentos
         document.addEventListener('DOMContentLoaded', () => {
@@ -710,12 +711,52 @@
             updateCart();
         }
 
-        function sendToWhatsApp() {
+        async function enviarPedido() {
             if (cart.length === 0) {
                 alert('El carrito está vacío. Agrega productos antes de enviar el pedido.');
                 return;
             }
+            const nombre = prompt('Nombre y apellido del cliente:');
+            if (!nombre) { return; }
+            const telefono = prompt('Teléfono (WhatsApp):');
+            if (!telefono) { return; }
+            const metodo = prompt('Método de entrega (envio/retiro):', 'envio') || 'envio';
 
+            const productos = cart.map(item => ({
+                nombre: item.name,
+                color: item.color,
+                talle: item.size,
+                cantidad: Number(item.quantity||1),
+                tipo: item.type
+            }));
+
+            const payload = {
+                nombre_cliente: nombre,
+                telefono: telefono,
+                productos: productos,
+                metodo_entrega: metodo,
+                estado: 'pendiente'
+            };
+            const base = (window.ROMIX_API_URL || '').replace(/\/$/, '');
+            const url = base + '/api/pedido';
+            try {
+                const r = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await r.json().catch(()=>({}));
+                if (r.ok && data && (data.mensaje || !data.error)) {
+                    alert(data.mensaje || 'Pedido recibido y enviado correctamente');
+                    return;
+                } else {
+                    alert(data.error || 'No se pudo enviar por backend. Se intentará por WhatsApp.');
+                }
+            } catch (e) {
+                // fallback
+            }
+
+            // Fallback a WhatsApp si falló el backend
             let message = '¡Hola! Quiero realizar el siguiente pedido:\n\n';
             cart.forEach(item => {
                 message += `${item.name} (${item.type})\n`;
@@ -724,6 +765,7 @@
                 message += `Cantidad: ${item.quantity}\n`;
                 message += `Subtotal: $${item.subtotal.toFixed(2)}\n\n`;
             });
+            message += `Cliente: ${nombre}\nTeléfono: ${telefono}\nEntrega: ${metodo}\n`;
             message += `Total: $${cart.reduce((total, item) => total + item.subtotal, 0).toFixed(2)}`;
 
             const encodedMessage = encodeURIComponent(message);

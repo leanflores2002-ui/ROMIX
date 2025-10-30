@@ -20,11 +20,20 @@
           ['T?rmica','Térmica'], ['T?rmico','Térmico'], ['T�rmica','Térmica'], ['T�rmico','Térmico'], ['TǸrmica','Térmica'], ['TǸrmico','Térmico'],
           ['Marr?n','Marrón'], ['Marr��n','Marrón'], ['Pantal?n','Pantalón'], ['Pantal��n','Pantalón'], ['Algod?n','Algodón'], ['Algod��n','Algodón'],
           ['Ni�os','Niños'], ['Ni?a','Niña'], ['Ni?o','Niño'], ['Ni��os','Niños'], ['Ni��a','Niña'], ['Ni��o','Niño'], ['ni��a','niña'], ['ni��o','niño'],
-          ['rǧstico','rústico'], ['r��stico','rústico'], ['pu��o','puño']
+          ['rǧstico','rústico'], ['r��stico','rústico'], ['pu��o','puño'],
+          ['Ã¡','á'], ['Ã©','é'], ['Ã­','í'], ['Ã³','ó'], ['Ãº','ú'], ['Ã±','ñ'], ['Ã¼','ü'],
+          ['Ã�','Á'], ['Ã‰','É'], ['Ã�','Í'], ['Ã“','Ó'], ['Ãš','Ú'], ['Ã‘','Ñ'], ['Ãœ','Ü'],
+          ['Â','']
         ];
         for (const [a,b] of pairs) out = out.split(a).join(b);
         return out;
       } catch { return String(s||''); }
+    },
+    prettySection(s){
+      const v = String(s||'');
+      if (v.toLowerCase()==='ninos') return 'Niños';
+      if (!v) return '';
+      return v.charAt(0).toUpperCase() + v.slice(1);
     },
     norm(s){
       try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); }
@@ -203,6 +212,8 @@
       const subtitle = document.createElement('div'); subtitle.className = 'subtitle';
       const sectionNice = p.section ? (String(p.section).charAt(0).toUpperCase() + String(p.section).slice(1)) : '';
       subtitle.textContent = sectionNice + (p.type ? (sectionNice? ' · ' : '') + p.type : '');
+      // Normalizar sección a 'Niños' y limpiar texto
+      try { subtitle.textContent = utils.prettySection(p.section) + (p.type ? (utils.prettySection(p.section)? ' · ' : '') + p.type : ''); } catch {}
       const row = document.createElement('div'); row.className = 'row';
       const priceEl = document.createElement('div'); priceEl.className = 'price'; priceEl.textContent = '$' + price;
       const stockEl = document.createElement('div'); stockEl.className = 'stock'; stockEl.textContent = 'Disponible';

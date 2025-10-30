@@ -479,6 +479,18 @@
       return out;
     }
 
+    // Corrección adicional de latin-1 mal decodificado (Ã¡, Ã±, etc.)
+    function fixTextLatin(s){
+      if (!s || typeof s !== 'string') return s;
+      const latin = [
+        ['Ã¡','á'], ['Ã©','é'], ['Ã­','í'], ['Ã³','ó'], ['Ãº','ú'], ['Ã±','ñ'], ['Ã¼','ü'],
+        ['Ã�','Á'], ['Ã‰','É'], ['Ã�','Í'], ['Ã“','Ó'], ['Ãš','Ú'], ['Ã‘','Ñ'], ['Ãœ','Ü'],
+        ['Â','']
+      ];
+      let out = String(s);
+      for (const [a,b] of latin) out = out.split(a).join(b);
+      return out;
+    }
     function _normLocal(s){
       try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); }
       catch { return String(s||'').toLowerCase(); }
@@ -533,11 +545,11 @@
 
             card.innerHTML = `
               <div class="product-image">
-                <img src="${product.image || 'images/placeholder.jpg'}" onerror="this.onerror=null; this.src='images/placeholder.jpg';" alt="${fixText(product.name)}" loading="lazy" />
+                <img src="${product.image || 'images/placeholder.jpg'}" onerror="this.onerror=null; this.src='images/placeholder.jpg';" alt="${fixTextLatin(fixText(product.name))}" loading="lazy" />
                 ${badgeHTML}
               </div>
               <div class="product-info">
-                <h3 class="product-title" style="cursor:pointer;">${fixText(product.name)}</h3>
+                <h3 class="product-title" style="cursor:pointer;">${fixTextLatin(fixText(product.name))}</h3>
                 <div class="product-price">${priceHTML}</div>
                 <div class="product-colors">${colorsHTML}</div>
                 <div class="product-sizes">

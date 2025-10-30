@@ -102,7 +102,9 @@
     };
     SUGGEST_INDEX = -1;
     SUGGEST_BOX.innerHTML = items.map((it,i)=>{
-      const dn = fixText(it.name);
+      const latinPairs = [['Ã¡','á'],['Ã©','é'],['Ã­','í'],['Ã³','ó'],['Ãº','ú'],['Ã±','ñ'],['Ã¼','ü'],['Ã�','Á'],['Ã‰','É'],['Ã�','Í'],['Ã“','Ó'],['Ãš','Ú'],['Ã‘','Ñ'],['Ãœ','Ü'],['Â','']];
+      const fn = (s)=>{ let out=String(s||''); for(const [a,b] of latinPairs) out=out.split(a).join(b); return out; };
+      const dn = fn(fixText(it.name));
       return `<div class="search-suggestion" data-slug="${it.slug}"><i class="fas fa-search"></i><div><div class="t">${hi(dn)}</div><small>${it.type||''}</small></div></div>`;
     }).join('');
     SUGGEST_BOX.style.display='block';

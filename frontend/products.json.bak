@@ -1546,10 +1546,12 @@
         "priceByGroup":  {
                              "common":  9500
                          },
-        "colors":  {
-                       "name":  "Estampado",
-                       "hex":  "#ff6b6b"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Estampado",
+                           "hex":  "#ff6b6b"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -2002,10 +2004,12 @@
         "priceByGroup":  {
                              "common":  8900
                          },
-        "colors":  {
-                       "name":  "Estampado",
-                       "hex":  "#ff6b6b"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Estampado",
+                           "hex":  "#ff6b6b"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -2352,14 +2356,16 @@
         "type":  "ciclistas",
         "name":  "Ciclista lycra estampado",
         "image":  "images/placeholder.jpg",
-        "price":  7500,
+        "price":  9200,
         "priceByGroup":  {
-                             "common":  7500
+                             "common":  9200
                          },
-        "colors":  {
-                       "name":  "Estampado",
-                       "hex":  "#ff6b6b"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Estampado",
+                           "hex":  "#ff6b6b"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -2388,14 +2394,16 @@
         "type":  "ciclistas",
         "name":  "Ciclista lycra morley",
         "image":  "images/placeholder.jpg",
-        "price":  7500,
+        "price":  8200,
         "priceByGroup":  {
-                             "common":  7500
+                             "common":  8200
                          },
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -2424,10 +2432,10 @@
         "type":  "ciclistas",
         "name":  "Ciclista lycra combinado",
         "image":  "images/placeholder.jpg",
-        "price":  7500,
+        "price":  9500,
         "priceByGroup":  {
-                             "common":  7500,
-                             "special":  8000
+                             "common":  9500,
+                             "special":  10000
                          },
         "colors":  [
                        {
@@ -2589,10 +2597,12 @@
         "priceByGroup":  {
                              "common":  7000
                          },
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  1,
@@ -2799,10 +2809,12 @@
                              "common":  8000,
                              "special":  8500
                          },
-        "colors":  {
-                       "name":  "Combinado",
-                       "hex":  "#7F00FF"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Combinado",
+                           "hex":  "#7F00FF"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4081,10 +4093,12 @@
                              14,
                              16
                          ],
-        "colors":  {
-                       "name":  "Estampado",
-                       "hex":  "#ff6b6b"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Estampado",
+                           "hex":  "#ff6b6b"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "6",
@@ -4239,10 +4253,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4353,10 +4369,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4616,10 +4634,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Combinado",
-                       "hex":  "#7F00FF"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Combinado",
+                           "hex":  "#7F00FF"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4664,10 +4684,12 @@
         "priceByGroup":  {
                              "common":  9800
                          },
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4712,10 +4734,12 @@
         "priceByGroup":  {
                              "common":  10200
                          },
-        "colors":  {
-                       "name":  "Jaspeado",
-                       "hex":  "#6c757d"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Jaspeado",
+                           "hex":  "#6c757d"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4760,10 +4784,12 @@
         "priceByGroup":  {
                              "common":  11500
                          },
-        "colors":  {
-                       "name":  "Estampado",
-                       "hex":  "#ff6b6b"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Estampado",
+                           "hex":  "#ff6b6b"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4796,10 +4822,12 @@
         "priceByGroup":  {
                              "common":  9500
                          },
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4838,10 +4866,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4892,10 +4922,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -4946,10 +4978,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Jaspeado",
-                       "hex":  "#6c757d"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Jaspeado",
+                           "hex":  "#6c757d"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5000,10 +5034,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5114,10 +5150,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Azul jaspeado",
-                       "hex":  "#6b8cff"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Azul jaspeado",
+                           "hex":  "#6b8cff"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5168,10 +5206,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Azul jaspeado",
-                       "hex":  "#6b8cff"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Azul jaspeado",
+                           "hex":  "#6b8cff"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5222,10 +5262,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5276,10 +5318,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Estampado",
-                       "hex":  "#ff6b6b"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Estampado",
+                           "hex":  "#ff6b6b"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5330,10 +5374,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Gris",
-                       "hex":  "#666"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Gris",
+                           "hex":  "#666"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5384,10 +5430,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5438,10 +5486,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5492,10 +5542,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Liso",
-                       "hex":  "#6b8cff"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Liso",
+                           "hex":  "#6b8cff"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5546,10 +5598,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5600,10 +5654,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Jaspeado",
-                       "hex":  "#6c757d"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Jaspeado",
+                           "hex":  "#6c757d"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5654,10 +5710,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5713,10 +5771,12 @@
                                   9,
                                   10
                               ],
-        "colors":  {
-                       "name":  "Negro",
-                       "hex":  "#000"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5775,10 +5835,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "Gris",
-                       "hex":  "#666"
-                   },
+        "colors":  [
+                       {
+                           "name":  "Gris",
+                           "hex":  "#666"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -5829,10 +5891,12 @@
                              7,
                              8
                          ],
-        "colors":  {
-                       "name":  "MarrÃ³n",
-                       "hex":  "#654321"
-                   },
+        "colors":  [
+                       {
+                           "name":  "MarrÃ³n",
+                           "hex":  "#654321"
+                       }
+                   ],
         "sizes":  [
                       {
                           "size":  "1",

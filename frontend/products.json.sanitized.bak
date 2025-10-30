@@ -2352,9 +2352,9 @@
         "type":  "ciclistas",
         "name":  "Ciclista lycra estampado",
         "image":  "images/placeholder.jpg",
-        "price":  7500,
+        "price":  9200,
         "priceByGroup":  {
-                             "common":  7500
+                             "common":  9200
                          },
         "colors":  {
                        "name":  "Estampado",
@@ -2388,9 +2388,9 @@
         "type":  "ciclistas",
         "name":  "Ciclista lycra morley",
         "image":  "images/placeholder.jpg",
-        "price":  7500,
+        "price":  8200,
         "priceByGroup":  {
-                             "common":  7500
+                             "common":  8200
                          },
         "colors":  {
                        "name":  "Negro",
@@ -2424,10 +2424,10 @@
         "type":  "ciclistas",
         "name":  "Ciclista lycra combinado",
         "image":  "images/placeholder.jpg",
-        "price":  7500,
+        "price":  9500,
         "priceByGroup":  {
-                             "common":  7500,
-                             "special":  8000
+                             "common":  9500,
+                             "special":  10000
                          },
         "colors":  [
                        {

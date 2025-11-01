@@ -98,13 +98,34 @@
     .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
     .btn-success { background: var(--success); color: #fff; }
     .btn-danger { background: var(--danger); color: #fff; }
+    .btn-details { background:#fff; color:#495057; border:1px solid #e9ecef; }
 
     .contact-section, .cart-section { background: #fff; border-radius: var(--radius); padding: 30px; margin-top: 40px; box-shadow: 0 3px 10px rgba(0,0,0,.1); }
-    .cart-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    .cart-table th, .cart-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-    .cart-table th { background: var(--light); font-weight: 700; color: var(--secondary); }
-    .cart-total { margin-top: 20px; font-size: 1.3rem; font-weight: 700; text-align: right; color: var(--primary); }
-    .cart-actions { margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
+    /* Nuevo diseño de carrito (apartado dedicado) */
+    .cart-page { text-align:center; }
+    .cart-title { font-size: 1.6rem; font-weight: 900; color: #1b1f24; margin: 4px 0; }
+    .cart-subtitle { color:#6c757d; margin-bottom:14px; }
+    .cart-box { max-width: 900px; margin: 0 auto; background:#fff; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,.10); padding: 16px; }
+    .cart-list { display:flex; flex-direction:column; gap:12px; }
+    .cart-item { display:grid; grid-template-columns: 72px 1fr auto; gap:14px; align-items:center; border:1px solid #e9ecef; border-radius:10px; padding:10px; }
+    .cart-thumb { width:72px; height:72px; background:#f8f9fb; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .cart-thumb img { width:100%; height:100%; object-fit:contain; }
+    .cart-info { text-align:left; }
+    .cart-info .name { font-weight:900; color:#111; }
+    .cart-info .meta { color:#6c757d; font-size:.9rem; }
+    .cart-info .unit { color: var(--secondary); font-weight:800; font-size:.95rem; }
+    .qty-stepper { display:inline-flex; align-items:center; gap:8px; border:1px solid #dee2e6; border-radius:8px; padding:4px 6px; background:#fff; }
+    .qty-stepper button { width:28px; height:28px; border-radius:6px; border:1px solid #dee2e6; background:#fff; cursor:pointer; }
+    .qty-stepper input { width:48px; text-align:center; border:none; outline:none; }
+    .cart-right { text-align:right; }
+    .cart-right .subtotal { font-weight:900; color:#1b1f24; }
+    .cart-right .remove { color:#dc3545; background:#fff; border:1px solid #f1a6ad; border-radius:8px; padding:6px 8px; cursor:pointer; }
+    .cart-summary { margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:12px; border-top:1px solid #e9ecef; }
+    .cart-summary .left { text-align:left; color:#6c757d; }
+    .cart-summary .right { display:flex; align-items:baseline; gap:8px; }
+    .cart-total-amount { font-size:1.2rem; font-weight:900; color:#1b1f24; }
+    .cart-actions-row { margin-top:12px; display:flex; gap:10px; justify-content:flex-end; }
+    .link-danger { background:none; border:none; color:#dc3545; cursor:pointer; text-decoration:underline; }
 
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 2000; align-items: center; justify-content: center; }
     .modal-content { background: #fff; padding: 20px; border-radius: var(--radius); width: 95%; max-width: 720px; box-shadow: 0 5px 15px rgba(0,0,0,.3); }
@@ -178,6 +199,7 @@
     .product-image { height: 300px; background:#f8f9fb; }
     .product-title { font-size: 1.15rem; color:#111; }
     .product-price { font-size: 1.25rem; color: var(--secondary); font-weight: 800; }
+    .product-subtitle { color:#6c757d; font-size:.95rem; margin: 2px 0 6px; }
     .btn.btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 8px 18px rgba(111,66,193,.25); }
   </style>
 </head>
@@ -288,19 +310,26 @@
     <div id="feedback" class="hidden" role="status" aria-live="polite" style="margin-bottom:10px;color:#c00;"></div>
 
     <section id="cart" class="cart-section hidden" role="region" aria-label="Carrito de compras">
-      <h2 class="section-title"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Carrito de Compras</h2>
-      <table class="cart-table">
-        <thead>
-          <tr>
-            <th>Producto</th><th>Tipo</th><th>Color</th><th>Talle</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th><th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="cart-items"></tbody>
-      </table>
-      <div class="cart-total">Total: $<span id="cart-total">0</span></div>
-      <div class="cart-actions">
-        <button class="btn btn-danger" type="button" onclick="clearCart()"><i class="fas fa-trash" aria-hidden="true"></i> Vaciar Carrito</button>
-        <button class="btn btn-success" type="button" onclick="sendToWhatsApp()"><i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar Pedido</button>
+      <div class="cart-page">
+        <h2 class="cart-title">Mi Carrito</h2>
+        <p class="cart-subtitle">Revisá tus productos seleccionados</p>
+        <div class="cart-box">
+          <div id="cart-list" class="cart-list"></div>
+          <div class="cart-summary">
+            <div class="left">
+              <div>Total de productos: <span id="cart-count-display">0</span></div>
+              <button id="cart-clear-btn" type="button" class="link-danger">Vaciar carrito</button>
+            </div>
+            <div class="right">
+              <div class="cart-total-label">Total:</div>
+              <div class="cart-total-amount">$<span id="cart-total">0</span></div>
+            </div>
+          </div>
+          <div class="cart-actions-row">
+            <button class="btn btn-outline" type="button" id="continue-shopping">Continuar comprando</button>
+            <button class="btn btn-primary" type="button" id="order-btn"><i class="fas fa-paper-plane" aria-hidden="true"></i> Ordenar pedido</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -449,6 +478,15 @@
           }
         }
       } catch {}
+      // Botones del carrito rediseñado
+      try {
+        const orderBtn = document.getElementById('order-btn');
+        const clearBtn = document.getElementById('cart-clear-btn');
+        const contBtn = document.getElementById('continue-shopping');
+        orderBtn && orderBtn.addEventListener('click', orderCartWhatsApp);
+        clearBtn && clearBtn.addEventListener('click', clearCart);
+        contBtn && contBtn.addEventListener('click', ()=>{ const sec=document.getElementById('cart'); if (sec) sec.classList.add('hidden'); window.scrollTo({top:0, behavior:'smooth'}); });
+      } catch {}
       // Cerrar modal con ESC y clic fuera
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeReviewModal(); });
       document.getElementById('review-modal').addEventListener('click', (e) => {
@@ -518,6 +556,7 @@
               </div>
               <div class="product-info">
                 <h3 class="product-title" style="cursor:pointer;">${fixText(product.name)}</h3>
+                <div class="product-subtitle">${fixText(product.section)} • ${fixText(product.type)}</div>
                 <div class="product-price">${priceHTML}</div>
                 <div class="product-colors">${colorsHTML}</div>
                 <div class="product-sizes">
@@ -533,7 +572,8 @@
                 <div class="product-selection-status" aria-live="polite">Sin selección</div>
                 <div class="product-stock-note" aria-label="Stock total disponible" style="font-size:.8rem;color:#6c757d;margin-top:2px;"></div>
                 <div class="product-actions">
-                  <button class="btn btn-primary" type="button" aria-disabled="true" disabled>Comprar</button>
+                  <a class="btn btn-details" href="#" role="button">Ver Detalles</a>
+                  <button class="btn btn-primary" type="button" aria-disabled="true" disabled>Agregar</button>
                 </div>
               </div>`;
 
@@ -572,6 +612,7 @@
             const toDetail = () => { const slug = (window.romixSearch && window.romixSearch.slug) ? window.romixSearch.slug(product.name) : (String(product.name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-')); window.location.href = 'product.html?slug=' + encodeURIComponent(slug); };
             const imgWrap = card.querySelector('.product-image'); if (imgWrap) { imgWrap.style.cursor='pointer'; imgWrap.addEventListener('click', toDetail); }
             const titleEl = card.querySelector('.product-title'); if (titleEl) { titleEl.addEventListener('click', toDetail); }
+            const detailsBtn = card.querySelector('.btn.btn-details'); if (detailsBtn) { detailsBtn.addEventListener('click', (ev)=>{ ev.preventDefault(); toDetail(); }); }
           });
 
           filterProducts('mujer', 'all');
@@ -1128,29 +1169,70 @@
       updateCart();
     }
 
+    // === Helpers y render del carrito rediseñado ===
+    function findImageForItem(item){
+      try {
+        const cards = document.querySelectorAll('.product-card');
+        for (const c of cards) {
+          const p = JSON.parse(c.dataset.product||'{}');
+          if ((p.name||'') === item.name) {
+            if (p.images && item.color && p.images[item.color]) return p.images[item.color];
+            return p.image || '';
+          }
+        }
+      } catch {}
+      return '';
+    }
+    function changeQty(id, delta){
+      cart = cart.map(it=> it.id===id ? ({...it, quantity: Math.max(1, (parseInt(it.quantity)||1)+delta), subtotal: (Math.max(1, (parseInt(it.quantity)||1)+delta))*Number(it.price||0) }) : it);
+      safeSetCart(cart); updateCart();
+    }
+    function setQtyDirect(id, val){
+      const q = Math.max(1, parseInt(val)||1);
+      cart = cart.map(it=> it.id===id ? ({...it, quantity:q, subtotal:q*Number(it.price||0)}) : it);
+      safeSetCart(cart); updateCart();
+    }
+
     function updateCart() {
-      const body = document.getElementById('cart-items');
+      const list = document.getElementById('cart-list');
       const totalEl = document.getElementById('cart-total');
-      const countEl = document.getElementById('cart-count');
-      if (!body || !totalEl || !countEl) return;
-      body.innerHTML = '';
+      const countBadge = document.getElementById('cart-count');
+      const countDisplay = document.getElementById('cart-count-display');
+      if (!list || !totalEl || !countBadge) return;
+      list.innerHTML = '';
       let total = 0, count = 0;
       cart.forEach((item) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${item.name}</td>
-          <td>${item.type}</td>
-          <td>${item.color}</td>
-          <td>${item.size}</td>
-          <td>${item.quantity}</td>
-          <td>$${item.price.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td>$${item.subtotal.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td><button class="btn btn-danger" type="button" aria-label="Eliminar del carrito" onclick="removeFromCart(${item.id})"><i class="fas fa-trash" aria-hidden="true"></i></button></td>`;
-        body.appendChild(tr);
-        total += item.subtotal; count += item.quantity;
+        const img = findImageForItem(item);
+        const el = document.createElement('div');
+        el.className = 'cart-item';
+        el.innerHTML = `
+          <div class="cart-thumb">${img?`<img src="${img}" alt="${item.name}">`:'<span style="color:#adb5bd;font-weight:700;">Sin imagen</span>'}</div>
+          <div class="cart-info">
+            <div class="name">${item.name}</div>
+            <div class="meta">${item.type} • Color: ${item.color} • Talle: ${item.size}</div>
+            <div class="unit">$${Number(item.price).toLocaleString('es-AR')} c/u</div>
+            <div class="qty-stepper" data-id="${item.id}">
+              <button type="button" class="dec" aria-label="Disminuir">-</button>
+              <input type="number" min="1" value="${item.quantity}" />
+              <button type="button" class="inc" aria-label="Aumentar">+</button>
+            </div>
+          </div>
+          <div class="cart-right">
+            <div class="subtotal">$${Number(item.subtotal).toLocaleString('es-AR')}</div>
+            <button type="button" class="remove" aria-label="Eliminar"><i class="fas fa-trash" aria-hidden="true"></i></button>
+          </div>`;
+        // Eventos
+        const id = item.id;
+        el.querySelector('.dec').addEventListener('click', ()=>changeQty(id,-1));
+        el.querySelector('.inc').addEventListener('click', ()=>changeQty(id,1));
+        el.querySelector('input').addEventListener('input', (ev)=>setQtyDirect(id, ev.target.value));
+        el.querySelector('.remove').addEventListener('click', ()=>removeFromCart(id));
+        list.appendChild(el);
+        total += Number(item.subtotal)||0; count += Number(item.quantity)||0;
       });
       totalEl.textContent = total.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      countEl.textContent = String(count);
+      countBadge.textContent = String(count);
+      if (countDisplay) countDisplay.textContent = String(count);
 
       const cartSection = document.getElementById('cart');
       const cartBtn = document.querySelector('.cart-icon-btn');
@@ -1172,7 +1254,26 @@
       if (!sec.classList.contains('hidden')) {
         sec.classList.add('animate__animated', 'animate__fadeIn');
         setTimeout(() => sec.classList.remove('animate__animated', 'animate__fadeIn'), 800);
+        setTimeout(()=>sec.scrollIntoView({behavior:'smooth', block:'start'}), 40);
       }
+    }
+
+    // Acción principal del carrito: enviar pedido por WhatsApp
+    function orderCartWhatsApp(){
+      if (!cart.length) { alert('El carrito está vacío.'); return; }
+      let message = 'Hola! Quiero ordenar el siguiente pedido:\n\n';
+      cart.forEach((item) => {
+        message += `${item.name} (${item.type})\n`;
+        message += `Color: ${item.color}\n`;
+        message += `Talle: ${item.size}\n`;
+        message += `Cantidad: ${item.quantity}\n`;
+        message += `Subtotal: $${item.subtotal.toFixed(2)}\n\n`;
+      });
+      message += `Total: $${cart.reduce((t, i) => t + i.subtotal, 0).toFixed(2)}`;
+      const encoded = encodeURIComponent(message);
+      const phone = '5491154272065';
+      const w = window.open(`https://wa.me/${phone}?text=${encoded}`, '_blank');
+      if (w) w.opener = null;
     }
 
     function sendToWhatsApp() {

@@ -35,6 +35,9 @@
     .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
     .search-suggestion .t { line-height:1.1; color:#212529; }
     .search-suggestion small { color:#6c757d; }
+    .error-banner { display:none; margin:12px 0; padding:10px 12px; background:#fff3cd; border:1px solid #ffeeba; border-radius:10px; color:#856404; }
+    .error-banner .actions { margin-top:6px; }
+    .error-banner .actions .btn { padding:6px 10px; border:1px solid #f1f3f5; border-radius:8px; cursor:pointer; background:#fff; }
 
     :root {
       --primary: #e83e8c; --secondary: #6f42c1; --light: #f8f9fa; --dark: #343a40;
@@ -324,6 +327,11 @@
         </div>
       </div>
     </section>
+    <div id="load-error-banner" class="error-banner">
+      <strong>No se pudieron cargar los productos.</strong>
+      <div>Si abriste el archivo con doble clic, es posible que el navegador bloquee la lectura de <code>products.json</code>. Probá abrir con un servidor local o reintentar.</div>
+      <div class="actions"><button id="load-retry" class="btn">Reintentar</button></div>
+    </div>
     <div id="feedback" class="hidden" role="status" aria-live="polite" style="margin-bottom:10px;color:#c00;"></div>
 
 <!-- Carrito movido a cart.html -->
@@ -486,6 +494,15 @@
       return out;
     }
 
+    function fixAllText(){
+      try {
+        const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+        const nodes = [];
+        while (w.nextNode()) nodes.push(w.currentNode);
+        nodes.forEach(n => { n.nodeValue = fixText(n.nodeValue); });
+      } catch {}
+    }
+
     function loadProducts() {
       return fetch('products.json').catch(err => { console.error('[ROMIX] fetch products.json failed:', err); const b=document.getElementById('load-error-banner'); if(b)b.style.display='block'; return new Response(JSON.stringify([]), {headers:{'Content-Type':'application/json'}}); })
         .then((r) => r.json())
@@ -549,6 +566,9 @@
               </div>`;
 
             sections[product.section].appendChild(card);
+            // Ajustar subtítulo (sección • tipo) usando entidad HTML para evitar codificación rota
+            const subtitleEl = card.querySelector('.product-subtitle');
+            if (subtitleEl) subtitleEl.innerHTML = `${fixText(product.section)} &middot; ${fixText(product.type)}`;
             const stockNote = card.querySelector('.product-stock-note');
             if (stockNote) {
               const total = computeTotalStock(product);
@@ -565,7 +585,7 @@
               const t = computeTotalStock(product);
               const s = stateFromStock(t);
               const l = s === 'out' ? 'Agotado' : (s === 'low' ? 'Por agotarse' : 'Disponible');
-              n.textContent = l + ' · Stock: ' + t;
+              n.textContent = l + ' \\u00B7 Stock: ' + t;
               n.classList.remove('state-available','state-low','state-out');
               n.classList.add('state-' + s);
             })();
@@ -1336,6 +1356,7 @@ document.addEventListener('DOMContentLoaded', ()=>{ initGlobalFilters(); });
 </html>
 
 </html>
+
 
 
 

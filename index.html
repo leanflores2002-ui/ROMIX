@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Romix - Colección Invierno 2025</title>
+  <title>Romix - ColecciÃ³n Invierno 2025</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-b7ZPnUPQK1G3z2d4l0f7Gm2M1eJp4z8f5s1p9o3r2x6z0kYd8l9r4Qv5B1c2D3E4F5G6H7I8J9K0L1M2N3O4PQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
 
-    /* === Estados de talles (según disponibilidad) === */
+    /* === Estados de talles (segÃºn disponibilidad) === */
     .size-chip { position: relative; padding: 6px 10px; border-radius: 10px; font-weight: 700; border: 1px solid #ddd; cursor: pointer; user-select: none; }
     .size-chip[data-state="available"] { background: var(--success); color: #fff; }
     .size-chip[data-state="low"] { background: var(--warning); color: #212529; }
@@ -101,7 +101,7 @@
     .btn-details { background:#fff; color:#495057; border:1px solid #e9ecef; }
 
     .contact-section, .cart-section { background: #fff; border-radius: var(--radius); padding: 30px; margin-top: 40px; box-shadow: 0 3px 10px rgba(0,0,0,.1); }
-    /* Nuevo diseño de carrito (apartado dedicado) */
+    /* Nuevo diseÃ±o de carrito (apartado dedicado) */
     .cart-page { text-align:center; }
     .cart-title { font-size: 1.6rem; font-weight: 900; color: #1b1f24; margin: 4px 0; }
     .cart-subtitle { color:#6c757d; margin-bottom:14px; }
@@ -200,7 +200,19 @@
     .product-title { font-size: 1.15rem; color:#111; }
     .product-price { font-size: 1.25rem; color: var(--secondary); font-weight: 800; }
     .product-subtitle { color:#6c757d; font-size:.95rem; margin: 2px 0 6px; }
+    .availability { margin-top:6px; font-weight:800; font-size:.95rem; }
+    .availability small { color:#6c757d; font-weight:600; margin-left:6px; }
+    .availability.state-available { color: var(--success); }
+    .availability.state-low { color: #ff9800; }
+    .availability.state-out { color: var(--danger); }
     .btn.btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 8px 18px rgba(111,66,193,.25); }
+    /* Home simplificada: ocultar selección de color/talle/cantidad */
+    .product-colors, .product-sizes, .quantity-control, .product-selection-status { display:none !important; }
+    /* Mostrar disponibilidad como línea debajo del precio */
+    .product-stock-note { margin-top:6px; font-weight:800; font-size:.95rem; }
+    .product-stock-note.state-available { color: var(--success); }
+    .product-stock-note.state-low { color: #ff9800; }
+    .product-stock-note.state-out { color: var(--danger); }
   </style>
 </head>
 <body
@@ -213,16 +225,16 @@
         <ul>
           <li><a href="mujer.html">Mujer</a></li>
           <li><a href="hombre.html">Hombre</a></li>
-          <li><a href="ninos.html">Niños</a></li>
+          <li><a href="ninos.html">NiÃ±os</a></li>
           <li><a href="ayuda.html">Ayuda</a></li>
         </ul>
       </div>
       <div class="contact-header">
-        <button type="button" class="cart-icon-btn" onclick="toggleCart()" aria-haspopup="region" aria-controls="cart" aria-expanded="false">
+        <a class="cart-icon-btn" href="cart.html" aria-label="Ir al carrito">
           <i class="fas fa-shopping-cart" aria-hidden="true"></i>
           <span>Carrito</span>
           <span id="cart-count" aria-live="polite">0</span>
-        </button>
+        </a>
         <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
           <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
           <button type="submit"><i class="fas fa-search" aria-hidden="true"></i> Buscar</button>
@@ -236,7 +248,7 @@
       <ul class="nav-menu">
         <li class="active"><a href="mujer.html"><i class="fas fa-female" aria-hidden="true"></i> Mujer</a></li>
         <li><a href="hombre.html"><i class="fas fa-male" aria-hidden="true"></i> Hombre</a></li>
-        <li><a href="ninos.html"><i class="fas fa-child" aria-hidden="true"></i> Niños</a></li>
+        <li><a href="ninos.html"><i class="fas fa-child" aria-hidden="true"></i> NiÃ±os</a></li>
         <li><a href="#contacto"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Contacto</a></li>
         <li><a href="ayuda.html"><i class="fas fa-question-circle" aria-hidden="true"></i> Ayuda</a></li>
       </ul>
@@ -244,9 +256,9 @@
   </nav>
 
   <div class="container">
-    <section class="hero" aria-label="Presentación catálogo">
-      <h1>Catálogo ROMIX</h1>
-      <p>Encontrá calzas, tops, camperas y más. Seleccioná color y talle, revisá disponibilidad en vivo y sumalo al carrito.</p>
+    <section class="hero" aria-label="PresentaciÃ³n catÃ¡logo">
+      <h1>CatÃ¡logo ROMIX</h1>
+      <p>EncontrÃ¡ calzas, tops, camperas y mÃ¡s. SeleccionÃ¡ color y talle, revisÃ¡ disponibilidad en vivo y sumalo al carrito.</p>
     </section>
 
     <section class="filter-bar" aria-label="Barra de filtros">
@@ -262,18 +274,18 @@
           <div class="filters-row">
             <strong class="filters-title">Filtros</strong>
             <div class="filters-grid">
-              <label>Sección
+              <label>SecciÃ³n
                 <select id="filter-section">
                   <option value="all">Todas</option>
                   <option value="mujer">Mujer</option>
                   <option value="hombre">Hombre</option>
-                  <option value="ninos">Niños</option>
+                  <option value="ninos">NiÃ±os</option>
                 </select>
               </label>
-              <label>Precio Mínimo
+              <label>Precio MÃ­nimo
                 <input id="filter-price-min" type="number" min="0" value="0" inputmode="numeric" />
               </label>
-              <label>Precio Máximo
+              <label>Precio MÃ¡ximo
                 <input id="filter-price-max" type="number" min="0" value="999999" inputmode="numeric" />
               </label>
               <label>Disponibilidad
@@ -309,29 +321,7 @@
     </section>
     <div id="feedback" class="hidden" role="status" aria-live="polite" style="margin-bottom:10px;color:#c00;"></div>
 
-    <section id="cart" class="cart-section hidden" role="region" aria-label="Carrito de compras">
-      <div class="cart-page">
-        <h2 class="cart-title">Mi Carrito</h2>
-        <p class="cart-subtitle">Revisá tus productos seleccionados</p>
-        <div class="cart-box">
-          <div id="cart-list" class="cart-list"></div>
-          <div class="cart-summary">
-            <div class="left">
-              <div>Total de productos: <span id="cart-count-display">0</span></div>
-              <button id="cart-clear-btn" type="button" class="link-danger">Vaciar carrito</button>
-            </div>
-            <div class="right">
-              <div class="cart-total-label">Total:</div>
-              <div class="cart-total-amount">$<span id="cart-total">0</span></div>
-            </div>
-          </div>
-          <div class="cart-actions-row">
-            <button class="btn btn-outline" type="button" id="continue-shopping">Continuar comprando</button>
-            <button class="btn btn-primary" type="button" id="order-btn"><i class="fas fa-paper-plane" aria-hidden="true"></i> Ordenar pedido</button>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- Carrito movido a cart.html -->
 
     <section id="mujer">
       <h2 class="section-title"><i class="fas fa-female" aria-hidden="true"></i> Ropa para Mujer</h2>
@@ -344,24 +334,24 @@
     </section>
 
     <section id="ninos">
-      <h2 class="section-title"><i class="fas fa-child" aria-hidden="true"></i> Ropa para Niños</h2>
+      <h2 class="section-title"><i class="fas fa-child" aria-hidden="true"></i> Ropa para NiÃ±os</h2>
       <div class="products-grid" id="ninos-grid"></div>
     </section>
 
     <section id="contacto" class="contact-section">
-      <h2 class="section-title"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Contacto y Ubicación</h2>
+      <h2 class="section-title"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Contacto y UbicaciÃ³n</h2>
       <div class="contact-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;">
         <div class="contact-info">
-          <h3>Información de contacto</h3>
-          <p><i class="fas fa-store" aria-hidden="true"></i> <strong>Tienda física:</strong> Concordia 514 local b, CABA</p>
-          <p><i class="fas fa-phone" aria-hidden="true"></i> <strong>Teléfono:</strong> <a href="tel:+5491154272065">+54 9 11 5427-2065</a></p>
+          <h3>InformaciÃ³n de contacto</h3>
+          <p><i class="fas fa-store" aria-hidden="true"></i> <strong>Tienda fÃ­sica:</strong> Concordia 514 local b, CABA</p>
+          <p><i class="fas fa-phone" aria-hidden="true"></i> <strong>TelÃ©fono:</strong> <a href="tel:+5491154272065">+54 9 11 5427-2065</a></p>
           <p><i class="fab fa-whatsapp" aria-hidden="true"></i> <strong>WhatsApp:</strong> <a href="https://wa.me/5491154272065" target="_blank" rel="noopener noreferrer">+54 9 11 5427-2065</a></p>
           <p><i class="fas fa-envelope" aria-hidden="true"></i> <strong>Email:</strong> <a href="mailto:info@romix.com.ar">info@romix.com.ar</a></p>
           <div class="business-hours">
-            <h3>Horarios de atención</h3>
+            <h3>Horarios de atenciÃ³n</h3>
             <ul>
               <li style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;"><span>Lunes a Viernes</span> <span>7:00 - 16:30 hs</span></li>
-              <li style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;"><span>Sábados</span> <span>7:00 - 12:30 hs</span></li>
+              <li style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;"><span>SÃ¡bados</span> <span>7:00 - 12:30 hs</span></li>
               <li style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;"><span>Domingos</span> <span>Cerrado</span></li>
             </ul>
           </div>
@@ -375,38 +365,7 @@
     </section>
   </div>
 
-  <!-- MODAL -->
-  <div id="review-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="review-title" aria-hidden="true">
-    <div class="modal-content animate__animated animate__fadeIn" tabindex="-1">
-      <h3 id="review-title">Revisar pedido</h3>
-          <div class="modal-row">
-            <div class="modal-thumb"><img id="review-image" alt="Producto seleccionado" onerror="this.onerror=null; this.src='images/placeholder.jpg';" /></div>
-        <div>
-          <div class="summary">
-            <p><strong id="review-name">Producto</strong> <span id="review-type" style="color:#6c757d"></span></p>
-            <div class="price-line"><span>Precio unitario</span><strong>$<span id="review-price" data-unit-price="0">0</span></strong></div>
-            <div class="price-line"><span>Subtotal</span><strong>$<span id="review-subtotal">0</span></strong></div>
-            <p id="review-stock" style="margin-top:6px;color:#6c757d;">Stock disponible: -</p>
-          </div>
-
-          <label for="review-color">Color</label>
-          <select id="review-color"></select>
-
-          <label for="review-size">Talle</label>
-          <select id="review-size"></select>
-
-          <label for="review-qty">Cantidad</label>
-          <div class="quantity-control" style="margin-top:4px;">
-            <button class="btn quantity-btn" id="qty-dec" type="button" aria-label="Disminuir cantidad">−</button>
-            <input type="number" id="review-qty" class="quantity-input" min="1" value="1" />
-            <button class="btn quantity-btn" id="qty-inc" type="button" aria-label="Aumentar cantidad">+</button>
-          </div>
-
-          <div class="modal-actions">
-            <button class="btn btn-outline" type="button" onclick="closeReviewModal()">Cancelar</button>
-            <button class="btn btn-primary" type="button" onclick="confirmReviewToCart()"><i class="fas fa-check" aria-hidden="true"></i> Confirmar compra</button>
-          </div>
-        </div>
+<-- modal removido -->
       </div>
     </div>
   </div>
@@ -418,7 +377,7 @@
         <ul>
           <li><a href="mujer.html">Ropa para Mujer</a></li>
           <li><a href="hombre.html">Ropa para Hombre</a></li>
-          <li><a href="ninos.html">Ropa para Niños</a></li>
+          <li><a href="ninos.html">Ropa para NiÃ±os</a></li>
           <li><a href="#">Novedades</a></li>
           <li><a href="#">Ofertas</a></li>
         </ul>
@@ -426,16 +385,16 @@
       <div class="footer-column">
         <h4>Ayuda</h4>
         <ul>
-          <li><a href="ayuda.html#size-guide">Guía de talles</a></li>
+          <li><a href="ayuda.html#size-guide">GuÃ­a de talles</a></li>
           <li><a href="ayuda.html#returns">Cambios</a></li>
         </ul>
       </div>
       <div class="footer-column">
         <h4>Contacto</h4>
         <ul>
-          <li><a href="#contacto">Dirección y horarios</a></li>
+          <li><a href="#contacto">DirecciÃ³n y horarios</a></li>
           <li><a href="https://wa.me/5491154272065" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
-          <li><a href="tel:+5491154272065">Llamar por teléfono</a></li>
+          <li><a href="tel:+5491154272065">Llamar por telÃ©fono</a></li>
           <li><a href="mailto:info@romix.com.ar">Enviar email</a></li>
         </ul>
       </div>
@@ -455,15 +414,24 @@
     let cart = safeGetCart();
     let currentType = null;
 
+    function updateCartBadge(){
+      try {
+        cart = safeGetCart();
+        const count = (cart||[]).reduce((t,i)=> t + (Number(i.quantity)||0), 0);
+        const el = document.getElementById('cart-count');
+        if (el) el.textContent = String(count);
+      } catch {}
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       loadProducts();
-      updateCart();
-      // Normaliza algunos textos estáticos con codificación rota
+      updateCartBadge();
+      // Normaliza algunos textos estÃ¡ticos con codificaciÃ³n rota
       try {
         document.querySelectorAll('.nav-menu a').forEach(a => {
-          a.innerHTML = a.innerHTML.replace('Ni��os','Niños').replace('Ni�os','Niños');
+          a.innerHTML = a.innerHTML.replace('Niï¿½ï¿½os','NiÃ±os').replace('Niï¿½os','NiÃ±os');
         });
-        document.title = document.title.replace('Colecci��n','Colección').replace('Colecci�n','Colección');
+        document.title = document.title.replace('Colecciï¿½ï¿½n','ColecciÃ³n').replace('Colecciï¿½n','ColecciÃ³n');
       } catch {}
       // Si viene de ayuda con #cart o ?cart=1, abrir carrito
       try {
@@ -478,7 +446,7 @@
           }
         }
       } catch {}
-      // Botones del carrito rediseñado
+      // Botones del carrito rediseÃ±ado
       try {
         const orderBtn = document.getElementById('order-btn');
         const clearBtn = document.getElementById('cart-clear-btn');
@@ -489,9 +457,7 @@
       } catch {}
       // Cerrar modal con ESC y clic fuera
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeReviewModal(); });
-      document.getElementById('review-modal').addEventListener('click', (e) => {
-        if (e.target.id === 'review-modal') closeReviewModal();
-      });
+      (function(){ const m = document.getElementById('review-modal'); if (m) { m.addEventListener('click', (e)=>{ if (e.target.id === 'review-modal') closeReviewModal(); }); } })();
     });
 
     function showError(msg) {
@@ -500,15 +466,15 @@
       setTimeout(() => fb.classList.add('hidden'), 4000);
     }
 
-    // Normaliza textos con acentos mal codificados en contenido dinámico (visual)
+    // Normaliza textos con acentos mal codificados en contenido dinÃ¡mico (visual)
     function fixText(s) {
       if (!s || typeof s !== 'string') return s;
       const pairs = [
-        ['Ni�os','Niños'], ['Ni�a','Niña'], ['Ni�o','Niño'],
-        ['T�rmica','Térmica'], ['T�rmico','Térmico'],
-        ['Marr�n','Marrón'], ['Pantal�n','Pantalón'], ['Algod�n','Algodón'],
-        ['Selecci�n','Selección'], ['seleccion�','seleccioná'],
-        ['p�gina','página'], ['est�','está'], ['agreg�','agregó'], ['vac�o','vacío']
+        ['Niï¿½os','NiÃ±os'], ['Niï¿½a','NiÃ±a'], ['Niï¿½o','NiÃ±o'],
+        ['Tï¿½rmica','TÃ©rmica'], ['Tï¿½rmico','TÃ©rmico'],
+        ['Marrï¿½n','MarrÃ³n'], ['Pantalï¿½n','PantalÃ³n'], ['Algodï¿½n','AlgodÃ³n'],
+        ['Selecciï¿½n','SelecciÃ³n'], ['seleccionï¿½','seleccionÃ¡'],
+        ['pï¿½gina','pÃ¡gina'], ['estï¿½','estÃ¡'], ['agregï¿½','agregÃ³'], ['vacï¿½o','vacÃ­o']
       ];
       let out = s;
       for (const [a,b] of pairs) out = out.split(a).join(b);
@@ -556,7 +522,7 @@
               </div>
               <div class="product-info">
                 <h3 class="product-title" style="cursor:pointer;">${fixText(product.name)}</h3>
-                <div class="product-subtitle">${fixText(product.section)} • ${fixText(product.type)}</div>
+                <div class="product-subtitle">${fixText(product.section)} â€¢ ${fixText(product.type)}</div>
                 <div class="product-price">${priceHTML}</div>
                 <div class="product-colors">${colorsHTML}</div>
                 <div class="product-sizes">
@@ -569,7 +535,7 @@
                   <input type="number" class="quantity-input" min="1" value="1" inputmode="numeric" />
                   <button class="btn quantity-btn increase" type="button" aria-label="Aumentar cantidad">+</button>
                 </div>
-                <div class="product-selection-status" aria-live="polite">Sin selección</div>
+                <div class="product-selection-status" aria-live="polite">Sin selecciÃ³n</div>
                 <div class="product-stock-note" aria-label="Stock total disponible" style="font-size:.8rem;color:#6c757d;margin-top:2px;"></div>
                 <div class="product-actions">
                   <a class="btn btn-details" href="#" role="button">Ver Detalles</a>
@@ -584,9 +550,20 @@
               const label = total === 1 ? '1 unidad' : (total + ' unidades');
               stockNote.textContent = 'Stock total: ' + label;
             }
-            // Inicializar galería y precio base
+            // Inicializar galerÃ­a y precio base
             initGallery(card, product);
             updateCardPrice(card, product);
+            // Ajustar disponibilidad visible en la home
+            (function(){
+              const n = card.querySelector('.product-stock-note');
+              if (!n) return;
+              const t = computeTotalStock(product);
+              const s = stateFromStock(t);
+              const l = s === 'out' ? 'Agotado' : (s === 'low' ? 'Por agotarse' : 'Disponible');
+              n.textContent = l + ' · Stock: ' + t;
+              n.classList.remove('state-available','state-low','state-out');
+              n.classList.add('state-' + s);
+            })();
 
             // Eventos
             card.querySelectorAll('.color-option').forEach((el) => {
@@ -597,17 +574,17 @@
               el.addEventListener('click', () => selectSize(el));
               el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectSize(el); } });
             });
-            initQtyControls(card);
-            card.querySelector('.btn.btn-primary').addEventListener('click', (e) => {
-              const btn = e.currentTarget;
-              if (btn.disabled || btn.getAttribute('aria-disabled') === 'true') {
+            // En home no se agrega directo; redirigimos al detalle
+            const addBtn = card.querySelector('.btn.btn-primary');
+            if (addBtn) {
+              addBtn.removeAttribute('disabled');
+              addBtn.setAttribute('aria-disabled','false');
+              addBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                btn.classList.add('animate__animated','animate__shakeX');
-                setTimeout(()=>btn.classList.remove('animate__animated','animate__shakeX'), 500);
-                return;
-              }
-              openReviewSafe(card, product);
-            });
+                const slug = (window.romixSearch && window.romixSearch.slug) ? window.romixSearch.slug(product.name) : (String(product.name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-'));
+                window.location.href = 'product.html?slug=' + encodeURIComponent(slug) + '&buy=1';
+              });
+            }
             // Ir al detalle
             const toDetail = () => { const slug = (window.romixSearch && window.romixSearch.slug) ? window.romixSearch.slug(product.name) : (String(product.name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-')); window.location.href = 'product.html?slug=' + encodeURIComponent(slug); };
             const imgWrap = card.querySelector('.product-image'); if (imgWrap) { imgWrap.style.cursor='pointer'; imgWrap.addEventListener('click', toDetail); }
@@ -621,18 +598,18 @@
         })
         .catch((e) => {
           console.error('Error al cargar productos:', e);
-          showError('No se pudieron cargar los productos. Intentá recargar la página.');
+          showError('No se pudieron cargar los productos. IntentÃ¡ recargar la pÃ¡gina.');
         });
     }
 
 
-    // ===== Selector Color/Talle con estados dinámicos =====
+    // ===== Selector Color/Talle con estados dinÃ¡micos =====
     const COLOR_HEX_FALLBACK = { negro: '#000000', violeta: '#7F00FF', fucsia: '#FF00A8', gris: '#6c757d', rojo: '#dc3545' };
 
     function normalizeStockByColor(product) {
       // Espera product.stockByColor = { colorName: { '1': 5, '2': 0, ... } }
       if (product && product.stockByColor) return product.stockByColor;
-      // Fallback: si sólo hay product.sizes con 'status', generamos un mapa único para todos los colores
+      // Fallback: si sÃ³lo hay product.sizes con 'status', generamos un mapa Ãºnico para todos los colores
       const map = {};
       const defaultSizes = (product.sizes || []).reduce((acc, s) => {
         const status = String(s.status || '').toLowerCase();
@@ -643,8 +620,8 @@
         return acc;
       }, {});
       (product.colors || []).forEach(c => { map[c.name] = { ...defaultSizes } });
-      // Si no hubiera colores definidos, creamos uno genérico
-      if (!product.colors || !product.colors.length) map['único'] = { ...defaultSizes };
+      // Si no hubiera colores definidos, creamos uno genÃ©rico
+      if (!product.colors || !product.colors.length) map['Ãºnico'] = { ...defaultSizes };
       return map;
     }
 
@@ -682,9 +659,9 @@
     function updateSelectionStatus(card, color, size) {
       const statusEl = card.querySelector('.product-selection-status');
       if (!statusEl) return;
-      if (color && size) statusEl.innerHTML = `Seleccionado: <strong>${color}</strong> – Talle: <strong>${size}</strong>`;
-      else if (color) statusEl.innerHTML = `Seleccionado: <strong>${color}</strong> – Talle: <strong>Sin selección</strong>`;
-      else statusEl.textContent = 'Sin selección';
+      if (color && size) statusEl.innerHTML = `Seleccionado: <strong>${color}</strong> â€“ Talle: <strong>${size}</strong>`;
+      else if (color) statusEl.innerHTML = `Seleccionado: <strong>${color}</strong> â€“ Talle: <strong>Sin selecciÃ³n</strong>`;
+      else statusEl.textContent = 'Sin selecciÃ³n';
     }
 
     function setBuyEnabled(card, enabled) {
@@ -711,7 +688,7 @@
         if (product.priceBySize && product.priceBySize[String(sz)] != null) {
           return Number(product.priceBySize[String(sz)]);
         }
-        // Determinar grupo por talle (común/especial/súper especial)
+        // Determinar grupo por talle (comÃºn/especial/sÃºper especial)
         const resolveGroup = (szNum) => {
           let isSuper = false, isSpecial = false;
           if (Array.isArray(product.superSpecialSizes)) {
@@ -719,7 +696,7 @@
           } else if (product.groupSuperMin) {
             isSuper = szNum >= Number(product.groupSuperMin);
           } else {
-            isSuper = szNum >= 9; // por defecto 9–10
+            isSuper = szNum >= 9; // por defecto 9â€“10
           }
           if (!isSuper) {
             if (Array.isArray(product.specialSizes)) {
@@ -727,7 +704,7 @@
             } else if (product.groupSpecialMin) {
               isSpecial = szNum >= Number(product.groupSpecialMin);
             } else {
-              isSpecial = szNum >= 6; // por defecto 6–8
+              isSpecial = szNum >= 6; // por defecto 6â€“8
             }
           }
           return isSuper ? 'superspecial' : (isSpecial ? 'special' : 'common');
@@ -743,7 +720,7 @@
           } else if (product.groupSpecialMin) {
             isSpecial = sz >= Number(product.groupSpecialMin);
           } else {
-            // Regla por defecto (adultos): 6–8 especiales
+            // Regla por defecto (adultos): 6â€“8 especiales
             isSpecial = sz >= 6;
           }
           const group = isSpecial ? 'special' : 'common';
@@ -764,7 +741,7 @@
       priceBox.innerHTML = `$${Number(unit).toLocaleString('es-AR')}` + (product.originalPrice ? ` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>` : '');
     }
 
-    // ===== Galería por producto (simple) =====
+    // ===== GalerÃ­a por producto (simple) =====
     function initGallery(card, product) {
       const imgEl = card.querySelector('.product-image img');
       if (!imgEl) return;
@@ -781,8 +758,8 @@
       if (!wrap) return;
       if (!card.querySelector('.gallery-prev')) {
         wrap.insertAdjacentHTML('beforeend', `
-          <button class="gallery-prev" aria-label="Anterior" type="button" style="position:absolute;left:6px;top:calc(50% - 16px);background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:16px;width:32px;height:32px;cursor:pointer;">‹</button>
-          <button class="gallery-next" aria-label="Siguiente" type="button" style="position:absolute;right:6px;top:calc(50% - 16px);background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:16px;width:32px;height:32px;cursor:pointer;">›</button>
+          <button class="gallery-prev" aria-label="Anterior" type="button" style="position:absolute;left:6px;top:calc(50% - 16px);background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:16px;width:32px;height:32px;cursor:pointer;">â€¹</button>
+          <button class="gallery-next" aria-label="Siguiente" type="button" style="position:absolute;right:6px;top:calc(50% - 16px);background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:16px;width:32px;height:32px;cursor:pointer;">â€º</button>
           <div class="gallery-dots" style="position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center;gap:6px;"></div>`);
       }
       const dots = card.querySelector('.gallery-dots');
@@ -804,7 +781,7 @@
       if (!sizeWrap) return;
       const stockByColor = normalizeStockByColor(product);
       const stockMap = stockByColor[colorName] || {};
-      // Si el producto trae una lista explícita de talles, la usamos como orden/base.
+      // Si el producto trae una lista explÃ­cita de talles, la usamos como orden/base.
       const allSizes = (() => {
         const raw = (product.sizes || []).map(s => String(s.size));
         const seen = new Set();
@@ -820,13 +797,13 @@
                   <span class="badge">${labelFromState(state)}</span>${sz}
                 </span>`;
       }).join('');
-      // Eventos de interacción + animación
+      // Eventos de interacciÃ³n + animaciÃ³n
       sizeWrap.querySelectorAll('.size-chip').forEach(el => {
         const handle = () => {
           if (el.dataset.state === 'out') return;
           sizeWrap.querySelectorAll('.size-chip').forEach(s => s.classList.remove('selected'));
           el.classList.add('selected');
-          // Animación de click (rebote)
+          // AnimaciÃ³n de click (rebote)
           el.classList.add('animate__animated','animate__pulse');
           setTimeout(()=> el.classList.remove('animate__animated','animate__pulse'), 500);
           const clr = card.querySelector('.color-option.selected')?.dataset.color || null;
@@ -838,13 +815,13 @@
         el.addEventListener('click', handle);
         el.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); handle(); } });
       });
-      // Al cambiar color, aún no hay talle elegido ⇒ deshabilitar compra
+      // Al cambiar color, aÃºn no hay talle elegido â‡’ deshabilitar compra
       setBuyEnabled(card, false);
       updateSelectionStatus(card, colorName, null);
       updateCardPrice(card, product);
     }
 
-    // Sobrescribimos selectColor para que dispare render dinámico de talles y animación
+    // Sobrescribimos selectColor para que dispare render dinÃ¡mico de talles y animaciÃ³n
     if (typeof selectColor !== 'function') { function selectColor(){} }
     const _originalSelectColor = selectColor;
     selectColor = function(el) {
@@ -852,7 +829,7 @@
       // Visual
       card.querySelectorAll('.color-option').forEach((c) => c.classList.remove('selected'));
       el.classList.add('selected');
-      // Animación del circulito
+      // AnimaciÃ³n del circulito
       el.classList.add('animate__animated','animate__rubberBand');
       setTimeout(()=> el.classList.remove('animate__animated','animate__rubberBand'), 500);
 
@@ -861,7 +838,7 @@
       const colorName = el.dataset.color;
       card.dataset.selectedColor = colorName;
       card.dataset.selectedSize = '';
-      // Actualizar imagen principal según color seleccionado y sincronizar galería
+      // Actualizar imagen principal segÃºn color seleccionado y sincronizar galerÃ­a
       try {
         const key = colorName;
         let imgUrl = product.image;
@@ -920,7 +897,7 @@
       el.classList.add('selected');
     }
 
-    // (limpieza) selectSize legacy duplicado eliminado; se usa la versión mejorada más arriba
+    // (limpieza) selectSize legacy duplicado eliminado; se usa la versiÃ³n mejorada mÃ¡s arriba
 
     
 
@@ -939,7 +916,7 @@
     function openReview(card, product) {
       const colorEl = card.querySelector('.color-option.selected');
       const sizeEl = card.querySelector('.size-option.selected, .size-chip.selected');
-      if (!colorEl || !sizeEl) { alert('Por favor, seleccioná un color y un talle antes de continuar.'); return; }
+      if (!colorEl || !sizeEl) { alert('Por favor, seleccionÃ¡ un color y un talle antes de continuar.'); return; }
 
       currentType = product.type;
       const selectedColor = colorEl.dataset.color;
@@ -1026,11 +1003,11 @@
       updateSubtotal();
     }
 
-    // Versión robusta: usa dataset seleccionado y recalcula precio según talle
+    // VersiÃ³n robusta: usa dataset seleccionado y recalcula precio segÃºn talle
     function openReviewSafe(card, product) {
       const selectedColor = card.dataset.selectedColor || card.querySelector('.color-option.selected')?.dataset.color || null;
       const selectedSize = card.dataset.selectedSize || card.querySelector('.size-option.selected, .size-chip.selected')?.dataset.size || null;
-      if (!selectedColor || !selectedSize) { alert('Por favor, seleccioná un color y un talle antes de continuar.'); return; }
+      if (!selectedColor || !selectedSize) { alert('Por favor, seleccionÃ¡ un color y un talle antes de continuar.'); return; }
 
       currentType = product.type;
       const qty = parseInt(card.querySelector('.quantity-input').value) || 1;
@@ -1114,29 +1091,9 @@
       updateSubtotal();
     }
 
-    function closeReviewModal() {
-      const modal = document.getElementById('review-modal');
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-    }
-
-    function confirmReviewToCart() {
-      const name = document.getElementById('review-name').textContent;
-      const color = document.getElementById('review-color').value;
-      const size = document.getElementById('review-size').value;
-      const qty = parseInt(document.getElementById('review-qty').value) || 1;
-      const unit = Number(document.getElementById('review-price').dataset.unitPrice || '0');
-      const subtotal = unit * qty;
-      const item = { id: Date.now(), name, type: currentType, color, size, quantity: qty, price: unit, subtotal };
-      cart.push(item);
-      safeSetCart(cart);
-      updateCart();
-      closeReviewModal();
-      alert('¡Listo! Se agregó al carrito.');
-    }
-
+    // Modal removido: selección se hace en product.html
     
-    // ===== Test básico (activar con ?test=1) =====
+    // ===== Test bÃ¡sico (activar con ?test=1) =====
     (function runBasicTests(){
       if (!/[?&]test=1\b/.test(location.search)) return;
       const log = (...a)=>console.log('[TEST]', ...a);
@@ -1150,8 +1107,8 @@
       anySize.click();
       const status = mujerCard.querySelector('.product-selection-status')?.textContent || '';
       const btn = mujerCard.querySelector('.btn.btn-primary');
-      log('Estado de selección:', status);
-      log('Botón habilitado:', btn.getAttribute('aria-disabled') === 'false');
+      log('Estado de selecciÃ³n:', status);
+      log('BotÃ³n habilitado:', btn.getAttribute('aria-disabled') === 'false');
       const stockTxt = mujerCard.querySelector('.product-stock-note')?.textContent;
       log('Nota de stock:', stockTxt);
     })();
@@ -1169,7 +1126,7 @@
       updateCart();
     }
 
-    // === Helpers y render del carrito rediseñado ===
+    // === Helpers y render del carrito rediseÃ±ado ===
     function findImageForItem(item){
       try {
         const cards = document.querySelectorAll('.product-card');
@@ -1209,7 +1166,7 @@
           <div class="cart-thumb">${img?`<img src="${img}" alt="${item.name}">`:'<span style="color:#adb5bd;font-weight:700;">Sin imagen</span>'}</div>
           <div class="cart-info">
             <div class="name">${item.name}</div>
-            <div class="meta">${item.type} • Color: ${item.color} • Talle: ${item.size}</div>
+            <div class="meta">${item.type} â€¢ Color: ${item.color} â€¢ Talle: ${item.size}</div>
             <div class="unit">$${Number(item.price).toLocaleString('es-AR')} c/u</div>
             <div class="qty-stepper" data-id="${item.id}">
               <button type="button" class="dec" aria-label="Disminuir">-</button>
@@ -1258,9 +1215,9 @@
       }
     }
 
-    // Acción principal del carrito: enviar pedido por WhatsApp
+    // AcciÃ³n principal del carrito: enviar pedido por WhatsApp
     function orderCartWhatsApp(){
-      if (!cart.length) { alert('El carrito está vacío.'); return; }
+      if (!cart.length) { alert('El carrito estÃ¡ vacÃ­o.'); return; }
       let message = 'Hola! Quiero ordenar el siguiente pedido:\n\n';
       cart.forEach((item) => {
         message += `${item.name} (${item.type})\n`;
@@ -1277,8 +1234,8 @@
     }
 
     function sendToWhatsApp() {
-      if (!cart.length) { alert('El carrito está vacío.'); return; }
-      let message = '¡Hola! Quiero realizar el siguiente pedido:\n\n';
+      if (!cart.length) { alert('El carrito estÃ¡ vacÃ­o.'); return; }
+      let message = 'Â¡Hola! Quiero realizar el siguiente pedido:\n\n';
       cart.forEach((item) => {
         message += `${item.name} (${item.type})\n`;
         message += `Color: ${item.color}\n`;

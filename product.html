@@ -95,10 +95,10 @@
   <header>
     <div class="header-container">
       <a href="index.html" class="logo"><i class="fas fa-store"></i> ROMIX</a>
-      <button type="button" class="cart-icon-btn" onclick="window.location.href='index.html#cart'" aria-label="Ir al carrito">
+      <a class="cart-icon-btn" href="cart.html" aria-label="Ir al carrito">
         <i class="fas fa-shopping-cart" aria-hidden="true"></i>
         <span id="cart-count">0</span>
-      </button>
+      </a>
       <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
         <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
         <button type="submit"><i class="fas fa-search"></i> Buscar</button>
@@ -346,8 +346,21 @@ renderSizesForColor(firstColor);
     }
   </script>
   <script src="search.js"></script>
-</body>
+<script>
+  (function(){
+    function qs(name){ const p = new URLSearchParams(location.search); return (p.get(name)||'').trim(); }
+    document.addEventListener('DOMContentLoaded', ()=>{
+      if (qs('buy') === '1') {
+        try {
+          const target = document.querySelector('.actions .btn-primary') || document.querySelector('.size-row') || document.querySelector('.color-row');
+          if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+        } catch {}
+      }
+    });
+  })();
+</script></body>
 </html>
+
 
 
 

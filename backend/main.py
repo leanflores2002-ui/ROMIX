@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.db.database import init_db
 from backend.routers.pedidos import router as pedidos_router
+from backend.routers.products import router as products_router
 
 
 logging.basicConfig(
@@ -58,6 +59,7 @@ def health():
 
 # Routers
 app.include_router(pedidos_router)
+app.include_router(products_router)
 
 
 # Endpoint opcional para forzar la creación de tablas (sin reiniciar)

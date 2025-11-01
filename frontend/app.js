@@ -16,22 +16,25 @@
     fix(s){
       try {
         let out = String(s==null? '': s);
-        const pairs = [
-          ['T?rmica','TÃ©rmica'], ['T?rmico','TÃ©rmico'], ['Tï¿½rmica','TÃ©rmica'], ['Tï¿½rmico','TÃ©rmico'], ['TÇ¸rmica','TÃ©rmica'], ['TÇ¸rmico','TÃ©rmico'],
-          ['Marr?n','MarrÃ³n'], ['Marrï¿½ï¿½n','MarrÃ³n'], ['Pantal?n','PantalÃ³n'], ['Pantalï¿½ï¿½n','PantalÃ³n'], ['Algod?n','AlgodÃ³n'], ['Algodï¿½ï¿½n','AlgodÃ³n'],
-          ['Niï¿½os','NiÃ±os'], ['Ni?a','NiÃ±a'], ['Ni?o','NiÃ±o'], ['Niï¿½ï¿½os','NiÃ±os'], ['Niï¿½ï¿½a','NiÃ±a'], ['Niï¿½ï¿½o','NiÃ±o'], ['niï¿½ï¿½a','niÃ±a'], ['niï¿½ï¿½o','niÃ±o'],
-          ['rÇ§stico','rÃºstico'], ['rï¿½ï¿½stico','rÃºstico'], ['puï¿½ï¿½o','puÃ±o'],
-          ['ÃƒÂ¡','Ã¡'], ['ÃƒÂ©','Ã©'], ['ÃƒÂ­','Ã­'], ['ÃƒÂ³','Ã³'], ['ÃƒÂº','Ãº'], ['ÃƒÂ±','Ã±'], ['ÃƒÂ¼','Ã¼'],
-          ['Ãƒï¿½','Ã'], ['Ãƒâ€°','Ã‰'], ['Ãƒï¿½','Ã'], ['Ãƒâ€œ','Ã“'], ['ÃƒÅ¡','Ãš'], ['Ãƒâ€˜','Ã‘'], ['ÃƒÅ“','Ãœ'],
-          ['Ã‚','']
-        ];
-        for (const [a,b] of pairs) out = out.split(a).join(b);
+        // Intentar reparar mojibake típico (Ã, Â, ï¿½)
+        if (/Ã|Â|ï¿½/.test(out)){
+          try {
+            const bytes = new Uint8Array(Array.from(out, ch => ch.charCodeAt(0) & 0xFF));
+            const decoded = new TextDecoder('utf-8', {fatal:false}).decode(bytes);
+            if ((decoded.match(/Ã|Â|ï¿½/g)||[]).length < (out.match(/Ã|Â|ï¿½/g)||[]).length) out = decoded;
+          } catch {}
+        }
+        // Reemplazos directos más comunes
+        const map = { 'Ã¡':'á','Ã©':'é','Ã­':'í','Ã³':'ó','Ãº':'ú','Ã±':'ñ','Ã¼':'ü',
+                      'Ã�':'Á','Ã‰':'É','Ã�':'Í','Ã“':'Ó','Ãš':'Ú','Ã‘':'Ñ','Ãœ':'Ü',
+                      'Â':'', 'ï¿½':'', 'TÃ©rm':'Térm','rÃºst':'rúst' };
+        out = out.replace(/(Ã¡|Ã©|Ã­|Ã³|Ãº|Ã±|Ã¼|Ã�|Ã‰|Ã�|Ã“|Ãš|Ã‘|Ãœ|Â|ï¿½|TÃ©rm|rÃºst)/g, m => map[m] || m);
         return out;
       } catch { return String(s||''); }
     },
     prettySection(s){
       const v = String(s||'');
-      if (v.toLowerCase()==='ninos') return 'NiÃ±os';
+      if (v.toLowerCase()==='ninos') return 'Niños';
       if (!v) return '';
       return v.charAt(0).toUpperCase() + v.slice(1);
     },
@@ -75,9 +78,9 @@
     if (!v) return '';
     if (v === 'mujer') return 'mujer';
     if (v === 'hombre') return 'hombre';
-    if (v === 'ninos' || v.includes('niÃ±os') || v.includes('niÃƒÂ±os') || v.includes('niï¿½ï¿½os')) return 'ninos';
+    if (v === 'ninos' || v.includes('niños') || v.includes('niÃ±os') || v.includes('ni�os') || v.includes('ni��os')) return 'ninos';
     const f = repairText(v);
-    if (f.toLowerCase().includes('niÃ±')) return 'ninos';
+    if (f.toLowerCase().includes('niñ')) return 'ninos';
     return v;
   }
 
@@ -99,7 +102,7 @@
   }
   function quickAdd(product){
     const cart = safeGetCart();
-    const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Ãšnico';
+    const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Único';
     let size = 'U';
     if (Array.isArray(product.sizes) && product.sizes.length){
       const available = product.sizes.find(s => !/out|unavail/i.test(String(s.status||''))) || product.sizes[0];
@@ -298,7 +301,7 @@
       // Summary & pagination
       const totalPages = Math.max(1, Math.ceil(total / s.pageSize));
       const summary = document.getElementById('summary');
-      if (summary) summary.textContent = `Mostrando ${items.length} de ${total} productos â€” PÃ¡gina ${s.page} de ${totalPages}`;
+      if (summary) summary.textContent = `Mostrando ${items.length} de ${total} productos — Página ${s.page} de ${totalPages}`;
       const pageInd = document.getElementById('page-indicator');
       if (pageInd) pageInd.textContent = String(s.page);
       const prev = document.getElementById('prev-page');

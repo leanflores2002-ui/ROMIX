@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -368,9 +368,6 @@
                 padding: 8px;
             }
         }
-        /* Fix duplicación menús en Ayuda */
-        .nav-inline ul:first-of-type { display: none; }
-        .nav-container .nav-menu:first-of-type { display: none; }
     </style>
 </head>
 <body>
@@ -379,18 +376,10 @@
         <div class="header-container">
             <a href="index.html" class="logo" aria-label="Romix"><i class="fas fa-store" aria-hidden="true"></i><span>ROMIX</span></a>
             <div class="nav-inline" aria-label="Secciones">
-                <!-- legacy header menu start -->
                 <ul>
-                    <li><a href="catalogo.html?section=mujer">Mujer</a></li>
-                    <li><a href="catalogo.html?section=hombre">Hombre</a></li>
-                    <li><a href="catalogo.html?section=ninos">Niños</a></li>
-                    <li><a href="ayuda.html" aria-current="page">Ayuda</a></li>
-                </ul>
-                <!-- legacy header menu end -->
-                <ul>
-                    <li><a href="catalogo.html?section=mujer">Mujer</a></li>
-                    <li><a href="catalogo.html?section=hombre">Hombre</a></li>
-                    <li><a href="catalogo.html?section=ninos">Niños</a></li>
+                    <li><a href="mujer.html">Mujer</a></li>
+                    <li><a href="hombre.html">Hombre</a></li>
+                    <li><a href="ninos.html">Niños</a></li>
                     <li><a href="ayuda.html" aria-current="page">Ayuda</a></li>
                 </ul>
             </div>
@@ -406,19 +395,10 @@
     
     <nav aria-label="Principal">
         <div class="nav-container">
-            <!-- legacy principal menu start -->
             <ul class="nav-menu">
-                <li><a href="catalogo.html?section=mujer"><i class="fas fa-female" aria-hidden="true"></i> Mujer</a></li>
-                <li><a href="catalogo.html?section=hombre"><i class="fas fa-male" aria-hidden="true"></i> Hombre</a></li>
-                <li><a href="catalogo.html?section=ninos"><i class="fas fa-child"></i> Niños</a></li>
-                <li><a href="index.html#contacto"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Contacto</a></li>
-                <li class="active"><a href="ayuda.html"><i class="fas fa-question-circle" aria-hidden="true"></i> Ayuda</a></li>
-            </ul>
-            <!-- legacy principal menu end -->
-            <ul class="nav-menu">
-                <li><a href="catalogo.html?section=mujer"><i class="fas fa-female" aria-hidden="true"></i> Mujer</a></li>
-                <li><a href="catalogo.html?section=hombre"><i class="fas fa-male" aria-hidden="true"></i> Hombre</a></li>
-                <li><a href="catalogo.html?section=ninos"><i class="fas fa-child"></i> Niños</a></li>
+                <li><a href="mujer.html"><i class="fas fa-female" aria-hidden="true"></i> Mujer</a></li>
+                <li><a href="hombre.html"><i class="fas fa-male" aria-hidden="true"></i> Hombre</a></li>
+                <li><a href="index.html#ninos"><i class="fas fa-child"></i> Niños</a></li>
                 <li><a href="index.html#contacto"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Contacto</a></li>
                 <li class="active"><a href="ayuda.html"><i class="fas fa-question-circle" aria-hidden="true"></i> Ayuda</a></li>
             </ul>
@@ -586,7 +566,7 @@
         <div class="cart-total">Total: $<span id="cart-total">0.00</span></div>
         <div class="cart-actions">
             <button class="btn btn-danger" onclick="clearCart()">Vaciar Carrito</button>
-            <button class="btn btn-success" onclick="enviarPedido()">Enviar Pedido</button>
+            <button class="btn btn-success" onclick="sendToWhatsApp()">Enviar Pedido</button>
         </div>
     </div>
     
@@ -594,19 +574,10 @@
         <div class="footer-container">
             <div class="footer-column">
                 <h4>Productos</h4>
-                <!-- legacy footer products start -->
                 <ul>
-                    <li><a href="catalogo.html?section=mujer">Ropa para Mujer</a></li>
-                    <li><a href="catalogo.html?section=hombre">Ropa para Hombre</a></li>
-                    <li><a href="catalogo.html?section=ninos">Ropa para Niños</a></li>
-                    <li><a href="index.html">Novedades</a></li>
-                    <li><a href="index.html">Ofertas</a></li>
-                </ul>
-                <!-- legacy footer products end -->
-                <ul>
-                    <li><a href="catalogo.html?section=mujer">Ropa para Mujer</a></li>
-                    <li><a href="catalogo.html?section=hombre">Ropa para Hombre</a></li>
-                    <li><a href="catalogo.html?section=ninos">Ropa para Niños</a></li>
+                    <li><a href="mujer.html">Ropa para Mujer</a></li>
+                    <li><a href="hombre.html">Ropa para Hombre</a></li>
+                    <li><a href="index.html#ninos">Ropa para Niños</a></li>
                     <li><a href="index.html">Novedades</a></li>
                     <li><a href="index.html">Ofertas</a></li>
                 </ul>
@@ -632,13 +603,12 @@
         </div>
     </footer>
     
-    <script src="config.js"></script>
     <script>
         // Normaliza textos estáticos del menú con acentos
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                document.querySelectorAll('.nav-menu a, .nav-inline a').forEach(a => {
-                    a.innerHTML = a.innerHTML.replace('Niños','Niños').replace('Niños','Niños');
+                document.querySelectorAll('.nav-menu a').forEach(a => {
+                    a.innerHTML = a.innerHTML.replace('Ni��os','Niños').replace('Ni�os','Niños');
                 });
                 // Reflejar cantidad en el botón carrito
                 const count = (JSON.parse(localStorage.getItem('cart')||'[]').reduce((n,i)=>n+Number(i.quantity||0),0));
@@ -711,52 +681,12 @@
             updateCart();
         }
 
-        async function enviarPedido() {
+        function sendToWhatsApp() {
             if (cart.length === 0) {
                 alert('El carrito está vacío. Agrega productos antes de enviar el pedido.');
                 return;
             }
-            const nombre = prompt('Nombre y apellido del cliente:');
-            if (!nombre) { return; }
-            const telefono = prompt('Teléfono (WhatsApp):');
-            if (!telefono) { return; }
-            const metodo = prompt('Método de entrega (envio/retiro):', 'envio') || 'envio';
 
-            const productos = cart.map(item => ({
-                nombre: item.name,
-                color: item.color,
-                talle: item.size,
-                cantidad: Number(item.quantity||1),
-                tipo: item.type
-            }));
-
-            const payload = {
-                nombre_cliente: nombre,
-                telefono: telefono,
-                productos: productos,
-                metodo_entrega: metodo,
-                estado: 'pendiente'
-            };
-            const base = (window.ROMIX_API_URL || '').replace(/\/$/, '');
-            const url = base + '/api/pedido';
-            try {
-                const r = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await r.json().catch(()=>({}));
-                if (r.ok && data && (data.mensaje || !data.error)) {
-                    alert(data.mensaje || 'Pedido recibido y enviado correctamente');
-                    return;
-                } else {
-                    alert(data.error || 'No se pudo enviar por backend. Se intentará por WhatsApp.');
-                }
-            } catch (e) {
-                // fallback
-            }
-
-            // Fallback a WhatsApp si falló el backend
             let message = '¡Hola! Quiero realizar el siguiente pedido:\n\n';
             cart.forEach(item => {
                 message += `${item.name} (${item.type})\n`;
@@ -765,7 +695,6 @@
                 message += `Cantidad: ${item.quantity}\n`;
                 message += `Subtotal: $${item.subtotal.toFixed(2)}\n\n`;
             });
-            message += `Cliente: ${nombre}\nTeléfono: ${telefono}\nEntrega: ${metodo}\n`;
             message += `Total: $${cart.reduce((total, item) => total + item.subtotal, 0).toFixed(2)}`;
 
             const encodedMessage = encodeURIComponent(message);
@@ -774,24 +703,10 @@
             if (w) w.opener = null;
         }
     </script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function(){
-        document.querySelectorAll('a[href="catalogo.html?section=ninos"]').forEach(function(a){ a.href = 'catalogo.html?section=ninos'; });
-        document.querySelectorAll('a[href="catalogo.html?section=mujer"]').forEach(function(a){ a.href = 'catalogo.html?section=mujer'; });
-        document.querySelectorAll('a[href="catalogo.html?section=hombre"]').forEach(function(a){ a.href = 'catalogo.html?section=hombre'; });
-      });
-      // Seguridad: rel=noopener
-      document.addEventListener('click', function(ev){
-        var a = ev.target.closest && ev.target.closest('a[target="_blank"]');
-        if (a) { a.rel = 'noopener'; }
-      });
-    </script>
     <script src="support-widget-romix.js" defer></script>
     <script src="search.js"></script>
 </body>
 </html>
-
-
 
 
 

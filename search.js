@@ -1,18 +1,5 @@
 // Simple shared search for ROMIX
 (function(){
-  function fixText(s){
-    try {
-      let out = String(s==null? '': s);
-      const pairs = [
-        ['T?rmica','Térmica'], ['T?rmico','Térmico'], ['T�rmica','Térmica'], ['T�rmico','Térmico'], ['TǸrmica','Térmica'], ['TǸrmico','Térmico'],
-        ['Marr?n','Marrón'], ['Marr��n','Marrón'], ['Pantal?n','Pantalón'], ['Pantal��n','Pantalón'], ['Algod?n','Algodón'], ['Algod��n','Algodón'],
-        ['Ni�os','Niños'], ['Ni?a','Niña'], ['Ni?o','Niño'], ['Ni��os','Niños'], ['Ni��a','Niña'], ['Ni��o','Niño'], ['ni��a','niña'], ['ni��o','niño'],
-        ['rǧstico','rústico'], ['r��stico','rústico'], ['pu��o','puño']
-      ];
-      for (const [a,b] of pairs) out = out.split(a).join(b);
-      return out;
-    } catch { return String(s||''); }
-  }
   let PRODUCTS = null;
   let SUGGEST_BOX = null;
   let SUGGEST_INDEX = -1;
@@ -32,26 +19,7 @@
   }
   function ensureProducts(){
     if (PRODUCTS) return Promise.resolve(PRODUCTS);
-    return fetch('products.json').then(r=>r.json()).then(d=>{
-      const list = Array.isArray(d) ? d : [];
-      // Hide winter products in suggestions (non-destructive)
-      const filtered = list.filter(p=>{
-        try {
-          const parts = [];
-          if (p && p.name) parts.push(p.name);
-          if (p && p.type) parts.push(p.type);
-          if (p && p.badge) parts.push(p.badge);
-          if (p && p.image) parts.push(p.image);
-          if (p && p.images) {
-            try { parts.push(...Object.keys(p.images||{})); parts.push(...Object.values(p.images||{})); } catch {}
-          }
-          const s = norm(parts.join(' '));
-          return !(s.includes('frizado') || s.includes('frisado') || s.includes('polar') || s.includes('termica'));
-        } catch { return true; }
-      });
-      PRODUCTS = filtered;
-      return PRODUCTS;
-    }).catch(()=>[]);
+    return fetch('products.json').then(r=>r.json()).then(d=>{ PRODUCTS=d||[]; return PRODUCTS; }).catch(()=>[]);
   }
   function findAndFocus(query){
     const q = norm(query);
@@ -102,10 +70,7 @@
     };
     SUGGEST_INDEX = -1;
     SUGGEST_BOX.innerHTML = items.map((it,i)=>{
-      const latinPairs = [['Ã¡','á'],['Ã©','é'],['Ã­','í'],['Ã³','ó'],['Ãº','ú'],['Ã±','ñ'],['Ã¼','ü'],['Ã�','Á'],['Ã‰','É'],['Ã�','Í'],['Ã“','Ó'],['Ãš','Ú'],['Ã‘','Ñ'],['Ãœ','Ü'],['Â','']];
-      const fn = (s)=>{ let out=String(s||''); for(const [a,b] of latinPairs) out=out.split(a).join(b); return out; };
-      const dn = fn(fixText(it.name));
-      return `<div class="search-suggestion" data-slug="${it.slug}"><i class="fas fa-search"></i><div><div class="t">${hi(dn)}</div><small>${it.type||''}</small></div></div>`;
+      return `<div class="search-suggestion" data-slug="${it.slug}"><i class="fas fa-search"></i><div><div class="t">${hi(it.name)}</div><small>${it.type||''}</small></div></div>`;
     }).join('');
     SUGGEST_BOX.style.display='block';
     SUGGEST_BOX.querySelectorAll('.search-suggestion').forEach((el)=>{

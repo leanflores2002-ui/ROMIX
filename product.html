@@ -116,22 +116,6 @@
   </div>
 
   <script>
-    function fixText(s){
-      try {
-        let out = String(s==null? '': s);
-        const pairs = [
-          ['T?rmica','Térmica'], ['T?rmico','Térmico'], ['T�rmica','Térmica'], ['T�rmico','Térmico'], ['TǸrmica','Térmica'], ['TǸrmico','Térmico'],
-          ['Marr?n','Marrón'], ['Marr��n','Marrón'], ['Pantal?n','Pantalón'], ['Pantal��n','Pantalón'], ['Algod?n','Algodón'], ['Algod��n','Algodón'],
-          ['Ni�os','Niños'], ['Ni?a','Niña'], ['Ni?o','Niño'], ['Ni��os','Niños'], ['Ni��a','Niña'], ['Ni��o','Niño'], ['ni��a','niña'], ['ni��o','niño'],
-          ['rǧstico','rústico'], ['r��stico','rústico'], ['pu��o','puño'],
-          ['Ã¡','á'], ['Ã©','é'], ['Ã­','í'], ['Ã³','ó'], ['Ãº','ú'], ['Ã±','ñ'], ['Ã¼','ü'],
-          ['Ã�','Á'], ['Ã‰','É'], ['Ã�','Í'], ['Ã“','Ó'], ['Ãš','Ú'], ['Ã‘','Ñ'], ['Ãœ','Ü'],
-          ['Â','']
-        ];
-        for (const [a,b] of pairs) out = out.split(a).join(b);
-        return out;
-      } catch { return String(s||''); }
-    }
     function slugify(s){ return (s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
     const SIZE_GROUP_PRICING = { common: 1.0, special: 1.15, superspecial: 1.15 };
     function normalizeSection(s){ try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); } catch { return String(s||'').toLowerCase(); } }
@@ -166,23 +150,6 @@
       priceEl.innerHTML = `$${Number(unit).toLocaleString('es-AR')}` + (product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:'');
     }
     function dedupSizes(arr){ const seen=new Set(); const out=[]; (arr||[]).forEach(s=>{const k=String(s.size); if(!seen.has(k)){seen.add(k); out.push(s);} }); return out; }
-    // Reparación genérica de mojibake para nombres/tipos
-    function repairText(s){
-      try {
-        let out = String(s==null? '': s);
-        if (/Ã|Â|�/.test(out)){
-          try {
-            const bytes = new Uint8Array(Array.from(out, ch => ch.charCodeAt(0) & 0xFF));
-            const decoded = new TextDecoder('utf-8', {fatal:false}).decode(bytes);
-            if ((decoded.match(/Ã|Â/g)||[]).length < (out.match(/Ã|Â/g)||[]).length) out = decoded;
-          } catch {}
-        }
-        const map = { 'Ã¡':'á','Ã©':'é','Ã­':'í','Ã³':'ó','Ãº':'ú','Ã±':'ñ','Ã¼':'ü','Ã�':'Á','Ã‰':'É','Ã�':'Í','Ã“':'Ó','Ãš':'Ú','Ã‘':'Ñ','Ãœ':'Ü','Â':'','�':'','Ǹ':'é','ǧ':'ú' };
-        out = out.replace(/(Ã¡|Ã©|Ã­|Ã³|Ãº|Ã±|Ã¼|Ã�|Ã‰|Ã�|Ã“|Ãš|Ã‘|Ãœ|Â|�|Ǹ|ǧ)/g, m => map[m] || m);
-        return out;
-      } catch { return String(s||''); }
-    }
-
     function render(product){
       const root = document.getElementById('detail'); if (!root) return;
       const gallery = [];
@@ -194,10 +161,10 @@
       root.innerHTML = `
         <div class="gallery">
           <div class="thumbs">${thumbs}</div>
-          <div class="main-img"><img id="main-img" src="${gallery[0].src}" alt="${repairText(product.name)}" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></div>
+          <div class="main-img"><img id="main-img" src="${gallery[0].src}" alt="${product.name}" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></div>
         </div>
         <div>
-          <div class="title">${repairText(product.name)}</div>
+          <div class="title">${product.name}</div>
           <div class="pills"><span class="pill">${product.section || ''}</span><span class="pill">${product.type || ''}</span></div>
           <div class="price">$${Number(product.price).toLocaleString('es-AR')}${product.originalPrice?` <small>$${Number(product.originalPrice).toLocaleString('es-AR')}</small>`:''}</div>
           <div class="color-row">
@@ -368,10 +335,10 @@ renderSizesForColor(firstColor);
           const slug = slugifyFn(p.name);
           return `<div class="feature-item" style="cursor:pointer" onclick="location.href='product.html?slug=${slug}'">
             <div style="height:140px;background:#f8f9fa;display:flex;align-items:center;justify-content:center;border-radius:6px;overflow:hidden;margin-bottom:8px;">
-              <img src="${img}" alt="${repairText(p.name)}" style="max-width:100%;max-height:100%;object-fit:contain;"/>
+              <img src="${img}" alt="${p.name}" style="max-width:100%;max-height:100%;object-fit:contain;"/>
             </div>
-            <div style="font-weight:700;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${repairText(p.name)}</div>
-            <div style="color:#6c757d">${repairText(p.type)}</div>
+            <div style="font-weight:700;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div>
+            <div style="color:#6c757d">${p.type}</div>
             <div style="color:#6f42c1;font-weight:800;">$${price}</div>
           </div>`;
         }).join('');
@@ -381,7 +348,6 @@ renderSizesForColor(firstColor);
   <script src="search.js"></script>
 </body>
 </html>
-
 
 
 

@@ -491,7 +491,18 @@
       for (const [a,b] of latin) out = out.split(a).join(b);
       return out;
     }
-    function _normLocal(s){
+
+    // Normaliza sección a claves esperadas: mujer | hombre | ninos
+    function normalizeSectionKey(s){
+      const v = String(s||'').toLowerCase().trim();
+      if (!v) return '';
+      if (v === 'mujer') return 'mujer';
+      if (v === 'hombre') return 'hombre';
+      if (v === 'ninos' || v.includes('niños') || v.includes('niÃ±os') || v.includes('ni��os')) return 'ninos';
+      const f = fixText(v);
+      if (f.toLowerCase().includes('niñ')) return 'ninos';
+      return v;
+    }    function _normLocal(s){
       try { return String(s||'').normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); }
       catch { return String(s||'').toLowerCase(); }
     }
@@ -509,10 +520,7 @@
     }
     function loadProducts() {
       return fetch('products.json').catch(err => { console.error('[ROMIX] fetch products.json failed:', err); const b=document.getElementById('load-error-banner'); if(b)b.style.display='block'; return new Response(JSON.stringify([]), {headers:{'Content-Type':'application/json'}}); })
-        .then((r) => r.json())
-        .then((products) => {
-          // Ocultar productos de invierno (no borrar, solo no mostrarlos)
-          products = (Array.isArray(products) ? products : []).filter(p => !_isHiddenWinter(p));
+        .then((r) => r.json() ).then((products) => { products = Array.isArray(products) ? products : [];
           const sections = {
             mujer: document.getElementById('mujer-grid'),
             hombre: document.getElementById('hombre-grid'),
@@ -569,7 +577,7 @@
                 </div>
               </div>`;
 
-            sections[product.section].appendChild(card);
+            const __sec = normalizeSectionKey(product.section); if (sections[__sec]) { sections[__sec].appendChild(card); }
             const stockNote = card.querySelector('.product-stock-note');
             if (stockNote) {
               const total = computeTotalStock(product);
@@ -1320,6 +1328,9 @@ document.addEventListener('DOMContentLoaded', ()=>{ initGlobalFilters(); });
 </html>
 
 </html>
+
+
+
 
 
 

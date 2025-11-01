@@ -1,7 +1,7 @@
-/*
+﻿/*
   TODO: Cambiar API_BASE cuando exista backend
   - Cuando se monte el backend, apuntar API_BASE a la ruta base del API.
-  - La UI intentará usar /api/products y, si falla, hará fallback a products.json.
+  - La UI intentarÃ¡ usar /api/products y, si falla, harÃ¡ fallback a products.json.
 */
 (function(){
   'use strict';
@@ -17,13 +17,13 @@
       try {
         let out = String(s==null? '': s);
         const pairs = [
-          ['T?rmica','Térmica'], ['T?rmico','Térmico'], ['T�rmica','Térmica'], ['T�rmico','Térmico'], ['TǸrmica','Térmica'], ['TǸrmico','Térmico'],
-          ['Marr?n','Marrón'], ['Marr��n','Marrón'], ['Pantal?n','Pantalón'], ['Pantal��n','Pantalón'], ['Algod?n','Algodón'], ['Algod��n','Algodón'],
-          ['Ni�os','Niños'], ['Ni?a','Niña'], ['Ni?o','Niño'], ['Ni��os','Niños'], ['Ni��a','Niña'], ['Ni��o','Niño'], ['ni��a','niña'], ['ni��o','niño'],
-          ['rǧstico','rústico'], ['r��stico','rústico'], ['pu��o','puño'],
-          ['Ã¡','á'], ['Ã©','é'], ['Ã­','í'], ['Ã³','ó'], ['Ãº','ú'], ['Ã±','ñ'], ['Ã¼','ü'],
-          ['Ã�','Á'], ['Ã‰','É'], ['Ã�','Í'], ['Ã“','Ó'], ['Ãš','Ú'], ['Ã‘','Ñ'], ['Ãœ','Ü'],
-          ['Â','']
+          ['T?rmica','TÃ©rmica'], ['T?rmico','TÃ©rmico'], ['Tï¿½rmica','TÃ©rmica'], ['Tï¿½rmico','TÃ©rmico'], ['TÇ¸rmica','TÃ©rmica'], ['TÇ¸rmico','TÃ©rmico'],
+          ['Marr?n','MarrÃ³n'], ['Marrï¿½ï¿½n','MarrÃ³n'], ['Pantal?n','PantalÃ³n'], ['Pantalï¿½ï¿½n','PantalÃ³n'], ['Algod?n','AlgodÃ³n'], ['Algodï¿½ï¿½n','AlgodÃ³n'],
+          ['Niï¿½os','NiÃ±os'], ['Ni?a','NiÃ±a'], ['Ni?o','NiÃ±o'], ['Niï¿½ï¿½os','NiÃ±os'], ['Niï¿½ï¿½a','NiÃ±a'], ['Niï¿½ï¿½o','NiÃ±o'], ['niï¿½ï¿½a','niÃ±a'], ['niï¿½ï¿½o','niÃ±o'],
+          ['rÇ§stico','rÃºstico'], ['rï¿½ï¿½stico','rÃºstico'], ['puï¿½ï¿½o','puÃ±o'],
+          ['ÃƒÂ¡','Ã¡'], ['ÃƒÂ©','Ã©'], ['ÃƒÂ­','Ã­'], ['ÃƒÂ³','Ã³'], ['ÃƒÂº','Ãº'], ['ÃƒÂ±','Ã±'], ['ÃƒÂ¼','Ã¼'],
+          ['Ãƒï¿½','Ã'], ['Ãƒâ€°','Ã‰'], ['Ãƒï¿½','Ã'], ['Ãƒâ€œ','Ã“'], ['ÃƒÅ¡','Ãš'], ['Ãƒâ€˜','Ã‘'], ['ÃƒÅ“','Ãœ'],
+          ['Ã‚','']
         ];
         for (const [a,b] of pairs) out = out.split(a).join(b);
         return out;
@@ -31,7 +31,7 @@
     },
     prettySection(s){
       const v = String(s||'');
-      if (v.toLowerCase()==='ninos') return 'Niños';
+      if (v.toLowerCase()==='ninos') return 'NiÃ±os';
       if (!v) return '';
       return v.charAt(0).toUpperCase() + v.slice(1);
     },
@@ -53,19 +53,19 @@
     }
   };
 
-  // --- Helpers de texto y secciones (mojibake / normalización) ---
+  // --- Helpers de texto y secciones (mojibake / normalizaciÃ³n) ---
   function repairText(s){
     try {
       let out = String(s==null? '': s);
-      if (/Ã|Â|�/.test(out)){
+      if (/Ãƒ|Ã‚|ï¿½/.test(out)){
         try {
           const bytes = new Uint8Array(Array.from(out, ch => ch.charCodeAt(0) & 0xFF));
           const decoded = new TextDecoder('utf-8', {fatal:false}).decode(bytes);
-          if ((decoded.match(/Ã|Â/g)||[]).length < (out.match(/Ã|Â/g)||[]).length) out = decoded;
+          if ((decoded.match(/Ãƒ|Ã‚/g)||[]).length < (out.match(/Ãƒ|Ã‚/g)||[]).length) out = decoded;
         } catch {}
       }
-      const map = { 'Ã¡':'á','Ã©':'é','Ã­':'í','Ã³':'ó','Ãº':'ú','Ã±':'ñ','Ã¼':'ü','Ã�':'Á','Ã‰':'É','Ã�':'Í','Ã“':'Ó','Ãš':'Ú','Ã‘':'Ñ','Ãœ':'Ü','Â':'','�':'','Ǹ':'é','ǧ':'ú' };
-      out = out.replace(/(Ã¡|Ã©|Ã­|Ã³|Ãº|Ã±|Ã¼|Ã�|Ã‰|Ã�|Ã“|Ãš|Ã‘|Ãœ|Â|�|Ǹ|ǧ)/g, m => map[m] || m);
+      const map = { 'ÃƒÂ¡':'Ã¡','ÃƒÂ©':'Ã©','ÃƒÂ­':'Ã­','ÃƒÂ³':'Ã³','ÃƒÂº':'Ãº','ÃƒÂ±':'Ã±','ÃƒÂ¼':'Ã¼','Ãƒï¿½':'Ã','Ãƒâ€°':'Ã‰','Ãƒï¿½':'Ã','Ãƒâ€œ':'Ã“','ÃƒÅ¡':'Ãš','Ãƒâ€˜':'Ã‘','ÃƒÅ“':'Ãœ','Ã‚':'','ï¿½':'','Ç¸':'Ã©','Ç§':'Ãº' };
+      out = out.replace(/(ÃƒÂ¡|ÃƒÂ©|ÃƒÂ­|ÃƒÂ³|ÃƒÂº|ÃƒÂ±|ÃƒÂ¼|Ãƒï¿½|Ãƒâ€°|Ãƒï¿½|Ãƒâ€œ|ÃƒÅ¡|Ãƒâ€˜|ÃƒÅ“|Ã‚|ï¿½|Ç¸|Ç§)/g, m => map[m] || m);
       return out;
     } catch { return String(s||''); }
   }
@@ -75,16 +75,16 @@
     if (!v) return '';
     if (v === 'mujer') return 'mujer';
     if (v === 'hombre') return 'hombre';
-    if (v === 'ninos' || v.includes('niños') || v.includes('niÃ±os') || v.includes('ni��os')) return 'ninos';
+    if (v === 'ninos' || v.includes('niÃ±os') || v.includes('niÃƒÂ±os') || v.includes('niï¿½ï¿½os')) return 'ninos';
     const f = repairText(v);
-    if (f.toLowerCase().includes('niñ')) return 'ninos';
+    if (f.toLowerCase().includes('niÃ±')) return 'ninos';
     return v;
   }
 
   function prettySectionLabel(s){
     const k = normalizeSectionKey(s);
     if (!k) return '';
-    if (k === 'ninos') return 'Niños';
+    if (k === 'ninos') return 'NiÃ±os';
     return k.charAt(0).toUpperCase() + k.slice(1);
   }
 
@@ -99,7 +99,7 @@
   }
   function quickAdd(product){
     const cart = safeGetCart();
-    const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Único';
+    const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Ãšnico';
     let size = 'U';
     if (Array.isArray(product.sizes) && product.sizes.length){
       const available = product.sizes.find(s => !/out|unavail/i.test(String(s.status||''))) || product.sizes[0];
@@ -109,7 +109,7 @@
     cart.push({ id: Date.now(), name: product.name, type: product.type || '', color, size, quantity: 1, price, subtotal: price });
     safeSetCart(cart);
     updateCartCount();
-    try { alert('Listo! Se agregó al carrito.'); } catch {}
+    try { alert('Listo! Se agregÃ³ al carrito.'); } catch {}
   }
 
   // --- State (URL) ---
@@ -188,7 +188,7 @@
         const list = await r.json();
         const all = Array.isArray(list) ? list : [];
         // Hide winter items non-destructively
-        let items = all.slice().filter(p => !isHiddenWinter(p));
+        let items = all.slice();
         if (section) items = items.filter(p => normalizeSectionKey(p.section) === section);
         if (q) {
           const qn = utils.norm(q);
@@ -246,19 +246,19 @@
       const title = document.createElement('div'); title.className = 'title'; title.textContent = repairText(p.name);
       const subtitle = document.createElement('div'); subtitle.className = 'subtitle';
       const sectionNice = p.section ? (String(p.section).charAt(0).toUpperCase() + String(p.section).slice(1)) : '';
-      subtitle.textContent = sectionNice + (p.type ? (sectionNice? ' · ' : '') + p.type : '');
-      // Normalizar sección a 'Niños' y limpiar texto
-      try { subtitle.textContent = utils.prettySection(p.section) + (p.type ? (utils.prettySection(p.section)? ' · ' : '') + p.type : ''); } catch {}
-      // Forzar texto normalizado de sección y tipo
+      subtitle.textContent = sectionNice + (p.type ? (sectionNice? ' Â· ' : '') + p.type : '');
+      // Normalizar secciÃ³n a 'NiÃ±os' y limpiar texto
+      try { subtitle.textContent = utils.prettySection(p.section) + (p.type ? (utils.prettySection(p.section)? ' Â· ' : '') + p.type : ''); } catch {}
+      // Forzar texto normalizado de secciÃ³n y tipo
       try {
         const __sec = prettySectionLabel(p.section);
         const __type = repairText(p.type || '');
-        subtitle.textContent = (__sec || '') + (__type ? (__sec? ' · ' : '') + __type : '');
+        subtitle.textContent = (__sec || '') + (__type ? (__sec? ' Â· ' : '') + __type : '');
       } catch {}
       const row = document.createElement('div'); row.className = 'row';
       const priceEl = document.createElement('div'); priceEl.className = 'price'; priceEl.textContent = '$' + price;
       const stockEl = document.createElement('div'); stockEl.className = 'stock'; stockEl.textContent = 'Disponible';
-      const stockSm = document.createElement('small'); stockSm.textContent = 'Stock: —'; stockEl.appendChild(stockSm);
+      const stockSm = document.createElement('small'); stockSm.textContent = 'Stock: â€”'; stockEl.appendChild(stockSm);
       row.appendChild(priceEl); row.appendChild(stockEl);
 
       const actions = document.createElement('div'); actions.className = 'actions';
@@ -298,7 +298,7 @@
       // Summary & pagination
       const totalPages = Math.max(1, Math.ceil(total / s.pageSize));
       const summary = document.getElementById('summary');
-      if (summary) summary.textContent = `Mostrando ${items.length} de ${total} productos — Página ${s.page} de ${totalPages}`;
+      if (summary) summary.textContent = `Mostrando ${items.length} de ${total} productos â€” PÃ¡gina ${s.page} de ${totalPages}`;
       const pageInd = document.getElementById('page-indicator');
       if (pageInd) pageInd.textContent = String(s.page);
       const prev = document.getElementById('prev-page');
@@ -360,3 +360,4 @@
   // Init
   window.addEventListener('DOMContentLoaded', router.init);
 })();
+

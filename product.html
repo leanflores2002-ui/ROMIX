@@ -358,8 +358,19 @@ renderSizesForColor(firstColor);
       }
     });
   })();
-</script></body>
+</script>  <script>
+    (function(){
+      function fixText(s){
+        if(!s||typeof s!=='string') return s;
+        const pairs = [['CatÃ¡logo','Catálogo'],['MÃ¡s','Más'],['mÃ¡s','más'],['ColecciÃ³n','Colección'],['NiÃ±os','Niños'],['NiÃ±o','Niño'],['NiÃ±a','Niña']];
+        let out=s; pairs.forEach(([a,b])=> out=out.split(a).join(b)); return out;
+      }
+      function fixAll(){ try { const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null); const ns=[]; while(w.nextNode()) ns.push(w.currentNode); ns.forEach(n=> n.nodeValue=fixText(n.nodeValue)); } catch{} }
+      document.addEventListener('DOMContentLoaded', fixAll);
+    })();
+  </script></body>
 </html>
+
 
 
 

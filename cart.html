@@ -76,6 +76,13 @@
   </div>
 
   <script>
+    // Corrección global de textos mal decodificados
+    (function(){
+      function fixText(s){ if(!s||typeof s!=='string') return s; const m=[['CatÃ¡logo','Catálogo'],['MÃ¡s','Más'],['mÃ¡s','más'],['ColecciÃ³n','Colección'],['NiÃ±os','Niños']]; let o=s; m.forEach(([a,b])=>o=o.split(a).join(b)); return o; }
+      function fixAll(){ try{ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null); const ns=[]; while(w.nextNode()) ns.push(w.currentNode); ns.forEach(n=> n.nodeValue=fixText(n.nodeValue)); }catch{} }
+      document.addEventListener('DOMContentLoaded', fixAll);
+    })();
+
     function safeGetCart() {
       try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; }
     }
@@ -178,4 +185,3 @@
   </script>
 </body>
 </html>
-

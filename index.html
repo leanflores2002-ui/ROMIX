@@ -205,6 +205,11 @@
     .availability.state-available { color: var(--success); }
     .availability.state-low { color: #ff9800; }
     .availability.state-out { color: var(--danger); }
+    /* Nota de stock en home (alineada a la derecha) */
+    .product-stock-note { margin-top:6px; text-align:right; font-weight:800; font-size:.95rem; }
+    .product-stock-note.state-available { color: var(--success); }
+    .product-stock-note.state-low { color: #ff9800; }
+    .product-stock-note.state-out { color: var(--danger); }
     .btn.btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 8px 18px rgba(111,66,193,.25); }
     /* Home simplificada: ocultar selección de color/talle/cantidad */
     .product-colors, .product-sizes, .quantity-control, .product-selection-status { display:none !important; }
@@ -423,7 +428,7 @@
       } catch {}
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', ()=>{ fixAllText();
       loadProducts();
       updateCartBadge();
       // Normaliza algunos textos estÃ¡ticos con codificaciÃ³n rota
@@ -1252,7 +1257,7 @@
   </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', ()=>{ fixAllText();
   const tryLoad = () => {
     const anyCard = document.querySelector('.product-card');
     if (anyCard) return;
@@ -1331,6 +1336,10 @@ document.addEventListener('DOMContentLoaded', ()=>{ initGlobalFilters(); });
 </html>
 
 </html>
+
+
+
+
 
 
 

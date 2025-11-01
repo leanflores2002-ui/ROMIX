@@ -60,6 +60,13 @@ def health():
 app.include_router(pedidos_router)
 
 
+# Endpoint opcional para forzar la creación de tablas (sin reiniciar)
+@app.post("/admin/init-db")
+def admin_init_db():
+    init_db()
+    return {"status": "ok", "message": "Tablas sincronizadas"}
+
+
 # Static files (serve frontend)
 # Detect the project root and mount the `frontend/` directory at '/'
 try:

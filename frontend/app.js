@@ -53,6 +53,41 @@
     }
   };
 
+  // --- Helpers de texto y secciones (mojibake / normalización) ---
+  function repairText(s){
+    try {
+      let out = String(s==null? '': s);
+      if (/Ã|Â|�/.test(out)){
+        try {
+          const bytes = new Uint8Array(Array.from(out, ch => ch.charCodeAt(0) & 0xFF));
+          const decoded = new TextDecoder('utf-8', {fatal:false}).decode(bytes);
+          if ((decoded.match(/Ã|Â/g)||[]).length < (out.match(/Ã|Â/g)||[]).length) out = decoded;
+        } catch {}
+      }
+      const map = { 'Ã¡':'á','Ã©':'é','Ã­':'í','Ã³':'ó','Ãº':'ú','Ã±':'ñ','Ã¼':'ü','Ã�':'Á','Ã‰':'É','Ã�':'Í','Ã“':'Ó','Ãš':'Ú','Ã‘':'Ñ','Ãœ':'Ü','Â':'','�':'','Ǹ':'é','ǧ':'ú' };
+      out = out.replace(/(Ã¡|Ã©|Ã­|Ã³|Ãº|Ã±|Ã¼|Ã�|Ã‰|Ã�|Ã“|Ãš|Ã‘|Ãœ|Â|�|Ǹ|ǧ)/g, m => map[m] || m);
+      return out;
+    } catch { return String(s||''); }
+  }
+
+  function normalizeSectionKey(s){
+    const v = String(s||'').toLowerCase().trim();
+    if (!v) return '';
+    if (v === 'mujer') return 'mujer';
+    if (v === 'hombre') return 'hombre';
+    if (v === 'ninos' || v.includes('niños') || v.includes('niÃ±os') || v.includes('ni��os')) return 'ninos';
+    const f = repairText(v);
+    if (f.toLowerCase().includes('niñ')) return 'ninos';
+    return v;
+  }
+
+  function prettySectionLabel(s){
+    const k = normalizeSectionKey(s);
+    if (!k) return '';
+    if (k === 'ninos') return 'Niños';
+    return k.charAt(0).toUpperCase() + k.slice(1);
+  }
+
   // --- Cart (localStorage) ---
   function safeGetCart(){ try { return JSON.parse(localStorage.getItem('cart')||'[]'); } catch { return []; } }
   function safeSetCart(v){ try { localStorage.setItem('cart', JSON.stringify(v)); } catch {} }
@@ -154,7 +189,7 @@
         const all = Array.isArray(list) ? list : [];
         // Hide winter items non-destructively
         let items = all.slice().filter(p => !isHiddenWinter(p));
-        if (section) items = items.filter(p => String(p.section||'').toLowerCase() === section);
+        if (section) items = items.filter(p => normalizeSectionKey(p.section) === section);
         if (q) {
           const qn = utils.norm(q);
           items = items.filter(p => utils.norm(p.name||'').includes(qn) || utils.norm(p.type||'').includes(qn));
@@ -199,21 +234,27 @@
       const slug = utils.slugify(p.name);
       const article = document.createElement('article');
       article.className = 'card';
-      article.setAttribute('aria-label', utils.fix(p.name));
+      article.setAttribute('aria-label', repairText(p.name));
 
       const thumb = document.createElement('div'); thumb.className = 'thumb';
-      const img = document.createElement('img'); img.src = imgSrc; img.alt = utils.fix(p.name); img.width = 600; img.height = 400; img.onerror = () => { img.onerror = null; img.src = utils.placeholder(); };
+      const img = document.createElement('img'); img.src = imgSrc; img.alt = repairText(p.name); img.width = 600; img.height = 400; img.onerror = () => { img.onerror = null; img.src = utils.placeholder(); };
       thumb.appendChild(img);
-      const badgeText = p.badge ? p.badge : (p.type || '');
+      const badgeText = p.badge ? repairText(p.badge) : repairText(p.type || '');
       if (badgeText) { const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = String(badgeText); thumb.appendChild(badge); }
 
       const body = document.createElement('div'); body.className = 'body';
-      const title = document.createElement('div'); title.className = 'title'; title.textContent = utils.fix(p.name);
+      const title = document.createElement('div'); title.className = 'title'; title.textContent = repairText(p.name);
       const subtitle = document.createElement('div'); subtitle.className = 'subtitle';
       const sectionNice = p.section ? (String(p.section).charAt(0).toUpperCase() + String(p.section).slice(1)) : '';
       subtitle.textContent = sectionNice + (p.type ? (sectionNice? ' · ' : '') + p.type : '');
       // Normalizar sección a 'Niños' y limpiar texto
       try { subtitle.textContent = utils.prettySection(p.section) + (p.type ? (utils.prettySection(p.section)? ' · ' : '') + p.type : ''); } catch {}
+      // Forzar texto normalizado de sección y tipo
+      try {
+        const __sec = prettySectionLabel(p.section);
+        const __type = repairText(p.type || '');
+        subtitle.textContent = (__sec || '') + (__type ? (__sec? ' · ' : '') + __type : '');
+      } catch {}
       const row = document.createElement('div'); row.className = 'row';
       const priceEl = document.createElement('div'); priceEl.className = 'price'; priceEl.textContent = '$' + price;
       const stockEl = document.createElement('div'); stockEl.className = 'stock'; stockEl.textContent = 'Disponible';
@@ -221,7 +262,7 @@
       row.appendChild(priceEl); row.appendChild(stockEl);
 
       const actions = document.createElement('div'); actions.className = 'actions';
-      const details = document.createElement('a'); details.className = 'btn'; details.href = 'product.html?slug=' + encodeURIComponent(slug); details.setAttribute('aria-label', 'Ver detalles de ' + utils.fix(p.name)); details.textContent = 'Ver Detalles';
+      const details = document.createElement('a'); details.className = 'btn'; details.href = 'product.html?slug=' + encodeURIComponent(slug); details.setAttribute('aria-label', 'Ver detalles de ' + repairText(p.name)); details.textContent = 'Ver Detalles';
       const add = document.createElement('button'); add.className = 'btn btn-primary'; add.type = 'button'; add.textContent = 'Agregar'; add.addEventListener('click', () => quickAdd(p));
       actions.appendChild(details); actions.appendChild(add);
 

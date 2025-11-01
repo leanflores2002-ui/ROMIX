@@ -41,7 +41,18 @@ def _build_database_url() -> Optional[str]:
     if url:
         return url
 
-    # Otherwise, attempt to build from parts
+    # Railway MySQL plugin variables
+    mysql_host = os.getenv("MYSQLHOST")
+    mysql_user = os.getenv("MYSQLUSER")
+    mysql_pass = os.getenv("MYSQLPASSWORD")
+    mysql_db = os.getenv("MYSQLDATABASE")
+    mysql_port = os.getenv("MYSQLPORT", "3306")
+    if mysql_host and mysql_user and mysql_pass and mysql_db:
+        return (
+            f"mysql+pymysql://{mysql_user}:{mysql_pass}@{mysql_host}:{mysql_port}/{mysql_db}?charset=utf8mb4"
+        )
+
+    # Otherwise, attempt to build from custom DB_* parts
     user = os.getenv("DB_USER")
     password = os.getenv("DB_PASSWORD")
     host = os.getenv("DB_HOST", "localhost")

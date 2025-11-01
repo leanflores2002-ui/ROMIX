@@ -3,6 +3,7 @@ import os
 from typing import List
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.db.database import init_db
@@ -57,6 +58,19 @@ def health():
 
 # Routers
 app.include_router(pedidos_router)
+
+
+# Static files (serve frontend)
+# Detect the project root and mount the `frontend/` directory at '/'
+try:
+    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+    if os.path.isdir(FRONTEND_DIR):
+        # html=True serves index.html for directory paths
+        app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="static")
+except Exception:
+    # Don't crash the app if static mounting fails
+    logging.getLogger("static").exception("No se pudo montar el frontend estatico")
 
 
 # Optional: Uvicorn entrypoint

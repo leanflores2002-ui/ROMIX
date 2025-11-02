@@ -1350,8 +1350,46 @@ function applyGlobalFilters(){
   });
   const empty = document.getElementById('no-results');
   if (empty) empty.classList.toggle('hidden', shown>0);
+  if (typeof updateCountInfo === 'function') try { updateCountInfo(); } catch {}
 }
 document.addEventListener('DOMContentLoaded', ()=>{ initGlobalFilters(); });
+</script>
+<script>
+// Inyecta cabecera de colección (título + toolbar)
+(function(){
+  function injectHeader(){
+    if (document.getElementById('collection-title')) return;
+    const container = document.querySelector('.container');
+    const hero = container && container.querySelector('.hero');
+    const header = document.createElement('section');
+    header.className = 'collection-header';
+    header.innerHTML = '<h2 id="collection-title" class="section-title" style="margin-bottom:10px;">Colección Mujer</h2>'+
+      '<div class="collection-toolbar" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">'+
+      '  <input id="toolbar-q" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" style="padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; min-width:220px;"/>'+
+      '  <label style="display:inline-flex; align-items:center; gap:6px; color:#6c757d;">Ordenar: '+
+      '    <select id="order-by" style="padding:8px 10px; border:1px solid #dee2e6; border-radius:8px;"><option value="relevance">Relevancia</option></select>'+
+      '  </label>'+
+      '  <span id="count-info" style="color:#6c757d; font-weight:600;">Mostrando 0 de 0 productos</span>'+
+      '</div>';
+    if (hero && hero.parentNode) hero.parentNode.insertBefore(header, hero.nextSibling);
+    // Puente: toolbar -> filtros globales
+    const tq = document.getElementById('toolbar-q');
+    const fq = document.getElementById('filter-q');
+    if (tq && fq) {
+      let db; tq.addEventListener('input', function(){ clearTimeout(db); db=setTimeout(function(){ fq.value=tq.value; if (typeof applyGlobalFilters==='function') applyGlobalFilters(); }, 80); });
+    }
+    window.updateCountInfo = function(){
+      try {
+        var active = ['mujer','hombre','ninos'].find(function(s){ var el=document.getElementById(s); return el && !el.classList.contains('hidden'); }) || 'mujer';
+        var grid = document.getElementById(active+'-grid');
+        var total = grid ? grid.children.length : 0;
+        var shown = grid ? Array.from(grid.children).filter(function(el){ return el.style.display!== 'none'; }).length : 0;
+        var info = document.getElementById('count-info'); if (info) info.textContent = 'Mostrando ' + shown + ' de ' + total + ' productos';
+      } catch {}
+    }
+  }
+  document.addEventListener('DOMContentLoaded', injectHeader);
+})();
 </script>
 <script src="support-widget-romix.js" defer></script>
 <script src="search.js"></script>

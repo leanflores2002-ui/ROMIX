@@ -2,6 +2,16 @@
 // en filtros dentro de la misma página (SPA-like).
 (function(){
   function byId(id){ return document.getElementById(id); }
+  function cap(sec){ if(sec==='mujer') return 'Mujer'; if(sec==='hombre') return 'Hombre'; return 'Niños'; }
+  function updateTitleAndCount(sec){
+    try {
+      var t = byId('collection-title'); if (t) t.textContent = 'Colección ' + cap(sec);
+      var grid = byId(sec+'-grid');
+      var total = grid ? grid.children.length : 0;
+      var shown = grid ? Array.from(grid.children).filter(function(el){ return el.style.display !== 'none'; }).length : 0;
+      var info = byId('count-info'); if (info) info.textContent = 'Mostrando ' + shown + ' de ' + total + ' productos';
+    } catch {}
+  }
   function showSectionOnly(sec){
     var sections = ['mujer','hombre','ninos'];
     sections.forEach(function(s){
@@ -20,6 +30,7 @@
     } catch {}
     var target = byId(sec);
     if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    setTimeout(function(){ updateTitleAndCount(sec); }, 30);
   }
 
   function showAll(){
@@ -47,6 +58,7 @@
           var target = byId(sec) || document.querySelector('.products-grid');
           if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
           try { history.replaceState({}, '', '#' + sec); } catch {}
+          setTimeout(function(){ updateTitleAndCount(sec); }, 30);
           return;
         }
         // Fallback: ocultar secciones manualmente en esta misma página
@@ -69,13 +81,13 @@
 
   function applyInitialFromHash(){
     var hash = (location.hash||'').replace('#','');
-    if (!hash) return;
-    if (['mujer','hombre','ninos'].indexOf(hash)===-1) return;
+    if (!hash || ['mujer','hombre','ninos'].indexOf(hash)===-1) { hash = 'mujer'; }
     var sectionSel = document.getElementById('filter-section');
     if (sectionSel && typeof window.applyGlobalFilters === 'function') {
       sectionSel.value = hash; window.applyGlobalFilters();
       var target = byId(hash) || document.querySelector('.products-grid');
       if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      setTimeout(function(){ updateTitleAndCount(hash); }, 30);
       return;
     }
     showSectionOnly(hash);
@@ -85,4 +97,3 @@
     try { wireLinks(); applyInitialFromHash(); } catch (e) { console.warn('[romix] nav-filter init failed', e); }
   });
 })();
-

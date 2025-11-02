@@ -12,8 +12,6 @@
     header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0; box-shadow:0 4px 14px rgba(0,0,0,.12); position: sticky; top: 0; z-index: 1000; }
     .header-container { max-width: 1200px; margin:0 auto; padding:0 20px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; }
     .logo { font-size:1.6rem; font-weight:900; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; }
-    .nav-inline ul { list-style:none; display:flex; gap:12px; padding:0; margin:0; }
-    .nav-inline a { color:#fff; text-decoration:none; padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); }
     .cart-icon-btn { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.5); color:#fff; padding:8px 12px; border-radius:999px; cursor:pointer; text-decoration:none; }
     #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; }
 
@@ -46,18 +44,17 @@
     .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 12px; border-radius:10px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; }
     .btn-details { background:#fff; color:#495057; }
     .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
+    /* Ayuda visible */
+    .help-banner { display:flex; align-items:center; gap:12px; background: linear-gradient(135deg, #fff, #ffe2f2); border:1px solid #ffd1ea; border-radius:12px; padding:12px 14px; box-shadow:0 10px 24px rgba(232,62,140,.08); margin: 10px 0 16px; }
+    .help-banner i { color:#e83e8c; font-size:22px; }
+    .help-banner a { color:#6f42c1; font-weight:800; text-decoration:none; }
   </style>
 </head>
 <body>
   <header>
     <div class="header-container">
       <a href="index.html" class="logo"><i class="fas fa-store" aria-hidden="true"></i> ROMIX</a>
-      <nav class="nav-inline" aria-label="Secciones"><ul>
-        <li><a href="mujer.html" data-section="mujer">Mujer</a></li>
-        <li><a href="hombre.html" data-section="hombre">Hombre</a></li>
-        <li><a href="ninos.html" data-section="ninos">Niños</a></li>
-        <li><a href="ayuda.html">Ayuda</a></li>
-      </ul></nav>
+      <span></span>
       <a class="cart-icon-btn" href="cart.html" aria-label="Ir al carrito"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a>
     </div>
   </header>
@@ -68,10 +65,16 @@
       <button class="catalog-tab" role="tab" aria-selected="false" data-section="ninos">Niños</button>
     </div>
     <h1 id="catalog-title" class="section-title">Colección Mujer</h1>
+    <section id="ayuda" class="help-banner" aria-label="Ayuda">
+      <i class="fas fa-info-circle" aria-hidden="true"></i>
+      <div>
+        <strong>¿Necesitás ayuda?</strong> Revisá colores, talles y stock desde el detalle o escribinos por <a href="https://wa.me/5491154272065" target="_blank" rel="noopener">WhatsApp</a>. También podés ver la <a href="ayuda.html">guía de ayuda</a>.
+      </div>
+    </section>
     <div class="catalog-toolbar">
       <input id="cat-q" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" />
       <label style="display:inline-flex; align-items:center; gap:6px; color:#6c757d;">Ordenar:
-        <select id="cat-order"><option value="relevance">Relevancia</option></select>
+        <select id="cat-order"><option value="relevancia">Relevancia</option></select>
       </label>
       <span id="cat-count" class="count">Mostrando 0 de 0 productos</span>
     </div>
@@ -86,13 +89,6 @@
     document.addEventListener('DOMContentLoaded', ()=>{ updateCartBadge(); fixAll(); });
   </script>
   <script src="catalog-tabs.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', ()=>{
-      document.querySelectorAll('.nav-inline a[data-section]').forEach(a=>{
-        a.addEventListener('click', (e)=>{ e.preventDefault(); const sec=a.dataset.section; if(window.catalogTabs&&window.catalogTabs.select){ window.catalogTabs.select(sec); document.getElementById('catalog-title').scrollIntoView({behavior:'smooth', block:'start'}); try{ history.replaceState({},'', '#'+sec);}catch{} } });
-      });
-    });
-  </script>
 </body>
 </html>
 

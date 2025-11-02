@@ -503,10 +503,14 @@
       } catch {}
     }
 
+    function fetchProducts(){
+      const tryApi = () => fetch('/api/products', { cache: 'no-store' }).then(r=> r.ok ? r.json() : Promise.reject());
+      const tryFile = () => fetch('products.json').then(r=>r.json());
+      return tryApi().catch(tryFile).catch(err=>{ console.error('[ROMIX] products load failed:', err); showLoadError && showLoadError(); return []; });
+    }
+
     function loadProducts() {
-      return fetch('products.json').catch(err => { console.error('[ROMIX] fetch products.json failed:', err); const b=document.getElementById('load-error-banner'); if(b)b.style.display='block'; return new Response(JSON.stringify([]), {headers:{'Content-Type':'application/json'}}); })
-        .then((r) => r.json())
-        .then((products) => {
+      return fetchProducts().then((products) => {
           const sections = {
             mujer: document.getElementById('mujer-grid'),
             hombre: document.getElementById('hombre-grid'),
@@ -1356,6 +1360,7 @@ document.addEventListener('DOMContentLoaded', ()=>{ initGlobalFilters(); });
 </html>
 
 </html>
+
 
 
 

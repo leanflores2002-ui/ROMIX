@@ -19,7 +19,9 @@
   }
   function ensureProducts(){
     if (PRODUCTS) return Promise.resolve(PRODUCTS);
-    return fetch('products.json').then(r=>r.json()).then(d=>{ PRODUCTS=d||[]; return PRODUCTS; }).catch(()=>[]);
+    const tryApi = () => fetch('/api/products', {cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject());
+    const tryFile = () => fetch('products.json').then(r=>r.json());
+    return tryApi().catch(tryFile).then(d=>{ PRODUCTS=d||[]; return PRODUCTS; }).catch(()=>[]);
   }
   function findAndFocus(query){
     const q = norm(query);

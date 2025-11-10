@@ -7,19 +7,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link rel="prefetch" href="ayuda.html" as="document">
   <style>
-    :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#1b1f24; }
+    :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#343a40; }
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { margin:0; background:#fff1f6; color:#232323; }
-    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0; box-shadow:0 4px 14px rgba(0,0,0,.12); position: sticky; top: 0; z-index: 1000; }
-    .header-wrap { max-width:1200px; margin:0 auto; padding:0 20px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; }
-    .logo { font-size:1.4rem; font-weight:900; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; }
-    nav ul { list-style:none; display:flex; gap:10px; padding:0; margin:0; }
-    nav a { color:#fff; text-decoration:none; padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); }
-    nav ul { gap: 16px; }
-    header nav { justify-self:center; }
-    nav a[aria-current="page"] { background:rgba(255,255,255,.22); }
-    .cart-btn { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.5); color:#fff; padding:8px 12px; border-radius:999px; cursor:pointer; }
-    .cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; }
+    body { margin:0; background:#f5f5f5; color:#232323; }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:20px 0; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+    .header-container { max-width:1200px; margin:0 auto; padding:0 20px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; }
+    .logo { font-size:1.6rem; font-weight:900; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; }
+    .nav-inline { justify-self:center; }
+    .nav-inline ul { list-style:none; display:flex; gap:16px; padding:0; margin:0; }
+    .nav-inline a { color:#fff; text-decoration:none; padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); }
+    .cart-icon-btn { position: relative; display:inline-flex; align-items:center; gap:6px; padding:8px 12px; border-radius:20px; border:1px solid rgba(255,255,255,.4); background: rgba(0,0,0,.1); color:#fff; text-decoration:none; }
+    #cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; position:absolute; top:-8px; right:-8px; min-width:18px; text-align:center; }
 
     .container { max-width:1200px; margin:18px auto; padding:0 20px; }
     .summary { color:#6c757d; margin: 6px 2px 12px; font-weight:600; }
@@ -47,10 +45,15 @@
     .btn:hover { filter:brightness(.98); }
     .skip-link{position:absolute;left:-9999px;top:auto}
     .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px}
-    footer{background:#fff;border-top:1px solid #e9ecef;margin-top:24px}
-    .footer-wrap{max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;gap:18px;flex-wrap:wrap;color:#495057}
-    .footer-wrap a{color:#495057;text-decoration:none}
-    .footer-wrap a:hover{color:var(--primary)}
+
+    footer { background-color: var(--dark); color: #fff; padding: 30px 0; margin-top: 40px; }
+    .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
+    .footer-column h4 { font-size: 1.2rem; margin-bottom: 15px; color: var(--primary); }
+    .footer-column ul { list-style: none; }
+    .footer-column ul li { margin-bottom: 10px; }
+    .footer-column ul li a { color: #adb5bd; text-decoration: none; transition: color 0.3s; }
+    .footer-column ul li a:hover { color: #fff; }
+    .copyright { text-align: center; padding-top: 20px; margin-top: 20px; border-top: 1px solid #495057; color: #adb5bd; font-size: 0.9rem; }
     @media (max-width: 520px) {
       .thumb { height: 180px; }
     }
@@ -59,24 +62,26 @@
 <body>
   <a class="skip-link" href="#grid">Saltar al contenido</a>
   <header>
-    <div class="header-wrap">
+    <div class="header-container">
       <a href="index.html" class="logo"><i class="fas fa-store" aria-hidden="true"></i> ROMIX</a>
-      <nav aria-label="Secciones">
+      <div class="nav-inline" aria-label="Secciones">
         <ul>
           <li><a href="mujer.html" aria-current="page">Mujer</a></li>
           <li><a href="hombre.html">Hombre</a></li>
-          <li><a href="ninos.html">Niños</a></li>
+          <li><a href="ninos.html">Ni&ntilde;os</a></li>
           <li><a href="ayuda.html">Ayuda</a></li>
         </ul>
-      </nav>
-      <button class="cart-btn" type="button" onclick="alert('Abrí el detalle de cualquier producto para finalizar compra.');">
-        <i class="fas fa-shopping-cart" aria-hidden="true"></i> Carrito <span id="cart-count" class="cart-count">0</span>
-      </button>
+      </div>
+      <a class="cart-icon-btn" href="cart.html" aria-label="Ir al carrito">
+        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+        <span>Carrito</span>
+        <span id="cart-count">0</span>
+      </a>
     </div>
   </header>
 
   <main class="container" aria-label="Productos para Mujer">
-    <h1 style="margin:6px 2px 10px">Colección Mujer</h1>
+    <h1 style="margin:6px 2px 10px">Coleccion Mujer</h1>
     <div class="toolbar">
       <input id="search" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" />
       <label for="sort" style="font-size:.9rem;color:#6c757d">Ordenar:</label>
@@ -91,15 +96,35 @@
   </main>
 
   <footer>
-    <div class="footer-wrap" role="contentinfo">
-      <div>
-        <strong>Ayuda</strong>
-        <div>
-          <a href="ayuda.html#size-guide">Guía de talles</a> •
-          <a href="ayuda.html#returns">Cambios y devoluciones</a> •
-          <a href="ayuda.html">Centro de ayuda</a>
-        </div>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>Productos</h4>
+        <ul>
+          <li><a href="mujer.html">Ropa para Mujer</a></li>
+          <li><a href="hombre.html">Ropa para Hombre</a></li>
+          <li><a href="ninos.html">Ropa para Ni&ntilde;os</a></li>
+          <li><a href="index.html">Novedades</a></li>
+          <li><a href="index.html">Ofertas</a></li>
+        </ul>
       </div>
+      <div class="footer-column">
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="ayuda.html#size-guide">Guia de talles</a></li>
+          <li><a href="ayuda.html#returns">Cambios y devoluciones</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="index.html#contacto">Direccion y horarios</a></li>
+          <li><a href="https://wa.me/5491154272065">WhatsApp</a></li>
+          <li><a href="tel:+5491154272065">Llamar por telefono</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Romix - Todos los derechos reservados</p>
     </div>
   </footer>
 
@@ -133,7 +158,7 @@
     function safeGetCart(){ try { return JSON.parse(localStorage.getItem('cart')||'[]'); } catch { return []; } }
     function safeSetCart(v){ try { localStorage.setItem('cart', JSON.stringify(v)); } catch {} }
     function updateCartCount(){ const c = safeGetCart(); const n = c.reduce((t,i)=>t + (i.quantity||0), 0); const el = document.getElementById('cart-count'); if (el) el.textContent = String(n); }
-    function quickAdd(product){ const cart = safeGetCart(); const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Único'; let size = 'U'; if (Array.isArray(product.sizes) && product.sizes.length){ const available = product.sizes.find(s => !/out|unavail/i.test(String(s.status||''))) || product.sizes[0]; size = String(available.size || 'U'); } const price = Number(product.price||0); cart.push({ id: Date.now(), name: product.name, type: product.type || '', color, size, quantity: 1, price, subtotal: price }); safeSetCart(cart); updateCartCount(); alert('Listo! Se agregó al carrito.'); }
+    function quickAdd(product){ const cart = safeGetCart(); const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Unico'; let size = 'U'; if (Array.isArray(product.sizes) && product.sizes.length){ const available = product.sizes.find(s => !/out|unavail/i.test(String(s.status||''))) || product.sizes[0]; size = String(available.size || 'U'); } const price = Number(product.price||0); cart.push({ id: Date.now(), name: product.name, type: product.type || '', color, size, quantity: 1, price, subtotal: price }); safeSetCart(cart); updateCartCount(); alert('Listo! Se agrego al carrito.'); }
 
     function createCard(p){
       const imgSrc = p.image || (p.images && (p.images['Negro'] || Object.values(p.images)[0])) || PLACEHOLDER;
@@ -152,7 +177,7 @@
 
       const body = document.createElement('div'); body.className = 'body';
       const title = document.createElement('div'); title.className = 'title'; title.textContent = p.name;
-      const subtitle = document.createElement('div'); subtitle.className = 'subtitle'; subtitle.textContent = (p.section ? (String(p.section).charAt(0).toUpperCase()+String(p.section).slice(1)) : '') + (p.type ? ((p.section? ' • ' : '') + p.type) : '');
+      const subtitle = document.createElement('div'); subtitle.className = 'subtitle'; subtitle.textContent = (p.section ? (String(p.section).charAt(0).toUpperCase()+String(p.section).slice(1)) : '') + (p.type ? ((p.section? ' · ' : '') + p.type) : '');
       const row = document.createElement('div'); row.className = 'row';
       const priceEl = document.createElement('div'); priceEl.className = 'price'; priceEl.textContent = '$' + price;
       const stockEl = document.createElement('div'); stockEl.className = 'stock'; stockEl.innerHTML = 'Disponible<small>Stock: ' + esc(String(stock)) + '</small>';
@@ -176,7 +201,7 @@
       grid.innerHTML = '';
       view.forEach(p => grid.appendChild(createCard(p)));
       const summary = document.getElementById('summary');
-      summary.textContent = `Mostrando ${view.length} de ${master.length} productos`;
+      summary.textContent = 'Mostrando ' + view.length + ' de ' + master.length + ' productos';
     }
     function doSearchSort(){
       const q = document.getElementById('search').value.trim().toLowerCase();
@@ -207,3 +232,4 @@
   </script>
 </body>
 </html>
+

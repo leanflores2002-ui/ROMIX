@@ -35,15 +35,10 @@
     .catalog-toolbar select { padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; }
     .catalog-toolbar .count { color:#6c757d; font-weight:600; }
 
-    /* Hero y destacados conservan el layout nuevo */
-    .hero { background: linear-gradient(135deg, #fffaf3, #f0e7db); border-radius:20px; padding:28px; box-shadow:0 18px 42px rgba(0,0,0,.08); margin:26px auto 8px; display:grid; grid-template-columns:1.1fr .9fr; gap:18px; align-items:center; }
-    .hero h1 { font-size:2.4rem; color:var(--secondary); letter-spacing:-0.5px; }
-    .hero p { color:#6c757d; font-size:1.05rem; margin:10px 0 14px; }
-    .hero .cta { display:flex; gap:12px; flex-wrap:wrap; }
     .btn-cta { display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:14px; border:1px solid transparent; font-weight:800; cursor:pointer; text-decoration:none; }
     .btn-primary { background: linear-gradient(135deg, var(--primary), #ff9770); color:#fff; box-shadow:0 12px 24px rgba(255,107,107,.25); }
     .btn-outline { border:1px solid var(--secondary); color: var(--secondary); background:#fff; }
-    .hero-note { display:flex; gap:12px; color:#6c757d; font-weight:600; }
+    .eyebrow { color:#6c757d; font-size:.9rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
     .eyebrow { color:#6c757d; font-size:.9rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
 
     /* Carrusel tendencias */
@@ -64,6 +59,22 @@
     .trend-dots { display:flex; gap:8px; justify-content:center; margin-top:14px; }
     .trend-dot { width:10px; height:10px; border-radius:50%; background:#d8c9ff; }
     .trend-dot.active { background:#6f42c1; }
+
+    /* Promos slider */
+    .promo-wrap { margin:28px auto; padding:18px 22px 22px; background:linear-gradient(135deg, #fef5f5, #f9ecff); border-radius:18px; box-shadow:0 18px 40px rgba(232,62,140,.12); }
+    .promo-slider { position:relative; overflow:hidden; }
+    .promo-track { display:flex; gap:14px; transition:transform .3s ease; }
+    .promo-card { flex:0 0 calc(25% - 11px); background:#fff; border-radius:18px; padding:14px; box-shadow:0 14px 32px rgba(0,0,0,.1); border:1px solid #f2d5e5; position:relative; min-height:240px; }
+    .promo-card img { width:100%; height:150px; object-fit:cover; border-radius:12px; background:#fff7fa; }
+    .promo-badge { position:absolute; top:10px; left:10px; background:#ffe5ec; color:#c2185b; border-radius:999px; padding:6px 10px; font-weight:800; font-size:.82rem; border:1px solid #f2a7c5; }
+    .promo-price { position:absolute; top:10px; right:10px; background:#fff; color:#c2185b; border:1px solid #f2d5e5; border-radius:12px; padding:6px 10px; font-weight:900; }
+    .promo-price small { color:#6c757d; text-decoration:line-through; margin-left:6px; font-weight:600; }
+    .promo-name { font-weight:900; color:#1f1f1f; margin:8px 0 4px; }
+    .promo-sub { color:#6c757d; font-size:.95rem; }
+    .promo-foot { margin-top:10px; display:flex; justify-content:space-between; align-items:center; color:#2f9e44; font-weight:800; font-size:.9rem; }
+    .promo-dots { display:flex; gap:8px; justify-content:center; margin-top:14px; }
+    .promo-dot { width:10px; height:10px; border-radius:50%; background:#f6cde0; }
+    .promo-dot.active { background:#c2185b; }
 
     .products-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:20px; }
     .product-card { background:#fff; border-radius:16px; box-shadow:0 16px 40px rgba(0,0,0,.12); overflow:hidden; display:flex; flex-direction:column; }
@@ -137,15 +148,22 @@
     <div class="trend-dots" id="trend-dots"></div>
   </section>
 
-  <section class="container">
+  <section class="container promo-wrap">
     <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">
       <div>
-        <div class="eyebrow">Selección</div>
-        <h2 class="section-title">Destacados de la semana</h2>
+        <div class="eyebrow">Promos</div>
+        <h2 class="section-title">Ofertas y descuentos</h2>
       </div>
       <a class="btn-cta btn-outline" href="catalogo.html">Ver todos</a>
     </div>
-    <div class="products-grid" id="featured-grid"></div>
+    <div class="promo-slider">
+      <div class="promo-track" id="promo-track"></div>
+      <div class="promo-nav">
+        <button class="trend-arrow" id="promo-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+        <button class="trend-arrow" id="promo-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="promo-dots" id="promo-dots"></div>
+    </div>
   </section>
 
   <main id="main" class="container" aria-label="Catalogo completo">
@@ -255,30 +273,47 @@
     function preloadedProducts(){
       try { const el=document.getElementById('preloaded-products'); if(!el) return null; return JSON.parse(el.textContent); } catch { return null; }
     }
-    function renderFeatured(list){
-      var root = document.getElementById('featured-grid');
-      if (!root) return;
-      var top = (list||[]).filter(function(p){ return computeTotalStock(p)>0; }).slice(0,6);
-      root.innerHTML = top.map(function(p){
-        var total = computeTotalStock(p); var st = stateFromStock(total);
-        var badge = p.badge || 'Top pick';
+    function renderPromos(list){
+      var track = document.getElementById('promo-track');
+      var dots = document.getElementById('promo-dots');
+      if (!track || !dots) return;
+      var promos = (list||[]).filter(function(p){ return Number(p.originalPrice||0) > Number(p.price||0); });
+      if (!promos.length) { promos = (list||[]).slice(0,8); }
+      var badges = ['Promo','Oferta','-15%','-20%','-30%'];
+      track.innerHTML = promos.map(function(p,idx){
         var img = p.image || 'images/placeholder.jpg';
+        var price = money(p.price);
+        var original = p.originalPrice ? '<small>'+money(p.originalPrice)+'</small>' : '';
+        var badge = p.badge || badges[idx % badges.length];
         var slug = (window.romixSearch && window.romixSearch.slug) ? window.romixSearch.slug(p.name) : (String(p.name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-'));
+        var discount = '';
+        if (p.originalPrice && p.price) {
+          var pct = Math.round((1 - Number(p.price)/Number(p.originalPrice))*100);
+          if (pct > 0) discount = '-'+pct+'%';
+        }
         return (
-          '<div class="product-card">'+
-            '<div class="product-image" onclick="location.href=\'product.html?slug='+encodeURIComponent(slug)+'\'">'+
-              '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';"/>'+
-              '<span class="product-badge">'+badge+'</span>'+
-            '</div>'+
-            '<div class="product-info">'+
-              '<div class="product-title">'+(p.name||'')+'</div>'+
-              '<div class="product-subtitle">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
-              '<div class="product-price">'+money(p.price)+'</div>'+
-              '<div class="product-stock-note state-'+st+'">'+(st==='out'?'Agotado':st==='low'?'Por agotarse':'Disponible')+'</div>'+
-            '</div>'+
-          '</div>'
+          '<article class="promo-card">'+
+            '<div class="promo-badge">'+(discount || badge)+'</div>'+
+            '<div class="promo-price">'+price+ (original ? ' '+original : '') +'</div>'+
+            '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\'product.html?slug='+encodeURIComponent(slug)+'\'">'+
+            '<div class="promo-name">'+(p.name||'')+'</div>'+
+            '<div class="promo-sub">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
+            '<div class="promo-foot"><span>'+ (p.badge || 'Disponible') +'</span><span>'+price+'</span></div>'+
+          '</article>'
         );
       }).join('');
+      var perPage = 4;
+      var pages = Math.max(1, Math.ceil(promos.length / perPage));
+      dots.innerHTML = new Array(pages).fill('').map(function(_,i){ return '<div class="promo-dot'+(i===0?' active':'')+'"></div>'; }).join('');
+      var current = 0;
+      function update(){
+        var offset = -(current * (100 / perPage));
+        track.style.transform = 'translateX(' + offset + '%)';
+        dots.querySelectorAll('.promo-dot').forEach(function(d,i){ d.classList.toggle('active', i===current); });
+      }
+      document.getElementById('promo-prev').onclick = function(){ current = (current - 1 + pages) % pages; update(); };
+      document.getElementById('promo-next').onclick = function(){ current = (current + 1) % pages; update(); };
+      update();
     }
     function renderTrends(list){
       var track = document.getElementById('trend-track');
@@ -318,10 +353,10 @@
     var ALL_PRODUCTS = preloadedProducts() || [];
     if (!window.PRELOADED_PRODUCTS && ALL_PRODUCTS.length) { window.PRELOADED_PRODUCTS = ALL_PRODUCTS; }
     function loadAll(){
-      if (ALL_PRODUCTS && ALL_PRODUCTS.length) { renderFeatured(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); return; }
+      if (ALL_PRODUCTS && ALL_PRODUCTS.length) { renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); return; }
       var tryApi = function(){ return fetch('/api/products', {cache:'no-store'}).then(function(r){ return r.ok?r.json():Promise.reject(); }); };
       var tryFile = function(){ return fetch('assets/data/products.json').then(function(r){ return r.json(); }); };
-      tryApi().catch(tryFile).then(function(list){ ALL_PRODUCTS = list||[]; renderFeatured(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); }).catch(function(){ ALL_PRODUCTS = []; renderFeatured(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); });
+      tryApi().catch(tryFile).then(function(list){ ALL_PRODUCTS = list||[]; renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); }).catch(function(){ ALL_PRODUCTS = []; renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); });
     }
 
     document.addEventListener('DOMContentLoaded', function(){

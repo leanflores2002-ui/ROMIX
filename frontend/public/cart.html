@@ -9,12 +9,20 @@
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
     * { box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { margin:0; background:#f5f5f5; color:#232323; }
-    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:20px 0; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-    .header-container { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; }
-    .logo { font-size:1.6rem; font-weight:900; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; }
-    .nav-inline { justify-self:center; }
-    .nav-inline ul { list-style:none; display:flex; gap:16px; padding:0; margin:0; }
-    .nav-inline a { color:#fff; text-decoration:none; padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0 10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+    .header-container { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px; }
+    .logo { font-size:1.8rem; font-weight:800; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; letter-spacing:-0.5px; }
+    .global-search { display:flex; align-items:center; gap:0; position:relative; max-width:740px; width:100%; margin:0 auto; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#212529; background:#fff; caret-color: var(--secondary); width:100%; }
+    .global-search input[type="search"]::placeholder { color:#6c757d; }
+    .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
+    .topbar-icons { display:flex; align-items:center; gap:12px; }
+    .icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; }
+    .icon-badge { position:absolute; top:-6px; right:-6px; background:var(--danger); color:#fff; border-radius:999px; font-size:.7rem; padding:2px 6px; }
+    .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px 10px; display:flex; gap:14px; align-items:center; flex-wrap:nowrap; overflow-x:auto; color:#fff; font-weight:700; scrollbar-width:none; }
+    .nav-secondary a { color:#fff; text-decoration:none; padding:10px 12px; border-radius:12px; transition:background .2s ease, color .2s ease; }
+    .nav-secondary a:hover { background:rgba(255,255,255,.12); }
+    .cat-pill { background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.35); padding:8px 12px; border-radius:999px; font-weight:700; text-decoration:none; font-size:.95rem; }
 
     .container { max-width:1600px; margin:22px auto; padding:0 28px; }
     .cart-page { text-align:center; padding-bottom:48px; }
@@ -47,25 +55,33 @@
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-container">
-      <a href="index.html" class="logo"><i class="fas fa-store" aria-hidden="true"></i> ROMIX</a>
-      <div class="nav-inline" aria-label="Secciones">
-        <ul>
-          <li><a href="mujer.html">Mujer</a></li>
-          <li><a href="hombre.html">Hombre</a></li>
-          <li><a href="ninos.html">Ni&ntilde;os</a></li>
-          <li><a href="ayuda.html">Ayuda</a></li>
-        </ul>
+    <header>
+    <div class="header-container topbar">
+      <a href="index.html" class="logo" aria-label="Romix"><i class="fas fa-store" aria-hidden="true"></i><span>ROMIX</span></a>
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
+      </form>
+      <div class="topbar-icons" aria-label="Acciones">
+        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
+        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
+        <a class="icon-btn" href="#" aria-label="Perfil"><i class="fas fa-user"></i></a>
       </div>
-      <a href="index.html" class="btn" style="background:#ffffff22;color:#fff;border-color:#ffffff55"><i class="fas fa-arrow-left"></i> Seguir comprando</a>
     </div>
+    <nav class="nav-secondary" aria-label="Secciones y categorÌas">
+      <a href="index.html#trends">Mujer</a>
+      <a href="index.html#promos">Hombre</a>
+      <a href="index.html#catalogo">NiÒos</a>
+      <a href="index.html#footer">Ayuda</a>
+      <a class="cat-pill" href="index.html#trends">Novedades</a>
+      <a class="cat-pill" href="index.html#promos">Ofertas</a>
+    </nav>
   </header>
 
   <div class="container">
     <div class="cart-page">
       <h1 class="cart-title">Mi Carrito</h1>
-      <p class="cart-subtitle">Revis√° tus productos seleccionados</p>
+      <p class="cart-subtitle">Revis+Ì tus productos seleccionados</p>
       <div class="cart-box">
         <div id="cart-list" class="cart-list"></div>
         <div class="cart-summary">
@@ -118,9 +134,9 @@
   </footer>
 
   <script>
-    // Correcci√≥n global de textos mal decodificados
+    // Correcci+¶n global de textos mal decodificados
     (function(){
-      function fixText(s){ if(!s||typeof s!=='string') return s; const m=[['Cat√É¬°logo','Cat√°logo'],['M√É¬°s','M√°s'],['m√É¬°s','m√°s'],['Colecci√É¬≥n','Colecci√≥n'],['Ni√É¬±os','Ni√±os']]; let o=s; m.forEach(([a,b])=>o=o.split(a).join(b)); return o; }
+      function fixText(s){ if(!s||typeof s!=='string') return s; const m=[['Cat+‚-Ìlogo','Cat+Ìlogo'],['M+‚-Ìs','M+Ìs'],['m+‚-Ìs','m+Ìs'],['Colecci+‚-¶n','Colecci+¶n'],['Ni+‚-¶os','Ni+¶os']]; let o=s; m.forEach(([a,b])=>o=o.split(a).join(b)); return o; }
       function fixAll(){ try{ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null); const ns=[]; while(w.nextNode()) ns.push(w.currentNode); ns.forEach(n=> n.nodeValue=fixText(n.nodeValue)); }catch{} }
       document.addEventListener('DOMContentLoaded', fixAll);
     })();
@@ -168,7 +184,7 @@
       list.innerHTML = '';
       let total = 0, count = 0;
       if (!cart.length) {
-        list.innerHTML = '<div style="color:#6c757d">Tu carrito est√° vac√≠o.</div>';
+        list.innerHTML = '<div style="color:#6c757d">Tu carrito est+Ì vac+°o.</div>';
       }
       cart.forEach((item) => {
         const img = findImageForItem(item);
@@ -178,7 +194,7 @@
           <div class="cart-thumb">${img?`<img src="${img}" alt="${item.name}">`:'<span style="color:#adb5bd;font-weight:700;">Sin imagen</span>'}</div>
           <div class="cart-info">
             <div class="name">${item.name}</div>
-            <div class="meta">${item.type} ‚Ä¢ Color: ${item.color} ‚Ä¢ Talle: ${item.size}</div>
+            <div class="meta">${item.type} ‘«Û Color: ${item.color} ‘«Û Talle: ${item.size}</div>
             <div class="unit">$${Number(item.price).toLocaleString('es-AR')} c/u</div>
             <div class="qty-stepper" data-id="${item.id}">
               <button type="button" class="dec" aria-label="Disminuir">-</button>
@@ -203,7 +219,7 @@
     }
 
     function orderCartWhatsApp(){
-      if (!cart.length) { alert('El carrito est√° vac√≠o.'); return; }
+      if (!cart.length) { alert('El carrito est+Ì vac+°o.'); return; }
       let message = 'Hola! Quiero ordenar el siguiente pedido:\n\n';
       cart.forEach((item) => {
         message += `${item.name} (${item.type})\n`;
@@ -227,6 +243,7 @@
   </script>
 </body>
 </html>
+
 
 
 

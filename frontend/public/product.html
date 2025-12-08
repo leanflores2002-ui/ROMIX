@@ -9,13 +9,24 @@
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
     * { box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background:#f5f5f5; margin:0; color:#333; }
-    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; padding: 16px 0; }
-    .header-container { max-width: 1600px; margin: 0 auto; padding: 0 28px; display:flex; align-items:center; justify-content:space-between; }
-    .logo { font-size:1.6rem; font-weight:700; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; }
-    .global-search { display:flex; align-items:center; gap:8px; position:relative; }
-    .global-search input[type="search"] { padding:6px 10px; border:1px solid #ddd; border-radius:8px; min-width:240px; color:#212529; background:#fff; caret-color: var(--secondary); }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; padding: 14px 0 10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: sticky; top:0; z-index:1000; }
+    .header-container { max-width: 1600px; margin: 0 auto; padding: 0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px; }
+    .logo { font-size:1.8rem; font-weight:800; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; letter-spacing:-0.5px; }
+    .global-search { display:flex; align-items:center; gap:0; position:relative; max-width:740px; width:100%; margin:0 auto; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#212529; background:#fff; caret-color: var(--secondary); width:100%; }
     .global-search input[type="search"]::placeholder { color:#6c757d; }
-    .global-search button { padding:7px 12px; border-radius:8px; border:1px solid var(--primary); background:#fff; color:var(--primary); cursor:pointer; }
+    .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
+    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
+    .search-suggestion .t { color:#212529; }
+    .search-suggestion small { color:#6c757d; }
+    .topbar-icons { display:flex; align-items:center; gap:12px; }
+    .icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; }
+    .icon-badge { position:absolute; top:-6px; right:-6px; background:#dc3545; color:#fff; border-radius:999px; font-size:.7rem; padding:2px 6px; }
+    .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px 10px; display:flex; gap:14px; align-items:center; flex-wrap:nowrap; overflow-x:auto; color:#fff; font-weight:700; scrollbar-width:none; }
+    .nav-secondary a { color:#fff; text-decoration:none; padding:10px 12px; border-radius:12px; transition:background .2s ease, color .2s ease; }
+    .nav-secondary a:hover { background:rgba(255,255,255,.12); }
+    .cat-pill { background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.35); padding:8px 12px; border-radius:999px; font-weight:700; text-decoration:none; font-size:.95rem; }
     .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
     .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
     .search-suggestion .t { color:#212529; }
@@ -93,27 +104,26 @@
 </head>
 <body>
   <header>
-    <div class="header-container">
-      <a href="index.html" class="logo"><i class="fas fa-store"></i> ROMIX</a>
-      <div class="nav-inline" aria-label="Secciones" style="display:flex;align-items:center;">
-        <ul style="list-style:none;display:flex;gap:16px;padding:0;margin:0;">
-          <li><a href="mujer.html" style="color:#fff;text-decoration:none;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08)">Mujer</a></li>
-          <li><a href="hombre.html" style="color:#fff;text-decoration:none;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08)">Hombre</a></li>
-          <li><a href="ninos.html" style="color:#fff;text-decoration:none;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08)">Ni&ntilde;os</a></li>
-          <li><a href="ayuda.html" style="color:#fff;text-decoration:none;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08)">Ayuda</a></li>
-        </ul>
-      </div>
-      <div class="contact-header" style="display:flex;align-items:center;gap:12px;">
-        <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
-          <input type="search" name="q" placeholder="Buscar producto..." aria-label="Buscar producto" />
-          <button type="submit"><i class="fas fa-search"></i> Buscar</button>
-        </form>
-        <a class="cart-icon-btn" href="cart.html" aria-label="Ir al carrito">
-          <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-          <span id="cart-count">0</span>
-        </a>
+    <div class="header-container topbar">
+      <a href="index.html" class="logo" aria-label="Romix"><i class="fas fa-store" aria-hidden="true"></i><span>ROMIX</span></a>
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
+      </form>
+      <div class="topbar-icons" aria-label="Acciones">
+        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
+        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
+        <a class="icon-btn" href="#" aria-label="Perfil"><i class="fas fa-user"></i></a>
       </div>
     </div>
+    <nav class="nav-secondary" aria-label="Secciones y categorías">
+      <a href="index.html#trends">Mujer</a>
+      <a href="index.html#promos">Hombre</a>
+      <a href="index.html#catalogo">Niños</a>
+      <a href="index.html#footer">Ayuda</a>
+      <a class="cat-pill" href="index.html#trends">Novedades</a>
+      <a class="cat-pill" href="index.html#promos">Ofertas</a>
+    </nav>
   </header>
 
   <div class="container">

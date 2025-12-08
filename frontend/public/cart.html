@@ -1,7 +1,140 @@
-﻿  <script>
-    // Corrección global de textos mal decodificados
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROMIX - Mi Carrito</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
+    * { box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { margin:0; background:#f5f5f5; color:#232323; }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0 10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+    .header-container { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px; }
+    .logo { font-size:1.8rem; font-weight:800; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; letter-spacing:-0.5px; }
+    .global-search { display:flex; align-items:center; gap:0; position:relative; max-width:740px; width:100%; margin:0 auto; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#111; background:#fff; caret-color: var(--secondary); width:100%; }
+    .global-search input[type="search"]::placeholder { color:#6c757d; }
+    .global-search input[type="search"]::selection { background:#ffe0f0; color:#111; }
+    .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
+    .topbar-icons { display:flex; align-items:center; gap:12px; }
+    .icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; }
+    .icon-badge { position:absolute; top:-6px; right:-6px; background:var(--danger); color:#fff; border-radius:999px; font-size:.7rem; padding:2px 6px; }
+    .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px 10px; display:flex; gap:14px; align-items:center; flex-wrap:nowrap; overflow-x:auto; color:#fff; font-weight:700; scrollbar-width:none; }
+    .nav-secondary a { color:#fff; text-decoration:none; padding:10px 12px; border-radius:12px; transition:background .2s ease, color .2s ease; }
+    .nav-secondary a:hover { background:rgba(255,255,255,.12); }
+    .cat-pill { background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.35); padding:8px 12px; border-radius:999px; font-weight:700; text-decoration:none; font-size:.95rem; }
+
+    .container { max-width:1600px; margin:22px auto; padding:0 28px; }
+    .cart-page { text-align:center; padding-bottom:48px; }
+    .cart-title { font-size: 1.8rem; font-weight: 900; color: #1b1f24; margin: 6px 0; }
+    .cart-subtitle { color:#6c757d; margin-bottom:14px; }
+    .cart-box { max-width: 1240px; margin: 0 auto; background:#fff; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,.10); padding: 22px; min-height:160px; }
+    .cart-list { display:flex; flex-direction:column; gap:12px; }
+    .cart-item { display:grid; grid-template-columns: 86px 1fr auto; gap:14px; align-items:center; border:1px solid #e9ecef; border-radius:10px; padding:10px; }
+    .cart-thumb { width:86px; height:86px; background:#f8f9fb; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .cart-thumb img { width:100%; height:100%; object-fit:contain; }
+    .cart-info { text-align:left; }
+    .cart-info .name { font-weight:900; color:#111; }
+    .cart-info .meta { color:#6c757d; font-size:.95rem; }
+    .cart-info .unit { color: var(--secondary); font-weight:800; font-size:1rem; }
+    .qty-stepper { display:inline-flex; align-items:center; gap:8px; border:1px solid #dee2e6; border-radius:8px; padding:4px 6px; background:#fff; margin-top:6px; }
+    .qty-stepper button { width:28px; height:28px; border-radius:6px; border:1px solid #dee2e6; background:#fff; cursor:pointer; }
+    .qty-stepper input { width:48px; text-align:center; border:none; outline:none; }
+    .cart-right { text-align:right; }
+    .cart-right .subtotal { font-weight:900; color:#1b1f24; }
+    .cart-right .remove { color:#dc3545; background:#fff; border:1px solid #f1a6ad; border-radius:8px; padding:6px 8px; cursor:pointer; }
+    .cart-summary { margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:12px; border-top:1px solid #e9ecef; }
+    .cart-summary .left { text-align:left; color:#6c757d; }
+    .cart-summary .right { display:flex; align-items:baseline; gap:8px; }
+    .cart-total-amount { font-size:1.2rem; font-weight:900; color:#1b1f24; }
+    .cart-actions-row { margin-top:12px; display:flex; gap:10px; justify-content:flex-end; }
+    .btn { padding:10px 16px; border-radius:10px; border:1px solid #e9ecef; background:#fff; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
+    .btn-outline { background:#fff; color:#495057; }
+    .link-danger { background:none; border:none; color:#dc3545; cursor:pointer; text-decoration:underline; }
+  </style>
+</head>
+<body>
+    <header>
+    <div class="header-container topbar">
+      <a href="index.html" class="logo" aria-label="Romix"><i class="fas fa-store" aria-hidden="true"></i><span>ROMIX</span></a>
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
+      </form>
+      <div class="topbar-icons" aria-label="Acciones">
+        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
+        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
+      </div>
+    </div>
+    <nav class="nav-secondary" aria-label="Secciones y categorias">
+      <a href="index.html#trends">Mujer</a>
+      <a href="index.html#promos">Hombre</a>
+      <a href="index.html#catalogo">Ninos</a>
+      <a href="index.html#footer">Ayuda</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="cart-page">
+      <h1 class="cart-title">Mi Carrito</h1>
+      <p class="cart-subtitle">Revisa tus productos seleccionados</p>
+      <div class="cart-box">
+        <div id="cart-list" class="cart-list"></div>
+        <div class="cart-summary">
+          <div class="left">
+            <div>Total de productos: <span id="cart-count-display">0</span></div>
+            <button id="cart-clear-btn" type="button" class="link-danger">Vaciar carrito</button>
+          </div>
+          <div class="right">
+            <div class="cart-total-label">Total:</div>
+            <div class="cart-total-amount">$<span id="cart-total">0</span></div>
+          </div>
+        </div>
+        <div class="cart-actions-row">
+          <a class="btn btn-outline" href="index.html">Continuar comprando</a>
+          <button class="btn btn-primary" type="button" id="order-btn"><i class="fas fa-paper-plane" aria-hidden="true"></i> Ordenar pedido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="background:#343a40;color:#fff;padding:30px 0;margin-top:40px;">
+    <div style="max-width:1600px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;">
+      <div>
+        <h4 style="color:#e83e8c;margin-bottom:15px;">Productos</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li><a href="mujer.html" style="color:#adb5bd;text-decoration:none;">Ropa para Mujer</a></li>
+          <li><a href="hombre.html" style="color:#adb5bd;text-decoration:none;">Ropa para Hombre</a></li>
+          <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Ni&ntilde;os</a></li>
+          <li><a href="index.html" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
+          <li><a href="index.html" style="color:#adb5bd;text-decoration:none;">Ofertas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#e83e8c;margin-bottom:15px;">Ayuda</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li><a href="ayuda.html#size-guide" style="color:#adb5bd;text-decoration:none;">Guia de talles</a></li>
+          <li><a href="ayuda.html#returns" style="color:#adb5bd;text-decoration:none;">Cambios y devoluciones</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#e83e8c;margin-bottom:15px;">Contacto</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li><a href="index.html#contacto" style="color:#adb5bd;text-decoration:none;">Direccion y horarios</a></li>
+          <li><a href="https://wa.me/5491154272065" style="color:#adb5bd;text-decoration:none;">WhatsApp</a></li>
+          <li><a href="tel:+5491154272065" style="color:#adb5bd;text-decoration:none;">Llamar por telefono</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align:center;padding-top:20px;margin-top:20px;border-top:1px solid #495057;color:#adb5bd;font-size:.9rem;">&copy; 2025 Romix - Todos los derechos reservados</div>
+  </footer>
+
+  <script>
+    // Correcci+�n global de textos mal decodificados
     (function(){
-      function fixText(s){ if(!s||typeof s!=='string') return s; const m=[['CatÃ¡logo','Catálogo'],['MÃ¡s','Más'],['mÃ¡s','más'],['ColecciÃ³n','Colección'],['NiÃ±os','Niños']]; let o=s; m.forEach(([a,b])=>o=o.split(a).join(b)); return o; }
+      function fixText(s){ if(!s||typeof s!=='string') return s; const m=[['Cat+�-�logo','Cat+�logo'],['M+�-�s','M+�s'],['m+�-�s','m+�s'],['Colecci+�-�n','Colecci+�n'],['Ni+�-�os','Ni+�os']]; let o=s; m.forEach(([a,b])=>o=o.split(a).join(b)); return o; }
       function fixAll(){ try{ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null); const ns=[]; while(w.nextNode()) ns.push(w.currentNode); ns.forEach(n=> n.nodeValue=fixText(n.nodeValue)); }catch{} }
       document.addEventListener('DOMContentLoaded', fixAll);
     })();
@@ -59,7 +192,7 @@
           <div class="cart-thumb">${img?`<img src="${img}" alt="${item.name}">`:'<span style="color:#adb5bd;font-weight:700;">Sin imagen</span>'}</div>
           <div class="cart-info">
             <div class="name">${item.name}</div>
-            <div class="meta">${item.type} • Color: ${item.color} • Talle: ${item.size}</div>
+            <div class="meta">${item.type} �þ Color: ${item.color} �þ Talle: ${item.size}</div>
             <div class="unit">$${Number(item.price).toLocaleString('es-AR')} c/u</div>
             <div class="qty-stepper" data-id="${item.id}">
               <button type="button" class="dec" aria-label="Disminuir">-</button>
@@ -84,7 +217,7 @@
     }
 
     function orderCartWhatsApp(){
-      if (!cart.length) { alert('El carrito esta vacio.'); return; }
+      if (!cart.length) { alert('El carrito est+� vac+�o.'); return; }
       let message = 'Hola! Quiero ordenar el siguiente pedido:\n\n';
       cart.forEach((item) => {
         message += `${item.name} (${item.type})\n`;
@@ -106,4 +239,18 @@
       updateCart();
     });
   </script>
-  <script src="assets/js/search.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

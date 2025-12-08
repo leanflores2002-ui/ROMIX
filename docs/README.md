@@ -23,9 +23,3 @@ Manual:
 - `GET /api/products` lista (opcional `?section=...`)
 - `GET /api/products/{slug}` detalle por slug
 - `GET /api/search?q=` sugerencias
-
-## Despliegue en Fly.io
-1) Instala y autentica Fly CLI: `fly auth login`.
-2) Ajusta `fly.toml` si quieres otra región (`primary_region`) o nombre de app (`app`).
-3) Primera vez: `fly launch --no-deploy` (crea app si no existe). Si ya existe, salta este paso.
-4) `fly deploy` (usa el `Dockerfile` incluido: expone `PORT=8080` y ejecuta `uvicorn backend.app.main:app`).

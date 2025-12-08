@@ -35,6 +35,17 @@
     .catalog-toolbar select { padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; }
     .catalog-toolbar .count { color:#6c757d; font-weight:600; }
 
+    /* Hero y destacados conservan el layout nuevo */
+    .hero { background: linear-gradient(135deg, #fffaf3, #f0e7db); border-radius:20px; padding:28px; box-shadow:0 18px 42px rgba(0,0,0,.08); margin:26px auto 8px; display:grid; grid-template-columns:1.1fr .9fr; gap:18px; align-items:center; }
+    .hero h1 { font-size:2.4rem; color:var(--secondary); letter-spacing:-0.5px; }
+    .hero p { color:#6c757d; font-size:1.05rem; margin:10px 0 14px; }
+    .hero .cta { display:flex; gap:12px; flex-wrap:wrap; }
+    .btn-cta { display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:14px; border:1px solid transparent; font-weight:800; cursor:pointer; text-decoration:none; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), #ff9770); color:#fff; box-shadow:0 12px 24px rgba(255,107,107,.25); }
+    .btn-outline { border:1px solid var(--secondary); color: var(--secondary); background:#fff; }
+    .hero-note { display:flex; gap:12px; color:#6c757d; font-weight:600; }
+    .eyebrow { color:#6c757d; font-size:.9rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+
     .products-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:18px; }
     .product-card { background:#fff; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,.10); overflow:hidden; display:flex; flex-direction:column; }
     .product-image { position:relative; height:200px; background:#f8f9fb; display:flex; align-items:center; justify-content:center; }
@@ -89,6 +100,45 @@
       </div>
     </div>
   </header>
+
+  <section class="container">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Nueva temporada</div>
+        <h1>Activewear cómodo con actitud</h1>
+        <p>Prendas versátiles con colores cálidos y detalles que suman: materiales suaves, fits modernos y mucho movimiento.</p>
+        <div class="cta">
+          <a class="btn-cta btn-primary" href="catalogo.html"><i class="fas fa-th-large"></i> Ver colección</a>
+          <a class="btn-cta btn-outline" href="mujer.html"><i class="fas fa-bolt"></i> Novedades</a>
+        </div>
+        <div class="hero-note"><i class="fas fa-gift"></i> Envíos rápidos · Cambios fáciles</div>
+      </div>
+      <div class="hero-art" aria-hidden="true" style="height:100%;width:100%;display:flex;justify-content:flex-end;">
+        <div style="background: radial-gradient(circle at 30% 30%, rgba(255,107,107,.25), transparent 55%), radial-gradient(circle at 80% 20%, rgba(15,76,92,.18), transparent 60%), #fff; border-radius:18px; width:100%; min-height:220px; box-shadow:0 16px 32px rgba(0,0,0,.08); display:flex; align-items:center; justify-content:center; padding:18px;">
+          <div style="text-align:center;">
+            <div style="font-weight:800; color:var(--secondary); font-size:1.2rem;">Romix Studio</div>
+            <div style="color:var(--muted); margin:8px 0 14px;">Calidad, flex y color en cada salida</div>
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+              <span class="pill" style="background:#fff3e6;color:var(--secondary);padding:8px 12px;border-radius:12px;font-weight:700;">Lycra premium</span>
+              <span class="pill" style="background:#e9f4f6;color:var(--secondary);padding:8px 12px;border-radius:12px;font-weight:700;">Ajuste suave</span>
+              <span class="pill" style="background:#ffe8ec;color:var(--secondary);padding:8px 12px;border-radius:12px;font-weight:700;">Colores vivos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">
+      <div>
+        <div class="eyebrow">Selección</div>
+        <h2 class="section-title">Destacados de la semana</h2>
+      </div>
+      <a class="btn-cta btn-outline" href="catalogo.html">Ver todos</a>
+    </div>
+    <div class="products-grid" id="featured-grid"></div>
+  </section>
 
   <main id="main" class="container" aria-label="Catalogo completo">
     <h1 class="section-title">Catalogo Completo</h1>
@@ -197,13 +247,38 @@
     function preloadedProducts(){
       try { const el=document.getElementById('preloaded-products'); if(!el) return null; return JSON.parse(el.textContent); } catch { return null; }
     }
+    function renderFeatured(list){
+      var root = document.getElementById('featured-grid');
+      if (!root) return;
+      var top = (list||[]).filter(function(p){ return computeTotalStock(p)>0; }).slice(0,6);
+      root.innerHTML = top.map(function(p){
+        var total = computeTotalStock(p); var st = stateFromStock(total);
+        var badge = p.badge || 'Top pick';
+        var img = p.image || 'images/placeholder.jpg';
+        var slug = (window.romixSearch && window.romixSearch.slug) ? window.romixSearch.slug(p.name) : (String(p.name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-'));
+        return (
+          '<div class="product-card">'+
+            '<div class="product-image" onclick="location.href=\'product.html?slug='+encodeURIComponent(slug)+'\'">'+
+              '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';"/>'+
+              '<span class="product-badge">'+badge+'</span>'+
+            '</div>'+
+            '<div class="product-info">'+
+              '<div class="product-title">'+(p.name||'')+'</div>'+
+              '<div class="product-subtitle">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
+              '<div class="product-price">'+money(p.price)+'</div>'+
+              '<div class="product-stock-note state-'+st+'">'+(st==='out'?'Agotado':st==='low'?'Por agotarse':'Disponible')+'</div>'+
+            '</div>'+
+          '</div>'
+        );
+      }).join('');
+    }
     var ALL_PRODUCTS = preloadedProducts() || [];
     if (!window.PRELOADED_PRODUCTS && ALL_PRODUCTS.length) { window.PRELOADED_PRODUCTS = ALL_PRODUCTS; }
     function loadAll(){
-      if (ALL_PRODUCTS && ALL_PRODUCTS.length) { renderAll(ALL_PRODUCTS); return; }
+      if (ALL_PRODUCTS && ALL_PRODUCTS.length) { renderFeatured(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); return; }
       var tryApi = function(){ return fetch('/api/products', {cache:'no-store'}).then(function(r){ return r.ok?r.json():Promise.reject(); }); };
       var tryFile = function(){ return fetch('assets/data/products.json').then(function(r){ return r.json(); }); };
-      tryApi().catch(tryFile).then(function(list){ ALL_PRODUCTS = list||[]; renderAll(ALL_PRODUCTS); }).catch(function(){ ALL_PRODUCTS = []; renderAll(ALL_PRODUCTS); });
+      tryApi().catch(tryFile).then(function(list){ ALL_PRODUCTS = list||[]; renderFeatured(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); }).catch(function(){ ALL_PRODUCTS = []; renderFeatured(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); });
     }
 
     document.addEventListener('DOMContentLoaded', function(){

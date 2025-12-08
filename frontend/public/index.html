@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -21,10 +21,11 @@
     .global-search input[type="search"]::placeholder { color:#6c757d; }
     .global-search input[type="search"]::selection { background:#ffe0f0; color:#111; }
     .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
-    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
-    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
-    .search-suggestion .t { line-height:1.1; }
-    .search-suggestion small { color:#6c757d; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:12px; box-shadow:0 12px 28px rgba(0,0,0,.16); padding:6px 0; z-index:2001; max-height:320px; overflow:auto; }
+    .search-suggestion { display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; color:#222; }
+    .search-suggestion .t { line-height:1.2; font-weight:700; color:#222; }
+    .search-suggestion small { color:#6c757d; display:block; margin-top:2px; }
+    .search-suggestion:hover, .search-suggestion.active { background:#f8f0ff; }
 
     /* Barra secundaria unificada */
     .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px 10px; display:flex; gap:14px; align-items:center; flex-wrap:nowrap; overflow-x:auto; color:#fff; font-weight:700; scrollbar-width:none; }
@@ -122,7 +123,7 @@
         <a class="icon-btn" href="#footer" aria-label="Ayuda" data-target="footer"><i class="fas fa-question-circle"></i></a>
       </div>
     </div>
-    <nav class="nav-secondary" aria-label="Secciones y categor�as">
+    <nav class="nav-secondary" aria-label="Secciones y categorÝas">
       <a href="#trends" data-target="trends">Mujer</a>
       <a href="#promos" data-target="promos">Hombre</a>
       <a href="#catalogo" data-target="catalogo">Ni&ntilde;os</a>
@@ -134,7 +135,7 @@
     <div class="trend-header">
       <div>
         <div class="eyebrow">Tendencias</div>
-        <div class="trend-title">Top Trends · Moda femenina</div>
+        <div class="trend-title">Top Trends ┬À Moda femenina</div>
       </div>
       <div class="trend-nav">
         <button class="trend-arrow" id="trend-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -295,7 +296,7 @@
             '<div class="promo-price">'+price+ (original ? ' '+original : '') +'</div>'+
             '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\'product.html?slug='+encodeURIComponent(slug)+'\'">'+
             '<div class="promo-name">'+(p.name||'')+'</div>'+
-            '<div class="promo-sub">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
+            '<div class="promo-sub">'+(p.section||'')+' ┬À '+(p.type||'')+'</div>'+
             '<div class="promo-foot"><span>'+ (p.badge || 'Disponible') +'</span><span>'+price+'</span></div>'+
           '</article>'
         );
@@ -319,7 +320,7 @@
       if (!track || !dots) return;
       var filtered = (list||[]).filter(function(p){ return String(p.section||'').toLowerCase()==='mujer' || String(p.type||'').toLowerCase().includes('legg') || String(p.type||'').toLowerCase().includes('top'); });
       var trends = (filtered.length ? filtered : list || []).slice(0,12);
-      var badges = ['Oferta','Novedad','Top Trends','Edición limitada'];
+      var badges = ['Oferta','Novedad','Top Trends','Edici├│n limitada'];
       track.innerHTML = trends.map(function(p,idx){
         var badge = p.badge || badges[idx % badges.length];
         var img = p.image || 'images/placeholder.jpg';
@@ -331,7 +332,7 @@
             '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\'product.html?slug='+encodeURIComponent(slug)+'\'">'+
             '<div class="trend-tags"><span class="trend-tag">'+badge+'</span></div>'+
             '<div class="trend-name">'+(p.name||'')+'</div>'+
-            '<div class="trend-sub">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
+            '<div class="trend-sub">'+(p.section||'')+' ┬À '+(p.type||'')+'</div>'+
           '</article>'
         );
       }).join('');

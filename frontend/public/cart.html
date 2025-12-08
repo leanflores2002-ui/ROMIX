@@ -17,6 +17,11 @@
     .global-search input[type="search"]::placeholder { color:#6c757d; }
     .global-search input[type="search"]::selection { background:#ffe0f0; color:#111; }
     .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:12px; box-shadow:0 12px 28px rgba(0,0,0,.16); padding:6px 0; z-index:2001; max-height:320px; overflow:auto; }
+    .search-suggestion { display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; color:#222; }
+    .search-suggestion .t { line-height:1.2; font-weight:700; color:#222; }
+    .search-suggestion small { color:#6c757d; display:block; margin-top:2px; }
+    .search-suggestion:hover, .search-suggestion.active { background:#f8f0ff; }
     .topbar-icons { display:flex; align-items:center; gap:12px; }
     .icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; }
     .icon-badge { position:absolute; top:-6px; right:-6px; background:var(--danger); color:#fff; border-radius:999px; font-size:.7rem; padding:2px 6px; }

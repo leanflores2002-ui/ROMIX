@@ -137,7 +137,7 @@
     async function init(){
       updateCartCount();
       try {
-        const res = await fetch('products.json');
+        const res = await fetch('assets/data/products.json');
         const list = await res.json();
         // Render with a small adapter so we can safely pass product to quickAdd
         const grid = document.getElementById('grid');
@@ -221,3 +221,4 @@
   </footer>
 </body>
 </html>
+

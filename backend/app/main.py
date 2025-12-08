@@ -16,7 +16,13 @@ def repo_root() -> Path:
 
 
 ROOT = repo_root()
-DATA_FILE = Path(os.environ.get("ROMIX_PRODUCTS_FILE", ROOT / "products.json"))
+PUBLIC_DIR = ROOT / "frontend" / "public"
+DATA_FILE = Path(
+    os.environ.get(
+        "ROMIX_PRODUCTS_FILE",
+        PUBLIC_DIR / "assets" / "data" / "products.json",
+    )
+)
 
 
 def slugify(text: str) -> str:
@@ -98,6 +104,5 @@ def search(q: str):
     return [{"name": p.get("name", ""), "type": p.get("type", ""), "slug": slugify(p.get("name", ""))} for p in items]
 
 
-# Servir estáticos del repo (index.html, imágenes, etc.)
-app.mount("/", StaticFiles(directory=str(ROOT), html=True), name="static")
-
+# Servir estáticos desde el frontend público
+app.mount("/", StaticFiles(directory=str(PUBLIC_DIR), html=True), name="static")

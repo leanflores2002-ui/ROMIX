@@ -1,4 +1,4 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -164,8 +164,8 @@
       const sz = Number(size);
       if (isNaN(sz)) return 'common';
       const sec = normalizeSection(product && product.section);
-      // Regla espec√≠fica Ni√±os: comunes 4,6,8,10; especiales 12,14,16
-      if (sec === 'ninos' || sec === 'ni√±os'){
+      // Regla especÌfica NiÒos: comunes 4,6,8,10; especiales 12,14,16
+      if (sec === 'ninos' || sec === 'niÒos'){
         const kidsCommon = [4,6,8,10];
         const kidsSpecial = [12,14,16];
         if (kidsCommon.includes(sz)) return 'common';
@@ -290,7 +290,7 @@ renderSizesForColor(firstColor);
         alert('Listo! Se agrego al carrito.');
       });
 
-      // Caracter√≠sticas del producto (autom√°ticas + definidas)
+      // CaracterÌsticas del producto (autom·ticas + definidas)
       try {
         const featuresRoot = document.getElementById('features');
         const listEl = document.getElementById('features-list');
@@ -298,25 +298,25 @@ renderSizesForColor(firstColor);
           const name = String(p.name||'');
           const feats = [];
           // Temporada
-          const inv = /(frizad[oa]|frisad[oa]|t[√©e]rmic|polar)/i.test(name);
+          const inv = /(frizad[oa]|frisad[oa]|t[Èe]rmic|polar)/i.test(name);
           const ver = /(verano|media|liviano|fibrana|capri|ciclista|musculosa|short)/i.test(name);
-          feats.push({k:'Temporada', v: inv ? 'Invierno' : (ver ? 'Verano' : 'Todo el a√±o')});
-          // Material principal (heur√≠stica)
+          feats.push({k:'Temporada', v: inv ? 'Invierno' : (ver ? 'Verano' : 'Todo el aÒo')});
+          // Material principal (heurÌstica)
           const mats = [];
           if (/lycra|saplex/i.test(name)) mats.push('Lycra');
-          if (/algod|algod√≥n/i.test(name)) mats.push('Algod√≥n');
+          if (/algod|algodÛn/i.test(name)) mats.push('AlgodÛn');
           if (/polar/i.test(name)) mats.push('Polar');
           if (/morley/i.test(name)) mats.push('Morley');
           if (/modal/i.test(name)) mats.push('Modal');
           if (/fibrana/i.test(name)) mats.push('Fibrana');
-          if (/r[√∫u]stic/i.test(name)) mats.push('R√∫stico');
+          if (/r[˙u]stic/i.test(name)) mats.push('R˙stico');
           if (mats.length) feats.push({k:'Material principal', v: mats.join(', ')});
-          // G√©nero, tipo, ajuste
+          // GÈnero, tipo, ajuste
           const sec = String(p.section||'');
-          const genero = sec==='mujer'?'Mujer':sec==='hombre'?'Hombre':sec==='ninos'?'Ni√±os':'';
-          if (genero) feats.push({k:'G√©nero', v: genero});
+          const genero = sec==='mujer'?'Mujer':sec==='hombre'?'Hombre':sec==='ninos'?'NiÒos':'';
+          if (genero) feats.push({k:'GÈnero', v: genero});
           if (p.type) feats.push({k:'Tipo', v: p.type});
-          if (/chupin|chup[√≠i]n/i.test(name)) feats.push({k:'Ajuste', v:'Chup√≠n (ajustado)'});
+          if (/chupin|chup[Ìi]n/i.test(name)) feats.push({k:'Ajuste', v:'ChupÌn (ajustado)'});
           if (/jogger/i.test(name)) feats.push({k:'Corte', v:'Jogger'});
           if (/oxford/i.test(name)) feats.push({k:'Corte', v:'Oxford'});
           if (/recto/i.test(name)) feats.push({k:'Corte', v:'Recto'});
@@ -331,9 +331,9 @@ renderSizesForColor(firstColor);
         const specs = (product.specs && typeof product.specs==='object') ? Object.keys(product.specs).map(k=>({k, v:String(product.specs[k])})) : [];
         const blocks = [...auto, ...userFeats, ...specs];
         if (!blocks.length) {
-          blocks.push({k:'Secci√≥n', v: String(product.section||'')});
+          blocks.push({k:'SecciÛn', v: String(product.section||'')});
           blocks.push({k:'Tipo', v: String(product.type||'')});
-          blocks.push({k:'Composici√≥n', v:'Ver etiqueta'});
+          blocks.push({k:'ComposiciÛn', v:'Ver etiqueta'});
         }
         listEl.innerHTML = blocks.map(b=>`<div class="feature-item">${b.k?`<strong>${b.k}:</strong> `:''}${b.v}</div>`).join('');
         featuresRoot.hidden = false;
@@ -343,10 +343,10 @@ renderSizesForColor(firstColor);
       const params = new URLSearchParams(location.search);
       const slug = params.get('slug') || '';
       const q = params.get('q') || '';
-      fetch('products.json').then(r=>r.json()).then(list=>{
+      fetch('assets/data/products.json').then(r=>r.json()).then(list=>{
         let p = (list||[]).find(x => slug && slugify(x.name||'') === slug);
         if (!p && q) { const nq = q.toLowerCase(); p = (list||[]).find(x => String(x.name||'').toLowerCase().includes(nq)); }
-        if (!p) { document.getElementById('detail').innerHTML = '<p>No se encontr√É¬≥ el producto.</p>'; return; }
+        if (!p) { document.getElementById('detail').innerHTML = '<p>No se encontr√≥ el producto.</p>'; return; }
         render(p);
         // Productos relacionados
         try { renderRelated(list, p); } catch (e) { console && console.warn && console.warn('[related]', e); }
@@ -386,7 +386,7 @@ renderSizesForColor(firstColor);
       } catch {}
     }
   </script>
-  <script src="search.js"></script>
+  <script src="assets/js/search.js"></script>
 <script>
   (function(){
     function qs(name){ const p = new URLSearchParams(location.search); return (p.get(name)||'').trim(); }
@@ -403,7 +403,7 @@ renderSizesForColor(firstColor);
     (function(){
       function fixText(s){
         if(!s||typeof s!=='string') return s;
-        const pairs = [['Cat√É¬°logo','Cat√°logo'],['M√É¬°s','M√°s'],['m√É¬°s','m√°s'],['Colecci√É¬≥n','Colecci√≥n'],['Ni√É¬±os','Ni√±os'],['Ni√É¬±o','Ni√±o'],['Ni√É¬±a','Ni√±a']];
+        const pairs = [['Cat√°logo','Cat·logo'],['M√°s','M·s'],['m√°s','m·s'],['Colecci√≥n','ColecciÛn'],['Ni√±os','NiÒos'],['Ni√±o','NiÒo'],['Ni√±a','NiÒa']];
         let out=s; pairs.forEach(([a,b])=> out=out.split(a).join(b)); return out;
       }
       function fixAll(){ try { const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null); const ns=[]; while(w.nextNode()) ns.push(w.currentNode); ns.forEach(n=> n.nodeValue=fixText(n.nodeValue)); } catch{} }
@@ -411,6 +411,8 @@ renderSizesForColor(firstColor);
     })();
   </script></body>
 </html>
+
+
 
 
 

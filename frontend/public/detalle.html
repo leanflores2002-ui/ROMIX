@@ -127,7 +127,7 @@
       const params = new URLSearchParams(location.search);
       const slug = params.get('slug') || '';
       try{
-        const res = await fetch('products.json');
+        const res = await fetch('assets/data/products.json');
         const list = await res.json();
         const p = (list||[]).find(x=> slug && slugify(x.name||'')===slug) || list[0];
         render(p);
@@ -152,3 +152,4 @@
   </main>
 </body>
 </html>
+

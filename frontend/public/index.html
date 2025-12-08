@@ -194,7 +194,7 @@
     var ALL_PRODUCTS = [];
     function loadAll(){
       var tryApi = function(){ return fetch('/api/products', {cache:'no-store'}).then(function(r){ return r.ok?r.json():Promise.reject(); }); };
-      var tryFile = function(){ return fetch('products.json').then(function(r){ return r.json(); }); };
+      var tryFile = function(){ return fetch('assets/data/products.json').then(function(r){ return r.json(); }); };
       tryApi().catch(tryFile).then(function(list){ ALL_PRODUCTS = list||[]; renderAll(ALL_PRODUCTS); }).catch(function(){ ALL_PRODUCTS = []; renderAll(ALL_PRODUCTS); });
     }
 
@@ -206,8 +206,10 @@
       loadAll();
     });
   </script>
-  <script src="support-widget-romix.js" defer></script>
-  <script src="search.js"></script>
+  <script src="assets/js/support-widget-romix.js" defer></script>
+  <script src="assets/js/search.js"></script>
 </body>
 </html>
+
+
 

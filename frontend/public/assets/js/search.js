@@ -20,7 +20,7 @@
   function ensureProducts(){
     if (PRODUCTS) return Promise.resolve(PRODUCTS);
     const tryApi = () => fetch('/api/products', {cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject());
-    const tryFile = () => fetch('products.json').then(r=>r.json());
+    const tryFile = () => fetch('assets/data/products.json').then(r=>r.json());
     return tryApi().catch(tryFile).then(d=>{ PRODUCTS=d||[]; return PRODUCTS; }).catch(()=>[]);
   }
   function findAndFocus(query){
@@ -148,3 +148,4 @@
   // Expose minimal API for debugging
   window.romixSearch = { run: runIfNeeded, focus: findAndFocus, slug: slugify };
 })();
+

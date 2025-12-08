@@ -215,7 +215,7 @@
     async function init(){
       updateCartCount();
       try {
-        const res = await fetch('products.json');
+        const res = await fetch('assets/data/products.json');
         const all = await res.json();
         master = Array.isArray(all) ? all.filter(p => String(p.section||'').toLowerCase() === SECTION) : [];
         view = master.slice();
@@ -232,4 +232,5 @@
   </script>
 </body>
 </html>
+
 

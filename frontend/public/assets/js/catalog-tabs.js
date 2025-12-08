@@ -58,7 +58,7 @@
 
   function fetchProducts(section){
     const fromApi = ()=> fetch('/api/products?section='+encodeURIComponent(section), {cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject());
-    const fromFile = ()=> fetch('products.json').then(r=>r.json()).then(list => (list||[]).filter(p => String(p.section||'').toLowerCase()===section));
+    const fromFile = ()=> fetch('assets/data/products.json').then(r=>r.json()).then(list => (list||[]).filter(p => String(p.section||'').toLowerCase()===section));
     return fromApi().catch(fromFile).catch(()=>[]);
   }
   function setActive(section){
@@ -81,4 +81,5 @@
     fetchProducts(initial).then(list=> render(list, initial));
   });
 })();
+
 

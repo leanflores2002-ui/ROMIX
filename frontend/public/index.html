@@ -140,6 +140,9 @@
     </div>
   </footer>
 
+  <script id="preloaded-products" type="application/json">
+    {{ products_json if products_json is defined else "[]" }}
+  </script>
   <script>
     function safeGetCart(){ try { return JSON.parse(localStorage.getItem('cart'))||[]; } catch { return []; } }
     function updateCartBadge(){ try { const n=(safeGetCart()||[]).reduce((t,i)=>t+(Number(i.quantity)||0),0); const el=document.getElementById('cart-count'); if(el) el.textContent=String(n); } catch{} }
@@ -191,8 +194,13 @@
       empty.style.display = list.length? 'none':'block';
     }
 
-    var ALL_PRODUCTS = [];
+    function preloadedProducts(){
+      try { const el=document.getElementById('preloaded-products'); if(!el) return null; return JSON.parse(el.textContent); } catch { return null; }
+    }
+    var ALL_PRODUCTS = preloadedProducts() || [];
+    if (!window.PRELOADED_PRODUCTS && ALL_PRODUCTS.length) { window.PRELOADED_PRODUCTS = ALL_PRODUCTS; }
     function loadAll(){
+      if (ALL_PRODUCTS && ALL_PRODUCTS.length) { renderAll(ALL_PRODUCTS); return; }
       var tryApi = function(){ return fetch('/api/products', {cache:'no-store'}).then(function(r){ return r.ok?r.json():Promise.reject(); }); };
       var tryFile = function(){ return fetch('assets/data/products.json').then(function(r){ return r.json(); }); };
       tryApi().catch(tryFile).then(function(list){ ALL_PRODUCTS = list||[]; renderAll(ALL_PRODUCTS); }).catch(function(){ ALL_PRODUCTS = []; renderAll(ALL_PRODUCTS); });

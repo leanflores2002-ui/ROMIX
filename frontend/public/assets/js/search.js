@@ -19,6 +19,10 @@
   }
   function ensureProducts(){
     if (PRODUCTS) return Promise.resolve(PRODUCTS);
+    if (Array.isArray(window.PRELOADED_PRODUCTS) && window.PRELOADED_PRODUCTS.length) {
+      PRODUCTS = window.PRELOADED_PRODUCTS;
+      return Promise.resolve(PRODUCTS);
+    }
     const tryApi = () => fetch('/api/products', {cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject());
     const tryFile = () => fetch('assets/data/products.json').then(r=>r.json());
     return tryApi().catch(tryFile).then(d=>{ PRODUCTS=d||[]; return PRODUCTS; }).catch(()=>[]);

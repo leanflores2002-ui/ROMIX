@@ -1,13 +1,16 @@
 from __future__ import annotations
 
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from pathlib import Path
 import json
-import unicodedata
-import re
 import os
+import re
+import unicodedata
+from pathlib import Path
+
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 
 def repo_root() -> Path:
@@ -23,6 +26,7 @@ DATA_FILE = Path(
         PUBLIC_DIR / "assets" / "data" / "products.json",
     )
 )
+templates = Jinja2Templates(directory=str(PUBLIC_DIR))
 
 
 def slugify(text: str) -> str:
@@ -86,6 +90,7 @@ def search(q: str):
     qn = (q or "").strip().lower()
     if not qn:
         return []
+
     def score(p: dict) -> int:
         name = str(p.get("name", "")).lower()
         type_ = str(p.get("type", "")).lower()
@@ -97,12 +102,64 @@ def search(q: str):
         elif qn in type_:
             s = 60 - type_.index(qn)
         return s
+
     products = load_products()
     items = sorted(
         [p for p in products if score(p) >= 0], key=lambda p: score(p), reverse=True
     )[:12]
-    return [{"name": p.get("name", ""), "type": p.get("type", ""), "slug": slugify(p.get("name", ""))} for p in items]
+    return [
+        {"name": p.get("name", ""), "type": p.get("type", ""), "slug": slugify(p.get("name", ""))}
+        for p in items
+    ]
 
 
-# Servir estáticos desde el frontend público
+# Vistas HTML renderizadas con Jinja (precargan productos en el cliente)
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request, q: str | None = None):
+    products = load_products()
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "products_json": json.dumps(products, ensure_ascii=False),
+            "query": q or "",
+        },
+    )
+
+
+@app.get("/catalogo", response_class=HTMLResponse)
+def catalog_page(request: Request, q: str | None = None):
+    products = load_products()
+    return templates.TemplateResponse(
+        "catalogo.html",
+        {
+            "request": request,
+            "products_json": json.dumps(products, ensure_ascii=False),
+            "query": q or "",
+        },
+    )
+
+
+@app.get("/product/{slug}", response_class=HTMLResponse)
+def product_page(request: Request, slug: str):
+    products = load_products()
+    product = None
+    for p in products:
+        if slugify(p.get("name", "")) == slug:
+            product = p
+            break
+    if not product:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+    return templates.TemplateResponse(
+        "product.html",
+        {
+            "request": request,
+            "product_json": json.dumps(product, ensure_ascii=False),
+            "products_json": json.dumps(products, ensure_ascii=False),
+            "slug": slug,
+        },
+    )
+
+
+# Servir estaticos desde el frontend publico
 app.mount("/", StaticFiles(directory=str(PUBLIC_DIR), html=True), name="static")

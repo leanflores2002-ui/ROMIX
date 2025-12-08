@@ -1,32 +1,25 @@
-# Estructura del proyecto
+# Estructura y guÌa r·pida
 
-Este repositorio est√° organizado en carpetas l√≥gicas para separar responsabilidades y facilitar el mantenimiento.
+- `frontend/public/`: sitio est·tico (HTML, JS y assets). Los datos locales est·n en `frontend/public/assets/data/products.json`.
+- `backend/`: FastAPI sirve el API y las vistas HTML renderizadas con Jinja (precarga productos en cliente).
+- `docs/`: documentaciÛn y notas.
 
-- `frontend/`: c√≥digo del cliente (HTML/CSS/JS, assets, componentes). Por ahora los archivos existentes siguen en la ra√≠z para no romper rutas. La migraci√≥n puede hacerse gradualmente.
-- `backend/`: espacio reservado para servicios o API en el futuro. Actualmente contiene solo un README.
-- `docs/`: documentaci√≥n, notas y gu√≠as operativas.
+## Ejecutar localmente
 
-## Pr√≥ximos pasos sugeridos
+OpciÛn r·pida (Windows): `./scripts/dev.ps1`
 
-- Migrar `index.html`, `search.js`, `support-widget-romix.js`, `products.json` y `images/` a `frontend/` y ajustar rutas si se desea.
-- Backend listo con FastAPI (ver `backend/`): sirve API y archivos est√°ticos. Ideal para desarrollo y despliegue.
+OpciÛn r·pida (macOS/Linux): `bash ./scripts/dev.sh`
 
-### Backend (FastAPI)
+Manual:
+1) Crear y activar venv  
+   - Windows: `python -m venv .venv && .\.venv\Scripts\Activate.ps1`  
+   - macOS/Linux: `python -m venv .venv && source .venv/bin/activate`
+2) Instalar deps: `pip install -r backend/requirements.txt`
+3) Iniciar dev server: `uvicorn backend.app.main:app --reload --port 8000`
+4) Abrir `http://127.0.0.1:8000` (sirve HTML + assets) y API en `/api/*`.
 
-1) Crear venv e instalar dependencias
-   - Windows (PowerShell):
-     - `python -m venv .venv`
-     - `.venv\Scripts\Activate.ps1`
-     - `pip install -r backend/requirements.txt`
-
-2) Ejecutar el servidor de desarrollo
-   - `uvicorn backend.app.main:app --reload`
-   - Abre `http://127.0.0.1:8000` para ver el sitio y `http://127.0.0.1:8000/api/products` para la API.
-
-3) Endpoints disponibles
-   - `GET /api/health` ‚Üí estado
-   - `GET /api/products` ‚Üí todos los productos (opcional `?section=mujer|hombre|ninos`)
-   - `GET /api/products/{slug}` ‚Üí producto por slug
-   - `GET /api/search?q=texto` ‚Üí sugerencias
-
-El servidor tambi√©n monta los archivos est√°ticos del repositorio en `/`, por lo que no es necesario abrir `index.html` con doble clic (lo cual rompe `fetch`).
+## Endpoints API
+- `GET /api/health` estado
+- `GET /api/products` lista (opcional `?section=...`)
+- `GET /api/products/{slug}` detalle por slug
+- `GET /api/search?q=` sugerencias

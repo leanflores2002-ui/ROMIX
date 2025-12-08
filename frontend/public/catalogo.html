@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ROMIX - Catálogo</title>
+  <title>ROMIX - Cat├ílogo</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <style>
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#1b1f24; }
@@ -48,6 +48,9 @@
     .footer-wrap a{color:#495057;text-decoration:none}
     .footer-wrap a:hover{color:var(--primary)}
   </style>
+  <script id="preloaded-products" type="application/json">
+    {{ products_json if products_json is defined else "[]" }}
+  </script>
   <script>
     const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`\
       <svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">\
@@ -85,7 +88,7 @@
     }
     function quickAdd(product){
       const cart = safeGetCart();
-      const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Único';
+      const color = (product.colors && product.colors[0] && product.colors[0].name) || '├Ünico';
       let size = 'U';
       if (Array.isArray(product.sizes) && product.sizes.length){
         const available = product.sizes.find(s => !/out|unavail/i.test(String(s.status||''))) || product.sizes[0];
@@ -95,14 +98,14 @@
       cart.push({ id: Date.now(), name: product.name, type: product.type || '', color, size, quantity: 1, price, subtotal: price });
       safeSetCart(cart);
       updateCartCount();
-      alert('Listo! Se agregó al carrito.');
+      alert('Listo! Se agreg├│ al carrito.');
     }
 
     function renderCards(list){
       const grid = document.getElementById('grid');
       const summary = document.getElementById('summary');
       if (!Array.isArray(list)) { grid.innerHTML = '<p>No hay productos para mostrar.</p>'; return; }
-      summary.textContent = `Mostrando ${list.length} de ${list.length} productos • Página 1 de 1`;
+      summary.textContent = `Mostrando ${list.length} de ${list.length} productos ÔÇó P├ígina 1 de 1`;
       grid.innerHTML = list.map(p => {
         const img = p.image || (p.images && (p.images['Negro'] || Object.values(p.images)[0])) || PLACEHOLDER;
         const price = Number(p.price||0).toLocaleString('es-AR');
@@ -117,7 +120,7 @@
             </div>
             <div class="body">
               <div class="title">${p.name}</div>
-              <div class="subtitle">${p.section ? (p.section.charAt(0).toUpperCase()+p.section.slice(1)) : ''}${p.type ? (p.section? ' • ' : '') + p.type : ''}</div>
+              <div class="subtitle">${p.section ? (p.section.charAt(0).toUpperCase()+p.section.slice(1)) : ''}${p.type ? (p.section? ' ÔÇó ' : '') + p.type : ''}</div>
               <div class="row">
                 <div class="price">$${price}</div>
                 <div class="stock">Disponible<small>Stock: ${stock}</small></div>
@@ -134,8 +137,14 @@
     // Workaround to inline object in onclick without escaping issues
     function JSON_stringify(o){ return JSON.stringify(o).replace(/</g,'\\u003C').replace(/>/g,'\\u003E').replace(/&/g,'\\u0026'); }
 
+    function preloadedProducts(){
+      try { const el=document.getElementById('preloaded-products'); if(!el) return null; return JSON.parse(el.textContent); } catch { return null; }
+    }
     async function init(){
       updateCartCount();
+      const cached = preloadedProducts();
+      if (cached && cached.length && !window.PRELOADED_PRODUCTS) { window.PRELOADED_PRODUCTS = cached; }
+      if (cached && cached.length) { renderProducts(cached); return; }
       try {
         const res = await fetch('assets/data/products.json');
         const list = await res.json();
@@ -143,7 +152,7 @@
         const grid = document.getElementById('grid');
         const summary = document.getElementById('summary');
         if (!Array.isArray(list)) { grid.innerHTML = '<p>No hay productos.</p>'; return; }
-        summary.textContent = `Mostrando ${list.length} de ${list.length} productos • Página 1 de 1`;
+        summary.textContent = `Mostrando ${list.length} de ${list.length} productos ÔÇó P├ígina 1 de 1`;
         grid.innerHTML = '';
         list.forEach(p => {
           const img = p.image || (p.images && (p.images['Negro'] || Object.values(p.images)[0])) || PLACEHOLDER;
@@ -161,7 +170,7 @@
             </div>
             <div class="body">
               <div class="title">${p.name}</div>
-              <div class="subtitle">${p.section ? (p.section.charAt(0).toUpperCase()+p.section.slice(1)) : ''}${p.type ? (p.section? ' • ' : '') + p.type : ''}</div>
+              <div class="subtitle">${p.section ? (p.section.charAt(0).toUpperCase()+p.section.slice(1)) : ''}${p.type ? (p.section? ' ÔÇó ' : '') + p.type : ''}</div>
               <div class="row">
                 <div class="price">$${price}</div>
                 <div class="stock">Disponible<small>Stock: ${stock}</small></div>
@@ -191,20 +200,20 @@
         <ul>
           <li><a href="mujer.html">Mujer</a></li>
           <li><a href="hombre.html">Hombre</a></li>
-          <li><a href="ninos.html">Niños</a></li>
+          <li><a href="ninos.html">Ni├▒os</a></li>
           <li><a href="ayuda.html">Ayuda</a></li>
         </ul>
       </nav>
       <div>
-        <button class="cart-btn" type="button" onclick="alert('Abrí el detalle de cualquier producto para finalizar compra.');">
+        <button class="cart-btn" type="button" onclick="alert('Abr├¡ el detalle de cualquier producto para finalizar compra.');">
           <i class="fas fa-shopping-cart" aria-hidden="true"></i> Carrito <span id="cart-count" class="cart-count">0</span>
         </button>
       </div>
     </div>
   </header>
 
-  <main class="container" aria-label="Catálogo de productos">
-    <div id="summary" class="summary">Mostrando 0 productos • Página 1 de 1</div>
+  <main class="container" aria-label="Cat├ílogo de productos">
+    <div id="summary" class="summary">Mostrando 0 productos ÔÇó P├ígina 1 de 1</div>
     <section id="grid" class="grid" aria-live="polite"></section>
   </main>
   <footer>
@@ -212,8 +221,8 @@
       <div>
         <strong>Ayuda</strong>
         <div>
-          <a href="ayuda.html#size-guide">Guía de talles</a> •
-          <a href="ayuda.html#returns">Cambios y devoluciones</a> •
+          <a href="ayuda.html#size-guide">Gu├¡a de talles</a> ÔÇó
+          <a href="ayuda.html#returns">Cambios y devoluciones</a> ÔÇó
           <a href="ayuda.html">Centro de ayuda</a>
         </div>
       </div>

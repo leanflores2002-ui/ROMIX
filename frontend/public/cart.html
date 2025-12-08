@@ -68,20 +68,18 @@
         <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
       </div>
     </div>
-    <nav class="nav-secondary" aria-label="Secciones y categorÝas">
+    <nav class="nav-secondary" aria-label="Secciones y categorias">
       <a href="index.html#trends">Mujer</a>
       <a href="index.html#promos">Hombre</a>
-      <a href="index.html#catalogo">Ni±os</a>
+      <a href="index.html#catalogo">Ninos</a>
       <a href="index.html#footer">Ayuda</a>
-      <a class="cat-pill" href="index.html#trends">Novedades</a>
-      <a class="cat-pill" href="index.html#promos">Ofertas</a>
     </nav>
   </header>
 
   <div class="container">
     <div class="cart-page">
       <h1 class="cart-title">Mi Carrito</h1>
-      <p class="cart-subtitle">Revis+Ý tus productos seleccionados</p>
+      <p class="cart-subtitle">Revisa tus productos seleccionados</p>
       <div class="cart-box">
         <div id="cart-list" class="cart-list"></div>
         <div class="cart-summary">
@@ -134,9 +132,9 @@
   </footer>
 
   <script>
-    // Correcci+ªn global de textos mal decodificados
+    // Correcci+�n global de textos mal decodificados
     (function(){
-      function fixText(s){ if(!s||typeof s!=='string') return s; const m=[['Cat+Ô-Ýlogo','Cat+Ýlogo'],['M+Ô-Ýs','M+Ýs'],['m+Ô-Ýs','m+Ýs'],['Colecci+Ô-ªn','Colecci+ªn'],['Ni+Ô-ªos','Ni+ªos']]; let o=s; m.forEach(([a,b])=>o=o.split(a).join(b)); return o; }
+      function fixText(s){ if(!s||typeof s!=='string') return s; const m=[['Cat+�-�logo','Cat+�logo'],['M+�-�s','M+�s'],['m+�-�s','m+�s'],['Colecci+�-�n','Colecci+�n'],['Ni+�-�os','Ni+�os']]; let o=s; m.forEach(([a,b])=>o=o.split(a).join(b)); return o; }
       function fixAll(){ try{ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null); const ns=[]; while(w.nextNode()) ns.push(w.currentNode); ns.forEach(n=> n.nodeValue=fixText(n.nodeValue)); }catch{} }
       document.addEventListener('DOMContentLoaded', fixAll);
     })();
@@ -184,7 +182,7 @@
       list.innerHTML = '';
       let total = 0, count = 0;
       if (!cart.length) {
-        list.innerHTML = '<div style="color:#6c757d">Tu carrito est+Ý vac+ío.</div>';
+        list.innerHTML = '<div style="color:#6c757d">Tu carrito esta vacio.</div>';
       }
       cart.forEach((item) => {
         const img = findImageForItem(item);
@@ -194,7 +192,7 @@
           <div class="cart-thumb">${img?`<img src="${img}" alt="${item.name}">`:'<span style="color:#adb5bd;font-weight:700;">Sin imagen</span>'}</div>
           <div class="cart-info">
             <div class="name">${item.name}</div>
-            <div class="meta">${item.type} ÈÃ¾ Color: ${item.color} ÈÃ¾ Talle: ${item.size}</div>
+            <div class="meta">${item.type} �þ Color: ${item.color} �þ Talle: ${item.size}</div>
             <div class="unit">$${Number(item.price).toLocaleString('es-AR')} c/u</div>
             <div class="qty-stepper" data-id="${item.id}">
               <button type="button" class="dec" aria-label="Disminuir">-</button>
@@ -219,7 +217,7 @@
     }
 
     function orderCartWhatsApp(){
-      if (!cart.length) { alert('El carrito est+Ý vac+ío.'); return; }
+      if (!cart.length) { alert('El carrito est+� vac+�o.'); return; }
       let message = 'Hola! Quiero ordenar el siguiente pedido:\n\n';
       cart.forEach((item) => {
         message += `${item.name} (${item.type})\n`;
@@ -243,6 +241,15 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 

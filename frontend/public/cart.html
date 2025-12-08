@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Ôªø<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -13,8 +13,9 @@
     .header-container { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px; }
     .logo { font-size:1.8rem; font-weight:800; display:flex; align-items:center; gap:8px; text-decoration:none; color:#fff; letter-spacing:-0.5px; }
     .global-search { display:flex; align-items:center; gap:0; position:relative; max-width:740px; width:100%; margin:0 auto; }
-    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#212529; background:#fff; caret-color: var(--secondary); width:100%; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#111; background:#fff; caret-color: var(--secondary); width:100%; }
     .global-search input[type="search"]::placeholder { color:#6c757d; }
+    .global-search input[type="search"]::selection { background:#ffe0f0; color:#111; }
     .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
     .topbar-icons { display:flex; align-items:center; gap:12px; }
     .icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; }
@@ -65,13 +66,12 @@
       <div class="topbar-icons" aria-label="Acciones">
         <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
         <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
-        <a class="icon-btn" href="#" aria-label="Perfil"><i class="fas fa-user"></i></a>
       </div>
     </div>
-    <nav class="nav-secondary" aria-label="Secciones y categorÌas">
+    <nav class="nav-secondary" aria-label="Secciones y categor√ùas">
       <a href="index.html#trends">Mujer</a>
       <a href="index.html#promos">Hombre</a>
-      <a href="index.html#catalogo">NiÒos</a>
+      <a href="index.html#catalogo">Ni¬±os</a>
       <a href="index.html#footer">Ayuda</a>
       <a class="cat-pill" href="index.html#trends">Novedades</a>
       <a class="cat-pill" href="index.html#promos">Ofertas</a>
@@ -81,7 +81,7 @@
   <div class="container">
     <div class="cart-page">
       <h1 class="cart-title">Mi Carrito</h1>
-      <p class="cart-subtitle">Revis+Ì tus productos seleccionados</p>
+      <p class="cart-subtitle">Revis+√ù tus productos seleccionados</p>
       <div class="cart-box">
         <div id="cart-list" class="cart-list"></div>
         <div class="cart-summary">
@@ -134,9 +134,9 @@
   </footer>
 
   <script>
-    // Correcci+¶n global de textos mal decodificados
+    // Correcci+¬™n global de textos mal decodificados
     (function(){
-      function fixText(s){ if(!s||typeof s!=='string') return s; const m=[['Cat+‚-Ìlogo','Cat+Ìlogo'],['M+‚-Ìs','M+Ìs'],['m+‚-Ìs','m+Ìs'],['Colecci+‚-¶n','Colecci+¶n'],['Ni+‚-¶os','Ni+¶os']]; let o=s; m.forEach(([a,b])=>o=o.split(a).join(b)); return o; }
+      function fixText(s){ if(!s||typeof s!=='string') return s; const m=[['Cat+√î-√ùlogo','Cat+√ùlogo'],['M+√î-√ùs','M+√ùs'],['m+√î-√ùs','m+√ùs'],['Colecci+√î-¬™n','Colecci+¬™n'],['Ni+√î-¬™os','Ni+¬™os']]; let o=s; m.forEach(([a,b])=>o=o.split(a).join(b)); return o; }
       function fixAll(){ try{ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null); const ns=[]; while(w.nextNode()) ns.push(w.currentNode); ns.forEach(n=> n.nodeValue=fixText(n.nodeValue)); }catch{} }
       document.addEventListener('DOMContentLoaded', fixAll);
     })();
@@ -184,7 +184,7 @@
       list.innerHTML = '';
       let total = 0, count = 0;
       if (!cart.length) {
-        list.innerHTML = '<div style="color:#6c757d">Tu carrito est+Ì vac+°o.</div>';
+        list.innerHTML = '<div style="color:#6c757d">Tu carrito est+√ù vac+√≠o.</div>';
       }
       cart.forEach((item) => {
         const img = findImageForItem(item);
@@ -194,7 +194,7 @@
           <div class="cart-thumb">${img?`<img src="${img}" alt="${item.name}">`:'<span style="color:#adb5bd;font-weight:700;">Sin imagen</span>'}</div>
           <div class="cart-info">
             <div class="name">${item.name}</div>
-            <div class="meta">${item.type} ‘«Û Color: ${item.color} ‘«Û Talle: ${item.size}</div>
+            <div class="meta">${item.type} √à√É¬æ Color: ${item.color} √à√É¬æ Talle: ${item.size}</div>
             <div class="unit">$${Number(item.price).toLocaleString('es-AR')} c/u</div>
             <div class="qty-stepper" data-id="${item.id}">
               <button type="button" class="dec" aria-label="Disminuir">-</button>
@@ -219,7 +219,7 @@
     }
 
     function orderCartWhatsApp(){
-      if (!cart.length) { alert('El carrito est+Ì vac+°o.'); return; }
+      if (!cart.length) { alert('El carrito est+√ù vac+√≠o.'); return; }
       let message = 'Hola! Quiero ordenar el siguiente pedido:\n\n';
       cart.forEach((item) => {
         message += `${item.name} (${item.type})\n`;

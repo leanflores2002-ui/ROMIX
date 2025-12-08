@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -17,7 +17,7 @@
     .icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; }
     .icon-badge { position:absolute; top:-6px; right:-6px; background:var(--danger); color:#fff; border-radius:999px; font-size:.7rem; padding:2px 6px; }
     .global-search { display:flex; align-items:center; gap:0; position:relative; max-width:740px; width:100%; margin:0 auto; }
-    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#111; background:#fff; caret-color: var(--secondary); width:100%; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#111 !important; background:#fff; caret-color: var(--secondary); width:100%; }
     .global-search input[type="search"]::placeholder { color:#6c757d; }
     .global-search input[type="search"]::selection { background:#ffe0f0; color:#111; }
     .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
@@ -122,7 +122,7 @@
         <a class="icon-btn" href="#footer" aria-label="Ayuda" data-target="footer"><i class="fas fa-question-circle"></i></a>
       </div>
     </div>
-    <nav class="nav-secondary" aria-label="Secciones y categor�as">
+    <nav class="nav-secondary" aria-label="Secciones y categorÝas">
       <a href="#trends" data-target="trends">Mujer</a>
       <a href="#promos" data-target="promos">Hombre</a>
       <a href="#catalogo" data-target="catalogo">Ni&ntilde;os</a>
@@ -134,7 +134,7 @@
     <div class="trend-header">
       <div>
         <div class="eyebrow">Tendencias</div>
-        <div class="trend-title">Top Trends · Moda femenina</div>
+        <div class="trend-title">Top Trends ┬À Moda femenina</div>
       </div>
       <div class="trend-nav">
         <button class="trend-arrow" id="trend-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -295,7 +295,7 @@
             '<div class="promo-price">'+price+ (original ? ' '+original : '') +'</div>'+
             '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\'product.html?slug='+encodeURIComponent(slug)+'\'">'+
             '<div class="promo-name">'+(p.name||'')+'</div>'+
-            '<div class="promo-sub">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
+            '<div class="promo-sub">'+(p.section||'')+' ┬À '+(p.type||'')+'</div>'+
             '<div class="promo-foot"><span>'+ (p.badge || 'Disponible') +'</span><span>'+price+'</span></div>'+
           '</article>'
         );
@@ -319,7 +319,7 @@
       if (!track || !dots) return;
       var filtered = (list||[]).filter(function(p){ return String(p.section||'').toLowerCase()==='mujer' || String(p.type||'').toLowerCase().includes('legg') || String(p.type||'').toLowerCase().includes('top'); });
       var trends = (filtered.length ? filtered : list || []).slice(0,12);
-      var badges = ['Oferta','Novedad','Top Trends','Edición limitada'];
+      var badges = ['Oferta','Novedad','Top Trends','Edici├│n limitada'];
       track.innerHTML = trends.map(function(p,idx){
         var badge = p.badge || badges[idx % badges.length];
         var img = p.image || 'images/placeholder.jpg';
@@ -331,7 +331,7 @@
             '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\'product.html?slug='+encodeURIComponent(slug)+'\'">'+
             '<div class="trend-tags"><span class="trend-tag">'+badge+'</span></div>'+
             '<div class="trend-name">'+(p.name||'')+'</div>'+
-            '<div class="trend-sub">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
+            '<div class="trend-sub">'+(p.section||'')+' ┬À '+(p.type||'')+'</div>'+
           '</article>'
         );
       }).join('');

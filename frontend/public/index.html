@@ -111,10 +111,10 @@
       <a href="index.html" class="logo" aria-label="Romix"><i class="fas fa-store" aria-hidden="true"></i><span>ROMIX</span></a>
       <div class="nav-inline" aria-label="Secciones">
         <ul>
-          <li><a href="mujer.html">Mujer</a></li>
-          <li><a href="hombre.html">Hombre</a></li>
-          <li><a href="ninos.html">Ni&ntilde;os</a></li>
-          <li><a href="ayuda.html">Ayuda</a></li>
+          <li><a href="#trends" data-target="trends">Mujer</a></li>
+          <li><a href="#promos" data-target="promos">Hombre</a></li>
+          <li><a href="#catalogo" data-target="catalogo">Ni&ntilde;os</a></li>
+          <li><a href="#footer" data-target="footer">Ayuda</a></li>
         </ul>
       </div>
       <div class="contact-header">
@@ -131,7 +131,7 @@
     </div>
   </header>
 
-  <section class="container trend-wrap">
+  <section class="container trend-wrap" id="trends">
     <div class="trend-header">
       <div>
         <div class="eyebrow">Tendencias</div>
@@ -148,7 +148,7 @@
     <div class="trend-dots" id="trend-dots"></div>
   </section>
 
-  <section class="container promo-wrap">
+  <section class="container promo-wrap" id="promos">
     <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">
       <div>
         <div class="eyebrow">Promos</div>
@@ -165,7 +165,7 @@
     </div>
   </section>
 
-  <main id="main" class="container" aria-label="Catalogo completo">
+  <main id="catalogo" class="container" aria-label="Catalogo completo">
     <h1 class="section-title">Catalogo Completo</h1>
     <div class="catalog-toolbar">
       <input id="cat-q" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" />
@@ -182,7 +182,7 @@
     <div id="catalog-empty" class="no-results" style="display:none;margin-top:10px;"><i class="fas fa-info-circle"></i> <span class="tip">Sin resultados.</span></div>
   </main>
 
-  <footer>
+  <footer id="footer">
     <div class="footer-container">
       <div class="footer-column">
         <h4>Productos</h4>
@@ -351,6 +351,10 @@
     }
     var ALL_PRODUCTS = preloadedProducts() || [];
     if (!window.PRELOADED_PRODUCTS && ALL_PRODUCTS.length) { window.PRELOADED_PRODUCTS = ALL_PRODUCTS; }
+    function scrollToSection(id){
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
     function loadAll(){
       if (ALL_PRODUCTS && ALL_PRODUCTS.length) { renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); return; }
       var tryApi = function(){ return fetch('/api/products', {cache:'no-store'}).then(function(r){ return r.ok?r.json():Promise.reject(); }); };
@@ -364,6 +368,11 @@
       document.getElementById('cat-q').addEventListener('input', function(){ renderAll(ALL_PRODUCTS); });
       document.getElementById('cat-order').addEventListener('change', function(){ renderAll(ALL_PRODUCTS); });
       loadAll();
+      document.querySelectorAll('a[data-target]').forEach(function(a){
+        a.addEventListener('click', function(ev){
+          var target = a.getAttribute('data-target'); if (target){ ev.preventDefault(); scrollToSection(target); }
+        });
+      });
     });
   </script>
   <script src="assets/js/support-widget-romix.js" defer></script>

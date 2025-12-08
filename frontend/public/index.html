@@ -25,11 +25,10 @@
     .search-suggestion .t { line-height:1.1; }
     .search-suggestion small { color:#6c757d; }
 
-    /* Segunda barra de navegación */
-    .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px; display:flex; gap:18px; align-items:center; color:#fff; font-weight:700; }
+    /* Barra secundaria unificada */
+    .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px 10px; display:flex; gap:14px; align-items:center; flex-wrap:wrap; color:#fff; font-weight:700; }
     .nav-secondary a { color:#fff; text-decoration:none; padding:10px 12px; border-radius:12px; transition:background .2s ease, color .2s ease; }
     .nav-secondary a:hover { background:rgba(255,255,255,.12); }
-    .nav-categories { max-width:1600px; margin:6px auto 0; padding:0 28px 8px; display:flex; gap:10px; flex-wrap:wrap; }
     .cat-pill { background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.35); padding:8px 12px; border-radius:999px; font-weight:700; text-decoration:none; font-size:.95rem; }
 
     .container { max-width:1600px; margin:28px auto; padding:0 28px; }
@@ -123,21 +122,14 @@
         <a class="icon-btn" href="#" aria-label="Perfil"><i class="fas fa-user"></i></a>
       </div>
     </div>
-    <nav class="nav-secondary" aria-label="Secciones">
+    <nav class="nav-secondary" aria-label="Secciones y categorías">
       <a href="#trends" data-target="trends">Mujer</a>
       <a href="#promos" data-target="promos">Hombre</a>
       <a href="#catalogo" data-target="catalogo">Ni&ntilde;os</a>
       <a href="#footer" data-target="footer">Ayuda</a>
-    </nav>
-    <div class="nav-categories" aria-label="Categorías destacadas">
-      <a class="cat-pill" href="#catalogo" data-target="catalogo">Ropa de mujer</a>
-      <a class="cat-pill" href="#catalogo" data-target="catalogo">Calzas</a>
-      <a class="cat-pill" href="#catalogo" data-target="catalogo">Pantalones</a>
-      <a class="cat-pill" href="#catalogo" data-target="catalogo">Camperas</a>
-      <a class="cat-pill" href="#promos" data-target="promos">Ofertas</a>
       <a class="cat-pill" href="#trends" data-target="trends">Novedades</a>
-      <a class="cat-pill" href="#catalogo" data-target="catalogo">Accesorios</a>
-    </div>
+      <a class="cat-pill" href="#promos" data-target="promos">Ofertas</a>
+    </nav>
   </header>
 
   <section class="container trend-wrap" id="trends">

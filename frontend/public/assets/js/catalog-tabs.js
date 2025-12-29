@@ -10,6 +10,38 @@
     return st.reduce((a,s)=> a + (s.includes('unavail')?0:s.includes('low')?2:5), 0);
   }
   function stateFromStock(n){ if(n<=0) return 'out'; if(n<=3) return 'low'; return 'available'; }
+  function slugForProduct(product){
+    const fallback = (product && product.name) ? product.name : '';
+    const romixFn = typeof window.romixSlug === 'function'
+      ? window.romixSlug
+      : (typeof window.romixSlugify === 'function' ? window.romixSlugify : (typeof window.slugify === 'function' ? window.slugify : null));
+    if (romixFn) return romixFn(fallback);
+    return defaultSlugify(fallback);
+  }
+  const hideProduct = typeof window.romixShouldHideProduct === 'function'
+    ? window.romixShouldHideProduct
+    : (p => {
+        if (!p) return false;
+        const text = ['name','type','section','badge','description']
+          .map(k => (p && p[k] ? String(p[k]) : ''))
+          .join(' ')
+          .toLowerCase();
+        return /(frizado|frisado|polar|t[ée]rmic)/i.test(text);
+      });
+  function filterVisibleProducts(list){
+    return (Array.isArray(list) ? list : []).filter(p => !hideProduct(p));
+  }
+  function detailHref(product, buy){
+    const slugVal = slugForProduct(product);
+    const nameVal = typeof window.fixUtf8 === 'function'
+      ? window.fixUtf8(product && product.name ? product.name : '')
+      : (product && product.name ? product.name : '');
+    const pid = typeof window.productId === 'function' ? window.productId(product) : slugVal;
+    const base = 'product.html?id=' + encodeURIComponent(pid) +
+      '&slug=' + encodeURIComponent(slugVal) +
+      '&name=' + encodeURIComponent(nameVal);
+    return buy ? base + '&buy=1' : base;
+  }
 
   function render(products, section){
     const grid = document.getElementById('catalog-grid');
@@ -47,10 +79,10 @@
     // Wire actions
     cards.forEach((card,i)=>{
       const p = products[i];
-      const slug = (window.romixSearch && window.romixSearch.slug) ? window.romixSearch.slug(p.name) : (String(p.name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-'));
-      const go = ()=> location.href = 'product.html?slug=' + encodeURIComponent(slug);
+      const href = detailHref(p);
+      const go = ()=> location.href = href;
       const a = card.querySelector('.btn.btn-details'); a && a.addEventListener('click', (e)=>{ e.preventDefault(); go(); });
-      const add = card.querySelector('.btn.btn-primary'); add && add.addEventListener('click', (e)=>{ e.preventDefault(); location.href = 'product.html?slug='+encodeURIComponent(slug)+'&buy=1'; });
+      const add = card.querySelector('.btn.btn-primary'); add && add.addEventListener('click', (e)=>{ e.preventDefault(); location.href = detailHref(p, true); });
       const img = card.querySelector('.product-image'); img && img.addEventListener('click', go);
       const t = card.querySelector('.product-title'); t && t.addEventListener('click', go);
     });
@@ -58,8 +90,11 @@
 
   function fetchProducts(section){
     const fromApi = ()=> fetch('/api/products?section='+encodeURIComponent(section), {cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject());
-    const fromFile = ()=> fetch('assets/data/products.json').then(r=>r.json()).then(list => (list||[]).filter(p => String(p.section||'').toLowerCase()===section));
-    return fromApi().catch(fromFile).catch(()=>[]);
+    const fromFile = ()=> fetch(new URL('assets/data/products.json', location.href)).then(r=>r.json()).then(list => (list||[]).filter(p => String(p.section||'').toLowerCase()===section));
+    return fromApi()
+      .catch(fromFile)
+      .then(list => filterVisibleProducts(list))
+      .catch(()=>[]);
   }
   function setActive(section){
     document.querySelectorAll('.catalog-tab').forEach(b=>{

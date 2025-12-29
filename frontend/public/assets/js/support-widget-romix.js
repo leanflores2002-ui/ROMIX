@@ -1,4 +1,4 @@
-/* ROMIX Support Widget – Floating help button and panel
+﻿/* ROMIX Support Widget – Floating help button and panel
    Brand: ROMIX (#f72585) — Panel background #fff5fa
    Usage: include this file at the end of <body> or with defer
 */
@@ -152,7 +152,7 @@
   faqWrap.className = 'romix-group romix-faq';
   faqWrap.innerHTML = `
     <a href="ayuda.html#size-guide"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6v6l4 2" stroke="#1b1f24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Guía de talles</span></a>
-    <a href="ayuda.html#returns"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="#1b1f24" stroke-width="2"/></svg><span>Cambios y devoluciones</span></a>
+    <a href="ayuda.html#returns"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="#1b1f24" stroke-width="2"/></svg><span>Política de Cambios</span></a>
     <a href="#contacto"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 10c0 6-9 11-9 11S3 16 3 10a9 9 0 1 1 18 0Z" stroke="#1b1f24" stroke-width="2"/></svg><span>Ver contacto y ubicación</span></a>
   `;
 
@@ -204,3 +204,5 @@
   // Expose public API
   window.romixSupport = { open, close, toggle };
 })();
+
+

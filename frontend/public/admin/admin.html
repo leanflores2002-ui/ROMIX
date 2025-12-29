@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROMIX | Panel Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="admin-topbar">
+      <div class="brand">
+        <img src="../images/logo-romix.png" alt="Romix" />
+        <div>
+          <div class="brand-title">ROMIX</div>
+          <small>Administración</small>
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <button class="nav-tab active" data-target="dashboard-section">Dashboard</button>
+        <button class="nav-tab" data-target="products-section">Productos</button>
+        <button class="nav-tab" data-target="stock-section">Stock</button>
+        <button class="nav-tab" data-target="orders-section">Pedidos</button>
+      </nav>
+      <div class="session-box">
+        <span id="admin-user-label" class="muted">No conectado</span>
+        <button id="logout-btn" class="btn ghost">Salir</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <section id="login-panel" class="card panel">
+        <div>
+          <div class="eyebrow">Acceso privado</div>
+          <h1>Ingresar al panel</h1>
+        </div>
+        <form id="login-form" class="login-form">
+          <label>Usuario<input type="text" name="username" placeholder="admin" required /></label>
+          <label>Contraseña<input type="password" name="password" placeholder="••••••••" required /></label>
+          <button type="submit" class="btn primary full">Ingresar</button>
+        </form>
+      </section>
+
+      <section id="dashboard-section" class="admin-section">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Resumen</div>
+            <h2>Dashboard</h2>
+          </div>
+          <button class="btn ghost" id="refresh-dashboard"><i class="fas fa-sync-alt"></i> Actualizar</button>
+        </div>
+        <div id="dashboard-cards" class="cards-grid"></div>
+      </section>
+
+      <section id="products-section" class="admin-section hidden">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Catálogo</div>
+            <h2>Productos</h2>
+          </div>
+          <div class="actions-row">
+            <input type="search" id="products-search" placeholder="Buscar..." />
+            <select id="products-section-filter">
+              <option value="">Sección</option>
+              <option value="mujer">Mujer</option>
+              <option value="hombre">Hombre</option>
+              <option value="ninos">Niños</option>
+            </select>
+            <select id="products-type-filter">
+              <option value="">Tipo</option>
+            </select>
+            <button class="btn primary" id="new-product-btn"><i class="fas fa-plus"></i> Nuevo producto</button>
+          </div>
+        </div>
+        <div id="products-list" class="list-cards"></div>
+      </section>
+
+      <section id="stock-section" class="admin-section hidden">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Inventario</div>
+            <h2>Stock por producto</h2>
+          </div>
+          <button class="btn ghost" id="refresh-stock"><i class="fas fa-sync-alt"></i> Actualizar</button>
+        </div>
+        <div id="stock-table" class="table"></div>
+      </section>
+
+      <section id="orders-section" class="admin-section hidden">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Pedidos</div>
+            <h2>Gestión de pedidos</h2>
+          </div>
+          <div class="actions-row">
+            <input type="search" id="orders-search" placeholder="Buscar cliente/WhatsApp/id" />
+            <select id="orders-status-filter">
+              <option value="">Todos</option>
+              <option value="pending">Pendientes</option>
+              <option value="confirmed">Confirmados</option>
+              <option value="cancelled">Cancelados</option>
+            </select>
+          </div>
+        </div>
+        <div id="orders-table" class="table"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal-backdrop" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Editar</h3>
+        <button class="btn ghost" id="modal-close" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="../assets/js/slugify.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

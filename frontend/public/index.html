@@ -337,19 +337,38 @@
       var st=(p.sizes||[]).map(function(x){ return String(x.status||'').toLowerCase(); });
       return st.reduce(function(a,s){ return a + (s.indexOf('unavail')>=0?0:s.indexOf('low')>=0?2:5); }, 0);
     }
-        function quickAdd(product){
+        // FIX HOME ADD-TO-CART: variante deterministica sin usar estado previo
+        function pickQuickVariant(product){
       const pid = product.id || slugify(product.name || '');
-      const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Unico';
-      const primaryImage = product.image || (product.images && (product.images["Negro"] || Object.values(product.images)[0])) || "images/placeholder.jpg";
-      let size = 'U';
-      if (Array.isArray(product.sizes) && product.sizes.length){
-        const available = product.sizes.find(function(s){ return !/out|unavail/i.test(String(s.status||'')); }) || product.sizes[0];
-        size = String((available && (available.size || available)) || 'U');
+      const colors = Array.isArray(product.colors) ? product.colors.map(function(c){ return c && c.name ? c.name : c; }) : [];
+      const preferredColors = colors.filter(function(c){ return String(c||'').toLowerCase() !== 'unico'; });
+      if (!preferredColors.length && colors.length) preferredColors.push(colors[0]);
+      const chosenColor = preferredColors[0] || null;
+      const sizes = Array.isArray(product.sizes) ? product.sizes.map(function(s){ return s && s.size ? s.size : s; }).filter(Boolean) : [];
+      const orderedSizes = sizes.length ? sizes : ['U'];
+      let chosenSize = orderedSizes[0];
+      if (window.romixInventory && typeof window.romixInventory.getStock === 'function' && chosenColor) {
+        for (var i=0;i<orderedSizes.length;i++){
+          var stockVal = window.romixInventory.getStock(pid, chosenColor, orderedSizes[i]);
+          var numeric = Number(stockVal);
+          if (stockVal !== 'unknown' && !Number.isNaN(numeric) && numeric > 0) { chosenSize = orderedSizes[i]; break; }
+        }
+      } else {
+        var availableSize = (product.sizes||[]).find(function(s){ return !/out|unavail/i.test(String(s.status||'')); });
+        if (availableSize && availableSize.size) chosenSize = availableSize.size;
       }
+      return { pid: pid, color: chosenColor || 'Sin especificar', size: chosenSize || 'U' };
+    }
+    function quickAdd(product){
+      const pick = pickQuickVariant(product);
+      const pid = pick.pid;
+      const color = pick.color;
+      const size = pick.size;
+      const primaryImage = product.image || (product.images && (product.images[color] || product.images["Negro"] || Object.values(product.images)[0])) || "images/placeholder.jpg";
       const stockCheck = (window.romixInventory && typeof window.romixInventory.getStock === 'function')
         ? window.romixInventory.getStock(pid, color, size)
-        : null;
-      if (stockCheck !== null && stockCheck <= 0) { showToast('Sin stock para esta variante', 'error'); return; }
+        : 'unknown';
+      if (stockCheck !== 'unknown' && Number(stockCheck) <= 0) { showToast('Sin stock para esta variante', 'error'); return; }
       const price = Number(product.price||0);
       if (window.romixCart && typeof window.romixCart.addToCart === 'function') {
         window.romixCart.addToCart({
@@ -494,12 +513,12 @@
       }).join('');
       var addButtons = grid.querySelectorAll('[data-add-product]');
       addButtons.forEach(function(btn){
-        btn.addEventListener('click', function(){
+        btn.onclick = function(){
           var pid = btn.getAttribute('data-add-product');
           var prod = (ALL_PRODUCTS||[]).find(function(p){ return String(p.id||'') === String(pid||''); });
-          if (!prod) { showToast('No se encontró el producto', 'error'); return; }
+          if (!prod) { showToast('No se encontr¢ el producto', 'error'); return; }
           quickAdd(prod);
-        });
+        };
       });
       empty.style.display = list.length? 'none':'block';
     }
@@ -605,6 +624,9 @@
   <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
 </body>
 </html>
+
+
+
 
 
 

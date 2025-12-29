@@ -7249,6 +7249,8 @@
                          "common":  4500,
                          "special":  5000
                      },
+    "originalPrice": 9500,
+    "badge":  "oferta",
     "specialSizes":  [
                          12,
                          14,

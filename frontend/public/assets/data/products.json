@@ -6369,22 +6369,24 @@
                   }
               ]
 },
-    {
+{
     "section":  "hombre",
     "type":  "remeras",
-    "name":  "Remera dry fit deportivo hombre",
-    "image":  "images/remera_dry_fit_deportivo_hombre_negro.png",
+    "name":  "Remera deportivo dry hombre",
+    "image":  "images/remera_deportivo_dry_hombre_negro.png",
     "images":  {
-                    "Gris":  "images/remera_dry_fit_deportivo_hombre_gris.png",
-                    "Negro":  "images/remera_dry_fit_deportivo_hombre_negro.png"
+                    "Negro":  "images/remera_deportivo_dry_hombre_negro.png",
+                    "Blanco":  "images/remera_deportivo_dry_hombre_blanco.png",
+                    "Azul":  "images/remera_deportivo_dry_hombre_azul.png",
+                    "Bordó":  "images/remera_deportivo_dry_hombre_bordo.png",
+                    "Gris melange":  "images/remera_deportivo_dry_hombre_gris_melange.png",
+                    "Beige":  "images/remera_deportivo_dry_hombre_beige.png"
                 },
-    "price":  4500,
+    "price":  9400,
     "priceByGroup":  {
-                         "common":  4500,
-                         "special":  5000
+                         "common":  9400,
+                         "special":  9900
                      },
-    "originalPrice": 12000,
-    "badge": "oferta",   
     "specialSizes":  [
                          6,
                          7,
@@ -6392,12 +6394,28 @@
                      ],
     "colors":  [
                    {
-                       "name":  "Gris",
-                       "hex":  "#808080"
-                   },
-                   {
                        "name":  "Negro",
                        "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Blanco",
+                       "hex":  "#FFFFFF"
+                   },
+                   {
+                       "name":  "Azul",
+                       "hex":  "#1E4ED8"
+                   },
+                   {
+                       "name":  "Bordó",
+                       "hex":  "#800020"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   },
+                   {
+                       "name":  "Beige",
+                       "hex":  "#E5D3B3"
                    }
                ],
     "sizes":  [

@@ -23,9 +23,3 @@ Manual:
 - `GET /api/products` lista (opcional `?section=...`)
 - `GET /api/products/{slug}` detalle por slug
 - `GET /api/search?q=` sugerencias
-## Panel admin
-- URL: `/admin` (mismo host). Requiere usuario/contraseña por env: `ROMIX_ADMIN_USER`, `ROMIX_ADMIN_PASSWORD` y `ROMIX_ADMIN_SECRET` (token HttpOnly).
-- Login: completar formulario de acceso. Si falla, revisar variables de entorno al levantar FastAPI.
-- Crear/editar producto: completar formulario de Productos. El stock por variante se genera/actualiza automáticamente y se persiste en `frontend/public/assets/data/product_variants.json`.
-- Variantes y stock: en "Stock por variante" se agregan combinaciones o se edita el stock inline.
-- Pedidos: tabla de pedidos (pendientes/confirmados/cancelados). Botones Confirmar o Cancelar ajustan el stock; al cancelar se devuelve stock una sola vez. Los pedidos se guardan en `backend/data/orders.json`.

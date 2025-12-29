@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROMIX - Mi Carrito</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
+    * { box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { margin:0; background:#f5f5f5; color:#232323; }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0 10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+    .header-container { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px; }
+    .logo { font-size:1.8rem; font-weight:800; display:flex; align-items:center; gap:10px; text-decoration:none; color:#fff; letter-spacing:-0.5px; }
+    .logo .logo-mark { width:40px; height:40px; object-fit:contain; display:block; }
+    .global-search { display:flex; align-items:center; gap:0; position:relative; max-width:740px; width:100%; margin:0 auto; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#111; background:#fff; caret-color: var(--secondary); width:100%; }
+    .global-search input[type="search"]::placeholder { color:#6c757d; }
+    .global-search input[type="search"]::selection { background:#ffe0f0; color:#111; }
+    .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
+    .topbar-icons { display:flex; align-items:center; gap:12px; }
+    .icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; }
+    .icon-badge { position:absolute; top:-6px; right:-6px; background:var(--danger); color:#fff; border-radius:999px; font-size:.7rem; padding:2px 6px; }
+    .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px 10px; display:flex; gap:14px; align-items:center; flex-wrap:nowrap; overflow-x:auto; color:#fff; font-weight:700; scrollbar-width:none; }
+    .nav-secondary a { color:#fff; text-decoration:none; padding:10px 12px; border-radius:12px; transition:background .2s ease, color .2s ease; }
+    .nav-secondary a:hover { background:rgba(255,255,255,.12); }
+    .cat-pill { background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.35); padding:8px 12px; border-radius:999px; font-weight:700; text-decoration:none; font-size:.95rem; }
+
+    .container { max-width:1600px; margin:22px auto; padding:0 28px; }
+    .cart-page { text-align:center; padding-bottom:48px; }
+    .cart-title { font-size: 1.8rem; font-weight: 900; color: #1b1f24; margin: 6px 0; }
+    .cart-subtitle { color:#6c757d; margin-bottom:14px; }
+    .cart-box { max-width: 1240px; margin: 0 auto; background:#fff; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,.10); padding: 22px; min-height:160px; }
+    .cart-list { display:flex; flex-direction:column; gap:12px; }
+    .cart-item { display:grid; grid-template-columns: 86px 1fr auto; gap:14px; align-items:center; border:1px solid #e9ecef; border-radius:10px; padding:10px; }
+    .cart-thumb { width:86px; height:86px; background:#f8f9fb; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .cart-thumb img { width:100%; height:100%; object-fit:contain; }
+    .cart-info { text-align:left; }
+    .cart-info .name { font-weight:900; color:#111; }
+    .cart-info .meta { color:#6c757d; font-size:.95rem; }
+    .cart-info .unit { color: var(--secondary); font-weight:800; font-size:1rem; }
+    .qty-stepper { display:inline-flex; align-items:center; gap:8px; border:1px solid #dee2e6; border-radius:8px; padding:4px 6px; background:#fff; margin-top:6px; }
+    .qty-stepper button { width:28px; height:28px; border-radius:6px; border:1px solid #dee2e6; background:#fff; cursor:pointer; }
+    .qty-stepper input { width:48px; text-align:center; border:none; outline:none; }
+    .cart-right { text-align:right; }
+    .cart-right .subtotal { font-weight:900; color:#1b1f24; }
+    .cart-right .remove { color:#dc3545; background:#fff; border:1px solid #f1a6ad; border-radius:8px; padding:6px 8px; cursor:pointer; }
+    .cart-summary { margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:12px; border-top:1px solid #e9ecef; }
+    .cart-summary .left { text-align:left; color:#6c757d; }
+    .cart-summary .right { display:flex; align-items:baseline; gap:8px; }
+    .cart-total-amount { font-size:1.2rem; font-weight:900; color:#1b1f24; }
+    .cart-actions-row { margin-top:12px; display:flex; gap:10px; justify-content:flex-end; }
+    .btn { padding:10px 16px; border-radius:10px; border:1px solid #e9ecef; background:#fff; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
+    .btn-outline { background:#fff; color:#495057; }
+    .link-danger { background:none; border:none; color:#dc3545; cursor:pointer; text-decoration:underline; }
+    .cart-alert { display:flex; align-items:center; gap:8px; padding:10px 14px; margin-bottom:18px; border-radius:12px; font-weight:700; }
+    .cart-alert--error { background:#ffe9ea; border:1px solid #f5a2ab; color:#a10e1d; }
+    .cart-alert--info { background:#e6f0ff; border:1px solid #7aa7ff; color:#0b3d91; }
+    .cart-empty-state { color:#6c757d; font-weight:700; }
+    .post-order-state { border:1px dashed #e9ecef; border-radius:14px; padding:20px; background:#fffdfb; display:flex; flex-direction:column; gap:14px; }
+    .post-order-state__details { display:flex; align-items:center; gap:12px; }
+    .post-order-state__icon { font-size:1.8rem; color:var(--success); }
+    .post-order-state__title { font-size:1.2rem; font-weight:800; margin:0; color:#111; }
+    .post-order-state__subtitle { margin:4px 0 0; color:#6c757d; font-size:.95rem; }
+    .post-order-state__action { align-self:flex-start; }
+    /* Sugerencias buscador */
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
+    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; color:#212529; }
+    .search-suggestion .t { color:#212529; }
+    .search-suggestion small { color:#6c757d; }
+    .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
+  </style>
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ROMIX">
+  <meta property="og:title" content="ROMIX | Moda y deportes para todos">
+  <meta property="og:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
+  <meta property="og:url" content="https://romix.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
+  <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png"></head>
+<body>
+    <header>
+    <div class="header-container topbar">
+      <a href="index.html" class="logo" aria-label="Romix"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /><span>ROMIX</span></a>
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
+      </form>
+      <div class="topbar-icons" aria-label="Acciones">
+        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
+        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
+      </div>
+    </div>
+    <nav class="nav-secondary" aria-label="Secciones y categorías">
+      <a href="mujer.html">Mujer</a>
+      <a href="hombre.html">Hombre</a>
+      <a href="ninos.html">Niños</a>
+      <a href="ayuda.html">Ayuda</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="cart-page">
+      <h1 class="cart-title">Mi Carrito</h1>
+      <p class="cart-subtitle">Revisa tus productos seleccionados</p>
+      <div class="cart-box">
+        <div id="cart-alert" class="cart-alert" role="alert" hidden></div>
+        <div id="cart-list" class="cart-list"></div>
+        <div class="cart-summary">
+          <div class="left">
+            <div>Total de productos: <span id="cart-count-display">0</span></div>
+            <button id="cart-clear-btn" type="button" class="link-danger">Vaciar carrito</button>
+          </div>
+          <div class="right">
+            <div class="cart-total-label">Total:</div>
+            <div class="cart-total-amount">$<span id="cart-total">0</span></div>
+          </div>
+        </div>
+        <div class="cart-actions-row">
+          <a class="btn btn-outline" href="index.html">Continuar comprando</a>
+          <button class="btn btn-primary" type="button" id="order-btn"><i class="fas fa-paper-plane" aria-hidden="true"></i> Ordenar pedido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="background:#343a40;color:#fff;padding:30px 0;margin-top:40px;">
+    <div style="max-width:1600px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;">
+      <div>
+        <h4 style="color:#e83e8c;margin-bottom:15px;">Productos</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li><a href="mujer.html" style="color:#adb5bd;text-decoration:none;">Ropa para Mujer</a></li>
+          <li><a href="hombre.html" style="color:#adb5bd;text-decoration:none;">Ropa para Hombre</a></li>
+          <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Niños</a></li>
+          <li><a href="index.html#novedades" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
+          <li><a href="index.html#ofertas" style="color:#adb5bd;text-decoration:none;">Ofertas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#e83e8c;margin-bottom:15px;">Ayuda</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li><a href="ayuda.html#size-guide" style="color:#adb5bd;text-decoration:none;">Guía de talles</a></li>
+          <li><a href="ayuda.html#returns" style="color:#adb5bd;text-decoration:none;">Política de Cambios</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#e83e8c;margin-bottom:15px;">Contacto</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li><a href="ayuda.html#contact" style="color:#adb5bd;text-decoration:none;">Dirección y horarios</a></li>
+          <li><a href="https://wa.me/" target="_blank" rel="noopener" style="color:#adb5bd;text-decoration:none;">WhatsApp</a></li>
+          <li><a href="tel:+549000000000" style="color:#adb5bd;text-decoration:none;">Llamar por teléfono</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align:center;padding-top:20px;margin-top:20px;border-top:1px solid #495057;color:#adb5bd;font-size:.9rem;">&copy; 2025 Romix - Todos los derechos reservados</div>
+  </footer>
+
+    <script src="assets/js/color-utils.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script>
+    // Correccion basica de textos mal decodificados
+    (function(){
+      const map = [
+        ['Cat+?-?logo','Cat���logo'],
+        ['M+?-?s','M���s'],
+        ['m+?-?s','m���s'],
+        ['Colecci+?-?n','Colecci���n'],
+        ['Ni+?-?os','Ni���os']
+      ];
+      function fixText(s){
+        if(!s||typeof s!=='string') return s;
+        let o=s; map.forEach(([a,b])=>{ o=o.split(a).join(b); });
+        return o;
+      }
+      function fixUtf8(s){
+        if (!s || typeof s !== 'string') return s;
+        if (!/[������������������]/.test(s)) return s;
+        try { return decodeURIComponent(escape(s)); } catch { return s; }
+      }
+      function fixAll(){ try{ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null); const ns=[]; while(w.nextNode()) ns.push(w.currentNode); ns.forEach(n=> { const fx=fixUtf8(fixText(n.nodeValue)); if(fx&&fx!==n.nodeValue) n.nodeValue=fx; }); }catch{} }
+      document.addEventListener('DOMContentLoaded', fixAll);
+    })();
+
+
+    const COLOR_FALLBACK = 'Negro';
+    const WA_NUMBER = '5491154272065';
+    const colorUtils = typeof window.romixColorUtils === 'object' ? window.romixColorUtils : {};
+    const normalizeCartColorName = typeof colorUtils.normalizeColorName === 'function'
+      ? colorUtils.normalizeColorName
+      : (value) => (value || '').toString().trim();
+
+    const CART_ALERT_ID = 'cart-alert';
+    const POST_ORDER_MESSAGE = 'Pedido enviado correctamente';
+    const POST_ORDER_SUBTITLE = 'Tu carrito se vació y el stock se actualizó con éxito.';
+    const POST_ORDER_BUTTON_LABEL = 'Seguir comprando';
+    let orderStatus = null;
+    let orderInProgress = false;
+
+    function decodeCartValue(value) {
+      if (value == null) return '';
+      const text = String(value);
+      if (typeof window.decodeURIComponent === 'function') {
+        try {
+          return decodeURIComponent(escape(text));
+        } catch {}
+      }
+      return text;
+    }
+
+    function getCartDisplayItem(item) {
+      if (!item || typeof item !== 'object') {
+        return { name: '', type: '', color: '', size: '' };
+      }
+      const rawColor = decodeCartValue(item.colorName || item.color);
+      const normalizedColor = normalizeCartColorName(rawColor);
+      return {
+        name: decodeCartValue(item.name),
+        type: decodeCartValue(item.type),
+        color: normalizedColor || COLOR_FALLBACK,
+        size: decodeCartValue(item.size || item.talle),
+      };
+    }
+
+    function findImageForItem(item){
+      try {
+        if (item && item.image) return item.image;
+      } catch {}
+      return '';
+    }
+
+    function showCartAlert(type, message) {
+      const alertEl = document.getElementById(CART_ALERT_ID);
+      if (!alertEl) return;
+      alertEl.textContent = message || '';
+      alertEl.hidden = false;
+      alertEl.classList.remove('cart-alert--error', 'cart-alert--info');
+      alertEl.classList.add(`cart-alert--${type}`);
+    }
+
+    function hideCartAlert() {
+      const alertEl = document.getElementById(CART_ALERT_ID);
+      if (!alertEl) return;
+      alertEl.hidden = true;
+      alertEl.textContent = '';
+      alertEl.classList.remove('cart-alert--error', 'cart-alert--info');
+    }
+
+    function removeCartStorage() {
+      if (!window.romixCart || !window.romixCart.STORAGE_KEY) return;
+      try {
+        localStorage.removeItem(window.romixCart.STORAGE_KEY);
+      } catch {}
+    }
+
+    function renderSuccessState() {
+      return `
+        <div class="post-order-state" role="status" aria-live="polite">
+          <div class="post-order-state__details">
+            <span class="post-order-state__icon" aria-hidden="true"><i class="fas fa-check-circle"></i></span>
+            <div>
+              <p class="post-order-state__title">${POST_ORDER_MESSAGE}</p>
+              <p class="post-order-state__subtitle">${POST_ORDER_SUBTITLE}</p>
+            </div>
+          </div>
+          <a class="btn btn-outline post-order-state__action" href="index.html">${POST_ORDER_BUTTON_LABEL}</a>
+        </div>`;
+    }
+
+    function buildVariantLabel(item) {
+      const display = getCartDisplayItem(item);
+      const parts = [display.name || 'Producto', display.color || COLOR_FALLBACK, display.size || 'U'];
+      return parts.filter(Boolean).join(' / ');
+    }
+
+    function handleQty(key, qty){
+      window.romixCart.updateQty(key, qty);
+      renderCart();
+      window.romixCart.updateBadge();
+    }
+
+    function handleRemove(key){
+      window.romixCart.removeFromCart(key);
+      renderCart();
+      window.romixCart.updateBadge();
+    }
+
+    function handleClear(){
+      orderStatus = null;
+      hideCartAlert();
+      window.romixCart.clearCart();
+      removeCartStorage();
+      window.romixCart.updateBadge();
+      renderCart();
+    }
+
+    function validateCartStock(cart) {
+      const inventory = window.romixInventory;
+      if (!inventory || typeof inventory.getStock !== 'function') {
+        return { valid: true, errors: [], warnings: ['No se pudo verificar el stock del inventario.'] };
+      }
+      const plan = [];
+      const errors = [];
+      const warnings = [];
+      cart.forEach((item) => {
+        const qty = Math.max(1, Number(item.qty ?? item.quantity) || 1);
+        const display = getCartDisplayItem(item);
+        const color = display.color || COLOR_FALLBACK;
+        const size = display.size || 'U';
+        const stock = inventory.getStock(item.productId, color, size);
+        const label = buildVariantLabel(item);
+        const numericStock = Number(stock);
+        if (stock === null || stock === "unknown" || Number.isNaN(numericStock)) {
+          warnings.push(`No se pudo verificar stock para ${label}.`);
+          return;
+        }
+        if (numericStock <= 0) {
+          errors.push(`No hay stock disponible de ${label}.`);
+          return;
+        }
+        if (numericStock < qty) {
+          errors.push(`Quedan ${numericStock} unidades de ${label} y pediste ${qty}.`);
+          return;
+        }
+        plan.push({ productId: item.productId, color, size, qty });
+      });
+      return { valid: errors.length === 0, errors, warnings, plan };
+    }
+    function finalizeOrder() {
+      orderStatus = 'success';
+      hideCartAlert();
+      window.romixCart.clearCart();
+      removeCartStorage();
+      window.romixCart.updateBadge();
+      renderCart();
+    }
+
+    function handleOrder(){
+      if (orderStatus === 'success' || orderInProgress) return;
+      const cart = window.romixCart.getCart();
+      if (!cart.length) {
+        showCartAlert('error', 'Tu carrito esta vacio.');
+        return;
+      }
+      const orderBtn = document.getElementById('order-btn');
+      orderInProgress = true;
+      if (orderBtn) orderBtn.disabled = true;
+      hideCartAlert();
+      const validation = validateCartStock(cart);
+      if (!validation.valid && validation.errors.length) {
+        showCartAlert('error', validation.errors[0]);
+        orderInProgress = false;
+        if (orderBtn) orderBtn.disabled = false;
+        return;
+      }
+      if (validation.warnings && validation.warnings.length) {
+        showCartAlert('info', validation.warnings[0]);
+      }
+      const inventory = window.romixInventory;
+      const updateResult = inventory && typeof inventory.updateStock === 'function'
+        ? inventory.updateStock(validation.plan)
+        : { success: true, warnings: ['No se pudo acceder al inventario para actualizar stock.'] };
+      if (updateResult && updateResult.warnings && updateResult.warnings.length) {
+        showCartAlert('info', updateResult.warnings[0]);
+      }
+      if (!updateResult || updateResult.success === false) {
+        showCartAlert('error', (updateResult && updateResult.errors && updateResult.errors[0]) || 'No se pudo actualizar el stock.');
+        orderInProgress = false;
+        if (orderBtn) orderBtn.disabled = false;
+        return;
+      }
+      const message = window.romixCart.buildWhatsAppMessage(cart);
+      if (!message) {
+        showCartAlert('error', 'No se pudo generar el pedido.');
+        orderInProgress = false;
+        if (orderBtn) orderBtn.disabled = false;
+        return;
+      }
+      window.open(`https://wa.me/${WA_NUMBER}?text=${message}`, '_blank');
+      finalizeOrder();
+      orderInProgress = false;
+    }
+    function renderCart(){
+      const cart = window.romixCart.getCart();
+      const list = document.getElementById('cart-list');
+      const totalEl = document.getElementById('cart-total');
+      const countDisplay = document.getElementById('cart-count-display');
+      const badge = document.getElementById('cart-count');
+      const orderBtn = document.getElementById('order-btn');
+      const clearBtn = document.getElementById('cart-clear-btn');
+      const { totalItems, totalPrice } = window.romixCart.getCartTotals(cart);
+      totalEl.textContent = totalPrice.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      countDisplay.textContent = String(totalItems);
+      if (badge) badge.textContent = String(totalItems);
+      list.innerHTML = '';
+      if (cart.length) {
+        orderStatus = null;
+        cart.forEach((item) => {
+          const img = findImageForItem(item);
+          const displayItem = getCartDisplayItem(item);
+          const key = item.key;
+          const el = document.createElement('div');
+          el.className = 'cart-item';
+          el.innerHTML = `
+            <div class="cart-thumb">${img?`<img src="${img}" alt="${displayItem.name}">`:'<span style="color:#adb5bd;font-weight:700;">Sin imagen</span>'}</div>
+            <div class="cart-info">
+              <div class="name">${displayItem.name}</div>
+              <div class="meta">${displayItem.type} - Color: ${displayItem.color} - Talle: ${displayItem.size || COLOR_FALLBACK}</div>
+              <div class="unit">$${Number(item.price).toLocaleString('es-AR')} c/u</div>
+              <div class="qty-stepper" data-key="${key}">
+                <button type="button" class="dec" aria-label="Disminuir">-</button>
+                <input type="number" min="1" value="${item.qty || item.quantity || 1}" />
+                <button type="button" class="inc" aria-label="Aumentar">+</button>
+              </div>
+            </div>
+            <div class="cart-right">
+              <div class="subtotal">$${Number(item.subtotal || ((item.qty || item.quantity || 1) * Number(item.price||0))).toLocaleString('es-AR')}</div>
+              <button type="button" class="remove" aria-label="Eliminar"><i class="fas fa-trash" aria-hidden="true"></i></button>
+            </div>`;
+          el.querySelector('.dec').addEventListener('click', ()=>handleQty(key, (item.qty || item.quantity || 1) - 1));
+          el.querySelector('.inc').addEventListener('click', ()=>handleQty(key, (item.qty || item.quantity || 1) + 1));
+          el.querySelector('input').addEventListener('input', (ev)=>handleQty(key, ev.target.value));
+          el.querySelector('.remove').addEventListener('click', ()=>handleRemove(key));
+          list.appendChild(el);
+        });
+        if (orderBtn) orderBtn.disabled = false;
+        if (clearBtn) clearBtn.disabled = false;
+      } else {
+        if (orderBtn) orderBtn.disabled = true;
+        if (clearBtn) clearBtn.disabled = true;
+        list.innerHTML = orderStatus === 'success'
+          ? renderSuccessState()
+          : '<div class="cart-empty-state">Tu carrito está vacío.</div>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const clearBtn = document.getElementById('cart-clear-btn');
+      const orderBtn = document.getElementById('order-btn');
+      if (clearBtn) clearBtn.addEventListener('click', handleClear);
+      if (orderBtn) orderBtn.addEventListener('click', handleOrder);
+      renderCart();
+    });
+  </script>
+
+  <script src="assets/js/inventory.js"></script>
+  <script src="assets/js/search.js"></script>
+</body>
+</html>
+
+

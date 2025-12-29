@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guía de talles y políticas de Política de Cambios de Romix, tu tienda de ropa para invierno 2025.">
+  <meta name="keywords" content="Romix, guía de talles, cambios, devoluciones, ropa invierno">
+  <title>Romix - Ayuda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background:#f5f5f5; color:#232323; }
+    a { color:inherit; }
+    .skip-link{position:absolute;left:-9999px;top:auto}
+    .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px}
+
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0 10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+    .header-container { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px; }
+    .logo { font-size:1.8rem; font-weight:800; display:flex; align-items:center; gap:10px; text-decoration:none; color:#fff; letter-spacing:-0.5px; }
+    .logo .logo-mark { width:40px; height:40px; object-fit:contain; display:block; }
+    .global-search { display:flex; align-items:center; gap:0; position:relative; max-width:740px; width:100%; margin:0 auto; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#111; background:#fff; caret-color: var(--secondary); width:100%; }
+    .global-search input[type="search"]::placeholder { color:#6c757d; }
+    .global-search input[type="search"]::selection { background:#ffe0f0; color:#111; }
+    .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
+    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; color:#212529; }
+    .search-suggestion .t { color:#212529; }
+    .search-suggestion small { color:#6c757d; }
+    .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
+    .topbar-icons { display:flex; align-items:center; gap:12px; }
+    .icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; }
+    .icon-badge { position:absolute; top:-6px; right:-6px; background:var(--danger); color:#fff; border-radius:999px; font-size:.7rem; padding:2px 6px; }
+    .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px 10px; display:flex; gap:14px; align-items:center; flex-wrap:nowrap; overflow-x:auto; color:#fff; font-weight:700; scrollbar-width:none; }
+    .nav-secondary a { color:#fff; text-decoration:none; padding:10px 12px; border-radius:12px; transition:background .2s ease, color .2s ease; }
+    .nav-secondary a:hover { background:rgba(255,255,255,.12); }
+
+    .container { max-width:1600px; margin:30px auto; padding:0 28px; }
+    .help-section { background:#fff; border-radius:12px; padding:26px; margin-top:24px; box-shadow:0 12px 32px rgba(0,0,0,.08); }
+    .section-title { font-size:1.8rem; color:var(--secondary); margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #eee; display:flex; align-items:center; gap:10px; }
+    .help-section h3 { color:var(--secondary); margin:18px 0 12px; font-size:1.2rem; }
+    .help-section p { margin-bottom:14px; line-height:1.6; color:#343a40; }
+    .size-guide-table { width:100%; border-collapse:collapse; margin-top:14px; }
+    .size-guide-table th, .size-guide-table td { padding:12px; text-align:left; border-bottom:1px solid #e9ecef; }
+    .size-guide-table th { background:var(--light); color:var(--secondary); font-weight:800; }
+    .size-guide-table td { font-size:.95rem; color:#212529; }
+    .returns-info { list-style:none; padding:0; margin:0 0 12px; }
+    .returns-info li { margin-bottom:10px; display:flex; align-items:center; gap:10px; color:#343a40; }
+    .returns-info li i { color:var(--primary); }
+    .contact-card { background:#fff; border:1px solid #f3dfee; border-radius:14px; padding:18px; box-shadow:0 10px 24px rgba(0,0,0,0.05); }
+    .contact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; align-items:flex-start; }
+    .contact-block h4 { margin:0 0 10px; color:#1b1f24; }
+    .contact-list { list-style:none; padding:0; margin:0; color:#343a40; }
+    .contact-list li { margin-bottom:8px; display:flex; gap:8px; }
+    .contact-list li i { color:var(--primary); margin-top:2px; }
+    .contact-hours { margin:10px 0 0; padding:0; list-style:none; color:#343a40; }
+    .contact-hours li { display:flex; justify-content:space-between; border-bottom:1px solid #f1f3f5; padding:6px 0; font-size:.95rem; }
+    .contact-hours li:last-child { border-bottom:none; }
+    .contact-note { font-size:.9rem; color:#6c757d; margin-top:8px; }
+
+    footer { background:#343a40; color:#fff; padding:30px 0; margin-top:40px; }
+    .footer-grid { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:30px; }
+    .footer-grid h4 { color:#e83e8c; margin-bottom:15px; }
+    .footer-grid ul { list-style:none; padding:0; margin:0; }
+    .footer-grid li { margin-bottom:10px; color:#adb5bd; }
+    .footer-note { text-align:center; padding-top:20px; margin-top:20px; border-top:1px solid #495057; color:#adb5bd; font-size:.9rem; }
+
+    @media (max-width: 768px) {
+      .header-container { grid-template-columns:1fr; }
+      .global-search { width:100%; }
+      .global-search input[type="search"] { min-width:0; }
+      .nav-secondary { padding-left:16px; padding-right:16px; }
+      .container { padding:0 16px; }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ROMIX">
+  <meta property="og:title" content="ROMIX | Moda y deportes para todos">
+  <meta property="og:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
+  <meta property="og:url" content="https://romix.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
+  <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png"></head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <header>
+    <div class="header-container topbar">
+      <a href="index.html" class="logo" aria-label="Romix"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /><span>ROMIX</span></a>
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
+        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
+      </form>
+      <div class="topbar-icons" aria-label="Acciones">
+        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
+        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
+      </div>
+    </div>
+    <nav class="nav-secondary" aria-label="Secciones y categorías">
+      <a href="mujer.html">Mujer</a>
+      <a href="hombre.html">Hombre</a>
+      <a href="ninos.html">Niños</a>
+      <a href="ayuda.html" aria-current="page">Ayuda</a>
+    </nav>
+  </header>
+
+  <div class="container" id="main">
+    <section id="size-guide" class="help-section">
+      <h2 class="section-title"><i class="fas fa-ruler"></i> Guía de Talles</h2>
+      <p>Encuentra el talle perfecto para tus prendas con nuestras tablas de medidas. Todas las medidas están en centímetros y corresponden a las dimensiones del cuerpo, no de la prenda. Recomendamos medirte con una cinta métrica para asegurar el mejor ajuste.</p>
+
+      <h3>Mujer - Pantalones y Calzas</h3>
+      <table class="size-guide-table">
+        <thead>
+          <tr><th>Talle</th><th>Cintura</th><th>Cadera</th><th>Largo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>60-64</td><td>86-90</td><td>98</td></tr>
+          <tr><td>2</td><td>64-68</td><td>90-94</td><td>99</td></tr>
+          <tr><td>3</td><td>68-72</td><td>94-98</td><td>100</td></tr>
+          <tr><td>4</td><td>72-76</td><td>98-102</td><td>101</td></tr>
+          <tr><td>5</td><td>76-80</td><td>102-106</td><td>102</td></tr>
+          <tr><td>6</td><td>80-84</td><td>106-110</td><td>103</td></tr>
+          <tr><td>7</td><td>84-88</td><td>110-114</td><td>104</td></tr>
+          <tr><td>8</td><td>88-92</td><td>114-118</td><td>105</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Mujer - Camperas y Buzos</h3>
+      <table class="size-guide-table">
+        <thead>
+          <tr><th>Talle</th><th>Busto</th><th>Cintura</th><th>Largo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>80-84</td><td>60-64</td><td>60</td></tr>
+          <tr><td>2</td><td>84-88</td><td>64-68</td><td>61</td></tr>
+          <tr><td>3</td><td>88-92</td><td>68-72</td><td>62</td></tr>
+          <tr><td>4</td><td>92-96</td><td>72-76</td><td>63</td></tr>
+          <tr><td>5</td><td>96-100</td><td>76-80</td><td>64</td></tr>
+          <tr><td>6</td><td>100-104</td><td>80-84</td><td>65</td></tr>
+          <tr><td>7</td><td>104-108</td><td>84-88</td><td>66</td></tr>
+          <tr><td>8</td><td>108-112</td><td>88-92</td><td>67</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Hombre - Pantalones</h3>
+      <table class="size-guide-table">
+        <thead>
+          <tr><th>Talle</th><th>Cintura</th><th>Cadera</th><th>Largo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>70-74</td><td>90-94</td><td>102</td></tr>
+          <tr><td>2</td><td>74-78</td><td>94-98</td><td>103</td></tr>
+          <tr><td>3</td><td>78-82</td><td>98-102</td><td>104</td></tr>
+          <tr><td>4</td><td>82-86</td><td>102-106</td><td>105</td></tr>
+          <tr><td>5</td><td>86-90</td><td>106-110</td><td>106</td></tr>
+          <tr><td>6</td><td>90-94</td><td>110-114</td><td>107</td></tr>
+          <tr><td>7</td><td>94-98</td><td>114-118</td><td>108</td></tr>
+          <tr><td>8</td><td>98-102</td><td>118-122</td><td>109</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Hombre - Camperas, Buzos y Camisetas</h3>
+      <table class="size-guide-table">
+        <thead>
+          <tr><th>Talle</th><th>Pecho</th><th>Cintura</th><th>Largo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>88-92</td><td>70-74</td><td>65</td></tr>
+          <tr><td>2</td><td>92-96</td><td>74-78</td><td>66</td></tr>
+          <tr><td>3</td><td>96-100</td><td>78-82</td><td>67</td></tr>
+          <tr><td>4</td><td>100-104</td><td>82-86</td><td>68</td></tr>
+          <tr><td>5</td><td>104-108</td><td>86-90</td><td>69</td></tr>
+          <tr><td>6</td><td>108-112</td><td>90-94</td><td>70</td></tr>
+          <tr><td>7</td><td>112-116</td><td>94-98</td><td>71</td></tr>
+          <tr><td>8</td><td>116-120</td><td>98-102</td><td>72</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Niños - Pantalones y Calzas</h3>
+      <table class="size-guide-table">
+        <thead>
+          <tr><th>Talle</th><th>Cintura</th><th>Cadera</th><th>Largo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>6</td><td>54-56</td><td>62-64</td><td>70</td></tr>
+          <tr><td>8</td><td>56-58</td><td>64-66</td><td>75</td></tr>
+          <tr><td>10</td><td>58-60</td><td>66-68</td><td>80</td></tr>
+          <tr><td>12</td><td>60-62</td><td>68-70</td><td>85</td></tr>
+          <tr><td>14</td><td>62-64</td><td>70-72</td><td>90</td></tr>
+          <tr><td>16</td><td>64-66</td><td>72-74</td><td>95</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Niños - Camperas, Buzos y Camisetas</h3>
+      <table class="size-guide-table">
+        <thead>
+          <tr><th>Talle</th><th>Pecho</th><th>Cintura</th><th>Largo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>6</td><td>62-64</td><td>54-56</td><td>45</td></tr>
+          <tr><td>8</td><td>64-66</td><td>56-58</td><td>48</td></tr>
+          <tr><td>10</td><td>66-68</td><td>58-60</td><td>51</td></tr>
+          <tr><td>12</td><td>68-70</td><td>60-62</td><td>54</td></tr>
+          <tr><td>14</td><td>70-72</td><td>62-64</td><td>57</td></tr>
+          <tr><td>16</td><td>72-74</td><td>64-66</td><td>60</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="returns" class="help-section">
+      <h2 class="section-title"><i class="fas fa-exchange-alt"></i> Política de Cambios</h2>
+      <p>En Romix, queremos que estés completamente satisfecho con tu compra. Si necesitas realizar un cambio o devolución, sigue estas indicaciones:</p>
+
+      <h3>Condiciones para Cambios</h3>
+      <ul class="returns-info">
+        <li><i class="fas fa-check-circle"></i> Los cambios deben realizarse dentro de los 15 días posteriores a la compra.</li>
+        <li><i class="fas fa-check-circle"></i> La prenda debe estar sin usar y con etiquetas originales.</li>
+        <li><i class="fas fa-check-circle"></i> Puedes cambiar por otro talle o color del mismo producto (no se hacen cambios por otro articulo).</li>
+        <li><i class="fas fa-check-circle"></i> En caso de solicitar un cambio por un talle mayor al comprado, y dicho talle corresponde a la categoría de talle especial, se deberá abonar la diferencia correspondiente.</li>        
+        <li><i class="fas fa-check-circle"></i> Los cambios en tienda física no tienen costo.</li>
+      </ul>
+
+      <h3>Proceso de Cambio</h3>
+      <p>Para iniciar un cambio:</p>
+      <ul class="returns-info">
+        <li><i class="fas fa-phone"></i> Contáctanos por WhatsApp al +54 9 11 5427-2065.</li>
+        <li><i class="fas fa-store"></i> Visita nuestra tienda en Concordia 514 local B, CABA, durante el horario de atención.</li>
+      </ul>
+    </section>
+
+    <section id="contact" class="help-section">
+      <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Contacto y Ubicación</h2>
+      <div class="contact-card">
+        <div class="contact-grid">
+          <div class="contact-block">
+            <h4>Información de contacto</h4>
+            <ul class="contact-list">
+              <li><i class="fas fa-store"></i> <span><strong>Tienda física:</strong> Concordia 514 local B, CABA</span></li>
+              <li><i class="fas fa-phone"></i> <span><strong>Teléfono:</strong> <a href="tel:+5491154272065">+54 9 11 5427-2065</a></span></li>
+              <li><i class="fas fa-mobile-alt"></i> <span><strong>WhatsApp:</strong> <a href="https://wa.me/5491154272065" target="_blank" rel="noopener">+54 9 11 5427-2065</a></span></li>
+              <li><i class="fas fa-envelope"></i> <span><strong>Email:</strong> <a href="mailto:info@romix.com.ar">info@romix.com.ar</a></span></li>
+            </ul>
+            <h4 style="margin-top:14px;">Horarios de atención</h4>
+            <ul class="contact-hours">
+              <li><span>Lunes a Viernes</span><span>7:00 - 16:30 hs</span></li>
+              <li><span>Sábados</span><span>7:00 - 12:30 hs</span></li>
+              <li><span>Domingos</span><span>Cerrado</span></li>
+            </ul>
+          </div>
+          <div class="contact-block">
+            <h4>Formas de Pago</h4>
+            <div class="contact-note"><i class="fas fa-wallet"></i> Efectivo, Transferencia, Mercado Pago</div>
+            <h4 style="margin-top:16px;">Seguinos en redes</h4>
+            <div class="contact-note">Instagram / Facebook</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h4>Productos</h4>
+        <ul>
+          <li><a href="mujer.html" style="color:#adb5bd;text-decoration:none;">Ropa para Mujer</a></li>
+          <li><a href="hombre.html" style="color:#adb5bd;text-decoration:none;">Ropa para Hombre</a></li>
+          <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Niños</a></li>
+          <li><a href="index.html#novedades" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
+          <li><a href="index.html#ofertas" style="color:#adb5bd;text-decoration:none;">Ofertas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="ayuda.html#size-guide" style="color:#adb5bd;text-decoration:none;">Guía de talles</a></li>
+          <li><a href="ayuda.html#returns" style="color:#adb5bd;text-decoration:none;">Política de Cambios</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="ayuda.html#contact" style="color:#adb5bd;text-decoration:none;">Dirección y horarios</a></li>
+          <li><a href="https://wa.me/" target="_blank" rel="noopener" style="color:#adb5bd;text-decoration:none;">WhatsApp</a></li>
+          <li><a href="tel:+549000000000" style="color:#adb5bd;text-decoration:none;">Llamar por teléfono</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">&copy; 2025 Romix - Todos los derechos reservados</div>
+  </footer>
+
+  <script src="assets/js/cart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.romixCart) window.romixCart.updateBadge();
+    });
+  </script>
+  <script src="assets/js/search.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

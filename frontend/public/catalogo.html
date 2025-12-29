@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROMIX - Catálogo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#1b1f24; }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { margin:0; background:#fff1f6; color:#232323; }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0; box-shadow:0 4px 14px rgba(0,0,0,.12); }
+    .header-wrap { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; }
+    .logo { font-size:1.4rem; font-weight:900; display:flex; align-items:center; gap:8px; }
+    .logo .logo-mark { width:36px; height:36px; object-fit:contain; display:block; }
+    nav ul { list-style:none; display:flex; gap:16px; padding:0; margin:0; }
+    nav a { color:#fff; text-decoration:none; padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); }
+    header nav { justify-self:center; }
+    .cart-btn { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.5); color:#fff; padding:8px 12px; border-radius:999px; cursor:pointer; }
+    .cart-count { background: var(--danger); color:#fff; border-radius:999px; padding:0 6px; font-size:.8rem; }
+
+    .container { max-width:1600px; margin:22px auto; padding:0 28px; }
+    .summary { color:#6c757d; margin: 6px 2px 12px; font-weight:600; }
+
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap:18px; }
+    .card { background:#fff; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,.10); overflow:hidden; display:flex; flex-direction:column; }
+    .thumb {
+      position:relative;
+      width:100%;
+      aspect-ratio:3 / 4;
+      min-height:220px;
+      background:#f8f9fb;
+      border-radius:14px 14px 0 0;
+      overflow:hidden;
+      display:block;
+    }
+    .thumb img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center;
+      display:block;
+    }
+    .badge { position:absolute; top:10px; right:10px; background:#f1f3f5; color:#6c757d; border-radius:999px; padding:6px 10px; font-size:.8rem; font-weight:800; box-shadow:0 6px 16px rgba(0,0,0,.12); }
+    .body { padding:12px 14px; display:flex; flex-direction:column; gap:8px; }
+    .title { font-size:1.05rem; font-weight:900; color:#111; }
+    .subtitle { color:#6c757d; font-size:.95rem; }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .price { color: var(--primary); font-weight:900; font-size:1.2rem; }
+    .stock { color: var(--success); font-weight:800; font-size:.9rem; text-align:right; }
+    .stock small { display:block; color:#6c757d; font-weight:600; }
+    .actions { display:flex; gap:10px; margin-top:4px; }
+    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 12px; border-radius:10px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; }
+    .btn-details { background:#fff; color:#495057; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
+    .btn:hover { filter:brightness(.98); }
+
+    @media (max-width: 520px) {
+      .thumb { min-height:220px; }
+    }
+    .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px;position:absolute}
+    footer{background:#fff;border-top:1px solid #e9ecef;margin-top:24px}
+    .footer-wrap{max-width:1600px;margin:0 auto;padding:16px 20px;display:flex;gap:18px;flex-wrap:wrap;color:#495057}
+    .footer-wrap a{color:#495057;text-decoration:none}
+    .footer-wrap a:hover{color:var(--primary)}
+
+    .romix-toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      max-width: 280px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #343a40;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 1500;
+    }
+
+    .romix-toast--success {
+      border: 2px solid var(--primary);
+    }
+
+    .romix-toast--error {
+      border: 2px solid var(--danger);
+    }
+
+    .romix-toast--visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  </style>
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <script id="preloaded-products" type="application/json">
+    {{ products_json if products_json is defined else "[]" }}
+  </script>
+  <script src="assets/js/slugify.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script>
+    let romixToastTimer;
+
+    function showToast(message, type = 'success') {
+      const el = document.getElementById('romix-toast');
+      if (!el) return;
+
+      el.textContent = message || '';
+
+      el.classList.remove('romix-toast--success', 'romix-toast--error');
+      if (type === 'error') el.classList.add('romix-toast--error');
+      else el.classList.add('romix-toast--success');
+
+      el.classList.add('romix-toast--visible');
+
+      if (romixToastTimer) clearTimeout(romixToastTimer);
+      romixToastTimer = setTimeout(() => {
+        el.classList.remove('romix-toast--visible');
+      }, 2500);
+    }
+  </script>  <script>
+    (function(){
+      const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`        <svg xmlns="http://www.w3.org/2000/svg" width="520" height="360">          <rect width="100%" height="100%" fill="#f8f9fb"/>          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="20">Imagen no disponible</text>        </svg>`);
+      const DATA_URL = 'assets/data/products.json';
+      const shouldHideProduct = typeof window.romixShouldHideProduct === 'function'
+        ? window.romixShouldHideProduct
+        : function(p){
+            if (!p) return false;
+            const text = ['name','type','section','badge','description'].map(k => (p && p[k] ? String(p[k]) : '')).join(' ').toLowerCase();
+            return /(frizado|frisado|polar|t[ée]rmic)/i.test(text);
+          };
+      const filterVisibleProducts = list => (Array.isArray(list) ? list : []).filter(item => !shouldHideProduct(item));
+
+      function normalizeSlug(value){
+        const safeValue = String(value || '');
+        try {
+          return safeValue
+            .normalize('NFD')
+            .replace(/\p{Diacritic}+/gu, '')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+        } catch (error) {
+          return safeValue
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+        }
+      }
+
+      function getSlug(name){
+        if (typeof window.romixSlug === 'function') return window.romixSlug(name);
+        if (typeof window.slugify === 'function') return window.slugify(name);
+        return normalizeSlug(name);
+      }
+
+      function readCart(){
+        try { return (window.romixCart && window.romixCart.getCart()) || []; }
+        catch (error) { console.warn('[catalogo] carrito invalido', error); return []; }
+      }
+
+      function writeCart(items){
+        try { if (window.romixCart) window.romixCart.saveCart(items); }
+        catch (error) { console.warn('[catalogo] no pudo guardar el carrito', error); }
+      }
+
+      function updateCartCount(){
+        try { if (window.romixCart) window.romixCart.updateBadge(); }
+        catch (error) { console.warn('[catalogo] no pudo actualizar badge', error); }
+      }
+
+      function getStockTotal(product){
+        if (!product) return 0;
+        if (typeof product.stock === 'number') return Math.max(0, product.stock);
+        if (product.stockByColor && typeof product.stockByColor === 'object') {
+          return Object.values(product.stockByColor).reduce((total, sizes) => {
+            if (!sizes || typeof sizes !== 'object') return total;
+            return total + Object.values(sizes).reduce((acc, qty) => acc + (Number(qty) || 0), 0);
+          }, 0);
+        }
+        if (Array.isArray(product.sizes)) {
+          return product.sizes.reduce((total, size) => {
+            const status = String(size.status || '').toLowerCase();
+            if (/out|agot|unavail/.test(status)) return total;
+            if (/low|poco/.test(status)) return total + 2;
+            return total + 5;
+          }, 0);
+        }
+        return 0;
+      }
+
+      function getStockLabel(total){
+        if (total <= 0) return 'Agotado';
+        if (total <= 3) return 'Por agotarse';
+        return 'Disponible';
+      }
+
+      function formatPrice(value){
+        return `$${Number(value || 0).toLocaleString('es-AR')}`;
+      }
+
+      function mainImage(product){
+        if (!product) return PLACEHOLDER;
+        if (product.image) return product.image;
+        if (product.images && typeof product.images === 'object') {
+          const keys = Object.keys(product.images);
+          if (keys.length) return product.images[keys[0]];
+        }
+        return PLACEHOLDER;
+      }
+
+      function slugifyName(value){
+        return getSlug(value);
+      }
+
+      function buildHref(product, buy){
+        const pid = encodeURIComponent(product && product.id ? String(product.id) : slugifyName(product && product.name));
+        const slug = encodeURIComponent(getSlug(product && product.name));
+        const name = encodeURIComponent(String(product && product.name || ''));
+        const base = `product.html?id=${pid}&slug=${slug}&name=${name}`;
+        return buy ? `${base}&buy=1` : base;
+      }
+
+      function quickAdd(product){
+        if (!product) return;
+        const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Unico';
+        let size = '';
+        if (Array.isArray(product.sizes) && product.sizes.length) {
+          const available = product.sizes.find(size => !/out|agot|unavail/.test(String(size.status || '').toLowerCase())) || product.sizes[0];
+          size = available ? String(available.size || '') : '';
+        }
+        const qty = 1;
+        const unitPrice = Number(product.price) || 0;
+        if (window.romixCart && typeof window.romixCart.addToCart === 'function') {
+          window.romixCart.addToCart({
+            productId: product.id ? String(product.id) : slugifyName(product.name),
+            name: product.name,
+            type: product.type,
+            color,
+            size,
+            price: unitPrice,
+            image: mainImage(product),
+            qty
+          });
+          window.romixCart.updateBadge();
+        }
+        showToast(`"${product.name || 'Producto'}" se agrego con exito al carrito`);
+      }
+
+      function renderCards(list){
+        const grid = document.getElementById('grid');
+        const summary = document.getElementById('summary');
+        if (!grid || !summary) return;
+        if (!Array.isArray(list) || !list.length) {
+          summary.textContent = 'No hay productos para mostrar';
+          grid.innerHTML = '<p>No se encontraron productos.</p>';
+          return;
+        }
+        summary.textContent = `Mostrando ${list.length} de ${list.length} productos ? P?gina 1 de 1`;
+        grid.innerHTML = '';
+        list.forEach(product => {
+          const article = document.createElement('article');
+          article.className = 'card';
+          article.setAttribute('aria-label', product.name || 'Producto');
+          const stockTotal = getStockTotal(product);
+          const stockLabel = getStockLabel(stockTotal);
+          const sectionLabel = product.section ? `${product.section.charAt(0).toUpperCase()}${product.section.slice(1)}` : '';
+          const subtitle = [sectionLabel, product.type].filter(Boolean).join(' ? ');
+          article.innerHTML = `
+            <div class="thumb">
+              <img src="${mainImage(product)}" alt="${product.name || 'Producto'}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';"/>
+              ${product.badge ? `<span class="badge">${product.badge}</span>` : ''}
+            </div>
+            <div class="body">
+              <div class="title">${product.name || 'Producto'}</div>
+              <div class="subtitle">${subtitle}</div>
+              <div class="row">
+                <div class="price">${formatPrice(product.price)}</div>
+                <div class="stock ${stockLabel === 'Agotado' ? 'stock-out' : ''}">${stockLabel}<small>Stock total: ${stockTotal}</small></div>
+              </div>
+              <div class="actions">
+                <a class="btn btn-details" href="${buildHref(product)}" aria-label="Ver detalles de ${product.name || 'producto'}"><i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles</a>
+                <a class="btn btn-primary" href="${buildHref(product, true)}" role="button"><i class="fas fa-cart-plus" aria-hidden="true"></i> Agregar</a>
+              </div>
+            </div>`;
+          const addLink = article.querySelector('.btn.btn-primary');
+          if (addLink) {
+            addLink.addEventListener('click', event => {
+              event.preventDefault();
+              quickAdd(product);
+            });
+          }
+          grid.appendChild(article);
+        });
+      }
+
+      function parsePreloaded(){
+        try {
+          const el = document.getElementById('preloaded-products');
+          if (!el) return null;
+          const raw = el.textContent || el.innerText || '';
+          const parsed = JSON.parse(raw.trim() || '[]');
+          const data = Array.isArray(parsed) ? parsed : null;
+          return data ? filterVisibleProducts(data) : null;
+        } catch (error) {
+          console.warn('[catalogo] preloaded inv?lido', error);
+          return null;
+        }
+      }
+
+      async function loadProducts(){
+        const cached = parsePreloaded();
+        if (cached && cached.length) return cached;
+        const response = await fetch(new URL(DATA_URL, location.href), { cache: 'no-store' });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const json = await response.json();
+        return filterVisibleProducts(Array.isArray(json) ? json : []);
+      }
+
+      async function init(){
+        updateCartCount();
+        try {
+          const list = await loadProducts();
+          renderCards(list);
+        } catch (error) {
+          const grid = document.getElementById('grid');
+          const summary = document.getElementById('summary');
+          if (summary) summary.textContent = 'Error al cargar productos';
+          if (grid) grid.innerHTML = '<p>Error al cargar los productos. Intenta recargar.</p>';
+          console && console.error && console.error('[catalogo] Error cargando productos', error);
+        }
+      }
+
+      window.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ROMIX">
+  <meta property="og:title" content="ROMIX | Moda y deportes para todos">
+  <meta property="og:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
+  <meta property="og:url" content="https://romix.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
+  <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png"></head>
+<body>
+  <header>
+    <div class="header-wrap">
+      <a href="index.html" class="logo" style="color:#fff;text-decoration:none"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /> ROMIX</a>
+      <nav aria-label="Secciones">
+        <ul>
+          <li><a href="mujer.html">Mujer</a></li>
+          <li><a href="hombre.html">Hombre</a></li>
+          <li><a href="ninos.html">Niños</a></li>
+          <li><a href="ayuda.html">Ayuda</a></li>
+        </ul>
+      </nav>
+      <div>
+        <button class="cart-btn" type="button" onclick="showToast('Abre el detalle de cualquier producto para finalizar compra.');">
+          <i class="fas fa-shopping-cart" aria-hidden="true"></i> Carrito <span id="cart-count" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" aria-label="Catálogo de productos">
+    <div id="summary" class="summary">Mostrando 0 productos · Página 1 de 1</div>
+    <section id="grid" class="grid" aria-live="polite"></section>
+  </main>
+  <footer>
+    <div class="footer-wrap" role="contentinfo">
+      <div>
+        <strong>Ayuda</strong>
+        <div>
+          <a href="ayuda.html#size-guide">Guía de talles</a> ·
+          <a href="ayuda.html#returns">Política de Cambios</a> ·
+          <a href="ayuda.html">Centro de ayuda</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+

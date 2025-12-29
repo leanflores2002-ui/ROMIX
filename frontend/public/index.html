@@ -1,0 +1,617 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROMIX - Inicio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root { --primary:#e83e8c; --secondary:#6f42c1; --light:#f8f9fa; --dark:#343a40; --success:#28a745; --danger:#dc3545; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color:#f5f5f5; color:#333; }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0 10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: sticky; top:0; z-index:1000; }
+    .header-container { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px; }
+    .logo { font-size:1.8rem; font-weight:800; display:flex; align-items:center; gap:10px; color:#fff; text-decoration:none; letter-spacing:-0.5px; }
+    .logo .logo-mark { width:42px; height:42px; object-fit:contain; display:block; }
+    .topbar-icons { display:flex; align-items:center; gap:12px; }
+    .icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.08); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; }
+    .icon-badge { position:absolute; top:-6px; right:-6px; background:var(--danger); color:#fff; border-radius:999px; font-size:.7rem; padding:2px 6px; }
+    .global-search { display:flex; align-items:center; gap:0; position:relative; max-width:740px; width:100%; margin:0 auto; }
+    .global-search input[type="search"] { padding:10px 14px; border:1px solid rgba(255,255,255,.45); border-radius:999px 0 0 999px; min-width:320px; color:#111; background:#fff; caret-color: var(--secondary); width:100%; }
+    .global-search input[type="search"]::placeholder { color:#6c757d; }
+    .global-search input[type="search"]::selection { background:#ffe0f0; color:#111; }
+    .global-search button { padding:10px 16px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.45); background:#fff; color:var(--primary); cursor:pointer; font-weight:800; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); padding:6px 0; z-index:2001; }
+    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
+    .search-suggestion .t { line-height:1.1; }
+    .search-suggestion small { color:#6c757d; }
+
+    /* Barra secundaria unificada */
+    .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px 10px; display:flex; gap:14px; align-items:center; flex-wrap:nowrap; overflow-x:auto; color:#fff; font-weight:700; scrollbar-width:none; }
+    .nav-secondary a { color:#fff; text-decoration:none; padding:10px 12px; border-radius:12px; transition:background .2s ease, color .2s ease; }
+    .nav-secondary a:hover { background:rgba(255,255,255,.12); }
+    .cat-pill { background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.35); padding:8px 12px; border-radius:999px; font-weight:700; text-decoration:none; font-size:.95rem; }
+
+    .container { max-width:1600px; margin:28px auto; padding:0 28px; }
+    .section-title { font-size:1.9rem; color:var(--secondary); margin-bottom:14px; font-weight:800; }
+    .catalog-toolbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin: 6px 2px 12px; }
+    .catalog-toolbar input[type="search"] { padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; min-width:220px; }
+    .catalog-toolbar select { padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; }
+    .catalog-toolbar .count { color:#6c757d; font-weight:600; }
+
+    .btn-cta { display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:14px; border:1px solid transparent; font-weight:800; cursor:pointer; text-decoration:none; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), #ff9770); color:#fff; box-shadow:0 12px 24px rgba(255,107,107,.25); }
+    .btn-outline { border:1px solid var(--secondary); color: var(--secondary); background:#fff; }
+    .eyebrow { color:#6c757d; font-size:.9rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+
+    /* Carrusel tendencias */
+    .trend-wrap { margin:26px auto; padding:18px 22px 22px; background:radial-gradient(circle at 20% 20%, rgba(147,112,219,.12), transparent 35%), radial-gradient(circle at 80% 20%, rgba(255,192,203,.12), transparent 35%), linear-gradient(135deg, #f6f1ff, #f9f7ff); border-radius:18px; box-shadow:0 18px 40px rgba(99,72,163,.12); }
+    .trend-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .trend-title { font-size:1.4rem; font-weight:800; color:#5a35a3; }
+    .trend-slider { position:relative; overflow:hidden; }
+    .trend-track { display:flex; transition:transform .3s ease; gap:12px; }
+    .trend-card { flex:0 0 calc(25% - 9px); background:linear-gradient(145deg, #ffffff, #f3edff); border-radius:18px; padding:14px; box-shadow:0 14px 30px rgba(64,35,125,.14); position:relative; border:1px solid rgba(90,53,163,.1); min-height:260px; }
+    .trend-card img { width:100%; height:170px; object-fit:cover; border-radius:14px; box-shadow:0 8px 18px rgba(0,0,0,.08); background:#f7f2ff; }
+    .trend-tags { display:flex; gap:6px; flex-wrap:wrap; margin:8px 0 6px; }
+    .trend-tag { background:#f1e8ff; color:#5a35a3; padding:4px 8px; border-radius:10px; font-size:.78rem; font-weight:700; border:1px solid rgba(90,53,163,.15); }
+    .trend-name { font-weight:800; color:#2c2342; font-size:1rem; margin:4px 0; }
+    .trend-sub { color:#6c5c8f; font-size:.9rem; }
+    .trend-price { position:absolute; top:10px; right:10px; background:rgba(255,255,255,.92); color:#5a35a3; border:1px solid rgba(90,53,163,.18); border-radius:999px; padding:6px 10px; font-weight:800; font-size:.9rem; box-shadow:0 6px 16px rgba(90,53,163,.12); }
+    .trend-nav { position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; pointer-events:none; padding:0 6px; }
+    .trend-arrow { width:36px; height:36px; border-radius:50%; border:1px solid rgba(90,53,163,.25); background:rgba(255,255,255,.95); color:#5a35a3; box-shadow:0 10px 20px rgba(64,35,125,.16); display:flex; align-items:center; justify-content:center; cursor:pointer; pointer-events:auto; }
+    .trend-dots { display:flex; gap:8px; justify-content:center; margin-top:14px; }
+    .trend-dot { width:10px; height:10px; border-radius:50%; background:#d8c9ff; }
+    .trend-dot.active { background:#6f42c1; }
+
+    /* Promos slider */
+    .promo-wrap { margin:28px auto; padding:18px 22px 22px; background:linear-gradient(135deg, #fef5f5, #f9ecff); border-radius:18px; box-shadow:0 18px 40px rgba(232,62,140,.12); }
+    .promo-slider { position:relative; overflow:hidden; }
+    .promo-track { display:flex; gap:14px; transition:transform .3s ease; }
+    .promo-card { flex:0 0 calc(25% - 11px); background:#fff; border-radius:18px; padding:14px; box-shadow:0 14px 32px rgba(0,0,0,.1); border:1px solid #f2d5e5; position:relative; min-height:240px; }
+    .promo-card img { width:100%; height:150px; object-fit:cover; border-radius:12px; background:#fff7fa; }
+    .promo-badge { position:absolute; top:10px; left:10px; background:#ffe5ec; color:#c2185b; border-radius:999px; padding:6px 10px; font-weight:800; font-size:.82rem; border:1px solid #f2a7c5; }
+    .promo-price { position:absolute; top:10px; right:10px; background:#fff; color:#c2185b; border:1px solid #f2d5e5; border-radius:12px; padding:6px 10px; font-weight:900; }
+    .promo-price small { color:#6c757d; text-decoration:line-through; margin-left:6px; font-weight:600; }
+    .promo-name { font-weight:900; color:#1f1f1f; margin:8px 0 4px; }
+    .promo-sub { color:#6c757d; font-size:.95rem; }
+    .promo-foot { margin-top:10px; display:flex; justify-content:space-between; align-items:center; color:#2f9e44; font-weight:800; font-size:.9rem; }
+    .promo-dots { display:flex; gap:8px; justify-content:center; margin-top:14px; }
+    .promo-dot { width:10px; height:10px; border-radius:50%; background:#f6cde0; }
+    .promo-dot.active { background:#c2185b; }
+
+    .products-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:20px; }
+    .product-card { background:#fff; border-radius:16px; box-shadow:0 16px 40px rgba(0,0,0,.12); overflow:hidden; display:flex; flex-direction:column; }
+    .product-image {
+      position:relative;
+      width:100%;
+      aspect-ratio:2 / 3;
+      min-height:240px;
+      max-height:320px;
+      background:#f7f7f9;
+      border-radius:16px 16px 0 0;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
+    }
+    .product-image img {
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      object-position:center;
+      display:block;
+      background:#fff;
+      border-radius:12px;
+      box-shadow:0 6px 14px rgba(0,0,0,.08);
+    }
+    .product-badge { position:absolute; top:10px; right:10px; background:#f1f3f5; color:#6c757d; border-radius:999px; padding:6px 10px; font-size:.8rem; font-weight:800; box-shadow:0 6px 16px rgba(0,0,0,.12); }
+    .product-info { padding:12px 14px; display:flex; flex-direction:column; gap:8px; }
+    .product-title { font-size:1.05rem; font-weight:900; color:#111; cursor:pointer; }
+    .product-subtitle { color:#6c757d; font-size:.95rem; }
+    .product-price { color: var(--primary); font-weight:900; font-size:1.2rem; }
+    .product-stock-note { text-align:right; font-weight:800; font-size:.9rem; }
+    .product-stock-note.state-available { color: var(--success); }
+    .product-stock-note.state-low { color: #ff9800; }
+    .product-stock-note.state-out { color: var(--danger); }
+    .product-actions { display:flex; gap:10px; }
+    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 12px; border-radius:10px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; }
+    .btn-details { background:#fff; color:#495057; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
+
+    footer { background-color: var(--dark); color: #fff; padding: 30px 0; margin-top: 40px; }
+    .footer-container { max-width: 1600px; margin: 0 auto; padding: 0 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
+    .footer-column h4 { font-size: 1.2rem; margin-bottom: 15px; color: var(--primary); }
+    .footer-column ul { list-style: none; }
+    .footer-column ul li { margin-bottom: 10px; }
+    .footer-column ul li a { color: #adb5bd; text-decoration: none; transition: color 0.3s; }
+    .footer-column ul li a:hover { color: #fff; }
+    .copyright { text-align: center; padding-top: 20px; margin-top: 20px; border-top: 1px solid #495057; color: #adb5bd; font-size: 0.9rem; }
+
+    .romix-toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      max-width: 280px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #343a40;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 1500;
+    }
+
+    .romix-toast--success { border: 2px solid var(--primary); }
+    .romix-toast--error { border: 2px solid var(--danger); }
+    .romix-toast--visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  </style>
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ROMIX">
+  <meta property="og:title" content="ROMIX | Moda y deportes para todos">
+  <meta property="og:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
+  <meta property="og:url" content="https://romix.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
+  <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png"></head>
+<body>
+  <a class="skip-link" href="#main" style="position:absolute;left:-9999px;">Saltar al contenido</a>
+  <header>
+    <div class="header-container topbar">
+      <a href="index.html" class="logo" aria-label="Romix"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /><span>ROMIX</span></a>
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar">
+        <input type="search" name="q" placeholder="Buscar productos..." />
+        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
+      </form>
+      <div class="topbar-icons" aria-label="Acciones">
+        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
+        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
+      </div>
+    </div>
+    <nav class="nav-secondary" aria-label="Secciones y categorías">
+      <a href="mujer.html">Mujer</a>
+      <a href="hombre.html">Hombre</a>
+      <a href="ninos.html">Niños</a>
+      <a href="ayuda.html">Ayuda</a>
+    </nav>
+  </header>
+
+  <section class="container trend-wrap" id="trends">
+    <div class="trend-header">
+      <div>
+        <div class="eyebrow">Tendencias</div>
+        <div class="trend-title">Top Trends · Moda femenina</div>
+      </div>
+      <div class="trend-nav">
+        <button class="trend-arrow" id="trend-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+        <button class="trend-arrow" id="trend-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+    <div class="trend-slider">
+      <div class="trend-track" id="trend-track"></div>
+    </div>
+    <div class="trend-dots" id="trend-dots"></div>
+  </section>
+
+  <section class="container promo-wrap" id="promos">
+    <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">
+      <div>
+        <div class="eyebrow">Promos</div>
+        <h2 class="section-title">Ofertas y descuentos</h2>
+      </div>
+    </div>
+    <div class="promo-slider">
+      <div class="trend-nav promo-nav">
+        <button class="trend-arrow" id="promo-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+        <button class="trend-arrow" id="promo-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="promo-track" id="promo-track"></div>
+      <div class="promo-dots" id="promo-dots"></div>
+    </div>
+  </section>
+
+  <main id="catalogo" class="container" aria-label="Catálogo completo">
+    <h1 class="section-title">Catálogo completo</h1>
+    <div class="catalog-toolbar">
+      <input id="cat-q" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" />
+      <label style="display:inline-flex; align-items:center; gap:6px; color:#6c757d;">Ordenar:
+        <select id="cat-order">
+          <option value="relevancia">Relevancia</option>
+          <option value="precio-asc">Precio: menor a mayor</option>
+          <option value="precio-desc">Precio: mayor a menor</option>
+        </select>
+      </label>
+      <span id="cat-count" class="count">Mostrando 0 de 0 productos</span>
+    </div>
+    <div class="products-grid" id="catalog-grid"></div>
+    <div id="catalog-empty" class="no-results" style="display:none;margin-top:10px;"><i class="fas fa-info-circle"></i> <span class="tip">Sin resultados.</span></div>
+  </main>
+
+  <footer id="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>Productos</h4>
+        <ul>
+          <li><a href="mujer.html" style="color:#adb5bd;text-decoration:none;">Ropa para Mujer</a></li>
+          <li><a href="hombre.html" style="color:#adb5bd;text-decoration:none;">Ropa para Hombre</a></li>
+          <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Niños</a></li>
+          <li><a href="index.html#novedades" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
+          <li><a href="index.html#ofertas" style="color:#adb5bd;text-decoration:none;">Ofertas</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="ayuda.html#size-guide" style="color:#adb5bd;text-decoration:none;">Guía de talles</a></li>
+          <li><a href="ayuda.html#returns" style="color:#adb5bd;text-decoration:none;">Política de Cambios</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="ayuda.html#contact" style="color:#adb5bd;text-decoration:none;">Dirección y horarios</a></li>
+          <li><a href="https://wa.me/" target="_blank" rel="noopener" style="color:#adb5bd;text-decoration:none;">WhatsApp</a></li>
+          <li><a href="tel:+549000000000" style="color:#adb5bd;text-decoration:none;">Llamar por teléfono</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Romix - Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <script id="preloaded-products" type="application/json">
+    {{ products_json if products_json is defined else "[]" }}
+  </script>
+  <script src="assets/js/slugify.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script>
+    let romixToastTimer;
+
+    function showToast(message, type = 'success') {
+      const el = document.getElementById('romix-toast');
+      if (!el) return;
+
+      el.textContent = message || '';
+
+      el.classList.remove('romix-toast--success', 'romix-toast--error');
+      if (type === 'error') el.classList.add('romix-toast--error');
+      else el.classList.add('romix-toast--success');
+
+      el.classList.add('romix-toast--visible');
+
+      if (romixToastTimer) clearTimeout(romixToastTimer);
+      romixToastTimer = setTimeout(() => {
+        el.classList.remove('romix-toast--visible');
+      }, 2500);
+    }
+  </script>
+  <script>
+    function fixUtf8(s){
+      if (!s || typeof s !== 'string') return s;
+      let out = s;
+      const map = {'?':'ú','?':'ó','½':'ó','ï':'í','Â·':'·','Â ':'','Â':'','Ã¡':'á','Ã©':'é','Ãí':'í','Ã­':'í','Ã³':'ó','Ãº':'ú','Ãñ':'ñ','Ã¼':'ü'};
+      try { out = decodeURIComponent(escape(out)); } catch {}
+      Object.keys(map).forEach(k => { out = out.split(k).join(map[k]); });
+      return out;
+    }
+    function sanitizeProduct(p){
+      if (!p) return p;
+      const copy = Object.assign({}, p);
+      ['name','type','section','badge','description'].forEach(k=>{ if (copy[k]) copy[k] = fixUtf8(String(copy[k])); });
+      if (Array.isArray(copy.colors)) copy.colors = copy.colors.map(c=> Object.assign({}, c, { name: fixUtf8(c && c.name) }));
+      return copy;
+    }
+    const shouldHideProduct = typeof window.romixShouldHideProduct === 'function'
+      ? window.romixShouldHideProduct
+      : function(p){
+          if (!p) return false;
+          var text = ['name','type','section','badge','description'].map(function(k){ return p && p[k] ? String(p[k]) : ''; }).join(' ').toLowerCase();
+          return /(frizado|frisado|polar|t[ée]rmic)/i.test(text);
+        };
+    function sanitizeList(list){
+      return (Array.isArray(list) ? list.map(sanitizeProduct) : []).filter(function(item){ return !shouldHideProduct(item); });
+    }
+    function fixDomText(){
+      try{
+        const w=document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+        const nodes=[]; while(w.nextNode()) nodes.push(w.currentNode);
+        nodes.forEach(n=>{ const fx = fixUtf8(n.nodeValue); if (fx && fx!==n.nodeValue) n.nodeValue = fx; });
+      }catch{}
+    }
+    function safeGetCart(){ try { return (window.romixCart && window.romixCart.getCart()) || []; } catch { return []; } }
+    function safeSetCart(v){ try { if (window.romixCart) window.romixCart.saveCart(v); } catch {} }
+    function updateCartBadge(){ try { if (window.romixCart) window.romixCart.updateBadge(); } catch{} }
+    function money(n){ return "$"+Number(n||0).toLocaleString('es-AR'); }
+    function computeTotalStock(p){
+      if (p && p.stockByColor) { var total=0; for(var k in p.stockByColor){ var m=p.stockByColor[k]||{}; for(var t in m) total += Number(m[t]||0); } return total; }
+      var st=(p.sizes||[]).map(function(x){ return String(x.status||'').toLowerCase(); });
+      return st.reduce(function(a,s){ return a + (s.indexOf('unavail')>=0?0:s.indexOf('low')>=0?2:5); }, 0);
+    }
+        function quickAdd(product){
+      const pid = product.id || slugify(product.name || '');
+      const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Unico';
+      const primaryImage = product.image || (product.images && (product.images["Negro"] || Object.values(product.images)[0])) || "images/placeholder.jpg";
+      let size = 'U';
+      if (Array.isArray(product.sizes) && product.sizes.length){
+        const available = product.sizes.find(function(s){ return !/out|unavail/i.test(String(s.status||'')); }) || product.sizes[0];
+        size = String((available && (available.size || available)) || 'U');
+      }
+      const stockCheck = (window.romixInventory && typeof window.romixInventory.getStock === 'function')
+        ? window.romixInventory.getStock(pid, color, size)
+        : null;
+      if (stockCheck !== null && stockCheck <= 0) { showToast('Sin stock para esta variante', 'error'); return; }
+      const price = Number(product.price||0);
+      if (window.romixCart && typeof window.romixCart.addToCart === 'function') {
+        window.romixCart.addToCart({
+          productId: pid,
+          name: product.name,
+          type: product.type || '',
+          color,
+          colorName: color,
+          size,
+          image: primaryImage,
+          price,
+          qty: 1
+        });
+        window.romixCart.updateBadge();
+      }
+      showToast('Se agrego con exito al carrito');
+    }function stateFromStock(n){ if(n<=0) return 'out'; if(n<=3) return 'low'; return 'available'; }
+
+    const carouselRegistry = [];
+    function getCarouselPerPage(){
+      const width = window.innerWidth;
+      if (width <= 480) return 1;
+      if (width <= 768) return 2;
+      if (width <= 1024) return 3;
+      return 4;
+    }
+    function registerCarousel(options){
+      const track = options.track;
+      const dots = options.dots;
+      if (!track || !dots) return;
+
+      let carousel = carouselRegistry.find(function(c){ return c.track === track; });
+      if (!carousel){
+        carousel = { track: track, dots: dots, current: 0 };
+        carouselRegistry.push(carousel);
+      }
+      carousel.totalItems = options.totalItems || 0;
+      carousel.dotClass = options.dotClass || 'trend-dot';
+      carousel.prevEl = options.prevEl || null;
+      carousel.nextEl = options.nextEl || null;
+      carousel.current = 0;
+
+      const update = function(){
+        const perPage = getCarouselPerPage();
+        const pages = Math.max(1, Math.ceil((carousel.totalItems || 0) / perPage));
+        if (carousel.current >= pages) carousel.current = pages - 1;
+        if (carousel.current < 0) carousel.current = 0;
+        const offset = -(carousel.current * (100 / perPage));
+        carousel.track.style.transform = 'translateX(' + offset + '%)';
+        carousel.dots.innerHTML = new Array(pages).fill('').map(function(_, idx){
+          return '<div class="' + carousel.dotClass + (idx===carousel.current?' active':'') + '"></div>';
+        }).join('');
+        carousel.pages = pages;
+      };
+
+      const prevClick = function(){
+        if (!carousel.pages) return;
+        carousel.current = (carousel.current - 1 + carousel.pages) % carousel.pages;
+        update();
+      };
+      const nextClick = function(){
+        if (!carousel.pages) return;
+        carousel.current = (carousel.current + 1) % carousel.pages;
+        update();
+      };
+
+      if (carousel.prevEl) carousel.prevEl.onclick = prevClick;
+      if (carousel.nextEl) carousel.nextEl.onclick = nextClick;
+
+      carousel.update = function(){
+        carousel.totalItems = carousel.track.children.length;
+        update();
+      };
+      update();
+    }
+
+    window.addEventListener('resize', function(){
+      carouselRegistry.forEach(function(carousel){
+        carousel.totalItems = carousel.track.children.length;
+        if (typeof carousel.update === 'function') carousel.update();
+      });
+    });
+
+    const sharedSlugify = (function(){
+      if (typeof window.romixSlugify === 'function') return window.romixSlugify;
+      if (typeof window.slugify === 'function') return window.slugify;
+      if (window.romix && typeof window.romix.slugify === 'function') return window.romix.slugify;
+      throw new Error('Romix slugify helper is not available');
+    })();
+    function detailHref(p, buy){
+      var win = typeof window !== 'undefined' ? window : {};
+      var slugFn = typeof win.romixSlug === 'function' ? win.romixSlug : sharedSlugify;
+      var slugValue = slugFn(p && p.name ? p.name : '');
+      var nameRaw = typeof win.fixUtf8 === 'function' ? win.fixUtf8(p && p.name ? p.name : '') : (p && p.name ? p.name : '');
+      var pidValue = typeof win.productId === 'function' ? win.productId(p) : '';
+      var base = 'product.html?id=' + encodeURIComponent(pidValue) +
+                 '&slug=' + encodeURIComponent(slugValue) +
+                 '&name=' + encodeURIComponent(nameRaw || '');
+      return buy ? base + '&buy=1' : base;
+    }
+
+    function renderAll(products){
+      var grid = document.getElementById('catalog-grid');
+      var empty = document.getElementById('catalog-empty');
+      var q = (document.getElementById('cat-q').value||'').trim();
+      var order = document.getElementById('cat-order').value;
+      var list = !q ? (products||[]) : (window.romixSearch && typeof window.romixSearch.searchInList === 'function'
+        ? window.romixSearch.searchInList(products||[], q, {})
+        : (products||[]).filter(function(p){
+            var qn = q.toLowerCase();
+            return !q || String(p.name||'').toLowerCase().indexOf(qn)>=0 || String(p.type||'').toLowerCase().indexOf(qn)>=0 || String(p.section||'').toLowerCase().indexOf(qn)>=0;
+          })
+      );
+      if (order==='precio-asc') list.sort(function(a,b){ return Number(a.price||0)-Number(b.price||0); });
+      else if (order==='precio-desc') list.sort(function(a,b){ return Number(b.price||0)-Number(a.price||0); });
+      var count = document.getElementById('cat-count'); count.textContent = 'Mostrando ' + list.length + ' de ' + (products||[]).length + ' productos';
+        grid.innerHTML = list.map(function(p){
+          var total = computeTotalStock(p); var st = stateFromStock(total);
+          var label = st==='out'?'Agotado':(st==='low'?'Por agotarse':'Disponible');
+          var sectionName = (p.section||''); sectionName = sectionName.charAt(0).toUpperCase()+sectionName.slice(1);
+          var subtitle = sectionName + ' &middot; ' + (p.type||'');
+        var badge = p.badge ? '<span class="product-badge">'+p.badge+'</span>' : '';
+        var img = p.image || 'images/placeholder.jpg';
+        var detailLink = detailHref(p);
+        return (
+          '<div class="product-card" data-type="'+(p.type||'')+'">'+
+            '<div class="product-image" onclick="location.href=\''+detailLink+'\'">'+
+              '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';"/>'+badge+
+            '</div>'+
+            '<div class="product-info">'+
+              '<h3 class="product-title" data-name="'+(p.name||'')+'" onclick="location.href=\''+detailLink+'\'">'+(p.name||'')+'</h3>'+
+              '<div class="product-subtitle">'+subtitle+'</div>'+
+              '<div class="product-price">'+money(p.price)+'</div>'+
+              '<div class="product-stock-note state-'+st+'">'+label+' &middot; Stock: '+total+'</div>'+
+              '<div class="product-actions">'+
+                '<a href="'+detailLink+'" class="btn btn-details"><i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles</a>'+
+                '<button class="btn btn-primary" type="button" data-add-product="'+(p.id||'')+'"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Agregar</button>'+
+              '</div>'+
+            '</div>'+
+          '</div>'
+        );
+      }).join('');
+      var addButtons = grid.querySelectorAll('[data-add-product]');
+      addButtons.forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var pid = btn.getAttribute('data-add-product');
+          var prod = (ALL_PRODUCTS||[]).find(function(p){ return String(p.id||'') === String(pid||''); });
+          if (!prod) { showToast('No se encontró el producto', 'error'); return; }
+          quickAdd(prod);
+        });
+      });
+      empty.style.display = list.length? 'none':'block';
+    }
+
+    function preloadedProducts(){
+      try { const el=document.getElementById('preloaded-products'); if(!el) return null; return sanitizeList(JSON.parse(el.textContent)); } catch { return null; }
+    }
+    function renderPromos(list){
+      var track = document.getElementById('promo-track');
+      var dots = document.getElementById('promo-dots');
+      if (!track || !dots) return;
+      var promos = (list||[]).filter(function(p){ return Number(p.originalPrice||0) > Number(p.price||0); });
+      if (!promos.length) { promos = (list||[]).slice(0,8); }
+      var badges = ['Promo','Oferta','-15%','-20%','-30%'];
+      track.innerHTML = promos.map(function(p,idx){
+        var img = p.image || 'images/placeholder.jpg';
+        var price = money(p.price);
+        var original = p.originalPrice ? '<small>'+money(p.originalPrice)+'</small>' : '';
+        var badge = p.badge || badges[idx % badges.length];
+        var detailLink = detailHref(p);
+        var discount = '';
+        if (p.originalPrice && p.price) {
+          var pct = Math.round((1 - Number(p.price)/Number(p.originalPrice))*100);
+          if (pct > 0) discount = '-'+pct+'%';
+        }
+        return (
+          '<article class="promo-card">'+
+            '<div class="promo-badge">'+(discount || badge)+'</div>'+
+            '<div class="promo-price">'+price+ (original ? ' '+original : '') +'</div>'+
+            '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\''+detailLink+'\'">'+
+            '<div class="promo-name">'+(p.name||'')+'</div>'+
+            '<div class="promo-sub">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
+            '<div class="promo-foot"><span>'+ (p.badge || 'Disponible') +'</span><span>'+price+'</span></div>'+
+          '</article>'
+        );
+      }).join('');
+      registerCarousel({
+        track: track,
+        dots: dots,
+        prevEl: document.getElementById('promo-prev'),
+        nextEl: document.getElementById('promo-next'),
+        totalItems: promos.length,
+        dotClass: 'promo-dot'
+      });
+    }
+    function renderTrends(list){
+      var track = document.getElementById('trend-track');
+      var dots = document.getElementById('trend-dots');
+      if (!track || !dots) return;
+      var filtered = (list||[]).filter(function(p){ return String(p.section||'').toLowerCase()==='mujer' || String(p.type||'').toLowerCase().includes('legg') || String(p.type||'').toLowerCase().includes('top'); });
+      var trends = (filtered.length ? filtered : list || []).slice(0,12);
+      var badges = ['Oferta','Novedad','Top Trends','Edición limitada'];
+      track.innerHTML = trends.map(function(p,idx){
+        var badge = p.badge || badges[idx % badges.length];
+        var img = p.image || 'images/placeholder.jpg';
+        var price = 'AR$ ' + Number(p.price||0).toLocaleString('es-AR');
+        var detailLink = detailHref(p);
+        return (
+          '<article class="trend-card">'+
+            '<div class="trend-price">'+price+'</div>'+
+            '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\''+detailLink+'\'">'+
+            '<div class="trend-tags"><span class="trend-tag">'+badge+'</span></div>'+
+            '<div class="trend-name">'+(p.name||'')+'</div>'+
+            '<div class="trend-sub">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
+          '</article>'
+        );
+      }).join('');
+      registerCarousel({
+        track: track,
+        dots: dots,
+        prevEl: document.getElementById('trend-prev'),
+        nextEl: document.getElementById('trend-next'),
+        totalItems: trends.length,
+        dotClass: 'trend-dot'
+      });
+    }
+    var ALL_PRODUCTS = preloadedProducts() || [];
+    if (!window.PRELOADED_PRODUCTS && ALL_PRODUCTS.length) { window.PRELOADED_PRODUCTS = ALL_PRODUCTS; }
+    function scrollToSection(id){
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    function loadAll(){
+      if (ALL_PRODUCTS && ALL_PRODUCTS.length) { renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); return; }
+      var tryApi = function(){ return fetch('/api/products', {cache:'no-store'}).then(function(r){ return r.ok?r.json():Promise.reject(); }); };
+      var tryFile = function(){ return fetch(new URL('assets/data/products.json', location.href)).then(function(r){ return r.json(); }); };
+      tryApi().catch(tryFile).then(function(list){ ALL_PRODUCTS = sanitizeList(list||[]); renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); }).catch(function(){ ALL_PRODUCTS = []; renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); });
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      fixDomText();
+      updateCartBadge();
+      var urlQ = new URLSearchParams(location.search).get('q')||''; if (urlQ) document.getElementById('cat-q').value = urlQ;
+      document.getElementById('cat-q').addEventListener('input', function(){ renderAll(ALL_PRODUCTS); });
+      document.getElementById('cat-order').addEventListener('change', function(){ renderAll(ALL_PRODUCTS); });
+      loadAll();
+      // Eliminado manejo de data-target para permitir navegación directa a otras páginas
+    });
+  </script>
+  <script src="assets/js/inventory.js"></script>
+  <script src="assets/js/support-widget-romix.js" defer></script>
+  <script src="assets/js/search.js"></script>
+  <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -20,3 +20,23 @@
 2) En la grilla de inicio haz clic en “Agregar” una sola vez.  
 3) Se agrega únicamente ese producto con la variante determinística (primer color distinto de “Unico” y primer talle con stock>0, si existe).  
 4) Repite con otro producto: ya no se mezclan selecciones previas ni se duplica el click.
+
+## Despliegue en Railway (con Docker)
+Railway detecta el `Dockerfile` y construye la imagen automáticamente.
+
+1. Variables recomendadas en el servicio:
+   - `ADMIN_USER`, `ADMIN_PASS` (credenciales del panel).
+   - Opcional `ROMIX_PRODUCTS_FILE` si quieres usar otra ruta para productos.
+   - `ROMIX_LOW_STOCK_THRESHOLD` para el umbral de stock bajo.
+2. Volúmenes (para persistir pedidos y stock):
+   - Monta un volume en `/app/backend/data` para que `product_variants.json` y `orders.json` no se pierdan entre despliegues.
+3. Puerto:
+   - Railway define `PORT`; el `CMD` del contenedor usa `${PORT:-8000}`. No necesitas cambiarlo.
+4. Build/run local:
+   ```bash
+   docker build -t romix .
+   docker run --rm -p 8000:8000 \
+     -e ADMIN_USER=admin -e ADMIN_PASS=romix123 \
+     romix
+   # abre http://localhost:8000
+   ```

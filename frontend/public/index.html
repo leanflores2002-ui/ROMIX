@@ -338,7 +338,9 @@
       return st.reduce(function(a,s){ return a + (s.indexOf('unavail')>=0?0:s.indexOf('low')>=0?2:5); }, 0);
     }
         function quickAdd(product){
-      const pid = typeof window.productId === 'function' ? window.productId(product) : (product.id || slugify(product.name || ''));
+      const pid = (typeof window.productId === 'function')
+        ? window.productId(product)
+        : (product.id || slugify(product.name || ''));
       const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Unico';
       const primaryImage = product.image || (product.images && (product.images["Negro"] || Object.values(product.images)[0])) || "images/placeholder.jpg";
       let size = 'U';
@@ -471,10 +473,10 @@
           var label = st==='out'?'Agotado':(st==='low'?'Por agotarse':'Disponible');
           var sectionName = (p.section||''); sectionName = sectionName.charAt(0).toUpperCase()+sectionName.slice(1);
           var subtitle = sectionName + ' &middot; ' + (p.type||'');
+        var pid = (typeof window.productId === 'function' ? window.productId(p) : (p.id || slugify(p.name || '')));
         var badge = p.badge ? '<span class="product-badge">'+p.badge+'</span>' : '';
         var img = p.image || 'images/placeholder.jpg';
         var detailLink = detailHref(p);
-        var pidAttr = typeof window.productId === 'function' ? window.productId(p) : (p.id || '');
         return (
           '<div class="product-card" data-type="'+(p.type||'')+'">'+
             '<div class="product-image" onclick="location.href=\''+detailLink+'\'">'+
@@ -487,7 +489,7 @@
               '<div class="product-stock-note state-'+st+'">'+label+' &middot; Stock: '+total+'</div>'+
               '<div class="product-actions">'+
                 '<a href="'+detailLink+'" class="btn btn-details"><i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles</a>'+
-                '<button class="btn btn-primary" type="button" data-add-product="'+pidAttr+'"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Agregar</button>'+
+                '<button class="btn btn-primary" type="button" data-add-product="'+pid+'"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Agregar</button>'+
               '</div>'+
             '</div>'+
           '</div>'
@@ -498,8 +500,8 @@
         btn.addEventListener('click', function(){
           var pid = btn.getAttribute('data-add-product');
           var prod = (ALL_PRODUCTS||[]).find(function(p){
-            var currentPid = (typeof window.productId === 'function' ? window.productId(p) : (p.id || ''));
-            return String(currentPid||'') === String(pid||'');
+            var idValue = (typeof window.productId === 'function' ? window.productId(p) : (p.id || slugify(p.name || '')));
+            return String(idValue||'') === String(pid||'');
           });
           if (!prod) { showToast('No se encontró el producto', 'error'); return; }
           quickAdd(prod);

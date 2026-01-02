@@ -1,14 +1,14 @@
-# Estructura y guía rápida
+# Estructura y guÃ­a rÃ¡pida
 
-- `frontend/public/`: sitio estático (HTML, JS y assets). Los datos locales están en `frontend/public/assets/data/products.json`.
+- `frontend/public/`: sitio estÃ¡tico (HTML, JS y assets). Los datos locales estÃ¡n en `frontend/public/assets/data/products.json`.
 - `backend/`: FastAPI sirve el API y las vistas HTML renderizadas con Jinja (precarga productos en cliente).
-- `docs/`: documentación y notas.
+- `docs/`: documentaciÃ³n y notas.
 
 ## Ejecutar localmente
 
-Opción rápida (Windows): `./scripts/dev.ps1`
+OpciÃ³n rÃ¡pida (Windows): `./scripts/dev.ps1`
 
-Opción rápida (macOS/Linux): `bash ./scripts/dev.sh`
+OpciÃ³n rÃ¡pida (macOS/Linux): `bash ./scripts/dev.sh`
 
 Manual:
 1) Crear y activar venv  

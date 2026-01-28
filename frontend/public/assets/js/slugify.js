@@ -42,15 +42,11 @@
     }
     return copy;
   }
-
-  const WINTER_RE = /(frizado|frisado|polar|t[ée]rmic)/i;
   function shouldHideProduct(p){
     if (!p) return false;
-    const text = ['name','type','section','badge','description']
-      .map(k => (p && p[k] ? String(p[k]) : ''))
-      .join(' ')
-      .toLowerCase();
-    return WINTER_RE.test(text);
+    const raw = p.season === null || p.season === undefined ? '' : String(p.season);
+    const normalized = raw.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
+    return normalized === 'verano';
   }
 
   function sanitizeList(list){

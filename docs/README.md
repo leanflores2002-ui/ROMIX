@@ -1,4 +1,4 @@
-# Estructura y guía rápida
+# Estructura y guia rapida
 
 - `frontend/public/`: sitio estático (HTML, JS y assets). Los datos locales están en `frontend/public/assets/data/products.json`.
 - `backend/`: FastAPI sirve el API y las vistas HTML renderizadas con Jinja (precarga productos en cliente).

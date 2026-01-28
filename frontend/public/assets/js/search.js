@@ -8,14 +8,7 @@
   const globalFixUtf8 = typeof window.fixUtf8 === 'function' ? window.fixUtf8 : (s => s);
   const hideProduct = typeof window.romixShouldHideProduct === 'function'
     ? window.romixShouldHideProduct
-    : (p => {
-        if (!p) return false;
-        const text = ['name','type','section','badge','description']
-          .map(k => (p && p[k] ? String(p[k]) : ''))
-          .join(' ')
-          .toLowerCase();
-        return /(frizado|frisado|polar|t[ée]rmic)/i.test(text);
-      });
+    : (p => false);
   function sanitizeProducts(list){
     const seen = new Set();
     const out = [];

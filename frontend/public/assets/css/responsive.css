@@ -1,6 +1,8 @@
 :root {
   --page-gutter: clamp(16px, 4vw, 32px);
-  --card-gap-mobile: 12px;
+  --card-gap: clamp(20px, 2.8vw, 36px);
+  --card-gap-tablet: 20px;
+  --card-gap-mobile: 16px;
 }
 
 *,
@@ -17,6 +19,11 @@ video {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+.is-hidden,
+.filter-item.is-hidden {
+  display: none !important;
 }
 
 body {
@@ -90,14 +97,45 @@ footer {
   padding-bottom: 12px;
 }
 
-.trend-track,
+.promo-slider {
+  padding-bottom: 8px;
+}
+
+.trend-slider {
+  padding-bottom: 8px;
+}
+
+.trend-track {
+  gap: 16px;
+  padding-inline: clamp(16px, 4vw, 28px);
+}
+
 .promo-track {
   gap: 14px;
+  padding-inline: clamp(10px, 2.5vw, 18px);
+}
+
+.women-cats-grid {
+  scroll-snap-type: x proximity;
+}
+
+.trend-card {
+  flex: 0 0 190px;
+  border-radius: 14px;
+  padding: 8px;
+}
+
+.trend-card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .products-grid,
 .grid {
   width: 100%;
+  gap: var(--card-gap);
 }
 
 .product-card,
@@ -118,7 +156,7 @@ footer {
 @media (max-width: 1024px) {
   .trend-card,
   .promo-card {
-    flex: 0 0 min(42vw, 260px);
+    flex: 0 0 180px;
   }
 
   .catalog-toolbar {
@@ -228,15 +266,45 @@ footer {
     padding-right: clamp(16px, 6vw, 24px);
   }
 
+  .women-cats-grid {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(96px, 1fr);
+    grid-template-columns: none;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .women-category {
+    scroll-snap-align: start;
+  }
+
+  .women-category-avatar {
+    width: 84px;
+    height: 84px;
+  }
+
+  .women-category-name {
+    font-size: 0.86rem;
+  }
+
   .trend-card,
   .promo-card {
-    flex: 0 0 min(80vw, 280px);
-    min-height: 220px;
+    flex: 0 0 190px;
+    min-height: 205px;
+  }
+
+  .trend-wrap {
+    padding-left: clamp(12px, 6vw, 20px);
+    padding-right: clamp(12px, 6vw, 20px);
+  }
+
+  .trend-card {
+    min-height: 185px;
   }
 
   .products-grid {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
+    gap: var(--card-gap-tablet);
   }
 
   .product-actions {
@@ -300,7 +368,7 @@ footer {
 @media (max-width: 480px) {
   .trend-card,
   .promo-card {
-    flex: 0 0 min(90vw, 240px);
+    flex: 0 0 170px;
   }
 
   .products-grid {
@@ -344,6 +412,15 @@ footer {
 
   .global-search {
     gap: 6px;
+  }
+
+  .women-category-avatar {
+    width: 78px;
+    height: 78px;
+  }
+
+  .women-category-name {
+    font-size: 0.82rem;
   }
 
   .romix-toast {

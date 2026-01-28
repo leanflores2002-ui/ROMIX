@@ -44,78 +44,149 @@
     .btn-outline { border:1px solid var(--secondary); color: var(--secondary); background:#fff; }
     .eyebrow { color:#6c757d; font-size:.9rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
 
-    /* Carrusel tendencias */
-    .trend-wrap { margin:26px auto; padding:18px 22px 22px; background:radial-gradient(circle at 20% 20%, rgba(147,112,219,.12), transparent 35%), radial-gradient(circle at 80% 20%, rgba(255,192,203,.12), transparent 35%), linear-gradient(135deg, #f6f1ff, #f9f7ff); border-radius:18px; box-shadow:0 18px 40px rgba(99,72,163,.12); }
-    .trend-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
-    .trend-title { font-size:1.4rem; font-weight:800; color:#5a35a3; }
+    /* Destacados comerciales */
+    .trend-wrap { margin:14px auto; padding:12px 16px 16px; background:radial-gradient(circle at 20% 20%, rgba(147,112,219,.08), transparent 35%), radial-gradient(circle at 80% 20%, rgba(255,192,203,.08), transparent 35%), linear-gradient(135deg, #f9f6ff, #fbf9ff); border-radius:16px; box-shadow:0 14px 28px rgba(99,72,163,.1); }
+    .trend-header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px; }
+    .trend-title { font-size:1.25rem; font-weight:800; color:#4a2b8a; }
     .trend-slider { position:relative; overflow:hidden; }
-    .trend-track { display:flex; transition:transform .3s ease; gap:12px; }
-    .trend-card { flex:0 0 calc(25% - 9px); background:linear-gradient(145deg, #ffffff, #f3edff); border-radius:18px; padding:14px; box-shadow:0 14px 30px rgba(64,35,125,.14); position:relative; border:1px solid rgba(90,53,163,.1); min-height:260px; }
-    .trend-card img { width:100%; height:170px; object-fit:cover; border-radius:14px; box-shadow:0 8px 18px rgba(0,0,0,.08); background:#f7f2ff; }
-    .trend-tags { display:flex; gap:6px; flex-wrap:wrap; margin:8px 0 6px; }
-    .trend-tag { background:#f1e8ff; color:#5a35a3; padding:4px 8px; border-radius:10px; font-size:.78rem; font-weight:700; border:1px solid rgba(90,53,163,.15); }
-    .trend-name { font-weight:800; color:#2c2342; font-size:1rem; margin:4px 0; }
-    .trend-sub { color:#6c5c8f; font-size:.9rem; }
-    .trend-price { position:absolute; top:10px; right:10px; background:rgba(255,255,255,.92); color:#5a35a3; border:1px solid rgba(90,53,163,.18); border-radius:999px; padding:6px 10px; font-weight:800; font-size:.9rem; box-shadow:0 6px 16px rgba(90,53,163,.12); }
-    .trend-nav { position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; pointer-events:none; padding:0 6px; }
-    .trend-arrow { width:36px; height:36px; border-radius:50%; border:1px solid rgba(90,53,163,.25); background:rgba(255,255,255,.95); color:#5a35a3; box-shadow:0 10px 20px rgba(64,35,125,.16); display:flex; align-items:center; justify-content:center; cursor:pointer; pointer-events:auto; }
-    .trend-dots { display:flex; gap:8px; justify-content:center; margin-top:14px; }
+    .trend-track { display:flex; transition:transform .3s ease; gap:8px; }
+    .trend-card { flex:0 0 calc(25% - 6px); background:#fff; border-radius:14px; padding:8px; box-shadow:0 9px 18px rgba(64,35,125,.09); position:relative; border:1px solid rgba(90,53,163,.08); min-height:175px; }
+    .trend-card img { width:100%; height:125px; object-fit:cover; border-radius:10px; box-shadow:0 5px 12px rgba(0,0,0,.06); background:#f7f2ff; }
+    .trend-badge { position:absolute; top:8px; left:8px; background:#fff4d6; color:#8a5b00; padding:4px 8px; border-radius:999px; font-size:.72rem; font-weight:800; border:1px solid rgba(138,91,0,.2); box-shadow:0 4px 10px rgba(0,0,0,.09); }
+    .trend-badge.badge-nuevo { background:#e7f8ef; color:#0f7a3e; border-color:rgba(15,122,62,.2); }
+    .trend-badge.badge-por-agotarse { background:#fff2e5; color:#b85c00; border-color:rgba(184,92,0,.2); }
+    .trend-badge.badge-mas-vendido { background:#efe9ff; color:#5a35a3; border-color:rgba(90,53,163,.2); }
+    .trend-name { font-weight:800; color:#2c2342; font-size:.92rem; margin:6px 0 3px; }
+    .trend-price { font-weight:900; color:#5a35a3; font-size:.92rem; }
+    .trend-nav { position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; pointer-events:none; padding:0 4px; }
+    .trend-arrow { width:34px; height:34px; border-radius:50%; border:1px solid rgba(90,53,163,.25); background:rgba(255,255,255,.95); color:#5a35a3; box-shadow:0 9px 18px rgba(64,35,125,.14); display:flex; align-items:center; justify-content:center; cursor:pointer; pointer-events:auto; }
+    .trend-dots { display:flex; gap:6px; justify-content:center; margin-top:8px; }
     .trend-dot { width:10px; height:10px; border-radius:50%; background:#d8c9ff; }
     .trend-dot.active { background:#6f42c1; }
 
+    /* Categorias mujer */
+    .women-cats {
+      margin: 18px auto;
+      padding: 16px 18px 18px;
+      background: linear-gradient(135deg, #fff5fb, #f4f1ff);
+      border-radius: 18px;
+      box-shadow: 0 16px 32px rgba(111, 66, 193, 0.12);
+    }
+    .women-cats-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .women-cats-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #4a2b8a;
+    }
+    .women-cats-sub {
+      color: #6c757d;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .women-cats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+    .women-category {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 4px;
+      border-radius: 14px;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .women-category:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 10px 24px rgba(111, 66, 193, 0.15);
+    }
+    .women-category-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #fff;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .women-category-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .women-category-name {
+      font-weight: 800;
+      text-align: center;
+      color: #2c2342;
+      font-size: 0.92rem;
+      letter-spacing: 0.2px;
+    }
+
     /* Promos slider */
-    .promo-wrap { margin:28px auto; padding:18px 22px 22px; background:linear-gradient(135deg, #fef5f5, #f9ecff); border-radius:18px; box-shadow:0 18px 40px rgba(232,62,140,.12); }
+    .promo-wrap { margin:20px auto; padding:14px 18px 18px; background:linear-gradient(135deg, #fef5f5, #f9ecff); border-radius:18px; box-shadow:0 14px 32px rgba(232,62,140,.12); }
     .promo-slider { position:relative; overflow:hidden; }
     .promo-track { display:flex; gap:14px; transition:transform .3s ease; }
-    .promo-card { flex:0 0 calc(25% - 11px); background:#fff; border-radius:18px; padding:14px; box-shadow:0 14px 32px rgba(0,0,0,.1); border:1px solid #f2d5e5; position:relative; min-height:240px; }
-    .promo-card img { width:100%; height:150px; object-fit:cover; border-radius:12px; background:#fff7fa; }
+    .promo-card { flex:0 0 calc(25% - 11px); background:#fff; border-radius:18px; padding:12px; box-shadow:0 12px 28px rgba(0,0,0,.1); border:1px solid #f2d5e5; position:relative; min-height:210px; }
+    .promo-card img { width:100%; height:130px; object-fit:cover; border-radius:12px; background:#fff7fa; }
     .promo-badge { position:absolute; top:10px; left:10px; background:#ffe5ec; color:#c2185b; border-radius:999px; padding:6px 10px; font-weight:800; font-size:.82rem; border:1px solid #f2a7c5; }
     .promo-price { position:absolute; top:10px; right:10px; background:#fff; color:#c2185b; border:1px solid #f2d5e5; border-radius:12px; padding:6px 10px; font-weight:900; }
     .promo-price small { color:#6c757d; text-decoration:line-through; margin-left:6px; font-weight:600; }
     .promo-name { font-weight:900; color:#1f1f1f; margin:8px 0 4px; }
     .promo-sub { color:#6c757d; font-size:.95rem; }
     .promo-foot { margin-top:10px; display:flex; justify-content:space-between; align-items:center; color:#2f9e44; font-weight:800; font-size:.9rem; }
-    .promo-dots { display:flex; gap:8px; justify-content:center; margin-top:14px; }
+    .promo-dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
     .promo-dot { width:10px; height:10px; border-radius:50%; background:#f6cde0; }
     .promo-dot.active { background:#c2185b; }
 
-    .products-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:20px; }
-    .product-card { background:#fff; border-radius:16px; box-shadow:0 16px 40px rgba(0,0,0,.12); overflow:hidden; display:flex; flex-direction:column; }
+    .products-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:14px; }
+    .product-card { background:#fff; border-radius:14px; box-shadow:0 10px 24px rgba(0,0,0,.12); overflow:hidden; display:flex; flex-direction:column; }
     .product-image {
       position:relative;
       width:100%;
-      aspect-ratio:2 / 3;
+      aspect-ratio:4 / 5;
       min-height:240px;
-      max-height:320px;
+      max-height:360px;
       background:#f7f7f9;
-      border-radius:16px 16px 0 0;
+      border-radius:14px 14px 0 0;
       overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:14px;
+      display:block;
+      padding:0;
     }
     .product-image img {
       width:100%;
       height:100%;
-      object-fit:contain;
+      object-fit:cover;
       object-position:center;
       display:block;
-      background:#fff;
-      border-radius:12px;
-      box-shadow:0 6px 14px rgba(0,0,0,.08);
+      background:transparent;
+      border-radius:0;
+      box-shadow:none;
     }
     .product-badge { position:absolute; top:10px; right:10px; background:#f1f3f5; color:#6c757d; border-radius:999px; padding:6px 10px; font-size:.8rem; font-weight:800; box-shadow:0 6px 16px rgba(0,0,0,.12); }
-    .product-info { padding:12px 14px; display:flex; flex-direction:column; gap:8px; }
-    .product-title { font-size:1.05rem; font-weight:900; color:#111; cursor:pointer; }
-    .product-subtitle { color:#6c757d; font-size:.95rem; }
-    .product-price { color: var(--primary); font-weight:900; font-size:1.2rem; }
-    .product-stock-note { text-align:right; font-weight:800; font-size:.9rem; }
+    .product-info { padding:10px 12px; display:flex; flex-direction:column; gap:6px; }
+    .product-title { font-size:1rem; font-weight:900; color:#111; cursor:pointer; }
+    .product-subtitle { color:#6c757d; font-size:.88rem; }
+    .product-price { color: var(--primary); font-weight:900; font-size:1.05rem; }
+    .product-stock-note { text-align:right; font-weight:800; font-size:.82rem; }
     .product-stock-note.state-available { color: var(--success); }
     .product-stock-note.state-low { color: #ff9800; }
     .product-stock-note.state-out { color: var(--danger); }
-    .product-actions { display:flex; gap:10px; }
-    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 12px; border-radius:10px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; }
+    .product-actions { display:flex; gap:8px; }
+    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 10px; border-radius:9px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; font-size:.88rem; }
     .btn-details { background:#fff; color:#495057; }
     .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
 
@@ -188,8 +259,7 @@
   <section class="container trend-wrap" id="trends">
     <div class="trend-header">
       <div>
-        <div class="eyebrow">Tendencias</div>
-        <div class="trend-title">Top Trends · Moda femenina</div>
+        <div class="eyebrow">Destacados</div>
       </div>
       <div class="trend-nav">
         <button class="trend-arrow" id="trend-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -200,6 +270,70 @@
       <div class="trend-track" id="trend-track"></div>
     </div>
     <div class="trend-dots" id="trend-dots"></div>
+  </section>
+
+  <section class="container women-cats" id="categorias-mujer">
+    <div class="women-cats-head">
+      <div>
+        <div class="eyebrow">Ropa de Dama</div>
+        <div class="women-cats-title">Categorías </div>
+      </div>
+      <div class="women-cats-sub">Elegí tu tipo y filtrá el catálogo</div>
+    </div>
+    <div class="women-cats-grid" role="list">
+      <a class="women-category" role="listitem" data-section="mujer" data-type="calzas" href="index.html?section=mujer&type=calzas#catalogo">
+        <span class="women-category-avatar"><img src="images/Calza_lycra_frunce_negro.png" alt="Calzas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Calzas</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="bermudas" href="index.html?section=mujer&type=bermudas#catalogo">
+        <span class="women-category-avatar"><img src="images/bermuda_fibrana_liso_negro.png" alt="Bermudas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Bermudas</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="remeras" href="index.html?section=mujer&type=remeras#catalogo">
+        <span class="women-category-avatar"><img src="images/remera_lycra_dry_dama_negro.png" alt="Remeras" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Remeras</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="tops" href="index.html?section=mujer&type=tops#catalogo">
+        <span class="women-category-avatar"><img src="images/top_lycra_liso_negro.png" alt="Tops" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Tops</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="buzos" href="index.html?section=mujer&type=buzos#catalogo">
+        <span class="women-category-avatar"><img src="images/buzo_rustico_lycra_hombre_negro.png" alt="Buzos" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Buzos</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="camperas" href="index.html?section=mujer&type=camperas#catalogo">
+        <span class="women-category-avatar"><img src="images/campera_lycra_negro.png" alt="Camperas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Camperas</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="capri" href="index.html?section=mujer&type=capri#catalogo">
+        <span class="women-category-avatar"><img src="images/capri_lycra_negro.png" alt="Capri" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Capri</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="ciclistas" href="index.html?section=mujer&type=ciclistas#catalogo">
+        <span class="women-category-avatar"><img src="images/ciclista_lycra_morley_negro.png" alt="Ciclistas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Ciclistas</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="palazzos" href="index.html?section=mujer&type=palazzos#catalogo">
+        <span class="women-category-avatar"><img src="images/pantalon_recto_cey_negro.png" alt="Palazzos" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Palazzos</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="polleras" href="index.html?section=mujer&type=polleras#catalogo">
+        <span class="women-category-avatar"><img src="images/pollera_short_morley_lycra_con_bolsillo_negro.png" alt="Polleras" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Polleras</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="pantalones" href="index.html?section=mujer&type=pantalones#catalogo">
+        <span class="women-category-avatar"><img src="images/pantalon_jogger_rustico_negro.png" alt="Pantalones" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Pantalones</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="shorts" href="index.html?section=mujer&type=shorts#catalogo">
+        <span class="women-category-avatar"><img src="images/short_algodon_lycra_tiro_alto_negro.png" alt="Shorts" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Shorts</span>
+      </a>
+      <a class="women-category" role="listitem" data-section="mujer" data-type="musculosas" href="index.html?section=mujer&type=musculosas#catalogo">
+        <span class="women-category-avatar"><img src="images/musculosa_con_tira_modal_negro.png" alt="Musculosas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
+        <span class="women-category-name">Musculosas</span>
+      </a>
+    </div>
   </section>
 
   <section class="container promo-wrap" id="promos">
@@ -224,11 +358,12 @@
     <div class="catalog-toolbar">
       <input id="cat-q" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" />
       <label style="display:inline-flex; align-items:center; gap:6px; color:#6c757d;">Ordenar:
-        <select id="cat-order">
-          <option value="relevancia">Relevancia</option>
-          <option value="precio-asc">Precio: menor a mayor</option>
-          <option value="precio-desc">Precio: mayor a menor</option>
-        </select>
+          <select id="cat-order">
+            <option value="relevancia">Relevancia</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+            <option value="verano" hidden>Verano</option>
+          </select>
       </label>
       <span id="cat-count" class="count">Mostrando 0 de 0 productos</span>
     </div>
@@ -274,6 +409,7 @@
   </script>
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
+  <script src="assets/js/verano-order.js"></script>
   <script>
     let romixToastTimer;
 
@@ -313,11 +449,7 @@
     }
     const shouldHideProduct = typeof window.romixShouldHideProduct === 'function'
       ? window.romixShouldHideProduct
-      : function(p){
-          if (!p) return false;
-          var text = ['name','type','section','badge','description'].map(function(k){ return p && p[k] ? String(p[k]) : ''; }).join(' ').toLowerCase();
-          return /(frizado|frisado|polar|t[ée]rmic)/i.test(text);
-        };
+      : function(p){ return false; };
     function sanitizeList(list){
       return (Array.isArray(list) ? list.map(sanitizeProduct) : []).filter(function(item){ return !shouldHideProduct(item); });
     }
@@ -453,22 +585,92 @@
       return buy ? base + '&buy=1' : base;
     }
 
+    var catalogFilters = { section: '', type: '', typeRaw: '' };
+    function normalizeCatalogValue(v){
+      return String(v || '').trim().toLowerCase();
+    }
+    function normalizeCatalogType(v){
+      var t = normalizeCatalogValue(v);
+      if (t === 'palazzos' || t === 'palazzo') return 'palazos';
+      return t;
+    }
+    function setCatalogFilters(next){
+      catalogFilters.section = normalizeCatalogValue(next && next.section);
+      catalogFilters.typeRaw = normalizeCatalogValue(next && next.type);
+      catalogFilters.type = normalizeCatalogType(catalogFilters.typeRaw);
+    }
+    function getFiltersFromUrl(){
+      var params = new URLSearchParams(location.search);
+      return {
+        section: params.get('section') || '',
+        type: params.get('type') || ''
+      };
+    }
+    function updateCatalogUrl(hash){
+      var params = new URLSearchParams(location.search);
+      if (catalogFilters.section) params.set('section', catalogFilters.section); else params.delete('section');
+      if (catalogFilters.typeRaw) params.set('type', catalogFilters.typeRaw); else params.delete('type');
+      var search = params.toString();
+      var nextHash = hash ? '#' + hash : location.hash;
+      var newUrl = location.pathname + (search ? '?' + search : '') + nextHash;
+      history.pushState(null, '', newUrl);
+    }
+    function applyCatalogFilters(next, hash){
+      setCatalogFilters(next || {});
+      updateCatalogUrl(hash);
+      renderAll(ALL_PRODUCTS);
+      if (hash) scrollToSection(hash);
+    }
+    function filterCatalogList(products){
+      var base = (products || []);
+      var filtered = base;
+      if (catalogFilters.section) {
+        filtered = filtered.filter(function(p){
+          return normalizeCatalogValue(p && p.section) === catalogFilters.section;
+        });
+      }
+      if (catalogFilters.type) {
+        filtered = filtered.filter(function(p){
+          return normalizeCatalogType(p && p.type) === catalogFilters.type;
+        });
+      }
+      return { base: base, filtered: filtered };
+    }
+    function updateWomenCategoriesVisibility(){
+      var items = document.querySelectorAll('.women-category');
+      if (!items.length) return;
+      var list = (ALL_PRODUCTS || []);
+      items.forEach(function(link){
+        var section = normalizeCatalogValue(link.getAttribute('data-section'));
+        var type = normalizeCatalogType(link.getAttribute('data-type'));
+        var hasMatch = list.some(function(p){
+          return normalizeCatalogValue(p && p.section) === section &&
+            normalizeCatalogType(p && p.type) === type;
+        });
+        link.style.display = hasMatch ? '' : 'none';
+      });
+    }
     function renderAll(products){
       var grid = document.getElementById('catalog-grid');
       var empty = document.getElementById('catalog-empty');
       var q = (document.getElementById('cat-q').value||'').trim();
       var order = document.getElementById('cat-order').value;
-      var list = !q ? (products||[]) : (window.romixSearch && typeof window.romixSearch.searchInList === 'function'
-        ? window.romixSearch.searchInList(products||[], q, {})
-        : (products||[]).filter(function(p){
+      var filteredState = filterCatalogList(products || []);
+      var base = filteredState.filtered;
+      var list = !q ? base : (window.romixSearch && typeof window.romixSearch.searchInList === 'function'
+        ? window.romixSearch.searchInList(base, q, {})
+        : base.filter(function(p){
             var qn = q.toLowerCase();
             return !q || String(p.name||'').toLowerCase().indexOf(qn)>=0 || String(p.type||'').toLowerCase().indexOf(qn)>=0 || String(p.section||'').toLowerCase().indexOf(qn)>=0;
           })
       );
-      if (order==='precio-asc') list.sort(function(a,b){ return Number(a.price||0)-Number(b.price||0); });
-      else if (order==='precio-desc') list.sort(function(a,b){ return Number(b.price||0)-Number(a.price||0); });
-      var count = document.getElementById('cat-count'); count.textContent = 'Mostrando ' + list.length + ' de ' + (products||[]).length + ' productos';
-        grid.innerHTML = list.map(function(p){
+      var sorted = list.slice();
+      if (order==='precio-asc') sorted.sort(function(a,b){ return Number(a.price||0)-Number(b.price||0); });
+      else if (order==='precio-desc') sorted.sort(function(a,b){ return Number(b.price||0)-Number(a.price||0); });
+      else if (order==='verano' && typeof applyVeranoOrder === 'function') sorted = applyVeranoOrder(list);
+      var count = document.getElementById('cat-count');
+      count.textContent = 'Mostrando ' + list.length + ' de ' + base.length + ' productos';
+        grid.innerHTML = sorted.map(function(p){
           var total = computeTotalStock(p); var st = stateFromStock(total);
           var label = st==='out'?'Agotado':(st==='low'?'Por agotarse':'Disponible');
           var sectionName = (p.section||''); sectionName = sectionName.charAt(0).toUpperCase()+sectionName.slice(1);
@@ -495,8 +697,8 @@
           '</div>'
         );
       }).join('');
-      var addButtons = grid.querySelectorAll('[data-add-product]');
-      addButtons.forEach(function(btn){
+        var addButtons = grid.querySelectorAll('[data-add-product]');
+        addButtons.forEach(function(btn){
         btn.addEventListener('click', function(){
           var pid = btn.getAttribute('data-add-product');
           var prod = (ALL_PRODUCTS||[]).find(function(p){
@@ -507,7 +709,7 @@
           quickAdd(prod);
         });
       });
-      empty.style.display = list.length? 'none':'block';
+      empty.style.display = sorted.length? 'none':'block';
     }
 
     function preloadedProducts(){
@@ -555,21 +757,22 @@
       var track = document.getElementById('trend-track');
       var dots = document.getElementById('trend-dots');
       if (!track || !dots) return;
-      var filtered = (list||[]).filter(function(p){ return String(p.section||'').toLowerCase()==='mujer' || String(p.type||'').toLowerCase().includes('legg') || String(p.type||'').toLowerCase().includes('top'); });
-      var trends = (filtered.length ? filtered : list || []).slice(0,12);
-      var badges = ['Oferta','Novedad','Top Trends','Edición limitada'];
-      track.innerHTML = trends.map(function(p,idx){
-        var badge = p.badge || badges[idx % badges.length];
+      var allowedBadges = ['Nuevo','Por agotarse','Más vendido'];
+      var featured = (list||[]).filter(function(p){ return p && p.featured === true; });
+      var trends = featured.slice(0,12);
+      track.innerHTML = trends.map(function(p){
+        var badgeValue = String(p.featuredBadge || '').trim();
+        var badge = allowedBadges.indexOf(badgeValue) >= 0 ? badgeValue : '';
+        var badgeClass = badge ? (' badge-' + badge.toLowerCase().replace(/á/g, 'a').replace(/\s+/g, '-')) : '';
         var img = p.image || 'images/placeholder.jpg';
-        var price = 'AR$ ' + Number(p.price||0).toLocaleString('es-AR');
+        var price = money(p.price);
         var detailLink = detailHref(p);
         return (
           '<article class="trend-card">'+
-            '<div class="trend-price">'+price+'</div>'+
             '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\''+detailLink+'\'">'+
-            '<div class="trend-tags"><span class="trend-tag">'+badge+'</span></div>'+
+            (badge ? '<div class="trend-badge'+badgeClass+'">'+badge+'</div>' : '')+
             '<div class="trend-name">'+(p.name||'')+'</div>'+
-            '<div class="trend-sub">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
+            '<div class="trend-price">'+price+'</div>'+
           '</article>'
         );
       }).join('');
@@ -589,18 +792,48 @@
       if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
     }
     function loadAll(){
-      if (ALL_PRODUCTS && ALL_PRODUCTS.length) { renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); return; }
+      if (ALL_PRODUCTS && ALL_PRODUCTS.length) {
+        renderPromos(ALL_PRODUCTS);
+        renderTrends(ALL_PRODUCTS);
+        renderAll(ALL_PRODUCTS);
+        updateWomenCategoriesVisibility();
+        return;
+      }
       var tryApi = function(){ return fetch('/api/products', {cache:'no-store'}).then(function(r){ return r.ok?r.json():Promise.reject(); }); };
       var tryFile = function(){ return fetch(new URL('assets/data/products.json', location.href)).then(function(r){ return r.json(); }); };
-      tryApi().catch(tryFile).then(function(list){ ALL_PRODUCTS = sanitizeList(list||[]); renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); }).catch(function(){ ALL_PRODUCTS = []; renderPromos(ALL_PRODUCTS); renderTrends(ALL_PRODUCTS); renderAll(ALL_PRODUCTS); });
+      tryApi().catch(tryFile).then(function(list){
+        ALL_PRODUCTS = sanitizeList(list||[]);
+        renderPromos(ALL_PRODUCTS);
+        renderTrends(ALL_PRODUCTS);
+        renderAll(ALL_PRODUCTS);
+        updateWomenCategoriesVisibility();
+      }).catch(function(){
+        ALL_PRODUCTS = [];
+        renderPromos(ALL_PRODUCTS);
+        renderTrends(ALL_PRODUCTS);
+        renderAll(ALL_PRODUCTS);
+        updateWomenCategoriesVisibility();
+      });
     }
 
     document.addEventListener('DOMContentLoaded', function(){
       fixDomText();
       updateCartBadge();
       var urlQ = new URLSearchParams(location.search).get('q')||''; if (urlQ) document.getElementById('cat-q').value = urlQ;
+      setCatalogFilters(getFiltersFromUrl());
       document.getElementById('cat-q').addEventListener('input', function(){ renderAll(ALL_PRODUCTS); });
       document.getElementById('cat-order').addEventListener('change', function(){ renderAll(ALL_PRODUCTS); });
+      document.querySelectorAll('.women-category').forEach(function(link){
+        link.addEventListener('click', function(ev){
+          var section = link.getAttribute('data-section') || 'mujer';
+          var type = link.getAttribute('data-type') || '';
+          var href = link.getAttribute('href') || '';
+          if (href.indexOf('#catalogo') >= 0) {
+            ev.preventDefault();
+            applyCatalogFilters({ section: section, type: type }, 'catalogo');
+          }
+        });
+      });
       loadAll();
       // Eliminado manejo de data-target para permitir navegación directa a otras páginas
     });

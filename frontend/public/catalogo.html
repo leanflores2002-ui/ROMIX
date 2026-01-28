@@ -128,11 +128,7 @@
       const DATA_URL = 'assets/data/products.json';
       const shouldHideProduct = typeof window.romixShouldHideProduct === 'function'
         ? window.romixShouldHideProduct
-        : function(p){
-            if (!p) return false;
-            const text = ['name','type','section','badge','description'].map(k => (p && p[k] ? String(p[k]) : '')).join(' ').toLowerCase();
-            return /(frizado|frisado|polar|t[ée]rmic)/i.test(text);
-          };
+        : function(p){ return false; };
       const filterVisibleProducts = list => (Array.isArray(list) ? list : []).filter(item => !shouldHideProduct(item));
 
       function normalizeSlug(value){

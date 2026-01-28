@@ -347,6 +347,10 @@
             <legend>Categoria</legend>
             <div class="filters-options" id="filter-types"></div>
           </fieldset>
+          <fieldset class="filters-group" data-filter-block="seasons">
+            <legend>Temporada</legend>
+            <div class="filters-options" id="filter-seasons"></div>
+          </fieldset>
           <fieldset class="filters-group" data-filter-block="sizes">
             <legend>Talle</legend>
             <div class="filters-options" id="filter-sizes"></div>
@@ -369,6 +373,7 @@
             <option value="relevance">Relevancia</option>
             <option value="price-asc">Precio: menor a mayor</option>
             <option value="price-desc">Precio: mayor a menor</option>
+            <option value="verano" hidden>Verano</option>
           </select>
           <div id="summary" class="summary" aria-live="polite"></div>
         </div>
@@ -414,6 +419,8 @@
 
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
+  <script src="assets/js/verano-order.js"></script>
+  <script src="assets/js/season-filter.js"></script>
 
   <script>
     let romixToastTimer;
@@ -555,16 +562,18 @@
 
     const shouldHideProduct = typeof window.romixShouldHideProduct === 'function'
       ? window.romixShouldHideProduct
-      : function(p){
-          if (!p) return false;
-          const text = ['name','type','section','badge','description'].map(k => (p && p[k] ? String(p[k]) : '')).join(' ').toLowerCase();
-          return /(frizado|frisado|polar|t[ée]rmic)/i.test(text);
-        };
+      : function(p){ return false; };
 
     const filterVisibleProducts = list => (Array.isArray(list) ? list : []).filter(p => !shouldHideProduct(p));
-    const filterState = { sizes:new Set(), colors:new Set(), types:new Set() };
+    const filterState = { sizes:new Set(), colors:new Set(), types:new Set(), seasons:new Set() };
     const priceGroupLabels = { common:'Precio base', special:'Precio especial', special2:'Precio special 2' };
-    const FILTER_CONTAINER = { types:'filter-types', sizes:'filter-sizes', colors:'filter-colors' };
+    const seasonFilter = (window.romixSeasonFilter && typeof window.romixSeasonFilter.seasonKeyForProduct === 'function')
+      ? window.romixSeasonFilter
+      : {
+          seasonKeyForProduct: () => 'media-estacion',
+          seasonLabelFromKey: key => (key === 'verano' ? 'Verano' : 'Media estacion')
+        };
+    const FILTER_CONTAINER = { types:'filter-types', sizes:'filter-sizes', colors:'filter-colors', seasons:'filter-seasons' };
 
     const sharedSlugify = (function(){
       if (typeof window.romixSlugify === 'function') return window.romixSlugify;
@@ -721,14 +730,17 @@
         block.style.display = 'none';
         return;
       }
-      block.style.display = '';
+      let visibleCount = 0;
 
       values.forEach(val => {
         const valueKey = String(val || '').toLowerCase();
+        const isHidden = group === 'seasons' && valueKey === 'verano';
 
         let labelText;
         if (group === 'priceGroups') {
           labelText = priceGroupLabels[valueKey] || ('Grupo ' + val);
+        } else if (group === 'seasons') {
+          labelText = seasonFilter.seasonLabelFromKey(valueKey);
         } else if (group === 'colors') {
           labelText = colorLabelFromKey(valueKey);
         } else {
@@ -759,8 +771,14 @@
         }
 
         label.appendChild(span);
+        if (isHidden) {
+          label.classList.add('is-hidden');
+        } else {
+          visibleCount += 1;
+        }
         container.appendChild(label);
       });
+      block.style.display = visibleCount ? '' : 'none';
     }
 
     function collectFilterOptions(list){
@@ -768,6 +786,7 @@
       const sizes = new Set();
       const colors = new Set();
       const priceGroups = new Set();
+      const seasons = new Set();
       list.forEach(p => {
         if (p.type) types.add(String(p.type).trim());
         (p.sizes || []).forEach(s => { if (s && s.size) sizes.add(String(s.size).trim()); });
@@ -783,7 +802,9 @@
         if (p.priceByGroup && typeof p.priceByGroup === 'object'){
           Object.keys(p.priceByGroup).forEach(k => priceGroups.add(String(k).trim()));
         }
+        seasons.add(seasonFilter.seasonKeyForProduct(p));
       });
+      const seasonOrder = ['verano', 'media-estacion', 'invierno'];
       return {
         types: Array.from(types).sort((a,b)=>a.localeCompare(b)),
         sizes: Array.from(sizes).sort((a,b)=>a.localeCompare(b, undefined, {numeric:true,sensitivity:'base'})),
@@ -792,7 +813,8 @@
           const lb = colorLabelFromKey(b);
           return la.localeCompare(lb, 'es', {sensitivity:'base'});
         }),
-        priceGroups: Array.from(priceGroups).sort((a,b)=>a.localeCompare(b))
+        priceGroups: Array.from(priceGroups).sort((a,b)=>a.localeCompare(b)),
+        seasons: seasonOrder.filter(key => seasons.has(key))
       };
     }
 
@@ -859,6 +881,7 @@
 
       view = base.filter(p => {
         if (filterState.types.size && !filterState.types.has(String(p.type||'').toLowerCase())) return false;
+        if (filterState.seasons.size && !filterState.seasons.has(seasonFilter.seasonKeyForProduct(p))) return false;
         if (filterState.sizes.size){
           const sizes = (p.sizes||[]).map(s=>String(s.size||'').toLowerCase());
           if (!sizes.some(s => filterState.sizes.has(s))) return false;
@@ -872,6 +895,7 @@
 
       if (sort === 'price-asc') view.sort((a,b)=> (Number(a.price||0) - Number(b.price||0)));
       else if (sort === 'price-desc') view.sort((a,b)=> (Number(b.price||0) - Number(a.price||0)));
+      else if (sort === 'verano' && typeof applyVeranoOrder === 'function') view = applyVeranoOrder(view);
 
       applyView();
       updateActiveFiltersUI();
@@ -1027,6 +1051,7 @@
         view = master.slice();
         const filterOptions = collectFilterOptions(master);
         renderFilterGroup('types', filterOptions.types);
+        renderFilterGroup('seasons', filterOptions.seasons);
         renderFilterGroup('sizes', filterOptions.sizes);
         renderFilterGroup('colors', filterOptions.colors);
         applyView();

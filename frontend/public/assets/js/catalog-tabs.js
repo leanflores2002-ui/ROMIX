@@ -20,14 +20,7 @@
   }
   const hideProduct = typeof window.romixShouldHideProduct === 'function'
     ? window.romixShouldHideProduct
-    : (p => {
-        if (!p) return false;
-        const text = ['name','type','section','badge','description']
-          .map(k => (p && p[k] ? String(p[k]) : ''))
-          .join(' ')
-          .toLowerCase();
-        return /(frizado|frisado|polar|t[ée]rmic)/i.test(text);
-      });
+    : (p => false);
   function filterVisibleProducts(list){
     return (Array.isArray(list) ? list : []).filter(p => !hideProduct(p));
   }

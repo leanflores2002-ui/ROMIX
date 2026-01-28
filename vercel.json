@@ -1,8 +1,0 @@
-{
-  "version": 2,
-  "name": "romix",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/frontend/public/$1" }
-  ]
-}

@@ -9428,9 +9428,6 @@
                        "Gris":  "images/calza_lycra_morley_gris.png"
                    },
         "price":  10500,
-        "priceByGroup":  {
-                             "common":  10500
-                         },
         "colors":  [
                        {
                            "name":  "Negro",

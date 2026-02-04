@@ -531,15 +531,25 @@
       carousel.dotClass = options.dotClass || 'trend-dot';
       carousel.prevEl = options.prevEl || null;
       carousel.nextEl = options.nextEl || null;
+      carousel.enableSwipe = !!options.enableSwipe;
+      carousel.swipeEl = options.swipeEl || null;
       carousel.current = 0;
 
       const update = function(){
         const perPage = getCarouselPerPage();
-        const pages = Math.max(1, Math.ceil((carousel.totalItems || 0) / perPage));
+        const firstItem = carousel.track.children[0];
+        const trackStyles = window.getComputedStyle(carousel.track);
+        const gap = parseFloat(trackStyles.columnGap || trackStyles.gap || '0') || 0;
+        const itemWidth = firstItem ? firstItem.getBoundingClientRect().width : 0;
+        const viewport = carousel.track.parentElement;
+        const viewportWidth = viewport ? viewport.clientWidth : 0;
+        const pageStep = Math.max(1, (itemWidth + gap) * perPage);
+        const maxOffset = Math.max(0, carousel.track.scrollWidth - viewportWidth);
+        const pages = Math.max(1, Math.floor(maxOffset / pageStep) + 1);
         if (carousel.current >= pages) carousel.current = pages - 1;
         if (carousel.current < 0) carousel.current = 0;
-        const offset = -(carousel.current * (100 / perPage));
-        carousel.track.style.transform = 'translateX(' + offset + '%)';
+        const offset = Math.min(maxOffset, carousel.current * pageStep);
+        carousel.track.style.transform = 'translateX(-' + offset + 'px)';
         carousel.dots.innerHTML = new Array(pages).fill('').map(function(_, idx){
           return '<div class="' + carousel.dotClass + (idx===carousel.current?' active':'') + '"></div>';
         }).join('');
@@ -559,6 +569,42 @@
 
       if (carousel.prevEl) carousel.prevEl.onclick = prevClick;
       if (carousel.nextEl) carousel.nextEl.onclick = nextClick;
+
+      if (typeof carousel.unbindSwipe === 'function') {
+        carousel.unbindSwipe();
+        carousel.unbindSwipe = null;
+      }
+      if (carousel.enableSwipe && carousel.swipeEl) {
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touching = false;
+        const minSwipe = 35;
+        const onTouchStart = function(evt){
+          if (window.innerWidth > 768) return;
+          if (!evt.touches || evt.touches.length !== 1) return;
+          touching = true;
+          touchStartX = evt.touches[0].clientX;
+          touchStartY = evt.touches[0].clientY;
+        };
+        const onTouchEnd = function(evt){
+          if (!touching || window.innerWidth > 768) return;
+          touching = false;
+          if (!evt.changedTouches || !evt.changedTouches.length) return;
+          const dx = evt.changedTouches[0].clientX - touchStartX;
+          const dy = evt.changedTouches[0].clientY - touchStartY;
+          if (Math.abs(dx) < minSwipe || Math.abs(dx) < Math.abs(dy)) return;
+          if (dx < 0) nextClick(); else prevClick();
+        };
+        const onTouchCancel = function(){ touching = false; };
+        carousel.swipeEl.addEventListener('touchstart', onTouchStart, { passive: true });
+        carousel.swipeEl.addEventListener('touchend', onTouchEnd, { passive: true });
+        carousel.swipeEl.addEventListener('touchcancel', onTouchCancel, { passive: true });
+        carousel.unbindSwipe = function(){
+          carousel.swipeEl.removeEventListener('touchstart', onTouchStart);
+          carousel.swipeEl.removeEventListener('touchend', onTouchEnd);
+          carousel.swipeEl.removeEventListener('touchcancel', onTouchCancel);
+        };
+      }
 
       carousel.update = function(){
         carousel.totalItems = carousel.track.children.length;
@@ -792,7 +838,9 @@
         prevEl: document.getElementById('trend-prev'),
         nextEl: document.getElementById('trend-next'),
         totalItems: trends.length,
-        dotClass: 'trend-dot'
+        dotClass: 'trend-dot',
+        enableSwipe: true,
+        swipeEl: track.parentElement
       });
     }
     var ALL_PRODUCTS = preloadedProducts() || [];

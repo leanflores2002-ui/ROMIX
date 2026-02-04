@@ -259,6 +259,10 @@ footer {
     align-items: flex-start;
   }
 
+  #trends .trend-nav {
+    display: none;
+  }
+
   .trend-wrap,
   .promo-wrap,
   .container {

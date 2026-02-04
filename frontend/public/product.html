@@ -776,6 +776,7 @@
       <a href="mujer.html">Mujer</a>
       <a href="hombre.html">Hombre</a>
       <a href="ninos.html">Niños</a>
+      <a href="novedades.html">Novedades</a>
       <a href="ayuda.html">Ayuda</a>
     </nav>
   </header>
@@ -803,7 +804,7 @@
           <li><a href="mujer.html">Ropa para Mujer</a></li>
           <li><a href="hombre.html">Ropa para Hombre</a></li>
           <li><a href="ninos.html">Ropa para Niños</a></li>
-          <li><a href="index.html#novedades">Novedades</a></li>
+          <li><a href="novedades.html">Novedades</a></li>
           <li><a href="index.html#ofertas">Ofertas</a></li>
         </ul>
       </div>
@@ -829,6 +830,7 @@
   <script src="assets/js/color-utils.js"></script>
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
+  <script src="assets/js/products-store.js"></script>
   <script>
     let romixToastTimer;
 
@@ -1169,7 +1171,13 @@
       async function loadProducts(){
         const cached = parsePreloadedList();
         if (cached && cached.length) return cached;
-        const response = await fetch(new URL(DATA_URL, location.href), { cache: 'no-store' });
+        if (window.romixProductsStore && typeof window.romixProductsStore.load === 'function') {
+          return window.romixProductsStore.load({
+            preloadedScriptId: 'preloaded-products',
+            dataUrl: DATA_URL
+          });
+        }
+        const response = await fetch(new URL(DATA_URL, location.href));
         if (!response.ok) throw new Error('HTTP ' + response.status);
         const json = await response.json();
         return sanitizeList(Array.isArray(json) ? json : []);
@@ -1707,7 +1715,6 @@
         const selectedColorNameEl = detail.querySelector('#selectedColorName');
         const sizeWrapper = detail.querySelector('#size-options');
         const stockNote = detail.querySelector('#stock-note');
-        if (stockNote) stockNote.style.display = 'none';
         const quantityInput = detail.querySelector('#quantity-input');
         const minusBtn = detail.querySelector('#quantity-minus');
         const plusBtn = detail.querySelector('#quantity-plus');
@@ -1832,7 +1839,10 @@
           }
           currentSelectedSize = activeSize || currentSelectedSize || '';
           const label = getStockLabel(total);
-          const text = `Stock total: ${total} (${label})`;
+          if (stockNote) {
+            stockNote.textContent = label;
+            stockNote.style.display = 'block';
+          }
           const fallbackMax = Number(currentProduct && currentProduct.stock) || 0;
           const nextMax = fallbackMax > 0 ? fallbackMax : (total > 0 ? total : STOCK_MAX);
           STOCK_MAX = nextMax > 0 ? nextMax : 10;
@@ -1890,15 +1900,10 @@
 
           const infoEl = document.getElementById('color-stock-info');
           if (infoEl) {
-            const totalColor = getColorTotalStock(product, colorName);
-            infoEl.textContent = 'Stock para este color: ' + totalColor + ' unidades';
+            infoEl.textContent = '';
+            infoEl.style.display = 'none';
           }
 
-          const noteEl = document.getElementById('stock-note');
-          if (noteEl) {
-            noteEl.textContent = '';
-            noteEl.style.display = 'none';
-          }
           const detailEl = document.getElementById('stock-detail');
           if (detailEl) {
             detailEl.textContent = '';

@@ -171,19 +171,14 @@
     if (!Array.isArray(cart) || !cart.length) return '';
     const lines = cart.map((item) => {
       const qty = Number(item.qty ?? item.quantity) || 0;
-      const price = Number(item.price) || 0;
-      const subtotal = qty * price;
       const parts = [
         `- ${item.name || 'Producto'}`,
         item.color ? `Color: ${item.color}` : '',
         item.talle ? `Talle: ${item.talle}` : '',
         `Cant: ${qty}`,
-        `Subtotal: $${subtotal.toLocaleString('es-AR')}`,
       ].filter(Boolean);
       return parts.join(' | ');
     });
-    const { totalItems, totalPrice } = getCartTotals(cart);
-    lines.push(`\nTotal (${totalItems} uds): $${totalPrice.toLocaleString('es-AR')}`);
     return encodeURIComponent(lines.join('\n'));
   };
 

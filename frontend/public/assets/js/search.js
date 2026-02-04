@@ -58,7 +58,13 @@
       PRODUCTS = sanitizeProducts(window.PRELOADED_PRODUCTS);
       return Promise.resolve(PRODUCTS);
     }
-    const tryApi = () => fetch('/api/products', {cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject());
+    if (window.romixProductsStore && typeof window.romixProductsStore.load === 'function') {
+      return window.romixProductsStore
+        .load({ preloaded: window.PRELOADED_PRODUCTS })
+        .then(d => { PRODUCTS = sanitizeProducts(d || []); return PRODUCTS; })
+        .catch(() => []);
+    }
+    const tryApi = () => fetch('/api/products').then(r=>r.ok?r.json():Promise.reject());
     const tryFile = () => fetch(new URL('assets/data/products.json', location.href)).then(r=>r.json());
     return tryApi().catch(tryFile).then(d=>{ PRODUCTS=sanitizeProducts(d||[]); return PRODUCTS; }).catch(()=>[]);
   }

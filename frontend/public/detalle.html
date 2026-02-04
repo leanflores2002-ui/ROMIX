@@ -69,6 +69,7 @@
   <link rel="stylesheet" href="assets/css/responsive.css" />
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
+  <script src="assets/js/products-store.js"></script>
 
   <script>
     const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`\
@@ -122,6 +123,7 @@
       const img = p.image || (p.images && (p.images['Negro'] || Object.values(p.images)[0])) || PLACEHOLDER;
       const price = Number(p.price||0);
       const stock = estimateStock(p);
+      const stockLabel = stock <= 0 ? 'Agotado' : (stock <= 3 ? 'Por agotarse' : 'Disponible');
 
       const badge = p.type
         ? `<span class="muted" style="background:#f1f3f5;border-radius:999px;padding:6px 10px;font-weight:800;">${p.type}</span>`
@@ -139,7 +141,7 @@
 
             <div class="pill">
               <i class="fas fa-check-circle" aria-hidden="true"></i>
-              Disponible - <span id="units">${stock}</span> unidades
+              ${stockLabel}
             </div>
 
             <div class="section">
@@ -153,7 +155,6 @@
                 <button id="dec" type="button" class="qty-btn" aria-label="Disminuir">-</button>
                 <input id="qty" class="qty-input" type="number" min="1" value="1" />
                 <button id="inc" type="button" class="qty-btn" aria-label="Aumentar">+</button>
-                <span class="max-note">Máximo disponible: <span id="max">${stock}</span></span>
               </div>
 
               <button id="add" class="cta">
@@ -256,10 +257,12 @@
     }
 
     async function fetchProductList(){
+      if (window.romixProductsStore && typeof window.romixProductsStore.load === 'function') {
+        return window.romixProductsStore.load({ preloadedScriptId: 'preloaded-products' });
+      }
       const dataUrl = new URL('assets/data/products.json', location.href).href;
-      const res = await fetch(dataUrl, { cache: 'no-store' });
-      const rawText = await res.text();
-      const parsed = JSON.parse(rawText);
+      const res = await fetch(dataUrl);
+      const parsed = await res.json();
       return (typeof sanitizeList === 'function')
         ? sanitizeList(Array.isArray(parsed) ? parsed : [])
         : (Array.isArray(parsed) ? parsed : []);
@@ -370,6 +373,7 @@
       <a href="mujer.html">Mujer</a>
       <a href="hombre.html">Hombre</a>
       <a href="ninos.html">Niños</a>
+      <a href="novedades.html">Novedades</a>
       <a href="ayuda.html">Ayuda</a>
     </nav>
   </header>

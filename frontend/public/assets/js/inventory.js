@@ -3,6 +3,7 @@
   const DEFAULT_COLOR = 'Unico';
   const DEFAULT_SIZE = 'U';
   const STOCK_UNKNOWN = 'unknown';
+  let inventoryMapCache = null;
 
   function normalize(value) {
     if (!value) return '';
@@ -38,6 +39,7 @@
   }
 
   function buildInventoryMap() {
+    if (inventoryMapCache) return new Map(inventoryMapCache);
     const map = new Map();
     loadStorageList().forEach((item) => {
       const variant = sanitizeVariant(item);
@@ -45,6 +47,7 @@
       const key = buildKey(variant.productId, variant.color, variant.size);
       map.set(key, variant);
     });
+    inventoryMapCache = map;
     return map;
   }
 
@@ -61,6 +64,7 @@
       map.set(key, variant);
     });
     const list = Array.from(map.values());
+    inventoryMapCache = map;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
     } catch {}
@@ -147,6 +151,14 @@
       const list = await res.json();
       mergeUpdates(list);
     } catch {}
+  }
+
+  if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+    window.addEventListener('storage', (event) => {
+      if (event && event.key === STORAGE_KEY) {
+        inventoryMapCache = null;
+      }
+    });
   }
 
   window.romixInventory = {

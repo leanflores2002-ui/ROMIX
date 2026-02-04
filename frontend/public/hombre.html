@@ -241,6 +241,7 @@
       <a href="mujer.html">Mujer</a>
       <a href="hombre.html" aria-current="page">Hombre</a>
       <a href="ninos.html">Niños</a>
+      <a href="novedades.html">Novedades</a>
       <a href="ayuda.html">Ayuda</a>
     </nav>
   </header>
@@ -310,7 +311,7 @@
           <li><a href="mujer.html" style="color:#adb5bd;text-decoration:none;">Ropa para Mujer</a></li>
           <li><a href="hombre.html" style="color:#adb5bd;text-decoration:none;">Ropa para Hombre</a></li>
           <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Niños</a></li>
-          <li><a href="index.html#novedades" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
+          <li><a href="novedades.html" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
           <li><a href="index.html#ofertas" style="color:#adb5bd;text-decoration:none;">Ofertas</a></li>
         </ul>
       </div>
@@ -336,6 +337,7 @@
     <script src="assets/js/slugify.js"></script>
     <script src="assets/js/cart.js"></script>
     <script src="assets/js/verano-order.js"></script>
+    <script src="assets/js/catalog-relevance-order.js"></script>
     <script src="assets/js/season-filter.js"></script>
   <script>
     let romixToastTimer;
@@ -366,18 +368,18 @@
       </svg>`);
 
     const COLOR_DEFINITIONS = [
-      { key:'multicolor', label:'Multicolor', hex:'#f7c948', aliases:['multicolor','estampado','estampada','print','floreado'] },
-      { key:'negro',      label:'Negro',      hex:'#000000', aliases:['negro','black'] },
-      { key:'blanco',     label:'Blanco',     hex:'#ffffff', aliases:['blanco','white'] },
-      { key:'azul',       label:'Azul',       hex:'#007bff', aliases:['azul','azul jaspeado','azul oscuro','azul marino'] },
-      { key:'rosa',       label:'Rosa',       hex:'#ff69b4', aliases:['rosa','fucsia'] },
-      { key:'verde',      label:'Verde',      hex:'#28a745', aliases:['verde','verde jaspeado'] },
-      { key:'rojo',       label:'Rojo',       hex:'#dc3545', aliases:['rojo','rojo jaspeado','bordo'] },
-      { key:'morado',     label:'Violeta',    hex:'#6f42c1', aliases:['violeta','morado','lila','purpura'] },
-      { key:'naranja',    label:'Naranja',    hex:'#fd7e14', aliases:['naranja','coral'] },
-      { key:'amarillo',   label:'Amarillo',   hex:'#ffc107', aliases:['amarillo','mostaza'] },
-      { key:'marron',     label:'Marron',     hex:'#795548', aliases:['marron','chocolate','caqui','camel','beige'] },
-      { key:'gris',       label:'Gris',       hex:'#adb5bd', aliases:['gris','gris jaspeado','gris oscuro','plomo'] },
+      { key:"multicolor", label:"Multicolor", hex:"#f7c948", aliases:["multicolor","estampado","estampada","print","floreado"] },
+      { key:"negro",      label:"Negro",      hex:"#000000", aliases:["negro","black","hex","name"] },
+      { key:"blanco",     label:"Blanco",     hex:"#ffffff", aliases:["blanco","white"] },
+      { key:"azul",       label:"Azul",       hex:"#007bff", aliases:["azul","azul jaspeado","azul oscuro","azul marino"] },
+      { key:"rosa",       label:"Rosa",       hex:"#ff69b4", aliases:["rosa","fucsia"] },
+      { key:"verde",      label:"Verde",      hex:"#28a745", aliases:["verde","verde jaspeado"] },
+      { key:"rojo",       label:"Rojo",       hex:"#dc3545", aliases:["rojo","rojo jaspeado"] },
+      { key:"morado",     label:"Violeta",    hex:"#6f42c1", aliases:["violeta","morado","purpura"] },
+      { key:"naranja",    label:"Naranja",    hex:"#fd7e14", aliases:["naranja"] },
+      { key:"amarillo",   label:"Amarillo",   hex:"#ffc107", aliases:["amarillo"] },
+      { key:"marron",     label:"Marron",     hex:"#795548", aliases:["marron","chocolate","caqui"] },
+      { key:"gris",       label:"Gris",       hex:"#adb5bd", aliases:["gris","gris jaspeado","gris oscuro","gris medio"] },
     ];
 
     const COLOR_BY_KEY = {};
@@ -507,6 +509,7 @@
       const price = Number(p.price||0).toLocaleString('es-AR');
       const detailsLink = detailHref(p);
       const stock = estimateStock(p);
+      const stockLabel = stock <= 0 ? 'Agotado' : (stock <= 3 ? 'Por agotarse' : 'Disponible');
       const article = document.createElement('article');
       article.className = 'card';
       article.setAttribute('aria-label', p.name);
@@ -521,7 +524,7 @@
       const subtitle = document.createElement('div'); subtitle.className = 'subtitle'; const secTxt = p.section ? (String(p.section).charAt(0).toUpperCase()+String(p.section).slice(1)) : ''; subtitle.textContent = [secTxt, p.type || ''].filter(Boolean).join(' | ');
       const row = document.createElement('div'); row.className = 'row';
       const priceEl = document.createElement('div'); priceEl.className = 'price'; priceEl.textContent = '$' + price;
-      const stockEl = document.createElement('div'); stockEl.className = 'stock'; stockEl.innerHTML = 'Disponible<small>Stock: ' + esc(String(stock)) + '</small>';
+      const stockEl = document.createElement('div'); stockEl.className = 'stock'; stockEl.textContent = stockLabel;
       row.appendChild(priceEl); row.appendChild(stockEl);
       const actions = document.createElement('div'); actions.className = 'actions';
       const details = document.createElement('a'); details.className = 'btn btn-details'; details.href = detailsLink; details.setAttribute('aria-label', 'Ver detalles de ' + p.name); details.innerHTML = '<i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles';
@@ -649,6 +652,7 @@
       if (sort === 'price-asc') view.sort((a,b)=> (Number(a.price||0) - Number(b.price||0)));
       else if (sort === 'price-desc') view.sort((a,b)=> (Number(b.price||0) - Number(a.price||0)));
       else if (sort === 'verano' && typeof applyVeranoOrder === 'function') view = applyVeranoOrder(view);
+      else if (sort === 'relevance' && typeof applyCatalogRelevanceOrder === 'function') view = applyCatalogRelevanceOrder(view, SECTION);
       applyView();
       updateActiveFiltersUI();
     }
@@ -723,8 +727,7 @@
         renderFilterGroup('seasons', filterOptions.seasons);
         renderFilterGroup('sizes', filterOptions.sizes);
         renderFilterGroup('colors', filterOptions.colors);
-        applyView();
-        updateActiveFiltersUI();
+        aplicarFiltros();
       } catch (e) {
         const grid = document.getElementById('grid'); grid.innerHTML = '<p>Error al cargar productos.</p>'; console && console.error && console.error('[hombre] Error:', e);
       }

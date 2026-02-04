@@ -735,6 +735,8 @@
         "type":  "Palazos",
         "name":  "Palazo Morley Laviano",
         "season":  "media-estacion",
+        "featured":  true,
+        "featuredBadge":  "Por agotarse",
         "image":  "images/palazo_morley_liviano_negro.png",
         "images":  {
                        "Negro":  "images/palazo_morley_liviano_negro.png",
@@ -6718,9 +6720,9 @@
     "season":  "media-estacion",
     "image":  "images/campera_jaspeado_saplex_hombre_gris_oscuro_jaspeado.png",
     "images":  {
-                    "Gris oscuro jaspeado":  "images/campera_jaspeado_saplex_hombre_gris_oscuro_jaspeado.png",
-                    "Azul jaspeado":  "images/campera_jaspeado_saplex_hombre_azul_jaspeado.png",
-                    "Gris melange jaspeado":  "images/campera_jaspeado_saplex_hombre_gris_melange_jaspeado.png"
+                    "Gris oscuro":  "images/campera_jaspeado_saplex_hombre_gris_oscuro_jaspeado.png",
+                    "Azul":  "images/campera_jaspeado_saplex_hombre_azul_jaspeado.png",
+                    "Gris melange":  "images/campera_jaspeado_saplex_hombre_gris_melange_jaspeado.png"
                 },
     "price":  17000,
     "priceByGroup":  {
@@ -6733,9 +6735,9 @@
                          8
                      ],
     "colors":  [
-                   { "name":  "Gris oscuro jaspeado", "hex":  "#4B4B4B" },
-                   { "name":  "Azul jaspeado", "hex":  "#6B8CFF" },
-                   { "name":  "Gris melange jaspeado", "hex":  "#A9A9A9" }
+                   { "name":  "Gris oscuro", "hex":  "#4B4B4B" },
+                   { "name":  "Azul", "hex":  "#6B8CFF" },
+                   { "name":  "Gris melange", "hex":  "#A9A9A9" }
                ],
     "sizes":  [
                   { "size":  "2", "status":  "available" },
@@ -7136,6 +7138,199 @@
               ]
 },
 {
+    "section":  "mujer",
+    "type":  "remeras",
+    "name":  "Remera oversize algodón peinado",
+    "season":  "media-estacion",
+    "featured":  true,
+    "featuredBadge":  "Nuevo",
+    "image":  "images/remera_oversize_algodon_peinado_azul.png",
+    "images":  {
+                    "Azul":  "images/remera_oversize_algodon_peinado_azul.png",
+                    "Blanco":  "images/remera_oversize_algodon_peinado_blanco.png"
+                },
+    "price":  9000,
+    "priceByGroup":  {
+                         "common":  9000,
+                         "special":  9600
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Azul",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Blanco",
+                       "hex":  "#FFFFFF"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "1",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "hombre",
+    "type":  "remeras",
+    "name":  "Remera algodón peinado hombre",
+    "season":  "media-estacion",
+    "featured":  true,
+    "featuredBadge":  "Nuevo",
+    "image":  "images/remera_algodon_peinado_hombre_azul.png",
+    "images":  {
+                    "Azul":  "images/remera_algodon_peinado_hombre_azul.png",
+                    "Blanco":  "images/remera_algodon_peinado_hombre_blanco.png"
+                },
+    "price":  9000,
+    "priceByGroup":  {
+                         "common":  9000,
+                         "special":  9600
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Azul",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Blanco",
+                       "hex":  "#FFFFFF"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "1",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "ninos",
+    "type":  "remeras",
+    "name":  "Remera oversize algodón peinado chico",
+    "season":  "media-estacion",
+    "featured":  true,
+    "featuredBadge":  "Nuevo",
+    "image":  "images/remera_oversize_algodon_peinado_chico_azul.png",
+    "images":  {
+                    "Azul":  "images/remera_oversize_algodon_peinado_chico_azul.png",
+                    "Blanco":  "images/remera_oversize_algodon_peinado_chico_blanco.png"
+                },
+    "price":  4500,
+    "priceByGroup":  {
+                         "common":  4500,
+                         "special":  5000
+                     },
+    "specialSizes":  [
+                         12,
+                         14,
+                         16
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Azul",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Blanco",
+                       "hex":  "#FFFFFF"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "10",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "12",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "14",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "16",
+                      "status":  "available"
+                  }
+              ]
+},
+{
     "section":  "hombre",
     "type":  "remeras",
     "name":  "Remera algodón molino hombre",
@@ -7242,6 +7437,70 @@
               ]
 },
 {
+    "section":  "mujer",
+    "type":  "buzos",
+    "name":  "Buzo rústico con lycra dama",
+    "season":  "media-estacion",
+    "image":  "images/buzo_rustico_lycra_dama_gris_melange.png",
+    "images":  {
+                    "Gris melange":  "images/buzo_rustico_lycra_dama_gris_melange.png",
+                    "Azul":  "images/buzo_rustico_lycra_dama_azul.png",
+                    "Gris oscuro":  "images/buzo_rustico_lycra_dama_gris_oscuro.png"
+                },
+    "price":  8900,
+    "priceByGroup":  {
+                         "common":  8900,
+                         "special":  9400
+                     },
+    "originalPrice": 15000,
+    "badge":  "oferta",    
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   },
+                   {
+                       "name":  "Azul",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
     "section":  "ninos",
     "type":  "calzas",
     "name":  "Calza lycra nena",
@@ -7321,10 +7580,10 @@
     "season":  "media-estacion",
     "image":  "images/calza_jaspeado_saplex_nena_lila_jaspeado.png",
     "images":  {
-                    "Lila jaspeado":  "images/calza_jaspeado_saplex_nena_lila_jaspeado.png",
-                    "Rosa jaspeado":  "images/calza_jaspeado_saplex_nena_rosa_jaspeado.png",
-                    "Azul francia jaspeado":  "images/calza_jaspeado_saplex_nena_azul_francia_jaspeado.png",
-                    "Gris oscuro jaspeado":  "images/calza_jaspeado_saplex_nena_gris_oscuro_jaspeado.png",
+                    "Lila":  "images/calza_jaspeado_saplex_nena_lila_jaspeado.png",
+                    "Rosa":  "images/calza_jaspeado_saplex_nena_rosa_jaspeado.png",
+                    "Francia":  "images/calza_jaspeado_saplex_nena_azul_francia_jaspeado.png",
+                    "Gris oscuro":  "images/calza_jaspeado_saplex_nena_gris_oscuro_jaspeado.png",
                     "Gris melange":  "images/calza_jaspeado_saplex_nena_gris_melange.png",
                     "Violeta": "images/calza_jaspeado_saplex_nena_violeta.png"
                 },
@@ -7340,19 +7599,19 @@
                      ],
     "colors":  [
                    {
-                       "name":  "Lila jaspeado",
+                       "name":  "Lila",
                        "hex":  "#C8A2C8"
                    },
                    {
-                       "name":  "Rosa jaspeado",
+                       "name":  "Rosa",
                        "hex":  "#F2A7C6"
                    },
                    {
-                       "name":  "Azul francia jaspeado",
+                       "name":  "Francia",
                        "hex":  "#0055A4"
                    },
                    {
-                       "name":  "Gris oscuro jaspeado",
+                       "name":  "Gris oscuro",
                        "hex":  "#4B4B4B"
                    },
                    {
@@ -7920,23 +8179,17 @@
     "type":  "pantalones",
     "name":  "Pantalón algodón rústico chico",
     "season":  "media-estacion",
-    "image":  "images/pantalon_algodon_rustico_chico_negro.png",
+    "featured":  true,
+    "featuredBadge":  "Nuevo",
+    "image":  "images/pantalon_algodon_rustico_chico_azul.png",
     "images":  {
-                    "Negro":  "images/pantalon_algodon_rustico_chico_negro.png",
-                    "Gris melange":  "images/pantalon_algodon_rustico_chico_gris_melange.png",
-                    "Gris oscuro":  "images/pantalon_algodon_rustico_chico_gris_oscuro.png",
-                    "Azul":  "images/pantalon_algodon_rustico_chico_azul.png",
-                    "Verde":  "images/pantalon_algodon_rustico_chico_verde.png",
-                    "Lila":  "images/pantalon_algodon_rustico_chico_lila.png",
-                    "Salmon":  "images/pantalon_algodon_rustico_chico_salmon.png"
+                    "Azul":  "images/pantalon_algodon_rustico_chico_azul.png"
                 },
-    "price":  4500,
+    "price":  9000,
     "priceByGroup":  {
-                         "common":  4500,
-                         "special":  5000
+                         "common":  9000,
+                         "special":  9800
                      },
-    "originalPrice": 9500,
-    "badge":  "oferta",
     "specialSizes":  [
                          12,
                          14,
@@ -7944,32 +8197,62 @@
                      ],
     "colors":  [
                    {
-                       "name":  "Negro",
-                       "hex":  "#000000"
-                   },
-                   {
-                       "name":  "Gris melange",
-                       "hex":  "#A9A9A9"
-                   },
-                   {
-                       "name":  "Gris oscuro",
-                       "hex":  "#4B4B4B"
-                   },
+                       "name":  "Azul",
+                       "hex":  "#0000FF"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "10",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "12",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "14",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "16",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "ninos",
+    "type":  "pantalones",
+    "name":  "Short algodón rústico chico",
+    "season":  "media-estacion",
+    "featured":  true,
+    "featuredBadge":  "Nuevo",
+    "image":  "images/short_algodon_rustico_chico_azul.png",
+    "images":  {
+                    "Azul":  "images/short_algodon_rustico_chico_azul.png"
+                },
+    "price":  6500,
+    "priceByGroup":  {
+                         "common":  6500,
+                         "special":  7300
+                     },
+    "specialSizes":  [
+                         12,
+                         14,
+                         16
+                     ],
+    "colors":  [
                    {
                        "name":  "Azul",
-                       "hex":  "#1E4ED8"
-                   },
-                   {
-                       "name":  "Verde",
-                       "hex":  "#2E7D32"
-                   },
-                   {
-                       "name":  "Lila",
-                       "hex":  "#C8A2C8"
-                   },
-                   {
-                       "name":  "Salmon",
-                       "hex":  "#FA8072"
+                       "hex":  "#0000FF"
                    }
                ],
     "sizes":  [
@@ -8004,6 +8287,8 @@
         "type":  "pantalones",
         "name":  "Babucha jogger Algodón rústico cargo dama",
         "season":  "media-estacion",
+        "featured":  true,
+        "featuredBadge":  "Por agotarse",
         "image":  "images/babucha_jogger_rustico_cargo_negro.png",
         "images":  {
                        "Negro":  "images/babucha_jogger_rustico_cargo_negro.png",
@@ -8445,6 +8730,8 @@
         "type":  "calzas",
         "name":  "Calza lycra arrugado",
         "season":  "media-estacion",
+        "featured":  true,
+        "featuredBadge":  "Nuevo",
         "image":  "images/calza_arrugada_negro.png",
         "images":  {
                        "Negro":  "images/calza_arrugada_negro.png",
@@ -8921,6 +9208,8 @@
     "type":  "calzas",
     "name":  "Calza lycra estampado",
     "season":  "media-estacion",
+    "featured":  true,
+    "featuredBadge":  "Más vendido",
     "image":  "images/estampados/calza_lycra_estampado_2.png",
     "images":  {
                    "Estampado 2":  "images/estampados/calza_lycra_estampado_2.png",
@@ -9127,6 +9416,8 @@
         "type":  "calzas",
         "name":  "Calza lycra morley dama",
         "season":  "media-estacion",
+        "featured":  true,
+        "featuredBadge":  "Más vendido",
         "image":  "images/calza_lycra_morley_negro.png",
         "images":  {
                        "Negro":  "images/calza_lycra_morley_negro.png",
@@ -9748,6 +10039,8 @@
     "type":  "camperas",
     "name":  "Campera lycra estampado",
     "season":  "media-estacion",
+    "featured":  true,
+    "featuredBadge":  "Más vendido",
     "image":  "images/estampados/campera_lycra_estampado_1.png",
     "images":  {
                    "Negro":  "images/estampados/campera_lycra_estampado_negro.png",
@@ -10135,6 +10428,84 @@
                   },
                   {
                       "size":  "6",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "mujer",
+    "type":  "camperas",
+    "name":  "Campera oversize algodón rústico",
+    "season":  "media-estacion",
+    "featured":  true,
+    "featuredBadge":  "Nuevo",
+    "image":  "images/campera_oversize_algodon_rustico_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_oversize_algodon_rustico_negro.png",
+                    "Gris melange":  "images/campera_oversize_algodon_rustico_gris_melange.png",
+                    "Verde":  "images/campera_oversize_algodon_rustico_verde.png",
+                    "Azul":  "images/campera_oversize_algodon_rustico_azul.png",
+                    "Gris oscuro":  "images/campera_oversize_algodon_rustico_gris_oscuro.png"
+                },
+    "price":  20500,
+    "priceByGroup":  {
+                         "common":  20500,
+                         "special":  21500
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   },
+                   {
+                       "name":  "Verde",
+                       "hex":  "#2E7D32"
+                   },
+                   {
+                       "name":  "Azul",
+                       "hex":  "#1E4ED8"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
                       "status":  "available"
                   }
               ]

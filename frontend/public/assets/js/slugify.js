@@ -46,7 +46,7 @@
     if (!p) return false;
     const raw = p.season === null || p.season === undefined ? '' : String(p.season);
     const normalized = raw.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
-    return normalized === 'verano';
+    return normalized === 'verano' || normalized === 'invierno';
   }
 
   function sanitizeList(list){

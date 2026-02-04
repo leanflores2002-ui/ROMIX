@@ -72,6 +72,10 @@
       border-radius: 18px;
       box-shadow: 0 16px 32px rgba(111, 66, 193, 0.12);
     }
+    .women-cats[data-ready="0"] .women-category {
+      visibility: hidden;
+      pointer-events: none;
+    }
     .women-cats-head {
       display: flex;
       align-items: center;
@@ -152,14 +156,14 @@
     .promo-dot { width:10px; height:10px; border-radius:50%; background:#f6cde0; }
     .promo-dot.active { background:#c2185b; }
 
-    .products-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:14px; }
+    .products-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:12px; }
     .product-card { background:#fff; border-radius:14px; box-shadow:0 10px 24px rgba(0,0,0,.12); overflow:hidden; display:flex; flex-direction:column; }
     .product-image {
       position:relative;
       width:100%;
       aspect-ratio:4 / 5;
-      min-height:240px;
-      max-height:360px;
+      min-height:210px;
+      max-height:320px;
       background:#f7f7f9;
       border-radius:14px 14px 0 0;
       overflow:hidden;
@@ -177,10 +181,10 @@
       box-shadow:none;
     }
     .product-badge { position:absolute; top:10px; right:10px; background:#f1f3f5; color:#6c757d; border-radius:999px; padding:6px 10px; font-size:.8rem; font-weight:800; box-shadow:0 6px 16px rgba(0,0,0,.12); }
-    .product-info { padding:10px 12px; display:flex; flex-direction:column; gap:6px; }
-    .product-title { font-size:1rem; font-weight:900; color:#111; cursor:pointer; }
+    .product-info { padding:9px 10px; display:flex; flex-direction:column; gap:5px; }
+    .product-title { font-size:.95rem; font-weight:900; color:#111; cursor:pointer; }
     .product-subtitle { color:#6c757d; font-size:.88rem; }
-    .product-price { color: var(--primary); font-weight:900; font-size:1.05rem; }
+    .product-price { color: var(--primary); font-weight:900; font-size:1rem; }
     .product-stock-note { text-align:right; font-weight:800; font-size:.82rem; }
     .product-stock-note.state-available { color: var(--success); }
     .product-stock-note.state-low { color: #ff9800; }
@@ -252,6 +256,7 @@
       <a href="mujer.html">Mujer</a>
       <a href="hombre.html">Hombre</a>
       <a href="ninos.html">Niños</a>
+      <a href="novedades.html">Novedades</a>
       <a href="ayuda.html">Ayuda</a>
     </nav>
   </header>
@@ -272,7 +277,7 @@
     <div class="trend-dots" id="trend-dots"></div>
   </section>
 
-  <section class="container women-cats" id="categorias-mujer">
+  <section class="container women-cats" id="categorias-mujer" data-ready="0">
     <div class="women-cats-head">
       <div>
         <div class="eyebrow">Ropa de Dama</div>
@@ -281,55 +286,55 @@
       <div class="women-cats-sub">Elegí tu tipo y filtrá el catálogo</div>
     </div>
     <div class="women-cats-grid" role="list">
-      <a class="women-category" role="listitem" data-section="mujer" data-type="calzas" href="index.html?section=mujer&type=calzas#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="calzas" href="index.html?type=calzas#catalogo">
         <span class="women-category-avatar"><img src="images/Calza_lycra_frunce_negro.png" alt="Calzas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Calzas</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="bermudas" href="index.html?section=mujer&type=bermudas#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="bermudas" href="index.html?type=bermudas#catalogo">
         <span class="women-category-avatar"><img src="images/bermuda_fibrana_liso_negro.png" alt="Bermudas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Bermudas</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="remeras" href="index.html?section=mujer&type=remeras#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="remeras" href="index.html?type=remeras#catalogo">
         <span class="women-category-avatar"><img src="images/remera_lycra_dry_dama_negro.png" alt="Remeras" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Remeras</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="tops" href="index.html?section=mujer&type=tops#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="tops" href="index.html?type=tops#catalogo">
         <span class="women-category-avatar"><img src="images/top_lycra_liso_negro.png" alt="Tops" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Tops</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="buzos" href="index.html?section=mujer&type=buzos#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="buzos" href="index.html?type=buzos#catalogo">
         <span class="women-category-avatar"><img src="images/buzo_rustico_lycra_hombre_negro.png" alt="Buzos" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Buzos</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="camperas" href="index.html?section=mujer&type=camperas#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="camperas" href="index.html?type=camperas#catalogo">
         <span class="women-category-avatar"><img src="images/campera_lycra_negro.png" alt="Camperas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Camperas</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="capri" href="index.html?section=mujer&type=capri#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="capri" href="index.html?type=capri#catalogo">
         <span class="women-category-avatar"><img src="images/capri_lycra_negro.png" alt="Capri" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Capri</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="ciclistas" href="index.html?section=mujer&type=ciclistas#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="ciclistas" href="index.html?type=ciclistas#catalogo">
         <span class="women-category-avatar"><img src="images/ciclista_lycra_morley_negro.png" alt="Ciclistas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Ciclistas</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="palazzos" href="index.html?section=mujer&type=palazzos#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="palazzos" href="index.html?type=palazzos#catalogo">
         <span class="women-category-avatar"><img src="images/pantalon_recto_cey_negro.png" alt="Palazzos" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Palazzos</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="polleras" href="index.html?section=mujer&type=polleras#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="polleras" href="index.html?type=polleras#catalogo">
         <span class="women-category-avatar"><img src="images/pollera_short_morley_lycra_con_bolsillo_negro.png" alt="Polleras" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Polleras</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="pantalones" href="index.html?section=mujer&type=pantalones#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="pantalones" href="index.html?type=pantalones#catalogo">
         <span class="women-category-avatar"><img src="images/pantalon_jogger_rustico_negro.png" alt="Pantalones" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Pantalones</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="shorts" href="index.html?section=mujer&type=shorts#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="shorts" href="index.html?type=shorts#catalogo">
         <span class="women-category-avatar"><img src="images/short_algodon_lycra_tiro_alto_negro.png" alt="Shorts" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Shorts</span>
       </a>
-      <a class="women-category" role="listitem" data-section="mujer" data-type="musculosas" href="index.html?section=mujer&type=musculosas#catalogo">
+      <a class="women-category" role="listitem" data-section="all" data-type="musculosas" href="index.html?type=musculosas#catalogo">
         <span class="women-category-avatar"><img src="images/musculosa_con_tira_modal_negro.png" alt="Musculosas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
         <span class="women-category-name">Musculosas</span>
       </a>
@@ -379,7 +384,7 @@
           <li><a href="mujer.html" style="color:#adb5bd;text-decoration:none;">Ropa para Mujer</a></li>
           <li><a href="hombre.html" style="color:#adb5bd;text-decoration:none;">Ropa para Hombre</a></li>
           <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Niños</a></li>
-          <li><a href="index.html#novedades" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
+          <li><a href="novedades.html" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
           <li><a href="index.html#ofertas" style="color:#adb5bd;text-decoration:none;">Ofertas</a></li>
         </ul>
       </div>
@@ -409,7 +414,9 @@
   </script>
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
+  <script src="assets/js/products-store.js"></script>
   <script src="assets/js/verano-order.js"></script>
+  <script src="assets/js/catalog-relevance-order.js"></script>
   <script>
     let romixToastTimer;
 
@@ -644,11 +651,13 @@
         var section = normalizeCatalogValue(link.getAttribute('data-section'));
         var type = normalizeCatalogType(link.getAttribute('data-type'));
         var hasMatch = list.some(function(p){
-          return normalizeCatalogValue(p && p.section) === section &&
-            normalizeCatalogType(p && p.type) === type;
+          var secMatch = !section || section === 'all' || normalizeCatalogValue(p && p.section) === section;
+          return secMatch && normalizeCatalogType(p && p.type) === type;
         });
         link.style.display = hasMatch ? '' : 'none';
       });
+      var cats = document.getElementById('categorias-mujer');
+      if (cats) cats.setAttribute('data-ready', '1');
     }
     function renderAll(products){
       var grid = document.getElementById('catalog-grid');
@@ -668,6 +677,7 @@
       if (order==='precio-asc') sorted.sort(function(a,b){ return Number(a.price||0)-Number(b.price||0); });
       else if (order==='precio-desc') sorted.sort(function(a,b){ return Number(b.price||0)-Number(a.price||0); });
       else if (order==='verano' && typeof applyVeranoOrder === 'function') sorted = applyVeranoOrder(list);
+      else if (order==='relevancia' && typeof applyCatalogRelevanceOrder === 'function') sorted = applyCatalogRelevanceOrder(list);
       var count = document.getElementById('cat-count');
       count.textContent = 'Mostrando ' + list.length + ' de ' + base.length + ' productos';
         grid.innerHTML = sorted.map(function(p){
@@ -688,7 +698,7 @@
               '<h3 class="product-title" data-name="'+(p.name||'')+'" onclick="location.href=\''+detailLink+'\'">'+(p.name||'')+'</h3>'+
               '<div class="product-subtitle">'+subtitle+'</div>'+
               '<div class="product-price">'+money(p.price)+'</div>'+
-              '<div class="product-stock-note state-'+st+'">'+label+' &middot; Stock: '+total+'</div>'+
+              '<div class="product-stock-note state-'+st+'">'+label+'</div>'+
               '<div class="product-actions">'+
                 '<a href="'+detailLink+'" class="btn btn-details"><i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles</a>'+
                 '<button class="btn btn-primary" type="button" data-add-product="'+pid+'"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Agregar</button>'+
@@ -799,9 +809,14 @@
         updateWomenCategoriesVisibility();
         return;
       }
-      var tryApi = function(){ return fetch('/api/products', {cache:'no-store'}).then(function(r){ return r.ok?r.json():Promise.reject(); }); };
-      var tryFile = function(){ return fetch(new URL('assets/data/products.json', location.href)).then(function(r){ return r.json(); }); };
-      tryApi().catch(tryFile).then(function(list){
+      var loadSource = (window.romixProductsStore && typeof window.romixProductsStore.load === 'function')
+        ? window.romixProductsStore.load({ preloaded: ALL_PRODUCTS })
+        : (function(){
+            var tryApi = function(){ return fetch('/api/products').then(function(r){ return r.ok?r.json():Promise.reject(); }); };
+            var tryFile = function(){ return fetch(new URL('assets/data/products.json', location.href)).then(function(r){ return r.json(); }); };
+            return tryApi().catch(tryFile);
+          })();
+      Promise.resolve(loadSource).then(function(list){
         ALL_PRODUCTS = sanitizeList(list||[]);
         renderPromos(ALL_PRODUCTS);
         renderTrends(ALL_PRODUCTS);
@@ -825,7 +840,8 @@
       document.getElementById('cat-order').addEventListener('change', function(){ renderAll(ALL_PRODUCTS); });
       document.querySelectorAll('.women-category').forEach(function(link){
         link.addEventListener('click', function(ev){
-          var section = link.getAttribute('data-section') || 'mujer';
+          var section = normalizeCatalogValue(link.getAttribute('data-section'));
+          if (!section || section === 'all') section = '';
           var type = link.getAttribute('data-type') || '';
           var href = link.getAttribute('href') || '';
           if (href.indexOf('#catalogo') >= 0) {
@@ -839,7 +855,6 @@
     });
   </script>
   <script src="assets/js/inventory.js"></script>
-  <script src="assets/js/support-widget-romix.js" defer></script>
   <script src="assets/js/search.js"></script>
   <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
 </body>

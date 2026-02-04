@@ -59,7 +59,7 @@
           <h3 class="product-title" data-name="${p.name||''}">${p.name||''}</h3>
           <div class="product-subtitle">${subtitle}</div>
           <div class="product-price">${price}</div>
-          <div class="product-stock-note state-${st}">${label} · Stock: ${total}</div>
+          <div class="product-stock-note state-${st}">${label}</div>
           <div class="product-actions">
             <a href="#" class="btn btn-details">Ver Detalles</a>
             <button class="btn btn-primary" type="button">Agregar</button>
@@ -82,7 +82,14 @@
   }
 
   function fetchProducts(section){
-    const fromApi = ()=> fetch('/api/products?section='+encodeURIComponent(section), {cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject());
+    if (window.romixProductsStore && typeof window.romixProductsStore.load === 'function') {
+      return window.romixProductsStore
+        .load({ preloaded: window.PRELOADED_PRODUCTS })
+        .then(list => (list||[]).filter(p => String(p.section||'').toLowerCase()===section))
+        .then(list => filterVisibleProducts(list))
+        .catch(()=>[]);
+    }
+    const fromApi = ()=> fetch('/api/products?section='+encodeURIComponent(section)).then(r=>r.ok?r.json():Promise.reject());
     const fromFile = ()=> fetch(new URL('assets/data/products.json', location.href)).then(r=>r.json()).then(list => (list||[]).filter(p => String(p.section||'').toLowerCase()===section));
     return fromApi()
       .catch(fromFile)

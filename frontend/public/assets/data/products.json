@@ -9945,7 +9945,8 @@
                        "Francia":  "images/campera_lycra_francia.png",
                        "Lila":  "images/campera_lycra_lila.png",
                        "Coral":  "images/campera_lycra_coral.png",
-                       "Gris":  "images/campera_lycra_gris.png"
+                       "Gris":  "images/campera_lycra_gris.png",
+                       "Bordo": "images/campera_lycra_bordo.png"
                    },
         "price":  15400,
         "priceByGroup":  {
@@ -9989,6 +9990,10 @@
                        {
                            "name":  "Gris",
                            "hex":  "#6c757d"
+                       },
+                       {
+                           "name":  "Bordo",
+                           "hex":  "#800000"
                        }
                    ],
         "sizes":  [

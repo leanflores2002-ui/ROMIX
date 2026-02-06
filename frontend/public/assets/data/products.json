@@ -8533,10 +8533,12 @@
                              7,
                              8
                          ],
-        "colors":  {
+        "colors":  [
+                   {
                        "name":  "Negro",
-                       "hex":  "#000"
-                   },
+                       "hex":  "#000000"
+                   }
+               ],
         "sizes":  [
                       {
                           "size":  "2",
@@ -9119,10 +9121,12 @@
         "priceByGroup":  {
                              "common":  10500
                          },
-        "colors":  {
+        "colors":  [
+                   {
                        "name":  "Negro",
-                       "hex": "#000000"
-                   },
+                       "hex":  "#000000"
+                   }
+               ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -9384,10 +9388,12 @@
         "priceByGroup":  {
                              "common":  9500
                          },
-        "colors":  {
+        "colors":  [
+                   {
                        "name":  "Negro",
-                       "hex":  "#000"
-                   },
+                       "hex":  "#000000"
+                   }
+               ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -9499,10 +9505,12 @@
                              7,
                              8
                          ],
-        "colors":  {
+        "colors":  [
+                   {
                        "name":  "Negro",
-                       "hex":  "#000"
-                   },
+                       "hex":  "#000000"
+                   }
+               ],
         "sizes":  [
                       {
                           "size":  "1",
@@ -9946,7 +9954,7 @@
                        "Lila":  "images/campera_lycra_lila.png",
                        "Coral":  "images/campera_lycra_coral.png",
                        "Gris":  "images/campera_lycra_gris.png",
-                       "Bordo": "images/campera_lycra_bordo.png"
+                       "Bordo":  "images/campera_lycra_bordo.png"
                    },
         "price":  15400,
         "priceByGroup":  {
@@ -10522,10 +10530,12 @@
                              7,
                              8
                          ],
-        "colors":  {
+        "colors":  [
+                   {
                        "name":  "Negro",
-                       "hex":  "#000"
-                   },
+                       "hex":  "#000000"
+                   }
+               ],
         "sizes":  [
                       {
                           "size":  "1",

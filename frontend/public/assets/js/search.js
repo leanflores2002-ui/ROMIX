@@ -34,6 +34,56 @@
     if (!s) return '';
     try { return s.normalize('NFD').replace(/\p{Diacritic}+/gu,'').toLowerCase(); } catch { return String(s).toLowerCase(); }
   }
+  function compact(s){
+    return norm(s).replace(/[^a-z0-9]+/g,'');
+  }
+  function tokenize(s){
+    return norm(s).split(/[^a-z0-9]+/).filter(Boolean);
+  }
+  function editDistanceAtMost(a, b, max){
+    if (a === b) return true;
+    if (!a || !b) return false;
+    const al = a.length;
+    const bl = b.length;
+    if (Math.abs(al - bl) > max) return false;
+    const prev = new Array(bl + 1);
+    const curr = new Array(bl + 1);
+    for (let j = 0; j <= bl; j++) prev[j] = j;
+    for (let i = 1; i <= al; i++){
+      curr[0] = i;
+      let rowMin = curr[0];
+      const ai = a.charCodeAt(i - 1);
+      for (let j = 1; j <= bl; j++){
+        const cost = ai === b.charCodeAt(j - 1) ? 0 : 1;
+        curr[j] = Math.min(
+          prev[j] + 1,
+          curr[j - 1] + 1,
+          prev[j - 1] + cost
+        );
+        if (curr[j] < rowMin) rowMin = curr[j];
+      }
+      if (rowMin > max) return false;
+      for (let j = 0; j <= bl; j++) prev[j] = curr[j];
+    }
+    return prev[bl] <= max;
+  }
+  function tokenMatchScore(tokens, combined, words){
+    if (!tokens.length) return -1;
+    let matched = 0;
+    for (let i = 0; i < tokens.length; i++){
+      const t = tokens[i];
+      if (!t) continue;
+      if (combined.includes(t)) { matched++; continue; }
+      if (words.some(w => w.startsWith(t))) { matched++; continue; }
+      if (t.length >= 3) {
+        const max = t.length <= 5 ? 1 : 2;
+        if (words.some(w => editDistanceAtMost(t, w, max))) { matched++; continue; }
+      }
+    }
+    if (!matched) return -1;
+    if (matched < tokens.length) return 40 + matched * 3;
+    return 70 + matched * 3;
+  }
   function defaultSlugify(s){
     return norm(String(s||''))
       .replace(/[^a-z0-9]+/g,'-')
@@ -79,6 +129,13 @@
     if (name.includes(qn)) return 100 - name.indexOf(qn);
     if (type.includes(qn)) return 80 - type.indexOf(qn);
     if (desc.includes(qn)) return 60 - desc.indexOf(qn);
+    const compactQ = compact(qn);
+    if (compactQ && compact(name).includes(compactQ)) return 75;
+    const combined = [name, type, desc].filter(Boolean).join(' ');
+    const words = tokenize(combined);
+    const tokens = tokenize(qn);
+    const tokenScore = tokenMatchScore(tokens, combined, words);
+    if (tokenScore >= 0) return tokenScore;
     return -1;
   }
   function searchProductsSync(list, term, options){

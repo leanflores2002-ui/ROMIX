@@ -196,6 +196,46 @@
       object-position:center;
       display:block;
     }
+    .variant-row {
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      padding:8px 10px 0;
+      align-items:center;
+    }
+    .variant-swatch {
+      width:26px;
+      height:26px;
+      border-radius:50%;
+      border:1px solid #e3e6eb;
+      background:#fff;
+      background-size:cover;
+      background-position:center;
+      cursor:pointer;
+      padding:0;
+    }
+    .variant-swatch.is-active {
+      border-color: var(--secondary);
+      box-shadow:0 0 0 2px rgba(111,66,193,.25);
+    }
+    .variant-swatch:focus-visible {
+      outline:2px solid var(--primary);
+      outline-offset:2px;
+    }
+    .variant-more {
+      min-width:30px;
+      height:26px;
+      border-radius:999px;
+      border:1px dashed #d0d5dd;
+      background:#f8f9fb;
+      color:#6c757d;
+      font-size:.75rem;
+      font-weight:800;
+      padding:0 8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
     .badge { position:absolute; top:10px; right:10px; background:#f1f3f5; color:#6c757d; border-radius:999px; padding:5px 9px; font-size:.78rem; font-weight:800; box-shadow:0 4px 12px rgba(0,0,0,.10); }
     .body { padding:10px 12px; display:flex; flex-direction:column; gap:6px; }
     .title { font-size:1rem; font-weight:800; color:#111; cursor:pointer; }
@@ -449,10 +489,36 @@
   <script>
     const SECTION = 'mujer';
     const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`\
-      <svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">\
-        <rect width="100%" height="100%" fill="#f8f9fb"/>\
-        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="22">Imagen no disponible</text>\
-      </svg>`);
+        <svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">\
+          <rect width="100%" height="100%" fill="#f8f9fb"/>\
+          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="22">Imagen no disponible</text>\
+        </svg>`);
+    const MAX_SWATCHES = 5;
+    const preloadedVariantImages = new Set();
+
+    function isValidText(value){
+      return typeof value === 'string' && value.trim().length > 0 && value.trim().toLowerCase() !== 'null';
+    }
+    function isColorValue(value){
+      if (!isValidText(value)) return false;
+      const s = value.trim();
+      return /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(s) || /^rgb\(/i.test(s) || /^hsl\(/i.test(s);
+    }
+    function normalizeVariantLabel(value){
+      return isValidText(value) ? value.trim() : 'Variante';
+    }
+    function normalizeImageUrl(value){
+      return isValidText(value) ? value.trim() : '';
+    }
+    function normalizeSwatchValue(value){
+      return isValidText(value) ? value.trim() : '';
+    }
+    function preloadImage(src){
+      if (!isValidText(src) || preloadedVariantImages.has(src)) return;
+      const img = new Image();
+      img.src = src;
+      preloadedVariantImages.add(src);
+    }
 
     // ==== MAPA DE COLORES CANÓNICOS PARA FILTROS ====
     const COLOR_DEFINITIONS = [
@@ -584,7 +650,7 @@
       throw new Error('Romix slugify helper is not available');
     })();
 
-    function detailHref(product, buy){
+    function detailHref(product, buy, selection){
       const slugVal = typeof window.romixSlug === 'function'
         ? window.romixSlug(product && product.name ? product.name : '')
         : sharedSlugify(product && product.name ? product.name : '');
@@ -592,10 +658,15 @@
         ? window.fixUtf8(product && product.name ? product.name : '')
         : (product && product.name ? product.name : '');
       const pid = typeof window.productId === 'function' ? window.productId(product) : slugVal;
-      const base = 'product.html?id=' + encodeURIComponent(pid) +
-        '&slug=' + encodeURIComponent(slugVal) +
-        '&name=' + encodeURIComponent(nameVal);
-      return buy ? base + '&buy=1' : base;
+      const params = new URLSearchParams();
+      params.set('id', pid);
+      params.set('slug', slugVal);
+      params.set('name', nameVal);
+      if (selection && selection.color) params.set('color', selection.color);
+      if (selection && selection.variantId) params.set('variant', selection.variantId);
+      if (selection && selection.image) params.set('variantImage', selection.image);
+      if (buy) params.set('buy', '1');
+      return 'product.html?' + params.toString();
     }
 
     function estimateStock(p){
@@ -618,7 +689,7 @@
     function updateCartCount(){ try { if (window.romixCart) window.romixCart.updateBadge(); } catch {} }
 
     // ✅ CORREGIDO: NO inventa "Unico", infiere color desde colors o images
-    function quickAdd(product){
+    function quickAdd(product, selection){
       const pid = product.id || slugify(product.name || "");
 
       const inferredColors = Array.isArray(product.colors) && product.colors.length
@@ -633,9 +704,11 @@
         inferredColors[0] ||
         '';
 
-      const color = firstColorName ? fixUtf8(firstColorName) : ''; // <- NO "Unico"
+      const selectedColor = selection && selection.color ? String(selection.color) : '';
+      const color = selectedColor ? fixUtf8(selectedColor) : (firstColorName ? fixUtf8(firstColorName) : '');
 
       const primaryImage =
+        (selection && selection.image ? selection.image : '') ||
         (product.image) ||
         (product.images && firstColorName && product.images[firstColorName]) ||
         (product.images && (product.images["Negro"] || product.images["negro"] || Object.values(product.images)[0])) ||
@@ -677,23 +750,84 @@
       showToast('Se agrego con exito al carrito');
     }
 
+    function buildVariantList(p){
+      let variants = [];
+      if (Array.isArray(p.colors)) {
+        variants = p.colors.map(c => {
+          if (!c || typeof c !== 'object') return null;
+          const label = normalizeVariantLabel(c.label || c.name);
+          const id = c.id || c.variantId || c.variant_id || null;
+          const image = normalizeImageUrl(c.image || c.url || '');
+          let swatch = normalizeSwatchValue(c.swatch || c.thumb || c.thumbnail || c.preview || c.pattern || '');
+          let hex = '';
+          if (isColorValue(swatch)) {
+            hex = swatch;
+            swatch = '';
+          }
+          if (!hex && isColorValue(c.hex)) hex = String(c.hex).trim();
+          if (!hex && isColorValue(c.value)) hex = String(c.value).trim();
+          if (!hex && typeof canonicalColorKey === 'function') {
+            const mapped = colorHexFromKey(canonicalColorKey(label));
+            if (isColorValue(mapped)) hex = mapped;
+          }
+          if (!isValidText(image)) return null;
+          if (!isValidText(swatch) && !isColorValue(hex)) return null;
+          return { id, label, image, swatch, hex };
+        }).filter(Boolean);
+      }
+      if (!variants.length && p.images && typeof p.images === 'object') {
+        variants = Object.keys(p.images).map(k => {
+          const label = normalizeVariantLabel(k);
+          const img = normalizeImageUrl(p.images[k]);
+          if (!isValidText(img)) return null;
+          return { id: null, label, image: img, swatch: img, hex: '' };
+        }).filter(Boolean);
+      }
+      return variants;
+    }
+
+    function setMainImage(imgEl, src, baseAlt, label){
+      const nextSrc = isValidText(src) ? src : PLACEHOLDER;
+      imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = PLACEHOLDER; };
+      imgEl.src = nextSrc;
+      imgEl.alt = label ? (baseAlt + ' - ' + label) : baseAlt;
+    }
+
+    function getCardSelection(card){
+      return {
+        color: card.dataset.variantLabel || '',
+        variantId: card.dataset.variantId || '',
+        image: card.dataset.variantImage || ''
+      };
+    }
+
     function createCard(p){
       const imgSrc = p.image || (p.images && (p.images['Negro'] || Object.values(p.images)[0])) || PLACEHOLDER;
       const price = Number(p.price||0).toLocaleString('es-AR');
-      const detailsLink = detailHref(p);
       const stock = estimateStock(p);
       const stockLabel = stock <= 0 ? 'Agotado' : (stock <= 3 ? 'Por agotarse' : 'Disponible');
+      const baseAlt = p.name || '';
 
       const article = document.createElement('article');
       article.className = 'card';
       article.setAttribute('aria-label', p.name);
 
       const thumb = document.createElement('div'); thumb.className = 'thumb';
-      const img = document.createElement('img'); img.src = imgSrc; img.alt = p.name; img.width = 600; img.height = 400; img.onerror = () => { img.onerror = null; img.src = PLACEHOLDER; };
+      const img = document.createElement('img'); img.src = imgSrc; img.alt = baseAlt; img.width = 600; img.height = 400; img.onerror = () => { img.onerror = null; img.src = PLACEHOLDER; };
       thumb.appendChild(img);
       thumb.style.cursor = 'pointer';
-      thumb.addEventListener('click', () => { location.href = detailsLink; });
+      thumb.addEventListener('click', () => { location.href = detailHref(p, false, getCardSelection(article)); });
       if (p.badge || p.type){ const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = p.badge ? p.badge : (p.type || ''); thumb.appendChild(badge); }
+      const variants = buildVariantList(p);
+      let activeIndex = variants.findIndex(v => (v.image && v.image === imgSrc) || (v.swatch && v.swatch === imgSrc));
+      if (activeIndex < 0) activeIndex = 0;
+      if (variants[activeIndex]) {
+        article.dataset.variantLabel = variants[activeIndex].label || '';
+        article.dataset.variantId = variants[activeIndex].id || '';
+        article.dataset.variantImage = variants[activeIndex].image || '';
+        article.dataset.variantSwatch = variants[activeIndex].swatch || '';
+        article.dataset.variantHex = variants[activeIndex].hex || '';
+      }
 
       const body = document.createElement('div'); body.className = 'body';
       const title = document.createElement('div'); title.className = 'title'; title.textContent = p.name;
@@ -704,12 +838,66 @@
       row.appendChild(priceEl); row.appendChild(stockEl);
 
       const actions = document.createElement('div'); actions.className = 'actions';
-      const details = document.createElement('a'); details.className = 'btn btn-details'; details.href = detailsLink; details.setAttribute('aria-label', 'Ver detalles de ' + p.name); details.innerHTML = '<i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles';
-      const add = document.createElement('button'); add.className = 'btn btn-primary'; add.type = 'button'; add.innerHTML = '<i class="fas fa-cart-plus" aria-hidden="true"></i> Agregar'; add.addEventListener('click', () => quickAdd(p));
+      const details = document.createElement('a'); details.className = 'btn btn-details'; details.href = '#'; details.setAttribute('aria-label', 'Ver detalles de ' + p.name); details.innerHTML = '<i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles';
+      details.addEventListener('click', (ev) => { ev.preventDefault(); location.href = detailHref(p, false, getCardSelection(article)); });
+      const add = document.createElement('button'); add.className = 'btn btn-primary'; add.type = 'button'; add.innerHTML = '<i class="fas fa-cart-plus" aria-hidden="true"></i> Agregar'; add.addEventListener('click', () => quickAdd(p, getCardSelection(article)));
       actions.appendChild(details); actions.appendChild(add);
 
       body.appendChild(title); body.appendChild(subtitle); body.appendChild(row); body.appendChild(actions);
-      article.appendChild(thumb); article.appendChild(body);
+      article.appendChild(thumb);
+      if (variants.length > 1) {
+        const visibleVariants = variants.slice(0, MAX_SWATCHES);
+        const extraCount = Math.max(0, variants.length - visibleVariants.length);
+        const rowSwatches = document.createElement('div');
+        rowSwatches.className = 'variant-row';
+        rowSwatches.setAttribute('aria-label', 'Variantes disponibles');
+        rowSwatches.setAttribute('role', 'list');
+        visibleVariants.forEach((v, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'variant-swatch' + (idx === activeIndex ? ' is-active' : '');
+          btn.setAttribute('role', 'listitem');
+          btn.setAttribute('aria-label', v.label);
+          btn.setAttribute('aria-pressed', idx === activeIndex ? 'true' : 'false');
+          if (v.swatch) {
+            btn.style.backgroundImage = 'url(\"' + v.swatch + '\")';
+            const swatchImage = new Image();
+            swatchImage.onerror = () => { btn.style.backgroundImage = 'url(\"' + PLACEHOLDER + '\")'; };
+            swatchImage.src = v.swatch;
+          } else if (v.hex) {
+            btn.style.background = v.hex;
+          } else {
+            btn.style.background = '#f1f3f5';
+          }
+          btn.addEventListener('mouseenter', () => preloadImage(v.image));
+          btn.addEventListener('touchstart', () => preloadImage(v.image), { passive: true });
+          btn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            setMainImage(img, v.image || v.swatch || imgSrc, baseAlt, v.label);
+            rowSwatches.querySelectorAll('.variant-swatch').forEach(el => {
+              el.classList.remove('is-active');
+              el.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('is-active');
+            btn.setAttribute('aria-pressed', 'true');
+            article.dataset.variantLabel = v.label || '';
+            article.dataset.variantId = v.id || '';
+            article.dataset.variantImage = v.image || '';
+            article.dataset.variantSwatch = v.swatch || '';
+            article.dataset.variantHex = v.hex || '';
+          });
+          rowSwatches.appendChild(btn);
+        });
+        if (extraCount > 0) {
+          const chip = document.createElement('span');
+          chip.className = 'variant-more';
+          chip.textContent = '+' + extraCount;
+          rowSwatches.appendChild(chip);
+        }
+        article.appendChild(rowSwatches);
+      }
+      article.appendChild(body);
       return article;
     }
 

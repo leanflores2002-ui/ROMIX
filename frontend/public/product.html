@@ -903,6 +903,8 @@
       const rawName = params.get('name') || '';
       const nameParam = (typeof window.fixUtf8 === 'function' ? window.fixUtf8(rawName) : rawName).trim();
       const buyParam = (params.get('buy') || '').trim();
+      const colorParam = (params.get('color') || '').trim();
+      const variantParam = (params.get('variant') || '').trim();
 
       function getPriceGroupForSize(sizeValue, productSection) {
         const sizeNum = Number(sizeValue);
@@ -1760,7 +1762,15 @@
           const exists = palette.some(entry => canonicalColor(entry && (entry.name || entry.value)) === canonicalColor(colorName));
           if (!exists) palette.push({ name: colorName });
         });
-        const defaultColorName = (palette[0].name || palette[0].hex || palette[0].value || 'Unico');
+        let defaultColorName = (palette[0].name || palette[0].hex || palette[0].value || 'Unico');
+        if (colorParam) {
+          const targetKey = normalizeColorKey(colorParam);
+          const matched = palette.find(entry => normalizeColorKey(entry && (entry.name || entry.value || '')) === targetKey);
+          if (matched) defaultColorName = matched.name || matched.value || defaultColorName;
+        } else if (variantParam) {
+          const matched = palette.find(entry => String(entry.variantId || entry.variant_id || entry.id || '') === String(variantParam));
+          if (matched) defaultColorName = matched.name || matched.value || defaultColorName;
+        }
         currentSelectedColor = defaultColorName;
         const stockMap = buildStockMap(product);
         const stockTotals = Object.values(stockMap || {}).map(map => Object.values(map || {}).reduce((acc, qty) => acc + (Number(qty) || 0), 0));

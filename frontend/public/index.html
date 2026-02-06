@@ -61,8 +61,14 @@
     .trend-nav { position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; pointer-events:none; padding:0 4px; }
     .trend-arrow { width:34px; height:34px; border-radius:50%; border:1px solid rgba(90,53,163,.25); background:rgba(255,255,255,.95); color:#5a35a3; box-shadow:0 9px 18px rgba(64,35,125,.14); display:flex; align-items:center; justify-content:center; cursor:pointer; pointer-events:auto; }
     .trend-dots { display:flex; gap:6px; justify-content:center; margin-top:8px; }
-    .trend-dot { width:10px; height:10px; border-radius:50%; background:#d8c9ff; }
+    .trend-dot { width:10px; height:10px; border-radius:50%; background:#d8c9ff; border:none; cursor:pointer; }
     .trend-dot.active { background:#6f42c1; }
+    .trend-arrow:focus-visible,
+    .trend-dot:focus-visible,
+    .trend-slider:focus-visible {
+      outline:2px solid #6f42c1;
+      outline-offset:3px;
+    }
 
     /* Categorias mujer */
     .women-cats {
@@ -271,7 +277,7 @@
         <button class="trend-arrow" id="trend-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       </div>
     </div>
-    <div class="trend-slider">
+    <div class="trend-slider" id="trend-slider" tabindex="0" role="region" aria-label="Carrusel de destacados" aria-roledescription="Carrusel">
       <div class="trend-track" id="trend-track"></div>
     </div>
     <div class="trend-dots" id="trend-dots"></div>
@@ -454,9 +460,12 @@
       if (Array.isArray(copy.colors)) copy.colors = copy.colors.map(c=> Object.assign({}, c, { name: fixUtf8(c && c.name) }));
       return copy;
     }
-    const shouldHideProduct = typeof window.romixShouldHideProduct === 'function'
-      ? window.romixShouldHideProduct
-      : function(p){ return false; };
+    function shouldHideProduct(p){
+      if (!p) return false;
+      const raw = p.season === null || p.season === undefined ? '' : String(p.season);
+      const normalized = raw.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
+      return normalized === 'verano';
+    }
     function sanitizeList(list){
       return (Array.isArray(list) ? list.map(sanitizeProduct) : []).filter(function(item){ return !shouldHideProduct(item); });
     }
@@ -534,6 +543,7 @@
       carousel.enableSwipe = !!options.enableSwipe;
       carousel.swipeEl = options.swipeEl || null;
       carousel.current = 0;
+      carousel.keyboardEl = options.keyboardEl || null;
 
       const update = function(){
         const perPage = getCarouselPerPage();
@@ -543,15 +553,15 @@
         const itemWidth = firstItem ? firstItem.getBoundingClientRect().width : 0;
         const viewport = carousel.track.parentElement;
         const viewportWidth = viewport ? viewport.clientWidth : 0;
-        const pageStep = Math.max(1, (itemWidth + gap) * perPage);
+        const pageStep = viewportWidth || Math.max(1, (itemWidth + gap) * perPage);
         const maxOffset = Math.max(0, carousel.track.scrollWidth - viewportWidth);
-        const pages = Math.max(1, Math.floor(maxOffset / pageStep) + 1);
+        const pages = Math.max(1, Math.ceil(maxOffset / pageStep) + 1);
         if (carousel.current >= pages) carousel.current = pages - 1;
         if (carousel.current < 0) carousel.current = 0;
         const offset = Math.min(maxOffset, carousel.current * pageStep);
         carousel.track.style.transform = 'translateX(-' + offset + 'px)';
         carousel.dots.innerHTML = new Array(pages).fill('').map(function(_, idx){
-          return '<div class="' + carousel.dotClass + (idx===carousel.current?' active':'') + '"></div>';
+          return '<button type="button" class="' + carousel.dotClass + (idx===carousel.current?' active':'') + '" data-carousel-dot="' + idx + '" aria-label="Ir a la página ' + (idx + 1) + '"' + (idx===carousel.current?' aria-current="true"':'') + '></button>';
         }).join('');
         carousel.pages = pages;
       };
@@ -569,6 +579,21 @@
 
       if (carousel.prevEl) carousel.prevEl.onclick = prevClick;
       if (carousel.nextEl) carousel.nextEl.onclick = nextClick;
+
+      if (carousel.dots) {
+        carousel.dots.setAttribute('role', 'tablist');
+        if (!carousel.dots.getAttribute('aria-label')) {
+          carousel.dots.setAttribute('aria-label', 'Páginas del carrusel');
+        }
+        carousel.dots.onclick = function(evt){
+          var btn = evt.target.closest('button[data-carousel-dot]');
+          if (!btn) return;
+          var nextIndex = parseInt(btn.getAttribute('data-carousel-dot') || '0', 10);
+          if (isNaN(nextIndex)) return;
+          carousel.current = nextIndex;
+          update();
+        };
+      }
 
       if (typeof carousel.unbindSwipe === 'function') {
         carousel.unbindSwipe();
@@ -603,6 +628,21 @@
           carousel.swipeEl.removeEventListener('touchstart', onTouchStart);
           carousel.swipeEl.removeEventListener('touchend', onTouchEnd);
           carousel.swipeEl.removeEventListener('touchcancel', onTouchCancel);
+        };
+      }
+
+      if (typeof carousel.unbindKeyboard === 'function') {
+        carousel.unbindKeyboard();
+        carousel.unbindKeyboard = null;
+      }
+      if (carousel.keyboardEl) {
+        const onKeyDown = function(evt){
+          if (evt.key === 'ArrowLeft') { evt.preventDefault(); prevClick(); }
+          if (evt.key === 'ArrowRight') { evt.preventDefault(); nextClick(); }
+        };
+        carousel.keyboardEl.addEventListener('keydown', onKeyDown);
+        carousel.unbindKeyboard = function(){
+          carousel.keyboardEl.removeEventListener('keydown', onKeyDown);
         };
       }
 
@@ -813,6 +853,7 @@
       var track = document.getElementById('trend-track');
       var dots = document.getElementById('trend-dots');
       if (!track || !dots) return;
+      track.setAttribute('role', 'list');
       var allowedBadges = ['Nuevo','Por agotarse','Más vendido'];
       var featured = (list||[]).filter(function(p){ return p && p.featured === true; });
       var trends = featured.slice(0,12);
@@ -824,7 +865,7 @@
         var price = money(p.price);
         var detailLink = detailHref(p);
         return (
-          '<article class="trend-card">'+
+          '<article class="trend-card" role="listitem">'+
             '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\''+detailLink+'\'">'+
             (badge ? '<div class="trend-badge'+badgeClass+'">'+badge+'</div>' : '')+
             '<div class="trend-name">'+(p.name||'')+'</div>'+
@@ -840,7 +881,8 @@
         totalItems: trends.length,
         dotClass: 'trend-dot',
         enableSwipe: true,
-        swipeEl: track.parentElement
+        swipeEl: track.parentElement,
+        keyboardEl: document.getElementById('trend-slider')
       });
     }
     var ALL_PRODUCTS = preloadedProducts() || [];

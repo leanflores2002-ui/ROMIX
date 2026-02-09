@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -353,30 +353,32 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
   <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png"></head>
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">  <link rel="stylesheet" href="assets/css/romix-header.css">
+</head>
 <body>
   <header>
-    <div class="header-wrap">
-      <a href="index.html" class="logo" style="color:#fff;text-decoration:none"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /> ROMIX</a>
-      <nav aria-label="Secciones">
-        <ul>
-          <li><a href="mujer.html">Mujer</a></li>
-          <li><a href="hombre.html">Hombre</a></li>
-          <li><a href="ninos.html">Niños</a></li>
-          <li><a href="novedades.html">Novedades</a></li>
-          <li><a href="ayuda.html">Ayuda</a></li>
-        </ul>
-      </nav>
-      <div>
-        <button class="cart-btn" type="button" onclick="showToast('Abre el detalle de cualquier producto para finalizar compra.');">
-          <i class="fas fa-shopping-cart" aria-hidden="true"></i> Carrito <span id="cart-count" class="cart-count">0</span>
-        </button>
+    <div class="header-container topbar">
+      <a href="index.html" class="logo" aria-label="Romix"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /><span>ROMIX</span></a>
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar">
+        <input type="search" name="q" placeholder="Buscar productos..." />
+        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
+      </form>
+      <div class="topbar-icons" aria-label="Acciones">
+        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
+        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
       </div>
     </div>
+    <nav class="nav-secondary" aria-label="Secciones y categorías">
+      <a href="mujer.html">Mujer</a>
+      <a href="hombre.html">Hombre</a>
+      <a href="ninos.html">Niños</a>
+      <a href="novedades.html">Novedades</a>
+      <a href="ayuda.html">Ayuda</a>
+    </nav>
   </header>
 
   <main class="container" aria-label="Catálogo de productos">
-    <div id="summary" class="summary">Mostrando 0 productos · Página 1 de 1</div>
+    <div id="summary" class="summary">Mostrando 0 productos Página 1 de 1</div>
     <section id="grid" class="grid" aria-live="polite"></section>
   </main>
   <footer>
@@ -384,16 +386,18 @@
       <div>
         <strong>Ayuda</strong>
         <div>
-          <a href="ayuda.html#size-guide">Guía de talles</a> ·
-          <a href="ayuda.html#returns">Política de Cambios</a> ·
+          <a href="ayuda.html#size-guide">Guía de talles</a>
+          <a href="ayuda.html#returns">Política de Cambios</a>
           <a href="ayuda.html">Centro de ayuda</a>
         </div>
       </div>
     </div>
   </footer>
   <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
+  <script src="assets/js/romix-header.js"></script>
 </body>
 </html>
+
 
 
 

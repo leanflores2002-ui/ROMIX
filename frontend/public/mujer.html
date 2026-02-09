@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -332,6 +332,7 @@
   <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
   <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
+  <link rel="stylesheet" href="assets/css/romix-header.css">
 </head>
 
 <body>
@@ -520,7 +521,7 @@
       preloadedVariantImages.add(src);
     }
 
-    // ==== MAPA DE COLORES CANÓNICOS PARA FILTROS ====
+    // ==== MAPA DE COLORES CANONICOS PARA FILTROS ====
     const COLOR_DEFINITIONS = [
       { key:"multicolor", label:"Multicolor", hex:"#f7c948", aliases:["multicolor","estampado","estampada","print","floreado"] },
       { key:"negro",      label:"Negro",      hex:"#000000", aliases:["negro","black","hex","name"] },
@@ -557,11 +558,11 @@
       });
     });
 
-    // ✅ CORREGIDO: "unico" / "único" no se toma como color
+    // ? CORREGIDO: "unico" / "único" no se toma como color
     function canonicalColorKey(name){
       const raw = normalizeColorText(name);
       if (!raw) return '';
-      if (raw === 'unico' || raw === 'unica' || raw === 'único' || raw === 'única') return '';
+      if (raw === 'unico' || raw === 'unica' || raw === 'único' || raw === 'úncia') return '';
       if (/^estampad/.test(raw)) return 'multicolor';
       if (COLOR_ALIAS_MAP[raw]) return COLOR_ALIAS_MAP[raw];
       return raw;
@@ -617,7 +618,7 @@
         }
       }
 
-      // ✅ NUEVO: si no hay colors pero hay images, inferir colors desde keys de images
+      // ? NUEVO: si no hay colors pero hay images, inferir colors desde keys de images
       if ((!copy.colors || copy.colors.length === 0) && copy.images && typeof copy.images === "object") {
         copy.colors = Object.keys(copy.images).map(k => ({
           name: fixUtf8(k),
@@ -688,7 +689,7 @@
     function safeSetCart(v){ try { if (window.romixCart) window.romixCart.saveCart(v); } catch {} }
     function updateCartCount(){ try { if (window.romixCart) window.romixCart.updateBadge(); } catch {} }
 
-    // ✅ CORREGIDO: NO inventa "Unico", infiere color desde colors o images
+    // ? CORREGIDO: NO inventa "Unico", infiere color desde colors o images
     function quickAdd(product, selection){
       const pid = product.id || slugify(product.name || "");
 
@@ -698,7 +699,7 @@
             ? Object.keys(product.images)
             : []);
 
-      // Primer color válido (no "unico")
+    // Primer color válido (no "unico")
       const firstColorName =
         inferredColors.find(cn => canonicalColorKey(cn)) ||
         inferredColors[0] ||
@@ -1154,7 +1155,7 @@
         const xSpan = document.createElement('span');
         xSpan.className = 'filter-chip-x';
         xSpan.setAttribute('aria-hidden', 'true');
-        xSpan.textContent = '✕';
+        xSpan.textContent = '?';
 
         btn.appendChild(labelSpan);
         btn.appendChild(xSpan);
@@ -1276,5 +1277,8 @@
   <script src="assets/js/search.js"></script>
 
   <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
+  <script src="assets/js/romix-header.js"></script>
 </body>
 </html>
+
+

@@ -1610,7 +1610,7 @@
       function gatherFeatureEntries(product){
         const entries = [];
         const seasonLabel = inferSeason(product.name);
-        if (seasonLabel && seasonLabel !== 'Verano') {
+        if (seasonLabel && seasonLabel !== 'Verano' && seasonLabel !== 'Invierno') {
           entries.push({ label: 'Temporada', value: seasonLabel });
         }
         entries.push({ label: 'Material principal', value: inferMaterial(product) });

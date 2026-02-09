@@ -926,7 +926,7 @@
 
       values.forEach(val => {
         const valueKey = String(val || '').toLowerCase();
-        const isHidden = group === 'seasons' && valueKey === 'verano';
+        const isHidden = group === 'seasons' && (valueKey === 'verano' || valueKey === 'invierno');
 
         let labelText;
         if (group === 'priceGroups') {

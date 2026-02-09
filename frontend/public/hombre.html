@@ -742,7 +742,7 @@
       let visibleCount = 0;
       values.forEach(val => {
         const valueKey = String(val || '').toLowerCase();
-        const isHidden = group === 'seasons' && valueKey === 'verano';
+        const isHidden = group === 'seasons' && (valueKey === 'verano' || valueKey === 'invierno');
         let labelText;
         if (group === 'seasons') labelText = seasonFilter.seasonLabelFromKey(valueKey);
         else if (group === 'colors') labelText = colorLabelFromKey(valueKey);

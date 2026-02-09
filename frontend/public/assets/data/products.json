@@ -4,8 +4,6 @@
     "type":  "calzas",
     "name":  "Calza térmica lycra chupín dama",
     "season":  "invierno",
-    "featured":  true,
-    "featuredBadge":  "Nuevo",
     "image":  "images/calza_termica_lycra_chupin_dama_negro.png",
     "images":  {
                     "Negro":  "images/calza_termica_lycra_chupin_dama_negro.png",
@@ -71,8 +69,6 @@
     "type":  "calzas",
     "name":  "Calza térmica jaspeada saplex chupín dama",
     "season":  "invierno",
-    "featured":  true,
-    "featuredBadge":  "Por agotarse",
     "image":  "images/calza_termica_jaspeada_saplex_chupin_dama_violeta.png",
     "images":  {
                     "Violeta":  "images/calza_termica_jaspeada_saplex_chupin_dama_violeta.png",
@@ -148,8 +144,6 @@
     "type":  "calzas",
     "name":  "Calza térmica lycra recta dama",
     "season":  "invierno",
-    "featured":  true,
-    "featuredBadge":  "Más vendido",
     "image":  "images/calza_termica_lycra_recta_dama_negro.png",
     "images":  {
                     "Negro":  "images/calza_termica_lycra_recta_dama_negro.png"

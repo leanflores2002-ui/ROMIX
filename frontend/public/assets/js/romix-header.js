@@ -125,6 +125,10 @@ document.addEventListener('DOMContentLoaded', function () {
       return Array.isArray(list) ? list : [];
     }
 
+    function normalizeSeasonValue(value) {
+      return String(value || '').trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
+    }
+
     function loadProducts() {
       if (dataCache) return Promise.resolve(dataCache);
       if (dataPromise) return dataPromise;
@@ -145,6 +149,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var map = {};
       list.forEach(function (p) {
         if (!p || !p.section || !p.type) return;
+        var seasonKey = normalizeSeasonValue(p.season);
+        if (seasonKey === 'verano') return;
         var section = String(p.section).toLowerCase();
         var type = String(p.type).trim();
         if (!type) return;

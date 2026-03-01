@@ -336,3 +336,132 @@ footer a {
   background: #120f1e !important;
   color: #f4f2ff !important;
 }
+
+/* Product detail readability */
+#product-detail,
+.detail-panel {
+  color: #f4f2ff !important;
+}
+
+.detail-panel h1,
+.detail-panel h2,
+.detail-panel h3,
+.detail-panel p,
+.detail-panel li,
+.detail-panel .title-row h1,
+.detail-panel .detail-description,
+.detail-panel .stock-detail,
+.detail-panel .meta-label,
+.detail-panel .price-area,
+.detail-panel .current-price,
+.detail-panel .original-price {
+  color: #f4f2ff !important;
+}
+
+.detail-panel .meta-pill {
+  background: #1a142b !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,45,149,0.6) !important;
+}
+
+/* Product features + related cards alignment */
+.features-panel,
+.related-panel {
+  background: linear-gradient(135deg, rgba(18, 12, 32, 0.95), rgba(26, 16, 47, 0.95)) !important;
+  border: 1px solid rgba(255,45,149,0.25) !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.55) !important;
+}
+
+.feature-card {
+  background: #1a142b !important;
+  border: 1px solid rgba(123,44,255,0.28) !important;
+  color: #f4f2ff !important;
+}
+
+.feature-card strong {
+  color: #ffffff !important;
+}
+
+.feature-card span,
+.feature-card small {
+  color: #cfc7ff !important;
+}
+
+.related-card {
+  background: #1a142b !important;
+  border: 1px solid rgba(255,45,149,0.25) !important;
+  box-shadow: 0 16px 30px rgba(0,0,0,0.45) !important;
+}
+
+.related-card-name {
+  color: #f4f2ff !important;
+}
+
+.related-card-meta {
+  color: #b6b2cc !important;
+}
+
+/* Help page readability */
+.help-section,
+.help-section p,
+.help-section li,
+.help-section td,
+.help-section th,
+.contact-card,
+.contact-list,
+.contact-hours,
+.contact-note,
+.section-title,
+.help-section h3 {
+  color: #f4f2ff !important;
+}
+
+.size-guide-table th {
+  background: #1a1527 !important;
+  color: #f4f2ff !important;
+}
+
+.size-guide-table td {
+  color: #d9d3ff !important;
+}
+
+/* Mega menu preview styling */
+header .romix-mega-panel {
+  background: linear-gradient(135deg, rgba(14, 10, 22, 0.98), rgba(26, 16, 47, 0.96)) !important;
+  border: 1px solid rgba(255,45,149,0.35) !important;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.6) !important;
+}
+
+header .romix-mega-sub {
+  color: #b6b2cc !important;
+}
+
+header .romix-mega-title {
+  color: #f4f2ff !important;
+}
+
+header .romix-mega-all {
+  background: rgba(255,45,149,0.16) !important;
+  border: 1px solid rgba(255,45,149,0.5) !important;
+  color: #f4f2ff !important;
+}
+
+header .romix-mega-item {
+  background: #1a142b !important;
+  border: 1px solid rgba(123,44,255,0.28) !important;
+  box-shadow: 0 14px 26px rgba(0,0,0,0.45) !important;
+}
+
+header .romix-mega-item:hover {
+  border-color: rgba(255,45,149,0.6) !important;
+  box-shadow: 0 18px 32px rgba(0,0,0,0.55) !important;
+}
+
+header .romix-mega-thumb {
+  border: 1px solid rgba(255,45,149,0.35) !important;
+  background: #14101f !important;
+}
+
+header .romix-mega-label {
+  color: #f4f2ff !important;
+}

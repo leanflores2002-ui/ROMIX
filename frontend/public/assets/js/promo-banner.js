@@ -45,6 +45,13 @@
     media.appendChild(price);
 
     card.appendChild(media);
+    const meta = document.createElement('div');
+    meta.className = 'promo-card__meta';
+    const name = document.createElement('h3');
+    name.className = 'promo-card__name';
+    name.textContent = product && product.name ? product.name : 'Producto destacado';
+    meta.appendChild(name);
+    card.appendChild(meta);
     return card;
   }
 

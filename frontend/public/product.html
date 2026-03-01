@@ -318,22 +318,71 @@
       .zoom-nav.next { right: 8px; }
     }
     .thumbs {
+      --thumb-size: 96px;
+      --thumb-height: 88px;
+      --thumb-gap: 12px;
+      --thumbs-visible: 4;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      width: 96px;
+      gap: var(--thumb-gap, 12px);
+      width: var(--thumb-size, 96px);
+      max-height: calc((var(--thumb-size, 96px) * var(--thumbs-visible, 4)) + (var(--thumb-gap, 12px) * (var(--thumbs-visible, 4) - 1)));
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      scroll-snap-type: y proximity;
+      padding: 2px;
     }
     .thumbs img {
-      width: 96px;
-      height: 88px;
+      width: var(--thumb-size, 96px);
+      height: var(--thumb-height, 88px);
       border-radius: 10px;
       object-fit: cover;
       cursor: pointer;
       border: 2px solid transparent;
-      transition: border-color .2s;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
+      scroll-snap-align: start;
+      background: #f7f7f9;
     }
     .thumbs img.active {
       border-color: var(--primary);
+      box-shadow: 0 6px 14px rgba(232,62,140,.22);
+      transform: translateZ(0) scale(1.02);
+    }
+    .thumbs-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: var(--thumb-size, 96px);
+      order: -1;
+    }
+    .thumb-nav {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,.08);
+      background: #fff;
+      color: #333;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+      transition: transform .2s, opacity .2s;
+    }
+    .thumb-nav:hover { transform: translateY(-1px); }
+    .thumb-nav:disabled {
+      opacity: .35;
+      cursor: default;
+      transform: none;
+      box-shadow: none;
+    }
+    .thumb-nav.is-hidden {
+      visibility: hidden;
+    }
+    .thumbs::-webkit-scrollbar { width: 0; height: 0; }
+    .thumbs { scrollbar-width: none; }
     }
     .info-panel {
       display: flex;
@@ -729,14 +778,47 @@
       .gallery {
         flex-direction: column;
       }
+      .thumbs-panel {
+        position: relative;
+        width: 100%;
+        align-items: flex-start;
+        order: 2;
+      }
+      .thumb-nav {
+        display: inline-flex;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        box-shadow: 0 6px 16px rgba(0,0,0,.12);
+      }
+      .thumb-nav.prev { left: -4px; }
+      .thumb-nav.next { right: -4px; }
+      .thumb-nav i { transform: rotate(-90deg); }
       .thumbs {
+        --thumb-gap: 10px;
+        --thumbs-visible: 3;
+        --thumb-size: calc((100% - (var(--thumb-gap) * (var(--thumbs-visible) - 1))) / var(--thumbs-visible));
+        --thumb-height: var(--thumb-size);
         flex-direction: row;
         width: 100%;
-        justify-content: flex-start;
+        max-height: none;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 12px;
+        padding: 4px 12px 8px;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x;
       }
       .thumbs img {
-        width: 76px;
-        height: 76px;
+        flex: 0 0 var(--thumb-size);
+        width: var(--thumb-size);
+        height: var(--thumb-height);
+        scroll-snap-align: start;
       }
       .info-panel {
         gap: 14px;
@@ -778,7 +860,6 @@
       <a href="hombre.html">Hombre</a>
       <a href="ninos.html">Niños</a>
       <a href="novedades.html">Novedades</a>
-      <a href="ayuda.html">Ayuda</a>
     </nav>
   </header>
 
@@ -1651,7 +1732,18 @@
                   <i class="fas fa-search-plus" aria-hidden="true"></i>
                 </button>
               </div>
-              ${gallery.length > 1 ? `<div class="thumbs" id="gallery-thumbs">${gallery.map((image, index) => `<img src="${image.src}" alt="${image.label || product.name}" data-index="${index}" data-color="${image.label || ''}" ${index === 0 ? 'class="active"' : ''} loading="lazy"/>`).join('')}</div>` : ''}
+              ${gallery.length > 1 ? `
+              <div class="thumbs-panel" aria-label="Galería de miniaturas">
+                <button type="button" class="thumb-nav prev" id="thumbs-prev" aria-label="Ver miniaturas anteriores">
+                  <i class="fas fa-chevron-up" aria-hidden="true"></i>
+                </button>
+                <div class="thumbs" id="gallery-thumbs" role="listbox" aria-label="Miniaturas del producto">
+                  ${gallery.map((image, index) => `<img src="${image.src}" alt="${image.label || product.name}" data-index="${index}" data-color="${image.label || ''}" ${index === 0 ? 'class="active"' : ''} role="option" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy"/>`).join('')}
+                </div>
+                <button type="button" class="thumb-nav next" id="thumbs-next" aria-label="Ver miniaturas siguientes">
+                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                </button>
+              </div>` : ''}
             </div>
             <div class="info-panel">
               <div>
@@ -1713,6 +1805,8 @@
 
         const mainImage = detail.querySelector('#main-image');
         const thumbContainer = detail.querySelector('#gallery-thumbs');
+        const thumbsPrevBtn = detail.querySelector('#thumbs-prev');
+        const thumbsNextBtn = detail.querySelector('#thumbs-next');
         const colorPickerContainer = detail.querySelector('#colorPicker');
         const swatchWrapper = detail.querySelector('#color-options');
         const selectedColorNameEl = detail.querySelector('#selectedColorName');
@@ -1790,12 +1884,75 @@
         let activeColor = defaultColorName;
         let activeSize = '';
 
+        function setActiveThumb(targetIndex) {
+          if (!thumbContainer) return;
+          const thumbs = Array.from(thumbContainer.querySelectorAll('img'));
+          thumbs.forEach((el, idx) => {
+            const isActive = idx === targetIndex;
+            el.classList.toggle('active', isActive);
+            el.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          });
+          const target = thumbs[targetIndex];
+          if (target) {
+            target.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+          }
+        }
+
+        function getThumbAxis() {
+          const isMobile = window.matchMedia('(max-width: 960px)').matches;
+          return isMobile ? 'x' : 'y';
+        }
+
+        function updateThumbNav() {
+          if (!thumbContainer || !thumbsPrevBtn || !thumbsNextBtn) return;
+          const axis = getThumbAxis();
+          if (axis === 'x') {
+            const maxScroll = thumbContainer.scrollWidth - thumbContainer.clientWidth;
+            if (maxScroll <= 2) {
+              thumbsPrevBtn.disabled = true;
+              thumbsNextBtn.disabled = true;
+              thumbsPrevBtn.classList.add('is-hidden');
+              thumbsNextBtn.classList.add('is-hidden');
+              return;
+            }
+            thumbsPrevBtn.classList.remove('is-hidden');
+            thumbsNextBtn.classList.remove('is-hidden');
+            thumbsPrevBtn.disabled = thumbContainer.scrollLeft <= 2;
+            thumbsNextBtn.disabled = thumbContainer.scrollLeft >= maxScroll - 2;
+            return;
+          }
+          const maxScroll = thumbContainer.scrollHeight - thumbContainer.clientHeight;
+          if (maxScroll <= 2) {
+            thumbsPrevBtn.disabled = true;
+            thumbsNextBtn.disabled = true;
+            thumbsPrevBtn.classList.add('is-hidden');
+            thumbsNextBtn.classList.add('is-hidden');
+            return;
+          }
+          thumbsPrevBtn.classList.remove('is-hidden');
+          thumbsNextBtn.classList.remove('is-hidden');
+          thumbsPrevBtn.disabled = thumbContainer.scrollTop <= 2;
+          thumbsNextBtn.disabled = thumbContainer.scrollTop >= maxScroll - 2;
+        }
+
+        function scrollThumbs(direction) {
+          if (!thumbContainer) return;
+          const axis = getThumbAxis();
+          const step = axis === 'y'
+            ? (parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-height')) || 88) + (parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-gap')) || 12)
+            : (parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-size')) || 76) + (parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-gap')) || 10);
+          if (axis === 'y') {
+            thumbContainer.scrollBy({ top: step * direction, behavior: 'smooth' });
+          } else {
+            thumbContainer.scrollBy({ left: step * direction, behavior: 'smooth' });
+          }
+        }
+
         if (thumbContainer) {
           const thumbs = Array.from(thumbContainer.querySelectorAll('img'));
           thumbs.forEach((thumb, index) => {
             thumb.addEventListener('click', () => {
-              thumbs.forEach(el => el.classList.remove('active'));
-              thumb.classList.add('active');
+              setActiveThumb(index);
               const targetColor = thumb.dataset.color || '';
               if (targetColor && findColorOption(product, targetColor)) {
                 setActiveColor(targetColor, { imageOverride: gallery[index].src, skipThumbSync: true });
@@ -1804,6 +1961,17 @@
               }
             });
           });
+          thumbContainer.addEventListener('scroll', () => {
+            window.requestAnimationFrame(updateThumbNav);
+          });
+          window.addEventListener('resize', updateThumbNav);
+          updateThumbNav();
+        }
+        if (thumbsPrevBtn) {
+          thumbsPrevBtn.addEventListener('click', () => scrollThumbs(-1));
+        }
+        if (thumbsNextBtn) {
+          thumbsNextBtn.addEventListener('click', () => scrollThumbs(1));
         }
 
         function renderSizesForColor(colorName){
@@ -1972,7 +2140,12 @@
               const thumbKey = normalizeColorKey(thumb.dataset.color || '');
               const match = targetKey && thumbKey && thumbKey === targetKey;
               thumb.classList.toggle('active', match);
+              thumb.setAttribute('aria-selected', match ? 'true' : 'false');
             });
+            const activeThumb = thumbContainer.querySelector('img.active');
+            if (activeThumb) {
+              activeThumb.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+            }
           }
           renderSizesForColor(colorName);
           updateSizesStateForColor(product, colorName);

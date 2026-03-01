@@ -21,8 +21,11 @@
 
     .container { max-width:1600px; margin:22px auto; padding:0 28px; }
     .summary { color:#6c757d; margin: 6px 2px 12px; font-weight:600; }
+    .catalog-toolbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin: 6px 2px 12px; }
+    .catalog-toolbar label { color:#6c757d; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
+    .catalog-toolbar select { padding:8px 10px; border:1px solid #dee2e6; border-radius:8px; background:#fff; }
 
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap:18px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap:22px; }
     .card { background:#fff; border-radius:14px; box-shadow:0 14px 36px rgba(0,0,0,.10); overflow:hidden; display:flex; flex-direction:column; }
     .thumb {
       position:relative;
@@ -49,7 +52,7 @@
     .price { color: var(--primary); font-weight:900; font-size:1.2rem; }
     .stock { color: var(--success); font-weight:800; font-size:.9rem; text-align:right; }
     .stock small { display:block; color:#6c757d; font-weight:600; }
-    .actions { display:flex; gap:10px; margin-top:4px; }
+    .actions { display:flex; gap:12px; margin-top:8px; }
     .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 12px; border-radius:10px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; }
     .btn-details { background:#fff; color:#495057; }
     .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
@@ -131,6 +134,26 @@
         ? window.romixShouldHideProduct
         : function(p){ return false; };
       const filterVisibleProducts = list => (Array.isArray(list) ? list : []).filter(item => !shouldHideProduct(item));
+      const SEASON_PARAM = 'season';
+      let allProducts = [];
+
+      function normalizeSeasonValue(value){
+        return String(value || '').trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
+      }
+
+      function getSeasonFromUrl(){
+        const params = new URLSearchParams(location.search);
+        return normalizeSeasonValue(params.get(SEASON_PARAM) || '');
+      }
+
+      function updateSeasonUrl(season){
+        const params = new URLSearchParams(location.search);
+        if (season) params.set(SEASON_PARAM, season);
+        else params.delete(SEASON_PARAM);
+        const search = params.toString();
+        const nextUrl = location.pathname + (search ? '?' + search : '') + location.hash;
+        history.pushState(null, '', nextUrl);
+      }
 
       function normalizeSlug(value){
         const safeValue = String(value || '');
@@ -280,7 +303,7 @@
                 <div class="stock ${stockLabel === 'Agotado' ? 'stock-out' : ''}">${stockLabel}</div>
               </div>
               <div class="actions">
-                <a class="btn btn-details" href="${buildHref(product)}" aria-label="Ver detalles de ${product.name || 'producto'}"><i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles</a>
+                <a class="btn btn-details" href="${buildHref(product)}" aria-label="Ver detalles de ${product.name || 'producto'}"><i class="fas fa-info-circle" aria-hidden="true"></i> Detalles</a>
                 <a class="btn btn-primary" href="${buildHref(product, true)}" role="button"><i class="fas fa-cart-plus" aria-hidden="true"></i> Agregar</a>
               </div>
             </div>`;
@@ -293,6 +316,15 @@
           }
           grid.appendChild(article);
         });
+      }
+
+      function applySeasonFilter(){
+        const seasonSelect = document.getElementById('cat-season');
+        const season = normalizeSeasonValue(seasonSelect ? seasonSelect.value : '');
+        const filtered = season
+          ? allProducts.filter(product => normalizeSeasonValue(product && product.season) === season)
+          : allProducts;
+        renderCards(filtered);
       }
 
       function parsePreloaded(){
@@ -327,9 +359,20 @@
 
       async function init(){
         updateCartCount();
+        const seasonSelect = document.getElementById('cat-season');
+        if (seasonSelect) {
+          const seasonFromUrl = getSeasonFromUrl();
+          if (seasonFromUrl) seasonSelect.value = seasonFromUrl;
+          seasonSelect.addEventListener('change', function(){
+            const season = normalizeSeasonValue(seasonSelect.value);
+            updateSeasonUrl(season);
+            applySeasonFilter();
+          });
+        }
         try {
           const list = await loadProducts();
-          renderCards(list);
+          allProducts = Array.isArray(list) ? list : [];
+          applySeasonFilter();
         } catch (error) {
           const grid = document.getElementById('grid');
           const summary = document.getElementById('summary');
@@ -373,11 +416,19 @@
       <a href="hombre.html">Hombre</a>
       <a href="ninos.html">Niños</a>
       <a href="novedades.html">Novedades</a>
-      <a href="ayuda.html">Ayuda</a>
     </nav>
   </header>
 
   <main class="container" aria-label="Catálogo de productos">
+    <div class="catalog-toolbar">
+      <label>Temporada:
+        <select id="cat-season">
+          <option value="">Todas</option>
+          <option value="invierno">Invierno</option>
+          <option value="media-estacion">Media estación</option>
+        </select>
+      </label>
+    </div>
     <div id="summary" class="summary">Mostrando 0 productos Página 1 de 1</div>
     <section id="grid" class="grid" aria-live="polite"></section>
   </main>

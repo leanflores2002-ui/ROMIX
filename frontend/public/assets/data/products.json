@@ -728,7 +728,7 @@
         "section":  "mujer",
         "type":  "Palazos",
         "name":  "Palazo Morley Laviano",
-        "season":  "media-estacion",
+        "season":  "invierno",
         "featured":  true,
         "featuredBadge":  "Por agotarse",
         "image":  "images/palazo_morley_liviano_negro.png",
@@ -794,158 +794,304 @@
                       }
                   ]
     },
-    {
-        "section":  "mujer",
-        "type":  "camperas",
-        "name":  "Campera Térmica Jaspeado Saplex",
-        "season":  "invierno",
-        "image":  "images/campera_termica_jaspeado_azul.jpg",
-        "images":  {
-                       "Azul jaspeado":  "images/campera_termica_jaspeado_azul.jpg",
-                       "Rojo jaspeado":  "images/campera_termica_jaspeado_rojo.jpg",
-                       "Verde jaspeado":  "images/campera_termica_jaspeado_verde.jpg"
+{
+    "section":  "mujer",
+    "type":  "camperas",
+    "name":  "Campera termica jaspeado saplex dama",
+    "season":  "invierno",
+    "image":  "images/Campera_termica_jaspeado_saplex_dama_gris_melange.png",
+    "images":  {
+                    "Gris melange":  "images/Campera_termica_jaspeado_saplex_dama_gris_melange.png",
+                    "Azul":  "images/Campera_termica_jaspeado_saplex_dama_azul.png",
+                    "Petroleo":  "images/Campera_termica_jaspeado_saplex_dama_petroleo.png",
+                    "Violeta":  "images/Campera_termica_jaspeado_saplex_dama_violeta.png",
+                    "Rosa":  "images/Campera_termica_jaspeado_saplex_dama_rosa.png",
+                    "Lila":  "images/Campera_termica_jaspeado_saplex_dama_lila.png",
+                    "Gris oscuro":  "images/Campera_termica_jaspeado_saplex_dama_gris_oscuro.png"
+                },
+    "price":  17000,
+    "priceByGroup":  {
+                         "common":  17000,
+                         "special":  17800
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
                    },
-        "price":  24999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
-        "colors":  [
-                       {
-                           "name":  "Azul jaspeado",
-                           "hex":  "#6b8cff"
-                       },
-                       {
-                           "name":  "Rojo jaspeado",
-                           "hex":  "#ff6b6b"
-                       },
-                       {
-                           "name":  "Verde jaspeado",
-                           "hex":  "#6bff6b"
-                       }
-                   ],
-        "sizes":  [
-                      {
-                          "size":  1,
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "3",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "4",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "5",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "6",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "7",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "8",
-                          "status":  "available"
-                      }
-                  ]
-    },
-    {
-        "section":  "mujer",
-        "type":  "camperas",
-        "name":  "Campera Polar Corderito Largo",
-        "season":  "invierno",
-        "image":  "images/campera_polar_corderito_negro.jpg",
-        "images":  {
-                       "Negro":  "images/campera_polar_corderito_negro.jpg",
-                       "Marrón":  "images/campera_polar_corderito_marron.jpg",
-                       "Gris":  "images/campera_polar_corderito_gris.jpg"
+                   {
+                       "name":  "Azul",
+                       "hex":  "#1E4ED8"
                    },
-        "price":  32999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
-        "colors":  [
-                       {
-                           "name":  "Negro",
-                           "hex":  "#000000"
-                       },
-                       {
-                           "name":  "Marrón",
-                           "hex":  "#654321"
-                       },
-                       {
-                           "name":  "Gris",
-                           "hex":  "#333333"
-                       }
-                   ],
-        "sizes":  [
-                      {
-                          "size":  1,
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "3",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "4",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "5",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "6",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "7",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "8",
-                          "status":  "available"
-                      }
-                  ]
-    },
+                   {
+                       "name":  "Petroleo",
+                       "hex":  "#005F6A"
+                   },
+                   {
+                       "name":  "Violeta",
+                       "hex":  "#7B5BA1"
+                   },
+                   {
+                       "name":  "Rosa",
+                       "hex":  "#F2A7C6"
+                   },
+                   {
+                       "name":  "Lila",
+                       "hex":  "#C8A2C8"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "mujer",
+    "type":  "camperas",
+    "name":  "Campera polar corto corderito",
+    "season":  "invierno",
+    "image":  "images/campera_polar_corto_corderito_negro.png",
+    "images":  {
+                    "Verde":  "images/campera_polar_corto_corderito_verde.png",
+                    "Gris":  "images/campera_polar_corto_corderito_gris.png",
+                    "Rojo":  "images/campera_polar_corto_corderito_rojo.png",
+                    "Azul marino":  "images/campera_polar_corto_corderito_azul_marino.png",
+                    "Negro":  "images/campera_polar_corto_corderito_negro.png",
+                    "Beige":  "images/campera_polar_corto_corderito_beige.png"
+                },
+    "price":  16500,
+    "priceByGroup":  {
+                         "common":  16500,
+                         "special":  17300
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Verde",
+                       "hex":  "#2E7D32"
+                   },
+                   {
+                       "name":  "Gris",
+                       "hex":  "#808080"
+                   },
+                   {
+                       "name":  "Rojo",
+                       "hex":  "#FF0000"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Beige",
+                       "hex":  "#E5D3B3"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "mujer",
+    "type":  "camperas",
+    "name":  "Campera largo polar con corderito",
+    "season":  "invierno",
+    "image":  "images/campera_largo_polar_corderito_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_largo_polar_corderito_negro.png",
+                    "Gris claro":  "images/campera_largo_polar_corderito_gris_claro.png",
+                    "Rojo":  "images/campera_largo_polar_corderito_rojo.png",
+                    "Azul marino":  "images/campera_largo_polar_corderito_azul_marino.png",
+                    "Beige":  "images/campera_largo_polar_corderito_beige.png",
+                    "Verde":  "images/campera_largo_polar_corderito_verde.png",
+                    "Gris":  "images/campera_largo_polar_corderito_gris.png"
+                },
+    "price":  17700,
+    "priceByGroup":  {
+                         "common":  17700,
+                         "special":  18500
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Gris claro",
+                       "hex":  "#D3D3D3"
+                   },
+                   {
+                       "name":  "Rojo",
+                       "hex":  "#FF0000"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Beige",
+                       "hex":  "#E5D3B3"
+                   },
+                   {
+                       "name":  "Verde",
+                       "hex":  "#2E7D32"
+                   },
+                   {
+                       "name":  "Gris",
+                       "hex":  "#808080"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
     {
         "section":  "mujer",
         "type":  "buzos",
-        "name":  "Buzo Algodón Frisado",
+        "name":  "Maxibuzo Frizado Algodón sin capucha dama",
         "season":  "invierno",
-        "image":  "images/buzo_algodon_frisado_negro.jpg",
+        "image":  "images/maxibuzo_frisado_algodon_sin_capucha_negro.png",
         "images":  {
-                       "Negro":  "images/buzo_algodon_frisado_negro.jpg",
-                       "Rojo":  "images/buzo_algodon_frisado_rojo.jpg",
-                       "Azul":  "images/buzo_algodon_frisado_azul.jpg",
-                       "Verde":  "images/buzo_algodon_frisado_verde.jpg"
+                       "Negro":  "images/maxibuzo_frisado_algodon_sin_capucha_negro.png",
+                       "Gris melange": "images/maxibuzo_frisado_algodon_sin_capucha_gris_melange.png",
+                       "Francia":  "images/maxibuzo_frisado_algodon_sin_capucha_francia.png",
+                       "Azul marino":  "images/maxibuzo_frisado_algodon_sin_capucha_azul_marino.png",
+                       "Verde":  "images/maxibuzo_frisado_algodon_sin_capucha_verde.png",
+                       "Lila": "images/maxibuzo_frisado_algodon_sin_capucha_lila.png"
                    },
-        "price":  14499,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
+        "price":  17200,
+        "priceByGroup":  { "common":  17200, "special":  18000 },
+        "specialSizes":  [
+                            6,
+                            7,
+                            8
+                        ],
         "colors":  [
                        {
                            "name":  "Negro",
                            "hex":  "#000000"
                        },
                        {
-                           "name":  "Rojo",
-                           "hex":  "#ff6b6b"
+                           "name":  "Gris melange",
+                           "hex":  "#D3D3D3"
                        },
                        {
-                           "name":  "Azul",
-                           "hex":  "#6b8cff"
+                           "name":  "Francia",
+                           "hex":  "#FF0000"
+                       },
+                       {
+                           "name":  "Azul marino",
+                           "hex":  "#0B1F5B"
                        },
                        {
                            "name":  "Verde",
-                           "hex":  "#6bff6b"
+                           "hex":  "#2E7D32"
+                       },
+                       {
+                           "name":  "Lila",
+                           "hex":  "#8A2BE2"
                        }
                    ],
         "sizes":  [
@@ -967,6 +1113,18 @@
                       },
                       {
                           "size":  "5",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "6",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "7",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "8",
                           "status":  "available"
                       }
                   ]
@@ -974,94 +1132,58 @@
     {
         "section":  "mujer",
         "type":  "buzos",
-        "name":  "Maxibuzo Frisado Algodón",
+        "name":  "Maxibuzo Frizado Algodón con capucha dama",
         "season":  "invierno",
-        "image":  "images/maxibuzo_frisado_negro.jpg",
+        "image":  "images/maxibuzo_frizado_algodon_con_capucha_negro.png",
         "images":  {
-                       "Negro":  "images/maxibuzo_frisado_negro.jpg",
-                       "Gris":  "images/maxibuzo_frisado_gris.jpg",
-                       "Marrón":  "images/maxibuzo_frisado_marron.jpg"
+                       "Negro":  "images/maxibuzo_frizado_algodon_con_capucha_negro.png",
+                       "Gris melange": "images/maxibuzo_frizado_algodon_con_capucha_gris_melange.png",
+                       "Francia":  "images/maxibuzo_frizado_algodon_con_capucha_francia.png",
+                       "Azul marino":  "images/maxibuzo_frizado_algodon_con_capucha_azul_marino.png",
+                       "Verde":  "images/maxibuzo_frizado_algodon_con_capucha_verde.png",
+                       "Lila": "images/maxibuzo_frizado_algodon_con_capucha_lila.png",
+                       "Gris oscuro": "images/maxibuzo_frizado_algodon_con_capucha_gris_oscuro.png",
+                       "Rojo": "images/maxibuzo_frizado_algodon_con_capucha_rojo.png"
                    },
-        "price":  18999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
+        "price":  18000,
+        "priceByGroup":  { "common":  18000, "special":  18800 },
+        "specialSizes":  [
+                            6,
+                            7,
+                            8
+                        ],
         "colors":  [
                        {
                            "name":  "Negro",
                            "hex":  "#000000"
                        },
                        {
-                           "name":  "Gris",
-                           "hex":  "#333333"
+                           "name":  "Gris melange",
+                           "hex":  "#D3D3D3"
                        },
                        {
-                           "name":  "Marrón",
-                           "hex":  "#654321"
-                       }
-                   ],
-        "sizes":  [
-                      {
-                          "size":  "1",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "2",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "3",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "4",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "5",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "6",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "7",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "8",
-                          "status":  "available"
-                      }
-                  ]
-    },
-    {
-        "section":  "hombre",
-        "type":  "pantalones",
-        "name":  "Pantalón Algodón Frisado Premium",
-        "season":  "invierno",
-        "image":  "images/pantalon_algodon_frisado_hombre_negro.jpg",
-        "images":  {
-                       "Negro":  "images/pantalon_algodon_frisado_hombre_negro.jpg",
-                       "Gris oscuro":  "images/pantalon_algodon_frisado_hombre_gris.jpg",
-                       "Marrón":  "images/pantalon_algodon_frisado_hombre_marron.jpg"
-                   },
-        "price":  16999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
-        "colors":  [
+                           "name":  "Francia",
+                           "hex":  "#FF0000"
+                       },
                        {
-                           "name":  "Negro",
-                           "hex":  "#000000"
+                           "name":  "Azul marino",
+                           "hex":  "#0B1F5B"
+                       },
+                       {
+                           "name":  "Verde",
+                           "hex":  "#2E7D32"
+                       },
+                       {
+                           "name":  "Lila",
+                           "hex":  "#8A2BE2"
                        },
                        {
                            "name":  "Gris oscuro",
-                           "hex":  "#333333"
+                           "hex":  "#4B4B4B"
                        },
                        {
-                           "name":  "Marrón",
-                           "hex":  "#654321"
+                           "name":  "Rojo",
+                           "hex":  "#FF0000"
                        }
                    ],
         "sizes":  [
@@ -1069,178 +1191,6 @@
                           "size":  "1",
                           "status":  "available"
                       },
-                      {
-                          "size":  "2",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "3",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "4",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "5",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "6",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "7",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "8",
-                          "status":  "available"
-                      }
-                  ]
-    },
-    {
-        "section":  "hombre",
-        "type":  "pantalones",
-        "name":  "Babucha Frisado Algodón Premium",
-        "season":  "invierno",
-        "image":  "images/babucha_frisado_hombre_negro.jpg",
-        "images":  {
-                       "Negro":  "images/babucha_frisado_hombre_negro.jpg",
-                       "Gris":  "images/babucha_frisado_hombre_gris.jpg",
-                       "Marrón":  "images/babucha_frisado_hombre_marron.jpg"
-                   },
-        "price":  14499,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
-        "colors":  [
-                       {
-                           "name":  "Negro",
-                           "hex":  "#000000"
-                       },
-                       {
-                           "name":  "Gris",
-                           "hex":  "#333333"
-                       },
-                       {
-                           "name":  "Marrón",
-                           "hex":  "#654321"
-                       }
-                   ],
-        "sizes":  [
-                      {
-                          "size":  "1",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "2",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "3",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "4",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "5",
-                          "status":  "available"
-                      }
-                  ]
-    },
-    {
-        "section":  "hombre",
-        "type":  "camperas",
-        "name":  "Campera Algodón Frisado",
-        "season":  "invierno",
-        "image":  "images/campera_algodon_frisado_hombre_negro.jpg",
-        "images":  {
-                       "Negro":  "images/campera_algodon_frisado_hombre_negro.jpg",
-                       "Gris oscuro":  "images/campera_algodon_frisado_hombre_gris.jpg",
-                       "Marrón":  "images/campera_algodon_frisado_hombre_marron.jpg"
-                   },
-        "price":  27999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
-        "colors":  [
-                       {
-                           "name":  "Negro",
-                           "hex":  "#000000"
-                       },
-                       {
-                           "name":  "Gris oscuro",
-                           "hex":  "#333333"
-                       },
-                       {
-                           "name":  "Marrón",
-                           "hex":  "#654321"
-                       }
-                   ],
-        "sizes":  [
-                      {
-                          "size":  "2",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "3",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "4",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "5",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "6",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "7",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "8",
-                          "status":  "available"
-                      }
-                  ]
-    },
-    {
-        "section":  "hombre",
-        "type":  "camisetas",
-        "name":  "Camiseta Térmica Frisado",
-        "season":  "invierno",
-        "image":  "images/camiseta_termica_hombre_blanco.jpg",
-        "images":  {
-                       "Blanco":  "images/camiseta_termica_hombre_blanco.jpg",
-                       "Negro":  "images/camiseta_termica_hombre_negro.jpg",
-                       "Gris":  "images/camiseta_termica_hombre_gris.jpg"
-                   },
-        "price":  7999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
-        "colors":  [
-                       {
-                           "name":  "Blanco",
-                           "hex":  "#ffffff"
-                       },
-                       {
-                           "name":  "Negro",
-                           "hex":  "#000000"
-                       },
-                       {
-                           "name":  "Gris",
-                           "hex":  "#333333"
-                       }
-                   ],
-        "sizes":  [
                       {
                           "size":  "2",
                           "status":  "available"
@@ -1273,93 +1223,624 @@
     },
 
     {
-        "section":  "ninos",
-        "type":  "buzos",
-        "name":  "Buzo Algodón Frisado Niño",
-        "season":  "invierno",
-        "image":  "images/buzo_nino_negro.jpg",
-        "images":  {
-                       "Negro":  "images/buzo_nino_negro.jpg",
-                       "Azul":  "images/buzo_nino_azul.jpg",
-                       "Rojo":  "images/buzo_nino_rojo.jpg",
-                       "Verde":  "images/buzo_nino_verde.jpg"
+    "section":  "hombre",
+    "type":  "pantalones",
+    "name":  "Pantalón algodón frizado premium hombre",
+    "season":  "invierno",
+    "image":  "images/pantalon_algodon_frizado_premium_hombre_negro.png",
+    "images":  {
+                    "Negro":  "images/pantalon_algodon_frizado_premium_hombre_negro.png",
+                    "Gris melange":  "images/pantalon_algodon_frizado_premium_hombre_gris_melange.png",
+                    "Marrón":  "images/pantalon_algodon_frizado_premium_hombre_marron.png",
+                    "Azul marino":  "images/pantalon_algodon_frizado_premium_hombre_azul_marino.png",
+                    "Gris oscuro":  "images/pantalon_algodon_frizado_premium_hombre_gris_oscuro.png"
+                },
+    "price":  17000,
+    "priceByGroup":  {
+                         "common":  17000,
+                         "special":  17800
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
                    },
-        "price":  9999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   },
+                   {
+                       "name":  "Marrón",
+                       "hex":  "#654321"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "1",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+}, 
+{
+    "section":  "hombre",
+    "type":  "pantalones",
+    "name":  "Babucha frizado algodón premium hombre",
+    "season":  "invierno",
+    "image":  "images/babucha_frizado_algodon_premium_hombre_negro.png",
+    "images":  {
+                    "Negro":  "images/babucha_frizado_algodon_premium_hombre_negro.png",
+                    "Gris melange":  "images/babucha_frizado_algodon_premium_hombre_gris_melange.png",
+                    "Azul marino":  "images/babucha_frizado_algodon_premium_hombre_azul_marino.png",
+                    "Gris oscuro":  "images/babucha_frizado_algodon_premium_hombre_gris_oscuro.png"
+                },
+    "price":  17500,
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "1",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "hombre",
+    "type":  "camperas",
+    "name":  "Campera algodón frizado hombre",
+    "season":  "invierno",
+    "image":  "images/campera_algodon_frizado_hombre_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_algodon_frizado_hombre_negro.png",
+                    "Gris melange":  "images/campera_algodon_frizado_hombre_gris_melange.png",
+                    "Azul marino":  "images/campera_algodon_frizado_hombre_azul_marino.png",
+                    "Gris oscuro":  "images/campera_algodon_frizado_hombre_gris_oscuro.png"
+                },
+    "price":  21500,
+    "priceByGroup":  {
+                         "common":  21500,
+                         "special":  22500
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "hombre",
+    "type":  "camperas",
+    "name":  "Campera corderoy con corderito hombre",
+    "season":  "invierno",
+    "image":  "images/campera_corderoy_con_corderito_hombre_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_corderoy_con_corderito_hombre_negro.png",
+                    "Verde":  "images/campera_corderoy_con_corderito_hombre_verde.png",
+                    "Beige":  "images/campera_corderoy_con_corderito_hombre_beige.png",
+                    "Azul marino":  "images/campera_corderoy_con_corderito_hombre_azul_marino.png",
+                    "Gris melange":  "images/campera_corderoy_con_corderito_hombre_gris_melange.png"
+                },
+    "price":  19000,
+    "priceByGroup":  {
+                         "common":  19000,
+                         "special":  20000
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Verde",
+                       "hex":  "#2E7D32"
+                   },                   
+                   {
+                       "name":  "Beige",
+                       "hex":  "#E5D3B3"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+    {
+        "section":  "hombre",
+        "type":  "buzos",
+        "name":  "Maxibuzo Frizado Algodón con capucha hombre",
+        "season":  "invierno",
+        "image":  "images/maxibuzo_frizado_algodon_con_capucha_hombre_negro.png",
+        "images":  {
+                       "Negro":  "images/maxibuzo_frizado_algodon_con_capucha_hombre_negro.png",
+                       "Gris melange":  "images/maxibuzo_frizado_algodon_con_capucha_hombre_gris_melange.png",
+                       "Gris oscuro":  "images/maxibuzo_frizado_algodon_con_capucha_hombre_gris_oscuro.png",
+                       "Francia": "images/maxibuzo_frizado_algodon_con_capucha_hombre_francia.png",
+                       "Azul marino": "images/maxibuzo_frizado_algodon_con_capucha_hombre_azul_marino.png",
+                       "Verde": "images/maxibuzo_frizado_algodon_con_capucha_hombre_verde.png",
+                       "Rojo": "images/maxibuzo_frizado_algodon_con_capucha_hombre_rojo.png"
+                   },
+        "price":  18000,
+        "priceByGroup":  { "common":  18000, "special":  18800 },
         "colors":  [
                        {
                            "name":  "Negro",
                            "hex":  "#000000"
                        },
                        {
-                           "name":  "Azul",
-                           "hex":  "#6b8cff"
+                           "name":  "Gris melange",
+                           "hex":  "#A9A9A9"
                        },
                        {
-                           "name":  "Rojo",
-                           "hex":  "#ff6b6b"
+                           "name":  "Gris oscuro",
+                           "hex":  "#4B4B4B"
+                       },
+                       {
+                           "name":  "Francia",
+                           "hex":  "#0055A4"
+                       },
+                       {
+                           "name":  "Azul marino",
+                           "hex":  "#0B1F5B"
                        },
                        {
                            "name":  "Verde",
-                           "hex":  "#6bff6b"
+                           "hex":  "#2E7D32"
+                       },
+                       {
+                           "name":  "Rojo",
+                           "hex":  "#FF0000"
                        }
                    ],
         "sizes":  [
+                      {
+                          "size":  "1",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "2",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "3",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "4",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "5",
+                          "status":  "available"
+                      },
                       {
                           "size":  "6",
                           "status":  "available"
                       },
                       {
+                          "size":  "7",
+                          "status":  "available"
+                      },
+                      {
                           "size":  "8",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "10",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "12",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "14",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "16",
                           "status":  "available"
                       }
                   ]
     },
     {
-        "section":  "ninos",
-        "type":  "pantalones",
-        "name":  "Pantalón Algodón Frisado Niño",
+        "section":  "hombre",
+        "type":  "buzos",
+        "name":  "Maxibuzo Frizado Algodón sin capucha hombre",
         "season":  "invierno",
-        "image":  "images/pantalon_nino_negro.jpg",
+        "image":  "images/maxibuzo_frizado_algodon_sin_capucha_hombre_negro.png",
         "images":  {
-                       "Negro":  "images/pantalon_nino_negro.jpg",
-                       "Gris":  "images/pantalon_nino_gris.jpg",
-                       "Marrón":  "images/pantalon_nino_marron.jpg"
+                       "Negro":  "images/maxibuzo_frizado_algodon_sin_capucha_hombre_negro.png",
+                       "Gris melange":  "images/maxibuzo_frizado_algodon_sin_capucha_hombre_gris_melange.png",
+                       "Francia": "images/maxibuzo_frizado_algodon_sin_capucha_hombre_francia.png",
+                       "Azul marino": "images/maxibuzo_frizado_algodon_sin_capucha_hombre_azul_marino.png",
+                       "Verde": "images/maxibuzo_frizado_algodon_sin_capucha_hombre_verde.png"
                    },
-        "price":  8499,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
+        "price":  17200,
+        "priceByGroup":  { "common":  17200, "special":  18000 },
         "colors":  [
                        {
                            "name":  "Negro",
                            "hex":  "#000000"
                        },
                        {
-                           "name":  "Gris",
-                           "hex":  "#333333"
+                           "name":  "Gris melange",
+                           "hex":  "#A9A9A9"
                        },
                        {
-                           "name":  "Marrón",
-                           "hex":  "#654321"
+                           "name":  "Francia",
+                           "hex":  "#0055A4"
+                       },
+                       {
+                           "name":  "Azul marino",
+                           "hex":  "#0B1F5B"
+                       },
+                       {
+                           "name":  "Verde",
+                           "hex":  "#2E7D32"
+                       }
+                   ],
+        "sizes":  [
+                      {
+                          "size":  "1",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "2",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "3",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "4",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "5",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "6",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "7",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "8",
+                          "status":  "available"
+                      }
+                  ]
+    },
+{
+    "section":  "mujer",
+    "type":  "remeras",
+    "name":  "Camiseta térmica dama",
+    "season":  "invierno",
+    "image":  "images/camiseta_termica_dama_negro.png",
+    "images":  {
+                    "Negro":  "images/camiseta_termica_dama_negro.png",
+                    "Blanco":  "images/camiseta_termica_dama_blanco.png",
+                    "Verde":  "images/camiseta_termica_dama_verde.png",
+                    "Azul":  "images/camiseta_termica_dama_azul.png",
+                    "Lila":  "images/camiseta_termica_dama_lila.png",
+                    "Bordó":  "images/camiseta_termica_dama_bordo.png",
+                    "Gris":  "images/camiseta_termica_dama_gris.png"
+                },
+    "price":  10000,
+    "priceByGroup":  {
+                         "common":  10000,
+                         "special":  10500
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Blanco",
+                       "hex":  "#FFFFFF"
+                   },
+                   {
+                       "name":  "Verde",
+                       "hex":  "#2E7D32"
+                   },
+                   {
+                       "name":  "Azul",
+                       "hex":  "#1E4ED8"
+                   },
+                   {
+                       "name":  "Lila",
+                       "hex":  "#C8A2C8"
+                   },
+                   {
+                       "name":  "Bordó",
+                       "hex":  "#800020"
+                   },
+                   {
+                       "name":  "Gris",
+                       "hex":  "#808080"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "1",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "hombre",
+    "type":  "remeras",
+    "name":  "Camiseta térmica hombre",
+    "season":  "invierno",
+    "image":  "images/camiseta_termica_hombre_negro.png",
+    "images":  {
+                    "Negro":  "images/camiseta_termica_hombre_negro.png",
+                    "Azul marino":  "images/camiseta_termica_hombre_azul_marino.png",
+                    "Marrón":  "images/camiseta_termica_hombre_marron.png",
+                    "Gris":  "images/camiseta_termica_hombre_gris.png"
+                },
+    "price":  10500,
+    "priceByGroup":  {
+                         "common":  10500,
+                         "special":  11000
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#1E4ED8"
+                   },
+                    {
+                       "name":  "Marrón",
+                       "hex":  "#654321"
+                   },
+                   {
+                       "name":  "Gris",
+                       "hex":  "#808080"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+
+{
+        "section":  "ninos",
+        "type":  "calzas",
+        "name":  "Calza Térmica liso Niña",
+        "season":  "invierno",
+        "image":  "images/calza_termica_nina_negro.png",
+        "price":  4600,
+        "priceByGroup":  { "common":  4600, "special":  5000 },
+        "specialSizes":  [
+                         12,
+                         14,
+                         16
+                     ],
+        "colors":  [
+                       {
+                           "name":  "Negro",
+                           "hex":  "#000000"
                        }
                    ],
         "sizes":  [
@@ -1392,35 +1873,38 @@
     {
         "section":  "ninos",
         "type":  "calzas",
-        "name":  "Calza Térmica Niña",
+        "name":  "Calza Térmica jaspeado Niña",
         "season":  "invierno",
-        "image":  "images/calza_termica_nina_rosa.jpg",
+        "image":  "images/calza_termica_nina_jaspeado_gris_melange.png",
         "images":  {
-                       "Rosa":  "images/calza_termica_nina_rosa.jpg",
-                       "Azul":  "images/calza_termica_nina_azul.jpg",
-                       "Verde":  "images/calza_termica_nina_verde.jpg",
-                       "Amarillo":  "images/calza_termica_nina_amarillo.jpg"
+                       "Gris melange":  "images/calza_termica_nina_jaspeado_gris_melange.png",
+                       "Rosa":  "images/calza_termica_nina_jaspeado_rosa.png",
+                       "Francia":  "images/calza_termica_nina_jaspeado_francia.png",
+                       "Gris oscuro":  "images/calza_termica_nina_jaspeado_gris_oscuro.png"
                    },
         "price":  7999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
+        "priceByGroup":  { "common":  4600, "special":  5000 },
+        "specialSizes":  [
+                         12,
+                         14,
+                         16
+                     ],
         "colors":  [
+                       {
+                           "name":  "Gris melange",
+                           "hex":  "#D3D3D3"
+                       },
                        {
                            "name":  "Rosa",
                            "hex":  "#ff6b6b"
                        },
                        {
-                           "name":  "Azul",
-                           "hex":  "#6b8cff"
+                           "name":  "Francia",
+                           "hex":  "#0055A4"
                        },
                        {
-                           "name":  "Verde",
-                           "hex":  "#6bff6b"
-                       },
-                       {
-                           "name":  "Amarillo",
-                           "hex":  "#ffcc6b"
+                           "name":  "Gris oscuro",
+                           "hex":  "#4B4B4B"
                        }
                    ],
         "sizes":  [
@@ -1450,123 +1934,7 @@
                       }
                   ]
     },
-    {
-        "section":  "ninos",
-        "type":  "camisetas",
-        "name":  "Camiseta Térmica Niños",
-        "season":  "invierno",
-        "image":  "images/camiseta_termica_ninos_blanco.jpg",
-        "images":  {
-                       "Blanco":  "images/camiseta_termica_ninos_blanco.jpg",
-                       "Negro":  "images/camiseta_termica_ninos_negro.jpg",
-                       "Azul":  "images/camiseta_termica_ninos_azul.jpg",
-                       "Rojo":  "images/camiseta_termica_ninos_rojo.jpg"
-                   },
-        "price":  6999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
-        "colors":  [
-                       {
-                           "name":  "Blanco",
-                           "hex":  "#ffffff"
-                       },
-                       {
-                           "name":  "Negro",
-                           "hex":  "#000000"
-                       },
-                       {
-                           "name":  "Azul",
-                           "hex":  "#6b8cff"
-                       },
-                       {
-                           "name":  "Rojo",
-                           "hex":  "#ff6b6b"
-                       }
-                   ],
-        "sizes":  [
-                      {
-                          "size":  "6",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "8",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "10",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "12",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "14",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "16",
-                          "status":  "available"
-                      }
-                  ]
-    },
-    {
-        "section":  "ninos",
-        "type":  "camperas",
-        "name":  "Campera Ketten Frizado Niño",
-        "season":  "invierno",
-        "image":  "images/campera_ketten_nino_negro.jpg",
-        "images":  {
-                       "Negro":  "images/campera_ketten_nino_negro.jpg",
-                       "Azul":  "images/campera_ketten_nino_azul.jpg",
-                       "Rojo":  "images/campera_ketten_nino_rojo.jpg"
-                   },
-        "price":  19999,
-        "priceByGroup":  { "common":  null, "special":  null },
-        "originalPrice":  null,
-        "badge":  null,
-        "colors":  [
-                       {
-                           "name":  "Negro",
-                           "hex":  "#000000"
-                       },
-                       {
-                           "name":  "Azul",
-                           "hex":  "#6b8cff"
-                       },
-                       {
-                           "name":  "Rojo",
-                           "hex":  "#ff6b6b"
-                       }
-                   ],
-        "sizes":  [
-                      {
-                          "size":  "4",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "6",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "8",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "10",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "12",
-                          "status":  "available"
-                      },
-                      {
-                          "size":  "14",
-                          "status":  "available"
-                      }
-                  ]
-    },
+
 {
     "section":  "mujer",
     "type":  "pantalones",
@@ -6638,6 +7006,42 @@
 {
     "section":  "hombre",
     "type":  "pantalones",
+    "name":  "Babucha termica jogger jaspeado hombre",
+    "season":  "invierno",
+    "image":  "images/babucha_termica_jogger_hombre_gris_melange.png",
+    "images":  {
+                    "Gris melange":  "images/babucha_termica_jogger_hombre_gris_melange.png",
+                    "Azul":  "images/babucha_termica_jogger_hombre_azul.png",
+                    "Gris oscuro":  "images/babucha_termica_jogger_hombre_gris_oscuro.png"
+                },
+    "price":  15000,
+    "priceByGroup":  {
+                         "common":  15000,
+                         "special":  15600
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   { "name":  "Gris melange", "hex":  "#A9A9A9" },
+                   { "name":  "Azul", "hex":  "#1E4ED8" },
+                   { "name":  "Gris oscuro", "hex":  "#4B4B4B" }
+               ],
+    "sizes":  [
+                  { "size":  "2", "status":  "available" },
+                  { "size":  "3", "status":  "available" },
+                  { "size":  "4", "status":  "available" },
+                  { "size":  "5", "status":  "available" },
+                  { "size":  "6", "status":  "available" },
+                  { "size":  "7", "status":  "available" },
+                  { "size":  "8", "status":  "available" }
+              ]
+},
+{
+    "section":  "hombre",
+    "type":  "pantalones",
     "name":  "Babucha lycra jogger hombre",
     "season":  "media-estacion",
     "image":  "images/babucha_lycra_jogger_hombre_negro.png",
@@ -6648,6 +7052,38 @@
     "priceByGroup":  {
                          "common":  14000,
                          "special":  14600
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   { "name":  "Negro", "hex":  "#000000" }
+               ],
+    "sizes":  [
+                  { "size":  "2", "status":  "available" },
+                  { "size":  "3", "status":  "available" },
+                  { "size":  "4", "status":  "available" },
+                  { "size":  "5", "status":  "available" },
+                  { "size":  "6", "status":  "available" },
+                  { "size":  "7", "status":  "available" },
+                  { "size":  "8", "status":  "available" }
+              ]
+},
+{
+    "section":  "hombre",
+    "type":  "pantalones",
+    "name":  "Babucha lycra termica jogger hombre",
+    "season":  "invierno",
+    "image":  "images/babucha_lycra_termica_jogger_hombre_negro.png",
+    "images":  {
+                    "Negro":  "images/babucha_lycra_termica_jogger_hombre_negro.png"
+                },
+    "price":  14500,
+    "priceByGroup":  {
+                         "common":  14500,
+                         "special":  15100
                      },
     "specialSizes":  [
                          6,
@@ -6764,6 +7200,74 @@
                      ],
     "colors":  [
                    { "name":  "Negro", "hex":  "#000000" }
+               ],
+    "sizes":  [
+                  { "size":  "2", "status":  "available" },
+                  { "size":  "3", "status":  "available" },
+                  { "size":  "4", "status":  "available" },
+                  { "size":  "5", "status":  "available" },
+                  { "size":  "6", "status":  "available" },
+                  { "size":  "7", "status":  "available" },
+                  { "size":  "8", "status":  "available" }
+              ]
+},
+{
+    "section":  "hombre",
+    "type":  "camperas",
+    "name":  "Campera lycra termica hombre",
+    "season":  "invierno",
+    "image":  "images/campera_termica_hombre_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_termica_hombre_negro.png"
+                },
+    "price":  17600,
+    "priceByGroup":  {
+                         "common":  17600,
+                         "special":  18400
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   { "name":  "Negro", "hex":  "#000000" }
+               ],
+    "sizes":  [
+                  { "size":  "2", "status":  "available" },
+                  { "size":  "3", "status":  "available" },
+                  { "size":  "4", "status":  "available" },
+                  { "size":  "5", "status":  "available" },
+                  { "size":  "6", "status":  "available" },
+                  { "size":  "7", "status":  "available" },
+                  { "size":  "8", "status":  "available" }
+              ]
+},
+{
+    "section":  "hombre",
+    "type":  "camperas",
+    "name":  "Campera termica jaspeado saplex hombre",
+    "season":  "invierno",
+    "image":  "images/campera_termica_jaspeado_saplex_hombre_gris_oscuro.png",
+    "images":  {
+                    "Gris oscuro":  "images/campera_termica_jaspeado_saplex_hombre_gris_oscuro.png",
+                    "Azul":  "images/campera_termica_jaspeado_saplex_hombre_azul.png",
+                    "Gris melange":  "images/campera_termica_jaspeado_saplex_hombre_gris_melange.png"
+                },
+    "price":  18000,
+    "priceByGroup":  {
+                         "common":  18000,
+                         "special":  18800
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   { "name":  "Gris oscuro", "hex":  "#4B4B4B" },
+                   { "name":  "Azul", "hex":  "#6B8CFF" },
+                   { "name":  "Gris melange", "hex":  "#A9A9A9" }
                ],
     "sizes":  [
                   { "size":  "2", "status":  "available" },
@@ -8224,7 +8728,7 @@
 },
 {
     "section":  "ninos",
-    "type":  "pantalones",
+    "type":  "shorts",
     "name":  "Short algodón rústico chico",
     "season":  "media-estacion",
     "featured":  true,
@@ -8247,6 +8751,160 @@
                    {
                        "name":  "Azul",
                        "hex":  "#0000FF"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "10",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "12",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "14",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "16",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "ninos",
+    "type":  "remeras",
+    "name":  "Camiseta térmica de nena",
+    "season":  "invierno",
+    "image":  "images/camiseta_termica_nina_negro.png",
+    "images":  {
+                    "Negro":  "images/camiseta_termica_nina_negro.png",
+                    "Blanco":  "images/camiseta_termica_nina_blanco.png",
+                    "Verde":  "images/camiseta_termica_nina_verde.png",
+                    "Azul":  "images/camiseta_termica_nina_azul.png",
+                    "Violeta":  "images/camiseta_termica_nina_violeta.png",
+                    "Gris":  "images/camiseta_termica_nina_gris.png"
+                },
+    "price":  4800,
+    "priceByGroup":  {
+                         "common":  4800,
+                         "special":  5200
+                     },
+    "specialSizes":  [
+                         12,
+                         14,
+                         16
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Blanco",
+                       "hex":  "#FFFFFF"
+                   },
+                   {
+                       "name":  "Verde",
+                       "hex":  "#2E7D32"
+                   },
+                   {
+                       "name":  "Azul",
+                       "hex":  "#1E4ED8"
+                   },
+                   {
+                       "name":  "Violeta",
+                       "hex":  "#7B5BA1"
+                   },
+                   {
+                       "name":  "Gris",
+                       "hex":  "#808080"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "10",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "12",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "14",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "16",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "ninos",
+    "type":  "remeras",
+    "name":  "Camiseta térmica de niño",
+    "season":  "invierno",
+    "image":  "images/camiseta_termica_nino_negro.png",
+    "images":  {
+                    "Negro":  "images/camiseta_termica_nino_negro.png",
+                    "Blanco":  "images/camiseta_termica_nino_blanco.png",
+                    "Verde":  "images/camiseta_termica_nino_verde.png",
+                    "Azul":  "images/camiseta_termica_nino_azul.png",
+                    "Violeta":  "images/camiseta_termica_nino_violeta.png",
+                    "Gris":  "images/camiseta_termica_nino_gris.png"
+                },
+    "price":  4800,
+    "priceByGroup":  {
+                         "common":  4800,
+                         "special":  5200
+                     },
+    "specialSizes":  [
+                         12,
+                         14,
+                         16
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Blanco",
+                       "hex":  "#FFFFFF"
+                   },
+                   {
+                       "name":  "Verde",
+                       "hex":  "#2E7D32"
+                   },
+                   {
+                       "name":  "Azul",
+                       "hex":  "#1E4ED8"
+                   },
+                   {
+                       "name":  "Violeta",
+                       "hex":  "#7B5BA1"
+                   },
+                   {
+                       "name":  "Gris",
+                       "hex":  "#808080"
                    }
                ],
     "sizes":  [
@@ -10472,6 +11130,157 @@
                    {
                        "name":  "Gris oscuro",
                        "hex":  "#4B4B4B"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "mujer",
+    "type":  "camperas",
+    "name":  "Campera premium algodón frizado dama",
+    "season":  "invierno",
+    "image":  "images/campera_premium_algodon_frizado_dama_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_premium_algodon_frizado_dama_negro.png",
+                    "Gris melange":  "images/campera_premium_algodon_frizado_dama_gris_melange.png",
+                    "Gris oscuro":  "images/campera_premium_algodon_frizado_dama_gris_oscuro.png",
+                    "Rojo":  "images/campera_premium_algodon_frizado_dama_rojo.png",
+                    "Verde":  "images/campera_premium_algodon_frizado_dama_verde.png",
+                    "Azul marino":  "images/campera_premium_algodon_frizado_dama_azul_marino.png",
+                    "Francia":  "images/campera_premium_algodon_frizado_dama_francia.png",
+                    "Lila":  "images/campera_premium_algodon_frizado_dama_lila.png"
+                },
+    "price":  18700,
+    "priceByGroup":  {
+                         "common":  18700,
+                         "special":  19700
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   },
+                   {
+                       "name":  "Rojo",
+                       "hex":  "#FF0000"
+                   },
+                   {
+                       "name":  "Verde",
+                       "hex":  "#2E7D32"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Francia",
+                       "hex":  "#0055A4"
+                   },
+                   {
+                       "name":  "Lila",
+                       "hex":  "#C8A2C8"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "1",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "mujer",
+    "type":  "camperas",
+    "name":  "Campera termica lycra dama",
+    "season":  "invierno",
+    "image":  "images/campera_termica_lycra_dama_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_termica_lycra_dama_negro.png"
+                },
+    "price":  16500,
+    "priceByGroup":  {
+                         "common":  16500,
+                         "special":  17300
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
                    }
                ],
     "sizes":  [

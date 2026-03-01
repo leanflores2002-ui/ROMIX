@@ -81,7 +81,8 @@
 
   function seasonLabelFromKey(key){
     if (key === 'media-estacion') return 'Media estacion';
-    if (key === 'invierno') return '';
+    if (key === 'invierno') return 'Invierno';
+    if (key === 'verano') return 'Verano';
     return key || '';
   }
 

@@ -145,6 +145,37 @@
       font-size: 0.92rem;
       letter-spacing: 0.2px;
     }
+    @media (max-width: 720px){
+      .women-cats-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .women-category {
+        padding: 4px 2px;
+      }
+      .women-category-avatar {
+        width: 70px;
+        height: 70px;
+      }
+      .women-category-name {
+        font-size: 0.78rem;
+        line-height: 1.15;
+        max-width: 90px;
+      }
+    }
+    @media (max-width: 520px){
+      .women-cats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .women-category-avatar {
+        width: 62px;
+        height: 62px;
+      }
+      .women-category-name {
+        max-width: 88px;
+      }
+    }
 
     /* Promos slider */
     .promo-wrap { margin:20px auto; padding:14px 18px 18px; background:linear-gradient(135deg, #fef5f5, #f9ecff); border-radius:18px; box-shadow:0 14px 32px rgba(232,62,140,.12); }
@@ -196,7 +227,10 @@
     .product-stock-note.state-low { color: #ff9800; }
     .product-stock-note.state-out { color: var(--danger); }
     .product-actions { display:flex; gap:8px; }
-    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 10px; border-radius:9px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; font-size:.88rem; }
+    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:8px 10px; border-radius:9px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; font-size:.88rem; }
+    @media (max-width: 520px){
+      .btn { gap:8px; }
+    }
     .btn-details { background:#fff; color:#495057; }
     .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
 
@@ -243,7 +277,9 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
   <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">  <link rel="stylesheet" href="assets/css/romix-header.css">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
+  <link rel="stylesheet" href="assets/css/romix-header.css">
+  <link rel="stylesheet" href="assets/css/promo-banner.css">
 </head>
 <body>
   <a class="skip-link" href="#main" style="position:absolute;left:-9999px;">Saltar al contenido</a>
@@ -264,31 +300,36 @@
       <a href="hombre.html">Hombre</a>
       <a href="ninos.html">Niños</a>
       <a href="novedades.html">Novedades</a>
-      <a href="ayuda.html">Ayuda</a>
     </nav>
   </header>
 
-  <section class="container trend-wrap" id="trends">
-    <div class="trend-header">
-      <div>
-        <div class="eyebrow">Destacados</div>
+  <section class="container promo-banner" aria-label="Promociones destacadas">
+    <div class="promo-banner__inner">
+      <div class="promo-copy">
+        <span class="promo-kicker">Los Más Elegidos</span>
+        <h2 class="promo-title">Movimiento & Estilo</h2>
+        <p class="promo-subtitle">Diseños simples, cómodos y fáciles de usar todos los días. Entre los más elegidos.</p>
+        <a class="promo-cta" href="novedades.html">Ver Colección</a>
       </div>
-      <div class="trend-nav">
-        <button class="trend-arrow" id="trend-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-        <button class="trend-arrow" id="trend-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+      <div class="promo-carousel" data-promo-carousel>
+        <div class="promo-viewport" data-carousel-viewport>
+          <div class="promo-track" data-carousel-track></div>
+        </div>
+        <button class="promo-nav promo-nav--prev" type="button" data-carousel-prev aria-label="Anterior">
+          <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button class="promo-nav promo-nav--next" type="button" data-carousel-next aria-label="Siguiente">
+          <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
+        <div class="promo-dots" data-carousel-dots role="tablist" aria-label="Secciones del carrusel"></div>
       </div>
     </div>
-    <div class="trend-slider" id="trend-slider" tabindex="0" role="region" aria-label="Carrusel de destacados" aria-roledescription="Carrusel">
-      <div class="trend-track" id="trend-track"></div>
-    </div>
-    <div class="trend-dots" id="trend-dots"></div>
   </section>
 
   <section class="container women-cats" id="categorias-mujer" data-ready="0">
     <div class="women-cats-head">
       <div>
-        <div class="eyebrow">Ropa de Dama</div>
-        <div class="women-cats-title">Categorías </div>
+        <div class="eyebrow">Categorías</div>
       </div>
       <div class="women-cats-sub">Elegí tu tipo y filtrá el catálogo</div>
     </div>
@@ -369,6 +410,13 @@
     <h1 class="section-title">Catálogo completo</h1>
     <div class="catalog-toolbar">
       <input id="cat-q" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" />
+      <label style="display:inline-flex; align-items:center; gap:6px; color:#6c757d;">Temporada:
+          <select id="cat-season">
+            <option value="">Todas</option>
+            <option value="invierno">Invierno</option>
+            <option value="media-estacion">Media estación</option>
+          </select>
+      </label>
       <label style="display:inline-flex; align-items:center; gap:6px; color:#6c757d;">Ordenar:
           <select id="cat-order">
             <option value="relevancia">Relevancia</option>
@@ -424,6 +472,7 @@
   <script src="assets/js/products-store.js"></script>
   <script src="assets/js/verano-order.js"></script>
   <script src="assets/js/catalog-relevance-order.js"></script>
+  <script src="assets/js/promo-banner.js"></script>
   <script>
     let romixToastTimer;
 
@@ -465,7 +514,7 @@
       if (!p) return false;
       const raw = p.season === null || p.season === undefined ? '' : String(p.season);
       const normalized = raw.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
-      return normalized === 'verano' || normalized === 'invierno';
+      return normalized === 'verano';
     }
     function sanitizeList(list){
       return (Array.isArray(list) ? list.map(sanitizeProduct) : []).filter(function(item){ return !shouldHideProduct(item); });
@@ -679,9 +728,12 @@
       return buy ? base + '&buy=1' : base;
     }
 
-    var catalogFilters = { section: '', type: '', typeRaw: '' };
+    var catalogFilters = { section: '', type: '', typeRaw: '', season: '' };
     function normalizeCatalogValue(v){
       return String(v || '').trim().toLowerCase();
+    }
+    function normalizeSeasonValue(v){
+      return normalizeCatalogValue(v).replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
     }
     function normalizeCatalogType(v){
       var t = normalizeCatalogValue(v);
@@ -692,18 +744,21 @@
       catalogFilters.section = normalizeCatalogValue(next && next.section);
       catalogFilters.typeRaw = normalizeCatalogValue(next && next.type);
       catalogFilters.type = normalizeCatalogType(catalogFilters.typeRaw);
+      catalogFilters.season = normalizeSeasonValue(next && next.season);
     }
     function getFiltersFromUrl(){
       var params = new URLSearchParams(location.search);
       return {
         section: params.get('section') || '',
-        type: params.get('type') || ''
+        type: params.get('type') || '',
+        season: params.get('season') || ''
       };
     }
     function updateCatalogUrl(hash){
       var params = new URLSearchParams(location.search);
       if (catalogFilters.section) params.set('section', catalogFilters.section); else params.delete('section');
       if (catalogFilters.typeRaw) params.set('type', catalogFilters.typeRaw); else params.delete('type');
+      if (catalogFilters.season) params.set('season', catalogFilters.season); else params.delete('season');
       var search = params.toString();
       var nextHash = hash ? '#' + hash : location.hash;
       var newUrl = location.pathname + (search ? '?' + search : '') + nextHash;
@@ -751,8 +806,14 @@
       var empty = document.getElementById('catalog-empty');
       var q = (document.getElementById('cat-q').value||'').trim();
       var order = document.getElementById('cat-order').value;
+      var season = catalogFilters.season || '';
       var filteredState = filterCatalogList(products || []);
       var base = filteredState.filtered;
+      if (season) {
+        base = base.filter(function(p){
+          return normalizeSeasonValue(p && p.season) === season;
+        });
+      }
       var list = !q ? base : (window.romixSearch && typeof window.romixSearch.searchInList === 'function'
         ? window.romixSearch.searchInList(base, q, {})
         : base.filter(function(p){
@@ -787,7 +848,7 @@
               '<div class="product-price">'+money(p.price)+'</div>'+
               '<div class="product-stock-note state-'+st+'">'+label+'</div>'+
               '<div class="product-actions">'+
-                '<a href="'+detailLink+'" class="btn btn-details"><i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles</a>'+
+                '<a href="'+detailLink+'" class="btn btn-details"><i class="fas fa-info-circle" aria-hidden="true"></i> Detalles</a>'+
                 '<button class="btn btn-primary" type="button" data-add-product="'+pid+'"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Agregar</button>'+
               '</div>'+
             '</div>'+
@@ -850,41 +911,11 @@
         dotClass: 'promo-dot'
       });
     }
-    function renderTrends(list){
-      var track = document.getElementById('trend-track');
-      var dots = document.getElementById('trend-dots');
-      if (!track || !dots) return;
-      track.setAttribute('role', 'list');
-      var allowedBadges = ['Nuevo','Por agotarse','Más vendido'];
+    function initHomeBanner(list){
+      if (typeof initPromoBanner !== 'function') return;
       var featured = (list||[]).filter(function(p){ return p && p.featured === true; });
-      var trends = featured.slice(0,12);
-      track.innerHTML = trends.map(function(p){
-        var badgeValue = String(p.featuredBadge || '').trim();
-        var badge = allowedBadges.indexOf(badgeValue) >= 0 ? badgeValue : '';
-        var badgeClass = badge ? (' badge-' + badge.toLowerCase().replace(/á/g, 'a').replace(/\s+/g, '-')) : '';
-        var img = p.image || 'images/placeholder.jpg';
-        var price = money(p.price);
-        var detailLink = detailHref(p);
-        return (
-          '<article class="trend-card" role="listitem">'+
-            '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\''+detailLink+'\'">'+
-            (badge ? '<div class="trend-badge'+badgeClass+'">'+badge+'</div>' : '')+
-            '<div class="trend-name">'+(p.name||'')+'</div>'+
-            '<div class="trend-price">'+price+'</div>'+
-          '</article>'
-        );
-      }).join('');
-      registerCarousel({
-        track: track,
-        dots: dots,
-        prevEl: document.getElementById('trend-prev'),
-        nextEl: document.getElementById('trend-next'),
-        totalItems: trends.length,
-        dotClass: 'trend-dot',
-        enableSwipe: true,
-        swipeEl: track.parentElement,
-        keyboardEl: document.getElementById('trend-slider')
-      });
+      var bannerSource = featured.length ? featured : (list||[]);
+      initPromoBanner({ products: bannerSource, autoplayMs: 12000 });
     }
     var ALL_PRODUCTS = preloadedProducts() || [];
     if (!window.PRELOADED_PRODUCTS && ALL_PRODUCTS.length) { window.PRELOADED_PRODUCTS = ALL_PRODUCTS; }
@@ -895,7 +926,7 @@
     function loadAll(){
       if (ALL_PRODUCTS && ALL_PRODUCTS.length) {
         renderPromos(ALL_PRODUCTS);
-        renderTrends(ALL_PRODUCTS);
+        initHomeBanner(ALL_PRODUCTS);
         renderAll(ALL_PRODUCTS);
         updateWomenCategoriesVisibility();
         return;
@@ -910,13 +941,13 @@
       Promise.resolve(loadSource).then(function(list){
         ALL_PRODUCTS = sanitizeList(list||[]);
         renderPromos(ALL_PRODUCTS);
-        renderTrends(ALL_PRODUCTS);
+        initHomeBanner(ALL_PRODUCTS);
         renderAll(ALL_PRODUCTS);
         updateWomenCategoriesVisibility();
       }).catch(function(){
         ALL_PRODUCTS = [];
         renderPromos(ALL_PRODUCTS);
-        renderTrends(ALL_PRODUCTS);
+        initHomeBanner(ALL_PRODUCTS);
         renderAll(ALL_PRODUCTS);
         updateWomenCategoriesVisibility();
       });
@@ -927,8 +958,21 @@
       updateCartBadge();
       var urlQ = new URLSearchParams(location.search).get('q')||''; if (urlQ) document.getElementById('cat-q').value = urlQ;
       setCatalogFilters(getFiltersFromUrl());
+      var seasonSelect = document.getElementById('cat-season');
+      if (seasonSelect && catalogFilters.season) {
+        seasonSelect.value = catalogFilters.season;
+      }
       document.getElementById('cat-q').addEventListener('input', function(){ renderAll(ALL_PRODUCTS); });
       document.getElementById('cat-order').addEventListener('change', function(){ renderAll(ALL_PRODUCTS); });
+      if (seasonSelect) {
+        seasonSelect.addEventListener('change', function(){
+          applyCatalogFilters({
+            section: catalogFilters.section,
+            type: catalogFilters.typeRaw,
+            season: seasonSelect.value
+          });
+        });
+      }
       document.querySelectorAll('.women-category').forEach(function(link){
         link.addEventListener('click', function(ev){
           var section = normalizeCatalogValue(link.getAttribute('data-section'));
@@ -937,7 +981,11 @@
           var href = link.getAttribute('href') || '';
           if (href.indexOf('#catalogo') >= 0) {
             ev.preventDefault();
-            applyCatalogFilters({ section: section, type: type }, 'catalogo');
+            applyCatalogFilters({
+              section: section,
+              type: type,
+              season: catalogFilters.season
+            }, 'catalogo');
           }
         });
       });

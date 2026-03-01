@@ -8,7 +8,7 @@
   <style>
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#343a40; }
     html { width:100%; }
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-width:0; }
+    * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-width:0; }
     body { margin:0; background:#f5f5f5; color:#232323; }
     main { min-height: calc(100vh - 240px); }
     header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; padding:14px 0 10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
@@ -38,7 +38,7 @@
     .filters-toggle { display:none; align-items:center; gap:8px; padding:9px 12px; border:1px solid #dee2e6; border-radius:10px; background:#fff; cursor:pointer; font-weight:700; transition:box-shadow .2s ease, border .2s ease; }
     .filters-toggle:focus-visible { outline:2px solid var(--primary); outline-offset:2px; box-shadow:0 0 0 3px rgba(232,62,140,.25); }
 
-    .filters-panel { background:#fff; border:1px solid #eceff1; border-radius:12px; padding:16px; position:sticky; top:110px; max-height:calc(100vh - 140px); overflow-y:auto; overflow-x:hidden; display:flex; flex-direction:column; gap:14px; box-shadow:0 4px 14px rgba(0,0,0,0.04); transition:transform .32s ease, opacity .32s ease; will-change:transform, opacity; scrollbar-width:thin; scrollbar-color:rgba(0,0,0,.25) transparent; }
+    .filters-panel { background:#fff; border:1px solid #e6eaf0; border-radius:16px; padding:18px; position:sticky; top:110px; max-height:calc(100vh - 140px); overflow-y:auto; overflow-x:hidden; display:flex; flex-direction:column; gap:16px; box-shadow:0 10px 30px rgba(12,18,28,0.06); transition:transform .32s ease, opacity .32s ease; will-change:transform, opacity; scrollbar-width:thin; scrollbar-color:rgba(0,0,0,.25) transparent; }
     .filters-panel::-webkit-scrollbar { width:6px; }
     .filters-panel::-webkit-scrollbar-track { background:transparent; }
     .filters-panel::-webkit-scrollbar-thumb { background:rgba(0,0,0,.22); border-radius:4px; }
@@ -46,9 +46,9 @@
     .filters-panel legend { margin:0 0 8px; font-size:.95rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#111; }
     .filters-header { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
     .filters-header-actions { display:flex; gap:8px; align-items:center; margin-left:auto; }
-    .filters-title { font-weight:800; font-size:1rem; color:#111; }
+    .filters-title { font-weight:800; font-size:1.05rem; color:#111; letter-spacing:.01em; }
     .filters-subtitle { display:block; color:#6c757d; font-size:.85rem; margin-top:2px; }
-    .filters-clear { border:none; background:#f1f3f5; color:#495057; padding:8px 12px; border-radius:999px; cursor:pointer; font-weight:700; }
+    .filters-clear { border:1px solid #e2e8f0; background:#f8fafc; color:#495057; padding:8px 12px; border-radius:999px; cursor:pointer; font-weight:700; }
     .filters-clear:focus-visible { outline:2px solid var(--primary); outline-offset:2px; box-shadow:0 0 0 3px rgba(232,62,140,.25); }
     .filters-body { display:flex; flex-direction:column; gap:16px; padding-right:4px; margin:0; min-height:0; }
     .filters-group { padding:10px 8px; border-bottom:1px solid #f1f3f5; }
@@ -61,6 +61,88 @@
     .filter-item:focus-within { border-color:var(--primary); box-shadow:0 8px 20px rgba(232,62,140,.12); background:#fff; }
     .filter-item span:last-child { flex:1; }
     .color-swatch { width:16px; height:16px; border-radius:50%; border:1px solid #dee2e6; flex-shrink:0; }
+
+    .filters-group {
+      padding: 12px 0;
+      border-bottom: 1px solid #edf0f4;
+    }
+    .filters-group:last-child { border-bottom: none; }
+    .filters-group-title {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 6px 4px 8px;
+      text-align: left;
+      font-size: .98rem;
+      font-weight: 800;
+      color: #1f2a36;
+      cursor: default;
+      letter-spacing: .02em;
+    }
+    .filters-group-title:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      border-radius: 8px;
+    }
+    .filters-group-panel {
+      overflow: visible;
+      max-height: none;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .filters-options--sizes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .filter-item { position: relative; border-radius: 12px; }
+    .filter-item.filter-size {
+      padding: 8px 10px;
+      min-height: 42px;
+    }
+    .filter-item.filter-color {
+      padding: 10px 12px;
+      min-height: 46px;
+    }
+    .filter-label {
+      flex: 1;
+      font-weight: 600;
+    }
+    .filter-item input:checked ~ .filter-label {
+      font-weight: 800;
+      color: #111;
+    }
+    .filter-item input:checked + .color-swatch {
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 2px rgba(111,66,193,.18);
+    }
+    .filter-item.is-hidden { display: none; }
+    .filter-more {
+      grid-column: 1 / -1;
+      justify-self: start;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #dbe1e8;
+      background: #fff;
+      color: #495057;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .filters-footer {
+      display: none;
+      position: sticky;
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, #fff 40%);
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+    .filters-apply {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(232,62,140,.18);
+    }
 
     .filters-active { margin:6px 0 4px; padding:4px 2px 0; border-bottom:1px solid #f1f3f5; padding-bottom:8px; display:none; }
     .filters-active-title { font-weight:700; font-size:.9rem; color:#343a40; margin-bottom:4px; }
@@ -107,7 +189,7 @@
     }
 
     .content-area { min-width:0; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:14px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:18px; }
     .card { background:#fff; border-radius:12px; box-shadow:0 10px 24px rgba(0,0,0,.08); overflow:hidden; display:flex; flex-direction:column; }
     .thumb {
       position:relative;
@@ -174,8 +256,8 @@
     .price { color: var(--primary); font-weight:900; font-size:1.05rem; }
     .stock { color: var(--success); font-weight:700; font-size:.85rem; text-align:right; }
     .stock small { display:block; color:#6c757d; font-weight:600; }
-    .actions { display:flex; gap:8px; margin-top:4px; }
-    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:9px 10px; border-radius:10px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; font-size:.95rem; }
+    .actions { display:flex; gap:12px; margin-top:8px; }
+    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:9px 10px; border-radius:10px; border:1px solid #e9ecef; cursor:pointer; font-weight:800; text-decoration:none; font-size:.95rem; }
     .btn-details { background:#fff; color:#495057; }
     .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border:none; }
     .btn:hover { filter:brightness(.98); }
@@ -235,12 +317,32 @@
       body.filters-open .filters-panel { display:block; }
       .filters-overlay { display:none; }
       body.filters-open .filters-overlay { display:block; }
+      .filters-footer { display:block; }
     }
     @media (max-width: 720px){
       .toolbar { flex-direction:column; align-items:flex-start; }
       .toolbar input, .toolbar select { width:100%; }
       .toolbar label { width:100%; }
-      .grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap:14px; }
+      .thumb { aspect-ratio:4 / 5; min-height:170px; }
+      .variant-row { padding:6px 8px 0; gap:5px; }
+      .variant-swatch { width:22px; height:22px; }
+      .body { padding:8px 10px; gap:4px; }
+      .title { font-size:.92rem; }
+      .subtitle { font-size:.82rem; }
+      .price { font-size:.98rem; }
+      .stock { font-size:.8rem; }
+      .actions { gap:8px; }
+      .btn { gap:8px; padding:7px 8px; font-size:.86rem; }
+    }
+    @media (max-width: 480px){
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:12px; }
+      .thumb { min-height:130px; }
+      .title { font-size:.86rem; }
+      .subtitle { font-size:.76rem; }
+      .price { font-size:.9rem; }
+      .stock { font-size:.75rem; }
+      .btn { gap:7px; padding:6px 6px; font-size:.78rem; }
     }
     @media (prefers-reduced-motion: reduce){
       .filters-panel,
@@ -262,7 +364,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
   <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">  <link rel="stylesheet" href="assets/css/romix-header.css">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
+  <link rel="stylesheet" href="assets/css/romix-header.css">
 </head>
 <body>
   <a class="skip-link" href="#grid">Saltar al contenido</a>
@@ -283,12 +386,12 @@
       <a href="hombre.html">Hombre</a>
       <a href="ninos.html" aria-current="page">Niños</a>
       <a href="novedades.html">Novedades</a>
-      <a href="ayuda.html">Ayuda</a>
     </nav>
   </header>
 
   <main class="container" aria-label="Productos para Niños">
     <h1 style="margin:6px 2px 14px">Colección Niños</h1>
+
     <div class="layout">
       <aside class="filters-panel" id="filters-panel" role="region" aria-labelledby="filters-panel-title" aria-hidden="false">
         <div class="filters-header">
@@ -307,21 +410,32 @@
         <div class="filters-active" id="filters-active" aria-live="polite"></div>
         <div class="filters-body">
           <fieldset class="filters-group" data-filter-block="types">
-            <legend>Categoria</legend>
-            <div class="filters-options" id="filter-types"></div>
+            <button type="button" class="filters-group-title" data-accordion-trigger aria-expanded="true">Categoria</button>
+            <div class="filters-group-panel" data-accordion-panel>
+              <div class="filters-options" id="filter-types"></div>
+            </div>
           </fieldset>
           <fieldset class="filters-group" data-filter-block="seasons">
-            <legend>Temporada</legend>
-            <div class="filters-options" id="filter-seasons"></div>
+            <button type="button" class="filters-group-title" data-accordion-trigger aria-expanded="false">Temporada</button>
+            <div class="filters-group-panel" data-accordion-panel>
+              <div class="filters-options" id="filter-seasons"></div>
+            </div>
           </fieldset>
           <fieldset class="filters-group" data-filter-block="sizes">
-            <legend>Talle</legend>
-            <div class="filters-options" id="filter-sizes"></div>
+            <button type="button" class="filters-group-title" data-accordion-trigger aria-expanded="false">Talle</button>
+            <div class="filters-group-panel" data-accordion-panel>
+              <div class="filters-options" id="filter-sizes"></div>
+            </div>
           </fieldset>
           <fieldset class="filters-group" data-filter-block="colors">
-            <legend>Color</legend>
-            <div class="filters-options" id="filter-colors"></div>
+            <button type="button" class="filters-group-title" data-accordion-trigger aria-expanded="false">Color</button>
+            <div class="filters-group-panel" data-accordion-panel>
+              <div class="filters-options" id="filter-colors"></div>
+            </div>
           </fieldset>
+        </div>
+        <div class="filters-footer">
+          <button type="button" class="filters-apply" id="filters-apply">Aplicar filtros</button>
         </div>
       </aside>
       <div class="content-area">
@@ -407,7 +521,7 @@
           <rect width="100%" height="100%" fill="#f8f9fb"/>\
           <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="22">Imagen no disponible</text>\
         </svg>`);
-    const MAX_SWATCHES = 5;
+    const MAX_SWATCHES = 4;
     const preloadedVariantImages = new Set();
 
     function isValidText(value){
@@ -438,7 +552,7 @@
       { key:"multicolor", label:"Multicolor", hex:"#f7c948", aliases:["multicolor","estampado","estampada","print","floreado"] },
       { key:"negro",      label:"Negro",      hex:"#000000", aliases:["negro","black","hex","name"] },
       { key:"blanco",     label:"Blanco",     hex:"#ffffff", aliases:["blanco","white"] },
-      { key:"azul",       label:"Azul",       hex:"#007bff", aliases:["azul","azul jaspeado","azul oscuro","azul marino"] },
+      { key:"azul",       label:"Azul",       hex:"#007bff", aliases:["azul","azul jaspeado","azul oscuro","azul marino","francia"] },
       { key:"rosa",       label:"Rosa",       hex:"#ff69b4", aliases:["rosa","fucsia"] },
       { key:"verde",      label:"Verde",      hex:"#28a745", aliases:["verde","verde jaspeado"] },
       { key:"rojo",       label:"Rojo",       hex:"#dc3545", aliases:["rojo","rojo jaspeado"] },
@@ -503,11 +617,42 @@
       : function(p){ return false; };
     const filterVisibleProducts = list => (Array.isArray(list) ? list : []).filter(p => !shouldHideProduct(p));
     const filterState = { sizes:new Set(), colors:new Set(), types:new Set(), seasons:new Set() };
+const SEASON_PARAM = 'season';
+
+function normalizeSeasonValue(value){
+  return String(value || '').trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
+}
+
+function getSeasonFromUrl(){
+  const params = new URLSearchParams(location.search);
+  const raw = params.get(SEASON_PARAM) || '';
+  return raw.split(',').map(normalizeSeasonValue).filter(Boolean);
+}
+
+function updateSeasonUrl(){
+  const params = new URLSearchParams(location.search);
+  const seasons = Array.from(filterState.seasons || []);
+  const cleaned = seasons.map(normalizeSeasonValue).filter(Boolean);
+  if (cleaned.length) params.set(SEASON_PARAM, cleaned.join(','));
+  else params.delete(SEASON_PARAM);
+  const search = params.toString();
+  const nextUrl = location.pathname + (search ? '?' + search : '') + location.hash;
+  history.pushState(null, '', nextUrl);
+}
+
+function applySeasonFromUrl(){
+  const seasons = getSeasonFromUrl();
+  if (!seasons.length) return;
+  seasons.forEach(val => filterState.seasons.add(val));
+  document.querySelectorAll('#filter-seasons input[type="checkbox"]').forEach(cb => {
+    if (seasons.includes(cb.value)) cb.checked = true;
+  });
+}
     const seasonFilter = (window.romixSeasonFilter && typeof window.romixSeasonFilter.seasonKeyForProduct === 'function')
       ? window.romixSeasonFilter
       : {
           seasonKeyForProduct: () => 'media-estacion',
-          seasonLabelFromKey: key => (key === 'verano' ? 'Verano' : 'Media estacion')
+          seasonLabelFromKey: key => (key === 'verano' ? 'Verano' : (key === 'invierno' ? 'Invierno' : 'Media estacion'))
         };
     const FILTER_CONTAINER = { types:'filter-types', sizes:'filter-sizes', colors:'filter-colors', seasons:'filter-seasons' };
     const sharedSlugify = (function(){ if (typeof window.romixSlugify === 'function') return window.romixSlugify; if (typeof window.slugify === 'function') return window.slugify; if (window.romix && typeof window.romix.slugify === 'function') return window.romix.slugify; throw new Error('Romix slugify helper is not available'); })();
@@ -655,7 +800,7 @@
       const stockEl = document.createElement('div'); stockEl.className = 'stock'; stockEl.textContent = stockLabel;
       row.appendChild(priceEl); row.appendChild(stockEl);
       const actions = document.createElement('div'); actions.className = 'actions';
-      const details = document.createElement('a'); details.className = 'btn btn-details'; details.href = '#'; details.setAttribute('aria-label', 'Ver detalles de ' + p.name); details.innerHTML = '<i class="fas fa-info-circle" aria-hidden="true"></i> Ver Detalles';
+      const details = document.createElement('a'); details.className = 'btn btn-details'; details.href = '#'; details.setAttribute('aria-label', 'Ver detalles de ' + p.name); details.innerHTML = '<i class="fas fa-info-circle" aria-hidden="true"></i> Detalles';
       details.addEventListener('click', (ev) => { ev.preventDefault(); location.href = detailHref(p, false, getCardSelection(article)); });
       const add = document.createElement('button'); add.className = 'btn btn-primary'; add.type = 'button'; add.innerHTML = '<i class="fas fa-cart-plus" aria-hidden="true"></i> Agregar'; add.addEventListener('click', () => quickAdd(p, getCardSelection(article)));
       actions.appendChild(details); actions.appendChild(add);
@@ -724,25 +869,61 @@
 
     function slugValue(v){ return String(v||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
 
+    function setAccordionState(block, open){
+      if (!block) return;
+      block.classList.toggle('is-open', open);
+      const trigger = block.querySelector('[data-accordion-trigger]');
+      if (trigger) trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    function refreshAccordionHeight(){ }
+
+    function wireAccordion(){ }
+
+    function applyShowMore(container, limit, block){
+      const items = Array.from(container.querySelectorAll('.filter-item'));
+      if (items.length <= limit) return;
+      items.forEach((item, idx) => { if (idx >= limit) item.classList.add('is-hidden'); });
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'filter-more';
+      btn.textContent = '+ Ver más';
+      btn.addEventListener('click', () => {
+        const hidden = container.querySelectorAll('.filter-item.is-hidden');
+        const expanding = hidden.length > 0;
+        if (expanding) {
+          container.querySelectorAll('.filter-item.is-hidden').forEach(el => el.classList.remove('is-hidden'));
+          btn.textContent = 'Ver menos';
+        } else {
+          items.forEach((item, idx) => { if (idx >= limit) item.classList.add('is-hidden'); });
+          btn.textContent = '+ Ver más';
+        }
+        refreshAccordionHeight(block);
+      });
+      container.appendChild(btn);
+    }
+
     function renderFilterGroup(group, values){
       const containerId = FILTER_CONTAINER[group];
       const container = document.getElementById(containerId);
       const block = document.querySelector('[data-filter-block="'+group+'"]');
       if (!container || !block) return;
       container.innerHTML = '';
+      container.classList.remove('filters-options--sizes', 'filters-options--colors');
       if (!values.length){ block.style.display = 'none'; return; }
       let visibleCount = 0;
+      if (group === 'sizes') container.classList.add('filters-options--sizes');
       values.forEach(val => {
         const valueKey = String(val || '').toLowerCase();
-        const isHidden = group === 'seasons' && (valueKey === 'verano' || valueKey === 'invierno');
+        const isHidden = group === 'seasons' && valueKey === 'verano';
         let labelText;
         if (group === 'seasons') labelText = seasonFilter.seasonLabelFromKey(valueKey);
         else if (group === 'colors') labelText = colorLabelFromKey(valueKey);
         else labelText = val;
         const inputId = 'flt-' + group + '-' + (slugValue(val) || 'opt');
-        const label = document.createElement('label'); label.className = 'filter-item';
+        const label = document.createElement('label'); label.className = 'filter-item' + (group === 'sizes' ? ' filter-size' : '') + (group === 'colors' ? ' filter-color' : '');
         const input = document.createElement('input'); input.type = 'checkbox'; input.id = inputId; input.value = valueKey; input.dataset.group = group; input.addEventListener('change', onFilterChange);
-        const span = document.createElement('span'); span.textContent = labelText;
+        const span = document.createElement('span'); span.className = 'filter-label'; span.textContent = labelText;
         label.appendChild(input);
         if (group === 'colors') { const sw = document.createElement('span'); sw.className = 'color-swatch'; sw.style.background = colorHexFromKey(valueKey); label.appendChild(sw); }
         label.appendChild(span);
@@ -754,10 +935,19 @@
         container.appendChild(label);
       });
       block.style.display = visibleCount ? '' : 'none';
+      wireAccordion(block);
+      if (group === 'sizes') applyShowMore(container, 6, block);
+      if (group === 'colors') applyShowMore(container, 8, block);
+    }
+
+    function initAccordionDefaults(){
+      const blocks = Array.from(document.querySelectorAll('.filters-group')).filter(b => b.style.display !== 'none');
+      if (!blocks.length) return;
+      blocks.forEach(block => setAccordionState(block, true));
     }
 
     function collectFilterOptions(list){
-      const types = new Set(); const sizes = new Set(); const colors = new Set(); const seasons = new Set();
+      const types = new Set(); const sizes = new Set(); const colors = new Set(); const colorCounts = new Map(); const seasons = new Set();
       list.forEach(p => {
         if (p.type) types.add(String(p.type).trim());
         (p.sizes || []).forEach(s => { if (s && s.size) sizes.add(String(s.size).trim()); });
@@ -767,6 +957,7 @@
             if (key){
               registerFilterColorHex(key, c);
               colors.add(key);
+              colorCounts.set(key, (colorCounts.get(key) || 0) + 1);
             }
           }
         });
@@ -776,13 +967,25 @@
       return {
         types: Array.from(types).sort((a,b)=>a.localeCompare(b)),
         sizes: Array.from(sizes).sort((a,b)=>a.localeCompare(b, undefined, {numeric:true,sensitivity:'base'})),
-        colors: Array.from(colors).sort((a,b)=>{ const la = colorLabelFromKey(a); const lb = colorLabelFromKey(b); return la.localeCompare(lb, 'es', {sensitivity:'base'}); }),
+        colors: Array.from(colors).sort((a,b)=>{ const ca = colorCounts.get(a) || 0; const cb = colorCounts.get(b) || 0; if (cb !== ca) return cb - ca; const la = colorLabelFromKey(a); const lb = colorLabelFromKey(b); return la.localeCompare(lb, 'es', {sensitivity:'base'}); }),
         seasons: seasonOrder.filter(key => seasons.has(key))
       };
     }
 
-    function onFilterChange(evt){ const group = evt.target.dataset.group; const val = String(evt.target.value||'').toLowerCase(); if (!group) return; if (evt.target.checked) filterState[group].add(val); else filterState[group].delete(val); aplicarFiltros(); }
-    function clearFilters(){ Object.keys(filterState).forEach(k => filterState[k].clear()); document.querySelectorAll('.filter-item input[type="checkbox"]').forEach(cb => cb.checked = false); aplicarFiltros(); }
+    function onFilterChange(evt){
+      const group = evt.target.dataset.group;
+      const val = String(evt.target.value||'').toLowerCase();
+      if (!group) return;
+      if (evt.target.checked) filterState[group].add(val); else filterState[group].delete(val);
+      if (group === 'seasons') updateSeasonUrl();
+      aplicarFiltros();
+    }
+    function clearFilters(){
+      Object.keys(filterState).forEach(k => filterState[k].clear());
+      document.querySelectorAll('.filter-item input[type="checkbox"]').forEach(cb => cb.checked = false);
+      updateSeasonUrl();
+      aplicarFiltros();
+    }
     function isMobileView(){ return typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia('(max-width: 960px)').matches; }
     function syncFiltersPanelState(open){
       filtersPanelOpen = open;
@@ -891,13 +1094,17 @@
         const all = await res.json();
         const clean = Array.isArray(all) ? all.map(normalizeProduct) : [];
         const visible = filterVisibleProducts(clean);
+
         master = visible.filter(p => { const sec = String(p.section||'').toLowerCase(); return sec === SECTION || sec === 'ninos' || sec === 'ninas'; });
+
         view = master.slice();
         const filterOptions = collectFilterOptions(master);
         renderFilterGroup('types', filterOptions.types);
         renderFilterGroup('seasons', filterOptions.seasons);
         renderFilterGroup('sizes', filterOptions.sizes);
         renderFilterGroup('colors', filterOptions.colors);
+        initAccordionDefaults();
+        applySeasonFromUrl();
         aplicarFiltros();
       } catch (e) {
         const grid = document.getElementById('grid'); grid.innerHTML = '<p>Error al cargar productos.</p>'; console && console.error && console.error('[ninos] Error:', e);
@@ -907,10 +1114,12 @@
       const clearBtn = document.getElementById('clear-filters'); if (clearBtn) clearBtn.addEventListener('click', clearFilters);
       const toggleBtn = document.getElementById('filters-toggle');
       if (toggleBtn) toggleBtn.addEventListener('click', evt => { evt.preventDefault(); toggleFiltersPanel(); });
-      const closeBtn = document.getElementById('filters-panel-close');
-      if (closeBtn) closeBtn.addEventListener('click', () => toggleFiltersPanel(false));
-      const overlay = document.getElementById('filters-overlay');
-      if (overlay) overlay.addEventListener('click', () => toggleFiltersPanel(false));
+        const closeBtn = document.getElementById('filters-panel-close');
+        if (closeBtn) closeBtn.addEventListener('click', () => toggleFiltersPanel(false));
+        const applyBtn = document.getElementById('filters-apply');
+        if (applyBtn) applyBtn.addEventListener('click', () => toggleFiltersPanel(false));
+        const overlay = document.getElementById('filters-overlay');
+        if (overlay) overlay.addEventListener('click', () => toggleFiltersPanel(false));
       syncFiltersPanelState(false);
     }
     window.addEventListener('DOMContentLoaded', init);
@@ -921,6 +1130,11 @@
   <script src="assets/js/romix-header.js"></script>
 </body>
 </html>
+
+
+
+
+
 
 
 

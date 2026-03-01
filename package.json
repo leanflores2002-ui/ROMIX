@@ -1,0 +1,29 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "node tests/pageTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js",
+    "sync:price-groups": "node scripts/addPriceByGroupPlaceholder.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Leandro18122022/web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Leandro18122022/web/issues"
+  },
+  "homepage": "https://github.com/Leandro18122022/web#readme",
+  "devDependencies": {
+    "axe-core": "^4.11.0",
+    "jsdom": "^27.3.0"
+  }
+}

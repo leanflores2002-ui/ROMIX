@@ -1,16 +1,71 @@
 (() => {
-  const CACHE_KEY = 'romixProductsCacheV1';
+  const CACHE_KEY = 'romixProductsCacheV2';
   const CACHE_TTL_MS = 5 * 60 * 1000;
   const DATA_URL = 'assets/data/products.json';
+  const BLOCKED_SEASON_KEY = 'verano';
 
   let memoryCache = null;
   let inFlight = null;
 
-  function sanitizeList(list) {
-    if (typeof window.sanitizeList === 'function') {
-      return window.sanitizeList(Array.isArray(list) ? list : []);
+  function normalizeText(value) {
+    const raw = value == null ? '' : String(value).trim();
+    if (!raw) return '';
+    try {
+      return raw.normalize('NFD').replace(/\p{Diacritic}+/gu, '').toLowerCase();
+    } catch {
+      return raw.toLowerCase();
     }
-    return Array.isArray(list) ? list : [];
+  }
+
+  function seasonKey(product) {
+    const fromSeason = normalizeText(product && product.season).replace(/[^a-z0-9]+/g, '');
+    if (fromSeason.includes('verano')) return 'verano';
+    if (fromSeason.includes('invierno')) return 'invierno';
+    if (fromSeason === 'mediaestacion') return 'media-estacion';
+
+    const fromSeasonKey = normalizeText(product && product.seasonKey).replace(/[^a-z0-9-]+/g, '');
+    if (fromSeasonKey.includes('verano')) return 'verano';
+    if (fromSeasonKey.includes('invierno')) return 'invierno';
+    if (fromSeasonKey.replace(/-/g, '') === 'mediaestacion') return 'media-estacion';
+    return '';
+  }
+
+  function localShouldHideProduct(product) {
+    if (!product || typeof product !== 'object') return false;
+
+    if (product.hidden === true || product.hide === true || product.oculto === true) return true;
+
+    if (Object.prototype.hasOwnProperty.call(product, 'visible')) {
+      const visible = normalizeText(product.visible);
+      if (visible === 'false' || visible === '0' || visible === 'no') return true;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(product, 'active')) {
+      const active = normalizeText(product.active);
+      if (active === 'false' || active === '0' || active === 'no') return true;
+    }
+
+    const state = normalizeText(product.visibility || product.state || product.publish);
+    if (['hidden', 'oculto', 'draft', 'archived', 'inactive', 'inactivo'].includes(state)) {
+      return true;
+    }
+
+    return seasonKey(product) === BLOCKED_SEASON_KEY;
+  }
+
+  function shouldHideProduct(product) {
+    if (typeof window.shouldHideProduct === 'function') {
+      try {
+        if (window.shouldHideProduct(product)) return true;
+      } catch {}
+    }
+    return localShouldHideProduct(product);
+  }
+
+  function sanitizeList(list) {
+    const source = Array.isArray(list) ? list : [];
+    const base = typeof window.sanitizeList === 'function' ? window.sanitizeList(source) : source;
+    return (Array.isArray(base) ? base : []).filter((item) => !shouldHideProduct(item));
   }
 
   function now() {

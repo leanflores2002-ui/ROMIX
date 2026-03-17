@@ -7496,7 +7496,7 @@
     "images":  {
                     "Azul":  "images/bermuda_lycra_jaspeado_saplex_hombre_azul.png",
                     "Gris melange ":  "images/bermuda_lycra_jaspeado_saplex_hombre_gris_melange.png",
-                    "Gris oscuro":  "images/bermuda_lycra_jaspeado_saplex_hombre_gris_oscuro.png"
+                    "Gris oscuro":  "images/bermuda_lycra_jaspeado_saplex_gris_oscuro.png"
                 },
     "price":  9500,
     "priceByGroup":  {
@@ -9866,8 +9866,9 @@
     "season":  "media-estacion",
     "featured":  true,
     "featuredBadge":  "Más vendido",
-    "image":  "images/estampados/calza_lycra_estampado_2.png",
+    "image":  "images/estampados/calza_lycra_estampado_1.png",
     "images":  {
+                   "Estampado 1":  "images/estampados/calza_lycra_estampado_1.png",
                    "Estampado 2":  "images/estampados/calza_lycra_estampado_2.png",
                    "Estampado 3":  "images/estampados/calza_lycra_estampado_3.png",
                    "Estampado 4":  "images/estampados/calza_lycra_estampado_4.png",
@@ -9883,6 +9884,12 @@
                          "common":  12000
                      },
     "colors":  [
+                   {
+                       "name":  "Estampado 1",
+                       "hex":  "#1F4FA8",
+                       "swatch":  "images/estampados/calza_lycra_estampado_1.png",
+                       "image":  "images/estampados/calza_lycra_estampado_1.png"
+                   },
                    {
                        "name":  "Estampado 2",
                        "hex":  "#FF5FA2",
@@ -9940,6 +9947,13 @@
                ],
     "designs":  [
 
+                    {
+                        "name":  "Estampado 1",
+                        "hex":  "#1F4FA8",
+                        "swatch":  "images/estampados/calza_lycra_estampado_1.png",
+                        "image":  "images/estampados/calza_lycra_estampado_1.png",
+                        "variantId":  "estampado-1"
+                    },
                     {
                         "name":  "Estampado 2",
                         "hex":  "#FF5FA2",

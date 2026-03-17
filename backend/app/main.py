@@ -37,6 +37,7 @@ _products_cache: list[dict] | None = None
 _products_mtime: float | None = None
 _products_json_cache: str | None = None
 _products_lock = RLock()
+BLOCKED_SEASON_KEYS = {"verano"}
 
 # Variantes en memoria
 _variants: Dict[Tuple[str, str, str], dict] = {}
@@ -78,7 +79,7 @@ def load_products() -> list[dict]:
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             data = json.load(f) or []
 
-        _products_cache = data
+        _products_cache = [p for p in data if is_public_product(p)]
         _products_mtime = mtime
         _products_json_cache = json.dumps(_products_cache, ensure_ascii=False)
         return _products_cache
@@ -106,6 +107,26 @@ def normalize_text(value: str) -> str:
     except Exception:
         pass
     return txt.lower()
+
+
+def season_key(product: dict) -> str:
+    if not isinstance(product, dict):
+        return ""
+    season = normalize_text(product.get("season", ""))
+    compact = re.sub(r"[^a-z0-9]+", "", season)
+    if not compact:
+        return ""
+    if "verano" in compact:
+        return "verano"
+    if "invierno" in compact:
+        return "invierno"
+    if compact == "mediaestacion":
+        return "media-estacion"
+    return ""
+
+
+def is_public_product(product: dict) -> bool:
+    return season_key(product) not in BLOCKED_SEASON_KEYS
 
 
 def variants_file() -> Path:

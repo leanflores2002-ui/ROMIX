@@ -87,29 +87,52 @@
   <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
   <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">  <link rel="stylesheet" href="assets/css/romix-header.css">
-  <link rel="stylesheet" href="assets/css/romix-neon.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>
-  <header>
-    <div class="header-container topbar">
-      <a href="index.html" class="logo" aria-label="Romix"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /><span>ROMIX</span></a>
-      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
-        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
-        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
-      </form>
-      <div class="topbar-icons" aria-label="Acciones">
-        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
-        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
-      </div>
-    </div>
-    <nav class="nav-secondary" aria-label="Secciones y categorías">
-      <a href="mujer.html">Mujer</a>
-      <a href="hombre.html">Hombre</a>
-      <a href="ninos.html">Niños</a>
-      <a href="novedades.html">Novedades</a>
+  <header class="site-header romix-shared-header">
+  <div class="container header-row">
+    <a class="brand" href="index.html" aria-label="ROMIX inicio">
+      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      ROMIX<span class="brand-dot">.</span>
+    </a>
+
+    <nav aria-label="Principal">
+      <ul class="main-nav">
+        <li><a href="mujer.html">Mujer</a></li>
+        <li><a href="hombre.html">Hombre</a></li>
+        <li><a href="ninos.html">Ninos</a></li>
+        <li><a href="novedades.html">Novedades</a></li>
+      </ul>
     </nav>
-  </header>
+
+    <div class="header-icons" aria-label="Acciones rapidas">
+      <button class="icon-btn" id="toggleSearch" type="button" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+          <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <a class="icon-btn" href="cart.html" aria-label="Carrito de compras">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="10" cy="19" r="1.4" fill="currentColor" />
+          <circle cx="17" cy="19" r="1.4" fill="currentColor" />
+        </svg>
+        <span class="icon-badge" id="cart-count">0</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="search-panel" id="header-search">
+    <div class="container">
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
+        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+        <button type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</header>
 
   <div class="container" id="main">
     <section id="size-guide" class="help-section">
@@ -303,7 +326,6 @@
       if (window.romixCart) window.romixCart.updateBadge();
     });
   </script>
-  <script src="assets/js/search.js"></script>
   <script src="assets/js/romix-header.js"></script>
 </body>
 </html>

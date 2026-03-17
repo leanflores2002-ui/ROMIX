@@ -3,1155 +3,1655 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ROMIX - Inicio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>ROMIX | Tienda Deportiva Femenina</title>
+  <link rel="stylesheet" href="assets/css/romix-header.css" />
+  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --primary:#ff2d95;
-      --secondary:#7b2cff;
-      --violet-dark:#1a102f;
-      --bg:#0e0e12;
-      --surface:#14101f;
-      --surface-2:#1b1730;
-      --surface-3:#221c3a;
-      --text:#f4f2ff;
-      --muted:#b6b2cc;
-      --success:#2bd576;
-      --danger:#ff5b6b;
-      --glow-pink: rgba(255, 45, 149, 0.45);
-      --glow-violet: rgba(123, 44, 255, 0.45);
+      --pink-strong: #ff3f8e;
+      --pink-main: #ff5fa3;
+      --pink-soft: #ffd8e8;
+      --lilac-soft: #f1ecff;
+      --white: #ffffff;
+      --text-main: #1f1a26;
+      --text-muted: #685f78;
+      --shadow-soft: 0 14px 34px rgba(255, 95, 163, 0.14);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --pill: 999px;
+      --home-max: 1200px;
+      --section-gap: clamp(20px, 2.5vw, 30px);
     }
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Space Grotesk', 'Segoe UI', sans-serif; }
-    html { background: var(--bg); }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
+      width: 100%;
+      max-width: 100%;
+      min-height: 100vh;
+      font-family: "Manrope", sans-serif;
+      color: var(--text-main);
       background:
-        radial-gradient(1200px 720px at 10% -10%, rgba(123, 44, 255, 0.25), transparent 60%),
-        radial-gradient(900px 520px at 90% 20%, rgba(255, 45, 149, 0.22), transparent 65%),
-        linear-gradient(135deg, #0b0b10 0%, #130f1f 40%, #0e0e12 100%);
-      color:var(--text);
-      min-height:100vh;
-      position:relative;
-      isolation:isolate;
-      overflow-x:hidden;
-    }
-    body::before {
-      content:"";
-      position:fixed;
-      inset:-20%;
-      background:
-        repeating-linear-gradient(135deg, rgba(255, 45, 149, 0.08) 0, rgba(255, 45, 149, 0.08) 2px, transparent 2px, transparent 14px),
-        repeating-linear-gradient(45deg, rgba(123, 44, 255, 0.08) 0, rgba(123, 44, 255, 0.08) 1px, transparent 1px, transparent 12px);
-      opacity:0.3;
-      z-index:-2;
-      pointer-events:none;
-    }
-    body::after {
-      content:"";
-      position:fixed;
-      inset:0;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0, rgba(255,255,255,0.08) 2px, transparent 3px),
-        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) 2px, transparent 3px),
-        radial-gradient(circle at 85% 20%, rgba(255,255,255,0.05) 0, rgba(255,255,255,0.05) 2px, transparent 3px);
-      background-size: 220px 220px, 260px 260px, 320px 320px;
-      opacity:0.35;
-      z-index:-1;
-      pointer-events:none;
-    }
-    header {
-      background: linear-gradient(110deg, #140c22 0%, #2a1450 45%, #ff2d95 120%);
-      color:#fff;
-      padding:18px 0 12px;
-      box-shadow:0 12px 30px rgba(10, 7, 20, 0.6);
-      position: sticky;
-      top:0;
-      z-index:1000;
-    }
-    header::after {
-      content:"";
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      height:2px;
-      background: linear-gradient(90deg, rgba(255,45,149,0), rgba(255,45,149,0.9), rgba(123,44,255,0.9), rgba(255,45,149,0));
-      box-shadow:0 0 18px rgba(255,45,149,0.6);
-    }
-    .header-container { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px; }
-    .logo { font-size:1.9rem; font-weight:700; display:flex; align-items:center; gap:10px; color:#fff; text-decoration:none; letter-spacing:1px; font-family:'Oswald', sans-serif; }
-    .logo span { position:relative; }
-    .logo span::after {
-      content:"";
-      position:absolute;
-      right:-10px;
-      bottom:4px;
-      width:10px;
-      height:10px;
-      border-radius:50%;
-      background:var(--primary);
-      box-shadow:0 0 14px rgba(255,45,149,0.9);
-    }
-    .logo .logo-mark { width:42px; height:42px; object-fit:contain; display:block; }
-    .topbar-icons { display:flex; align-items:center; gap:12px; }
-    .icon-btn { width:38px; height:38px; border-radius:50%; border:1px solid rgba(255,255,255,.35); background:rgba(8, 6, 16, .35); color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; position:relative; transition:transform .2s ease, box-shadow .2s ease; }
-    .icon-btn:hover { transform: translateY(-1px); box-shadow:0 8px 18px rgba(15, 8, 36, 0.2); }
-    .icon-badge { position:absolute; top:-6px; right:-6px; background:var(--danger); color:#fff; border-radius:999px; font-size:.7rem; padding:2px 6px; }
-    .global-search { display:flex; align-items:center; gap:0; position:relative; max-width:760px; width:100%; margin:0 auto; }
-    .global-search input[type="search"] { padding:12px 16px; border:1px solid rgba(255,255,255,.5); border-radius:999px 0 0 999px; min-width:320px; color:#111; background:#fff; caret-color: var(--secondary); width:100%; box-shadow:0 14px 28px rgba(18, 8, 40, 0.35); }
-    .global-search input[type="search"]::placeholder { color:#6c757d; }
-    .global-search input[type="search"]::selection { background:#ffe0f0; color:#111; }
-    .global-search button { padding:12px 18px; border-radius:0 999px 999px 0; border:1px solid rgba(255,255,255,.6); background:#fff; color:var(--secondary); cursor:pointer; font-weight:800; }
-    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#120f1e; border:1px solid rgba(255,255,255,0.12); border-radius:12px; box-shadow:0 14px 30px rgba(0,0,0,.45); padding:6px 0; z-index:2001; }
-    .search-suggestion { color:#f4f2ff; }
-    .search-suggestion small { color:#9f97c7; }
-    .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
-    .search-suggestion .t { line-height:1.1; }
-    .search-suggestion small { color:#6c757d; }
-
-    /* Barra secundaria unificada */
-    .nav-secondary { max-width:1600px; margin:8px auto 0; padding:0 28px 14px; display:flex; gap:28px; align-items:center; justify-content:center; flex-wrap:nowrap; overflow-x:auto; color:#fff; font-weight:700; scrollbar-width:none; position:relative; }
-    .nav-secondary::after {
-      content:"";
-      position:absolute;
-      left:28px;
-      right:28px;
-      bottom:4px;
-      height:1px;
-      background:linear-gradient(90deg, transparent, rgba(255,45,149,0.9), rgba(123,44,255,0.9), transparent);
-      box-shadow:0 0 18px rgba(255,45,149,0.4);
-    }
-    .nav-secondary a { color:#fff; text-decoration:none; padding:10px 4px; border-radius:0; position:relative; font-weight:700; letter-spacing:.8px; text-transform:uppercase; font-size:.92rem; }
-    .nav-secondary a::after { content:""; position:absolute; left:0; right:0; bottom:2px; height:3px; background:#ff2d95; transform:scaleX(0); transform-origin:left; transition:transform .2s ease, box-shadow .2s ease; border-radius:999px; box-shadow:0 0 12px rgba(255,45,149,0.7); }
-    .nav-secondary a:hover::after,
-    .nav-secondary a:focus-visible::after,
-    .nav-secondary a.is-active::after { transform:scaleX(1); }
-    .cat-pill { background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.35); padding:8px 12px; border-radius:999px; font-weight:700; text-decoration:none; font-size:.95rem; }
-
-    .container { max-width:1600px; margin:28px auto; padding:0 28px; }
-    .section-title { font-size:1.9rem; color:#e6dcff; margin-bottom:14px; font-weight:800; letter-spacing:0.5px; font-family:'Oswald', sans-serif; }
-    .catalog-toolbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin: 6px 2px 12px; }
-    .catalog-toolbar input[type="search"] { padding:8px 10px; border:1px solid rgba(255,255,255,0.18); border-radius:8px; min-width:220px; background:#120f1e; color:#f4f2ff; }
-    .catalog-toolbar select { padding:8px 10px; border:1px solid rgba(255,255,255,0.18); border-radius:8px; background:#120f1e; color:#f4f2ff; }
-    .catalog-toolbar .count { color:#b6b2cc; font-weight:600; }
-
-    .btn-cta { display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:14px; border:1px solid transparent; font-weight:800; cursor:pointer; text-decoration:none; }
-    .btn-primary { background: linear-gradient(135deg, #ff2d95, #7b2cff); color:#fff; box-shadow:0 16px 32px rgba(123,44,255,.35); }
-    .btn-outline { border:1px solid var(--secondary); color: var(--text); background:transparent; }
-    /* eyebrow styles moved to women-cats section */
-
-    /* Destacados comerciales */
-    .trend-wrap { margin:14px auto; padding:12px 16px 16px; background:var(--surface); border-radius:18px; box-shadow:0 18px 38px rgba(8, 5, 20, 0.5); border:1px solid rgba(255,45,149,0.12); }
-    .trend-header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px; }
-    .trend-title { font-size:1.25rem; font-weight:800; color:#f1e7ff; }
-    .trend-slider { position:relative; overflow:hidden; }
-    .trend-track { display:flex; transition:transform .3s ease; gap:8px; }
-    .trend-card { flex:0 0 calc(25% - 6px); background:var(--surface-2); border-radius:14px; padding:8px; box-shadow:0 14px 24px rgba(0,0,0,.35); position:relative; border:1px solid rgba(123,44,255,.18); min-height:175px; }
-    .trend-card img { width:100%; height:125px; object-fit:cover; border-radius:10px; box-shadow:0 8px 14px rgba(0,0,0,.25); background:#1b1730; }
-    .trend-badge { display:none !important; }
-    .trend-badge.badge-nuevo { background:#e7f8ef; color:#0f7a3e; border-color:rgba(15,122,62,.2); }
-    .trend-badge.badge-por-agotarse { background:#fff2e5; color:#b85c00; border-color:rgba(184,92,0,.2); }
-    .trend-badge.badge-mas-vendido { background:#efe9ff; color:#5a35a3; border-color:rgba(90,53,163,.2); }
-    .trend-name { font-weight:800; color:#f4f2ff; font-size:.92rem; margin:6px 0 3px; }
-    .trend-price { font-weight:900; color:#ff2d95; font-size:.92rem; }
-    .trend-nav { position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; pointer-events:none; padding:0 4px; }
-    .trend-arrow { width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,45,149,.5); background:rgba(16, 10, 26, 0.9); color:#ff2d95; box-shadow:0 12px 22px rgba(0,0,0,.4); display:flex; align-items:center; justify-content:center; cursor:pointer; pointer-events:auto; }
-    .trend-dots { display:flex; gap:6px; justify-content:center; margin-top:8px; }
-    .trend-dot { width:10px; height:10px; border-radius:50%; background:rgba(255,45,149,0.35); border:none; cursor:pointer; }
-    .trend-dot.active { background:#ff2d95; box-shadow:0 0 10px rgba(255,45,149,0.8); }
-    .trend-arrow:focus-visible,
-    .trend-dot:focus-visible,
-    .trend-slider:focus-visible {
-      outline:2px solid #6f42c1;
-      outline-offset:3px;
+        radial-gradient(860px 340px at 7% -9%, #ffe5f1 0%, transparent 66%),
+        radial-gradient(820px 330px at 95% 0%, #efe8ff 0%, transparent 64%),
+        #faf8fd;
+      overflow-x: clip;
     }
 
-    /* Categorias mujer */
-    .women-cats {
-      margin: 18px auto;
-      padding: 22px 22px 22px;
-      background: linear-gradient(135deg, #120f1e 0%, #1b1333 55%, #120f1e 100%);
-      border-radius: 22px;
-      box-shadow: 0 22px 40px rgba(6, 4, 18, 0.65);
-      border: 1px solid rgba(123,44,255,0.25);
-      position:relative;
-      overflow:hidden;
+    img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
     }
-    .women-cats::after {
-      content:"";
-      position:absolute;
-      inset:0;
-      background:radial-gradient(600px 220px at 85% 0%, rgba(255,45,149,0.2), transparent 70%);
-      pointer-events:none;
-    }
-    .women-cats[data-ready="0"] .women-category {
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .women-cats-head {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 14px;
-      text-align: center;
-    }
-    .eyebrow {
-      position: relative;
-      color: var(--muted);
-      font-size: .9rem;
-      font-weight: 800;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-    .eyebrow::before,
-    .eyebrow::after {
-      content:"";
-      position:absolute;
-      top:50%;
-      width:80px;
-      height:1px;
-      background:linear-gradient(90deg, transparent, rgba(255,45,149,0.9), transparent);
-      transform:translateY(-50%);
-      box-shadow:0 0 12px rgba(255,45,149,0.6);
-    }
-    .eyebrow::before { right: calc(100% + 12px); }
-    .eyebrow::after { left: calc(100% + 12px); }
-    .women-cats-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #f1e7ff;
-      font-family: 'Oswald', sans-serif;
-      letter-spacing: 0.6px;
-    }
-    .women-cats-sub {
-      color: #b8b2d8;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-    .women-cats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-      gap: 16px;
-      align-items: start;
-    }
-    .women-category {
-      text-decoration: none;
+
+    a {
       color: inherit;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 4px;
-      border-radius: 14px;
-      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      text-decoration: none;
     }
-    .women-category:hover {
-      transform: translateY(-2px) scale(1.02);
-      background: rgba(14, 10, 24, 0.6);
-      box-shadow: 0 14px 30px rgba(255,45,149,0.22);
+
+    .home {
+      width: min(var(--home-max), calc(100% - clamp(20px, 4vw, 56px)));
+      margin: clamp(14px, 2.4vw, 24px) auto clamp(28px, 4vw, 44px);
+      display: grid;
+      gap: var(--section-gap);
     }
-    .women-category-avatar {
-      width: 104px;
-      height: 104px;
-      border-radius: 50%;
+
+    .home > * {
+      min-width: 0;
+    }
+
+    .home,
+    .main-hero-carousel,
+    .categories-bar,
+    .products-shell,
+    .products-row,
+    .promo-banners,
+    .banner-card {
+      max-width: 100%;
+    }
+
+    .main-hero-carousel {
+      position: relative;
+      width: 100%;
+      border-radius: var(--radius-xl);
       overflow: hidden;
-      border: 2px solid rgba(255,45,149,0.8);
-      box-shadow: 0 0 22px rgba(255,45,149,0.35);
-      background: #1a1527;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+      box-shadow: var(--shadow-soft);
+      background: #ece9f3;
+      min-height: clamp(420px, 44vw, 520px);
     }
-    .women-category:hover .women-category-avatar {
-      border-color: #ff2d95;
-      box-shadow: 0 0 26px rgba(255,45,149,0.55);
-      transform: scale(1.03);
+
+    .main-hero-carousel__viewport {
+      position: relative;
+      width: 100%;
+      height: clamp(420px, 44vw, 520px);
+      overflow: hidden;
     }
-    .women-category-avatar img {
+
+    .main-hero-carousel__track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .main-hero-carousel__slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.015);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .main-hero-carousel__slide.is-active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .main-hero-carousel__slide img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
     }
-    .women-category-name {
-      font-weight: 800;
+
+    .main-hero-carousel__arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.88);
+      color: #1f1a26;
+      box-shadow: 0 10px 24px rgba(31, 26, 38, 0.2);
+      cursor: pointer;
+      z-index: 2;
+      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .main-hero-carousel__arrow:hover {
+      transform: translateY(-50%) scale(1.04);
+      background: #ffffff;
+      box-shadow: 0 14px 24px rgba(31, 26, 38, 0.24);
+    }
+
+    .main-hero-carousel__arrow:focus-visible {
+      outline: 2px solid rgba(31, 26, 38, 0.45);
+      outline-offset: 2px;
+    }
+
+    .main-hero-carousel__arrow--prev {
+      left: clamp(10px, 1.8vw, 18px);
+    }
+
+    .main-hero-carousel__arrow--next {
+      right: clamp(10px, 1.8vw, 18px);
+    }
+
+    .main-hero-carousel__dots {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: clamp(14px, 2vw, 18px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .main-hero-carousel__dot {
+      width: 9px;
+      height: 9px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      cursor: pointer;
+      transition: width 0.2s ease, background-color 0.2s ease;
+    }
+
+    .main-hero-carousel__dot.is-active {
+      width: 26px;
+      background: #ffffff;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: var(--pill);
+      min-height: 42px;
+      padding: 11px 24px;
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.88rem, 0.96vw, 0.98rem);
+      color: var(--white);
+      background: linear-gradient(120deg, var(--pink-strong) 0%, var(--pink-main) 100%);
+      box-shadow: 0 12px 22px rgba(255, 63, 142, 0.26);
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      filter: brightness(0.96);
+    }
+
+    .categories-bar {
+      position: relative;
+      border-radius: var(--radius-lg);
+      padding: clamp(14px, 2vw, 18px) clamp(40px, 4.4vw, 56px);
+      background: var(--white);
+      box-shadow: 0 10px 24px rgba(31, 26, 38, 0.08);
+    }
+
+    .category-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      color: var(--white);
+      background: linear-gradient(120deg, var(--pink-strong), var(--pink-main));
+      box-shadow: 0 8px 14px rgba(255, 63, 142, 0.24);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .category-arrow.left {
+      left: 8px;
+    }
+
+    .category-arrow.right {
+      right: 8px;
+    }
+
+    .categories-track {
+      display: flex;
+      gap: clamp(12px, 1.5vw, 18px);
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 2px 0 4px;
+    }
+
+    .categories-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-item {
+      flex: 0 0 clamp(98px, 9.5vw, 116px);
+      scroll-snap-align: start;
       text-align: center;
-      color: #f4f2ff;
-      font-size: 0.92rem;
-      letter-spacing: 0.6px;
+      color: #3f364e;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: transform 0.2s ease;
     }
-    @media (max-width: 720px){
-      .women-cats-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px;
+
+    .category-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .category-thumb {
+      width: clamp(82px, 7.8vw, 94px);
+      height: clamp(92px, 8.7vw, 106px);
+      border-radius: 24px;
+      overflow: hidden;
+      margin: 0 auto 10px;
+      background: linear-gradient(145deg, #fffafc, #f5f0ff);
+      border: 1.5px solid #ffe4f0;
+      box-shadow: 0 10px 18px rgba(255, 95, 163, 0.14);
+    }
+
+    .category-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 0;
+      transform: scale(1.12);
+      transform-origin: center;
+    }
+
+    .category-item span {
+      display: block;
+      line-height: 1.2;
+    }
+
+    .products-section h2 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.35rem, 2.2vw, 1.82rem);
+      letter-spacing: 0.02em;
+      margin-bottom: 14px;
+    }
+
+    .products-section--discover .products-shell {
+      --products-visible: 5.6;
+      --products-gap: clamp(8px, 1vw, 12px);
+    }
+
+    .products-section--discover .product-media {
+      aspect-ratio: 3 / 4;
+      min-height: clamp(204px, 24vw, 270px);
+    }
+
+    .products-shell {
+      --products-visible: 5;
+      --products-gap: clamp(10px, 1.2vw, 14px);
+      position: relative;
+      padding: 0 40px 6px;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .products-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 0;
+      color: #fff;
+      background: linear-gradient(120deg, var(--pink-strong), var(--pink-main));
+      box-shadow: 0 8px 14px rgba(255, 63, 142, 0.26);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      z-index: 2;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .products-arrow.left {
+      left: 0;
+    }
+
+    .products-arrow.right {
+      right: 0;
+    }
+
+    .products-arrow:hover {
+      transform: translateY(-50%) scale(1.04);
+    }
+
+    .products-arrow:disabled {
+      opacity: 0.32;
+      cursor: not-allowed;
+      transform: translateY(-50%);
+    }
+
+    .products-row {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - (var(--products-gap) * (var(--products-visible) - 1))) / var(--products-visible));
+      gap: var(--products-gap);
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+      align-items: stretch;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 4px;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .products-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .product-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 6px 14px rgba(31, 26, 38, 0.07);
+      padding: 10px;
+      border: 1px solid rgba(31, 26, 38, 0.08);
+      min-width: 0;
+      height: 100%;
+      scroll-snap-align: start;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(31, 26, 38, 0.1);
+    }
+
+    .product-media {
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: #fff;
+      aspect-ratio: 4 / 5;
+      min-height: 186px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(31, 26, 38, 0.06);
+    }
+
+    .product-media img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      object-position: center;
+      padding: 4px;
+    }
+
+    .product-name {
+      font-weight: 700;
+      font-size: clamp(0.76rem, 0.88vw, 0.84rem);
+      min-height: 36px;
+      line-height: 1.18;
+      margin-bottom: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-price {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(0.96rem, 1.28vw, 1.08rem);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .product-card .btn-primary {
+      width: 100%;
+      min-height: 36px;
+      padding: 8px 12px;
+      margin-top: auto;
+    }
+
+    .products-empty {
+      border-radius: var(--radius-md);
+      background: var(--white);
+      border: 1px dashed rgba(255, 95, 163, 0.34);
+      color: #6b607f;
+      padding: 14px;
+      font-weight: 700;
+      min-width: 0;
+    }
+
+    .promo-banners {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(12px, 1.5vw, 18px);
+    }
+
+    .banner-card {
+      position: relative;
+      min-height: clamp(200px, 22vw, 244px);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 14px 28px rgba(31, 26, 38, 0.14);
+    }
+
+    .banner-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(20, 20, 30, 0.58) 0%, rgba(20, 20, 30, 0.18) 72%);
+    }
+
+    .banner-card img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner-content {
+      position: absolute;
+      left: clamp(14px, 2.2vw, 22px);
+      bottom: clamp(14px, 2.2vw, 22px);
+      z-index: 2;
+      color: #ffffff;
+      max-width: 21ch;
+    }
+
+    .banner-content h3 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.22rem, 2.2vw, 1.72rem);
+      line-height: 1.05;
+      margin-bottom: 10px;
+    }
+
+    .banner-content .btn-primary {
+      min-height: 38px;
+      padding: 9px 18px;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 1024px) {
+      .main-hero-carousel {
+        border-radius: 22px;
+        min-height: clamp(320px, 46vw, 420px);
       }
-      .women-category {
-        padding: 4px 2px;
-      }
-      .women-category-avatar {
-        width: 70px;
-        height: 70px;
-      }
-      .women-category-name {
-        font-size: 0.78rem;
-        line-height: 1.15;
-        max-width: 90px;
+
+      .main-hero-carousel__viewport {
+        height: clamp(320px, 46vw, 420px);
       }
     }
-    @media (max-width: 520px){
-      .women-cats-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    @media (max-width: 640px) {
+      .main-hero-carousel {
+        border-radius: 18px;
+        min-height: clamp(220px, 56vw, 280px);
+      }
+
+      .main-hero-carousel__viewport {
+        height: clamp(220px, 56vw, 280px);
+      }
+
+      .main-hero-carousel__arrow {
+        width: 38px;
+        height: 38px;
+      }
+
+      .main-hero-carousel__arrow--prev {
+        left: 10px;
+      }
+
+      .main-hero-carousel__arrow--next {
+        right: 10px;
+      }
+
+      .main-hero-carousel__dots {
+        bottom: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-hero-carousel {
+        min-height: clamp(200px, 62vw, 240px);
+      }
+
+      .main-hero-carousel__viewport {
+        height: clamp(200px, 62vw, 240px);
+      }
+
+      .main-hero-carousel__arrow {
+        width: 34px;
+        height: 34px;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .products-shell {
+        --products-visible: 4;
+        padding: 0 34px 6px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-copy {
+        padding: 24px clamp(18px, 4vw, 36px) 20px;
+      }
+
+      .hero-media {
+        min-height: clamp(250px, 44vw, 320px);
+      }
+
+      .hero-wave {
+        bottom: -20px;
+        height: 74px;
+      }
+
+      .categories-bar {
+        padding: 12px;
+      }
+
+      .category-arrow {
+        display: none;
+      }
+
+      .products-shell {
+        padding: 0 0 6px;
+      }
+
+      .products-arrow {
+        display: none;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .home {
+        width: min(var(--home-max), calc(100% - 20px));
+        margin: 12px auto 24px;
+        gap: clamp(16px, 3vw, 20px);
+      }
+
+      .hero-panel {
+        border-radius: 22px;
+      }
+
+      .hero-copy {
+        padding: 20px 16px 16px;
+      }
+
+      .hero-media {
+        min-height: 240px;
+      }
+
+      .category-item {
+        flex-basis: 90px;
+        font-size: 0.84rem;
+      }
+
+      .category-thumb {
+        width: 72px;
+        height: 80px;
+        border-radius: 18px;
+      }
+
+      .products-shell {
+        --products-visible: 2.6;
+      }
+
+      .promo-banners {
+        grid-template-columns: 1fr;
+      }
+
+      .banner-card {
+        min-height: 188px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .home {
+        width: min(var(--home-max), calc(100% - 16px));
+        margin: 10px auto 20px;
+        gap: 14px;
+      }
+
+      .hero-panel {
+        border-radius: 18px;
+      }
+
+      .hero-copy {
+        padding: 16px 14px 12px;
+      }
+
+      .hero-tag {
+        font-size: 0.62rem;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+      }
+
+      .hero-title {
+        font-size: clamp(1.45rem, 7vw, 1.9rem);
+        margin-bottom: 8px;
+      }
+
+      .hero-subtitle {
+        font-size: 0.86rem;
+        margin-bottom: 12px;
+      }
+
+      .hero-media {
+        min-height: 208px;
+      }
+
+      .hero-wave {
+        display: none;
+      }
+
+      .hero-dots {
+        bottom: 10px;
+      }
+
+      .categories-bar {
+        padding: 8px;
+        border-radius: 16px;
+      }
+
+      .categories-track {
         gap: 10px;
       }
-      .women-category-avatar {
-        width: 62px;
-        height: 62px;
+
+      .category-item {
+        flex-basis: 82px;
+        font-size: 0.78rem;
       }
-      .women-category-name {
-        max-width: 88px;
+
+      .category-thumb {
+        width: 64px;
+        height: 72px;
+        border-radius: 16px;
+        margin-bottom: 6px;
+      }
+
+      .products-section h2 {
+        font-size: clamp(1.08rem, 5.3vw, 1.24rem);
+        margin-bottom: 10px;
+      }
+
+      .products-row {
+        grid-auto-columns: calc((100% - (var(--products-gap) * (var(--products-visible) - 1))) / var(--products-visible));
+        gap: 10px;
+      }
+
+      .product-card {
+        padding: 9px;
+        border-radius: 12px;
+      }
+
+      .product-media {
+        min-height: 126px;
+        margin-bottom: 6px;
+      }
+
+      .product-name {
+        font-size: 0.74rem;
+        min-height: 32px;
+      }
+
+      .product-price {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+      }
+
+      .product-card .btn-primary {
+        min-height: 34px;
+        padding: 7px 8px;
+      }
+
+      .promo-banners {
+        gap: 10px;
+      }
+
+      .banner-card {
+        min-height: 168px;
+      }
+
+      .banner-content {
+        left: 12px;
+        bottom: 12px;
+        max-width: 17ch;
+      }
+
+      .banner-content h3 {
+        font-size: clamp(1.02rem, 4.6vw, 1.28rem);
+        margin-bottom: 8px;
+      }
+
+      .banner-content .btn-primary {
+        min-height: 34px;
+        padding: 7px 12px;
       }
     }
 
-    /* Promos slider */
-    .promo-wrap { margin:20px auto; padding:14px 18px 18px; background:var(--surface); border-radius:20px; box-shadow:0 18px 38px rgba(10, 7, 20, 0.55); border:1px solid rgba(123,44,255,0.2); }
-    .promo-slider { position:relative; overflow:hidden; }
-    .promo-track { display:flex; gap:14px; transition:transform .3s ease; }
-    .promo-card { flex:0 0 calc(25% - 11px); background:var(--surface-2); border-radius:18px; padding:12px; box-shadow:0 18px 34px rgba(0,0,0,0.45); border:1px solid rgba(255,45,149,0.18); position:relative; min-height:210px; }
-    .promo-card img { width:100%; height:130px; object-fit:cover; border-radius:12px; background:#1b1730; }
-    .promo-badge { display:none !important; }
-    .promo-price { position:absolute; top:10px; right:10px; background:#0e0e12; color:#ffffff; border:1px solid rgba(255,45,149,0.6); border-radius:12px; padding:6px 10px; font-weight:900; }
-    .promo-price small { color:#6c757d; text-decoration:line-through; margin-left:6px; font-weight:600; }
-    .promo-name { font-weight:900; color:#f1e7ff; margin:8px 0 4px; }
-    .promo-sub { color:#b6b2cc; font-size:.95rem; }
-    .promo-foot { margin-top:10px; display:flex; justify-content:space-between; align-items:center; color:#2bd576; font-weight:800; font-size:.9rem; }
-    .promo-dots { display:flex; gap:8px; justify-content:center; margin-top:10px; }
-    .promo-dot { width:10px; height:10px; border-radius:50%; background:rgba(255,45,149,0.3); }
-    .promo-dot.active { background:#ff2d95; box-shadow:0 0 10px rgba(255,45,149,0.8); }
+    @media (max-width: 480px) {
+      .home {
+        width: min(var(--home-max), calc(100% - 14px));
+      }
 
-    .products-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:16px; }
-    .product-card { background:var(--surface-2); border-radius:18px; box-shadow:0 16px 30px rgba(0,0,0,0.45); overflow:hidden; display:flex; flex-direction:column; transition:transform .2s ease, box-shadow .2s ease; border:1px solid rgba(123,44,255,0.18); }
-    .product-card:hover { transform: translateY(-4px); box-shadow:0 20px 40px rgba(0,0,0,0.55); }
-    .product-image {
-      position:relative;
-      width:100%;
-      aspect-ratio:4 / 5;
-      min-height:210px;
-      max-height:320px;
-      background:#1a142b;
-      border-radius:14px 14px 0 0;
-      overflow:hidden;
-      display:block;
-      padding:0;
-    }
-    .product-image img {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      object-position:center;
-      display:block;
-      background:transparent;
-      border-radius:0;
-      box-shadow:none;
-    }
-    .product-badge { display:none !important; }
-    .product-info { padding:9px 10px; display:flex; flex-direction:column; gap:5px; }
-    .product-title { font-size:.95rem; font-weight:900; color:#f5f0ff; cursor:pointer; }
-    .product-subtitle { color:#b6b2cc; font-size:.88rem; }
-    .product-price { color: #ff2d95; font-weight:900; font-size:1rem; }
-    .product-stock-note { text-align:right; font-weight:800; font-size:.82rem; }
-    .product-stock-note.state-available { color: var(--success); }
-    .product-stock-note.state-low { color: #ff9800; }
-    .product-stock-note.state-out { color: var(--danger); }
-    .product-actions { display:flex; gap:8px; }
-    .btn { flex:1; display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:8px 10px; border-radius:9px; border:1px solid rgba(255,255,255,0.15); cursor:pointer; font-weight:800; text-decoration:none; font-size:.88rem; }
-    @media (max-width: 520px){
-      .btn { gap:8px; }
-    }
-    .btn-details { background:rgba(14, 10, 24, 0.7); color:#f1e7ff; }
-    .btn-primary { background: linear-gradient(135deg, #ff2d95, #7b2cff); color:#fff; border:none; box-shadow:0 12px 26px rgba(123,44,255,0.35); }
+      .hero-title {
+        font-size: clamp(1.3rem, 8vw, 1.72rem);
+      }
 
-    footer { background: #0b0a12; color: #fff; padding: 30px 0; margin-top: 40px; }
-    .footer-container { max-width: 1600px; margin: 0 auto; padding: 0 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
-    .footer-column h4 { font-size: 1.2rem; margin-bottom: 15px; color: var(--primary); }
-    .footer-column ul { list-style: none; }
-    .footer-column ul li { margin-bottom: 10px; }
-    .footer-column ul li a { color: #adb5bd; text-decoration: none; transition: color 0.3s; }
-    .footer-column ul li a:hover { color: #fff; }
-    .copyright { text-align: center; padding-top: 20px; margin-top: 20px; border-top: 1px solid #495057; color: #adb5bd; font-size: 0.9rem; }
+      .hero-subtitle {
+        font-size: 0.82rem;
+        margin-bottom: 10px;
+      }
 
-    .romix-toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      max-width: 280px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      background: #120f1e;
-      color: #f4f2ff;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-      font-size: 0.9rem;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(10px);
-      transition: opacity .25s ease, transform .25s ease;
-      z-index: 1500;
+      .hero-media {
+        min-height: 186px;
+      }
+
+      .btn-primary {
+        min-height: 34px;
+        padding: 8px 12px;
+        font-size: 0.78rem;
+      }
+
+      .category-item {
+        flex-basis: 74px;
+        font-size: 0.74rem;
+      }
+
+      .category-thumb {
+        width: 58px;
+        height: 66px;
+        border-radius: 14px;
+      }
+
+      .products-row {
+        grid-auto-columns: calc((100% - (var(--products-gap) * (1.6 - 1))) / 1.6);
+        gap: 8px;
+      }
+
+      .product-media {
+        min-height: 112px;
+      }
+
+      .product-name {
+        font-size: 0.72rem;
+        min-height: 30px;
+      }
+
+      .product-price {
+        font-size: 0.86rem;
+      }
+
+      .banner-card {
+        min-height: 150px;
+      }
     }
 
-    .romix-toast--success { border: 2px solid var(--primary); }
-    .romix-toast--error { border: 2px solid var(--danger); }
-    .romix-toast--visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    @media (max-width: 380px) {
+      .products-row {
+        grid-auto-columns: calc((100% - (var(--products-gap) * (1.2 - 1))) / 1.2);
+      }
+
+      .product-name {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .products-shell {
+        --products-visible: 2.35;
+        --products-gap: 10px;
+        padding: 0 32px 6px;
+        overflow: hidden;
+      }
+
+      .products-row {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: calc((100% - (var(--products-gap) * (var(--products-visible) - 1))) / var(--products-visible));
+        gap: var(--products-gap);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+      }
+
+      .products-arrow {
+        display: grid;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .home {
+        width: min(var(--home-max), calc(100% - 14px));
+        margin: 8px auto 20px;
+        gap: 14px;
+      }
+
+      .hero-panel {
+        border-radius: 18px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        padding: 14px 13px 10px;
+        gap: 0;
+      }
+
+      .hero-tag {
+        margin-bottom: 8px;
+        font-size: 0.58rem;
+        padding: 4px 8px;
+      }
+
+      .hero-title {
+        font-size: clamp(1.2rem, 6.8vw, 1.62rem);
+        line-height: 1.04;
+        margin-bottom: 6px;
+      }
+
+      .hero-subtitle {
+        font-size: 0.82rem;
+        margin-bottom: 12px;
+        max-width: 32ch;
+      }
+
+      .hero-copy .btn-primary {
+        width: 100%;
+        min-height: 36px;
+        font-size: 0.79rem;
+      }
+
+      .hero-media {
+        min-height: clamp(170px, 52vw, 220px);
+      }
+
+      .hero-slide img {
+        object-position: center 20%;
+      }
+
+      .hero-dots {
+        bottom: 8px;
+      }
+
+      .hero-wave {
+        display: none;
+      }
+
+      .categories-bar {
+        padding: 10px 8px;
+        border-radius: 16px;
+      }
+
+      .categories-track {
+        gap: 8px;
+        padding: 2px 1px 4px;
+      }
+
+      .category-item {
+        flex: 0 0 78px;
+        font-size: 0.72rem;
+      }
+
+      .category-thumb {
+        width: 64px;
+        height: 72px;
+        border-radius: 16px;
+        margin-bottom: 6px;
+      }
+
+      .category-thumb img {
+        object-fit: cover;
+        object-position: center 20%;
+        transform: none;
+      }
+
+      .category-item span {
+        line-height: 1.15;
+      }
+
+      .products-section h2 {
+        font-size: clamp(1.02rem, 5vw, 1.16rem);
+        margin-bottom: 10px;
+      }
+
+      .products-shell {
+        --products-visible: 1.65;
+        --products-gap: 10px;
+        padding: 0 28px 4px;
+        overflow: hidden;
+      }
+
+      .products-row {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: calc((100% - (var(--products-gap) * (var(--products-visible) - 1))) / var(--products-visible));
+        gap: var(--products-gap);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 4px;
+      }
+
+      .products-arrow {
+        display: grid;
+        width: 30px;
+        height: 30px;
+      }
+
+      .products-arrow.left {
+        left: 0;
+      }
+
+      .products-arrow.right {
+        right: 0;
+      }
+
+      .product-card {
+        border-radius: 12px;
+        padding: 8px;
+      }
+
+      .product-media {
+        height: clamp(124px, 38vw, 158px);
+        aspect-ratio: auto;
+        min-height: 0;
+      }
+
+      .product-media img {
+        object-fit: cover;
+        object-position: center 26%;
+        padding: 0;
+      }
+
+      .product-name {
+        font-size: 0.73rem;
+        min-height: 30px;
+        margin-bottom: 3px;
+      }
+
+      .product-price {
+        font-size: 0.87rem;
+        margin-bottom: 6px;
+      }
+
+      .product-card .btn-primary {
+        min-height: 32px;
+        padding: 6px 8px;
+        font-size: 0.75rem;
+      }
+
+      .promo-banners {
+        gap: 10px;
+      }
+
+      .banner-card {
+        min-height: 138px;
+      }
+
+      .banner-content {
+        left: 10px;
+        bottom: 10px;
+        max-width: 16ch;
+      }
+
+      .banner-content h3 {
+        font-size: clamp(0.92rem, 4.8vw, 1.08rem);
+        margin-bottom: 6px;
+      }
+
+      .banner-content .btn-primary {
+        min-height: 32px;
+        padding: 6px 10px;
+        font-size: 0.74rem;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .home {
+        width: min(var(--home-max), calc(100% - 13px));
+        gap: 12px;
+      }
+
+      .hero-copy {
+        padding: 13px 12px 9px;
+      }
+
+      .hero-title {
+        font-size: clamp(1.12rem, 7.4vw, 1.42rem);
+      }
+
+      .hero-subtitle {
+        font-size: 0.78rem;
+        margin-bottom: 10px;
+      }
+
+      .hero-copy .btn-primary {
+        min-height: 34px;
+      }
+
+      .category-item {
+        flex-basis: 72px;
+      }
+
+      .category-thumb {
+        width: 58px;
+        height: 66px;
+      }
+
+      .hero-media {
+        min-height: clamp(156px, 50vw, 194px);
+      }
+
+      .products-row {
+        --products-visible: 1.25;
+        gap: 8px;
+      }
+
+      .products-shell {
+        padding: 0 24px 4px;
+      }
+
+      .product-card {
+        padding: 7px;
+      }
+
+      .product-media {
+        height: clamp(116px, 36vw, 142px);
+      }
+
+      .product-name {
+        font-size: 0.7rem;
+      }
+
+      .banner-card {
+        min-height: 126px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .home {
+        width: min(var(--home-max), calc(100% - 12px));
+      }
+
+      .category-item {
+        flex-basis: 68px;
+      }
+
+      .products-row {
+        --products-visible: 1.08;
+      }
+
+      .products-shell {
+        padding: 0 22px 4px;
+      }
+
+      .products-arrow {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .products-section--discover .products-shell {
+        --products-visible: 4.5;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .products-section--discover .products-shell {
+        --products-visible: 2.9;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .products-section--discover .products-shell {
+        --products-visible: 2.08;
+      }
+
+      .products-section--discover .product-media {
+        aspect-ratio: 3 / 4;
+        height: clamp(168px, 52vw, 224px);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .products-section--discover .products-row {
+        --products-visible: 1.68;
+      }
+
+      .products-section--discover .product-media {
+        aspect-ratio: 3 / 4;
+        height: clamp(160px, 58vw, 212px);
+      }
+    }
+
+    @media (max-width: 390px) {
+      .products-section--discover .products-row {
+        --products-visible: 1.42;
+      }
+
+      .products-section--discover .product-media {
+        aspect-ratio: 3 / 4;
+        height: clamp(152px, 60vw, 198px);
+      }
+    }
   </style>
-  <link rel="stylesheet" href="assets/css/responsive.css">
-  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix.png" />
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="ROMIX">
-  <meta property="og:title" content="ROMIX | Moda y deportes para todos">
-  <meta property="og:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
-  <meta property="og:url" content="https://romix.com/">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
-  <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
-  <link rel="stylesheet" href="assets/css/romix-header.css">
-  <link rel="stylesheet" href="assets/css/promo-banner.css">
-  <link rel="stylesheet" href="assets/css/romix-neon.css">
 </head>
 <body>
-  <a class="skip-link" href="#main" style="position:absolute;left:-9999px;">Saltar al contenido</a>
-  <header>
-    <div class="header-container topbar">
-      <a href="index.html" class="logo" aria-label="Romix"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /><span>ROMIX</span></a>
-      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar">
-        <input type="search" name="q" placeholder="Buscar productos..." />
-        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
-      </form>
-      <div class="topbar-icons" aria-label="Acciones">
-        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
-        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
+  <header class="site-header romix-shared-header">
+    <div class="container header-row">
+      <a class="brand" href="index.html" aria-label="ROMIX inicio">
+        <img src="images/logo-romix.png" alt="Logo ROMIX" />
+        ROMIX<span class="brand-dot">.</span>
+      </a>
+
+      <nav aria-label="Principal">
+        <ul class="main-nav">
+          <li><a href="mujer.html">Mujer</a></li>
+          <li><a href="hombre.html">Hombre</a></li>
+          <li><a href="ninos.html">Niños</a></li>
+          <li><a href="novedades.html">Novedades</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-icons" aria-label="Acciones rápidas">
+        <button class="icon-btn" id="toggleSearch" type="button" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </button>
+        <a class="icon-btn" href="cart.html" aria-label="Carrito de compras">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle cx="10" cy="19" r="1.4" fill="currentColor"></circle>
+            <circle cx="17" cy="19" r="1.4" fill="currentColor"></circle>
+          </svg>
+          <span class="icon-badge" id="cart-count">0</span>
+        </a>
       </div>
     </div>
-    <nav class="nav-secondary" aria-label="Secciones y categorías">
-      <a href="mujer.html">Mujer</a>
-      <a href="hombre.html">Hombre</a>
-      <a href="ninos.html">Niños</a>
-      <a href="novedades.html" class="is-active">Novedades</a>
-    </nav>
+
+    <div class="search-panel" id="header-search">
+      <div class="container">
+        <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
+          <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+          <button type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
   </header>
 
-  <section class="container promo-banner" aria-label="Promociones destacadas">
-    <div class="promo-banner__inner">
-      <div class="promo-copy">
-        <span class="promo-kicker">ROMIX SPORT</span>
-        <h2 class="promo-title">MOVIMIENTO & <span class="promo-title__accent">ESTILO</span></h2>
-        <p class="promo-subtitle">Ropa deportiva cómoda y a la moda para tu día a día.</p>
-        <a class="promo-cta" href="novedades.html">Explorar Colección</a>
-      </div>
-      <div class="promo-carousel" data-promo-carousel>
-        <div class="promo-viewport" data-carousel-viewport>
-          <div class="promo-track" data-carousel-track></div>
+  <main class="home">
+    <section class="main-hero-carousel" aria-label="Banner principal">
+      <div class="main-hero-carousel__viewport" id="mainImageCarousel">
+        <div class="main-hero-carousel__track">
+          <figure class="main-hero-carousel__slide is-active">
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1800&q=80" alt="" />
+          </figure>
+          <figure class="main-hero-carousel__slide">
+            <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?auto=format&fit=crop&w=1800&q=80" alt="" />
+          </figure>
+          <figure class="main-hero-carousel__slide">
+            <img src="https://images.unsplash.com/photo-1521804906057-1df8fdb718b7?auto=format&fit=crop&w=1800&q=80" alt="" />
+          </figure>
         </div>
-        <button class="promo-nav promo-nav--prev" type="button" data-carousel-prev aria-label="Anterior">
-          <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        <button class="main-hero-carousel__arrow main-hero-carousel__arrow--prev" type="button" data-carousel-prev aria-label="Imagen anterior">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
         </button>
-        <button class="promo-nav promo-nav--next" type="button" data-carousel-next aria-label="Siguiente">
-          <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        <button class="main-hero-carousel__arrow main-hero-carousel__arrow--next" type="button" data-carousel-next aria-label="Imagen siguiente">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
         </button>
-        <div class="promo-dots" data-carousel-dots role="tablist" aria-label="Secciones del carrusel"></div>
+        <div class="main-hero-carousel__dots" data-carousel-dots aria-label="Selector de imagenes"></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="container women-cats" id="categorias-mujer" data-ready="0">
-    <div class="women-cats-head">
-      <div>
-        <div class="eyebrow">Categorías</div>
-      </div>
-      <div class="women-cats-sub">Elegí tu tipo y filtrá el catálogo</div>
-    </div>
-    <div class="women-cats-grid" role="list">
-      <a class="women-category" role="listitem" data-section="all" data-type="calzas" href="index.html?type=calzas#catalogo">
-        <span class="women-category-avatar"><img src="images/Calza_lycra_frunce_negro.png" alt="Calzas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Calzas</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="bermudas" href="index.html?type=bermudas#catalogo">
-        <span class="women-category-avatar"><img src="images/bermuda_fibrana_liso_negro.png" alt="Bermudas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Bermudas</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="remeras" href="index.html?type=remeras#catalogo">
-        <span class="women-category-avatar"><img src="images/remera_lycra_dry_dama_negro.png" alt="Remeras" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Remeras</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="tops" href="index.html?type=tops#catalogo">
-        <span class="women-category-avatar"><img src="images/top_lycra_liso_negro.png" alt="Tops" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Tops</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="buzos" href="index.html?type=buzos#catalogo">
-        <span class="women-category-avatar"><img src="images/buzo_rustico_lycra_hombre_negro.png" alt="Buzos" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Buzos</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="camperas" href="index.html?type=camperas#catalogo">
-        <span class="women-category-avatar"><img src="images/campera_lycra_negro.png" alt="Camperas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Camperas</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="capri" href="index.html?type=capri#catalogo">
-        <span class="women-category-avatar"><img src="images/capri_lycra_negro.png" alt="Capri" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Capri</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="ciclistas" href="index.html?type=ciclistas#catalogo">
-        <span class="women-category-avatar"><img src="images/ciclista_lycra_morley_negro.png" alt="Ciclistas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Ciclistas</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="palazzos" href="index.html?type=palazzos#catalogo">
-        <span class="women-category-avatar"><img src="images/pantalon_recto_cey_negro.png" alt="Palazzos" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Palazzos</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="polleras" href="index.html?type=polleras#catalogo">
-        <span class="women-category-avatar"><img src="images/pollera_short_morley_lycra_con_bolsillo_negro.png" alt="Polleras" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Polleras</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="pantalones" href="index.html?type=pantalones#catalogo">
-        <span class="women-category-avatar"><img src="images/pantalon_jogger_rustico_negro.png" alt="Pantalones" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Pantalones</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="shorts" href="index.html?type=shorts#catalogo">
-        <span class="women-category-avatar"><img src="images/short_algodon_lycra_tiro_alto_negro.png" alt="Shorts" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Shorts</span>
-      </a>
-      <a class="women-category" role="listitem" data-section="all" data-type="musculosas" href="index.html?type=musculosas#catalogo">
-        <span class="women-category-avatar"><img src="images/musculosa_con_tira_modal_negro.png" alt="Musculosas" loading="lazy" onerror="this.onerror=null;this.src='images/placeholder.jpg';"></span>
-        <span class="women-category-name">Musculosas</span>
-      </a>
-    </div>
-  </section>
+    <section class="categories-bar" aria-label="Barra de categorias">
+      <button class="category-arrow left" type="button" id="categoryPrev" aria-label="Ver categorias anteriores">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
 
-  <section class="container promo-wrap" id="promos">
-    <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">
-      <div>
-        <div class="eyebrow">Promos</div>
-        <h2 class="section-title">Ofertas y descuentos</h2>
+      <div class="categories-track" id="categoryTrack">
+        <a class="category-item" href="catalogo.html?categories=calzas">
+          <div class="category-thumb"><img src="images/calza_gofrada_lycra_fucsia.png" alt="Categoria Calzas" loading="lazy" /></div>
+          <span>Calzas</span>
+        </a>
+        <a class="category-item" href="catalogo.html?categories=camperas">
+          <div class="category-thumb"><img src="images/campera_modal_fucsia.png" alt="Categoria Camperas" loading="lazy" /></div>
+          <span>Camperas</span>
+        </a>
+        <a class="category-item" href="catalogo.html?categories=remeras">
+          <div class="category-thumb"><img src="images/remera_lycra_dry_dama_lila.png" alt="Categoria Remeras" loading="lazy" /></div>
+          <span>Remeras</span>
+        </a>
+        <a class="category-item" href="catalogo.html?categories=tops">
+          <div class="category-thumb"><img src="images/top_lycra_morley_fucsia.png" alt="Categoria Tops" loading="lazy" /></div>
+          <span>Tops</span>
+        </a>
+        <a class="category-item" href="catalogo.html?categories=buzos">
+          <div class="category-thumb"><img src="images/buzo_rustico_lycra_dama_gris_melange.png" alt="Categoria Buzos" loading="lazy" /></div>
+          <span>Buzos</span>
+        </a>
+        <a class="category-item" href="catalogo.html?categories=pantalones">
+          <div class="category-thumb"><img src="images/pantalon_jogger_fibrana_negro.png" alt="Categoria Pantalones" loading="lazy" /></div>
+          <span>Pantalones</span>
+        </a>
+        <a class="category-item" href="catalogo.html?categories=palazos">
+          <div class="category-thumb"><img src="images/palazo_fibrana_liso_negro.png" alt="Categoria Palazos" loading="lazy" /></div>
+          <span>Palazos</span>
+        </a>
       </div>
-    </div>
-    <div class="promo-slider">
-      <div class="trend-nav promo-nav">
-        <button class="trend-arrow" id="promo-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
-        <button class="trend-arrow" id="promo-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
-      </div>
-      <div class="promo-track" id="promo-track"></div>
-      <div class="promo-dots" id="promo-dots"></div>
-    </div>
-  </section>
 
-  <main id="catalogo" class="container" aria-label="Catálogo completo">
-    <h1 class="section-title">Catálogo completo</h1>
-    <div class="catalog-toolbar">
-      <input id="cat-q" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" />
-      <label style="display:inline-flex; align-items:center; gap:6px; color:#6c757d;">Temporada:
-          <select id="cat-season">
-            <option value="">Todas</option>
-            <option value="invierno">Invierno</option>
-            <option value="media-estacion">Media estación</option>
-          </select>
-      </label>
-      <label style="display:inline-flex; align-items:center; gap:6px; color:#6c757d;">Ordenar:
-          <select id="cat-order">
-            <option value="relevancia">Relevancia</option>
-            <option value="precio-asc">Precio: menor a mayor</option>
-            <option value="precio-desc">Precio: mayor a menor</option>
-            <option value="verano" hidden>Verano</option>
-          </select>
-      </label>
-      <span id="cat-count" class="count">Mostrando 0 de 0 productos</span>
-    </div>
-    <div class="products-grid" id="catalog-grid"></div>
-    <div id="catalog-empty" class="no-results" style="display:none;margin-top:10px;"><i class="fas fa-info-circle"></i> <span class="tip">Sin resultados.</span></div>
+      <button class="category-arrow right" type="button" id="categoryNext" aria-label="Ver mas categorias">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </section>
+    <section class="products-section products-section--discover" aria-labelledby="ofertas-destacadas">
+      <h2 id="ofertas-destacadas">Descubre lo nuevo</h2>
+      <div class="products-shell">
+        <button class="products-arrow left" type="button" id="productsPrev" aria-label="Ver ofertas anteriores">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="products-row" id="productsRow">
+          <div class="products-empty">Cargando productos destacados...</div>
+        </div>
+        <button class="products-arrow right" type="button" id="productsNext" aria-label="Ver más ofertas">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+    </section>
+    <section class="promo-banners" aria-label="Banners promocionales">
+      <article class="banner-card">
+        <img src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=1400&q=80" alt="Look urbano y deportivo femenino" loading="lazy" />
+        <div class="banner-content">
+          <h3>Moda Urbana y Deportiva</h3>
+          <button class="btn-primary" type="button">Ver Más</button>
+        </div>
+      </article>
+      <article class="banner-card">
+        <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1400&q=80" alt="Mujer entrenando con estilo deportivo" loading="lazy" />
+        <div class="banner-content">
+          <h3>Entrená con estilo</h3>
+          <button class="btn-primary" type="button">Descubrir Ahora</button>
+        </div>
+      </article>
+    </section>
   </main>
 
-  <footer id="footer">
-    <div class="footer-container">
-      <div class="footer-column">
-        <h4>Productos</h4>
-        <ul>
-          <li><a href="mujer.html" style="color:#adb5bd;text-decoration:none;">Ropa para Mujer</a></li>
-          <li><a href="hombre.html" style="color:#adb5bd;text-decoration:none;">Ropa para Hombre</a></li>
-          <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Niños</a></li>
-          <li><a href="novedades.html" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
-          <li><a href="index.html#ofertas" style="color:#adb5bd;text-decoration:none;">Ofertas</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h4>Ayuda</h4>
-        <ul>
-          <li><a href="ayuda.html#size-guide" style="color:#adb5bd;text-decoration:none;">Guía de talles</a></li>
-          <li><a href="ayuda.html#returns" style="color:#adb5bd;text-decoration:none;">Política de Cambios</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h4>Contacto</h4>
-        <ul>
-          <li><a href="ayuda.html#contact" style="color:#adb5bd;text-decoration:none;">Dirección y horarios</a></li>
-          <li><a href="https://wa.me/" target="_blank" rel="noopener" style="color:#adb5bd;text-decoration:none;">WhatsApp</a></li>
-          <li><a href="tel:+549000000000" style="color:#adb5bd;text-decoration:none;">Llamar por teléfono</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="copyright">
-      <p>&copy; 2025 Romix - Todos los derechos reservados</p>
-    </div>
-  </footer>
-
-  <script id="preloaded-products" type="application/json">
-    {{ products_json if products_json is defined else "[]" }}
-  </script>
-  <script src="assets/js/slugify.js"></script>
-  <script src="assets/js/cart.js"></script>
   <script src="assets/js/products-store.js"></script>
-  <script src="assets/js/verano-order.js"></script>
   <script src="assets/js/catalog-relevance-order.js"></script>
-  <script src="assets/js/promo-banner.js"></script>
+  <script src="assets/js/romix-header.js"></script>
   <script>
-    let romixToastTimer;
+    const HOME_CATEGORIES = [
+      { label: "Calzas", types: ["calzas"], query: "calzas", fallback: "images/calza_gofrada_lycra_fucsia.png" },
+      { label: "Camperas", types: ["camperas"], query: "camperas", fallback: "images/campera_modal_fucsia.png" },
+      { label: "Remeras", types: ["remeras", "musculosas", "sudaderas"], query: "remeras", fallback: "images/remera_lycra_dry_dama_lila.png" },
+      { label: "Tops", types: ["tops"], query: "tops", fallback: "images/top_lycra_morley_fucsia.png" },
+      { label: "Buzos", types: ["buzos"], query: "buzos", fallback: "images/buzo_rustico_lycra_dama_gris_melange.png" },
+      { label: "Pantalones", types: ["pantalones", "shorts", "babuchas", "joggers"], query: "pantalones", fallback: "images/pantalon_jogger_fibrana_negro.png" },
+      { label: "Palazos", types: ["palazos", "palazo"], query: "palazos", fallback: "images/palazo_fibrana_liso_negro.png" }
+    ];
+    let refreshProductsCarousel = null;
 
-    function showToast(message, type = 'success') {
-      const el = document.getElementById('romix-toast');
-      if (!el) return;
-
-      el.textContent = message || '';
-
-      el.classList.remove('romix-toast--success', 'romix-toast--error');
-      if (type === 'error') el.classList.add('romix-toast--error');
-      else el.classList.add('romix-toast--success');
-
-      el.classList.add('romix-toast--visible');
-
-      if (romixToastTimer) clearTimeout(romixToastTimer);
-      romixToastTimer = setTimeout(() => {
-        el.classList.remove('romix-toast--visible');
-      }, 2500);
-    }
-  </script>
-  <script>
-    function fixUtf8(s){
-      if (!s || typeof s !== 'string') return s;
-      let out = s;
-      const map = {'?':'ú','?':'ó','½':'ó','ï':'í','Â·':'·','Â ':'','Â':'','Ã¡':'á','Ã©':'é','Ãí':'í','Ã­':'í','Ã³':'ó','Ãº':'ú','Ãñ':'ñ','Ã¼':'ü'};
-      try { out = decodeURIComponent(escape(out)); } catch {}
-      Object.keys(map).forEach(k => { out = out.split(k).join(map[k]); });
-      return out;
-    }
-    function sanitizeProduct(p){
-      if (!p) return p;
-      const copy = Object.assign({}, p);
-      ['name','type','section','badge','description'].forEach(k=>{ if (copy[k]) copy[k] = fixUtf8(String(copy[k])); });
-      if (Array.isArray(copy.colors)) copy.colors = copy.colors.map(c=> Object.assign({}, c, { name: fixUtf8(c && c.name) }));
-      return copy;
-    }
-    function shouldHideProduct(p){
-      if (!p) return false;
-      const raw = p.season === null || p.season === undefined ? '' : String(p.season);
-      const normalized = raw.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
-      return normalized === 'verano';
-    }
-    function sanitizeList(list){
-      return (Array.isArray(list) ? list.map(sanitizeProduct) : []).filter(function(item){ return !shouldHideProduct(item); });
-    }
-    function fixDomText(){
-      try{
-        const w=document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
-        const nodes=[]; while(w.nextNode()) nodes.push(w.currentNode);
-        nodes.forEach(n=>{ const fx = fixUtf8(n.nodeValue); if (fx && fx!==n.nodeValue) n.nodeValue = fx; });
-      }catch{}
-    }
-    function safeGetCart(){ try { return (window.romixCart && window.romixCart.getCart()) || []; } catch { return []; } }
-    function safeSetCart(v){ try { if (window.romixCart) window.romixCart.saveCart(v); } catch {} }
-    function updateCartBadge(){ try { if (window.romixCart) window.romixCart.updateBadge(); } catch{} }
-    function money(n){ return "$"+Number(n||0).toLocaleString('es-AR'); }
-    function computeTotalStock(p){
-      if (p && p.stockByColor) { var total=0; for(var k in p.stockByColor){ var m=p.stockByColor[k]||{}; for(var t in m) total += Number(m[t]||0); } return total; }
-      var st=(p.sizes||[]).map(function(x){ return String(x.status||'').toLowerCase(); });
-      return st.reduce(function(a,s){ return a + (s.indexOf('unavail')>=0?0:s.indexOf('low')>=0?2:5); }, 0);
-    }
-        function quickAdd(product){
-      const pid = (typeof window.productId === 'function')
-        ? window.productId(product)
-        : (product.id || slugify(product.name || ''));
-      const color = (product.colors && product.colors[0] && product.colors[0].name) || 'Unico';
-      const primaryImage = product.image || (product.images && (product.images["Negro"] || Object.values(product.images)[0])) || "images/placeholder.jpg";
-      let size = 'U';
-      if (Array.isArray(product.sizes) && product.sizes.length){
-        const available = product.sizes.find(function(s){ return !/out|unavail/i.test(String(s.status||'')); }) || product.sizes[0];
-        size = String((available && (available.size || available)) || 'U');
+    function normalizeText(value) {
+      const raw = String(value || "").trim().toLowerCase();
+      try {
+        return raw.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      } catch {
+        return raw;
       }
-      const stockCheck = (window.romixInventory && typeof window.romixInventory.getStock === 'function')
-        ? window.romixInventory.getStock(pid, color, size)
-        : null;
-      if (stockCheck !== null && stockCheck <= 0) { showToast('Sin stock para esta variante', 'error'); return; }
-      const price = Number(product.price||0);
-      if (window.romixCart && typeof window.romixCart.addToCart === 'function') {
-        window.romixCart.addToCart({
-          productId: pid,
-          name: product.name,
-          type: product.type || '',
-          color,
-          colorName: color,
-          size,
-          image: primaryImage,
-          price,
-          qty: 1
-        });
-        window.romixCart.updateBadge();
-      }
-      showToast('Se agrego con exito al carrito');
-    }function stateFromStock(n){ if(n<=0) return 'out'; if(n<=3) return 'low'; return 'available'; }
-
-    const carouselRegistry = [];
-    function getCarouselPerPage(){
-      const width = window.innerWidth;
-      if (width <= 480) return 1;
-      if (width <= 768) return 2;
-      if (width <= 1024) return 3;
-      return 4;
     }
-    function registerCarousel(options){
-      const track = options.track;
-      const dots = options.dots;
-      if (!track || !dots) return;
 
-      let carousel = carouselRegistry.find(function(c){ return c.track === track; });
-      if (!carousel){
-        carousel = { track: track, dots: dots, current: 0 };
-        carouselRegistry.push(carousel);
+    function safeText(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function productKey(product) {
+      return normalizeText(product && product.name) + "::" + normalizeText(product && product.type);
+    }
+
+    function pickImage(product, fallback) {
+      if (product && product.image) return String(product.image);
+      if (product && product.images && typeof product.images === "object") {
+        const values = Object.values(product.images).filter(Boolean);
+        if (values.length) return String(values[0]);
       }
-      carousel.totalItems = options.totalItems || 0;
-      carousel.dotClass = options.dotClass || 'trend-dot';
-      carousel.prevEl = options.prevEl || null;
-      carousel.nextEl = options.nextEl || null;
-      carousel.enableSwipe = !!options.enableSwipe;
-      carousel.swipeEl = options.swipeEl || null;
-      carousel.current = 0;
-      carousel.keyboardEl = options.keyboardEl || null;
+      return fallback || "images/logo-romix.png";
+    }
 
-      const update = function(){
-        const perPage = getCarouselPerPage();
-        const firstItem = carousel.track.children[0];
-        const trackStyles = window.getComputedStyle(carousel.track);
-        const gap = parseFloat(trackStyles.columnGap || trackStyles.gap || '0') || 0;
-        const itemWidth = firstItem ? firstItem.getBoundingClientRect().width : 0;
-        const viewport = carousel.track.parentElement;
-        const viewportWidth = viewport ? viewport.clientWidth : 0;
-        const pageStep = viewportWidth || Math.max(1, (itemWidth + gap) * perPage);
-        const maxOffset = Math.max(0, carousel.track.scrollWidth - viewportWidth);
-        const pages = Math.max(1, Math.ceil(maxOffset / pageStep) + 1);
-        if (carousel.current >= pages) carousel.current = pages - 1;
-        if (carousel.current < 0) carousel.current = 0;
-        const offset = Math.min(maxOffset, carousel.current * pageStep);
-        carousel.track.style.transform = 'translateX(-' + offset + 'px)';
-        carousel.dots.innerHTML = new Array(pages).fill('').map(function(_, idx){
-          return '<button type="button" class="' + carousel.dotClass + (idx===carousel.current?' active':'') + '" data-carousel-dot="' + idx + '" aria-label="Ir a la página ' + (idx + 1) + '"' + (idx===carousel.current?' aria-current="true"':'') + '></button>';
-        }).join('');
-        carousel.pages = pages;
-      };
+    function formatPrice(price) {
+      return "$" + Number(price || 0).toLocaleString("es-AR");
+    }
 
-      const prevClick = function(){
-        if (!carousel.pages) return;
-        carousel.current = (carousel.current - 1 + carousel.pages) % carousel.pages;
-        update();
-      };
-      const nextClick = function(){
-        if (!carousel.pages) return;
-        carousel.current = (carousel.current + 1) % carousel.pages;
-        update();
-      };
+    function slugifyName(value) {
+      if (typeof window.romixSlug === "function") return window.romixSlug(value);
+      return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "producto";
+    }
 
-      if (carousel.prevEl) carousel.prevEl.onclick = prevClick;
-      if (carousel.nextEl) carousel.nextEl.onclick = nextClick;
+    function buildProductHref(product, fallbackType) {
+      if (product && product.name) {
+        const pid = encodeURIComponent(product && product.id ? String(product.id) : slugifyName(product.name));
+        const slug = encodeURIComponent(slugifyName(product.name));
+        const name = encodeURIComponent(String(product.name));
+        return "product.html?id=" + pid + "&slug=" + slug + "&name=" + name;
+      }
+      return "catalogo.html?categories=" + encodeURIComponent(fallbackType || "");
+    }
 
-      if (carousel.dots) {
-        carousel.dots.setAttribute('role', 'tablist');
-        if (!carousel.dots.getAttribute('aria-label')) {
-          carousel.dots.setAttribute('aria-label', 'Páginas del carrusel');
-        }
-        carousel.dots.onclick = function(evt){
-          var btn = evt.target.closest('button[data-carousel-dot]');
-          if (!btn) return;
-          var nextIndex = parseInt(btn.getAttribute('data-carousel-dot') || '0', 10);
-          if (isNaN(nextIndex)) return;
-          carousel.current = nextIndex;
-          update();
-        };
+    function sortByPriceDesc(items) {
+      return (Array.isArray(items) ? items : []).slice().sort((a, b) => Number(b && b.price || 0) - Number(a && a.price || 0));
+    }
+
+    function getNovedadesSource(products) {
+      const source = Array.isArray(products) ? products : [];
+      const featured = source.filter((item) => item && item.featured === true);
+      return featured.length ? featured : source.slice(0, 20);
+    }
+
+    function pickByTypes(products, types, usedKeys) {
+      const wanted = (Array.isArray(types) ? types : []).map(normalizeText);
+      const pool = sortByPriceDesc(products.filter((item) => wanted.includes(normalizeText(item && item.type))));
+      const chosen = pool.find((item) => !usedKeys.has(productKey(item))) || pool[0] || null;
+      if (chosen) usedKeys.add(productKey(chosen));
+      return chosen;
+    }
+
+    async function loadHomeProducts() {
+      if (window.romixProductsStore && typeof window.romixProductsStore.load === "function") {
+        return window.romixProductsStore.load();
+      }
+      const res = await fetch("assets/data/products.json");
+      return res.json();
+    }
+
+    function renderCategories(products) {
+      const track = document.getElementById("categoryTrack");
+      if (!track) return;
+      const novedadesSource = getNovedadesSource(products);
+      const novedadesWomen = novedadesSource.filter((item) => normalizeText(item && item.section) === "mujer");
+      const priority = novedadesWomen.length ? novedadesWomen : novedadesSource;
+      const women = products.filter((item) => normalizeText(item && item.section) === "mujer");
+      const used = new Set();
+      track.innerHTML = HOME_CATEGORIES.map((category) => {
+        const product = pickByTypes(priority, category.types, used)
+          || pickByTypes(women, category.types, used)
+          || pickByTypes(products, category.types, used);
+        if (!product) return "";
+        const image = safeText(pickImage(product, category.fallback));
+        const href = "catalogo.html?categories=" + encodeURIComponent(category.query);
+        return `
+          <a class="category-item" href="${href}">
+            <div class="category-thumb"><img src="${image}" alt="Categoría ${safeText(category.label)}" loading="lazy" /></div>
+            <span>${safeText(category.label)}</span>
+          </a>
+        `;
+      }).join("");
+    }
+
+    function renderProducts(products) {
+      const row = document.getElementById("productsRow");
+      if (!row) return;
+
+      const novedadesSource = getNovedadesSource(products);
+      let source = Array.isArray(novedadesSource) ? novedadesSource.slice() : [];
+      if (typeof window.applyCatalogRelevanceOrder === "function") {
+        source = window.applyCatalogRelevanceOrder(source, "novedades");
       }
 
-      if (typeof carousel.unbindSwipe === 'function') {
-        carousel.unbindSwipe();
-        carousel.unbindSwipe = null;
-      }
-      if (carousel.enableSwipe && carousel.swipeEl) {
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touching = false;
-        const minSwipe = 35;
-        const onTouchStart = function(evt){
-          if (window.innerWidth > 768) return;
-          if (!evt.touches || evt.touches.length !== 1) return;
-          touching = true;
-          touchStartX = evt.touches[0].clientX;
-          touchStartY = evt.touches[0].clientY;
-        };
-        const onTouchEnd = function(evt){
-          if (!touching || window.innerWidth > 768) return;
-          touching = false;
-          if (!evt.changedTouches || !evt.changedTouches.length) return;
-          const dx = evt.changedTouches[0].clientX - touchStartX;
-          const dy = evt.changedTouches[0].clientY - touchStartY;
-          if (Math.abs(dx) < minSwipe || Math.abs(dx) < Math.abs(dy)) return;
-          if (dx < 0) nextClick(); else prevClick();
-        };
-        const onTouchCancel = function(){ touching = false; };
-        carousel.swipeEl.addEventListener('touchstart', onTouchStart, { passive: true });
-        carousel.swipeEl.addEventListener('touchend', onTouchEnd, { passive: true });
-        carousel.swipeEl.addEventListener('touchcancel', onTouchCancel, { passive: true });
-        carousel.unbindSwipe = function(){
-          carousel.swipeEl.removeEventListener('touchstart', onTouchStart);
-          carousel.swipeEl.removeEventListener('touchend', onTouchEnd);
-          carousel.swipeEl.removeEventListener('touchcancel', onTouchCancel);
-        };
-      }
-
-      if (typeof carousel.unbindKeyboard === 'function') {
-        carousel.unbindKeyboard();
-        carousel.unbindKeyboard = null;
-      }
-      if (carousel.keyboardEl) {
-        const onKeyDown = function(evt){
-          if (evt.key === 'ArrowLeft') { evt.preventDefault(); prevClick(); }
-          if (evt.key === 'ArrowRight') { evt.preventDefault(); nextClick(); }
-        };
-        carousel.keyboardEl.addEventListener('keydown', onKeyDown);
-        carousel.unbindKeyboard = function(){
-          carousel.keyboardEl.removeEventListener('keydown', onKeyDown);
-        };
-      }
-
-      carousel.update = function(){
-        carousel.totalItems = carousel.track.children.length;
-        update();
-      };
-      update();
-    }
-
-    window.addEventListener('resize', function(){
-      carouselRegistry.forEach(function(carousel){
-        carousel.totalItems = carousel.track.children.length;
-        if (typeof carousel.update === 'function') carousel.update();
-      });
-    });
-
-    const sharedSlugify = (function(){
-      if (typeof window.romixSlugify === 'function') return window.romixSlugify;
-      if (typeof window.slugify === 'function') return window.slugify;
-      if (window.romix && typeof window.romix.slugify === 'function') return window.romix.slugify;
-      throw new Error('Romix slugify helper is not available');
-    })();
-    function detailHref(p, buy){
-      var win = typeof window !== 'undefined' ? window : {};
-      var slugFn = typeof win.romixSlug === 'function' ? win.romixSlug : sharedSlugify;
-      var slugValue = slugFn(p && p.name ? p.name : '');
-      var nameRaw = typeof win.fixUtf8 === 'function' ? win.fixUtf8(p && p.name ? p.name : '') : (p && p.name ? p.name : '');
-      var pidValue = typeof win.productId === 'function' ? win.productId(p) : '';
-      var base = 'product.html?id=' + encodeURIComponent(pidValue) +
-                 '&slug=' + encodeURIComponent(slugValue) +
-                 '&name=' + encodeURIComponent(nameRaw || '');
-      return buy ? base + '&buy=1' : base;
-    }
-
-    var catalogFilters = { section: '', type: '', typeRaw: '', season: '' };
-    function normalizeCatalogValue(v){
-      return String(v || '').trim().toLowerCase();
-    }
-    function normalizeSeasonValue(v){
-      return normalizeCatalogValue(v).replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
-    }
-    function normalizeCatalogType(v){
-      var t = normalizeCatalogValue(v);
-      if (t === 'palazzos' || t === 'palazzo') return 'palazos';
-      return t;
-    }
-    function setCatalogFilters(next){
-      catalogFilters.section = normalizeCatalogValue(next && next.section);
-      catalogFilters.typeRaw = normalizeCatalogValue(next && next.type);
-      catalogFilters.type = normalizeCatalogType(catalogFilters.typeRaw);
-      catalogFilters.season = normalizeSeasonValue(next && next.season);
-    }
-    function getFiltersFromUrl(){
-      var params = new URLSearchParams(location.search);
-      return {
-        section: params.get('section') || '',
-        type: params.get('type') || '',
-        season: params.get('season') || ''
-      };
-    }
-    function updateCatalogUrl(hash){
-      var params = new URLSearchParams(location.search);
-      if (catalogFilters.section) params.set('section', catalogFilters.section); else params.delete('section');
-      if (catalogFilters.typeRaw) params.set('type', catalogFilters.typeRaw); else params.delete('type');
-      if (catalogFilters.season) params.set('season', catalogFilters.season); else params.delete('season');
-      var search = params.toString();
-      var nextHash = hash ? '#' + hash : location.hash;
-      var newUrl = location.pathname + (search ? '?' + search : '') + nextHash;
-      history.pushState(null, '', newUrl);
-    }
-    function applyCatalogFilters(next, hash){
-      setCatalogFilters(next || {});
-      updateCatalogUrl(hash);
-      renderAll(ALL_PRODUCTS);
-      if (hash) scrollToSection(hash);
-    }
-    function filterCatalogList(products){
-      var base = (products || []);
-      var filtered = base;
-      if (catalogFilters.section) {
-        filtered = filtered.filter(function(p){
-          return normalizeCatalogValue(p && p.section) === catalogFilters.section;
-        });
-      }
-      if (catalogFilters.type) {
-        filtered = filtered.filter(function(p){
-          return normalizeCatalogType(p && p.type) === catalogFilters.type;
-        });
-      }
-      return { base: base, filtered: filtered };
-    }
-    function updateWomenCategoriesVisibility(){
-      var items = document.querySelectorAll('.women-category');
-      if (!items.length) return;
-      var list = (ALL_PRODUCTS || []);
-      items.forEach(function(link){
-        var section = normalizeCatalogValue(link.getAttribute('data-section'));
-        var type = normalizeCatalogType(link.getAttribute('data-type'));
-        var hasMatch = list.some(function(p){
-          var secMatch = !section || section === 'all' || normalizeCatalogValue(p && p.section) === section;
-          return secMatch && normalizeCatalogType(p && p.type) === type;
-        });
-        link.style.display = hasMatch ? '' : 'none';
-      });
-      var cats = document.getElementById('categorias-mujer');
-      if (cats) cats.setAttribute('data-ready', '1');
-    }
-    function renderAll(products){
-      var grid = document.getElementById('catalog-grid');
-      var empty = document.getElementById('catalog-empty');
-      var q = (document.getElementById('cat-q').value||'').trim();
-      var order = document.getElementById('cat-order').value;
-      var season = catalogFilters.season || '';
-      var filteredState = filterCatalogList(products || []);
-      var base = filteredState.filtered;
-      if (season) {
-        base = base.filter(function(p){
-          return normalizeSeasonValue(p && p.season) === season;
-        });
-      }
-      var list = !q ? base : (window.romixSearch && typeof window.romixSearch.searchInList === 'function'
-        ? window.romixSearch.searchInList(base, q, {})
-        : base.filter(function(p){
-            var qn = q.toLowerCase();
-            return !q || String(p.name||'').toLowerCase().indexOf(qn)>=0 || String(p.type||'').toLowerCase().indexOf(qn)>=0 || String(p.section||'').toLowerCase().indexOf(qn)>=0;
-          })
-      );
-      var sorted = list.slice();
-      if (order==='precio-asc') sorted.sort(function(a,b){ return Number(a.price||0)-Number(b.price||0); });
-      else if (order==='precio-desc') sorted.sort(function(a,b){ return Number(b.price||0)-Number(a.price||0); });
-      else if (order==='verano' && typeof applyVeranoOrder === 'function') sorted = applyVeranoOrder(list);
-      else if (order==='relevancia' && typeof applyCatalogRelevanceOrder === 'function') sorted = applyCatalogRelevanceOrder(list);
-      var count = document.getElementById('cat-count');
-      count.textContent = 'Mostrando ' + list.length + ' de ' + base.length + ' productos';
-        grid.innerHTML = sorted.map(function(p){
-          var total = computeTotalStock(p); var st = stateFromStock(total);
-          var label = st==='out'?'Agotado':(st==='low'?'Por agotarse':'Disponible');
-          var sectionName = (p.section||''); sectionName = sectionName.charAt(0).toUpperCase()+sectionName.slice(1);
-          var subtitle = sectionName + ' &middot; ' + (p.type||'');
-        var pid = (typeof window.productId === 'function' ? window.productId(p) : (p.id || slugify(p.name || '')));
-        var badge = p.badge ? '<span class="product-badge">'+p.badge+'</span>' : '';
-        var img = p.image || 'images/placeholder.jpg';
-        var detailLink = detailHref(p);
-        return (
-          '<div class="product-card" data-type="'+(p.type||'')+'">'+
-            '<div class="product-image" onclick="location.href=\''+detailLink+'\'">'+
-              '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';"/>'+badge+
-            '</div>'+
-            '<div class="product-info">'+
-              '<h3 class="product-title" data-name="'+(p.name||'')+'" onclick="location.href=\''+detailLink+'\'">'+(p.name||'')+'</h3>'+
-              '<div class="product-subtitle">'+subtitle+'</div>'+
-              '<div class="product-price">'+money(p.price)+'</div>'+
-              '<div class="product-stock-note state-'+st+'">'+label+'</div>'+
-              '<div class="product-actions">'+
-                '<a href="'+detailLink+'" class="btn btn-details"><i class="fas fa-info-circle" aria-hidden="true"></i> Detalles</a>'+
-                '<button class="btn btn-primary" type="button" data-add-product="'+pid+'"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Agregar</button>'+
-              '</div>'+
-            '</div>'+
-          '</div>'
-        );
-      }).join('');
-        var addButtons = grid.querySelectorAll('[data-add-product]');
-        addButtons.forEach(function(btn){
-        btn.addEventListener('click', function(){
-          var pid = btn.getAttribute('data-add-product');
-          var prod = (ALL_PRODUCTS||[]).find(function(p){
-            var idValue = (typeof window.productId === 'function' ? window.productId(p) : (p.id || slugify(p.name || '')));
-            return String(idValue||'') === String(pid||'');
-          });
-          if (!prod) { showToast('No se encontró el producto', 'error'); return; }
-          quickAdd(prod);
-        });
-      });
-      empty.style.display = sorted.length? 'none':'block';
-    }
-
-    function preloadedProducts(){
-      try { const el=document.getElementById('preloaded-products'); if(!el) return null; return sanitizeList(JSON.parse(el.textContent)); } catch { return null; }
-    }
-    function renderPromos(list){
-      var track = document.getElementById('promo-track');
-      var dots = document.getElementById('promo-dots');
-      if (!track || !dots) return;
-      var promos = (list||[]).filter(function(p){ return Number(p.originalPrice||0) > Number(p.price||0); });
-      if (!promos.length) { promos = (list||[]).slice(0,8); }
-      var badges = ['Promo','Oferta','-15%','-20%','-30%'];
-      track.innerHTML = promos.map(function(p,idx){
-        var img = p.image || 'images/placeholder.jpg';
-        var price = money(p.price);
-        var original = p.originalPrice ? '<small>'+money(p.originalPrice)+'</small>' : '';
-        var badge = p.badge || badges[idx % badges.length];
-        var detailLink = detailHref(p);
-        var discount = '';
-        if (p.originalPrice && p.price) {
-          var pct = Math.round((1 - Number(p.price)/Number(p.originalPrice))*100);
-          if (pct > 0) discount = '-'+pct+'%';
-        }
-        return (
-          '<article class="promo-card">'+
-            '<div class="promo-badge">'+(discount || badge)+'</div>'+
-            '<div class="promo-price">'+price+ (original ? ' '+original : '') +'</div>'+
-            '<img src="'+img+'" alt="'+(p.name||'')+'" loading="lazy" onerror="this.onerror=null;this.src=\'images/placeholder.jpg\';" onclick="location.href=\''+detailLink+'\'">'+
-            '<div class="promo-name">'+(p.name||'')+'</div>'+
-            '<div class="promo-sub">'+(p.section||'')+' · '+(p.type||'')+'</div>'+
-            '<div class="promo-foot"><span>'+ (p.badge || 'Disponible') +'</span><span>'+price+'</span></div>'+
-          '</article>'
-        );
-      }).join('');
-      registerCarousel({
-        track: track,
-        dots: dots,
-        prevEl: document.getElementById('promo-prev'),
-        nextEl: document.getElementById('promo-next'),
-        totalItems: promos.length,
-        dotClass: 'promo-dot'
-      });
-    }
-    function initHomeBanner(list){
-      if (typeof initPromoBanner !== 'function') return;
-      var featured = (list||[]).filter(function(p){ return p && p.featured === true; });
-      var bannerSource = featured.length ? featured : (list||[]);
-      initPromoBanner({ products: bannerSource, autoplayMs: 12000 });
-    }
-    var ALL_PRODUCTS = preloadedProducts() || [];
-    if (!window.PRELOADED_PRODUCTS && ALL_PRODUCTS.length) { window.PRELOADED_PRODUCTS = ALL_PRODUCTS; }
-    function scrollToSection(id){
-      var el = document.getElementById(id);
-      if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
-    }
-    function loadAll(){
-      if (ALL_PRODUCTS && ALL_PRODUCTS.length) {
-        renderPromos(ALL_PRODUCTS);
-        initHomeBanner(ALL_PRODUCTS);
-        renderAll(ALL_PRODUCTS);
-        updateWomenCategoriesVisibility();
+      if (!source.length) {
+        row.innerHTML = '<div class="products-empty">No pudimos cargar las ofertas destacadas por ahora.</div>';
         return;
       }
-      var loadSource = (window.romixProductsStore && typeof window.romixProductsStore.load === 'function')
-        ? window.romixProductsStore.load({ preloaded: ALL_PRODUCTS })
-        : (function(){
-            var tryApi = function(){ return fetch('/api/products').then(function(r){ return r.ok?r.json():Promise.reject(); }); };
-            var tryFile = function(){ return fetch(new URL('assets/data/products.json', location.href)).then(function(r){ return r.json(); }); };
-            return tryApi().catch(tryFile);
-          })();
-      Promise.resolve(loadSource).then(function(list){
-        ALL_PRODUCTS = sanitizeList(list||[]);
-        renderPromos(ALL_PRODUCTS);
-        initHomeBanner(ALL_PRODUCTS);
-        renderAll(ALL_PRODUCTS);
-        updateWomenCategoriesVisibility();
-      }).catch(function(){
-        ALL_PRODUCTS = [];
-        renderPromos(ALL_PRODUCTS);
-        initHomeBanner(ALL_PRODUCTS);
-        renderAll(ALL_PRODUCTS);
-        updateWomenCategoriesVisibility();
-      });
+
+      const productHtml = source.map((product) => {
+        const type = normalizeText(product && product.type);
+        const href = buildProductHref(product, type);
+        return `
+          <article class="product-card">
+            <a class="product-media" href="${href}">
+              <img src="${safeText(pickImage(product, "images/logo-romix.png"))}" alt="${safeText(product && product.name)}" loading="lazy" />
+            </a>
+            <a class="product-name" href="${href}">${safeText(product && product.name)}</a>
+            <p class="product-price">${formatPrice(product && product.price)}</p>
+            <a class="btn-primary" href="${href}">Comprar</a>
+          </article>
+        `;
+      }).join("");
+
+      row.innerHTML = productHtml;
+      if (typeof refreshProductsCarousel === "function") {
+        requestAnimationFrame(refreshProductsCarousel);
+      }
     }
 
-    document.addEventListener('DOMContentLoaded', function(){
-      fixDomText();
-      updateCartBadge();
-      var urlQ = new URLSearchParams(location.search).get('q')||''; if (urlQ) document.getElementById('cat-q').value = urlQ;
-      setCatalogFilters(getFiltersFromUrl());
-      var seasonSelect = document.getElementById('cat-season');
-      if (seasonSelect && catalogFilters.season) {
-        seasonSelect.value = catalogFilters.season;
-      }
-      document.getElementById('cat-q').addEventListener('input', function(){ renderAll(ALL_PRODUCTS); });
-      document.getElementById('cat-order').addEventListener('change', function(){ renderAll(ALL_PRODUCTS); });
-      if (seasonSelect) {
-        seasonSelect.addEventListener('change', function(){
-          applyCatalogFilters({
-            section: catalogFilters.section,
-            type: catalogFilters.typeRaw,
-            season: seasonSelect.value
-          });
+    (function initMainImageCarousel() {
+      const carousel = document.getElementById("mainImageCarousel");
+      if (!carousel) return;
+
+      const slides = Array.from(carousel.querySelectorAll(".main-hero-carousel__slide"));
+      const dotsWrap = carousel.querySelector("[data-carousel-dots]");
+      const prevBtn = carousel.querySelector("[data-carousel-prev]");
+      const nextBtn = carousel.querySelector("[data-carousel-next]");
+      if (!slides.length || !dotsWrap) return;
+
+      const autoplayMs = 6500;
+      const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let current = 0;
+      let timer = null;
+      let dots = [];
+
+      function render() {
+        slides.forEach((slide, index) => {
+          slide.classList.toggle("is-active", index === current);
+        });
+        dots.forEach((dot, index) => {
+          dot.classList.toggle("is-active", index === current);
         });
       }
-      document.querySelectorAll('.women-category').forEach(function(link){
-        link.addEventListener('click', function(ev){
-          var section = normalizeCatalogValue(link.getAttribute('data-section'));
-          if (!section || section === 'all') section = '';
-          var type = link.getAttribute('data-type') || '';
-          var href = link.getAttribute('href') || '';
-          if (href.indexOf('#catalogo') >= 0) {
-            ev.preventDefault();
-            applyCatalogFilters({
-              section: section,
-              type: type,
-              season: catalogFilters.season
-            }, 'catalogo');
-          }
+
+      function goTo(index) {
+        current = (index + slides.length) % slides.length;
+        render();
+      }
+
+      function stopAutoplay() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        if (reduceMotion || slides.length < 2) return;
+        timer = setInterval(() => {
+          goTo(current + 1);
+        }, autoplayMs);
+      }
+
+      slides.forEach((_, index) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "main-hero-carousel__dot" + (index === 0 ? " is-active" : "");
+        dot.setAttribute("aria-label", "Ir a la imagen " + (index + 1));
+        dot.addEventListener("click", () => {
+          goTo(index);
+          startAutoplay();
         });
+        dotsWrap.appendChild(dot);
       });
-      loadAll();
-      // Eliminado manejo de data-target para permitir navegación directa a otras páginas
-    });
+
+      dots = Array.from(dotsWrap.querySelectorAll(".main-hero-carousel__dot"));
+
+      if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+          goTo(current - 1);
+          startAutoplay();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+          goTo(current + 1);
+          startAutoplay();
+        });
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopAutoplay();
+        else startAutoplay();
+      });
+
+      render();
+      startAutoplay();
+    })();
+
+    (function initCategorySlider() {
+      const track = document.getElementById("categoryTrack");
+      const prev = document.getElementById("categoryPrev");
+      const next = document.getElementById("categoryNext");
+      if (!track || !prev || !next) return;
+
+      function getStep() {
+        const card = track.querySelector(".category-item");
+        const styles = window.getComputedStyle(track);
+        const gap = parseFloat(styles.columnGap || styles.gap) || 0;
+        return card ? card.getBoundingClientRect().width + gap : 120;
+      }
+
+      prev.addEventListener("click", () => {
+        track.scrollBy({ left: -getStep() * 2, behavior: "smooth" });
+      });
+
+      next.addEventListener("click", () => {
+        track.scrollBy({ left: getStep() * 2, behavior: "smooth" });
+      });
+    })();
+
+    (function initProductsCarousel() {
+      const track = document.getElementById("productsRow");
+      const prev = document.getElementById("productsPrev");
+      const next = document.getElementById("productsNext");
+      if (!track || !prev || !next) return;
+
+      function getStep() {
+        const card = track.querySelector(".product-card");
+        const styles = window.getComputedStyle(track);
+        const gap = parseFloat(styles.columnGap || styles.gap) || 0;
+        return card ? card.getBoundingClientRect().width + gap : 210;
+      }
+
+      function syncButtons() {
+        const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+        if (maxScroll <= 4) {
+          prev.disabled = true;
+          next.disabled = true;
+          return;
+        }
+        const left = track.scrollLeft;
+        prev.disabled = left <= 4;
+        next.disabled = left >= (maxScroll - 4);
+      }
+
+      function getStepCount() {
+        return window.innerWidth <= 760 ? 1 : 2;
+      }
+
+      prev.addEventListener("click", () => {
+        track.scrollBy({ left: -getStep() * getStepCount(), behavior: "smooth" });
+      });
+
+      next.addEventListener("click", () => {
+        track.scrollBy({ left: getStep() * getStepCount(), behavior: "smooth" });
+      });
+
+      track.addEventListener("scroll", syncButtons, { passive: true });
+      window.addEventListener("resize", syncButtons);
+      refreshProductsCarousel = syncButtons;
+      syncButtons();
+    })();
+
+    (async function initHomeCatalogData() {
+      try {
+        const products = await loadHomeProducts();
+        if (!Array.isArray(products) || !products.length) return;
+        renderCategories(products);
+        renderProducts(products);
+      } catch (error) {
+        const row = document.getElementById("productsRow");
+        if (row) {
+          row.innerHTML = '<div class="products-empty">No pudimos cargar las ofertas destacadas por ahora.</div>';
+        }
+        console.error("[index] Error cargando data de home", error);
+      }
+    })();
   </script>
-  <script src="assets/js/inventory.js"></script>
-  <script src="assets/js/search.js"></script>
-  <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
-  <script src="assets/js/romix-header.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

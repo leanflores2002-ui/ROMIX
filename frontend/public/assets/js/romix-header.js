@@ -1,304 +1,247 @@
-document.addEventListener('DOMContentLoaded', function () {
-  var header = document.querySelector('header');
-  if (!header) return;
-
-  var nav = header.querySelector('.nav-secondary');
-  if (nav && !nav.id) {
-    nav.id = 'romix-main-nav';
+﻿(function () {
+  function getCurrentPage() {
+    var file = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    return file;
   }
 
-  var icons = header.querySelector('.topbar-icons');
-  if (icons && nav) {
-    var toggle = document.createElement('button');
-    toggle.type = 'button';
-    toggle.className = 'icon-btn menu-toggle';
-    toggle.setAttribute('aria-controls', nav.id);
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Abrir menú');
-    toggle.innerHTML = '<span class="sr-only">Abrir menú</span><i class="fas fa-bars" aria-hidden="true"></i>';
-    icons.prepend(toggle);
+  function navLinks(current) {
+    var pages = [
+      { href: 'mujer.html', label: 'Mujer' },
+      { href: 'hombre.html', label: 'Hombre' },
+      { href: 'ninos.html', label: 'Niños' },
+      { href: 'novedades.html', label: 'Novedades' }
+    ];
+    return pages.map(function (item) {
+      var active = item.href.toLowerCase() === current;
+      return '<li><a href="' + item.href + '"' + (active ? ' class="active" aria-current="page"' : '') + '>' + item.label + '</a></li>';
+    }).join('');
+  }
+
+  function buildHeaderTemplate(current) {
+    return '' +
+      '<div class="container header-row">' +
+        '<a class="brand" href="index.html" aria-label="ROMIX inicio">' +
+          '<img src="images/logo-romix.png" alt="Logo ROMIX" />' +
+          'ROMIX<span class="brand-dot">.</span>' +
+        '</a>' +
+        '<nav aria-label="Principal">' +
+          '<ul class="main-nav">' + navLinks(current) + '</ul>' +
+        '</nav>' +
+        '<div class="header-icons" aria-label="Acciones rápidas">' +
+          '<button class="icon-btn" id="toggleSearch" type="button" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+              '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>' +
+              '<path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
+            '</svg>' +
+          '</button>' +
+          '<a class="icon-btn" href="cart.html" aria-label="Carrito de compras">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+              '<path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
+              '<circle cx="10" cy="19" r="1.4" fill="currentColor"></circle>' +
+              '<circle cx="17" cy="19" r="1.4" fill="currentColor"></circle>' +
+            '</svg>' +
+            '<span class="icon-badge" id="cart-count">0</span>' +
+          '</a>' +
+        '</div>' +
+      '</div>' +
+      '<div class="search-panel" id="header-search">' +
+        '<div class="container">' +
+          '<form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">' +
+            '<input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />' +
+            '<button type="submit">Buscar</button>' +
+          '</form>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function getCartQty() {
+    try {
+      var raw = localStorage.getItem('romix_cart');
+      if (!raw) raw = localStorage.getItem('cart');
+      var parsed = JSON.parse(raw || '[]');
+      if (!Array.isArray(parsed)) return 0;
+      return parsed.reduce(function (sum, item) {
+        var qty = Number((item && (item.quantity || item.qty)) || 1);
+        return sum + (Number.isFinite(qty) && qty > 0 ? qty : 0);
+      }, 0);
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  function updateCartBadge() {
+    var qty = getCartQty();
+    var badge = document.getElementById('cart-count');
+    if (badge) badge.textContent = String(qty);
+  }
+
+  function bindSearchToggle() {
+    var toggle = document.getElementById('toggleSearch');
+    var panel = document.getElementById('header-search');
+    if (!toggle || !panel) return;
+
+    function setOpen(open) {
+      panel.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) {
+        var header = toggle.closest('header');
+        if (header) header.classList.remove('is-hidden');
+      }
+      if (open) {
+        var input = panel.querySelector('input[name="q"]');
+        if (input) input.focus();
+      }
+    }
 
     toggle.addEventListener('click', function () {
-      var open = header.classList.toggle('nav-open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      var icon = toggle.querySelector('i');
-      if (icon) {
-        icon.className = open ? 'fas fa-times' : 'fas fa-bars';
-      }
+      var willOpen = !panel.classList.contains('is-open');
+      setOpen(willOpen);
     });
 
-    nav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        if (window.matchMedia('(max-width: 860px)').matches) {
-          header.classList.remove('nav-open');
-          toggle.setAttribute('aria-expanded', 'false');
-          var icon = toggle.querySelector('i');
-          if (icon) icon.className = 'fas fa-bars';
-        }
-      });
-    });
-  }
-
-  if (nav) {
-    var current = location.pathname.split('/').pop() || 'index.html';
-    nav.querySelectorAll('a').forEach(function (link) {
-      var href = link.getAttribute('href') || '';
-      if (href === current) {
-        link.setAttribute('aria-current', 'page');
-      }
-    });
-  }
-
-  function initMegaMenu() {
-    if (!nav || !header) return;
-
-    var media = window.matchMedia('(min-width: 981px)');
-    var megaWrap = document.createElement('div');
-    megaWrap.className = 'romix-mega';
-    megaWrap.innerHTML = '' +
-      '<div class="romix-mega-panel" role="dialog" aria-hidden="true">' +
-        '<div class="romix-mega-head">' +
-          '<div>' +
-            '<div class="romix-mega-sub">Tipos</div>' +
-            '<div class="romix-mega-title">Vista previa</div>' +
-          '</div>' +
-          '<a class="romix-mega-all" href="#">Ver todo</a>' +
-        '</div>' +
-        '<div class="romix-mega-grid"></div>' +
-      '</div>';
-    header.appendChild(megaWrap);
-
-    var panel = megaWrap.querySelector('.romix-mega-panel');
-    var grid = megaWrap.querySelector('.romix-mega-grid');
-    var title = megaWrap.querySelector('.romix-mega-title');
-    var viewAll = megaWrap.querySelector('.romix-mega-all');
-
-    var activeLink = null;
-    var hideTimer = null;
-    var dataPromise = null;
-    var dataCache = null;
-
-    function slugify(text) {
-      var raw = String(text || '').trim().toLowerCase();
-      try {
-        return raw.normalize('NFD').replace(/\p{Diacritic}+/gu, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-      } catch {
-        return raw.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-      }
-    }
-
-    function sectionKeyForLink(link) {
-      if (!link) return null;
-      var explicit = link.getAttribute('data-section');
-      if (explicit) return explicit;
-      var href = (link.getAttribute('href') || '').toLowerCase();
-      if (href.indexOf('mujer') >= 0) return 'mujer';
-      if (href.indexOf('hombre') >= 0) return 'hombre';
-      if (href.indexOf('ninos') >= 0 || href.indexOf('niños') >= 0) return 'ninos';
-      if (href.indexOf('novedades') >= 0) return 'novedades';
-      var text = slugify(link.textContent || '');
-      if (text.indexOf('mujer') >= 0) return 'mujer';
-      if (text.indexOf('hombre') >= 0) return 'hombre';
-      if (text.indexOf('ninos') >= 0 || text.indexOf('ni-os') >= 0) return 'ninos';
-      if (text.indexOf('novedades') >= 0) return 'novedades';
-      return null;
-    }
-
-    function pickImage(product) {
-      if (!product) return '';
-      if (product.image) return product.image;
-      if (product.images && typeof product.images === 'object') {
-        var keys = Object.keys(product.images);
-        if (keys.length) return product.images[keys[0]];
-      }
-      return '';
-    }
-
-    function titleCase(text) {
-      var clean = String(text || '').trim();
-      if (!clean) return '';
-      return clean.charAt(0).toUpperCase() + clean.slice(1);
-    }
-
-    function normalizeList(list) {
-      if (typeof window.sanitizeList === 'function') return window.sanitizeList(list);
-      return Array.isArray(list) ? list : [];
-    }
-
-    function normalizeSeasonValue(value) {
-      return String(value || '').trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
-    }
-
-    function loadProducts() {
-      if (dataCache) return Promise.resolve(dataCache);
-      if (dataPromise) return dataPromise;
-      if (window.romixProductsStore && typeof window.romixProductsStore.load === 'function') {
-        dataPromise = window.romixProductsStore.load({ useApi: false })
-          .then(function (list) { dataCache = normalizeList(list); return dataCache; })
-          .catch(function () { dataCache = []; return dataCache; });
-        return dataPromise;
-      }
-      dataPromise = fetch('assets/data/products.json')
-        .then(function (res) { return res.ok ? res.json() : []; })
-        .then(function (list) { dataCache = normalizeList(list); return dataCache; })
-        .catch(function () { dataCache = []; return dataCache; });
-      return dataPromise;
-    }
-
-    function buildSectionMap(list) {
-      var map = {};
-      list.forEach(function (p) {
-        if (!p || !p.section || !p.type) return;
-        var seasonKey = normalizeSeasonValue(p.season);
-        if (seasonKey === 'verano') return;
-        var section = String(p.section).toLowerCase();
-        var type = String(p.type).trim();
-        if (!type) return;
-        if (!map[section]) map[section] = { types: new Map() };
-        if (!map[section].types.has(type)) {
-          map[section].types.set(type, {
-            type: type,
-            image: pickImage(p)
-          });
-        }
-      });
-      return map;
-    }
-
-    function collectAllTypes(map) {
-      var all = new Map();
-      Object.keys(map || {}).forEach(function (key) {
-        var entry = map[key];
-        if (!entry || !entry.types) return;
-        entry.types.forEach(function (value, typeKey) {
-          if (!all.has(typeKey)) all.set(typeKey, value);
-        });
-      });
-      return Array.from(all.values());
-    }
-
-    function renderSection(sectionKey, sectionLabel, href) {
-      if (!media.matches) return;
-      loadProducts().then(function (list) {
-        var map = buildSectionMap(list);
-        var items = [];
-        if (sectionKey === 'novedades') {
-          items = collectAllTypes(map);
-        } else {
-          var entry = map[sectionKey];
-          if (entry && entry.types) items = Array.from(entry.types.values());
-        }
-        if (!items.length) {
-          hidePanel();
-          return;
-        }
-        items = items.sort(function (a, b) {
-          return a.type.localeCompare(b.type);
-        });
-        var MAX_TYPES = 14;
-        items = items.slice(0, MAX_TYPES);
-        grid.innerHTML = '';
-        var frag = document.createDocumentFragment();
-        items.forEach(function (item) {
-          var link = document.createElement('a');
-          link.className = 'romix-mega-item';
-          link.href = href || '#';
-          link.setAttribute('data-type', item.type);
-          var thumb = document.createElement('span');
-          thumb.className = 'romix-mega-thumb';
-          var img = document.createElement('img');
-          img.loading = 'lazy';
-          img.alt = item.type;
-          img.src = item.image || 'images/placeholder.jpg';
-          img.onerror = function () { this.onerror = null; this.src = 'images/placeholder.jpg'; };
-          thumb.appendChild(img);
-          var label = document.createElement('span');
-          label.className = 'romix-mega-label';
-          label.textContent = titleCase(item.type);
-          link.appendChild(thumb);
-          link.appendChild(label);
-          frag.appendChild(link);
-        });
-        grid.appendChild(frag);
-        title.textContent = sectionLabel || 'Vista previa';
-        viewAll.href = href || '#';
-        panel.setAttribute('aria-hidden', 'false');
-        header.classList.add('mega-open');
-      });
-    }
-
-    function hidePanel() {
-      header.classList.remove('mega-open');
-      panel.setAttribute('aria-hidden', 'true');
-      activeLink = null;
-    }
-
-    function scheduleHide() {
-      clearTimeout(hideTimer);
-      hideTimer = setTimeout(hidePanel, 120);
-    }
-
-    function cancelHide() {
-      clearTimeout(hideTimer);
-    }
-
-    nav.querySelectorAll('a').forEach(function (link) {
-      var sectionKey = sectionKeyForLink(link);
-      if (!sectionKey) return;
-      link.setAttribute('data-section', sectionKey);
-
-      link.addEventListener('mouseenter', function () {
-        if (!media.matches) return;
-        cancelHide();
-        activeLink = link;
-        var label = link.textContent || '';
-        renderSection(sectionKey, label, link.href);
-      });
-
-      link.addEventListener('focus', function () {
-        if (!media.matches) return;
-        cancelHide();
-        activeLink = link;
-        var label = link.textContent || '';
-        renderSection(sectionKey, label, link.href);
-      });
-
-      link.addEventListener('mouseleave', function () {
-        if (!media.matches) return;
-        scheduleHide();
-      });
-    });
-
-    megaWrap.addEventListener('mouseenter', function () {
-      if (!media.matches) return;
-      cancelHide();
-    });
-
-    megaWrap.addEventListener('mouseleave', function () {
-      if (!media.matches) return;
-      scheduleHide();
+    document.addEventListener('click', function (event) {
+      if (!panel.classList.contains('is-open')) return;
+      var target = event.target;
+      if (panel.contains(target) || toggle.contains(target)) return;
+      setOpen(false);
     });
 
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') hidePanel();
-    });
-
-    window.addEventListener('resize', function () {
-      if (!media.matches) hidePanel();
+      if (event.key === 'Escape' && panel.classList.contains('is-open')) {
+        setOpen(false);
+      }
     });
   }
 
-  initMegaMenu();
+  function bindMobileAutoHide(header) {
+    if (!header) return;
+    var lastY = window.scrollY || 0;
+    var ticking = false;
+    var direction = 0;
+    var travel = 0;
+    var hidden = false;
+    var lastToggleAt = 0;
+    var MIN_DELTA = 2;
+    var TOGGLE_COOLDOWN_MS = 180;
 
-  var lastY = window.scrollY;
-  window.addEventListener('scroll', function () {
-    var currentY = window.scrollY;
-    var goingDown = currentY > lastY;
-    if (currentY > 80 && goingDown) {
-      header.classList.add('header-hidden');
-    } else {
-      header.classList.remove('header-hidden');
+    function update() {
+      ticking = false;
+      var currentY = Math.max(0, window.scrollY || 0);
+      var isMobile = window.innerWidth <= 960;
+      var HIDE_AFTER_DOWN = isMobile ? 28 : 54;
+      var SHOW_AFTER_UP = isMobile ? 44 : 32;
+      var FORCE_VISIBLE_TOP = isMobile ? 24 : 40;
+      var MIN_HIDE_Y = isMobile ? 88 : 126;
+      var searchPanel = document.getElementById('header-search');
+      var searchOpen = !!(searchPanel && searchPanel.classList.contains('is-open'));
+      var filtersOpen = document.body && document.body.classList.contains('filters-open');
+      var mustStayVisible = searchOpen || filtersOpen || currentY < FORCE_VISIBLE_TOP;
+
+      if (mustStayVisible) {
+        hidden = false;
+        direction = 0;
+        travel = 0;
+        header.classList.remove('is-hidden');
+        lastY = currentY;
+        return;
+      }
+
+      var delta = currentY - lastY;
+      if (Math.abs(delta) < MIN_DELTA) {
+        lastY = currentY;
+        return;
+      }
+
+      var nextDirection = delta > 0 ? 1 : -1;
+      if (nextDirection !== direction) {
+        direction = nextDirection;
+        travel = 0;
+      }
+      travel += Math.abs(delta);
+
+      var now = performance.now ? performance.now() : Date.now();
+      var coolingDown = (now - lastToggleAt) < TOGGLE_COOLDOWN_MS;
+
+      if (!coolingDown && !hidden && direction > 0 && currentY > MIN_HIDE_Y && travel >= HIDE_AFTER_DOWN) {
+        hidden = true;
+        travel = 0;
+        lastToggleAt = now;
+        header.classList.add('is-hidden');
+      } else if (!coolingDown && hidden && (currentY < FORCE_VISIBLE_TOP || (direction < 0 && travel >= SHOW_AFTER_UP))) {
+        hidden = false;
+        travel = 0;
+        lastToggleAt = now;
+        header.classList.remove('is-hidden');
+      }
+
+      lastY = currentY;
     }
-    lastY = currentY;
-  }, { passive: true });
-});
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  function dispatchHeaderReady(detail) {
+    document.dispatchEvent(new CustomEvent('romix:header-ready', { detail: detail || {} }));
+  }
+
+  function ensureSearchScript() {
+    if (window.romixSearch) return Promise.resolve(false);
+
+    var existing = document.querySelector('script[src$="assets/js/search.js"], script[src*="/assets/js/search.js"]');
+    if (existing) {
+      if (window.romixSearch || existing.dataset.loaded === '1') return Promise.resolve(false);
+      return new Promise(function (resolve) {
+        existing.addEventListener('load', function () {
+          existing.dataset.loaded = '1';
+          resolve(false);
+        }, { once: true });
+        existing.addEventListener('error', function () { resolve(false); }, { once: true });
+      });
+    }
+
+    return new Promise(function (resolve) {
+      var script = document.createElement('script');
+      script.src = 'assets/js/search.js';
+      script.async = false;
+      script.dataset.romixSearch = '1';
+      script.addEventListener('load', function () {
+        script.dataset.loaded = '1';
+        resolve(true);
+      }, { once: true });
+      script.addEventListener('error', function () { resolve(false); }, { once: true });
+      document.head.appendChild(script);
+    });
+  }
+
+  function init() {
+    var current = getCurrentPage();
+    var oldHeader = document.querySelector('header.site-header, header.romix-shared-header, header');
+
+    var newHeader = document.createElement('header');
+    newHeader.className = 'site-header romix-shared-header';
+    newHeader.innerHTML = buildHeaderTemplate(current);
+
+    if (oldHeader && oldHeader.parentNode) {
+      oldHeader.replaceWith(newHeader);
+    } else if (document.body) {
+      document.body.insertAdjacentElement('afterbegin', newHeader);
+    }
+
+    bindSearchToggle();
+    bindMobileAutoHide(newHeader);
+    updateCartBadge();
+    window.addEventListener('storage', updateCartBadge);
+    ensureSearchScript().then(function (autoloaded) {
+      dispatchHeaderReady({ rebuilt: true, page: current, searchAutoloaded: !!autoloaded });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();

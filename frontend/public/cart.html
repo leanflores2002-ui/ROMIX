@@ -83,45 +83,717 @@
   <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
   <link rel="stylesheet" href="assets/css/romix-header.css">
-  <link rel="stylesheet" href="assets/css/romix-neon.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --rose-50: #fff8fc;
+      --rose-100: #ffeff8;
+      --rose-200: #ffd9ec;
+      --rose-500: #f05aa8;
+      --rose-600: #db3b92;
+      --ink-900: #312b37;
+      --ink-700: #60556a;
+      --ink-500: #8a7f95;
+      --line-soft: #efe6f2;
+      --glass-bg: rgba(255, 255, 255, 0.76);
+      --glass-border: rgba(255, 255, 255, 0.92);
+      --shadow-soft: 0 22px 56px rgba(219, 97, 166, 0.14);
+      --shadow-card: 0 12px 28px rgba(224, 177, 210, 0.26);
+    }
+
+    body {
+      font-family: 'Manrope', 'Nunito Sans', sans-serif;
+      color: var(--ink-900);
+      background:
+        radial-gradient(1150px 700px at -8% 0%, rgba(255, 223, 241, 0.72), transparent 60%),
+        radial-gradient(980px 680px at 108% 10%, rgba(255, 237, 247, 0.62), transparent 62%),
+        linear-gradient(158deg, #fff8fd 0%, #fff 46%, #fff6fc 100%);
+      min-height: 100vh;
+    }
+
+    .cart-container {
+      width: min(100%, 1240px);
+      margin: 18px auto 54px;
+      padding: 0 14px;
+    }
+
+    .cart-page {
+      text-align: left;
+      padding-bottom: 8px;
+    }
+
+    .checkout-steps {
+      margin: 0 0 14px;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      white-space: nowrap;
+    }
+
+    .checkout-steps::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    .checkout-steps li {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: #978aa3;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid #f1e8f4;
+      border-radius: 999px;
+      padding: 7px 12px;
+      box-shadow: 0 4px 12px rgba(229, 198, 219, 0.2);
+    }
+
+    .checkout-steps li:not(:last-child)::after {
+      content: '>';
+      color: #c9bdd2;
+      font-weight: 800;
+      margin-left: 1px;
+    }
+
+    .checkout-steps li.is-active {
+      color: #fff;
+      background: linear-gradient(135deg, #f476bb 0%, #d93a94 100%);
+      border-color: transparent;
+      box-shadow: 0 12px 24px rgba(217, 58, 148, 0.32);
+    }
+
+    .checkout-steps li.is-active::after {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .cart-title {
+      margin: 0;
+      font-size: clamp(1.48rem, 5vw, 2.1rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink-900);
+    }
+
+    .cart-subtitle {
+      margin: 6px 0 18px;
+      color: var(--ink-500);
+      font-size: 0.95rem;
+    }
+
+    .cart-box {
+      max-width: none;
+      margin: 0;
+      min-height: 0;
+      padding: 16px;
+      border-radius: 30px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .cart-alert {
+      margin-bottom: 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .cart-products-col {
+      min-width: 0;
+    }
+
+    .cart-items-title {
+      margin: 4px 0 14px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #6a5f76;
+    }
+
+    .cart-list {
+      gap: 12px;
+    }
+
+    .cart-item {
+      border: 1px solid #f1e8f4;
+      border-radius: 22px;
+      padding: 14px;
+      background: #fff;
+      box-shadow: var(--shadow-card);
+      display: grid;
+      grid-template-columns: 24px 82px 1fr;
+      grid-template-areas:
+        'check thumb info'
+        '. . right';
+      gap: 12px;
+      align-items: start;
+    }
+
+    .item-check {
+      grid-area: check;
+      padding-top: 4px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .item-check .item-select {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--rose-600);
+      cursor: pointer;
+    }
+
+    .cart-thumb {
+      grid-area: thumb;
+      width: 82px;
+      height: 92px;
+      border-radius: 14px;
+      border: 1px solid #f3eaf5;
+      background: #fff9fd;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .cart-info {
+      grid-area: info;
+      text-align: left;
+      min-width: 0;
+    }
+
+    .cart-info .brand {
+      font-size: 0.74rem;
+      color: #987f96;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .cart-info .name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--ink-900);
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .cart-info .meta {
+      color: var(--ink-700);
+      font-size: 0.87rem;
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+
+    .unit-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .cart-info .unit {
+      color: #d53790;
+      font-weight: 800;
+      font-size: 1.02rem;
+    }
+
+    .cart-info .unit-old {
+      color: #b9aebf;
+      text-decoration: line-through;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .cart-info .unit-discount {
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: #ffe7f5;
+      border: 1px solid #ffcce8;
+      color: #c13081;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .cart-right {
+      grid-area: right;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 2px;
+    }
+
+    .qty-stepper {
+      margin-top: 0;
+      border: 1px solid #efd9e9;
+      border-radius: 999px;
+      padding: 4px;
+      gap: 4px;
+      box-shadow: 0 8px 16px rgba(229, 184, 212, 0.22);
+    }
+
+    .qty-stepper button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f67ec2 0%, #df459c 100%);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 8px 14px rgba(223, 69, 156, 0.3);
+    }
+
+    .qty-stepper input {
+      width: 44px;
+      color: var(--ink-900);
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: transparent;
+    }
+
+    .cart-right .subtotal {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--rose-600);
+      letter-spacing: -0.01em;
+    }
+
+    .cart-right .remove {
+      color: var(--rose-600);
+      border: 1px solid #ffd0eb;
+      background: #fff4fb;
+      border-radius: 12px;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-summary-col {
+      min-width: 0;
+    }
+
+    .cart-summary {
+      margin-top: 0;
+      border-top: none;
+      padding-top: 0;
+      display: block;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 16px 30px rgba(219, 169, 204, 0.24);
+    }
+
+    .cart-summary .left {
+      text-align: left;
+      color: var(--ink-700);
+    }
+
+    .summary-title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #4e4458;
+      letter-spacing: -0.01em;
+    }
+
+    .summary-thumbs {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      flex-wrap: wrap;
+    }
+
+    .summary-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid #f3e7f2;
+      object-fit: cover;
+      background: #fff8fd;
+      box-shadow: 0 5px 12px rgba(227, 194, 218, 0.32);
+    }
+
+    .summary-thumb-empty {
+      color: #9a8ea5;
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .summary-thumb-more {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #a04f89;
+      border: 1px solid #f2d7e8;
+      background: #fff4fb;
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+
+    .summary-metric {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line-soft);
+      color: #776d83;
+      font-size: 0.94rem;
+    }
+
+    .summary-metric span {
+      color: #4f4459;
+      font-weight: 800;
+    }
+
+    .link-danger {
+      margin-top: 8px;
+      color: #c14285;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(193, 66, 133, 0.35);
+      padding: 0;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .cart-actions-row {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      justify-content: stretch;
+    }
+
+    .btn {
+      min-height: 50px;
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid #eedee9;
+      font-size: 0.95rem;
+      font-weight: 800;
+      justify-content: center;
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-outline {
+      color: #6b6076;
+      background: #fff;
+      box-shadow: 0 8px 14px rgba(226, 205, 220, 0.26);
+    }
+
+    .btn-primary {
+      border: none;
+      color: #fff;
+      background: linear-gradient(135deg, #f873bc 0%, #d93491 100%);
+      box-shadow: 0 14px 28px rgba(217, 52, 145, 0.38);
+    }
+
+    .cart-empty-state {
+      border: 1px dashed #ecdbe8;
+      border-radius: 18px;
+      padding: 22px;
+      background: #fff;
+      color: #8d8198;
+      text-align: center;
+    }
+
+    .post-order-state {
+      border: 1px dashed #eedfed;
+      border-radius: 20px;
+      background: #fff;
+      padding: 18px;
+      box-shadow: 0 10px 18px rgba(220, 198, 216, 0.22);
+    }
+
+    .post-order-state__icon {
+      color: #6cb392;
+    }
+
+    @media (max-width: 640px) {
+      .cart-container {
+        margin-top: 12px;
+        margin-bottom: 36px;
+        padding: 0 10px;
+      }
+
+      .checkout-steps {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        overflow: visible;
+        white-space: normal;
+      }
+
+      .checkout-steps li {
+        justify-content: center;
+        font-size: 0.74rem;
+        padding: 8px 10px;
+        text-align: center;
+      }
+
+      .checkout-steps li::after {
+        display: none;
+      }
+
+      .cart-title {
+        font-size: 1.42rem;
+      }
+
+      .cart-subtitle {
+        margin-bottom: 14px;
+        font-size: 0.9rem;
+      }
+
+      .cart-box {
+        border-radius: 22px;
+        padding: 12px;
+      }
+
+      .cart-items-title {
+        margin-bottom: 10px;
+        font-size: 0.82rem;
+      }
+
+      .cart-item {
+        border-radius: 18px;
+        grid-template-columns: 20px 74px minmax(0, 1fr);
+        grid-template-areas:
+          'check thumb info'
+          'right right right';
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .item-check {
+        padding-top: 2px;
+      }
+
+      .cart-thumb {
+        width: 74px;
+        height: 84px;
+        border-radius: 12px;
+      }
+
+      .cart-info .brand {
+        font-size: 0.68rem;
+      }
+
+      .cart-info .name {
+        font-size: 0.93rem;
+      }
+
+      .cart-info .meta {
+        font-size: 0.81rem;
+        margin-bottom: 6px;
+      }
+
+      .cart-info .unit {
+        font-size: 0.92rem;
+      }
+
+      .cart-right {
+        width: 100%;
+        border-top: 1px solid #f1e6ef;
+        padding-top: 10px;
+        justify-content: space-between;
+      }
+
+      .qty-stepper {
+        padding: 4px;
+      }
+
+      .qty-stepper button {
+        width: 34px;
+        height: 34px;
+        font-size: 1.05rem;
+      }
+
+      .qty-stepper input {
+        width: 52px;
+        font-size: 0.93rem;
+      }
+
+      .cart-right .subtotal {
+        font-size: 1.05rem;
+      }
+
+      .cart-right .remove {
+        width: 38px;
+        height: 38px;
+      }
+
+      .cart-summary {
+        border-radius: 18px;
+        padding: 14px;
+      }
+
+      .summary-title {
+        font-size: 1rem;
+      }
+
+      .summary-thumb {
+        width: 36px;
+        height: 36px;
+      }
+
+      .summary-metric {
+        margin-top: 10px;
+        padding-top: 10px;
+        font-size: 0.9rem;
+      }
+
+      .cart-actions-row {
+        margin-top: 12px;
+        gap: 8px;
+      }
+
+      .btn {
+        min-height: 48px;
+        border-radius: 14px;
+        font-size: 0.92rem;
+      }
+    }
+
+    @media (min-width: 760px) {
+      .cart-container {
+        padding: 0 20px;
+      }
+
+      .cart-box {
+        padding: 22px;
+      }
+    }
+
+    @media (min-width: 980px) {
+      .cart-container {
+        margin-top: 24px;
+        padding: 0 28px;
+      }
+
+      .cart-layout {
+        grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.75fr);
+        gap: 22px;
+        align-items: start;
+      }
+
+      .cart-summary-col {
+        position: sticky;
+        top: 94px;
+      }
+
+      .cart-item {
+        grid-template-columns: 24px 88px minmax(0, 1fr) auto;
+        grid-template-areas: 'check thumb info right';
+        align-items: center;
+      }
+
+      .cart-thumb {
+        width: 88px;
+        height: 96px;
+      }
+
+      .cart-right {
+        justify-content: flex-end;
+        min-width: 250px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-    <div class="header-container topbar">
-      <a href="index.html" class="logo" aria-label="Romix"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /><span>ROMIX</span></a>
-      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
-        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
-        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
-      </form>
-      <div class="topbar-icons" aria-label="Acciones">
-        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span class="icon-badge" id="cart-count">0</span></a>
-        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
-      </div>
-    </div>
-    <nav class="nav-secondary" aria-label="Secciones y categorías">
-      <a href="mujer.html">Mujer</a>
-      <a href="hombre.html">Hombre</a>
-      <a href="ninos.html">Niños</a>
-      <a href="novedades.html">Novedades</a>
-    </nav>
-  </header>
+    <header class="site-header romix-shared-header">
+  <div class="container header-row">
+    <a class="brand" href="index.html" aria-label="ROMIX inicio">
+      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      ROMIX<span class="brand-dot">.</span>
+    </a>
 
-  <div class="container">
+    <nav aria-label="Principal">
+      <ul class="main-nav">
+        <li><a href="mujer.html">Mujer</a></li>
+        <li><a href="hombre.html">Hombre</a></li>
+        <li><a href="ninos.html">Ninos</a></li>
+        <li><a href="novedades.html">Novedades</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-icons" aria-label="Acciones rapidas">
+      <button class="icon-btn" id="toggleSearch" type="button" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+          <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <a class="icon-btn" href="cart.html" aria-label="Carrito de compras">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="10" cy="19" r="1.4" fill="currentColor" />
+          <circle cx="17" cy="19" r="1.4" fill="currentColor" />
+        </svg>
+        <span class="icon-badge" id="cart-count">0</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="search-panel" id="header-search">
+    <div class="container">
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
+        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+        <button type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</header>
+
+  <div class="container cart-container">
     <div class="cart-page">
       <h1 class="cart-title">Mi Carrito</h1>
       <p class="cart-subtitle">Revisa tus productos seleccionados</p>
       <div class="cart-box">
         <div id="cart-alert" class="cart-alert" role="alert" hidden></div>
-        <div id="cart-list" class="cart-list"></div>
-        <div class="cart-summary">
-          <div class="left">
-            <div>Total de productos: <span id="cart-count-display">0</span></div>
-            <button id="cart-clear-btn" type="button" class="link-danger">Vaciar carrito</button>
-          </div>
-        </div>
-        <div class="cart-actions-row">
-          <a class="btn btn-outline" href="index.html">Continuar comprando</a>
-          <button class="btn btn-primary" type="button" id="order-btn"><i class="fas fa-paper-plane" aria-hidden="true"></i> Ordenar pedido</button>
+        <div class="cart-layout">
+          <section class="cart-products-col" aria-label="Articulos en carrito">
+            <h2 class="cart-items-title">TODOS LOS ARTICULOS (<span id="cart-items-title-count">0</span>)</h2>
+            <div id="cart-list" class="cart-list"></div>
+          </section>
+          <aside class="cart-summary-col" aria-label="Resumen del pedido">
+            <div class="cart-summary">
+              <div class="left">
+                <h3 class="summary-title">Resumen del pedido</h3>
+                <div id="cart-summary-thumbs" class="summary-thumbs"></div>
+                <div class="summary-metric">Total de productos: <span id="cart-count-display">0</span></div>
+                <button id="cart-clear-btn" type="button" class="link-danger">Vaciar carrito</button>
+              </div>
+              <div class="cart-actions-row">
+                <a class="btn btn-outline" href="index.html">Continuar comprando</a>
+                <button class="btn btn-primary" type="button" id="order-btn"><i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar pedido</button>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
     </div>
@@ -134,7 +806,7 @@
         <ul style="list-style:none;padding:0;margin:0;">
           <li><a href="mujer.html" style="color:#adb5bd;text-decoration:none;">Ropa para Mujer</a></li>
           <li><a href="hombre.html" style="color:#adb5bd;text-decoration:none;">Ropa para Hombre</a></li>
-          <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Niños</a></li>
+          <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Ninos</a></li>
           <li><a href="novedades.html" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
           <li><a href="index.html#ofertas" style="color:#adb5bd;text-decoration:none;">Ofertas</a></li>
         </ul>
@@ -142,16 +814,16 @@
       <div>
         <h4 style="color:#e83e8c;margin-bottom:15px;">Ayuda</h4>
         <ul style="list-style:none;padding:0;margin:0;">
-          <li><a href="ayuda.html#size-guide" style="color:#adb5bd;text-decoration:none;">Guía de talles</a></li>
-          <li><a href="ayuda.html#returns" style="color:#adb5bd;text-decoration:none;">Política de Cambios</a></li>
+          <li><a href="ayuda.html#size-guide" style="color:#adb5bd;text-decoration:none;">Guia de talles</a></li>
+          <li><a href="ayuda.html#returns" style="color:#adb5bd;text-decoration:none;">Politica de Cambios</a></li>
         </ul>
       </div>
       <div>
         <h4 style="color:#e83e8c;margin-bottom:15px;">Contacto</h4>
         <ul style="list-style:none;padding:0;margin:0;">
-          <li><a href="ayuda.html#contact" style="color:#adb5bd;text-decoration:none;">Dirección y horarios</a></li>
+          <li><a href="ayuda.html#contact" style="color:#adb5bd;text-decoration:none;">Direccion y horarios</a></li>
           <li><a href="https://wa.me/" target="_blank" rel="noopener" style="color:#adb5bd;text-decoration:none;">WhatsApp</a></li>
-          <li><a href="tel:+549000000000" style="color:#adb5bd;text-decoration:none;">Llamar por teléfono</a></li>
+          <li><a href="tel:+549000000000" style="color:#adb5bd;text-decoration:none;">Llamar por telefono</a></li>
         </ul>
       </div>
     </div>
@@ -164,11 +836,11 @@
     // Correccion basica de textos mal decodificados
     (function(){
       const map = [
-        ['Cat+?-?logo','Cat���logo'],
-        ['M+?-?s','M���s'],
-        ['m+?-?s','m���s'],
-        ['Colecci+?-?n','Colecci���n'],
-        ['Ni+?-?os','Ni���os']
+        ['Cat+?-?logo','Catalogo'],
+        ['M+?-?s','Mas'],
+        ['m+?-?s','mas'],
+        ['Colecci+?-?n','Coleccion'],
+        ['Ni+?-?os','Ninos']
       ];
       function fixText(s){
         if(!s||typeof s!=='string') return s;
@@ -177,8 +849,12 @@
       }
       function fixUtf8(s){
         if (!s || typeof s !== 'string') return s;
-        if (!/[������������������]/.test(s)) return s;
-        try { return decodeURIComponent(escape(s)); } catch { return s; }
+        try {
+          const decoded = decodeURIComponent(escape(s));
+          return decoded || s;
+        } catch {
+          return s;
+        }
       }
       function fixAll(){ try{ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null); const ns=[]; while(w.nextNode()) ns.push(w.currentNode); ns.forEach(n=> { const fx=fixUtf8(fixText(n.nodeValue)); if(fx&&fx!==n.nodeValue) n.nodeValue=fx; }); }catch{} }
       document.addEventListener('DOMContentLoaded', fixAll);
@@ -194,7 +870,7 @@
 
     const CART_ALERT_ID = 'cart-alert';
     const POST_ORDER_MESSAGE = 'Pedido enviado correctamente';
-    const POST_ORDER_SUBTITLE = 'La disponibilidad de los productos está sujeta a stock al momento de la confirmación por parte del vendedor.';
+    const POST_ORDER_SUBTITLE = 'La disponibilidad de los productos esta sujeta a stock al momento de la confirmacion por parte del vendedor.';
     const POST_ORDER_BUTTON_LABEL = 'Seguir comprando';
     let orderStatus = null;
     let orderInProgress = false;
@@ -386,12 +1062,32 @@
       const cart = window.romixCart.getCart();
       const list = document.getElementById('cart-list');
       const countDisplay = document.getElementById('cart-count-display');
+      const itemsTitleCount = document.getElementById('cart-items-title-count');
+      const summaryThumbs = document.getElementById('cart-summary-thumbs');
       const badge = document.getElementById('cart-count');
       const orderBtn = document.getElementById('order-btn');
       const clearBtn = document.getElementById('cart-clear-btn');
       const { totalItems } = window.romixCart.getCartTotals(cart);
-      countDisplay.textContent = String(totalItems);
+
+      if (countDisplay) countDisplay.textContent = String(totalItems);
+      if (itemsTitleCount) itemsTitleCount.textContent = String(cart.length);
       if (badge) badge.textContent = String(totalItems);
+      if (summaryThumbs) {
+        if (cart.length) {
+          const thumbs = cart.slice(0, 4).map((item) => {
+            const thumbSrc = findImageForItem(item);
+            const label = getCartDisplayItem(item).name || 'Producto';
+            return thumbSrc
+              ? `<img class="summary-thumb" src="${thumbSrc}" alt="${label}" />`
+              : `<span class="summary-thumb summary-thumb-empty" role="img" aria-label="${label}">-</span>`;
+          }).join('');
+          const more = cart.length > 4 ? `<span class="summary-thumb-more">+${cart.length - 4}</span>` : '';
+          summaryThumbs.innerHTML = thumbs + more;
+        } else {
+          summaryThumbs.innerHTML = '<span class="summary-thumb-empty">Sin productos.</span>';
+        }
+      }
+
       list.innerHTML = '';
       if (cart.length) {
         orderStatus = null;
@@ -399,26 +1095,43 @@
           const img = findImageForItem(item);
           const displayItem = getCartDisplayItem(item);
           const key = item.key;
+          const qty = Math.max(1, Number(item.qty || item.quantity) || 1);
+          const unitPrice = Number(item.price || 0);
+          const subtotal = Number(item.subtotal || (qty * unitPrice));
+          const originalPrice = Number(item.originalPrice || item.priceOriginal || item.compareAtPrice || 0);
+          const hasDiscount = originalPrice > unitPrice;
+          const discountPct = hasDiscount ? Math.max(1, Math.round(((originalPrice - unitPrice) / originalPrice) * 100)) : 0;
+          const typeLabelRaw = (displayItem.type || 'Producto').toString().trim();
+          const typeLabel = typeLabelRaw ? `${typeLabelRaw.charAt(0).toUpperCase()}${typeLabelRaw.slice(1)}` : 'Producto';
+
           const el = document.createElement('div');
           el.className = 'cart-item';
           el.innerHTML = `
-            <div class="cart-thumb">${img?`<img src="${img}" alt="${displayItem.name}">`:'<span style="color:#adb5bd;font-weight:700;">Sin imagen</span>'}</div>
+            <div class="item-check">
+              <input class="item-select" type="checkbox" checked aria-label="Producto seleccionado" />
+            </div>
+            <div class="cart-thumb">${img ? `<img src="${img}" alt="${displayItem.name}">` : '<span style="color:#a99cb2;font-weight:700;">Sin imagen</span>'}</div>
             <div class="cart-info">
+              <div class="brand">${typeLabel}</div>
               <div class="name">${displayItem.name}</div>
-              <div class="meta">${displayItem.type} - Color: ${displayItem.color} - Talle: ${displayItem.size || COLOR_FALLBACK}</div>
-              <div class="unit">$${Number(item.price).toLocaleString('es-AR')} c/u</div>
-              <div class="qty-stepper" data-key="${key}">
-                <button type="button" class="dec" aria-label="Disminuir">-</button>
-                <input type="number" min="1" value="${item.qty || item.quantity || 1}" />
-                <button type="button" class="inc" aria-label="Aumentar">+</button>
+              <div class="meta">Color: ${displayItem.color} | Talle: ${displayItem.size || COLOR_FALLBACK}</div>
+              <div class="unit-line">
+                <span class="unit">$${unitPrice.toLocaleString('es-AR')} c/u</span>
+                ${hasDiscount ? `<span class="unit-old">$${originalPrice.toLocaleString('es-AR')}</span>` : ''}
+                ${hasDiscount ? `<span class="unit-discount">-${discountPct}%</span>` : ''}
               </div>
             </div>
             <div class="cart-right">
-              <div class="subtotal">$${Number(item.subtotal || ((item.qty || item.quantity || 1) * Number(item.price||0))).toLocaleString('es-AR')}</div>
+              <div class="qty-stepper" data-key="${key}">
+                <button type="button" class="dec" aria-label="Disminuir">-</button>
+                <input type="number" min="1" value="${qty}" />
+                <button type="button" class="inc" aria-label="Aumentar">+</button>
+              </div>
+              <div class="subtotal">$${subtotal.toLocaleString('es-AR')}</div>
               <button type="button" class="remove" aria-label="Eliminar"><i class="fas fa-trash" aria-hidden="true"></i></button>
             </div>`;
-          el.querySelector('.dec').addEventListener('click', ()=>handleQty(key, (item.qty || item.quantity || 1) - 1));
-          el.querySelector('.inc').addEventListener('click', ()=>handleQty(key, (item.qty || item.quantity || 1) + 1));
+          el.querySelector('.dec').addEventListener('click', ()=>handleQty(key, qty - 1));
+          el.querySelector('.inc').addEventListener('click', ()=>handleQty(key, qty + 1));
           el.querySelector('input').addEventListener('input', (ev)=>handleQty(key, ev.target.value));
           el.querySelector('.remove').addEventListener('click', ()=>handleRemove(key));
           list.appendChild(el);
@@ -430,7 +1143,7 @@
         if (clearBtn) clearBtn.disabled = true;
         list.innerHTML = orderStatus === 'success'
           ? renderSuccessState()
-          : '<div class="cart-empty-state">Tu carrito está vacío.</div>';
+          : '<div class="cart-empty-state">Tu carrito esta vacio.</div>';
       }
     }
 
@@ -444,12 +1157,9 @@
   </script>
 
   <script src="assets/js/inventory.js"></script>
-  <script src="assets/js/search.js"></script>
   <script src="assets/js/romix-header.js"></script>
 
 </html>
-
-
 
 
 

@@ -222,9 +222,11 @@
             productId: p.id || sharedSlugify(p.name || ''),
             name: p.name || '',
             type: p.type || '',
+            image: img,
             color,
             colorName: color,
             size,
+            talle: size,
             price,
             qty: q
           });
@@ -236,7 +238,6 @@
           console.warn('[detalle] romixCart.addToCart no está disponible');
         }
 
-        alert('¡Listo! Se agregó al carrito.');
       });
     }
 
@@ -268,6 +269,22 @@
         : (Array.isArray(parsed) ? parsed : []);
     }
 
+    function normalizeSeasonKey(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return '';
+      try {
+        return raw.normalize('NFD').replace(/\p{Diacritic}+/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+      } catch {
+        return raw.toLowerCase().replace(/[^a-z0-9]+/g, '');
+      }
+    }
+
+    function isBlockedSeasonProduct(product) {
+      if (!product || typeof product !== 'object') return false;
+      const season = normalizeSeasonKey(product.season || product.seasonKey);
+      return season.includes('verano');
+    }
+
     async function init(){
       updateCartCount();
 
@@ -284,7 +301,7 @@
       try{
         let list = preloadedProducts();
         if (!Array.isArray(list) || !list.length) list = await fetchProductList();
-        const products = Array.isArray(list) ? list : [];
+        const products = (Array.isArray(list) ? list : []).filter(p => !isBlockedSeasonProduct(p));
 
         let product = null;
 
@@ -325,7 +342,7 @@
           product = products.find(x => String(x.name||'').toLowerCase().includes(nq));
         }
 
-        if (!product) {
+        if (!product || isBlockedSeasonProduct(product)) {
           const root = document.getElementById('root');
           if (root) root.innerHTML = '<p>No se encontró el producto.</p>';
           return;
@@ -342,42 +359,52 @@
     window.addEventListener('DOMContentLoaded', init);
   </script>
   <link rel="stylesheet" href="assets/css/romix-header.css">
-  <link rel="stylesheet" href="assets/css/romix-neon.css">
 </head>
 
 <body>
-  <header>
-    <div class="header-container topbar">
-      <a href="index.html" class="logo" aria-label="Romix">
-        <img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" />
-        <span>ROMIX</span>
-      </a>
+  <header class="site-header romix-shared-header">
+  <div class="container header-row">
+    <a class="brand" href="index.html" aria-label="ROMIX inicio">
+      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      ROMIX<span class="brand-dot">.</span>
+    </a>
 
+    <nav aria-label="Principal">
+      <ul class="main-nav">
+        <li><a href="mujer.html">Mujer</a></li>
+        <li><a href="hombre.html">Hombre</a></li>
+        <li><a href="ninos.html">Ninos</a></li>
+        <li><a href="novedades.html">Novedades</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-icons" aria-label="Acciones rapidas">
+      <button class="icon-btn" id="toggleSearch" type="button" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+          <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <a class="icon-btn" href="cart.html" aria-label="Carrito de compras">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="10" cy="19" r="1.4" fill="currentColor" />
+          <circle cx="17" cy="19" r="1.4" fill="currentColor" />
+        </svg>
+        <span class="icon-badge" id="cart-count">0</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="search-panel" id="header-search">
+    <div class="container">
       <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
         <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
-        <button type="submit" aria-label="Buscar">
-          <i class="fas fa-search" aria-hidden="true"></i>
-        </button>
+        <button type="submit">Buscar</button>
       </form>
-
-      <div class="topbar-icons" aria-label="Acciones">
-        <a class="icon-btn" href="cart.html" aria-label="Carrito">
-          <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-          <span class="icon-badge" id="cart-count">0</span>
-        </a>
-        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda">
-          <i class="fas fa-question-circle" aria-hidden="true"></i>
-        </a>
-      </div>
     </div>
-
-    <nav class="nav-secondary" aria-label="Secciones y categorías">
-      <a href="mujer.html">Mujer</a>
-      <a href="hombre.html">Hombre</a>
-      <a href="ninos.html">Niños</a>
-      <a href="novedades.html">Novedades</a>
-    </nav>
-  </header>
+  </div>
+</header>
 
   <main class="container">
     <div id="root"></div>

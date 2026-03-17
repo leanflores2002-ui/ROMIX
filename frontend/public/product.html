@@ -164,10 +164,13 @@
       display: flex;
       gap: 16px;
       align-items: flex-start;
+      position: relative;
     }
     .main-image {
       flex: 1;
-      min-height: 380px;
+      min-height: 320px;
+      height: clamp(320px, 38vw, 480px);
+      max-height: 520px;
       background: #f6f6f8;
       border-radius: 16px;
       position: relative;
@@ -186,6 +189,11 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+      transform-origin: var(--zoom-x, 50%) var(--zoom-y, 50%);
+      transition: transform .18s ease;
+    }
+    .main-image.is-zoomed img {
+      transform: scale(2.2);
     }
     .zoom-btn {
       position: absolute;
@@ -223,17 +231,17 @@
     .zoom-modal.is-open { display: flex; }
     .zoom-panel {
       position: relative;
-      background: #fff;
+      background: transparent;
       border-radius: 6px;
-      padding: 10px;
+      padding: 0;
       max-width: 92vw;
       max-height: 92vh;
-      box-shadow: 0 24px 48px rgba(0,0,0,.35);
+      box-shadow: none;
     }
     .zoom-stage {
       width: min(82vw, 980px);
       height: min(80vh, 720px);
-      background: #fff;
+      background: transparent;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -778,6 +786,10 @@
       .gallery {
         flex-direction: column;
       }
+      .main-image {
+        height: clamp(240px, 70vw, 360px);
+        min-height: 240px;
+      }
       .thumbs-panel {
         position: relative;
         width: 100%;
@@ -840,29 +852,824 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
   <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">  <link rel="stylesheet" href="assets/css/romix-header.css">
-  <link rel="stylesheet" href="assets/css/romix-neon.css">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
+  <link rel="stylesheet" href="assets/css/romix-header.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --rose-50: #fff7fc;
+      --rose-100: #ffebf6;
+      --rose-200: #ffd7ec;
+      --rose-300: #ffb6dc;
+      --rose-500: #ef4ea1;
+      --rose-600: #dc2e8d;
+      --ink-900: #312a36;
+      --ink-700: #59505f;
+      --ink-500: #867a90;
+      --mint-500: #6fb997;
+      --glass-bg: rgba(255, 255, 255, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.86);
+      --shadow-soft: 0 24px 60px rgba(226, 101, 168, 0.18);
+      --shadow-card: 0 14px 34px rgba(231, 130, 183, 0.14);
+      --glow-pink: 0 0 0 3px rgba(239, 78, 161, 0.22), 0 12px 28px rgba(239, 78, 161, 0.35);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+    }
+
+    body {
+      font-family: 'Manrope', 'Nunito Sans', sans-serif;
+      color: var(--ink-900);
+      background:
+        radial-gradient(1200px 700px at -5% 12%, rgba(255, 207, 231, 0.62), transparent 60%),
+        radial-gradient(920px 680px at 102% 5%, rgba(255, 221, 239, 0.56), transparent 62%),
+        linear-gradient(155deg, #fff8fc 0%, #fff 45%, #fff5fb 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .page-container {
+      width: min(100%, 1520px);
+      margin: 18px auto 56px;
+      padding: 0 clamp(14px, 2vw, 34px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-link {
+      color: #8d8097;
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+      padding-left: 2px;
+    }
+
+    .back-link:hover {
+      color: var(--rose-600);
+    }
+
+    .detail-panel {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      margin-top: 6px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+      position: relative;
+    }
+
+    .main-image {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 24px;
+      box-shadow: var(--shadow-card);
+      min-height: 250px;
+      height: clamp(260px, 72vw, 420px);
+    }
+
+    .main-image:focus-visible {
+      outline: 3px solid rgba(239, 78, 161, 0.35);
+    }
+
+    .main-image.is-zoomed img {
+      transform: scale(1.62);
+    }
+
+    .zoom-btn {
+      border: 1px solid rgba(239, 78, 161, 0.2);
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--rose-600);
+      box-shadow: 0 10px 24px rgba(220, 46, 141, 0.24);
+    }
+
+    .zoom-modal {
+      padding: clamp(8px, 2.2vw, 18px);
+      background: rgba(20, 16, 28, 0.86);
+    }
+
+    .zoom-panel {
+      width: min(94vw, 1240px);
+      max-width: none;
+      max-height: 92vh;
+    }
+
+    .zoom-stage {
+      width: min(90vw, 1080px);
+      height: min(82vh, 760px);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .zoom-stage img {
+      touch-action: none;
+      user-select: none;
+      will-change: transform;
+      transition: transform .16s ease;
+    }
+
+    .zoom-close {
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: rgba(33, 27, 40, 0.72);
+      color: #fff;
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    .zoom-counter {
+      top: 14px;
+      left: 14px;
+      font-size: 0.88rem;
+      background: rgba(33, 27, 40, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+
+    .zoom-nav {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(33, 27, 40, 0.72);
+      font-size: 1.2rem;
+    }
+
+    .zoom-nav.prev { left: 10px; }
+    .zoom-nav.next { right: 10px; }
+
+    .thumbs-panel {
+      width: 100%;
+      align-items: stretch;
+      order: 2;
+      gap: 0;
+      position: relative;
+    }
+
+    .thumbs {
+      --thumb-gap: 10px;
+      --thumbs-visible: 4;
+      --thumb-size: calc((100% - (var(--thumb-gap) * (var(--thumbs-visible) - 1))) / var(--thumbs-visible));
+      --thumb-height: var(--thumb-size);
+      flex-direction: row;
+      width: 100%;
+      max-height: none;
+      gap: var(--thumb-gap);
+      padding: 4px 10px 6px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 10px;
+    }
+
+    .thumbs img {
+      flex: 0 0 var(--thumb-size);
+      width: var(--thumb-size);
+      height: var(--thumb-height);
+      border-radius: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(210, 145, 178, 0.2);
+      scroll-snap-align: start;
+    }
+
+    .thumbs img.active {
+      border-color: var(--rose-500);
+      box-shadow: 0 0 0 2px rgba(239, 78, 161, 0.16), 0 12px 24px rgba(239, 78, 161, 0.22);
+      transform: translateZ(0) scale(1.03);
+    }
+
+    .thumb-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1px solid rgba(239, 78, 161, 0.2);
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--rose-600);
+      box-shadow: 0 8px 16px rgba(210, 82, 149, 0.22);
+    }
+
+    .thumb-nav i { transform: rotate(-90deg); }
+    .thumb-nav.prev { left: -2px; }
+    .thumb-nav.next { right: -2px; }
+
+    .info-panel {
+      gap: 16px;
+    }
+
+    .title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .title-row h1 {
+      margin: 0;
+      font-size: clamp(1.48rem, 5.8vw, 2.2rem);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--ink-900);
+    }
+
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meta-pill {
+      background: linear-gradient(180deg, #fff4fb, #ffeaf5);
+      border: 1px solid rgba(239, 78, 161, 0.18);
+      color: #c43b84;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .price-area {
+      align-items: center;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .current-price {
+      color: var(--rose-600);
+      font-size: clamp(1.86rem, 6.8vw, 2.55rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 10px 24px rgba(239, 78, 161, 0.18);
+      min-width: 0;
+    }
+
+    .original-price {
+      color: #aa9fb1;
+      font-size: 0.95rem;
+    }
+
+    .stock-note,
+    .stock-info-color {
+      color: var(--mint-500);
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .detail-description {
+      font-size: 0.94rem;
+      color: var(--ink-700);
+      line-height: 1.65;
+    }
+
+    .selector {
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    .selector-label {
+      color: #544a5d;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    #colorPicker {
+      gap: 8px;
+    }
+
+    .color-picker-label {
+      margin: 0;
+      color: #8f8299;
+      font-weight: 600;
+      font-size: 0.9rem;
+      min-height: 20px;
+    }
+
+    .color-options {
+      gap: 10px;
+    }
+
+    .color-option,
+    .color-swatch {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      border: 1px solid rgba(203, 191, 206, 0.7);
+      background: #fff;
+      box-shadow: 0 7px 14px rgba(211, 194, 214, 0.34);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      overflow: hidden;
+    }
+
+    .color-option::after,
+    .color-swatch::after {
+      inset: 6px;
+      border-radius: 10px;
+      border-color: rgba(255, 255, 255, 0.86);
+      box-shadow: inset 0 0 0 1px rgba(49, 42, 54, 0.06);
+    }
+
+    .color-option::before,
+    .color-swatch::before {
+      content: '✓';
+      position: absolute;
+      right: 3px;
+      top: 3px;
+      width: 15px;
+      height: 15px;
+      border-radius: 999px;
+      background: var(--rose-600);
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.65);
+      transition: opacity .2s ease, transform .2s ease;
+      box-shadow: 0 4px 10px rgba(220, 46, 141, 0.4);
+    }
+
+    .color-swatch.has-image,
+    .color-option.has-image {
+      border-radius: 15px;
+      width: 50px;
+      height: 50px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .color-option.selected,
+    .color-swatch.active,
+    .color-swatch.selected,
+    .color-option.active,
+    .color-option.is-active,
+    .color-swatch.is-active {
+      border-color: var(--rose-500);
+      transform: translateY(-1px);
+      box-shadow: var(--glow-pink);
+    }
+
+    .color-option.selected::before,
+    .color-swatch.active::before,
+    .color-swatch.selected::before,
+    .color-option.active::before,
+    .color-option.is-active::before,
+    .color-swatch.is-active::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .color-option:focus-visible,
+    .color-swatch:focus-visible {
+      outline: 2px solid rgba(239, 78, 161, 0.62);
+      outline-offset: 2px;
+    }
+
+    .size-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .size-chip {
+      min-width: 56px;
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(204, 196, 209, 0.86);
+      background: #fff;
+      color: #5a4f62;
+      box-shadow: 0 9px 18px rgba(212, 193, 215, 0.25);
+      font-weight: 700;
+      line-height: 1;
+      transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .size-chip.selected,
+    .size-chip.is-active,
+    .size-option--active {
+      background: linear-gradient(135deg, #f66eb7 0%, #d83890 100%);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 0 0 2px rgba(246, 110, 183, 0.24), 0 13px 28px rgba(216, 56, 144, 0.34);
+    }
+
+    .size-chip[data-state='low'],
+    .size-option--low {
+      border-color: rgba(239, 78, 161, 0.52);
+      color: #bf3b83;
+      background: #fff7fc;
+    }
+
+    .size-chip[data-state='out'],
+    .size-chip.out,
+    .size-option--out {
+      background: #f8f5fa;
+      color: #aaa1b0;
+      border-color: #e1dbe6;
+      box-shadow: none;
+      text-decoration: line-through;
+      opacity: 0.9;
+      cursor: not-allowed;
+    }
+
+    .size-option--out[disabled] {
+      pointer-events: none;
+    }
+
+    .quantity-row {
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+
+    .qty-control {
+      display: grid;
+      grid-template-columns: 50px 78px 50px;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px;
+      gap: 2px;
+      border: 1px solid rgba(227, 204, 223, 0.92);
+      background: #fff;
+      box-shadow: 0 10px 22px rgba(212, 165, 197, 0.3);
+      overflow: hidden;
+    }
+
+    .qty-control button {
+      width: 100%;
+      height: 42px;
+      border-radius: 999px;
+      border: none;
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f66eb7 0%, #df3f97 100%);
+      color: #fff;
+      box-shadow: 0 8px 16px rgba(223, 63, 151, 0.35);
+    }
+
+    .qty-control button:hover {
+      filter: brightness(1.03);
+    }
+
+    .qty-control button:active {
+      transform: translateY(1px);
+    }
+
+    .qty-control input {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink-900);
+      font-size: 1.02rem;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+    }
+
+    .qty-control input::-webkit-outer-spin-button,
+    .qty-control input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .qty-control input[type='number'] {
+      -moz-appearance: textfield;
+    }
+
+    .purchase-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding-top: 4px;
+    }
+
+    .btn {
+      min-height: 52px;
+      width: 100%;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #f869b5 0%, #d6318d 100%);
+      color: #fff;
+      border: none;
+      box-shadow: 0 14px 26px rgba(220, 46, 141, 0.4);
+    }
+
+    .btn.outline {
+      background: #fff;
+      color: var(--rose-600);
+      border: 1.5px solid rgba(239, 78, 161, 0.68);
+      box-shadow: 0 10px 20px rgba(228, 176, 211, 0.28);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid rgba(239, 78, 161, 0.62);
+      outline-offset: 2px;
+    }
+
+    .features-panel {
+      margin-top: 22px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 16px 30px rgba(226, 152, 193, 0.14);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .features-grid {
+      margin-top: 12px;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .feature-card {
+      border-radius: 14px;
+      border: 1px solid #f2e8f3;
+      background: #fff;
+      box-shadow: 0 8px 16px rgba(233, 193, 216, 0.18);
+      padding: 12px;
+      color: var(--ink-700);
+    }
+
+    .feature-card strong {
+      color: var(--ink-900);
+    }
+
+    .related-products {
+      margin-top: 30px;
+      padding: 0;
+    }
+
+    .related-title {
+      margin: 0 0 14px;
+      font-size: 1.24rem;
+      font-weight: 800;
+      color: #4a4153;
+    }
+
+    .related-grid {
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .related-card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 12px 24px rgba(224, 163, 199, 0.2);
+      padding: 10px;
+    }
+
+    .related-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 26px rgba(219, 135, 184, 0.26);
+    }
+
+    .related-card-thumb {
+      height: 145px;
+      border-radius: 14px;
+      background: #fff8fc;
+      border: 1px solid #f7ebf3;
+    }
+
+    .related-card-name {
+      color: #4b4353;
+    }
+
+    .related-card-price {
+      color: var(--rose-600);
+    }
+
+    .related-card-meta {
+      color: #8f8499;
+    }
+
+    .romix-toast {
+      border-radius: 16px;
+      box-shadow: 0 14px 30px rgba(170, 70, 127, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.92);
+      color: #433c4c;
+    }
+
+    .romix-toast--success {
+      border-color: rgba(239, 78, 161, 0.5);
+    }
+
+    @media (max-width: 960px) {
+      .zoom-modal {
+        padding: 8px;
+      }
+
+      .zoom-panel {
+        width: 100%;
+        max-height: calc(100vh - 16px);
+      }
+
+      .zoom-stage {
+        width: 100%;
+        height: min(74vh, 620px);
+        border-radius: 16px;
+      }
+
+      .zoom-close {
+        top: 8px;
+        right: 8px;
+        width: 38px;
+        height: 38px;
+      }
+
+      .zoom-counter {
+        top: 10px;
+        left: 10px;
+        font-size: 0.8rem;
+      }
+
+      .zoom-nav {
+        width: 38px;
+        height: 38px;
+      }
+
+      .zoom-nav.prev { left: 6px; }
+      .zoom-nav.next { right: 6px; }
+    }
+
+    @media (min-width: 700px) {
+      .page-container { padding: 0 clamp(20px, 2.2vw, 34px); }
+
+      .detail-panel {
+        padding: 22px;
+      }
+
+      .related-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 960px) {
+      .page-container {
+        margin-top: 26px;
+        width: min(100%, 1600px);
+      }
+
+      .detail-panel {
+        padding: 28px;
+      }
+
+      .detail-grid {
+        grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+        gap: 30px;
+        align-items: flex-start;
+      }
+
+      .gallery {
+        flex-direction: row;
+        gap: 16px;
+      }
+
+      .main-image {
+        min-height: 360px;
+        height: clamp(360px, 40vw, 520px);
+      }
+
+      .thumbs-panel {
+        width: var(--thumb-size, 96px);
+        align-items: center;
+        order: -1;
+      }
+
+      .thumbs {
+        --thumb-size: 96px;
+        --thumb-height: 88px;
+        --thumb-gap: 12px;
+        --thumbs-visible: 4;
+        flex-direction: column;
+        width: var(--thumb-size, 96px);
+        max-height: calc((var(--thumb-size, 96px) * var(--thumbs-visible, 4)) + (var(--thumb-gap, 12px) * (var(--thumbs-visible, 4) - 1)));
+        padding: 2px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-snap-type: y proximity;
+      }
+
+      .thumbs img {
+        width: var(--thumb-size, 96px);
+        height: var(--thumb-height, 88px);
+      }
+
+      .thumb-nav {
+        position: static;
+        transform: none;
+        width: 32px;
+        height: 32px;
+      }
+
+      .thumb-nav i {
+        transform: none;
+      }
+
+      .thumb-nav.prev,
+      .thumb-nav.next {
+        left: auto;
+        right: auto;
+      }
+
+      .related-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="header-container topbar">
-      <a href="index.html" class="logo" aria-label="Romix"><img src="images/logo-romix.png" class="logo-mark" alt="Logo Romix" /><span>ROMIX</span></a>
-      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos">
-        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
-        <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
-      </form>
-      <div class="topbar-icons" aria-label="Acciones">
-        <a class="icon-btn" href="cart.html" aria-label="Carrito"><i class="fas fa-shopping-cart"></i><span id="cart-count" class="icon-badge">0</span></a>
-        <a class="icon-btn" href="ayuda.html" aria-label="Ayuda"><i class="fas fa-question-circle"></i></a>
-      </div>
-    </div>
-    <nav class="nav-secondary" aria-label="Secciones y categorías">
-      <a href="mujer.html">Mujer</a>
-      <a href="hombre.html">Hombre</a>
-      <a href="ninos.html">Niños</a>
-      <a href="novedades.html">Novedades</a>
+  <header class="site-header romix-shared-header">
+  <div class="container header-row">
+    <a class="brand" href="index.html" aria-label="ROMIX inicio">
+      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      ROMIX<span class="brand-dot">.</span>
+    </a>
+
+    <nav aria-label="Principal">
+      <ul class="main-nav">
+        <li><a href="mujer.html">Mujer</a></li>
+        <li><a href="hombre.html">Hombre</a></li>
+        <li><a href="ninos.html">Ninos</a></li>
+        <li><a href="novedades.html">Novedades</a></li>
+      </ul>
     </nav>
-  </header>
+
+    <div class="header-icons" aria-label="Acciones rapidas">
+      <button class="icon-btn" id="toggleSearch" type="button" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+          <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <a class="icon-btn" href="cart.html" aria-label="Carrito de compras">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="10" cy="19" r="1.4" fill="currentColor" />
+          <circle cx="17" cy="19" r="1.4" fill="currentColor" />
+        </svg>
+        <span class="icon-badge" id="cart-count">0</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="search-panel" id="header-search">
+    <div class="container">
+      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
+        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+        <button type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</header>
 
   <main class="page-container">
     <a class="back-link" href="index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i> Volver al inicio</a>
@@ -1281,7 +2088,24 @@
           const lower = nameParam.toLowerCase();
           product = list.find(item => String(item.name || '').toLowerCase() === lower);
         }
+        if (isBlockedSeasonProduct(product)) return null;
         return product;
+      }
+
+      function normalizeSeasonKey(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+        try {
+          return raw.normalize('NFD').replace(/\p{Diacritic}+/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+        } catch {
+          return raw.toLowerCase().replace(/[^a-z0-9]+/g, '');
+        }
+      }
+
+      function isBlockedSeasonProduct(product) {
+        if (!product || typeof product !== 'object') return false;
+        const season = normalizeSeasonKey(product.season || product.seasonKey);
+        return season.includes('verano');
       }
 
       function statusToQty(status){
@@ -1459,6 +2283,14 @@
         const counterEl = detail.querySelector('#zoom-counter');
         if (!mainImage || !modal || !zoomImage || !openBtn || !closeBtn || !stage || !prevBtn || !nextBtn || !counterEl) return;
 
+        const existingBodyModal = document.body.querySelector('.zoom-modal#zoom-modal');
+        if (existingBodyModal && existingBodyModal !== modal) {
+          existingBodyModal.remove();
+        }
+        if (modal.parentElement !== document.body) {
+          document.body.appendChild(modal);
+        }
+
         const items = Array.isArray(gallery)
           ? gallery.map(item => item && item.src).filter(Boolean).map(src => {
             try {
@@ -1476,18 +2308,40 @@
         let dragging = false;
         let startX = 0;
         let startY = 0;
+        let dragMoved = false;
+        let touchDragging = false;
+        let touchMoved = false;
         let touchStartX = 0;
         let touchStartY = 0;
+        let pinchStartDistance = 0;
+        let pinchStartScale = 1;
         let lastTap = 0;
         let lastActive = null;
         let isOpen = false;
+        let hoverZoomActive = false;
+        const allowHoverZoom = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
         function getFocusable(){
           const nodes = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
           return Array.from(nodes).filter(node => !node.disabled && node.offsetParent !== null);
         }
 
+        function getPanLimits(){
+          const rect = stage.getBoundingClientRect();
+          if (!rect.width || !rect.height) return { maxX: 0, maxY: 0 };
+          const maxX = Math.max(0, ((rect.width * scale) - rect.width) / 2);
+          const maxY = Math.max(0, ((rect.height * scale) - rect.height) / 2);
+          return { maxX, maxY };
+        }
+
+        function clampTranslate(){
+          const limits = getPanLimits();
+          translateX = Math.max(-limits.maxX, Math.min(limits.maxX, translateX));
+          translateY = Math.max(-limits.maxY, Math.min(limits.maxY, translateY));
+        }
+
         function applyTransform(){
+          clampTranslate();
           zoomImage.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
         }
 
@@ -1499,6 +2353,8 @@
           scale = 1;
           translateX = 0;
           translateY = 0;
+          hoverZoomActive = false;
+          zoomImage.style.transformOrigin = '50% 50%';
           applyTransform();
           updateZoomState();
         }
@@ -1513,6 +2369,7 @@
         }
 
         function open(){
+          if (isOpen) return;
           modal.classList.add('is-open');
           modal.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden';
@@ -1520,6 +2377,7 @@
           const idx = items.indexOf(src);
           currentIndex = idx >= 0 ? idx : 0;
           syncImage();
+          hoverZoomActive = false;
           lastActive = document.activeElement;
           isOpen = true;
           closeBtn.focus();
@@ -1527,9 +2385,12 @@
         }
 
         function close(){
+          if (!isOpen) return;
           modal.classList.remove('is-open');
           modal.setAttribute('aria-hidden', 'true');
           dragging = false;
+          touchDragging = false;
+          hoverZoomActive = false;
           stage.classList.remove('dragging');
           document.body.style.overflow = '';
           isOpen = false;
@@ -1546,7 +2407,11 @@
         prevBtn.style.display = total > 1 ? 'block' : 'none';
         nextBtn.style.display = total > 1 ? 'block' : 'none';
 
-        openBtn.addEventListener('click', open);
+        openBtn.addEventListener('click', (evt) => {
+          evt.preventDefault();
+          evt.stopPropagation();
+          open();
+        });
         mainImage.addEventListener('click', open);
         mainImage.addEventListener('keydown', (evt) => {
           if (evt.key === 'Enter' || evt.key === ' ') {
@@ -1561,8 +2426,11 @@
         nextBtn.addEventListener('click', () => { if (currentIndex < total - 1){ currentIndex += 1; syncImage(); } });
 
         stage.addEventListener('mousedown', (evt) => {
-          if (scale <= 1) return;
+          if (!isOpen) return;
+          if (scale <= 1 || hoverZoomActive) return;
+          evt.preventDefault();
           dragging = true;
+          dragMoved = false;
           stage.classList.add('dragging');
           startX = evt.clientX - translateX;
           startY = evt.clientY - translateY;
@@ -1570,8 +2438,13 @@
 
         window.addEventListener('mousemove', (evt) => {
           if (!dragging) return;
-          translateX = evt.clientX - startX;
-          translateY = evt.clientY - startY;
+          const nextX = evt.clientX - startX;
+          const nextY = evt.clientY - startY;
+          if (Math.abs(nextX - translateX) > 0.5 || Math.abs(nextY - translateY) > 0.5) {
+            dragMoved = true;
+          }
+          translateX = nextX;
+          translateY = nextY;
           applyTransform();
         });
 
@@ -1581,9 +2454,19 @@
         });
 
         modal.addEventListener('wheel', (evt) => {
+          if (!isOpen) return;
           evt.preventDefault();
+          const rect = stage.getBoundingClientRect();
+          if (rect.width && rect.height) {
+            const x = Math.max(0, Math.min(evt.clientX - rect.left, rect.width));
+            const y = Math.max(0, Math.min(evt.clientY - rect.top, rect.height));
+            const px = (x / rect.width) * 100;
+            const py = (y / rect.height) * 100;
+            zoomImage.style.transformOrigin = px + '% ' + py + '%';
+          }
           const delta = evt.deltaY < 0 ? 0.2 : -0.2;
           scale = clampScale(scale + delta);
+          hoverZoomActive = false;
           if (scale <= 1) {
             translateX = 0;
             translateY = 0;
@@ -1593,38 +2476,120 @@
         }, { passive: false });
 
         stage.addEventListener('click', (evt) => {
+          if (!allowHoverZoom) return;
           if (!isOpen || dragging) return;
-          if (scale <= 1) {
-            scale = clampScale(2);
+          if (dragMoved) {
+            dragMoved = false;
+            return;
+          }
+          hoverZoomActive = !hoverZoomActive;
+          if (hoverZoomActive) {
+            scale = clampScale(2.2);
+            translateX = 0;
+            translateY = 0;
           } else {
             scale = 1;
             translateX = 0;
             translateY = 0;
+            zoomImage.style.transformOrigin = '50% 50%';
           }
           applyTransform();
           updateZoomState();
         });
 
+        stage.addEventListener('mousemove', (evt) => {
+          if (!allowHoverZoom) return;
+          if (!hoverZoomActive || scale <= 1) return;
+          const rect = stage.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+          const x = Math.max(0, Math.min(evt.clientX - rect.left, rect.width));
+          const y = Math.max(0, Math.min(evt.clientY - rect.top, rect.height));
+          const px = (x / rect.width) * 100;
+          const py = (y / rect.height) * 100;
+          zoomImage.style.transformOrigin = px + '% ' + py + '%';
+          translateX = 0;
+          translateY = 0;
+          applyTransform();
+        });
+
+        function distance(touchA, touchB){
+          const dx = touchA.clientX - touchB.clientX;
+          const dy = touchA.clientY - touchB.clientY;
+          return Math.hypot(dx, dy);
+        }
+
         stage.addEventListener('touchstart', (evt) => {
-          if (!evt.touches || evt.touches.length !== 1) return;
+          if (!isOpen || !evt.touches || !evt.touches.length) return;
+          if (evt.touches.length === 2) {
+            pinchStartDistance = distance(evt.touches[0], evt.touches[1]);
+            pinchStartScale = scale;
+            touchDragging = false;
+            touchMoved = true;
+            return;
+          }
+          if (evt.touches.length !== 1) return;
           touchStartX = evt.touches[0].clientX;
           touchStartY = evt.touches[0].clientY;
+          touchMoved = false;
+          if (scale > 1) {
+            touchDragging = true;
+            startX = touchStartX - translateX;
+            startY = touchStartY - translateY;
+          } else {
+            touchDragging = false;
+          }
           const now = Date.now();
           if (now - lastTap < 280){
             scale = clampScale(scale === 1 ? 2 : 1);
             translateX = 0;
             translateY = 0;
+            hoverZoomActive = false;
             applyTransform();
             updateZoomState();
+            touchMoved = true;
+            evt.preventDefault();
           }
           lastTap = now;
-        }, { passive: true });
+        }, { passive: false });
+
+        stage.addEventListener('touchmove', (evt) => {
+          if (!isOpen || !evt.touches || !evt.touches.length) return;
+          if (evt.touches.length === 2 && pinchStartDistance > 0) {
+            const nextDistance = distance(evt.touches[0], evt.touches[1]);
+            if (nextDistance > 0) {
+              scale = clampScale(pinchStartScale * (nextDistance / pinchStartDistance));
+              hoverZoomActive = false;
+              applyTransform();
+              updateZoomState();
+              touchMoved = true;
+            }
+            evt.preventDefault();
+            return;
+          }
+          if (!touchDragging || scale <= 1 || evt.touches.length !== 1) return;
+          const touch = evt.touches[0];
+          const nextX = touch.clientX - startX;
+          const nextY = touch.clientY - startY;
+          if (Math.abs(nextX - translateX) > 0.5 || Math.abs(nextY - translateY) > 0.5) {
+            touchMoved = true;
+          }
+          translateX = nextX;
+          translateY = nextY;
+          applyTransform();
+          evt.preventDefault();
+        }, { passive: false });
 
         stage.addEventListener('touchend', (evt) => {
+          if (!isOpen) return;
+          if (evt.touches && evt.touches.length === 0) {
+            touchDragging = false;
+            pinchStartDistance = 0;
+          }
           if (!evt.changedTouches || evt.changedTouches.length !== 1) return;
           const dx = evt.changedTouches[0].clientX - touchStartX;
           const dy = evt.changedTouches[0].clientY - touchStartY;
-          if (scale === 1 && Math.abs(dx) > 60 && Math.abs(dy) < 40){
+          const swipe = scale === 1 && !touchMoved && Math.abs(dx) > 56 && Math.abs(dy) < 42;
+          if (swipe){
             if (dx < 0 && currentIndex < total - 1){ currentIndex += 1; syncImage(); }
             if (dx > 0 && currentIndex > 0){ currentIndex -= 1; syncImage(); }
           }
@@ -1689,6 +2654,40 @@
         observer.observe(mainImage, { attributes: true, attributeFilter: ['src'] });
       }
 
+      function setupInlineZoom(detail){
+        if (!detail) return;
+        const wrap = detail.querySelector('.main-image');
+        const mainImage = detail.querySelector('#main-image');
+        if (!wrap || !mainImage) return;
+        const canUseInlineZoom = () => window.matchMedia('(min-width: 961px) and (hover: hover) and (pointer: fine)').matches;
+
+        function setActive(active){
+          wrap.classList.toggle('is-zoomed', Boolean(active) && canUseInlineZoom());
+        }
+
+        function move(evt){
+          const rect = wrap.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+          const clientX = evt.clientX ?? (evt.touches && evt.touches[0] && evt.touches[0].clientX);
+          const clientY = evt.clientY ?? (evt.touches && evt.touches[0] && evt.touches[0].clientY);
+          if (clientX == null || clientY == null) return;
+          const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+          const y = Math.max(0, Math.min(clientY - rect.top, rect.height));
+          const px = (x / rect.width) * 100;
+          const py = (y / rect.height) * 100;
+          wrap.style.setProperty('--zoom-x', px + '%');
+          wrap.style.setProperty('--zoom-y', py + '%');
+        }
+
+        wrap.addEventListener('mouseenter', () => setActive(true));
+        wrap.addEventListener('mousemove', move);
+        wrap.addEventListener('mouseleave', () => setActive(false));
+        wrap.addEventListener('touchstart', () => setActive(false), { passive: true });
+        window.addEventListener('resize', () => {
+          if (!canUseInlineZoom()) setActive(false);
+        });
+      }
+
       function gatherFeatureEntries(product){
         const entries = [];
         const seasonLabel = inferSeason(product.name);
@@ -1721,6 +2720,19 @@
         if (!detail) return;
         currentProduct = product;
         const gallery = getGallery(product);
+        const preloadGallery = () => {
+          gallery.slice(1, 6).forEach(item => {
+            if (!item || !item.src) return;
+            const img = new Image();
+            img.decoding = 'async';
+            img.src = item.src;
+          });
+        };
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(preloadGallery, { timeout: 2000 });
+        } else {
+          setTimeout(preloadGallery, 600);
+        }
         const sectionLabel = product.section ? `${product.section.charAt(0).toUpperCase()}${product.section.slice(1)}` : '';
         const typeLabel = product.type || '';
         const badge = product.badge ? `<span class="meta-pill">${product.badge}</span>` : '';
@@ -1728,7 +2740,7 @@
           <div class="detail-grid">
             <div class="gallery">
               <div class="main-image" role="button" tabindex="0" aria-label="Abrir zoom de imagen" aria-haspopup="dialog">
-                <img id="main-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />
+                <img id="main-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" decoding="async" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />
                 <button type="button" class="zoom-btn" id="zoom-open" aria-label="Acercar imagen" aria-haspopup="dialog">
                   <i class="fas fa-search-plus" aria-hidden="true"></i>
                 </button>
@@ -1796,7 +2808,7 @@
               <button type="button" class="zoom-close" id="zoom-close" aria-label="Cerrar">x</button>
               <button type="button" class="zoom-nav prev" id="zoom-prev" aria-label="Anterior">&lt;</button>
               <div class="zoom-stage" id="zoom-stage" tabindex="0" aria-label="Imagen ampliada">
-                <img id="zoom-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" />
+                <img id="zoom-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" decoding="async" />
               </div>
               <button type="button" class="zoom-nav next" id="zoom-next" aria-label="Siguiente">&gt;</button>
             </div>
@@ -1821,6 +2833,7 @@
         const btnBuy = detail.querySelector('#btn-buy');
         let colorPickerApi = null;
         setupZoomModal(detail, gallery);
+        setupInlineZoom(detail);
 
         const canonicalColor = (value) => {
           const raw = (value || '').toString().trim();
@@ -1852,6 +2865,12 @@
           palette = Object.keys(product.stockByColor).map(name => ({ name }));
         } else {
           palette = [{ name: 'Unico', hex: '#555' }];
+        }
+        if (product.images && typeof product.images === 'object') {
+          Object.keys(product.images).forEach(name => {
+            const exists = palette.some(entry => canonicalColor(entry && (entry.name || entry.value)) === canonicalColor(name));
+            if (!exists) palette.push({ name });
+          });
         }
         const stockColors = (product.stockByColor && typeof product.stockByColor === 'object') ? Object.keys(product.stockByColor) : [];
         stockColors.forEach(colorName => {
@@ -2197,14 +3216,12 @@
         if (btnAdd) {
           btnAdd.addEventListener('click', () => {
             addCurrentProductToCart();
-            showToast('Se agregó con éxito al carrito');
           });
         }
 
         if (btnBuy) {
           btnBuy.addEventListener('click', () => {
             addCurrentProductToCart();
-            showToast('Se agregó con éxito al carrito');
             window.location.href = 'cart.html';
           });
         }
@@ -2244,6 +3261,7 @@
 
       const relatedRaw = allProducts.filter(p => {
         if (!p) return false;
+        if (isBlockedSeasonProduct(p)) return false;
         if (currentProduct.id && p.id === currentProduct.id) return false;
 
         const sameSection = p.section && currentProduct.section &&
@@ -2288,6 +3306,8 @@
         const img = document.createElement('img');
         img.src = p.image || (p.images ? Object.values(p.images)[0] : '');
         img.alt = p.name || '';
+        img.loading = 'lazy';
+        img.decoding = 'async';
         thumb.appendChild(img);
 
         const name = document.createElement('div');
@@ -2324,14 +3344,15 @@
         updateCartCount();
         try {
           const list = await loadProducts();
-          const product = findProduct(list);
+          const safeList = Array.isArray(list) ? list.filter(item => !isBlockedSeasonProduct(item)) : [];
+          const product = findProduct(safeList);
           if (!product) {
             showNotFound();
             return;
           }
           renderProduct(product);
           renderFeatures(product);
-          renderRelatedProducts(list, product);
+          renderRelatedProducts(safeList, product);
           if (buyParam === '1') {
             setTimeout(() => {
               const target = document.getElementById('purchase-actions');
@@ -2348,7 +3369,6 @@
       window.addEventListener('DOMContentLoaded', init);
     })();
   </script>
-  <script src="assets/js/search.js"></script>
   <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
   <script src="assets/js/romix-header.js"></script>
 </body>

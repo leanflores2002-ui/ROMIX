@@ -1882,7 +1882,7 @@
                        "Francia":  "images/calza_termica_nina_jaspeado_francia.png",
                        "Gris oscuro":  "images/calza_termica_nina_jaspeado_gris_oscuro.png"
                    },
-        "price":  7999,
+        "price":  4600,
         "priceByGroup":  { "common":  4600, "special":  5000 },
         "specialSizes":  [
                          12,

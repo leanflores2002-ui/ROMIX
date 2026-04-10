@@ -13,6 +13,8 @@
   --romix-radius-lg: 20px;
   --romix-radius-md: 14px;
   --romix-radius-sm: 10px;
+  --catalog-header-offset: 76px;
+  --catalog-sidebar-gap: 4px;
 }
 
 * {
@@ -155,6 +157,7 @@ a {
   max-width: 1440px;
   margin: 0 auto;
   padding: 24px 22px 36px;
+  overflow: visible;
 }
 
 .catalog-heading {
@@ -169,35 +172,52 @@ a {
   grid-template-columns: 270px 1fr;
   gap: 18px;
   align-items: start;
+  min-height: 0;
+  overflow: visible;
 }
 
 .filters-sidebar {
   position: sticky;
-  top: 88px;
+  top: var(--catalog-header-offset);
   align-self: start;
+  display: flex;
+  flex-direction: column;
   background: #fffafc;
   border: 1px solid var(--romix-border);
   border-radius: var(--romix-radius-lg);
   padding: 14px;
   box-shadow: 0 12px 24px rgba(39, 20, 30, 0.08);
-  max-height: calc(100vh - 108px);
+  min-height: 0;
+  height: calc(100vh - var(--catalog-header-offset) - var(--catalog-sidebar-gap));
+  height: calc(100dvh - var(--catalog-header-offset) - var(--catalog-sidebar-gap));
+  max-height: calc(100vh - var(--catalog-header-offset) - var(--catalog-sidebar-gap));
+  max-height: calc(100dvh - var(--catalog-header-offset) - var(--catalog-sidebar-gap));
+  overflow: hidden;
+}
+
+.filters-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-bottom: 14px;
   overflow-y: auto;
   overflow-x: hidden;
-  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: #f3b2ce transparent;
 }
 
-.filters-sidebar::-webkit-scrollbar {
+.filters-scroll::-webkit-scrollbar {
   width: 7px;
 }
 
-.filters-sidebar::-webkit-scrollbar-thumb {
+.filters-scroll::-webkit-scrollbar-thumb {
   background: #f3b2ce;
   border-radius: 999px;
 }
 
-.filters-sidebar::-webkit-scrollbar-track {
+.filters-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -207,6 +227,7 @@ a {
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 10px;
+  flex-shrink: 0;
 }
 
 .filters-title-wrap {
@@ -314,12 +335,13 @@ a {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  transition: opacity 0.22s ease, transform 0.22s ease, max-height 0.24s ease;
-  max-height: 380px;
-  overflow: hidden;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  max-height: none;
+  overflow: visible;
 }
 
 .filters-group.is-collapsed .size-grid {
+  display: none;
   opacity: 0;
   transform: translateY(-4px);
   max-height: 0;
@@ -364,6 +386,7 @@ a {
 
 .products-wrap {
   min-width: 0;
+  min-height: 0;
 }
 
 .products-top {
@@ -372,6 +395,38 @@ a {
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 12px;
+}
+
+.products-sort {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.products-sort-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #5b5260;
+  white-space: nowrap;
+}
+
+.products-sort-select {
+  border: 1px solid #e2d8e4;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #312a36;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+  min-height: 34px;
+  padding: 8px 34px 8px 12px;
+  cursor: pointer;
+}
+
+.products-sort-select:focus {
+  outline: 2px solid rgba(255, 79, 147, 0.35);
+  outline-offset: 2px;
 }
 
 .active-filters-bar {
@@ -777,6 +832,25 @@ a {
     grid-template-columns: 1fr;
   }
 
+  .products-top {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .products-summary {
+    flex: 1 1 auto;
+  }
+
+  .products-sort {
+    margin-left: 0;
+    flex: 1 1 100%;
+    order: 3;
+  }
+
+  .products-sort-select {
+    width: 100%;
+  }
+
   .filters-open-btn,
   .sidebar-close {
     display: inline-flex;
@@ -792,14 +866,17 @@ a {
     bottom: 0;
     left: 0;
     width: min(86vw, 300px);
+    max-height: 100vh;
     max-height: 100dvh;
+    height: 100vh;
     height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
     border-radius: 0 18px 18px 0;
     border-left: 0;
     transform: translateX(-103%);
     transition: transform 0.26s ease;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
   }
 
   body.filters-open {
@@ -859,6 +936,16 @@ a {
 
   .product-name {
     font-size: 0.84rem;
+  }
+
+  .products-sort-label {
+    font-size: 0.78rem;
+  }
+
+  .products-sort-select {
+    min-height: 32px;
+    font-size: 0.78rem;
+    padding: 7px 30px 7px 11px;
   }
 
   .active-filters-header {

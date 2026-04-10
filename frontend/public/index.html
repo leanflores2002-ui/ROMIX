@@ -3,7 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ROMIX | Tienda Deportiva Femenina</title>
+  <title>ROMIX - Indumentaria Deportiva & Urbana</title>
+  <meta name="description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia." />
+  <link rel="canonical" href="https://romi-damas.netlify.app/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ROMIX" />
+  <meta property="og:locale" content="es_AR" />
+  <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
+  <meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia." />
+  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-1200x630.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Logo ROMIX" />
+  <meta property="og:url" content="https://romi-damas.netlify.app/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
+  <meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia." />
+  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-1200x630.png" />
+  <meta name="twitter:url" content="https://romi-damas.netlify.app/" />
   <link rel="stylesheet" href="assets/css/romix-header.css" />
   <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix.png" />
@@ -473,10 +490,11 @@
 
     .banner-card {
       position: relative;
-      min-height: clamp(200px, 22vw, 244px);
+      min-height: clamp(136px, 13vw, 166px);
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: 0 14px 28px rgba(31, 26, 38, 0.14);
+      background: #151325;
     }
 
     .banner-card::after {
@@ -484,11 +502,21 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(120deg, rgba(20, 20, 30, 0.58) 0%, rgba(20, 20, 30, 0.18) 72%);
+      pointer-events: none;
+    }
+
+    .banner-image-link {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     .banner-card img {
+      width: 100%;
       height: 100%;
-      object-fit: cover;
+      display: block;
+      object-fit: contain;
+      object-position: center;
     }
 
     .banner-content {
@@ -649,7 +677,7 @@
       }
 
       .banner-card {
-        min-height: 188px;
+        min-height: 124px;
       }
     }
 
@@ -757,7 +785,7 @@
       }
 
       .banner-card {
-        min-height: 168px;
+        min-height: 114px;
       }
 
       .banner-content {
@@ -831,7 +859,7 @@
       }
 
       .banner-card {
-        min-height: 150px;
+        min-height: 104px;
       }
     }
 
@@ -1034,7 +1062,7 @@
       }
 
       .banner-card {
-        min-height: 138px;
+        min-height: 100px;
       }
 
       .banner-content {
@@ -1113,7 +1141,7 @@
       }
 
       .banner-card {
-        min-height: 126px;
+        min-height: 92px;
       }
     }
 
@@ -1323,17 +1351,21 @@
     </section>
     <section class="promo-banners" aria-label="Banners promocionales">
       <article class="banner-card">
-        <img src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=1400&q=80" alt="Look urbano y deportivo femenino" loading="lazy" />
+        <a class="banner-image-link" href="catalogo.html?temporada=invierno" aria-label="Ir al catálogo con filtro Invierno">
+          <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Look urbano y deportivo" loading="lazy" />
+        </a>
         <div class="banner-content">
-          <h3>Moda Urbana y Deportiva</h3>
-          <button class="btn-primary" type="button">Ver Más</button>
+          <h3>Estilo Urbano Invernal</h3>
+          <a class="btn-primary" href="catalogo.html?temporada=invierno">Ver Más</a>
         </div>
       </article>
       <article class="banner-card">
-        <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1400&q=80" alt="Mujer entrenando con estilo deportivo" loading="lazy" />
+        <a class="banner-image-link" href="catalogo.html?temporada=media-estacion" aria-label="Ir al catálogo con filtro Media Estación">
+          <img src="images/ROPA_DEPORTIVA.png" alt="Entrenamiento con estilo deportivo" loading="lazy" />
+        </a>
         <div class="banner-content">
           <h3>Entrená con estilo</h3>
-          <button class="btn-primary" type="button">Descubrir Ahora</button>
+          <a class="btn-primary" href="catalogo.html?temporada=media-estacion">Descubrir Ahora</a>
         </div>
       </article>
     </section>

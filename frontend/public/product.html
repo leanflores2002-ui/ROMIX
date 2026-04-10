@@ -408,6 +408,10 @@
       font-weight: 900;
       color: #111;
     }
+
+    .mobile-product-name {
+      display: none;
+    }
     .meta-pills {
       display: flex;
       gap: 8px;
@@ -845,14 +849,14 @@
   <link rel="apple-touch-icon" href="images/logo-romix.png" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ROMIX">
-  <meta property="og:title" content="ROMIX | Moda y deportes para todos">
-  <meta property="og:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
-  <meta property="og:url" content="https://romix.com/">
+  <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">
+  <meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
+  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-1200x630.png">
+  <meta property="og:url" content="https://romi-damas.netlify.app/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ROMIX | Moda y deportes para todos">
-  <meta name="twitter:description" content="Catalogo completo de ropa para mujer, hombre y ninos. Compra online con envios rapidos y atencion personalizada.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/Leandro18122022/web/main/frontend/public/images/logo-romix.png">
+  <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana">
+  <meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
+  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-1200x630.png">
   <link rel="stylesheet" href="assets/css/romix-header.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
@@ -1503,6 +1507,15 @@
     }
 
     @media (max-width: 960px) {
+      .detail-grid {
+        gap: 16px;
+      }
+
+      .main-image {
+        min-height: 220px;
+        height: clamp(220px, 60vw, 320px);
+      }
+
       .zoom-modal {
         padding: 8px;
       }
@@ -1538,6 +1551,31 @@
 
       .zoom-nav.prev { left: 6px; }
       .zoom-nav.next { right: 6px; }
+    }
+
+    @media (max-width: 700px) {
+      .main-image {
+        min-height: 180px;
+        height: clamp(180px, 50vw, 260px);
+      }
+
+      .mobile-product-name {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .mobile-product-name h1 {
+        margin: 0;
+        font-size: clamp(2rem, 9vw, 2.6rem);
+        line-height: 1.05;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        color: #312a39;
+      }
+
+      .info-panel .title-row {
+        display: none;
+      }
     }
 
     @media (min-width: 700px) {
@@ -2737,6 +2775,9 @@
         const typeLabel = product.type || '';
         const badge = product.badge ? `<span class="meta-pill">${product.badge}</span>` : '';
         detail.innerHTML = `
+          <div class="mobile-product-name">
+            <h1>${product.name || 'Producto'}</h1>
+          </div>
           <div class="detail-grid">
             <div class="gallery">
               <div class="main-image" role="button" tabindex="0" aria-label="Abrir zoom de imagen" aria-haspopup="dialog">
@@ -3340,7 +3381,22 @@
         console.warn('[detalle] No se encontró el producto con', { idParam, slugParam, nameParam });
       }
 
+      function setupBackLink() {
+        const backLink = document.querySelector('.back-link');
+        if (!backLink) return;
+
+        backLink.addEventListener('click', (event) => {
+          event.preventDefault();
+          if (window.history.length > 1) {
+            window.history.back();
+            return;
+          }
+          window.location.href = backLink.getAttribute('href') || 'index.html';
+        });
+      }
+
       async function init(){
+        setupBackLink();
         updateCartCount();
         try {
           const list = await loadProducts();

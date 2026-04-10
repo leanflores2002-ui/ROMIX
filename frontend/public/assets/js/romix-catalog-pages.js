@@ -33,6 +33,12 @@
     { key: "invierno", label: "Invierno" }
   ];
 
+  const SORT_OPTIONS = [
+    { key: "recommended", label: "Recomendados" },
+    { key: "price-asc", label: "Menor a mayor precio" },
+    { key: "price-desc", label: "Mayor a menor precio" }
+  ];
+
   const STOCK_META = {
     available: { label: "Disponible", css: "status-available" },
     low: { label: "Por agotarse", css: "status-low" },
@@ -82,6 +88,7 @@
     scope: "catalogo",
     products: [],
     view: [],
+    sortBy: "recommended",
     searchQueryRaw: "",
     searchQueryNorm: "",
     searchTokens: [],
@@ -254,6 +261,16 @@
     return categoryKeyFromType(key);
   }
 
+  function normalizeSeasonFilterValue(value) {
+    const key = normalizeText(value);
+    if (!key) return "";
+    if (key.includes("invierno")) return "invierno";
+    if (key.includes("media")) return "media-estacion";
+    if (key.includes("estacion")) return "media-estacion";
+    if (key.includes("entretiempo")) return "media-estacion";
+    return "";
+  }
+
   function tokenizeSearch(value) {
     return normalizeText(value).split(/[^a-z0-9]+/).filter(Boolean);
   }
@@ -299,13 +316,48 @@
     return Array.from(new Set(keys));
   }
 
-  function applyInitialFiltersFromQuery() {
-    const requested = readInitialCategoryFilterKeys();
-    if (!requested.length) return;
-    const available = new Set(collectCategoryOptions(state.products).map((option) => option.key));
-    requested.forEach((key) => {
-      if (available.has(key)) state.selected.categories.add(key);
+  function readInitialSeasonFilterKeys() {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      return [];
+    }
+
+    const keys = [];
+    ["seasons", "season", "temporada", "temp"].forEach((param) => {
+      params.getAll(param).forEach((value) => {
+        String(value || "")
+          .split(",")
+          .map((token) => token.trim())
+          .filter(Boolean)
+          .forEach((token) => {
+            const normalized = normalizeSeasonFilterValue(token);
+            if (normalized) keys.push(normalized);
+          });
+      });
     });
+
+    return Array.from(new Set(keys));
+  }
+
+  function applyInitialFiltersFromQuery() {
+    const requestedCategories = readInitialCategoryFilterKeys();
+    const requestedSeasons = readInitialSeasonFilterKeys();
+
+    if (requestedCategories.length) {
+      const availableCategories = new Set(collectCategoryOptions(state.products).map((option) => option.key));
+      requestedCategories.forEach((key) => {
+        if (availableCategories.has(key)) state.selected.categories.add(key);
+      });
+    }
+
+    if (requestedSeasons.length) {
+      const availableSeasons = new Set(SEASON_OPTIONS.map((option) => option.key));
+      requestedSeasons.forEach((key) => {
+        if (availableSeasons.has(key)) state.selected.seasons.add(key);
+      });
+    }
   }
 
   function applyInitialSearchFromQuery() {
@@ -649,10 +701,71 @@
     target.innerHTML = "Mostrando <strong>" + state.view.length + "</strong> de <strong>" + state.products.length + "</strong> productos";
   }
 
+  function compareOriginalOrder(a, b) {
+    const aRank = Number.isFinite(a && a.sortRank) ? a.sortRank : 0;
+    const bRank = Number.isFinite(b && b.sortRank) ? b.sortRank : 0;
+    return aRank - bRank;
+  }
+
+  function sortProductsView() {
+    state.view.sort(function (a, b) {
+      if (state.sortBy === "price-asc") {
+        if (a.price !== b.price) return a.price - b.price;
+        return compareOriginalOrder(a, b);
+      }
+      if (state.sortBy === "price-desc") {
+        if (a.price !== b.price) return b.price - a.price;
+        return compareOriginalOrder(a, b);
+      }
+      return compareOriginalOrder(a, b);
+    });
+  }
+
+  function ensureSortControl() {
+    const topBar = document.querySelector(".products-top");
+    if (!topBar) return null;
+
+    let select = document.getElementById("products-sort");
+    if (select) {
+      select.value = state.sortBy;
+      return select;
+    }
+
+    const wrapper = document.createElement("label");
+    wrapper.className = "products-sort";
+    wrapper.setAttribute("for", "products-sort");
+
+    const text = document.createElement("span");
+    text.className = "products-sort-label";
+    text.textContent = "Ordenar por";
+
+    select = document.createElement("select");
+    select.id = "products-sort";
+    select.className = "products-sort-select";
+    select.setAttribute("aria-label", "Ordenar productos");
+
+    SORT_OPTIONS.forEach((option) => {
+      const item = document.createElement("option");
+      item.value = option.key;
+      item.textContent = option.label;
+      select.appendChild(item);
+    });
+
+    select.value = state.sortBy;
+    wrapper.appendChild(text);
+    wrapper.appendChild(select);
+
+    const openBtn = document.getElementById("open-filters");
+    if (openBtn && openBtn.parentElement === topBar) topBar.insertBefore(wrapper, openBtn);
+    else topBar.appendChild(wrapper);
+
+    return select;
+  }
+
   function renderGrid() {
     const grid = document.getElementById("product-grid");
     if (!grid) return;
-    const allowVariantPreview = state.scope === "mujer" || state.scope === "hombre" || state.scope === "ninos" || state.scope === "novedades";
+    const allowVariantPreview = state.scope === "catalogo" || state.scope === "mujer" || state.scope === "hombre" || state.scope === "ninos" || state.scope === "novedades";
     const cardPreviewLimit = window.innerWidth <= 640 ? 3 : 4;
 
     grid.innerHTML = "";
@@ -923,6 +1036,7 @@
 
   function applyFilters() {
     state.view = state.products.filter(matchFilters);
+    sortProductsView();
     renderGrid();
     renderActiveFilters();
   }
@@ -1245,6 +1359,17 @@
   }
 
   function wireUiEvents() {
+    const sortSelect = ensureSortControl();
+    if (sortSelect) {
+      sortSelect.addEventListener("change", function () {
+        const nextValue = String(sortSelect.value || "recommended");
+        const allowed = SORT_OPTIONS.some((entry) => entry.key === nextValue);
+        state.sortBy = allowed ? nextValue : "recommended";
+        sortSelect.value = state.sortBy;
+        applyFilters();
+      });
+    }
+
     const sidebar = document.getElementById("filters-sidebar");
     if (sidebar) sidebar.addEventListener("change", onFilterChange);
 
@@ -1314,6 +1439,9 @@
         .map(normalizeProduct)
         .filter((item) => item && item.seasonKey !== "verano");
       state.products = productsByScope(normalized, state.scope);
+      state.products.forEach((item, index) => {
+        item.sortRank = index;
+      });
       state.view = state.products.slice();
       applyInitialSearchFromQuery();
       applyInitialFiltersFromQuery();

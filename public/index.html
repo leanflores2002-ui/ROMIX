@@ -1,0 +1,66 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Romix POS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Work+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="page-glow"></div>
+    <div id="app" class="app-shell">
+      <section id="login-section" class="card login-card">
+        <h1>Romix POS</h1>
+        <p>Ventas e inventario para tienda de ropa</p>
+        <form id="login-form" class="form-grid">
+          <label>
+            Usuario
+            <input id="login-username" name="username" autocomplete="username" required />
+          </label>
+          <label>
+            Password
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+          </label>
+          <button type="submit">Ingresar</button>
+        </form>
+        <small>Demo: `admin/admin123` o `vendedor/vendedor123`</small>
+      </section>
+
+      <section id="main-section" class="main-layout hidden">
+        <aside class="sidebar card">
+          <div class="brand-block">
+            <h2>Romix</h2>
+            <p id="user-badge"></p>
+          </div>
+          <nav id="nav-menu" class="nav-menu">
+            <button data-view="pos" class="active">Punto de Venta</button>
+            <button data-view="products">Productos</button>
+            <button data-view="inventory">Inventario</button>
+            <button data-view="sales">Historial Ventas</button>
+            <button data-view="users">Usuarios</button>
+            <button data-view="labels">Etiquetas</button>
+          </nav>
+          <button id="logout-btn" class="secondary">Cerrar sesion</button>
+        </aside>
+
+        <main class="content card">
+          <header class="content-header">
+            <h3 id="view-title">Punto de Venta</h3>
+            <div id="status-pill" class="status-pill">Listo</div>
+          </header>
+          <section id="view-root" class="view-root"></section>
+        </main>
+      </section>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

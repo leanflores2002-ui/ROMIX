@@ -1460,43 +1460,6 @@
       color: #fff;
     }
 
-    .share-preview {
-      display: grid;
-      gap: 6px;
-      margin-top: 2px;
-      padding: 10px 12px;
-      border: 1px dashed rgba(221, 136, 189, 0.55);
-      border-radius: 12px;
-      background: rgba(255, 247, 252, 0.8);
-    }
-
-    .share-preview__meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: baseline;
-      color: var(--ink-900);
-      font-size: 0.92rem;
-    }
-
-    .share-preview__name {
-      font-weight: 800;
-    }
-
-    .share-preview__price {
-      color: var(--rose-600);
-      font-weight: 700;
-    }
-
-    .share-preview__link {
-      color: var(--rose-600);
-      font-size: 0.84rem;
-      font-weight: 700;
-      text-decoration: underline;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
-
     .features-panel {
       margin-top: 22px;
       background: rgba(255, 255, 255, 0.7);
@@ -2128,9 +2091,6 @@
         const waBtn = document.getElementById('btn-share-whatsapp');
         const copyBtn = document.getElementById('btn-share-copy');
         const shareInput = document.getElementById('share-link-input');
-        const sharePreviewName = document.getElementById('share-preview-name');
-        const sharePreviewPrice = document.getElementById('share-preview-price');
-        const sharePreviewLink = document.getElementById('share-preview-link');
         if (!nativeBtn || !waBtn || !copyBtn || !shareInput) return;
 
         const shareUrl = buildShareUrl(product);
@@ -2143,13 +2103,6 @@
           || 'Descubri este producto en ROMIX.';
         shareInput.value = shareUrl;
         waBtn.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-        if (sharePreviewName) sharePreviewName.textContent = shareName || 'Producto ROMIX';
-        if (sharePreviewPrice) sharePreviewPrice.textContent = sharePrice || '';
-        if (sharePreviewLink) {
-          sharePreviewLink.href = shareUrl;
-          sharePreviewLink.textContent = shareUrl;
-          sharePreviewLink.setAttribute('aria-label', `Abrir link compartido de ${shareName || 'producto'}`);
-        }
 
         nativeBtn.onclick = async () => {
           if (!navigator.share) {
@@ -3115,13 +3068,6 @@
                     <i class="fas fa-link" aria-hidden="true"></i>
                     Copiar link
                   </button>
-                </div>
-                <div class="share-preview" id="share-preview" aria-live="polite">
-                  <div class="share-preview__meta">
-                    <span class="share-preview__name" id="share-preview-name"></span>
-                    <span class="share-preview__price" id="share-preview-price"></span>
-                  </div>
-                  <a class="share-preview__link" id="share-preview-link" target="_blank" rel="noopener"></a>
                 </div>
                 <input id="share-link-input" type="text" readonly aria-label="Link para compartir" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
               </div>

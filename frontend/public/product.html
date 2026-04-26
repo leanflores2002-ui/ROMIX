@@ -845,6 +845,9 @@
   <script id="preloaded-products" type="application/json">
     {{ products_json if products_json is defined else "[]" }}
   </script>
+  <script id="preloaded-product" type="application/json">
+    {{ product_json if product_json is defined else "null" }}
+  </script>
   <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix.png" />
   <meta property="og:type" content="website">
@@ -1415,6 +1418,48 @@
       outline-offset: 2px;
     }
 
+    .share-panel {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(230, 184, 211, 0.7);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .share-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .share-btn {
+      min-height: 40px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(239, 78, 161, 0.42);
+      background: #fff;
+      color: var(--rose-600);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .share-btn:hover {
+      filter: brightness(0.98);
+    }
+
+    .share-btn--wa {
+      background: #25d366;
+      border-color: #25d366;
+      color: #fff;
+    }
+
     .features-panel {
       margin-top: 22px;
       background: rgba(255, 255, 255, 0.7);
@@ -1791,6 +1836,7 @@
       let STOCK_MAX = 10;
       let currentSelectedColor = 'Unico';
       let currentSelectedSize = '';
+      let preloadedProductCache;
       const colorUtils = typeof window.romixColorUtils === 'object' ? window.romixColorUtils : {};
       const getDisplayColorName = typeof colorUtils.getDisplayColorName === 'function'
         ? colorUtils.getDisplayColorName
@@ -1966,6 +2012,135 @@
         const name = encodeURIComponent(String(product && product.name || ''));
         const base = `product.html?id=${pid}&slug=${slug}&name=${name}`;
         return buy ? `${base}&buy=1` : base;
+      }
+
+      function buildShareSlug(product) {
+        const baseSource = (product && (product.name || product.id)) ? (product.name || product.id) : 'producto';
+        const baseSlug = slugifyName(baseSource) || 'producto';
+        const rawId = String(product && product.id ? product.id : '').trim();
+        if (!rawId) return baseSlug;
+        const idSlug = normalizeSlug(rawId);
+        if (!idSlug || idSlug === baseSlug || baseSlug.endsWith(`-${idSlug}`)) return baseSlug;
+        return `${baseSlug}-${idSlug}`;
+      }
+
+      function parsePreloadedProduct() {
+        if (preloadedProductCache !== undefined) return preloadedProductCache;
+        try {
+          const el = document.getElementById('preloaded-product');
+          if (!el) {
+            preloadedProductCache = null;
+            return preloadedProductCache;
+          }
+          const raw = (el.textContent || el.innerText || '').trim();
+          if (!raw || raw === 'null') {
+            preloadedProductCache = null;
+            return preloadedProductCache;
+          }
+          const parsed = JSON.parse(raw);
+          preloadedProductCache = parsed && typeof parsed === 'object' ? parsed : null;
+          return preloadedProductCache;
+        } catch {
+          preloadedProductCache = null;
+          return preloadedProductCache;
+        }
+      }
+
+      function toAbsoluteUrl(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+        if (/^https?:\/\//i.test(raw)) return raw;
+        return new URL(raw.replace(/^\/+/, ''), location.origin + '/').href;
+      }
+
+      function firstProductImage(product) {
+        if (!product || typeof product !== 'object') return '';
+        const direct = String(product.image || '').trim();
+        if (direct) return toAbsoluteUrl(direct);
+        if (product.images && typeof product.images === 'object') {
+          const first = Object.values(product.images).find((entry) => String(entry || '').trim());
+          if (first) return toAbsoluteUrl(String(first));
+        }
+        return toAbsoluteUrl('images/logo-romix-social-1200x630.png');
+      }
+
+      function buildShareUrl(product) {
+        const slug = buildShareSlug(product);
+        if (slug) {
+          return new URL(`share/${encodeURIComponent(slug)}/`, location.origin + '/').href;
+        }
+        return new URL(buildHref(product, false), location.origin + '/').href;
+      }
+
+      function buildShareText(product, shareUrl) {
+        const name = String(product && product.name ? product.name : 'Producto ROMIX').trim();
+        const priceValue = Number(product && product.price ? product.price : 0);
+        const price = priceValue > 0 ? ` - $${priceValue.toLocaleString('es-AR')}` : '';
+        return `${name}${price}\n${shareUrl}`;
+      }
+
+      function updateSharePanel(product) {
+        const nativeBtn = document.getElementById('btn-share-native');
+        const waBtn = document.getElementById('btn-share-whatsapp');
+        const copyBtn = document.getElementById('btn-share-copy');
+        const shareInput = document.getElementById('share-link-input');
+        if (!nativeBtn || !waBtn || !copyBtn || !shareInput) return;
+
+        const shareUrl = buildShareUrl(product);
+        const shareText = buildShareText(product, shareUrl);
+        const shareImage = firstProductImage(product);
+        shareInput.value = shareUrl;
+        waBtn.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+
+        nativeBtn.onclick = async () => {
+          if (!navigator.share) {
+            showToast('Tu navegador no soporta compartir directo.', 'error');
+            return;
+          }
+          try {
+            await navigator.share({
+              title: String(product && product.name ? product.name : 'Producto ROMIX'),
+              text: String(product && product.description ? product.description : ''),
+              url: shareUrl
+            });
+          } catch (error) {
+            if (error && error.name !== 'AbortError') {
+              showToast('No se pudo abrir el panel de compartir.', 'error');
+            }
+          }
+        };
+
+        copyBtn.onclick = async () => {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText(shareUrl);
+            } else {
+              shareInput.select();
+              document.execCommand('copy');
+            }
+            showToast('Link copiado para compartir.');
+          } catch {
+            showToast('No se pudo copiar el link.', 'error');
+          }
+        };
+
+        if (!navigator.share) {
+          nativeBtn.setAttribute('hidden', 'hidden');
+        } else {
+          nativeBtn.removeAttribute('hidden');
+        }
+
+        try {
+          const canonical = document.querySelector('link[rel="canonical"]') || document.createElement('link');
+          canonical.setAttribute('rel', 'canonical');
+          canonical.setAttribute('href', shareUrl);
+          if (!canonical.parentNode) document.head.appendChild(canonical);
+        } catch {}
+
+        try {
+          const ogImage = document.querySelector('meta[property="og:image"]');
+          if (ogImage && shareImage) ogImage.setAttribute('content', shareImage);
+        } catch {}
       }
 
       function readCart(){
@@ -2840,6 +3015,24 @@
                 <button id="btn-buy" class="btn primary" type="button">Comprar</button>
                 <button id="btn-add" class="btn outline" type="button">Agregar al carrito</button>
               </div>
+              <div class="share-panel" id="share-panel">
+                <div class="selector-label">Compartir producto</div>
+                <div class="share-actions">
+                  <button type="button" class="share-btn" id="btn-share-native">
+                    <i class="fas fa-share-alt" aria-hidden="true"></i>
+                    Compartir
+                  </button>
+                  <a class="share-btn share-btn--wa" id="btn-share-whatsapp" target="_blank" rel="noopener">
+                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                    WhatsApp
+                  </a>
+                  <button type="button" class="share-btn" id="btn-share-copy">
+                    <i class="fas fa-link" aria-hidden="true"></i>
+                    Copiar link
+                  </button>
+                </div>
+                <input id="share-link-input" type="text" readonly aria-label="Link para compartir" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
+              </div>
             </div>
           </div>
           <div class="zoom-modal" id="zoom-modal" aria-hidden="true">
@@ -3272,6 +3465,7 @@
         quantityInput?.addEventListener('change', () => setQuantity(quantityInput.value));
 
         setQuantity(1);
+        updateSharePanel(product);
 
       }
 
@@ -3398,10 +3592,13 @@
       async function init(){
         setupBackLink();
         updateCartCount();
+        const serverProduct = parsePreloadedProduct();
         try {
           const list = await loadProducts();
           const safeList = Array.isArray(list) ? list.filter(item => !isBlockedSeasonProduct(item)) : [];
-          const product = findProduct(safeList);
+          const product = (serverProduct && !isBlockedSeasonProduct(serverProduct))
+            ? serverProduct
+            : findProduct(safeList);
           if (!product) {
             showNotFound();
             return;

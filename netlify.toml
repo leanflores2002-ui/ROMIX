@@ -1,2 +1,3 @@
 [build]
+  command = "node scripts/generate-share-pages.js"
   publish = "frontend/public"

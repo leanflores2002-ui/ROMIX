@@ -92,6 +92,8 @@
     searchQueryRaw: "",
     searchQueryNorm: "",
     searchTokens: [],
+    searchAnyTokens: [],
+    searchExcludeTokens: [],
     selected: {
       sections: new Set(),
       colors: new Set(),
@@ -271,6 +273,12 @@
     return "";
   }
 
+  function normalizeSectionFilterValue(value) {
+    const key = normalizeSection(value);
+    if (key === "mujer" || key === "hombre" || key === "ninos") return key;
+    return "";
+  }
+
   function tokenizeSearch(value) {
     return normalizeText(value).split(/[^a-z0-9]+/).filter(Boolean);
   }
@@ -289,6 +297,50 @@
 
     const raw = params.get("q") || params.get("query") || params.get("search") || "";
     return String(raw || "").trim();
+  }
+
+  function readInitialSearchAnyTokens() {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      return [];
+    }
+
+    const tokens = [];
+    ["q_any", "any", "keywords", "tags"].forEach((param) => {
+      params.getAll(param).forEach((value) => {
+        String(value || "")
+          .split(/[,\|;]+/)
+          .map((token) => normalizeText(token))
+          .filter(Boolean)
+          .forEach((token) => tokens.push(token));
+      });
+    });
+
+    return Array.from(new Set(tokens));
+  }
+
+  function readInitialSearchExcludeTokens() {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      return [];
+    }
+
+    const tokens = [];
+    ["q_not", "exclude", "exclude_keywords", "exclude_tags"].forEach((param) => {
+      params.getAll(param).forEach((value) => {
+        String(value || "")
+          .split(/[,\|;]+/)
+          .map((token) => normalizeText(token))
+          .filter(Boolean)
+          .forEach((token) => tokens.push(token));
+      });
+    });
+
+    return Array.from(new Set(tokens));
   }
 
   function readInitialCategoryFilterKeys() {
@@ -341,9 +393,42 @@
     return Array.from(new Set(keys));
   }
 
+  function readInitialSectionFilterKeys() {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      return [];
+    }
+
+    const keys = [];
+    ["sections", "section", "secciones", "seccion"].forEach((param) => {
+      params.getAll(param).forEach((value) => {
+        String(value || "")
+          .split(",")
+          .map((token) => token.trim())
+          .filter(Boolean)
+          .forEach((token) => {
+            const normalized = normalizeSectionFilterValue(token);
+            if (normalized) keys.push(normalized);
+          });
+      });
+    });
+
+    return Array.from(new Set(keys));
+  }
+
   function applyInitialFiltersFromQuery() {
+    const requestedSections = readInitialSectionFilterKeys();
     const requestedCategories = readInitialCategoryFilterKeys();
     const requestedSeasons = readInitialSeasonFilterKeys();
+
+    if (state.scope === "catalogo" && requestedSections.length) {
+      const availableSections = new Set(SECTION_OPTIONS.map((option) => option.key));
+      requestedSections.forEach((key) => {
+        if (availableSections.has(key)) state.selected.sections.add(key);
+      });
+    }
 
     if (requestedCategories.length) {
       const availableCategories = new Set(collectCategoryOptions(state.products).map((option) => option.key));
@@ -365,10 +450,12 @@
     state.searchQueryRaw = searchQuery;
     state.searchQueryNorm = normalizeText(searchQuery);
     state.searchTokens = tokenizeSearch(searchQuery);
+    state.searchAnyTokens = readInitialSearchAnyTokens();
+    state.searchExcludeTokens = readInitialSearchExcludeTokens();
   }
 
   function matchesSearchQuery(product) {
-    if (!state.searchQueryNorm) return true;
+    if (!state.searchQueryNorm && !state.searchAnyTokens.length && !state.searchExcludeTokens.length) return true;
     if (!product) return false;
 
     const fields = [
@@ -389,13 +476,36 @@
     const haystack = normalizeText(fields.join(" "));
     const compactHaystack = compactSearch(haystack);
     const compactQuery = compactSearch(state.searchQueryNorm);
-
-    if (compactQuery && compactHaystack.includes(compactQuery)) return true;
-
     const words = haystack.split(/[^a-z0-9]+/).filter(Boolean);
-    return state.searchTokens.every((token) => {
-      return haystack.includes(token) || words.some((word) => word.startsWith(token));
-    });
+
+    if (state.searchQueryNorm) {
+      let matchesMainQuery = false;
+      if (compactQuery && compactHaystack.includes(compactQuery)) {
+        matchesMainQuery = true;
+      } else {
+        matchesMainQuery = state.searchTokens.every((token) => {
+          return haystack.includes(token) || words.some((word) => word.startsWith(token));
+        });
+      }
+
+      if (!matchesMainQuery) return false;
+    }
+
+    if (state.searchAnyTokens.length) {
+      const matchesAny = state.searchAnyTokens.some((token) => {
+        return haystack.includes(token) || words.some((word) => word.startsWith(token));
+      });
+      if (!matchesAny) return false;
+    }
+
+    if (state.searchExcludeTokens.length) {
+      const hasExcluded = state.searchExcludeTokens.some((token) => {
+        return haystack.includes(token) || words.some((word) => word.startsWith(token));
+      });
+      if (hasExcluded) return false;
+    }
+
+    return true;
   }
 
   function normalizeStatus(rawStatus) {
@@ -955,8 +1065,7 @@
 
   function matchFilters(product) {
     if (state.scope === "catalogo" && state.selected.sections.size) {
-      const section = Array.from(state.selected.sections)[0];
-      if (section && product.section !== section) return false;
+      if (!state.selected.sections.has(product.section)) return false;
     }
 
     if (state.selected.colors.size) {

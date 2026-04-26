@@ -9,10 +9,10 @@
                     "Negro":  "images/calza_termica_lycra_chupin_dama_negro.png",
                     "Azul marino":  "images/calza_termica_lycra_chupin_dama_azul_marino.png"
                 },
-    "price":  11000,
+    "price":  10500,
     "priceByGroup":  {
-                         "common":  11000,
-                         "special":  11500
+                         "common":  10500,
+                         "special":  11000
                      },
     "specialSizes":  [
                          6,
@@ -76,10 +76,10 @@
                     "Azul marino":  "images/calza_termica_jaspeada_saplex_chupin_dama_azul_marino.png",
                     "Gris melange":  "images/calza_termica_jaspeada_saplex_chupin_dama_gris_melange.png"
                 },
-    "price":  11500,
+    "price":  11000,
     "priceByGroup":  {
-                         "common":  11500,
-                         "special":  12000
+                         "common":  11000,
+                         "special":  11500
                      },
     "specialSizes":  [
                          6,
@@ -148,10 +148,10 @@
     "images":  {
                     "Negro":  "images/calza_termica_lycra_recta_dama_negro.png"
                 },
-    "price":  13000,
+    "price":  12500,
     "priceByGroup":  {
-                         "common":  13000,
-                         "special":  13500
+                         "common":  12500,
+                         "special":  13000
                      },
     "specialSizes":  [
                          6,
@@ -207,10 +207,10 @@
                     "Azul marino":  "images/calza_termica_jaspeado_saplex_recta_dama_azul_marino.png",
                     "Violeta":  "images/calza_termica_jaspeado_saplex_recta_dama_violeta.png"
                 },
-    "price":  13500,
+    "price":  13000,
     "priceByGroup":  {
-                         "common":  13500,
-                         "special":  14000
+                         "common":  13000,
+                         "special":  13500
                      },
     "specialSizes":  [
                          6,
@@ -275,10 +275,10 @@
     "images":  {
                     "Negro":  "images/calza_termica_oxford_dama_negro.png"
                 },
-    "price":  12500,
+    "price":  12000,
     "priceByGroup":  {
-                         "common":  12500,
-                         "special":  13000
+                         "common":  12000,
+                         "special":  12500
                      },
     "specialSizes":  [
                          6,
@@ -338,10 +338,10 @@
                     "Gris oscuro":  "images/calza_con_piel_adentro_dama_gris_oscuro.png",
                     "Azul marino":  "images/calza_con_piel_adentro_dama_azul_marino.png"
                 },
-    "price":  10500,
+    "price":  10000,
     "priceByGroup":  {
-                         "common":  10500,
-                         "special":  11000
+                         "common":  10000,
+                         "special":  10500
                      },
     "specialSizes":  [
                          6,
@@ -406,10 +406,10 @@
     "images":  {
                     "Negro":  "images/calza_termica_doble_cintura_chupin_dama_negro.png"
                 },
-    "price":  11500,
+    "price":  11000,
     "priceByGroup":  {
-                         "common":  11500,
-                         "special":  12000
+                         "common":  11000,
+                         "special":  11500
                      },
     "specialSizes":  [
                          6,
@@ -590,10 +590,10 @@
                     "Azul marino":  "images/pantalon_algodon_rustico_recto_frizado_dama_azul_marino.png",
                     "Gris oscuro":  "images/pantalon_algodon_rustico_recto_frizado_dama_gris_oscuro.png"
                 },
-    "price":  16500,
+    "price":  15500,
     "priceByGroup":  {
-                         "common":  16500,
-                         "special":  17100
+                         "common":  15500,
+                         "special":  16100
                      },
     "specialSizes":  [
                          6,
@@ -740,7 +740,7 @@
         "price":  11000,
         "priceByGroup":  {
                              "common":  11000,
-                             "special":  11500
+                             "special":  11600
                          },
         "originalPrice":  null,
         "badge":  null,
@@ -883,7 +883,7 @@
 {
     "section":  "mujer",
     "type":  "camperas",
-    "name":  "Campera polar corto corderito",
+    "name":  "Campera polar corto con corderito",
     "season":  "invierno",
     "image":  "images/campera_polar_corto_corderito_negro.png",
     "images":  {
@@ -894,10 +894,10 @@
                     "Negro":  "images/campera_polar_corto_corderito_negro.png",
                     "Beige":  "images/campera_polar_corto_corderito_beige.png"
                 },
-    "price":  16500,
+    "price":  17000,
     "priceByGroup":  {
-                         "common":  16500,
-                         "special":  17300
+                         "common":  17000,
+                         "special":  18000
                      },
     "specialSizes":  [
                          6,
@@ -976,10 +976,10 @@
                     "Verde":  "images/campera_largo_polar_corderito_verde.png",
                     "Gris":  "images/campera_largo_polar_corderito_gris.png"
                 },
-    "price":  17700,
+    "price":  18500,
     "priceByGroup":  {
-                         "common":  17700,
-                         "special":  18500
+                         "common":  18500,
+                         "special":  19500
                      },
     "specialSizes":  [
                          6,
@@ -1235,10 +1235,10 @@
                     "Azul marino":  "images/pantalon_algodon_frizado_premium_hombre_azul_marino.png",
                     "Gris oscuro":  "images/pantalon_algodon_frizado_premium_hombre_gris_oscuro.png"
                 },
-    "price":  17000,
+    "price":  17500,
     "priceByGroup":  {
-                         "common":  17000,
-                         "special":  17800
+                         "common":  17500,
+                         "special":  18300
                      },
     "specialSizes":  [
                          6,
@@ -1314,7 +1314,7 @@
                     "Azul marino":  "images/babucha_frizado_algodon_premium_hombre_azul_marino.png",
                     "Gris oscuro":  "images/babucha_frizado_algodon_premium_hombre_gris_oscuro.png"
                 },
-    "price":  17500,
+    "price":  18000,
     "specialSizes":  [
                          6,
                          7,
@@ -1443,12 +1443,14 @@
                     "Verde":  "images/campera_corderoy_con_corderito_hombre_verde.png",
                     "Beige":  "images/campera_corderoy_con_corderito_hombre_beige.png",
                     "Azul marino":  "images/campera_corderoy_con_corderito_hombre_azul_marino.png",
-                    "Gris melange":  "images/campera_corderoy_con_corderito_hombre_gris_melange.png"
+                    "Gris melange":  "images/campera_corderoy_con_corderito_hombre_gris_melange.png",
+                    "Rojo":  "images/campera_corderoy_con_corderito_hombre_rojo.png",
+                    "Chocolate":  "images/campera_corderoy_con_corderito_hombre_chocolate.png"
                 },
-    "price":  19000,
+    "price":  19500,
     "priceByGroup":  {
-                         "common":  19000,
-                         "special":  20000
+                         "common":  19500,
+                         "special":  20500
                      },
     "specialSizes":  [
                          6,
@@ -1475,6 +1477,14 @@
                    {
                        "name":  "Gris melange",
                        "hex":  "#A9A9A9"
+                   },
+                   {
+                       "name":  "Rojo",
+                       "hex":  "#FF0000"
+                   },
+                   {
+                       "name":  "Chocolate",
+                       "hex":  "#7B3F00"
                    }
                ],
     "sizes":  [
@@ -1523,8 +1533,8 @@
                        "Verde": "images/maxibuzo_frizado_algodon_con_capucha_hombre_verde.png",
                        "Rojo": "images/maxibuzo_frizado_algodon_con_capucha_hombre_rojo.png"
                    },
-        "price":  18000,
-        "priceByGroup":  { "common":  18000, "special":  18800 },
+        "price":  19000,
+        "priceByGroup":  { "common":  19000, "special":  20000 },
         "colors":  [
                        {
                            "name":  "Negro",
@@ -1603,8 +1613,8 @@
                        "Azul marino": "images/maxibuzo_frizado_algodon_sin_capucha_hombre_azul_marino.png",
                        "Verde": "images/maxibuzo_frizado_algodon_sin_capucha_hombre_verde.png"
                    },
-        "price":  17200,
-        "priceByGroup":  { "common":  17200, "special":  18000 },
+        "price":  17500,
+        "priceByGroup":  { "common":  17500, "special":  18500 },
         "colors":  [
                        {
                            "name":  "Negro",
@@ -7106,7 +7116,7 @@
 {
     "section":  "hombre",
     "type":  "pantalones",
-    "name":  "Pantalón rústico con cierre con bolsillo hombre",
+    "name":  "Pantalón rústico con cierre en bolsillos hombre",
     "season":  "media-estacion",
     "image":  "images/pantalon_rustico_cierre_bolsillo_hombre_negro.png",
     "images":  {
@@ -7119,6 +7129,45 @@
     "priceByGroup":  {
                          "common":  16500,
                          "special":  17100
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   { "name":  "Negro", "hex":  "#000000" },
+                   { "name":  "Gris melange", "hex":  "#A9A9A9" },
+                   { "name":  "Azul", "hex":  "#1E4ED8" },
+                   { "name":  "Gris oscuro", "hex":  "#4B4B4B" }
+               ],
+    "sizes":  [
+                  { "size":  "1", "status":  "available" },
+                  { "size":  "2", "status":  "available" },
+                  { "size":  "3", "status":  "available" },
+                  { "size":  "4", "status":  "available" },
+                  { "size":  "5", "status":  "available" },
+                  { "size":  "6", "status":  "available" },
+                  { "size":  "7", "status":  "available" },
+                  { "size":  "8", "status":  "available" }
+              ]
+},
+{
+    "section":  "hombre",
+    "type":  "pantalones",
+    "name":  "Pantalón algodon frizado con cierre en bolsillos hombre",
+    "season":  "invierno",
+    "image":  "images/pantalon_algodon_frizado_cierre_bolsillos_hombre_negro.png",
+    "images":  {
+                    "Negro":  "images/pantalon_algodon_frizado_cierre_bolsillos_hombre_negro.png",
+                    "Gris melange":  "images/pantalon_algodon_frizado_cierre_bolsillos_hombre_gris_melange.png",
+                    "Azul":  "images/pantalon_algodon_frizado_cierre_bolsillos_hombre_azul.png",
+                    "Gris oscuro":  "images/pantalon_algodon_frizado_cierre_bolsillos_hombre_gris_oscuro.png"
+                },
+    "price":  18000,
+    "priceByGroup":  {
+                         "common":  18000,
+                         "special":  18800
                      },
     "specialSizes":  [
                          6,
@@ -7254,10 +7303,10 @@
                     "Azul":  "images/campera_termica_jaspeado_saplex_hombre_azul.png",
                     "Gris melange":  "images/campera_termica_jaspeado_saplex_hombre_gris_melange.png"
                 },
-    "price":  18000,
+    "price":  18500,
     "priceByGroup":  {
-                         "common":  18000,
-                         "special":  18800
+                         "common":  18500,
+                         "special":  19500
                      },
     "specialSizes":  [
                          6,
@@ -8905,6 +8954,207 @@
                    {
                        "name":  "Gris",
                        "hex":  "#808080"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "10",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "12",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "14",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "16",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "ninos",
+    "type":  "pantalones",
+    "name":  "Pantalón frizado algodón premium niño recto",
+    "season":  "invierno",
+    "image":  "images/pantalon_frizado_algodon_premium_nino_recto_negro.png",
+    "images":  {
+                    "Negro":  "images/pantalon_frizado_algodon_premium_nino_recto_negro.png",
+                    "Azul marino":  "images/pantalon_frizado_algodon_premium_nino_recto_azul_marino.png",
+                    "Gris oscuro":  "images/pantalon_frizado_algodon_premium_nino_recto_gris_oscuro.png",
+                    "Gris melange":  "images/pantalon_frizado_algodon_premium_nino_recto_gris_melange.png"
+                },
+    "price":  11000,
+    "priceByGroup":  {
+                         "common":  11000,
+                         "special":  12000
+                     },
+    "specialSizes":  [
+                         12,
+                         14,
+                         16
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "10",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "12",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "14",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "16",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "ninos",
+    "type":  "camperas",
+    "name":  "Campera frizada algodón niño",
+    "season":  "invierno",
+    "image":  "images/campera_frizada_algodon_nino_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_frizada_algodon_nino_negro.png",
+                    "Azul marino":  "images/campera_frizada_algodon_nino_azul_marino.png",
+                    "Gris oscuro":  "images/campera_frizada_algodon_nino_gris_oscuro.png",
+                    "Gris melange":  "images/campera_frizada_algodon_nino_gris_melange.png"
+                },
+    "price":  15500,
+    "priceByGroup":  {
+                         "common":  15500,
+                         "special":  16500
+                     },
+    "specialSizes":  [
+                         12,
+                         14,
+                         16
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "10",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "12",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "14",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "16",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "ninos",
+    "type":  "camperas",
+    "name":  "Campera algodón frizada de niña",
+    "season":  "invierno",
+    "image":  "images/campera_frizada_algodon_nina_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_frizada_algodon_nina_negro.png",
+                    "Azul marino":  "images/campera_frizada_algodon_nina_azul_marino.png",
+                    "Gris oscuro":  "images/campera_frizada_algodon_nina_gris_oscuro.png",
+                    "Gris melange":  "images/campera_frizada_algodon_nina_gris_melange.png"
+                },
+    "price":  15500,
+    "priceByGroup":  {
+                         "common":  15500,
+                         "special":  16500
+                     },
+    "specialSizes":  [
+                         12,
+                         14,
+                         16
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
                    }
                ],
     "sizes":  [
@@ -11024,7 +11274,8 @@
                     "Gris oscuro":"images/campera_rustico_lycra_dama_gris_oscuro.png",
                     "Violeta": "images/campera_rustico_lycra_dama_violeta.png",
                     "Lila": "images/campera_rustico_lycra_dama_lila.png",
-                    "Petroleo": "images/campera_rustico_lycra_dama_petroleo.png"
+                    "Petroleo": "images/campera_rustico_lycra_dama_petroleo.png",
+                    "Tostado": "images/campera_rustico_lycra_dama_tostado.png"
                 },
     "price":  17500,
     "priceByGroup":  {
@@ -11074,6 +11325,10 @@
                      {
                           "name":  "Petroleo",
                           "hex":  "#005F6A"
+                     },
+                     {
+                          "name":  "Tostado",
+                          "hex":  "#D2B48C"
                      }
                ],
     "sizes":  [
@@ -11193,10 +11448,10 @@
                     "Francia":  "images/campera_premium_algodon_frizado_dama_francia.png",
                     "Lila":  "images/campera_premium_algodon_frizado_dama_lila.png"
                 },
-    "price":  18700,
+    "price":  19500,
     "priceByGroup":  {
-                         "common":  18700,
-                         "special":  19700
+                         "common":  19500,
+                         "special":  20500
                      },
     "specialSizes":  [
                          6,
@@ -11295,6 +11550,92 @@
                    {
                        "name":  "Negro",
                        "hex":  "#000000"
+                   }
+               ],
+    "sizes":  [
+                  {
+                      "size":  "2",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "3",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "4",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "5",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "6",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "7",
+                      "status":  "available"
+                  },
+                  {
+                      "size":  "8",
+                      "status":  "available"
+                  }
+              ]
+},
+{
+    "section":  "mujer",
+    "type":  "camperas",
+    "name":  "Campera jersey con piel",
+    "season":  "invierno",
+    "image":  "images/campera_jersey_con_piel_negro.png",
+    "images":  {
+                    "Negro":  "images/campera_jersey_con_piel_negro.png",
+                    "Violeta":  "images/campera_jersey_con_piel_violeta.png",
+                    "Francia":  "images/campera_jersey_con_piel_francia.png",
+                    "Gris melange":  "images/campera_jersey_con_piel_gris_melange.png",
+                    "Azul marino":  "images/campera_jersey_con_piel_azul_marino.png",
+                    "Verde":  "images/campera_jersey_con_piel_verde.png",
+                    "Gris oscuro":  "images/campera_jersey_con_piel_gris_oscuro.png"
+                },
+    "price":  15000,
+    "priceByGroup":  {
+                         "common":  15000,
+                         "special":  16000
+                     },
+    "specialSizes":  [
+                         6,
+                         7,
+                         8
+                     ],
+    "colors":  [
+                   {
+                       "name":  "Negro",
+                       "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Violeta",
+                       "hex":  "#7B5BA1"
+                   },
+                   {
+                       "name":  "Francia",
+                       "hex":  "#0055A4"
+                   },
+                   {
+                       "name":  "Gris melange",
+                       "hex":  "#A9A9A9"
+                   },
+                   {
+                       "name":  "Azul marino",
+                       "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Verde",
+                       "hex":  "#2E7D32"
+                   },
+                   {
+                       "name":  "Gris oscuro",
+                       "hex":  "#4B4B4B"
                    }
                ],
     "sizes":  [

@@ -4,10 +4,12 @@ import json
 import os
 import re
 import unicodedata
+from html import escape as html_escape
 from pathlib import Path
 from threading import RLock
 import threading
 from typing import Dict, List, Tuple
+from urllib.parse import urljoin
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -208,6 +210,86 @@ def get_variant(product_id: str, color: str, size: str) -> dict | None:
     return load_variants().get(key)
 
 
+def absolute_url(request: Request, value: str) -> str:
+    raw = str(value or "").strip()
+    if not raw:
+        return ""
+    if raw.startswith("http://") or raw.startswith("https://"):
+        return raw
+    return urljoin(str(request.base_url), raw.lstrip("/"))
+
+
+def product_share_description(product: dict) -> str:
+    if not isinstance(product, dict):
+        return "Descubri calzas, joggers y outfits deportivos con estilo."
+
+    for key in ("description", "desc", "subtitle"):
+        value = str(product.get(key) or "").strip()
+        if value:
+            compact = re.sub(r"\s+", " ", value)
+            return compact[:220]
+
+    type_label = str(product.get("type") or "").strip()
+    section = str(product.get("section") or "").strip()
+    fallback = "Descubri calzas, joggers y outfits deportivos con estilo."
+    if type_label and section:
+        return f"{type_label} para {section}. {fallback}"
+    if type_label:
+        return f"{type_label}. {fallback}"
+    return fallback
+
+
+def product_share_image(request: Request, product: dict) -> str:
+    image = str(product.get("image") or "").strip()
+
+    if not image and isinstance(product.get("images"), dict):
+        image = next(
+            (str(src).strip() for src in product["images"].values() if str(src or "").strip()),
+            "",
+        )
+
+    if not image:
+        image = "images/logo-romix-social-1200x630.png"
+
+    return absolute_url(request, image)
+
+
+def inject_product_meta(
+    html_text: str,
+    *,
+    title: str,
+    description: str,
+    image_url: str,
+    page_url: str,
+) -> str:
+    safe_title = html_escape(title, quote=True)
+    safe_description = html_escape(description, quote=True)
+    safe_image = html_escape(image_url, quote=True)
+    safe_url = html_escape(page_url, quote=True)
+
+    replacements = {
+        '<meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">':
+        f'<meta property="og:title" content="{safe_title}">',
+        '<meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">':
+        f'<meta property="og:description" content="{safe_description}">',
+        '<meta property="og:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-1200x630.png">':
+        f'<meta property="og:image" content="{safe_image}">',
+        '<meta property="og:url" content="https://romix-ropas.vercel.app/">':
+        f'<meta property="og:url" content="{safe_url}">',
+        '<meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana">':
+        f'<meta name="twitter:title" content="{safe_title}">',
+        '<meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">':
+        f'<meta name="twitter:description" content="{safe_description}">',
+        '<meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-1200x630.png">':
+        f'<meta name="twitter:image" content="{safe_image}">',
+    }
+
+    rendered = html_text
+    for old, new in replacements.items():
+        rendered = rendered.replace(old, new, 1)
+    return rendered
+
+
 app = FastAPI(title="ROMIX API", version="1.0.0")
 
 # Permitir consumir desde el mismo host y uso local
@@ -313,15 +395,29 @@ def product_page(request: Request, slug: str):
             break
     if not product:
         raise HTTPException(status_code=404, detail="Producto no encontrado")
-    return templates.TemplateResponse(
-        "product.html",
-        {
-            "request": request,
-            "product_json": json.dumps(product, ensure_ascii=False),
-            "products_json": products_json(),
-            "slug": slug,
-        },
+
+    title_name = str(product.get("name") or "").strip() or "Producto"
+    og_title = f"{title_name} | ROMIX"
+    og_description = product_share_description(product)
+    og_image = product_share_image(request, product)
+    og_url = absolute_url(request, f"product/{slug}")
+
+    template = templates.get_template("product.html")
+    html_content = template.render(
+        request=request,
+        product_json=json.dumps(product, ensure_ascii=False),
+        products_json=products_json(),
+        slug=slug,
     )
+    html_with_meta = inject_product_meta(
+        html_content,
+        title=og_title,
+        description=og_description,
+        image_url=og_image,
+        page_url=og_url,
+    )
+
+    return HTMLResponse(content=html_with_meta)
 
 
 def ensure_product_exists(product_id: str) -> dict:

@@ -2011,8 +2011,13 @@
         const pid = encodeURIComponent(product && product.id ? String(product.id) : fallbackSlug);
         const slug = encodeURIComponent(fallbackSlug);
         const name = encodeURIComponent(String(product && product.name || ''));
-        const base = `product.html?id=${pid}&slug=${slug}&name=${name}`;
-        return buy ? `${base}&buy=1` : base;
+        const priceValue = Number(product && product.price ? product.price : 0);
+        const query = [`id=${pid}`, `slug=${slug}`, `name=${name}`];
+        if (Number.isFinite(priceValue) && priceValue > 0) {
+          query.push(`price=${encodeURIComponent(String(priceValue))}`);
+        }
+        if (buy) query.push('buy=1');
+        return `product.html?${query.join('&')}`;
       }
 
       function buildShareSlug(product) {
@@ -2069,11 +2074,16 @@
         return new URL(buildHref(product, false), location.origin + '/').href;
       }
 
+      function formatSharePrice(value) {
+        const num = Number(value || 0);
+        if (!Number.isFinite(num) || num <= 0) return '';
+        return `$${num.toLocaleString('es-AR')}`;
+      }
+
       function buildShareText(product, shareUrl) {
         const name = String(product && product.name ? product.name : 'Producto ROMIX').trim();
-        const priceValue = Number(product && product.price ? product.price : 0);
-        const price = priceValue > 0 ? ` - $${priceValue.toLocaleString('es-AR')}` : '';
-        return `${name}${price}\n${shareUrl}`;
+        const price = formatSharePrice(product && product.price);
+        return `${name}${price ? `\nPrecio: ${price}` : ''}\n${shareUrl}`;
       }
 
       function updateSharePanel(product) {
@@ -2086,6 +2096,11 @@
         const shareUrl = buildShareUrl(product);
         const shareText = buildShareText(product, shareUrl);
         const shareImage = firstProductImage(product);
+        const shareName = String(product && product.name ? product.name : 'Producto ROMIX').trim();
+        const sharePrice = formatSharePrice(product && product.price);
+        const shareTitle = sharePrice ? `${shareName} - ${sharePrice}` : shareName;
+        const shareDescription = String(product && product.description ? product.description : '').trim()
+          || 'Descubri este producto en ROMIX.';
         shareInput.value = shareUrl;
         waBtn.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
 
@@ -2095,9 +2110,12 @@
             return;
           }
           try {
+            const nativeTextParts = [];
+            if (sharePrice) nativeTextParts.push(`Precio: ${sharePrice}`);
+            if (shareDescription) nativeTextParts.push(shareDescription);
             await navigator.share({
-              title: String(product && product.name ? product.name : 'Producto ROMIX'),
-              text: String(product && product.description ? product.description : ''),
+              title: shareTitle,
+              text: nativeTextParts.join('\n'),
               url: shareUrl
             });
           } catch (error) {
@@ -2137,6 +2155,18 @@
         try {
           const ogImage = document.querySelector('meta[property="og:image"]');
           if (ogImage && shareImage) ogImage.setAttribute('content', shareImage);
+          const ogTitle = document.querySelector('meta[property="og:title"]');
+          if (ogTitle) ogTitle.setAttribute('content', shareTitle);
+          const ogDescription = document.querySelector('meta[property="og:description"]');
+          if (ogDescription) ogDescription.setAttribute('content', shareDescription);
+          const ogUrl = document.querySelector('meta[property="og:url"]');
+          if (ogUrl) ogUrl.setAttribute('content', shareUrl);
+          const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+          if (twitterTitle) twitterTitle.setAttribute('content', shareTitle);
+          const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+          if (twitterDescription) twitterDescription.setAttribute('content', shareDescription);
+          const twitterUrl = document.querySelector('meta[name="twitter:url"]');
+          if (twitterUrl) twitterUrl.setAttribute('content', shareUrl);
         } catch {}
       }
 
@@ -3056,7 +3086,10 @@
             </div>
           </div>
           `;
-        document.title = product.name ? `ROMIX - ${product.name}` : 'ROMIX - Detalle';
+        const pagePrice = formatSharePrice(product && product.price);
+        document.title = product.name
+          ? (pagePrice ? `ROMIX - ${product.name} - ${pagePrice}` : `ROMIX - ${product.name}`)
+          : 'ROMIX - Detalle';
 
         const mainImage = detail.querySelector('#main-image');
         const thumbContainer = detail.querySelector('#gallery-thumbs');

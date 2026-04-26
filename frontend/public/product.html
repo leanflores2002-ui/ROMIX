@@ -2007,8 +2007,9 @@
       }
 
       function buildHref(product, buy){
-        const pid = encodeURIComponent(product && product.id ? String(product.id) : slugifyName(product && product.name));
-        const slug = encodeURIComponent(slugifyName(product && product.name));
+        const fallbackSlug = slugifyName(product && product.name) || 'producto';
+        const pid = encodeURIComponent(product && product.id ? String(product.id) : fallbackSlug);
+        const slug = encodeURIComponent(fallbackSlug);
         const name = encodeURIComponent(String(product && product.name || ''));
         const base = `product.html?id=${pid}&slug=${slug}&name=${name}`;
         return buy ? `${base}&buy=1` : base;
@@ -2065,10 +2066,6 @@
       }
 
       function buildShareUrl(product) {
-        const slug = buildShareSlug(product);
-        if (slug) {
-          return new URL(`share/${encodeURIComponent(slug)}/`, location.origin + '/').href;
-        }
         return new URL(buildHref(product, false), location.origin + '/').href;
       }
 
@@ -2290,12 +2287,23 @@
 
       function findProduct(list){
         if (!Array.isArray(list)) return null;
+        const normalizedIdParam = String(idParam || '').trim().toLowerCase();
+        const normalizedSlugParam = normalizeSlug(slugParam);
         let product = null;
-        if (idParam) {
-          product = list.find(item => String(item.id) === idParam);
+        if (normalizedIdParam) {
+          product = list.find(item => {
+            const itemId = String(item && item.id ? item.id : '').trim().toLowerCase();
+            const nameSlug = slugifyName(item && item.name ? item.name : '');
+            const shareSlug = buildShareSlug(item);
+            return itemId === normalizedIdParam || nameSlug === normalizedIdParam || shareSlug === normalizedIdParam;
+          });
         }
-        if (!product && slugParam) {
-          product = list.find(item => slugifyName(item.name || '') === slugParam);
+        if (!product && normalizedSlugParam) {
+          product = list.find(item => {
+            const nameSlug = slugifyName(item && item.name ? item.name : '');
+            const shareSlug = buildShareSlug(item);
+            return nameSlug === normalizedSlugParam || shareSlug === normalizedSlugParam;
+          });
         }
         if (!product && nameParam) {
           const lower = nameParam.toLowerCase();

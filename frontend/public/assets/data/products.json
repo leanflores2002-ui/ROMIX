@@ -9,10 +9,10 @@
                     "Negro":  "images/calza_termica_lycra_chupin_dama_negro.png",
                     "Azul marino":  "images/calza_termica_lycra_chupin_dama_azul_marino.png"
                 },
-    "price":  10500,
+    "price":  11500,
     "priceByGroup":  {
-                         "common":  10500,
-                         "special":  11000
+                         "common":  11500,
+                         "special":  12000
                      },
     "specialSizes":  [
                          6,
@@ -76,10 +76,10 @@
                     "Azul marino":  "images/calza_termica_jaspeada_saplex_chupin_dama_azul_marino.png",
                     "Gris melange":  "images/calza_termica_jaspeada_saplex_chupin_dama_gris_melange.png"
                 },
-    "price":  11000,
+    "price":  12000,
     "priceByGroup":  {
-                         "common":  11000,
-                         "special":  11500
+                         "common":  12000,
+                         "special":  12500
                      },
     "specialSizes":  [
                          6,
@@ -148,10 +148,10 @@
     "images":  {
                     "Negro":  "images/calza_termica_lycra_recta_dama_negro.png"
                 },
-    "price":  12500,
+    "price":  13500,
     "priceByGroup":  {
-                         "common":  12500,
-                         "special":  13000
+                         "common":  13500,
+                         "special":  14000
                      },
     "specialSizes":  [
                          6,
@@ -207,10 +207,10 @@
                     "Azul marino":  "images/calza_termica_jaspeado_saplex_recta_dama_azul_marino.png",
                     "Violeta":  "images/calza_termica_jaspeado_saplex_recta_dama_violeta.png"
                 },
-    "price":  13000,
+    "price":  14000,
     "priceByGroup":  {
-                         "common":  13000,
-                         "special":  13500
+                         "common":  14000,
+                         "special":  14500
                      },
     "specialSizes":  [
                          6,
@@ -275,10 +275,10 @@
     "images":  {
                     "Negro":  "images/calza_termica_oxford_dama_negro.png"
                 },
-    "price":  12000,
+    "price":  13000,
     "priceByGroup":  {
-                         "common":  12000,
-                         "special":  12500
+                         "common":  13000,
+                         "special":  13500
                      },
     "specialSizes":  [
                          6,
@@ -338,10 +338,10 @@
                     "Gris oscuro":  "images/calza_con_piel_adentro_dama_gris_oscuro.png",
                     "Azul marino":  "images/calza_con_piel_adentro_dama_azul_marino.png"
                 },
-    "price":  10000,
+    "price":  11000,
     "priceByGroup":  {
-                         "common":  10000,
-                         "special":  10500
+                         "common":  11000,
+                         "special":  11500
                      },
     "specialSizes":  [
                          6,
@@ -406,10 +406,10 @@
     "images":  {
                     "Negro":  "images/calza_termica_doble_cintura_chupin_dama_negro.png"
                 },
-    "price":  11000,
+    "price":  12000,
     "priceByGroup":  {
-                         "common":  11000,
-                         "special":  11500
+                         "common":  12000,
+                         "special":  12500
                      },
     "specialSizes":  [
                          6,
@@ -466,8 +466,8 @@
         "images":  {
                        "Negro":  "images/pantalon_jogger_termico_negro.png"
                    },
-        "price":  13500,
-        "priceByGroup":  { "common":  13500, "special":  14100 },
+        "price":  14500,
+        "priceByGroup":  { "common":  14500, "special":  15300 },
         "originalPrice":  null,
         "badge":  null,
         "colors":  [
@@ -519,10 +519,10 @@
                     "Azul marino":  "images/pantalon_jogger_termica_jaspeado_dama_azul_marino.png",
                     "Violeta":  "images/pantalon_jogger_termica_jaspeado_dama_violeta.png"
                 },
-    "price":  14000,
+    "price":  15000,
     "priceByGroup":  {
-                         "common":  14000,
-                         "special":  14600
+                         "common":  15000,
+                         "special":  15800
                      },
     "specialSizes":  [
                          6,
@@ -593,7 +593,7 @@
     "price":  15500,
     "priceByGroup":  {
                          "common":  15500,
-                         "special":  16100
+                         "special":  16300
                      },
     "specialSizes":  [
                          6,
@@ -664,7 +664,7 @@
     "price":  16000,
     "priceByGroup":  {
                          "common":  16000,
-                         "special":  16600
+                         "special":  16800
                      },
     "specialSizes":  [
                          6,
@@ -727,7 +727,7 @@
     {
         "section":  "mujer",
         "type":  "Palazos",
-        "name":  "Palazo Morley Laviano",
+        "name":  "Palazo Morley Lanilla dama",
         "season":  "invierno",
         "featured":  true,
         "featuredBadge":  "Por agotarse",
@@ -737,10 +737,10 @@
                        "Gris":  "images/palazo_morley_liviano_gris.png",
                        "Azul":  "images/palazo_morley_liviano_azul.png"
                    },
-        "price":  11000,
+        "price":  12000,
         "priceByGroup":  {
-                             "common":  11000,
-                             "special":  11600
+                             "common":  12000,
+                             "special":  12800
                          },
         "originalPrice":  null,
         "badge":  null,
@@ -809,10 +809,10 @@
                     "Lila":  "images/Campera_termica_jaspeado_saplex_dama_lila.png",
                     "Gris oscuro":  "images/Campera_termica_jaspeado_saplex_dama_gris_oscuro.png"
                 },
-    "price":  17000,
+    "price":  18000,
     "priceByGroup":  {
-                         "common":  17000,
-                         "special":  17800
+                         "common":  18000,
+                         "special":  19000
                      },
     "specialSizes":  [
                          6,
@@ -1061,8 +1061,8 @@
                        "Verde":  "images/maxibuzo_frisado_algodon_sin_capucha_verde.png",
                        "Lila": "images/maxibuzo_frisado_algodon_sin_capucha_lila.png"
                    },
-        "price":  17200,
-        "priceByGroup":  { "common":  17200, "special":  18000 },
+        "price":  17500,
+        "priceByGroup":  { "common":  17500, "special":  18500 },
         "specialSizes":  [
                             6,
                             7,
@@ -1145,8 +1145,8 @@
                        "Gris oscuro": "images/maxibuzo_frizado_algodon_con_capucha_gris_oscuro.png",
                        "Rojo": "images/maxibuzo_frizado_algodon_con_capucha_rojo.png"
                    },
-        "price":  18000,
-        "priceByGroup":  { "common":  18000, "special":  18800 },
+        "price":  19000,
+        "priceByGroup":  { "common":  19000, "special":  20000 },
         "specialSizes":  [
                             6,
                             7,
@@ -1687,10 +1687,10 @@
                     "Bordó":  "images/camiseta_termica_dama_bordo.png",
                     "Gris":  "images/camiseta_termica_dama_gris.png"
                 },
-    "price":  10000,
+    "price":  11000,
     "priceByGroup":  {
-                         "common":  10000,
-                         "special":  10500
+                         "common":  11000,
+                         "special":  11500
                      },
     "specialSizes":  [
                          6,
@@ -1774,10 +1774,10 @@
                     "Marrón":  "images/camiseta_termica_hombre_marron.png",
                     "Gris":  "images/camiseta_termica_hombre_gris.png"
                 },
-    "price":  10500,
+    "price":  11500,
     "priceByGroup":  {
-                         "common":  10500,
-                         "special":  11000
+                         "common":  11500,
+                         "special":  12000
                      },
     "specialSizes":  [
                          6,
@@ -1840,8 +1840,8 @@
         "name":  "Calza Térmica liso Niña",
         "season":  "invierno",
         "image":  "images/calza_termica_nina_negro.png",
-        "price":  4600,
-        "priceByGroup":  { "common":  4600, "special":  5000 },
+        "price":  5500,
+        "priceByGroup":  { "common":  5500, "special":  6000 },
         "specialSizes":  [
                          12,
                          14,
@@ -1892,8 +1892,8 @@
                        "Francia":  "images/calza_termica_nina_jaspeado_francia.png",
                        "Gris oscuro":  "images/calza_termica_nina_jaspeado_gris_oscuro.png"
                    },
-        "price":  4600,
-        "priceByGroup":  { "common":  4600, "special":  5000 },
+        "price":  5500,
+        "priceByGroup":  { "common":  5500, "special":  6000 },
         "specialSizes":  [
                          12,
                          14,
@@ -6507,10 +6507,10 @@
                        "Negro":  "images/top_lycra_liso_negro.png",
                        "Gris melange":  "images/top_lycra_jaspeado_gris melange.png"
                     },
-        "price":  7000,
+        "price":  8000,
         "priceByGroup":  {
-                             "common":  7000,
-                             "special":  7500
+                             "common":  8000,
+                             "special":  8500
                          },
         "specialSizes":  [
                              6,
@@ -6581,10 +6581,10 @@
                    "Estampado 10":  "images/estampados/top_lycra_estampado_dama_estampado_10.png",
                    "Estampado 11":  "images/estampados/top_lycra_estampado_dama_estampado_11.png"
                },
-    "price":  7500,
+    "price":  8500,
     "priceByGroup":  {
-                         "common":  7500,
-                         "special":  8000
+                         "common":  8500,
+                         "special":  9000
                      },
     "specialSizes":  [
                          6,
@@ -6786,10 +6786,10 @@
                        "Azul":  "images/top_lycra_gofrado_azul.png",
                        "Verde":  "images/top_lycra_gofrado_verde.png"
                    },
-        "price":  7300,
+        "price":  8300,
         "priceByGroup":  {
-                             "common":  7300,
-                             "special":  7800
+                             "common":  8300,
+                             "special":  8800
                          },
         "specialSizes":  [
                              6,
@@ -6867,9 +6867,9 @@
                        "Azul":  "images/top_lycra_morley_azul.png",
                        "Verde":  "images/top_lycra_morley_verde.png"
                    },
-        "price":  7300,
+        "price":  8300,
         "priceByGroup":  {
-                             "common":  7300
+                             "common":  8300
                          },
         "colors":  [
                        {
@@ -6932,9 +6932,9 @@
                     "Azul marino":  "images/babucha_rustico_lycra_hombre_azul_marino.png",
                     "Gris oscuro":  "images/babucha_rustico_lycra_hombre_gris_oscuro.png"
                 },
-    "price":  14200,
+    "price":  14500,
     "priceByGroup":  {
-                         "common":  14200
+                         "common":  14500
                      },
     "colors":  [
                    {
@@ -6988,10 +6988,10 @@
                     "Azul":  "images/babucha_lycra_jogger_hombre_azul_jaspeado.png",
                     "Gris oscuro":  "images/babucha_lycra_jogger_hombre_gris_oscuro_jaspeado.png"
                 },
-    "price":  14500,
+    "price":  15500,
     "priceByGroup":  {
-                         "common":  14500,
-                         "special":  15100
+                         "common":  15500,
+                         "special":  16300
                      },
     "specialSizes":  [
                          6,
@@ -7024,10 +7024,10 @@
                     "Azul":  "images/babucha_termica_jogger_hombre_azul.png",
                     "Gris oscuro":  "images/babucha_termica_jogger_hombre_gris_oscuro.png"
                 },
-    "price":  15000,
+    "price":  16000,
     "priceByGroup":  {
-                         "common":  15000,
-                         "special":  15600
+                         "common":  16000,
+                         "special":  16800
                      },
     "specialSizes":  [
                          6,
@@ -7058,10 +7058,10 @@
     "images":  {
                     "Negro":  "images/babucha_lycra_jogger_hombre_negro.png"
                 },
-    "price":  14000,
+    "price":  15000,
     "priceByGroup":  {
-                         "common":  14000,
-                         "special":  14600
+                         "common":  15000,
+                         "special":  15800
                      },
     "specialSizes":  [
                          6,
@@ -7090,10 +7090,10 @@
     "images":  {
                     "Negro":  "images/babucha_lycra_termica_jogger_hombre_negro.png"
                 },
-    "price":  14500,
+    "price":  15500,
     "priceByGroup":  {
-                         "common":  14500,
-                         "special":  15100
+                         "common":  15500,
+                         "special":  16300
                      },
     "specialSizes":  [
                          6,
@@ -7128,7 +7128,7 @@
     "price":  16500,
     "priceByGroup":  {
                          "common":  16500,
-                         "special":  17100
+                         "special":  17300
                      },
     "specialSizes":  [
                          6,
@@ -7203,10 +7203,10 @@
                     "Azul":  "images/campera_jaspeado_saplex_hombre_azul_jaspeado.png",
                     "Gris melange":  "images/campera_jaspeado_saplex_hombre_gris_melange_jaspeado.png"
                 },
-    "price":  17000,
+    "price":  18000,
     "priceByGroup":  {
-                         "common":  17000,
-                         "special":  17800
+                         "common":  18000,
+                         "special":  19000
                      },
     "specialSizes":  [
                          6,
@@ -7237,10 +7237,10 @@
     "images":  {
                     "Negro":  "images/campera_jaspeado_saplex_hombre_negro.png"
                 },
-    "price":  16500,
+    "price":  17500,
     "priceByGroup":  {
-                         "common":  16500,
-                         "special":  17300
+                         "common":  17500,
+                         "special":  18500
                      },
     "specialSizes":  [
                          6,
@@ -7269,10 +7269,10 @@
     "images":  {
                     "Negro":  "images/campera_termica_hombre_negro.png"
                 },
-    "price":  17600,
+    "price":  18000,
     "priceByGroup":  {
-                         "common":  17600,
-                         "special":  18400
+                         "common":  18000,
+                         "special":  19000
                      },
     "specialSizes":  [
                          6,
@@ -8060,10 +8060,10 @@
                     "Gris":  "images/calza_lycra_nena_gris.png",
                     "Salmon":  "images/calza_lycra_nena_salmon.png"
                 },
-    "price":  4500,
+    "price":  5000,
     "priceByGroup":  {
-                         "common":  4500,
-                         "special":  4900
+                         "common":  5000,
+                         "special":  5500
                      },
     "specialSizes":  [
                          12,
@@ -8134,10 +8134,10 @@
                     "Gris melange":  "images/calza_jaspeado_saplex_nena_gris_melange.png",
                     "Violeta": "images/calza_jaspeado_saplex_nena_violeta.png"
                 },
-    "price":  4500,
+    "price":  5000,
     "priceByGroup":  {
-                         "common":  4500,
-                         "special":  4900
+                         "common":  5000,
+                         "special":  5500
                      },
     "specialSizes":  [
                          12,
@@ -8209,10 +8209,10 @@
                     "Azul marino":  "images/calza_algodon_lycra_nina_azul_marino.png",
                     "Gris oscuro":  "images/calza_algodon_lycra_nina_gris_oscuro.png"
                 },
-    "price":  4500,
+    "price":  5000,
     "priceByGroup":  {
-                         "common":  4500,
-                         "special":  4900
+                         "common":  5000,
+                         "special":  5500
                      },
     "specialSizes":  [
                          12,
@@ -8779,7 +8779,7 @@
     "section":  "ninos",
     "type":  "shorts",
     "name":  "Short algodón rústico chico",
-    "season":  "media-estacion",
+    "season":  "verano",
     "featured":  true,
     "featuredBadge":  "Nuevo",
     "image":  "images/short_algodon_rustico_chico_azul.png",
@@ -8843,10 +8843,10 @@
                     "Violeta":  "images/camiseta_termica_nina_violeta.png",
                     "Gris":  "images/camiseta_termica_nina_gris.png"
                 },
-    "price":  4800,
+    "price":  5500,
     "priceByGroup":  {
-                         "common":  4800,
-                         "special":  5200
+                         "common":  5500,
+                         "special":  6000
                      },
     "specialSizes":  [
                          12,
@@ -8920,10 +8920,10 @@
                     "Violeta":  "images/camiseta_termica_nino_violeta.png",
                     "Gris":  "images/camiseta_termica_nino_gris.png"
                 },
-    "price":  4800,
+    "price":  5500,
     "priceByGroup":  {
-                         "common":  4800,
-                         "special":  5200
+                         "common":  5500,
+                         "special":  6000
                      },
     "specialSizes":  [
                          12,
@@ -9199,10 +9199,10 @@
                        "Gris oscuro":  "images/babucha_jogger_rustico_cargo_gris oscuro.png"
                    },
 
-        "price":  14700,
+        "price":  15000,
         "priceByGroup":  {
-                             "common":  14700,
-                             "special":  15200
+                             "common":  15000,
+                             "special":  15600
                          },
         "specialSizes":  [
                              6
@@ -9425,10 +9425,10 @@
         "images":  {
                        "Negro":  "images/calza_lycra_recta_negro.png"
                    },
-        "price":  12000,
+        "price":  13000,
         "priceByGroup":  {
-                             "common":  12000,
-                             "special":  12500
+                             "common":  13000,
+                             "special":  13500
                          },
         "specialSizes":  [
                              6,
@@ -9484,10 +9484,10 @@
                        "Azul":  "images/Calza_algodon con lycra_recta_azul.png",
                        "Gris oscuro":  "images/Calza_algodon con lycra_recta_gris oscuro.png"
                    },
-        "price":  12500,
+        "price":  13000,
         "priceByGroup":  {
-                             "common":  12500,
-                             "special":  13000
+                             "common":  13000,
+                             "special":  13500
                          },
         "specialSizes":  [
                              6,
@@ -9554,10 +9554,10 @@
                        "Coral":  "images/calza_gofrada_lycra_coral.png",
                        "Gris":  "images/calza_gofrada_lycra_gris.png"
                    },
-        "price":  11500,
+        "price":  12500,
         "priceByGroup":  {
-                             "common":  11500,
-                             "special":  12000
+                             "common":  12500,
+                             "special":  13000
                          },
         "specialSizes":  [
                              6,
@@ -9642,10 +9642,10 @@
                        "Azul":  "images/calza_arrugada_azul.png",
                        "Gris":  "images/calza_arrugada_gris.png"
                     },
-        "price":  10000,
+        "price":  11000,
         "priceByGroup":  {
-                             "common":  10000,
-                             "special":  10500
+                             "common":  11000,
+                             "special":  11500
                          },
         "specialSizes":  [
                              6,
@@ -9712,15 +9712,20 @@
                        "Azul":  "images/calza_lycra_chupin_azul.png",
                        "Gris":  "images/calza_lycra_chupin_gris.png"
                    },
-        "price":  10000,
+        "price":  11000,
         "priceByGroup":  {
-                             "common":  10000,
-                             "special":  10500
+                             "common":  11000,
+                             "special":  11500,
+                             "special2":  12300
                          },
         "specialSizes":  [
                              6,
                              7,
                              8
+                         ],
+        "superSpecialSizes":  [
+                             9,
+                             10
                          ],
         "colors":  [
                        {
@@ -9767,6 +9772,14 @@
                       },
                       {
                           "size":  "8",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "9",
+                          "status":  "available"
+                      },
+                      {
+                          "size":  "10",
                           "status":  "available"
                       }
                   ]
@@ -10019,9 +10032,9 @@
         "images":  {
                        "Negro":  "images/calza_lycra_doble_cintura_negro.png"
                    },
-        "price":  10500,
+        "price":  11500,
         "priceByGroup":  {
-                             "common":  10500
+                             "common":  11500
                          },
         "colors":  [
                    {
@@ -10064,9 +10077,9 @@
                        "Violeta":  "images/calza_saplex_doble_cintura_violeta.png",
                        "Gris melange":  "images/calza_saplex_doble_cintura_gris melange.png"
                    },
-        "price":  11000,
+        "price":  12000,
         "priceByGroup":  {
-                             "common":  11000
+                             "common":  12000
                          },
         "colors":  [
                         {
@@ -10129,9 +10142,9 @@
                    "Estampado 9":  "images/estampados/calza_lycra_estampado_9.png",
                    "Estampado 10":  "images/estampados/calza_lycra_estampado_10.png"
                },
-    "price":  12000,
+    "price":  12500,
     "priceByGroup":  {
-                         "common":  12000
+                         "common":  12500
                      },
     "colors":  [
                    {
@@ -10300,9 +10313,9 @@
         "images":  {
                        "Negro":  "images/Calza_lycra_frunce_negro.png"
                    },
-        "price":  9500,
+        "price":  10000,
         "priceByGroup":  {
-                             "common":  9500
+                             "common":  10000
                          },
         "colors":  [
                    {
@@ -10349,9 +10362,9 @@
                        "Azul lavanda":  "images/calza_lycra_morley_azul lavanda.png",
                        "Gris":  "images/calza_lycra_morley_gris.png"
                    },
-        "price":  10500,
+        "price":  11500,
         "priceByGroup":  {
-                             "common":  10500
+                             "common":  11500
                          },
         "colors":  [
                        {
@@ -10411,10 +10424,10 @@
         "images":  {
                        "Negro":  "images/calza_oxfor_negro.png"
                    },
-        "price":  11500,
+        "price":  12500,
         "priceByGroup":  {
-                             "common":  11500,
-                             "special":  12000
+                             "common":  12500,
+                             "special":  13000
                          },
         "specialSizes":  [
                              6,
@@ -10474,10 +10487,10 @@
                        "Violeta":  "images/calza_oxfor_saplex_jaspeado_violeta.png",
                        "Gris melange":  "images/calza_oxfor_saplex_jaspeado_gris melange.png"
                    },
-        "price":  12000,
+        "price":  13000,
         "priceByGroup":  {
-                             "common":  12000,
-                             "special":  12500
+                             "common":  13000,
+                             "special":  13500
                          },
         "specialSizes":  [
                              6,
@@ -10551,10 +10564,10 @@
                        "Azul lavanda":  "images/calza_oxford_morley_azul lavanda.png",
                        "Gris":  "images/calza_oxford_morley_gris.png"
                    },
-        "price":  12500,
+        "price":  13500,
         "priceByGroup":  {
-                             "common":  12500,
-                             "special":  13000
+                             "common":  13500,
+                             "special":  14000
                          },
         "specialSizes":  [
                              6,
@@ -10631,10 +10644,10 @@
                        "Azul":  "images/calza_saplex_chupin_jaspeado_azul.png",
                        "Gris oscuro":  "images/calza_saplex_chupin_jaspeado_gris oscuro.png"
                    },
-        "price":  10500,
+        "price":  11500,
         "priceByGroup":  {
-                             "common":  10500,
-                             "special":  11000
+                             "common":  11500,
+                             "special":  12000
                          },
         "specialSizes":  [
                              6,
@@ -10710,10 +10723,10 @@
                        "Azul":  "images/calza_saplex_recta_jaspeado_azul.png",
                        "Gris melange":  "images/calza_saplex_recta_jaspeado_gris melange.png"                 
                    },
-        "price":  12500,
+        "price":  13500,
         "priceByGroup":  {
-                             "common":  12500,
-                             "special":  13000
+                             "common":  13500,
+                             "special":  14000
                          },
         "specialSizes":  [
                              6,
@@ -10784,10 +10797,10 @@
                     "Lila":  "images/campera_jaspeado_saplex_dama_lila.png",
                     "Gris oscuro":  "images/campera_jaspeado_saplex_dama_gris_oscuro.png"
                 },
-    "price":  15800,
+    "price":  17000,
     "priceByGroup":  {
-                         "common":  15800,
-                         "special":  16600
+                         "common":  17000,
+                         "special":  18000
                      },
     "specialSizes":  [
                          6,
@@ -10872,10 +10885,10 @@
                        "Gris":  "images/campera_lycra_gris.png",
                        "Bordo":  "images/campera_lycra_bordo.png"
                    },
-        "price":  15400,
+        "price":  16500,
         "priceByGroup":  {
-                             "common":  15400,
-                             "special":  16200
+                             "common":  16500,
+                             "special":  17500
                          },
         "specialSizes":  [
                              6,
@@ -10977,10 +10990,10 @@
                    "Estampado 14":  "images/estampados/campera_lycra_estampado_14.png",
                    "Estampado 15":  "images/estampados/campera_lycra_estampado_15.png"
                },
-    "price":  19400,
+    "price":  19500,
     "priceByGroup":  {
-                         "common":  19400,
-                         "special":  20200
+                         "common":  19500,
+                         "special":  20500
                      },
     "specialSizes":  [
                          6,
@@ -11110,10 +11123,10 @@
                        "Azul lavanda":  "images/campera_lycra_morley_azul_lavanda.png",
                        "Gris":  "images/campera_lycra_morley_gris.png"
                    },
-        "price":  17500,
+        "price":  18500,
         "priceByGroup":  {
-                             "common":  17500,
-                             "special":  18300
+                             "common":  18500,
+                             "special":  19500
                          },
         "specialSizes":  [
                              6,
@@ -11191,10 +11204,10 @@
                        "Fucsia":  "images/campera_modal_fucsia.png",
                        "Lila":  "images/campera_modal_lila.png"
                     },
-        "price":  9600,
+        "price":  10500,
         "priceByGroup":  {
-                             "common":  9600,
-                             "special":  10400
+                             "common":  10500,
+                             "special":  11500
                          },
         "specialSizes":  [
                              6,
@@ -11280,7 +11293,7 @@
     "price":  17500,
     "priceByGroup":  {
                          "common":  17500,
-                         "special":  18300
+                         "special":  18500
                      },
     "specialSizes":  [
                          6
@@ -11536,10 +11549,10 @@
     "images":  {
                     "Negro":  "images/campera_termica_lycra_dama_negro.png"
                 },
-    "price":  16500,
+    "price":  17500,
     "priceByGroup":  {
-                         "common":  16500,
-                         "special":  17300
+                         "common":  17500,
+                         "special":  18500
                      },
     "specialSizes":  [
                          6,
@@ -11678,10 +11691,10 @@
         "images":  {
                        "Negro":  "images/pantalon_jogger_lycra_negro.png"
                    },
-        "price":  13000,
+        "price":  14000,
         "priceByGroup":  {
-                             "common":  13000,
-                             "special":  13600
+                             "common":  14000,
+                             "special":  14600
                          },
         "specialSizes":  [
                              6,
@@ -11743,10 +11756,10 @@
                        "Purpura":  "images/pantalon_jogger_saplex_jaspeado_purpura.png",
                        "Gris oscuro":  "images/pantalon_jogger_saplex_jaspeado_gris oscuro.png"
                    },
-        "price":  13500,
+        "price":  14500,
         "priceByGroup":  {
-                             "common":  13500,
-                             "special":  14100
+                             "common":  14500,
+                             "special":  15100
                          },
         "specialSizes":  [
                              6,
@@ -11830,10 +11843,10 @@
                        "Gris oscuro":  "images/pantalon_jogger_rustico_gris oscuro.png",
                        "Gris melange":  "images/pantalon_jogger_rustico_gris melange.png"
                    },
-        "price":  13000,
+        "price":  13500,
         "priceByGroup":  {
-                             "common":  13000,
-                             "special":  13500
+                             "common":  13500,
+                             "special":  14100
                          },
         "specialSizes":  [
                              6,
@@ -12012,7 +12025,7 @@
         "price":  11000,
         "priceByGroup":  {
                              "common":  11000,
-                             "special":  11500
+                             "special":  11600
                          },
         "specialSizes":  [
                              6,

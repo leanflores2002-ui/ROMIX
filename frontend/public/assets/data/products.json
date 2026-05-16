@@ -12344,67 +12344,6 @@
                       "status":  "available"
                   }
               ]
-},
-{
-    "section":  "mujer",
-    "type":  "camperas",
-    "name":  "Chaleco inflable dama",
-    "season":  "invierno",
-    "image":  "images/chaleco_inflable_dama_invierno_violeta.png",
-    "images":  {
-                    "Violeta":  "images/chaleco_inflable_dama_invierno_violeta.png",
-                    "Fucsia":  "images/chaleco_inflable_dama_invierno_fucsia.png",
-                    "Gris melange":  "images/chaleco_inflable_dama_invierno_gris_melange.png",
-                    "Beige":  "images/chaleco_inflable_dama_invierno_beige.png"
-                },
-    "price":  10000,
-    "priceByGroup":  {
-                         "common":  10000,
-                         "special":  11000
-                     },
-    "originalPrice": 18000,
-    "badge": "oferta",   
-    "specialSizes":  [
-                         6,
-                         7,
-                         8
-                     ],
-    "colors":  [
-                   {
-                       "name":  "Violeta",
-                       "hex":  "#8F00FF"
-                   },
-                   {
-                       "name":  "Fucsia",
-                       "hex":  "#FF00FF"
-                   },
-                   {
-                       "name":  "Gris melange",
-                       "hex":  "#A9A9A9"
-                   },
-                   {
-                       "name":  "Beige",
-                       "hex":  "#E5D3B3"
-                   }
-               ],
-    "sizes":  [
-                  {
-                      "size":  "2",
-                      "status":  "available"
-                  },
-                  {
-                      "size":  "4",
-                      "status":  "available"
-                  },
-                  {
-                      "size":  "6",
-                      "status":  "available"
-                  },
-                  {
-                      "size":  "8",
-                      "status":  "available"
-                  }
-              ]
 }
 
 ]

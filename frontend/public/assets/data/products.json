@@ -7,7 +7,9 @@
     "image":  "images/calza_termica_lycra_chupin_dama_negro.png",
     "images":  {
                     "Negro":  "images/calza_termica_lycra_chupin_dama_negro.png",
-                    "Azul marino":  "images/calza_termica_lycra_chupin_dama_azul_marino.png"
+                    "Azul marino":  "images/calza_termica_lycra_chupin_dama_azul_marino.png",
+                    "Gris":  "images/calza_termica_lycra_chupin_dama_gris.png",
+                    "Chocolate":"images/calza_termica_lycra_chupin_dama_chocolate.png"
                 },
     "price":  11500,
     "priceByGroup":  {
@@ -27,6 +29,14 @@
                    {
                        "name":  "Azul marino",
                        "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Gris",
+                       "hex":  "#808080"
+                   },
+                   {
+                       "name":  "Chocolate",
+                       "hex":  "#A52A2A"
                    }
                ],
     "sizes":  [
@@ -146,7 +156,8 @@
     "season":  "invierno",
     "image":  "images/calza_termica_lycra_recta_dama_negro.png",
     "images":  {
-                    "Negro":  "images/calza_termica_lycra_recta_dama_negro.png"
+                    "Negro":  "images/calza_termica_lycra_recta_dama_negro.png",
+                    "Chocolate":  "images/calza_termica_lycra_recta_dama_chocolate.png"
                 },
     "price":  13500,
     "priceByGroup":  {
@@ -162,6 +173,10 @@
                    {
                        "name":  "Negro",
                        "hex":  "#000000"
+                   },
+                   {
+                       "name":  "Chocolate",
+                       "hex":  "#A52A2A"
                    }
                ],
     "sizes":  [

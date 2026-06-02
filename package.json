@@ -7,6 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "build": "npm run generate:share-pages",
     "test": "node tests/pageTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js",
     "sync:price-groups": "node scripts/addPriceByGroupPlaceholder.js",
     "generate:share-pages": "node scripts/generate-share-pages.js"

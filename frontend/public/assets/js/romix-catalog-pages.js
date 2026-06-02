@@ -876,8 +876,7 @@
     const grid = document.getElementById("product-grid");
     if (!grid) return;
     const allowVariantPreview = state.scope === "catalogo" || state.scope === "mujer" || state.scope === "hombre" || state.scope === "ninos" || state.scope === "novedades";
-    const cardPreviewLimit = window.innerWidth <= 640 ? 3 : 4;
-
+    const variantPreviewLimit = window.innerWidth <= 640 ? 3 : 4;
     grid.innerHTML = "";
 
     if (!state.view.length) {
@@ -957,7 +956,7 @@
       if (allowVariantPreview && Array.isArray(product.colors) && product.colors.length > 0) {
         const variants = document.createElement("div");
         variants.className = "product-variants";
-        const visibleColors = product.colors.slice(0, cardPreviewLimit);
+        const visibleColors = product.colors.slice(0, variantPreviewLimit);
 
         visibleColors.forEach((color, index) => {
           const button = document.createElement("button");
@@ -989,11 +988,11 @@
           variants.appendChild(button);
         });
 
-        if (product.colors.length > cardPreviewLimit) {
+        if (product.colors.length > visibleColors.length) {
           const more = document.createElement("span");
           more.className = "variant-more";
-          more.textContent = "+" + (product.colors.length - cardPreviewLimit);
-          more.setAttribute("aria-label", "Hay " + (product.colors.length - cardPreviewLimit) + " colores adicionales");
+          more.textContent = "+" + (product.colors.length - visibleColors.length);
+          more.setAttribute("aria-label", "Hay " + (product.colors.length - visibleColors.length) + " colores adicionales");
           variants.appendChild(more);
         }
 
@@ -1025,35 +1024,9 @@
       priceRow.appendChild(price);
       priceRow.appendChild(stock);
 
-      const actions = document.createElement("div");
-      actions.className = "product-actions";
-
-      const details = document.createElement("a");
-      details.className = "btn-card btn-card-details";
-      details.href = productDetailUrl;
-      details.textContent = "Detalles";
-
-      const buy = document.createElement("button");
-      buy.type = "button";
-      buy.className = "btn-card btn-card-buy";
-      buy.textContent = "Agregar";
-
-      if (product.stockStatus === "out") {
-        buy.disabled = true;
-        buy.textContent = "Sin stock";
-      } else {
-        buy.addEventListener("click", function () {
-          addToCart(product, selectedColor);
-        });
-      }
-
-      actions.appendChild(details);
-      actions.appendChild(buy);
-
       body.appendChild(name);
       body.appendChild(meta);
       body.appendChild(priceRow);
-      body.appendChild(actions);
 
       card.appendChild(thumb);
       card.appendChild(body);

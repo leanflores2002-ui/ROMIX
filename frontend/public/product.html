@@ -2072,11 +2072,16 @@
         return new URL(buildHref(product, false), location.origin + '/').href;
       }
 
-      function buildShareText(product, shareUrl) {
+      function buildShareMessageBody(product) {
         const name = String(product && product.name ? product.name : 'Producto ROMIX').trim();
-        const priceValue = Number(product && product.price ? product.price : 0);
-        const price = priceValue > 0 ? ` - $${priceValue.toLocaleString('es-AR')}` : '';
-        return `${name}${price}\n${shareUrl}`;
+        const priceLines = buildSharePriceLines(product);
+        const body = priceLines.length ? `\n${priceLines.join('\n')}` : '';
+        return `${name} -${body}`;
+      }
+
+      function buildShareText(product, shareUrl) {
+        const body = buildShareMessageBody(product);
+        return shareUrl ? `${body}\n\n${shareUrl}` : body;
       }
 
       function updateSharePanel(product) {
@@ -2098,9 +2103,10 @@
             return;
           }
           try {
+            const shareMessage = buildShareMessageBody(product);
             await navigator.share({
               title: String(product && product.name ? product.name : 'Producto ROMIX'),
-              text: String(product && product.description ? product.description : ''),
+              text: shareMessage,
               url: shareUrl
             });
           } catch (error) {
@@ -2195,6 +2201,233 @@
         }
         const groupPrice = product.priceByGroup[group];
         return groupPrice != null ? Number(groupPrice) : base;
+      }
+
+      function normalizeProductSizeValue(sizeEntry) {
+        if (sizeEntry && typeof sizeEntry === 'object') {
+          return String(sizeEntry.size ?? sizeEntry.value ?? sizeEntry.label ?? '').trim();
+        }
+        return String(sizeEntry ?? '').trim();
+      }
+
+      function getOrderedProductSizes(product) {
+        const sizes = Array.isArray(product && product.sizes) ? product.sizes : [];
+        const seen = new Set();
+        const values = sizes.reduce((acc, entry) => {
+          const value = normalizeProductSizeValue(entry);
+          if (!value) return acc;
+          const key = value.toUpperCase();
+          if (seen.has(key)) return acc;
+          seen.add(key);
+          acc.push(value);
+          return acc;
+        }, []);
+
+        if (!values.length) return values;
+        const allNumeric = values.every((value) => /^-?\d+$/.test(value));
+        if (allNumeric) {
+          return values.slice().sort((a, b) => Number(a) - Number(b));
+        }
+
+        const knownSizeOrder = ['XXXS', 'XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL', 'U'];
+        const orderMap = new Map(knownSizeOrder.map((value, index) => [value, index]));
+        const allKnown = values.every((value) => orderMap.has(value.toUpperCase()));
+        if (!allKnown) return values;
+
+        return values.slice().sort((a, b) => {
+          return orderMap.get(a.toUpperCase()) - orderMap.get(b.toUpperCase());
+        });
+      }
+
+      function sizeListIncludes(sizeList, sizeValue) {
+        if (!Array.isArray(sizeList) || !sizeList.length) return false;
+        const rawTarget = String(sizeValue ?? '').trim();
+        const numericTarget = Number(rawTarget);
+        const isNumericTarget = rawTarget !== '' && !Number.isNaN(numericTarget);
+
+        return sizeList.some((entry) => {
+          const current = normalizeProductSizeValue(entry);
+          if (!current) return false;
+          if (isNumericTarget) {
+            const currentNumber = Number(current);
+            if (!Number.isNaN(currentNumber)) return currentNumber === numericTarget;
+          }
+          return current.toUpperCase() === rawTarget.toUpperCase();
+        });
+      }
+
+      function getFallbackPriceGroupForSize(sizeValue, productSection) {
+        const sizeNum = Number(sizeValue);
+        const section = String(productSection || '').toLowerCase();
+        if (section === 'mujer' || section === 'hombre') {
+          if (sizeNum >= 1 && sizeNum <= 5) return 'common';
+          if (sizeNum >= 6 && sizeNum <= 8) return 'special';
+          if (sizeNum === 9 || sizeNum === 10) return 'special2';
+        }
+        if (section === 'niños' || section === 'ninos' || section === 'nino') {
+          if ([2,4,6,8,10].includes(sizeNum)) return 'common';
+          if ([12,14,16].includes(sizeNum)) return 'special';
+        }
+        return null;
+      }
+
+      function getPriceGroupForSize(sizeValue, productSection) {
+        return getFallbackPriceGroupForSize(sizeValue, productSection);
+      }
+
+      function getPriceGroupForProductSize(product, sizeValue) {
+        const priceByGroup = product && product.priceByGroup;
+        if (priceByGroup && typeof priceByGroup === 'object') {
+          if (sizeListIncludes(product.specialSizes2, sizeValue) && priceByGroup.special2 != null) {
+            return 'special2';
+          }
+          if (sizeListIncludes(product.specialSizes, sizeValue) && priceByGroup.special != null) {
+            return 'special';
+          }
+
+          const hasDeclaredSpecialGroups = Array.isArray(product.specialSizes) || Array.isArray(product.specialSizes2);
+          if (hasDeclaredSpecialGroups && priceByGroup.common != null) {
+            return 'common';
+          }
+
+          const groupKeys = Object.keys(priceByGroup);
+          if (groupKeys.length === 1 && groupKeys[0] === 'common') {
+            return 'common';
+          }
+        }
+
+        return getFallbackPriceGroupForSize(sizeValue, product && product.section);
+      }
+
+      function getPriceForSize(product, sizeValue) {
+        const group = getPriceGroupForProductSize(product, sizeValue);
+        const base = Number(product.price || 0);
+        if (!group || !product.priceByGroup || typeof product.priceByGroup !== 'object') {
+          return base;
+        }
+        const groupPrice = product.priceByGroup[group];
+        return groupPrice != null ? Number(groupPrice) : base;
+      }
+
+      function formatProductPrice(value) {
+        return '$' + Number(value || 0).toLocaleString('es-AR');
+      }
+
+      function formatSizeRunLabel(run) {
+        if (!Array.isArray(run) || !run.length) return '';
+        if (run.length === 1) return `T${run[0]}`;
+        return `T${run[0]}-${run[run.length - 1]}`;
+      }
+
+      function getSizeRuns(sizeValues) {
+        if (!Array.isArray(sizeValues) || !sizeValues.length) return [];
+        const allNumeric = sizeValues.every((value) => /^-?\d+$/.test(value));
+        if (!allNumeric) {
+          const knownSizeOrder = ['XXXS', 'XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL', 'U'];
+          const orderMap = new Map(knownSizeOrder.map((value, index) => [value, index]));
+          const allKnown = sizeValues.every((value) => orderMap.has(String(value).toUpperCase()));
+          if (!allKnown) return sizeValues.map((value) => [value]);
+
+          const runs = [];
+          let currentRun = [];
+          let previousIndex = null;
+
+          sizeValues.forEach((value) => {
+            const currentIndex = orderMap.get(String(value).toUpperCase());
+            if (!currentRun.length || currentIndex === previousIndex + 1) {
+              currentRun.push(value);
+            } else {
+              runs.push(currentRun);
+              currentRun = [value];
+            }
+            previousIndex = currentIndex;
+          });
+
+          if (currentRun.length) runs.push(currentRun);
+          return runs;
+        }
+
+        const numbers = sizeValues.map((value) => Number(value));
+        const runs = [];
+        let currentRun = [sizeValues[0]];
+        let currentStep = null;
+
+        for (let index = 1; index < numbers.length; index += 1) {
+          const diff = numbers[index] - numbers[index - 1];
+          const canExtend =
+            diff > 0 &&
+            diff <= 2 &&
+            (currentStep == null || currentStep === diff);
+
+          if (canExtend) {
+            currentRun.push(sizeValues[index]);
+            if (currentStep == null) currentStep = diff;
+            continue;
+          }
+
+          runs.push(currentRun);
+          currentRun = [sizeValues[index]];
+          currentStep = null;
+        }
+
+        if (currentRun.length) runs.push(currentRun);
+        return runs;
+      }
+
+      function formatSizeLabels(sizeValues) {
+        return getSizeRuns(sizeValues)
+          .map((run) => formatSizeRunLabel(run))
+          .filter(Boolean)
+          .join(', ');
+      }
+
+      function getBaseProductPrice(product) {
+        const base = Number(product && product.price ? product.price : 0);
+        if (base > 0) return base;
+        if (product && product.priceByGroup && typeof product.priceByGroup === 'object') {
+          const fallbackKeys = ['common', 'special', 'special2'];
+          for (const key of fallbackKeys) {
+            if (product.priceByGroup[key] != null) return Number(product.priceByGroup[key]);
+          }
+          const firstValue = Object.values(product.priceByGroup).find((value) => value != null);
+          if (firstValue != null) return Number(firstValue);
+        }
+        return 0;
+      }
+
+      function buildSharePriceLines(product) {
+        const sizes = getOrderedProductSizes(product);
+        const basePrice = getBaseProductPrice(product);
+        const isUniqueSize = sizes.length === 1 && sizes[0].toUpperCase() === 'U';
+        if (!sizes.length || isUniqueSize) {
+          return basePrice > 0 ? [formatProductPrice(basePrice)] : [];
+        }
+
+        const lines = [];
+        let currentPrice = null;
+        let currentSizes = [];
+
+        sizes.forEach((sizeValue) => {
+          const sizePrice = getPriceForSize(product || {}, sizeValue);
+          if (!currentSizes.length || sizePrice === currentPrice) {
+            currentSizes.push(sizeValue);
+            currentPrice = sizePrice;
+            return;
+          }
+
+          const sizeLabel = formatSizeLabels(currentSizes);
+          if (sizeLabel) lines.push(`${sizeLabel} ${formatProductPrice(currentPrice)}`);
+          currentSizes = [sizeValue];
+          currentPrice = sizePrice;
+        });
+
+        if (currentSizes.length) {
+          const sizeLabel = formatSizeLabels(currentSizes);
+          if (sizeLabel) lines.push(`${sizeLabel} ${formatProductPrice(currentPrice)}`);
+        }
+
+        if (lines.length) return lines;
+        return basePrice > 0 ? [formatProductPrice(basePrice)] : [];
       }
 
       function updatePriceForSize(product, sizeValue){

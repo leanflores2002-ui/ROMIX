@@ -4,114 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redirigiendo...</title>
-  <noscript><meta http-equiv="refresh" content="0; url=/index.html" /></noscript>
-  <link rel="icon" href="/images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="/images/logo-romix.png" />
+  <meta http-equiv="refresh" content="0; url=index.html" />
+  <script>window.location.replace('index.html');</script>
+  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix.png" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ROMIX">
   <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">
   <meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta property="og:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-1200x630.png">
-  <meta property="og:url" content="https://romix-ropas.vercel.app/">
+  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg">
+  <meta property="og:url" content="https://romi-damas.netlify.app/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana">
   <meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-1200x630.png">
-  <link rel="stylesheet" href="/assets/css/romix-header.css">
-  <script>
-    (function () {
-      var homeUrl = '/index.html';
-      var shareMatch = (window.location.pathname || '').match(/^\/share\/([^/]+)\/?$/i);
-
-      function slugify(value) {
-        var raw = String(value || '').trim();
-        if (!raw) return 'producto';
-        try {
-          raw = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        } catch (error) {}
-        return raw.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'producto';
-      }
-
-      function productSlug(product) {
-        var baseSource = product && (product.name || product.id) ? (product.name || product.id) : 'producto';
-        var baseSlug = slugify(baseSource) || 'producto';
-        var rawId = String(product && product.id ? product.id : '').trim();
-        if (!rawId) return baseSlug;
-        var idSlug = slugify(rawId);
-        if (!idSlug || idSlug === baseSlug || baseSlug.slice(-(idSlug.length + 1)) === ('-' + idSlug)) return baseSlug;
-        return baseSlug + '-' + idSlug;
-      }
-
-      function buildDetailUrl(product, slug) {
-        var pid = encodeURIComponent(String(product && product.id ? product.id : slug || 'producto'));
-        var safeSlug = encodeURIComponent(String(slug || 'producto'));
-        var name = encodeURIComponent(String(product && product.name ? product.name : '').trim());
-        return '/product.html?id=' + pid + '&slug=' + safeSlug + '&name=' + name;
-      }
-
-      function updateFallback(url, text) {
-        var target = url || homeUrl;
-        var link = document.getElementById('redirect-link');
-        var status = document.getElementById('redirect-copy');
-        if (link) link.href = target;
-        if (link && text) link.textContent = text;
-        if (status && text) status.textContent = text === 'Abrir producto' ? 'Abriendo producto...' : 'Redirigiendo a inicio...';
-        return target;
-      }
-
-      function go(url, text) {
-        var target = updateFallback(url, text);
-        window.location.replace(target);
-      }
-
-      window.addEventListener('DOMContentLoaded', function () {
-        updateFallback(homeUrl, 'Ir al inicio');
-      });
-
-      if (!shareMatch) {
-        go(homeUrl, 'Ir al inicio');
-        return;
-      }
-
-      var slug = decodeURIComponent(shareMatch[1]);
-      updateFallback(homeUrl, 'Buscando producto...');
-
-      fetch('/assets/data/products.json', { cache: 'no-store' })
-        .then(function (response) {
-          if (!response.ok) throw new Error('products.json');
-          return response.json();
-        })
-        .then(function (products) {
-          var list = Array.isArray(products) ? products : [];
-          var product = list.find(function (entry) {
-            return productSlug(entry) === slug;
-          });
-          if (!product) {
-            go(homeUrl, 'Ir al inicio');
-            return;
-          }
-          go(buildDetailUrl(product, slug), 'Abrir producto');
-        })
-        .catch(function () {
-          go(homeUrl, 'Ir al inicio');
-        });
-    })();
-  </script>
+  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg">  <link rel="stylesheet" href="assets/css/romix-header.css">
 </head>
 <body>
   <header class="site-header romix-shared-header">
     <div class="container header-row">
-      <a class="brand" href="/index.html" aria-label="ROMIX inicio">
-        <img src="/images/logo-romix.png" alt="Logo ROMIX" />
+      <a class="brand" href="index.html" aria-label="ROMIX inicio">
+        <img src="images/logo-romix.png" alt="Logo ROMIX" />
         ROMIX<span class="brand-dot">.</span>
       </a>
 
       <nav aria-label="Principal">
         <ul class="main-nav">
-          <li><a href="/mujer.html">Mujer</a></li>
-          <li><a href="/hombre.html">Hombre</a></li>
-          <li><a href="/ninos.html">Ninos</a></li>
-          <li><a href="/novedades.html">Novedades</a></li>
+          <li><a href="mujer.html">Mujer</a></li>
+          <li><a href="hombre.html">Hombre</a></li>
+          <li><a href="ninos.html">Ninos</a></li>
+          <li><a href="novedades.html">Novedades</a></li>
         </ul>
       </nav>
 
@@ -122,7 +43,7 @@
             <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
         </button>
-        <a class="icon-btn" href="/cart.html" aria-label="Carrito de compras">
+        <a class="icon-btn" href="cart.html" aria-label="Carrito de compras">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             <circle cx="10" cy="19" r="1.4" fill="currentColor" />
@@ -135,17 +56,15 @@
 
     <div class="search-panel" id="header-search">
       <div class="container">
-        <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="/catalogo.html" method="get">
-          <input type="hidden" name="_from404" value="1" />
+        <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
           <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
           <button type="submit">Buscar</button>
         </form>
       </div>
     </div>
   </header>
-  <p id="redirect-copy">Redirigiendo...</p>
-  <p><a id="redirect-link" href="/index.html">Ir al inicio</a></p>
-  <script src="/assets/js/romix-header.js"></script>
+  <p>Redirigiendo a <a href="index.html">inicio</a>...</p>
+  <script src="assets/js/romix-header.js"></script>
 </body>
 </html>
 

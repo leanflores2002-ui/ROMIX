@@ -88,6 +88,7 @@
     scope: "catalogo",
     products: [],
     view: [],
+    compactVariantViewport: window.innerWidth <= 768,
     sortBy: "recommended",
     searchQueryRaw: "",
     searchQueryNorm: "",
@@ -98,6 +99,7 @@
       sections: new Set(),
       colors: new Set(),
       categories: new Set(),
+      types: new Set(),
       seasons: new Set(),
       sizes: new Set()
     },
@@ -105,6 +107,7 @@
       sections: new Map(),
       colors: new Map(),
       categories: new Map(),
+      types: new Map(),
       seasons: new Map(),
       sizes: new Map()
     },
@@ -112,6 +115,10 @@
     showAllSizes: false,
     sizeValues: []
   };
+
+  function isCompactVariantViewport() {
+    return window.innerWidth <= 768;
+  }
 
   function stripAccents(value) {
     const raw = value == null ? "" : String(value);
@@ -263,6 +270,10 @@
     return categoryKeyFromType(key);
   }
 
+  function normalizeTypeFilterValue(value) {
+    return normalizeText(value).replace(/\s+/g, " ").trim();
+  }
+
   function normalizeSeasonFilterValue(value) {
     const key = normalizeText(value);
     if (!key) return "";
@@ -277,6 +288,17 @@
     const key = normalizeSection(value);
     if (key === "mujer" || key === "hombre" || key === "ninos") return key;
     return "";
+  }
+
+  function normalizeSizeFilterValue(value) {
+    const raw = normalizeText(value)
+      .replace(/\banos?\b/g, "")
+      .replace(/\baños?\b/g, "")
+      .trim();
+    if (!raw) return "";
+    const match = raw.match(/\d+/);
+    if (match && match[0]) return match[0];
+    return raw.replace(/\s+/g, " ");
   }
 
   function tokenizeSearch(value) {
@@ -352,7 +374,7 @@
     }
 
     const keys = [];
-    ["categories", "categoria", "category", "cat"].forEach((param) => {
+    ["categories", "categoria", "categorias", "category", "cat"].forEach((param) => {
       params.getAll(param).forEach((value) => {
         String(value || "")
           .split(",")
@@ -360,6 +382,31 @@
           .filter(Boolean)
           .forEach((token) => {
             const normalized = normalizeCategoryFilterValue(token);
+            if (normalized) keys.push(normalized);
+          });
+      });
+    });
+
+    return Array.from(new Set(keys));
+  }
+
+  function readInitialTypeFilterKeys() {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      return [];
+    }
+
+    const keys = [];
+    ["types", "type", "tipos", "tipo"].forEach((param) => {
+      params.getAll(param).forEach((value) => {
+        String(value || "")
+          .split(",")
+          .map((token) => token.trim())
+          .filter(Boolean)
+          .forEach((token) => {
+            const normalized = normalizeTypeFilterValue(token);
             if (normalized) keys.push(normalized);
           });
       });
@@ -418,10 +465,37 @@
     return Array.from(new Set(keys));
   }
 
+  function readInitialSizeFilterKeys() {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      return [];
+    }
+
+    const keys = [];
+    ["sizes", "size", "talles", "talle", "edad", "edades"].forEach((param) => {
+      params.getAll(param).forEach((value) => {
+        String(value || "")
+          .split(",")
+          .map((token) => token.trim())
+          .filter(Boolean)
+          .forEach((token) => {
+            const normalized = normalizeSizeFilterValue(token);
+            if (normalized) keys.push(normalized);
+          });
+      });
+    });
+
+    return Array.from(new Set(keys));
+  }
+
   function applyInitialFiltersFromQuery() {
     const requestedSections = readInitialSectionFilterKeys();
     const requestedCategories = readInitialCategoryFilterKeys();
+    const requestedTypes = readInitialTypeFilterKeys();
     const requestedSeasons = readInitialSeasonFilterKeys();
+    const requestedSizes = readInitialSizeFilterKeys();
 
     if (state.scope === "catalogo" && requestedSections.length) {
       const availableSections = new Set(SECTION_OPTIONS.map((option) => option.key));
@@ -437,10 +511,41 @@
       });
     }
 
+    if (requestedTypes.length) {
+      const availableTypes = new Map();
+      state.products.forEach((product) => {
+        const key = normalizeTypeFilterValue(product && product.typeKey ? product.typeKey : product && product.type);
+        if (!key || availableTypes.has(key)) return;
+        availableTypes.set(key, product.typeLabel || toStartCase(product.type || key));
+      });
+
+      requestedTypes.forEach((key) => {
+        if (!availableTypes.has(key)) return;
+        state.selected.types.add(key);
+        setOptionLabel("types", key, availableTypes.get(key));
+      });
+    }
+
     if (requestedSeasons.length) {
       const availableSeasons = new Set(SEASON_OPTIONS.map((option) => option.key));
       requestedSeasons.forEach((key) => {
         if (availableSeasons.has(key)) state.selected.seasons.add(key);
+      });
+    }
+
+    if (requestedSizes.length) {
+      let sizeSource = state.products.slice();
+      if (state.scope === "catalogo") {
+        const selectedSection = Array.from(state.selected.sections)[0] || "";
+        if (!selectedSection) return;
+        sizeSource = state.products.filter((product) => product.section === selectedSection);
+      }
+
+      const availableSizes = new Set(collectSizes(sizeSource, { includeBase: false }).map((value) => String(value)));
+      requestedSizes.forEach((key) => {
+        if (!availableSizes.has(String(key))) return;
+        state.selected.sizes.add(String(key));
+        setOptionLabel("sizes", String(key), String(key));
       });
     }
   }
@@ -462,6 +567,8 @@
       product.name,
       product.type,
       product.typeLabel,
+      product.badge,
+      product.featuredBadge,
       product.section,
       product.sectionLabel,
       product.categoryKey
@@ -621,6 +728,7 @@
     const name = String((raw && raw.name) || "Producto ROMIX").trim();
     const typeRaw = String((raw && raw.type) || (raw && raw.category) || "Indumentaria").trim();
     const typeLabel = titleCase(typeRaw);
+    const typeKey = normalizeTypeFilterValue(typeRaw);
     const categoryKey = categoryKeyFromType(typeRaw);
     const sizes = buildSizes(raw);
     const colorImageMap = resolveColorImageMap(raw);
@@ -637,10 +745,13 @@
       section,
       sectionLabel: sectionLabel(section),
       type: typeRaw,
+      typeKey,
       typeLabel,
       categoryKey,
       image: coverImage,
       price: Number((raw && raw.price) || 0),
+      badge: String((raw && raw.badge) || "").trim(),
+      featuredBadge: String((raw && raw.featuredBadge) || "").trim(),
       seasonKey,
       featured: !!(raw && raw.featured === true),
       colors,
@@ -811,6 +922,141 @@
     target.innerHTML = "Mostrando <strong>" + state.view.length + "</strong> de <strong>" + state.products.length + "</strong> productos";
   }
 
+  function buildSortSelect(id, extraClassName) {
+    const select = document.createElement("select");
+    select.id = id;
+    select.className = "products-sort-select" + (extraClassName ? " " + extraClassName : "");
+    select.setAttribute("aria-label", "Ordenar productos");
+    select.dataset.sortControl = "true";
+
+    SORT_OPTIONS.forEach((option) => {
+      const item = document.createElement("option");
+      item.value = option.key;
+      item.textContent = option.label;
+      select.appendChild(item);
+    });
+
+    select.value = state.sortBy;
+    return select;
+  }
+
+  function syncSortControlValues(source) {
+    document.querySelectorAll("[data-sort-control='true']").forEach((control) => {
+      if (control === source) return;
+      control.value = state.sortBy;
+    });
+  }
+
+  function ensureMobileFilterTrigger() {
+    const openBtn = document.getElementById("open-filters");
+    const heading = document.getElementById("page-title");
+    const breadcrumb = document.getElementById("catalog-breadcrumb");
+    if (!openBtn && !heading) return;
+
+    const triggerMarkup =
+      '<span class="filters-open-btn-icon" aria-hidden="true">' +
+        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none">' +
+          '<path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
+          '<path d="M7 12H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
+          '<path d="M10 17H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
+        '</svg>' +
+      '</span>' +
+      '<span class="filters-open-btn-text">Filtrar y ordenar</span>' +
+      '<span class="filters-open-btn-chevron" aria-hidden="true">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none">' +
+          '<path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
+        '</svg>' +
+      '</span>';
+
+    if (openBtn && openBtn.dataset.mobileReady !== "1") {
+      openBtn.dataset.mobileReady = "1";
+      openBtn.setAttribute("aria-label", "Filtrar y ordenar");
+      openBtn.innerHTML = triggerMarkup;
+    }
+
+    if (!heading) return;
+
+    let mobileTrigger = document.getElementById("catalog-mobile-filter-trigger");
+    if (!mobileTrigger) {
+      mobileTrigger = document.createElement("button");
+      mobileTrigger.type = "button";
+      mobileTrigger.id = "catalog-mobile-filter-trigger";
+      mobileTrigger.className = "catalog-mobile-filter-trigger";
+      mobileTrigger.setAttribute("aria-label", "Filtrar y ordenar");
+      mobileTrigger.innerHTML = triggerMarkup;
+    }
+
+    if (breadcrumb && breadcrumb.parentNode === heading.parentNode) {
+      if (breadcrumb.nextSibling !== mobileTrigger) {
+        heading.parentNode.insertBefore(mobileTrigger, breadcrumb.nextSibling);
+      }
+      return;
+    }
+
+    if (heading.previousSibling !== mobileTrigger) {
+      heading.parentNode.insertBefore(mobileTrigger, heading);
+    }
+  }
+
+  function getSingleSelectedValue(group) {
+    const selectedSet = state.selected[group];
+    if (!(selectedSet instanceof Set) || selectedSet.size !== 1) return "";
+    return Array.from(selectedSet)[0] || "";
+  }
+
+  function getBreadcrumbSectionLabel() {
+    if (state.scope === "catalogo") {
+      const sectionValue = getSingleSelectedValue("sections");
+      if (sectionValue) return getOptionLabel("sections", sectionValue);
+      return "Catalogo";
+    }
+
+    const pageConfig = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
+    return pageConfig.title || "Catalogo";
+  }
+
+  function renderBreadcrumb() {
+    const main = document.getElementById("main-content");
+    const heading = document.getElementById("page-title");
+    if (!main || !heading) return;
+
+    let breadcrumb = document.getElementById("catalog-breadcrumb");
+    if (!breadcrumb) {
+      breadcrumb = document.createElement("nav");
+      breadcrumb.id = "catalog-breadcrumb";
+      breadcrumb.className = "catalog-breadcrumb";
+      breadcrumb.setAttribute("aria-label", "Breadcrumb");
+      main.insertBefore(breadcrumb, heading);
+    }
+
+    const parts = [{ label: "Inicio", href: "index.html" }];
+    const sectionLabel = getBreadcrumbSectionLabel();
+    if (sectionLabel) parts.push({ label: sectionLabel });
+
+    const categoryValue = getSingleSelectedValue("categories");
+    if (categoryValue) {
+      parts.push({ label: getOptionLabel("categories", categoryValue) });
+    }
+
+    breadcrumb.innerHTML = "";
+    parts.forEach((part, index) => {
+      const node = part.href ? document.createElement("a") : document.createElement("span");
+      if (part.href) node.href = part.href;
+      node.textContent = part.label;
+      breadcrumb.appendChild(node);
+
+      if (index < parts.length - 1) {
+        const sep = document.createElement("span");
+        sep.className = "catalog-breadcrumb-sep";
+        sep.setAttribute("aria-hidden", "true");
+        sep.textContent = ">";
+        breadcrumb.appendChild(sep);
+      }
+    });
+
+    ensureMobileFilterTrigger();
+  }
+
   function compareOriginalOrder(a, b) {
     const aRank = Number.isFinite(a && a.sortRank) ? a.sortRank : 0;
     const bRank = Number.isFinite(b && b.sortRank) ? b.sortRank : 0;
@@ -833,50 +1079,65 @@
 
   function ensureSortControl() {
     const topBar = document.querySelector(".products-top");
-    if (!topBar) return null;
+    const sidebarScroll = document.querySelector(".filters-scroll");
+    let controls = [];
 
-    let select = document.getElementById("products-sort");
-    if (select) {
+    if (topBar) {
+      let select = document.getElementById("products-sort");
+      if (!select) {
+        const wrapper = document.createElement("label");
+        wrapper.className = "products-sort";
+        wrapper.setAttribute("for", "products-sort");
+
+        const text = document.createElement("span");
+        text.className = "products-sort-label";
+        text.textContent = "Ordenar por";
+
+        select = buildSortSelect("products-sort");
+        wrapper.appendChild(text);
+        wrapper.appendChild(select);
+
+        const openBtn = document.getElementById("open-filters");
+        if (openBtn && openBtn.parentElement === topBar) topBar.insertBefore(wrapper, openBtn);
+        else topBar.appendChild(wrapper);
+      }
+
       select.value = state.sortBy;
-      return select;
+      controls.push(select);
     }
 
-    const wrapper = document.createElement("label");
-    wrapper.className = "products-sort";
-    wrapper.setAttribute("for", "products-sort");
+    if (sidebarScroll) {
+      let mobileSelect = document.getElementById("products-sort-mobile");
+      if (!mobileSelect) {
+        const mobileGroup = document.createElement("section");
+        mobileGroup.className = "filters-group mobile-sort-group";
+        mobileGroup.setAttribute("aria-labelledby", "mobile-sort-title");
 
-    const text = document.createElement("span");
-    text.className = "products-sort-label";
-    text.textContent = "Ordenar por";
+        const title = document.createElement("h3");
+        title.id = "mobile-sort-title";
+        title.className = "mobile-sort-title";
+        title.textContent = "ORDENAR";
 
-    select = document.createElement("select");
-    select.id = "products-sort";
-    select.className = "products-sort-select";
-    select.setAttribute("aria-label", "Ordenar productos");
+        mobileSelect = buildSortSelect("products-sort-mobile", "mobile-sort-select");
 
-    SORT_OPTIONS.forEach((option) => {
-      const item = document.createElement("option");
-      item.value = option.key;
-      item.textContent = option.label;
-      select.appendChild(item);
-    });
+        mobileGroup.appendChild(title);
+        mobileGroup.appendChild(mobileSelect);
+        sidebarScroll.insertBefore(mobileGroup, sidebarScroll.firstChild);
+      }
 
-    select.value = state.sortBy;
-    wrapper.appendChild(text);
-    wrapper.appendChild(select);
+      mobileSelect.value = state.sortBy;
+      controls.push(mobileSelect);
+    }
 
-    const openBtn = document.getElementById("open-filters");
-    if (openBtn && openBtn.parentElement === topBar) topBar.insertBefore(wrapper, openBtn);
-    else topBar.appendChild(wrapper);
-
-    return select;
+    ensureMobileFilterTrigger();
+    return controls;
   }
 
   function renderGrid() {
     const grid = document.getElementById("product-grid");
     if (!grid) return;
     const allowVariantPreview = state.scope === "catalogo" || state.scope === "mujer" || state.scope === "hombre" || state.scope === "ninos" || state.scope === "novedades";
-    const variantPreviewLimit = window.innerWidth <= 640 ? 3 : 4;
+    const variantPreviewLimit = isCompactVariantViewport() ? 3 : 4;
     grid.innerHTML = "";
 
     if (!state.view.length) {
@@ -1051,6 +1312,10 @@
       if (!state.selected.categories.has(product.categoryKey)) return false;
     }
 
+    if (state.selected.types.size) {
+      if (!state.selected.types.has(product.typeKey)) return false;
+    }
+
     if (state.selected.seasons.size) {
       if (!state.selected.seasons.has(product.seasonKey)) return false;
     }
@@ -1121,6 +1386,7 @@
     sortProductsView();
     renderGrid();
     renderActiveFilters();
+    renderBreadcrumb();
   }
 
   function onFilterChange(event) {
@@ -1430,6 +1696,9 @@
       if (active) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
     });
+
+    ensureMobileFilterTrigger();
+    renderBreadcrumb();
   }
 
   function closeSidebar() {
@@ -1441,16 +1710,20 @@
   }
 
   function wireUiEvents() {
-    const sortSelect = ensureSortControl();
-    if (sortSelect) {
+    const sortControls = ensureSortControl();
+    sortControls.forEach((sortSelect) => {
+      if (!sortSelect || sortSelect.dataset.sortBound === "1") return;
+      sortSelect.dataset.sortBound = "1";
+
       sortSelect.addEventListener("change", function () {
         const nextValue = String(sortSelect.value || "recommended");
         const allowed = SORT_OPTIONS.some((entry) => entry.key === nextValue);
         state.sortBy = allowed ? nextValue : "recommended";
         sortSelect.value = state.sortBy;
+        syncSortControlValues(sortSelect);
         applyFilters();
       });
-    }
+    });
 
     const sidebar = document.getElementById("filters-sidebar");
     if (sidebar) sidebar.addEventListener("change", onFilterChange);
@@ -1493,6 +1766,11 @@
       openBtn.addEventListener("click", openSidebar);
     }
 
+    const mobileTrigger = document.getElementById("catalog-mobile-filter-trigger");
+    if (mobileTrigger) {
+      mobileTrigger.addEventListener("click", openSidebar);
+    }
+
     const closeBtn = document.getElementById("close-filters");
     if (closeBtn) {
       closeBtn.addEventListener("click", closeSidebar);
@@ -1505,6 +1783,11 @@
 
     window.addEventListener("resize", function () {
       if (window.innerWidth > 960) closeSidebar();
+      const nextCompactVariantViewport = isCompactVariantViewport();
+      if (state.compactVariantViewport !== nextCompactVariantViewport) {
+        state.compactVariantViewport = nextCompactVariantViewport;
+        renderGrid();
+      }
     });
   }
 

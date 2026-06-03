@@ -272,15 +272,15 @@ def inject_product_meta(
         f'<meta property="og:title" content="{safe_title}">',
         '<meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">':
         f'<meta property="og:description" content="{safe_description}">',
-        '<meta property="og:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-1200x630.png">':
+        '<meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-1200x630.png">':
         f'<meta property="og:image" content="{safe_image}">',
-        '<meta property="og:url" content="https://romix-ropas.vercel.app/">':
+        '<meta property="og:url" content="https://romi-damas.netlify.app/">':
         f'<meta property="og:url" content="{safe_url}">',
         '<meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana">':
         f'<meta name="twitter:title" content="{safe_title}">',
         '<meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">':
         f'<meta name="twitter:description" content="{safe_description}">',
-        '<meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-1200x630.png">':
+        '<meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-1200x630.png">':
         f'<meta name="twitter:image" content="{safe_image}">',
     }
 

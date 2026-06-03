@@ -2067,7 +2067,7 @@
       function buildShareUrl(product) {
         const slug = buildShareSlug(product);
         if (slug) {
-          return new URL(`share/${encodeURIComponent(slug)}/index.html`, location.origin + '/').href;
+          return new URL(`share/${encodeURIComponent(slug)}/`, location.origin + '/').href;
         }
         return new URL(buildHref(product, false), location.origin + '/').href;
       }

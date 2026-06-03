@@ -179,7 +179,7 @@ function main() {
   list.forEach((product) => {
     const slug = productSlug(product);
 
-    const sharePath = `/share/${slug}/index.html`;
+    const sharePath = `/share/${slug}/`;
     const detailPath = detailHref(product, slug);
     const shareUrl = absoluteUrl(sharePath);
     const detailUrl = absoluteUrl(detailPath);

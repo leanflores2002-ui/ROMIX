@@ -1,4 +1,0 @@
-{
-  "buildCommand": "npm run generate:share-pages",
-  "outputDirectory": "frontend/public"
-}

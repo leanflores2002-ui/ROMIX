@@ -33,6 +33,8 @@ DATA_FILE = Path(
 )
 VARIANTS_FILE = ROOT / "backend" / "data" / "product_variants.json"
 templates = Jinja2Templates(directory=str(PUBLIC_DIR))
+DEFAULT_SITE_URL = "https://romix-ropas.vercel.app"
+SITE_URL = str(os.environ.get("ROMIX_SITE_URL") or DEFAULT_SITE_URL).strip().rstrip("/")
 
 # Cache en memoria para evitar leer/parsing del JSON en cada request bajo carga
 _products_cache: list[dict] | None = None
@@ -216,7 +218,33 @@ def absolute_url(request: Request, value: str) -> str:
         return ""
     if raw.startswith("http://") or raw.startswith("https://"):
         return raw
-    return urljoin(str(request.base_url), raw.lstrip("/"))
+    base_url = SITE_URL or str(request.base_url).rstrip("/")
+    return urljoin(f"{base_url}/", raw.lstrip("/"))
+
+
+def upsert_meta_tag(html_text: str, attr_name: str, attr_value: str, content: str) -> str:
+    pattern = re.compile(
+        rf'<meta\s+[^>]*{attr_name}="{re.escape(attr_value)}"[^>]*content="[^"]*"[^>]*>',
+        re.IGNORECASE,
+    )
+    replacement = f'<meta {attr_name}="{attr_value}" content="{content}">'
+    if pattern.search(html_text):
+        return pattern.sub(replacement, html_text, count=1)
+    insert_at = html_text.find("</head>")
+    if insert_at == -1:
+        return html_text
+    return f'{html_text[:insert_at]}  {replacement}\n{html_text[insert_at:]}'
+
+
+def upsert_canonical_link(html_text: str, href: str) -> str:
+    pattern = re.compile(r'<link\s+rel="canonical"\s+href="[^"]*"\s*/?>', re.IGNORECASE)
+    replacement = f'<link rel="canonical" href="{href}" />'
+    if pattern.search(html_text):
+        return pattern.sub(replacement, html_text, count=1)
+    insert_at = html_text.find("</head>")
+    if insert_at == -1:
+        return html_text
+    return f'{html_text[:insert_at]}  {replacement}\n{html_text[insert_at:]}'
 
 
 def product_share_description(product: dict) -> str:
@@ -266,27 +294,16 @@ def inject_product_meta(
     safe_description = html_escape(description, quote=True)
     safe_image = html_escape(image_url, quote=True)
     safe_url = html_escape(page_url, quote=True)
-
-    replacements = {
-        '<meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">':
-        f'<meta property="og:title" content="{safe_title}">',
-        '<meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">':
-        f'<meta property="og:description" content="{safe_description}">',
-        '<meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-1200x630.png">':
-        f'<meta property="og:image" content="{safe_image}">',
-        '<meta property="og:url" content="https://romi-damas.netlify.app/">':
-        f'<meta property="og:url" content="{safe_url}">',
-        '<meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana">':
-        f'<meta name="twitter:title" content="{safe_title}">',
-        '<meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">':
-        f'<meta name="twitter:description" content="{safe_description}">',
-        '<meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-1200x630.png">':
-        f'<meta name="twitter:image" content="{safe_image}">',
-    }
-
     rendered = html_text
-    for old, new in replacements.items():
-        rendered = rendered.replace(old, new, 1)
+    rendered = upsert_meta_tag(rendered, "property", "og:title", safe_title)
+    rendered = upsert_meta_tag(rendered, "property", "og:description", safe_description)
+    rendered = upsert_meta_tag(rendered, "property", "og:image", safe_image)
+    rendered = upsert_meta_tag(rendered, "property", "og:url", safe_url)
+    rendered = upsert_meta_tag(rendered, "name", "twitter:title", safe_title)
+    rendered = upsert_meta_tag(rendered, "name", "twitter:description", safe_description)
+    rendered = upsert_meta_tag(rendered, "name", "twitter:image", safe_image)
+    rendered = upsert_meta_tag(rendered, "name", "twitter:url", safe_url)
+    rendered = upsert_canonical_link(rendered, safe_url)
     return rendered
 
 

@@ -1,0 +1,384 @@
+.promo-banner {
+  position: relative;
+  width: 100%;
+  margin: 18px 0 24px;
+  padding: 28px;
+  border-radius: 26px;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 480px at 10% 0%, rgba(123, 44, 255, 0.3), transparent 60%),
+    radial-gradient(820px 420px at 85% 20%, rgba(255, 45, 149, 0.28), transparent 68%),
+    linear-gradient(135deg, #0e0e12 0%, #1a102f 45%, #0e0e12 100%);
+  border: 1px solid rgba(255, 45, 149, 0.35);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.6);
+}
+
+.promo-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 45, 149, 0.24) 0, rgba(255, 45, 149, 0.24) 2px, transparent 2px, transparent 14px),
+    repeating-linear-gradient(45deg, rgba(123, 44, 255, 0.2) 0, rgba(123, 44, 255, 0.2) 1px, transparent 1px, transparent 12px),
+    linear-gradient(135deg, rgba(255, 45, 149, 0.08), rgba(123, 44, 255, 0.08));
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.promo-banner__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr);
+  gap: 28px;
+  align-items: center;
+}
+
+.promo-copy {
+  position: relative;
+  padding: 22px 22px;
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(14, 10, 22, 0.98), rgba(26, 16, 47, 0.96));
+  box-shadow: 0 26px 50px rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 45, 149, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.promo-copy::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20%;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 45, 149, 0.28) 0,
+    rgba(255, 45, 149, 0.28) 6px,
+    rgba(255, 255, 255, 0) 8px,
+    rgba(255, 255, 255, 0) 20px
+  );
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.promo-copy > * {
+  position: relative;
+  z-index: 1;
+}
+
+.promo-kicker {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.promo-title {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(2.2rem, 3.2vw, 3.4rem);
+  margin: 8px 0 12px;
+  color: #ffffff;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.promo-title__accent {
+  color: #ff2d95;
+  text-shadow: 0 0 20px rgba(255, 45, 149, 0.9);
+}
+
+.promo-subtitle {
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 500;
+  font-size: 0.98rem;
+}
+
+.promo-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 22px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ff2d95, #7b2cff);
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 16px 32px rgba(123, 44, 255, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.promo-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 22px 46px rgba(255, 45, 149, 0.7);
+}
+
+.promo-carousel {
+  position: relative;
+  width: 100%;
+  padding: 12px;
+  border-radius: 22px;
+  background:
+    radial-gradient(420px 220px at 40% 50%, rgba(255, 45, 149, 0.18), transparent 70%),
+    radial-gradient(360px 220px at 70% 60%, rgba(123, 44, 255, 0.18), transparent 70%),
+    linear-gradient(135deg, rgba(12, 10, 20, 0.92), rgba(18, 14, 28, 0.88));
+  border: 1px solid rgba(255, 45, 149, 0.6);
+  box-shadow: inset 0 0 32px rgba(255, 45, 149, 0.12);
+}
+
+.promo-viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.promo-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.promo-track {
+  display: flex;
+  gap: 16px;
+  padding: 10px 6px 24px;
+}
+
+.promo-banner .promo-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: 220px;
+  background: #e7e3f0;
+  border-radius: 18px;
+  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.6);
+  scroll-snap-align: start;
+  overflow: hidden;
+  border: 1px solid rgba(255, 45, 149, 0.35);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.promo-banner .promo-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 36px rgba(15, 12, 30, 0.16);
+}
+
+.promo-banner .promo-card:focus-visible {
+  outline: 2px solid #6f42c1;
+  outline-offset: 3px;
+}
+
+.promo-banner .promo-card__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #dcd6ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.promo-banner .promo-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.promo-banner .promo-card__price {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 7px 14px;
+  border-radius: 12px;
+  background: #0b0a12;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.98rem;
+  letter-spacing: 0.3px;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 45, 149, 0.6);
+  white-space: nowrap;
+}
+
+.promo-banner .promo-card__meta {
+  padding: 18px 14px 14px;
+  min-height: 54px;
+}
+
+.promo-banner .promo-card__name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1a1527;
+  margin: 0;
+}
+
+.promo-banner .promo-nav {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 45, 149, 0.6);
+  background: rgba(10, 8, 16, 0.9);
+  color: #ff2d95;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.promo-banner .promo-nav--prev { left: -6px; }
+.promo-banner .promo-nav--next { right: -6px; }
+.promo-banner .promo-nav:hover { transform: translateY(-50%) scale(1.04); }
+
+.promo-banner .promo-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.promo-banner .promo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 45, 149, 0.35);
+  cursor: pointer;
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+.promo-banner .promo-dot.is-active {
+  width: 26px;
+  background: rgba(255, 45, 149, 0.95);
+  box-shadow: 0 0 14px rgba(255, 45, 149, 0.9);
+}
+
+.promo-banner--empty .promo-carousel {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .promo-banner__inner {
+    grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.1fr);
+    align-items: stretch;
+  }
+
+  .promo-copy {
+    padding: 16px 16px;
+  }
+
+  .promo-nav--prev,
+  .promo-nav--next {
+    top: auto;
+    bottom: 52px;
+  }
+
+  .promo-nav--prev { left: 8px; }
+  .promo-nav--next { right: 8px; }
+}
+
+@media (max-width: 720px) {
+  .promo-banner {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .promo-banner__inner {
+    grid-template-columns: minmax(150px, 0.72fr) minmax(0, 1.28fr);
+    gap: 12px;
+  }
+
+  .promo-copy {
+    padding: 12px 12px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .promo-kicker {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  .promo-title {
+    font-size: 1.08rem;
+    margin: 6px 0 8px;
+  }
+
+  .promo-subtitle {
+    font-size: 0.78rem;
+    margin-bottom: 10px;
+  }
+
+  .promo-cta {
+    width: auto;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+  }
+
+  .promo-banner .promo-card {
+    width: 158px;
+  }
+
+  .promo-banner .promo-card__meta {
+    padding: 18px 12px 12px;
+  }
+
+  .promo-cta {
+    width: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .promo-banner {
+    padding: 14px;
+  }
+
+  .promo-banner__inner {
+    grid-template-columns: minmax(132px, 0.7fr) minmax(0, 1.3fr);
+    gap: 10px;
+  }
+
+  .promo-copy {
+    padding: 10px 10px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .promo-kicker {
+    font-size: 0.64rem;
+  }
+
+  .promo-title {
+    font-size: 0.98rem;
+  }
+
+  .promo-subtitle {
+    font-size: 0.72rem;
+  }
+
+  .promo-banner .promo-card {
+    width: 148px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-viewport {
+    scroll-behavior: auto;
+  }
+
+  .promo-nav {
+    transition: none;
+  }
+}

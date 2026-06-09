@@ -2535,6 +2535,268 @@
       }
     }
   </style>
+  <style>
+    .site-header,
+    header.romix-shared-header {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border-bottom: 2px solid rgba(255, 143, 180, 0.55) !important;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 16px rgba(30, 30, 30, 0.04) !important;
+    }
+
+    .site-header .container,
+    header.romix-shared-header .container {
+      width: min(1200px, calc(100% - clamp(20px, 4vw, 56px))) !important;
+    }
+
+    .site-header .header-row,
+    header.romix-shared-header .header-row {
+      min-height: clamp(66px, 6.6vw, 74px);
+    }
+
+    .site-header .brand,
+    header.romix-shared-header .brand,
+    .site-header .logo,
+    header.romix-shared-header .logo,
+    .site-header .main-nav > li > a,
+    header.romix-shared-header .main-nav > li > a,
+    .site-header .main-nav .mega-trigger,
+    header.romix-shared-header .main-nav .mega-trigger {
+      color: #333 !important;
+    }
+
+    .site-header .main-nav,
+    header.romix-shared-header .main-nav {
+      gap: clamp(12px, 2.6vw, 30px) !important;
+    }
+
+    .site-header .main-nav > li > a::after,
+    header.romix-shared-header .main-nav > li > a::after,
+    .site-header .main-nav .mega-trigger::after,
+    header.romix-shared-header .main-nav .mega-trigger::after {
+      background: #ff3f86 !important;
+    }
+
+    .site-header .main-nav > li > a:hover,
+    .site-header .main-nav > li > a:focus-visible,
+    .site-header .main-nav .mega-trigger:hover,
+    .site-header .main-nav .mega-trigger:focus-visible,
+    header.romix-shared-header .main-nav > li > a:hover,
+    header.romix-shared-header .main-nav > li > a:focus-visible,
+    header.romix-shared-header .main-nav .mega-trigger:hover,
+    header.romix-shared-header .main-nav .mega-trigger:focus-visible {
+      color: #ff3f86 !important;
+    }
+
+    .site-header .icon-btn,
+    header.romix-shared-header .icon-btn {
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 50% !important;
+      border: 1px solid rgba(255, 63, 134, 0.4) !important;
+      background: #fff !important;
+      color: #ff3f86 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: none !important;
+    }
+
+    .site-header .icon-badge,
+    header.romix-shared-header .icon-badge {
+      background: #ff3f86;
+      color: #fff;
+    }
+
+    .site-header .search-panel,
+    header.romix-shared-header .search-panel {
+      background: #fff !important;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .site-header .global-search input[type="search"],
+    .site-header .global-search input,
+    header.romix-shared-header .global-search input[type="search"],
+    header.romix-shared-header .global-search input {
+      background: #fff;
+      border-color: rgba(0, 0, 0, 0.12);
+      color: #111;
+    }
+
+    .site-header .global-search button[type="submit"],
+    header.romix-shared-header .global-search button[type="submit"] {
+      background: linear-gradient(135deg, var(--romix-pink-strong), var(--romix-pink));
+      color: #fff;
+    }
+
+    .main-hero-carousel {
+      min-height: 0;
+      height: clamp(320px, 55vw, 620px);
+      background: #ece9f3;
+      isolation: auto;
+    }
+
+    .main-hero-carousel::before,
+    .main-hero-carousel__content,
+    .audience-section {
+      display: none !important;
+    }
+
+    .main-hero-carousel__viewport,
+    .main-hero-carousel__track {
+      min-height: 0;
+      height: 100%;
+    }
+
+    .main-hero-carousel__slide {
+      transform: scale(1.015);
+    }
+
+    .main-hero-carousel__slide.is-active {
+      transform: scale(1);
+    }
+
+    .main-hero-carousel__arrow {
+      width: 44px;
+      height: 44px;
+      border: 0;
+      background: rgba(255, 255, 255, 0.88);
+      color: #1f1a26;
+      backdrop-filter: none;
+      box-shadow: 0 10px 24px rgba(31, 26, 38, 0.2);
+    }
+
+    .main-hero-carousel__arrow:hover {
+      background: #fff;
+    }
+
+    .main-hero-carousel__dots {
+      bottom: clamp(12px, 2vw, 24px);
+      gap: 8px;
+    }
+
+    .main-hero-carousel__dot {
+      width: 9px;
+      height: 9px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .main-hero-carousel__dot.is-active {
+      width: 26px;
+    }
+
+    .category-showcase,
+    .categories-bar {
+      background: transparent !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    }
+
+    .category-showcase .section-heading {
+      margin-bottom: 18px;
+    }
+
+    #category-showcase-title,
+    .category-showcase .section-link {
+      color: var(--romix-text-dark) !important;
+    }
+
+    .category-showcase .section-heading p,
+    .products-section .section-heading p {
+      display: none;
+    }
+
+    .categories-rail {
+      padding: 0;
+    }
+
+    .category-arrow {
+      display: none !important;
+    }
+
+    .categories-track {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      gap: clamp(16px, 1.8vw, 22px);
+      overflow: visible;
+      padding: 0;
+    }
+
+    .category-item {
+      min-height: 0;
+      padding: 18px;
+      border-radius: 24px;
+      background: #ffffff;
+      border: 1px solid rgba(21, 32, 48, 0.08);
+      box-shadow: 0 8px 22px rgba(11, 22, 38, 0.06);
+      color: var(--romix-text-dark);
+    }
+
+    .category-thumb {
+      min-height: 188px;
+      background: linear-gradient(180deg, #fbfdff 0%, #eef3f8 100%);
+    }
+
+    .category-item span {
+      color: var(--romix-text-dark);
+      font-size: 1rem;
+    }
+
+    .products-section {
+      padding-top: 6px;
+    }
+
+    .promo-banners {
+      gap: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .main-hero-carousel {
+        height: clamp(260px, 55vw, 480px);
+      }
+
+      .categories-track {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .main-hero-carousel {
+        height: clamp(220px, 60vw, 360px);
+      }
+
+      .main-hero-carousel__arrow {
+        width: 38px;
+        height: 38px;
+      }
+
+      .categories-track {
+        gap: 12px;
+      }
+
+      .category-item {
+        padding: 14px;
+      }
+
+      .category-thumb {
+        min-height: 154px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .categories-track {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .category-thumb {
+        min-height: 132px;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header romix-shared-header">

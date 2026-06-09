@@ -1338,6 +1338,1203 @@
       }
     }
   </style>
+  <style>
+    :root {
+      --romix-bg: #07111f;
+      --romix-bg-deep: #030914;
+      --romix-panel: #0d1c31;
+      --romix-text: #ecf3ff;
+      --romix-text-dark: #152030;
+      --romix-muted: #a7b8d4;
+      --romix-muted-dark: #6b778c;
+      --romix-ice: #8cd7ff;
+      --romix-pink: #ff4d98;
+      --romix-pink-strong: #ff2f84;
+      --romix-shell: 1440px;
+    }
+
+    body {
+      color: var(--romix-text);
+      background:
+        radial-gradient(1100px 520px at 50% -10%, rgba(45, 107, 160, 0.26) 0%, transparent 65%),
+        radial-gradient(620px 360px at 18% 12%, rgba(255, 77, 152, 0.16) 0%, transparent 60%),
+        linear-gradient(180deg, #08111d 0%, #091523 32%, #eef2f7 32%, #eef2f7 78%, #07111f 78%, #040912 100%);
+    }
+
+    .site-header,
+    header.romix-shared-header {
+      background: rgba(4, 11, 22, 0.76) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: none !important;
+      backdrop-filter: blur(18px) saturate(1.15);
+    }
+
+    .site-header .container,
+    header.romix-shared-header .container {
+      width: min(var(--romix-shell), calc(100% - clamp(20px, 4vw, 72px))) !important;
+    }
+
+    .site-header .header-row,
+    header.romix-shared-header .header-row {
+      min-height: clamp(72px, 6vw, 82px);
+    }
+
+    .site-header .brand,
+    header.romix-shared-header .brand,
+    .site-header .logo,
+    header.romix-shared-header .logo,
+    .site-header .main-nav > li > a,
+    header.romix-shared-header .main-nav > li > a,
+    .site-header .main-nav .mega-trigger,
+    header.romix-shared-header .main-nav .mega-trigger {
+      color: #f4f8ff !important;
+    }
+
+    .site-header .main-nav,
+    header.romix-shared-header .main-nav {
+      gap: clamp(16px, 2.8vw, 34px) !important;
+    }
+
+    .site-header .main-nav > li > a::after,
+    header.romix-shared-header .main-nav > li > a::after,
+    .site-header .main-nav .mega-trigger::after,
+    header.romix-shared-header .main-nav .mega-trigger::after {
+      background: linear-gradient(90deg, var(--romix-pink), var(--romix-ice)) !important;
+    }
+
+    .site-header .main-nav > li > a:hover,
+    .site-header .main-nav > li > a:focus-visible,
+    .site-header .main-nav .mega-trigger:hover,
+    .site-header .main-nav .mega-trigger:focus-visible,
+    header.romix-shared-header .main-nav > li > a:hover,
+    header.romix-shared-header .main-nav > li > a:focus-visible,
+    header.romix-shared-header .main-nav .mega-trigger:hover,
+    header.romix-shared-header .main-nav .mega-trigger:focus-visible {
+      color: var(--romix-ice) !important;
+    }
+
+    .site-header .header-icons,
+    header.romix-shared-header .header-icons {
+      gap: clamp(8px, 1vw, 12px);
+    }
+
+    .site-header .icon-btn,
+    header.romix-shared-header .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f4f8ff !important;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+    }
+
+    .site-header .icon-badge,
+    header.romix-shared-header .icon-badge {
+      background: linear-gradient(135deg, var(--romix-pink-strong), var(--romix-pink));
+      color: #fff;
+    }
+
+    .site-header .search-panel,
+    header.romix-shared-header .search-panel {
+      background: rgba(4, 11, 22, 0.97) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+    }
+
+    .site-header .global-search input[type="search"],
+    .site-header .global-search input,
+    header.romix-shared-header .global-search input[type="search"],
+    header.romix-shared-header .global-search input {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    .site-header .global-search button[type="submit"],
+    header.romix-shared-header .global-search button[type="submit"] {
+      background: linear-gradient(135deg, var(--romix-pink-strong), var(--romix-pink));
+      color: #fff;
+      border: 0;
+    }
+
+    .home {
+      width: min(var(--romix-shell), calc(100% - clamp(20px, 4vw, 72px)));
+      margin: 0 auto;
+      display: grid;
+      gap: clamp(28px, 4vw, 52px);
+      padding: clamp(14px, 2vw, 24px) 0 clamp(36px, 5vw, 64px);
+    }
+
+    .home > * {
+      min-width: 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-heading h2,
+    .section-heading h3 {
+      font-family: "Outfit", sans-serif;
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      color: var(--romix-text-dark);
+    }
+
+    .section-heading p {
+      color: var(--romix-muted);
+      max-width: 54ch;
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-family: "Outfit", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--romix-ice);
+    }
+
+    .section-eyebrow::before {
+      content: "";
+      width: 38px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(140, 215, 255, 0) 0%, rgba(140, 215, 255, 0.82) 100%);
+    }
+
+    .section-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--romix-text-dark);
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .section-link--light {
+      color: var(--romix-text);
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 0;
+      font-family: "Outfit", sans-serif;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--romix-pink-strong) 0%, var(--romix-pink) 100%);
+      box-shadow: 0 16px 30px rgba(255, 47, 132, 0.24);
+    }
+
+    .btn-secondary {
+      color: #fff;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.02);
+    }
+
+    .main-hero-carousel {
+      position: relative;
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      min-height: clamp(560px, 78vh, 780px);
+      overflow: hidden;
+      background: #050d19;
+      isolation: isolate;
+    }
+
+    .main-hero-carousel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(5, 12, 22, 0.88) 0%, rgba(5, 12, 22, 0.68) 34%, rgba(5, 12, 22, 0.18) 72%, rgba(5, 12, 22, 0.58) 100%),
+        linear-gradient(180deg, rgba(1, 5, 10, 0.18) 0%, rgba(1, 5, 10, 0.54) 100%);
+      z-index: 1;
+    }
+
+    .main-hero-carousel__viewport,
+    .main-hero-carousel__track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+    }
+
+    .main-hero-carousel__slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.03);
+      transition: opacity 0.7s ease, transform 0.9s ease;
+    }
+
+    .main-hero-carousel__slide.is-active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .main-hero-carousel__slide-link,
+    .main-hero-carousel__slide img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .main-hero-carousel__slide img {
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .main-hero-carousel__content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-copy {
+      width: min(var(--romix-shell), calc(100% - clamp(20px, 4vw, 72px)));
+      margin: 0 auto;
+      display: grid;
+      gap: 18px;
+      padding: clamp(96px, 14vw, 144px) 0 clamp(72px, 10vw, 116px);
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      width: fit-content;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      color: #fff;
+      font-family: "Outfit", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker span {
+      color: var(--romix-ice);
+    }
+
+    .hero-title {
+      max-width: 10ch;
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(3rem, 7.2vw, 6rem);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero-title .hero-highlight {
+      color: var(--romix-ice);
+    }
+
+    .hero-subtitle {
+      max-width: 38ch;
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .hero-description {
+      max-width: 48ch;
+      color: rgba(236, 243, 255, 0.78);
+      font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding-top: 8px;
+    }
+
+    .hero-facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      padding-top: 12px;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .hero-fact {
+      display: grid;
+      gap: 4px;
+      min-width: 120px;
+    }
+
+    .hero-fact strong {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.12rem;
+      color: #fff;
+    }
+
+    .hero-fact span {
+      font-size: 0.84rem;
+      color: rgba(236, 243, 255, 0.68);
+    }
+
+    .main-hero-carousel__arrow,
+    .category-arrow,
+    .products-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(6, 17, 32, 0.54);
+      color: #fff;
+      backdrop-filter: blur(14px);
+      cursor: pointer;
+      z-index: 4;
+      transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .main-hero-carousel__arrow:hover,
+    .category-arrow:hover,
+    .products-arrow:hover {
+      transform: translateY(-50%) scale(1.04);
+      background: rgba(255, 77, 152, 0.86);
+    }
+
+    .main-hero-carousel__arrow--prev {
+      left: clamp(16px, 3vw, 42px);
+    }
+
+    .main-hero-carousel__arrow--next {
+      right: clamp(16px, 3vw, 42px);
+    }
+
+    .main-hero-carousel__dots {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(22px, 4vw, 34px);
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 3;
+    }
+
+    .main-hero-carousel__dot {
+      width: 10px;
+      height: 10px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.44);
+      cursor: pointer;
+      transition: width 0.2s ease, background-color 0.2s ease;
+    }
+
+    .main-hero-carousel__dot.is-active {
+      width: 34px;
+      background: #fff;
+    }
+
+    .audience-section,
+    .category-showcase {
+      background: linear-gradient(180deg, rgba(15, 27, 46, 0.98) 0%, rgba(9, 18, 31, 0.98) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 34px;
+      padding: clamp(22px, 3vw, 34px);
+    }
+
+    .quick-shop-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: clamp(12px, 1.6vw, 18px);
+    }
+
+    .audience-card {
+      display: grid;
+      gap: 12px;
+      padding: 18px 16px 16px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: transform 0.24s ease, border-color 0.24s ease;
+    }
+
+    .audience-card:hover,
+    .category-item:hover,
+    .product-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .audience-thumb {
+      width: clamp(92px, 8vw, 108px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto;
+      background: radial-gradient(circle at 32% 28%, rgba(140, 215, 255, 0.26) 0%, rgba(140, 215, 255, 0) 46%), linear-gradient(180deg, #edf5ff 0%, #dde8f9 100%);
+      display: grid;
+      place-items: center;
+    }
+
+    .audience-thumb img {
+      width: 92%;
+      height: 92%;
+      object-fit: contain;
+      transform: scale(1.04);
+    }
+
+    .audience-copy {
+      display: grid;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .audience-copy strong {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.08rem;
+      color: #fff;
+    }
+
+    .audience-copy span {
+      color: rgba(236, 243, 255, 0.66);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .audience-arrow {
+      width: 34px;
+      height: 34px;
+      margin: 2px auto 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--romix-pink-strong), var(--romix-pink));
+    }
+
+    .categories-bar {
+      position: relative;
+      padding: clamp(22px, 3vw, 34px);
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .categories-rail {
+      position: relative;
+      padding: 0 68px;
+    }
+
+    .category-arrow.left,
+    .products-arrow.left {
+      left: 0;
+    }
+
+    .category-arrow.right,
+    .products-arrow.right {
+      right: 0;
+    }
+
+    .categories-track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(150px, 1fr);
+      gap: clamp(14px, 1.6vw, 18px);
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 4px 2px 8px;
+    }
+
+    .categories-track::-webkit-scrollbar,
+    .products-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-item {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      min-height: 238px;
+      border-radius: 28px;
+      scroll-snap-align: start;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      color: #fff;
+    }
+
+    .category-thumb {
+      width: 100%;
+      min-height: 152px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: radial-gradient(circle at 25% 20%, rgba(140, 215, 255, 0.26) 0%, rgba(140, 215, 255, 0) 42%), linear-gradient(180deg, #f5f9ff 0%, #e7eef8 100%);
+      display: grid;
+      place-items: center;
+    }
+
+    .category-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: scale(1.08);
+    }
+
+    .category-item span {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: "Outfit", sans-serif;
+      font-size: 1.04rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .category-item span::after {
+      content: ">";
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--romix-pink-strong), var(--romix-pink));
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .products-section {
+      color: var(--romix-text-dark);
+    }
+
+    .products-section .section-eyebrow {
+      color: #3d6999;
+    }
+
+    .products-section .section-eyebrow::before {
+      background: linear-gradient(90deg, rgba(61, 105, 153, 0) 0%, rgba(61, 105, 153, 0.75) 100%);
+    }
+
+    .products-shell {
+      --products-visible: 4.4;
+      --products-gap: clamp(16px, 1.4vw, 20px);
+      position: relative;
+      padding: 0 68px;
+    }
+
+    .products-row {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - (var(--products-gap) * (var(--products-visible) - 1))) / var(--products-visible));
+      gap: var(--products-gap);
+      overflow-x: auto;
+      align-items: stretch;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 10px;
+    }
+
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      height: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(15, 27, 46, 0.08);
+      box-shadow: 0 12px 30px rgba(11, 22, 38, 0.08);
+      scroll-snap-align: start;
+      transition: transform 0.24s ease, box-shadow 0.24s ease;
+    }
+
+    .product-thumb {
+      display: block;
+      height: clamp(300px, 28vw, 360px);
+      background: radial-gradient(circle at 28% 16%, rgba(140, 215, 255, 0.22) 0%, rgba(140, 215, 255, 0) 40%), linear-gradient(180deg, #fbfdff 0%, #edf2f7 100%);
+      overflow: hidden;
+    }
+
+    .product-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.35s ease;
+    }
+
+    .product-card:hover .product-thumb img {
+      transform: scale(1.05);
+    }
+
+    .product-body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      padding: 16px 16px 18px;
+    }
+
+    .product-variants {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .variant-chip,
+    .variant-more {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      border-radius: 10px;
+      border: 1px solid #d5dce7;
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .variant-chip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .variant-chip.is-active {
+      border-color: var(--romix-pink-strong);
+      box-shadow: 0 0 0 3px rgba(255, 47, 132, 0.16);
+    }
+
+    .variant-more {
+      color: var(--romix-text-dark);
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .product-name {
+      color: var(--romix-text-dark);
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.35;
+      min-height: 2.7em;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-meta {
+      color: var(--romix-muted-dark);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 6px;
+    }
+
+    .product-price {
+      color: var(--romix-pink-strong);
+      font-family: "Outfit", sans-serif;
+      font-size: 1.34rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .stock-note {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    .stock-note.status-available {
+      color: #189a54;
+    }
+
+    .stock-note.status-out {
+      color: #c4516e;
+    }
+
+    .product-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      margin-top: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--romix-pink-strong), var(--romix-pink));
+      color: #fff;
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+    }
+
+    .products-empty {
+      padding: 20px 22px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px dashed rgba(255, 77, 152, 0.3);
+      color: var(--romix-muted-dark);
+      font-weight: 700;
+    }
+
+    .promo-banners {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(16px, 1.8vw, 22px);
+    }
+
+    .banner-card {
+      position: relative;
+      min-height: clamp(240px, 22vw, 300px);
+      border-radius: 28px;
+      overflow: hidden;
+      background: #08111f;
+      box-shadow: none;
+    }
+
+    .banner-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(5, 12, 22, 0.84) 0%, rgba(5, 12, 22, 0.44) 48%, rgba(5, 12, 22, 0.26) 100%);
+      pointer-events: none;
+    }
+
+    .banner-image-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .banner-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .banner-content {
+      position: absolute;
+      inset: auto auto 24px 24px;
+      z-index: 2;
+      display: grid;
+      gap: 10px;
+      max-width: 28ch;
+      color: #fff;
+    }
+
+    .banner-content h3 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.5rem, 2.8vw, 2.15rem);
+      line-height: 0.98;
+    }
+
+    .banner-content p {
+      color: rgba(255, 255, 255, 0.76);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .banner-content .btn-primary {
+      width: fit-content;
+      min-height: 42px;
+      padding: 0 20px;
+      font-size: 0.92rem;
+    }
+
+    .site-footer {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      background: linear-gradient(180deg, rgba(7, 17, 31, 0.98) 0%, rgba(4, 9, 18, 1) 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-shell {
+      width: min(var(--romix-shell), calc(100% - clamp(20px, 4vw, 72px)));
+      margin: 0 auto;
+      padding: clamp(38px, 5vw, 56px) 0 22px;
+      display: grid;
+      gap: 30px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: minmax(280px, 1.15fr) repeat(3, minmax(0, 0.7fr));
+      gap: clamp(24px, 3vw, 34px);
+      align-items: start;
+    }
+
+    .footer-brand {
+      display: grid;
+      gap: 18px;
+    }
+
+    .footer-brand-head {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "Outfit", sans-serif;
+      font-size: 1.42rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .footer-brand-head img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 14px;
+    }
+
+    .footer-brand p {
+      color: var(--romix-muted);
+      line-height: 1.7;
+      max-width: 42ch;
+    }
+
+    .newsletter-card {
+      padding: 22px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: grid;
+      gap: 16px;
+    }
+
+    .newsletter-card h3 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.4rem, 2.2vw, 1.82rem);
+      color: #fff;
+    }
+
+    .newsletter-card p {
+      color: var(--romix-muted);
+      line-height: 1.65;
+    }
+
+    .newsletter-form {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      min-width: 0;
+      min-height: 50px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+    }
+
+    .newsletter-form input::placeholder {
+      color: rgba(236, 243, 255, 0.5);
+    }
+
+    .footer-column {
+      display: grid;
+      gap: 14px;
+    }
+
+    .footer-column h4 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.04rem;
+      color: #fff;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .footer-column a {
+      color: var(--romix-muted);
+    }
+
+    .footer-bottom {
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      color: rgba(236, 243, 255, 0.56);
+      font-size: 0.9rem;
+    }
+
+    .footer-socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-socials a {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 1180px) {
+      .quick-shop-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .products-shell {
+        --products-visible: 3.35;
+      }
+
+      .footer-top {
+        grid-template-columns: minmax(0, 1fr) repeat(3, minmax(180px, 1fr));
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .main-hero-carousel {
+        min-height: clamp(520px, 86vw, 700px);
+      }
+
+      .hero-copy {
+        padding-top: 112px;
+      }
+
+      .categories-rail,
+      .products-shell {
+        padding: 0;
+      }
+
+      .category-arrow,
+      .products-arrow {
+        display: none;
+      }
+
+      .categories-track {
+        grid-auto-columns: minmax(180px, 260px);
+      }
+
+      .products-shell {
+        --products-visible: 2.7;
+      }
+
+      .footer-top {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .home {
+        width: calc(100% - 20px);
+        gap: 22px;
+        padding-bottom: 28px;
+      }
+
+      .section-heading {
+        flex-direction: column;
+        align-items: start;
+        margin-bottom: 18px;
+      }
+
+      .main-hero-carousel {
+        min-height: clamp(520px, 135vw, 660px);
+      }
+
+      .hero-copy {
+        gap: 16px;
+        padding-top: 116px;
+        padding-bottom: 94px;
+      }
+
+      .hero-title {
+        max-width: 8.5ch;
+        font-size: clamp(2.6rem, 12vw, 4.4rem);
+      }
+
+      .quick-shop-grid {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+      }
+
+      .quick-shop-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .audience-card {
+        flex: 0 0 180px;
+      }
+
+      .categories-track {
+        grid-auto-columns: minmax(164px, 220px);
+      }
+
+      .products-shell {
+        --products-visible: 2.08;
+        --products-gap: 14px;
+      }
+
+      .product-thumb {
+        height: clamp(248px, 52vw, 300px);
+      }
+
+      .promo-banners {
+        grid-template-columns: 1fr;
+      }
+
+      .banner-card {
+        min-height: 230px;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .newsletter-form .btn-primary {
+        width: 100%;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .site-header .header-row,
+      header.romix-shared-header .header-row {
+        min-height: 68px;
+      }
+
+      .site-header .icon-btn,
+      header.romix-shared-header .icon-btn {
+        width: 38px;
+        height: 38px;
+      }
+
+      .main-hero-carousel {
+        min-height: 500px;
+      }
+
+      .hero-title {
+        font-size: clamp(2.28rem, 11.2vw, 3.4rem);
+      }
+
+      .hero-description {
+        font-size: 0.92rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions .btn-primary,
+      .hero-actions .btn-secondary {
+        width: 100%;
+      }
+
+      .audience-section,
+      .category-showcase {
+        padding: 18px;
+        border-radius: 28px;
+      }
+
+      .products-shell {
+        --products-visible: 2.02;
+      }
+
+      .banner-card {
+        min-height: 208px;
+      }
+
+      .footer-shell {
+        width: calc(100% - 20px);
+      }
+    }
+
+    @media (max-width: 390px) {
+      .home {
+        width: calc(100% - 16px);
+      }
+
+      .products-shell {
+        --products-visible: 1.72;
+      }
+
+      .categories-track {
+        grid-auto-columns: 154px;
+      }
+
+      .audience-card {
+        flex-basis: 158px;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header romix-shared-header">
@@ -1388,22 +2585,47 @@
     <section class="main-hero-carousel" aria-label="Banner principal">
       <div class="main-hero-carousel__viewport" id="mainImageCarousel">
         <div class="main-hero-carousel__track">
-          <!-- Reemplazar estas 3 imagenes con el mismo nombre para actualizar el banner -->
           <figure class="main-hero-carousel__slide is-active">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?q=estampado" aria-label="Ir al catalogo con productos estampados">
-              <img src="images/banner/banner-1.png" alt="Banner principal 1" />
+            <a class="main-hero-carousel__slide-link" href="catalogo.html?temporada=invierno&q_any=termica,campera,polar" aria-label="Ver coleccion para invierno">
+              <img src="images/banner/banner-1.png" alt="Coleccion ROMIX para invierno" />
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=hombre,mujer&q_any=frizado,corderito,polar" aria-label="Ir al catalogo de hombre y mujer con productos frizados, corderito o polar">
-              <img src="images/banner/banner-2.png" alt="Banner principal 2" />
+            <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=hombre,mujer&q_any=frizado,corderito,polar" aria-label="Ver abrigo para hombre y mujer">
+              <img src="images/banner/banner-2.png" alt="Abrigo termico ROMIX" />
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=ninos&q_not=calza,short" aria-label="Ir al catalogo de ninos excluyendo calzas y shorts">
-              <img src="images/banner/banner-3.png" alt="Banner principal 3" />
+            <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=ninos&q_any=termica,campera,buzo" aria-label="Ver coleccion de ninos">
+              <img src="images/banner/banner-3.png" alt="Coleccion infantil ROMIX" />
             </a>
           </figure>
+        </div>
+        <div class="main-hero-carousel__content">
+          <div class="hero-copy">
+            <div class="hero-kicker">ROMIX <span>Outdoor / Sport</span></div>
+            <h1 class="hero-title">Para el <span class="hero-highlight">invierno</span></h1>
+            <p class="hero-subtitle">Abrigos termicos • Comodos • Resistentes</p>
+            <p class="hero-description">Tecnologia y estilo para acompa&ntilde;arte en cada aventura, desde la ciudad hasta los dias mas frios.</p>
+            <div class="hero-actions">
+              <a class="btn-primary" href="catalogo.html?temporada=invierno&q_any=termica,polar,corderito">Ver coleccion</a>
+              <a class="btn-secondary" href="novedades.html">Novedades</a>
+            </div>
+            <div class="hero-facts" aria-label="Fortalezas de la coleccion">
+              <div class="hero-fact">
+                <strong>Capas termicas</strong>
+                <span>Abrigo liviano para uso diario.</span>
+              </div>
+              <div class="hero-fact">
+                <strong>Fit deportivo</strong>
+                <span>Movimiento comodo en cada salida.</span>
+              </div>
+              <div class="hero-fact">
+                <strong>Estilo ROMIX</strong>
+                <span>Detalles fucsia sobre una base premium.</span>
+              </div>
+            </div>
+          </div>
         </div>
         <button class="main-hero-carousel__arrow main-hero-carousel__arrow--prev" type="button" data-carousel-prev aria-label="Imagen anterior">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1419,7 +2641,62 @@
       </div>
     </section>
 
-    <section class="categories-bar" aria-label="Barra de categorias">
+    <section class="audience-section" aria-labelledby="quick-shop-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-eyebrow">Compra rapida</span>
+          <h2 id="quick-shop-title" style="color:#fff;">&iquest;Para qui&eacute;n est&aacute;s comprando?</h2>
+          <p>Accesos directos para entrar r&aacute;pido a la l&iacute;nea que mejor se adapta a cada estilo y momento.</p>
+        </div>
+      </div>
+      <div class="quick-shop-grid">
+        <a class="audience-card" href="mujer.html">
+          <div class="audience-thumb"><img src="images/campera_lycra_fucsia.png" alt="Mujer" loading="lazy" /></div>
+          <div class="audience-copy"><strong>Mujer</strong><span>Capas termicas, tops y calzas para todos los dias.</span></div>
+          <span class="audience-arrow" aria-hidden="true">&gt;</span>
+        </a>
+        <a class="audience-card" href="hombre.html">
+          <div class="audience-thumb"><img src="images/campera_algodon_frizado_hombre_azul_marino.png" alt="Hombre" loading="lazy" /></div>
+          <div class="audience-copy"><strong>Hombre</strong><span>Camperas, joggers y abrigo urbano para el frio.</span></div>
+          <span class="audience-arrow" aria-hidden="true">&gt;</span>
+        </a>
+        <a class="audience-card" href="ninos.html?q_any=nina,nena">
+          <div class="audience-thumb"><img src="images/campera_frizada_algodon_nina_azul_marino.png" alt="Nina" loading="lazy" /></div>
+          <div class="audience-copy"><strong>Ni&ntilde;a</strong><span>Confort y movimiento para la rutina escolar y el juego.</span></div>
+          <span class="audience-arrow" aria-hidden="true">&gt;</span>
+        </a>
+        <a class="audience-card" href="ninos.html?q_any=nino,chico">
+          <div class="audience-thumb"><img src="images/campera_frizada_algodon_nino_azul_marino.png" alt="Nino" loading="lazy" /></div>
+          <div class="audience-copy"><strong>Ni&ntilde;o</strong><span>Prendas resistentes y abrigadas para dias intensos.</span></div>
+          <span class="audience-arrow" aria-hidden="true">&gt;</span>
+        </a>
+        <a class="audience-card" href="catalogo.html?sections=mujer,hombre&q_any=oversize,jogger,buzo">
+          <div class="audience-thumb"><img src="images/campera_oversize_algodon_rustico_azul.png" alt="Adolescentes" loading="lazy" /></div>
+          <div class="audience-copy"><strong>Adolescentes</strong><span>Silhuetas urbanas, buzos oversize y looks activos.</span></div>
+          <span class="audience-arrow" aria-hidden="true">&gt;</span>
+        </a>
+        <a class="audience-card" href="catalogo.html">
+          <div class="audience-thumb"><img src="images/ESTILO_URBANO_INVERNAL.png" alt="Ver todo" loading="lazy" /></div>
+          <div class="audience-copy"><strong>Ver todo</strong><span>Explora la tienda completa y descubr&iacute; toda la colecci&oacute;n.</span></div>
+          <span class="audience-arrow" aria-hidden="true">&gt;</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="categories-bar category-showcase" aria-labelledby="category-showcase-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-eyebrow">Categorias destacadas</span>
+          <h2 id="category-showcase-title" style="color:#fff;">Accesos directos a lo que m&aacute;s busc&aacute;s</h2>
+          <p>Una navegaci&oacute;n m&aacute;s clara, amplia y consistente para entrar a cada categor&iacute;a sin perder tiempo.</p>
+        </div>
+        <a class="section-link section-link--light" href="catalogo.html">Ver todo
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+      <div class="categories-rail">
       <button class="category-arrow left" type="button" id="categoryPrev" aria-label="Ver categorias anteriores">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1451,10 +2728,6 @@
           <div class="category-thumb"><img src="images/pantalon_jogger_fibrana_negro.png" alt="Categoria Pantalones" loading="lazy" /></div>
           <span>Pantalones</span>
         </a>
-        <a class="category-item" href="catalogo.html?categories=palazos">
-          <div class="category-thumb"><img src="images/palazo_fibrana_liso_negro.png" alt="Categoria Palazos" loading="lazy" /></div>
-          <span>Palazos</span>
-        </a>
       </div>
 
       <button class="category-arrow right" type="button" id="categoryNext" aria-label="Ver mas categorias">
@@ -1462,11 +2735,23 @@
           <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
       </button>
+      </div>
     </section>
-    <section class="products-section products-section--discover" aria-labelledby="ofertas-destacadas">
-      <h2 id="ofertas-destacadas">Descubre lo nuevo</h2>
+    <section class="products-section products-section--discover" id="ofertas" aria-labelledby="ofertas-destacadas">
+      <div class="section-heading">
+        <div>
+          <span class="section-eyebrow">Nueva temporada</span>
+          <h2 id="ofertas-destacadas">DESCUBR&Iacute; LO NUEVO</h2>
+          <p>Novedades con proporciones m&aacute;s limpias, mejor espacio visual y una presentaci&oacute;n m&aacute;s comercial.</p>
+        </div>
+        <a class="section-link" href="novedades.html">Ver todo
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
       <div class="products-shell">
-        <button class="products-arrow left" type="button" id="productsPrev" aria-label="Ver ofertas anteriores">
+        <button class="products-arrow left" type="button" id="productsPrev" aria-label="Ver productos anteriores">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
@@ -1503,6 +2788,82 @@
     </section>
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-shell">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-brand-head">
+            <img src="images/logo-romix.png" alt="ROMIX" />
+            <span>ROMIX</span>
+          </div>
+          <div class="newsletter-card" id="newsletter">
+            <div>
+              <h3>Novedades y ofertas directo a tu mail</h3>
+              <p>Suscribite y enterate antes que nadie.</p>
+            </div>
+            <form class="newsletter-form" id="newsletterForm">
+              <input type="email" id="newsletterEmail" name="email" placeholder="Tu email" aria-label="Tu email" required />
+              <button class="btn-primary" type="submit">Suscribirme</button>
+            </form>
+          </div>
+        </div>
+        <nav class="footer-column" aria-label="Comprar">
+          <h4>Comprar</h4>
+          <ul>
+            <li><a href="mujer.html">Mujer</a></li>
+            <li><a href="hombre.html">Hombre</a></li>
+            <li><a href="ninos.html">Ni&ntilde;os</a></li>
+            <li><a href="novedades.html">Novedades</a></li>
+            <li><a href="index.html#ofertas">Ofertas</a></li>
+          </ul>
+        </nav>
+        <nav class="footer-column" aria-label="Ayuda">
+          <h4>Ayuda</h4>
+          <ul>
+            <li><a href="ayuda.html#size-guide">Preguntas frecuentes</a></li>
+            <li><a href="ayuda.html#returns">Envios y devoluciones</a></li>
+            <li><a href="ayuda.html#returns">Cambios</a></li>
+            <li><a href="cart.html#order-btn">Formas de pago</a></li>
+            <li><a href="ayuda.html#contact">Contacto</a></li>
+          </ul>
+        </nav>
+        <nav class="footer-column" aria-label="Nosotros">
+          <h4>Nosotros</h4>
+          <ul>
+            <li><a href="index.html">Qui&eacute;nes somos</a></li>
+            <li><a href="mailto:info@romix.com.ar?subject=Trabajo%20en%20ROMIX">Trabaj&aacute; con nosotros</a></li>
+            <li><a href="ayuda.html#contact">Locales</a></li>
+            <li><a href="ayuda.html">T&eacute;rminos y condiciones</a></li>
+            <li><a href="ayuda.html">Pol&iacute;tica de privacidad</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
+        <div class="footer-socials" aria-label="Redes sociales">
+          <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"></rect>
+              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle>
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M13.5 21V13H16.2L16.6 9.9H13.5V8.1C13.5 7.21 13.76 6.6 15.04 6.6H16.7V3.82C16.39 3.78 15.31 3.68 14.05 3.68C11.42 3.68 9.62 5.28 9.62 8.24V9.9H7V13H9.62V21H13.5Z" fill="currentColor"></path>
+            </svg>
+          </a>
+          <a href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 11.56C20 16 16.41 19.6 12 19.6C10.58 19.6 9.24 19.23 8.08 18.57L4 20L5.47 16.07C4.73 14.86 4.3 13.44 4.3 11.92C4.3 7.48 7.89 3.88 12.3 3.88C16.71 3.88 20.3 7.48 20.3 11.92L20 11.56Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path>
+              <path d="M9.29 8.96C9.49 8.52 9.7 8.51 10.06 8.49C10.22 8.48 10.39 8.48 10.55 8.49C10.73 8.49 11.02 8.42 11.28 9.04C11.54 9.66 12.16 11.12 12.23 11.25C12.31 11.38 12.36 11.53 12.26 11.71C12.17 11.89 12.13 11.99 11.99 12.16C11.85 12.33 11.69 12.53 11.57 12.66C11.44 12.8 11.31 12.95 11.5 13.27C11.68 13.59 12.32 14.61 13.25 15.44C14.45 16.51 15.46 16.84 15.81 16.98C16.17 17.12 16.37 17.1 16.54 16.91C16.71 16.71 17.26 16.06 17.47 15.75C17.68 15.44 17.89 15.49 18.19 15.6C18.49 15.7 20.06 16.47 20.39 16.64C20.71 16.81 20.93 16.89 21.01 17.03C21.09 17.17 21.09 17.84 20.87 18.49C20.65 19.14 19.57 19.75 18.93 19.84C18.29 19.93 17.49 19.97 14.87 18.89C12.24 17.81 10.57 16.08 9.43 14.47C8.29 12.86 7.52 11.02 7.39 10.21C7.26 9.4 7.58 8.85 7.97 8.46C8.35 8.08 8.69 8.03 8.92 8.03C9.15 8.03 9.29 8.04 9.29 8.96Z" fill="currentColor"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <script src="assets/js/products-store.js"></script>
   <script src="assets/js/catalog-relevance-order.js"></script>
   <script src="assets/js/romix-header.js"></script>
@@ -1513,8 +2874,7 @@
       { label: "Remeras", types: ["remeras", "musculosas", "sudaderas"], query: "remeras", fallback: "images/remera_lycra_dry_dama_lila.png" },
       { label: "Tops", types: ["tops"], query: "tops", fallback: "images/top_lycra_morley_fucsia.png" },
       { label: "Buzos", types: ["buzos"], query: "buzos", fallback: "images/buzo_rustico_lycra_dama_gris_melange.png" },
-      { label: "Pantalones", types: ["pantalones", "shorts", "babuchas", "joggers"], query: "pantalones", fallback: "images/pantalon_jogger_fibrana_negro.png" },
-      { label: "Palazos", types: ["palazos", "palazo"], query: "palazos", fallback: "images/palazo_fibrana_liso_negro.png" }
+      { label: "Pantalones", types: ["pantalones", "shorts", "babuchas", "joggers"], query: "pantalones", fallback: "images/pantalon_jogger_fibrana_negro.png" }
     ];
     let refreshProductsCarousel = null;
 
@@ -1833,6 +3193,12 @@
         priceRow.appendChild(stock);
         body.appendChild(priceRow);
 
+        const cta = document.createElement("a");
+        cta.className = "product-cta";
+        cta.href = href;
+        cta.textContent = "Comprar";
+        body.appendChild(cta);
+
         card.appendChild(thumbLink);
         card.appendChild(body);
         row.appendChild(card);
@@ -2003,6 +3369,62 @@
         }
         console.error("[index] Error cargando data de home", error);
       }
+    })();
+
+    (function initHomeEnhancements() {
+      const productsNext = document.getElementById("productsNext");
+      if (productsNext) productsNext.setAttribute("aria-label", "Ver mas productos");
+
+      const newsletterForm = document.getElementById("newsletterForm");
+      const newsletterEmail = document.getElementById("newsletterEmail");
+      if (newsletterForm && newsletterEmail) {
+        newsletterForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const email = String(newsletterEmail.value || "").trim();
+          if (!email) return;
+          const subject = encodeURIComponent("Newsletter ROMIX");
+          const body = encodeURIComponent("Quiero suscribirme al newsletter ROMIX con este email: " + email);
+          window.location.href = "mailto:info@romix.com.ar?subject=" + subject + "&body=" + body;
+        });
+      }
+
+      const promoCards = Array.from(document.querySelectorAll(".promo-banners .banner-card"));
+      const promoConfig = [
+        {
+          href: "catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito",
+          aria: "Ver abrigos",
+          title: "ABRIGOS QUE TE ACOMPA&Ntilde;AN",
+          text: "M&aacute;xima calidez y confort para cada d&iacute;a.",
+          cta: "Ver abrigos",
+          alt: "Abrigos urbanos de invierno"
+        },
+        {
+          href: "catalogo.html?q_any=dry,deportivo,lycra,saplex",
+          aria: "Ver linea deportiva",
+          title: "REND&Iacute; AL M&Aacute;XIMO CON ESTILO",
+          text: "Ropa dise&ntilde;ada para impulsar tu mejor versi&oacute;n.",
+          cta: "Ver deportivo",
+          alt: "Linea deportiva ROMIX"
+        }
+      ];
+
+      promoCards.forEach((card, index) => {
+        const config = promoConfig[index];
+        if (!config) return;
+        const link = card.querySelector(".banner-image-link");
+        const image = card.querySelector("img");
+        const content = card.querySelector(".banner-content");
+        if (link) {
+          link.href = config.href;
+          link.setAttribute("aria-label", config.aria);
+        }
+        if (image) {
+          image.alt = config.alt;
+        }
+        if (content) {
+          content.innerHTML = "<h3>" + config.title + "</h3><p>" + config.text + "</p><a class=\"btn-primary\" href=\"" + config.href + "\">" + config.cta + "</a>";
+        }
+      });
     })();
   </script>
 </body>

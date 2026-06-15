@@ -1140,7 +1140,28 @@
     }
     .promo-dot.is-active { width: 24px; border-radius: 4px; background: #fff; }
     @media (max-width: 760px) {
-      .promo-arrow { display: none; }
+      .promo-carousel,
+      .promo-slide {
+        min-height: 0;
+      }
+      .promo-slide__link {
+        height: auto;
+        min-height: 0;
+      }
+      .promo-slide__link img,
+      .promo-slide img {
+        height: auto;
+        min-height: 0;
+        object-fit: contain;
+      }
+      .promo-arrow {
+        display: inline-flex;
+        width: 36px;
+        height: 36px;
+      }
+      .promo-arrow--prev { left: 10px; }
+      .promo-arrow--next { right: 10px; }
+      .promo-dots { bottom: 12px; }
     }
   </style>
 </head>

@@ -1071,33 +1071,88 @@
       }
     }
 
-    /* ── PROMO BANNERS mejorados ── */
-    .promo-card {
-      min-height: clamp(280px, 35vw, 480px);
+    /* ── PROMO CAROUSEL ── */
+    .promo-carousel {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      min-height: clamp(260px, 38vw, 500px);
+      background: #111;
+      box-shadow: var(--shadow-hover);
     }
-    .promo-card img {
-      object-position: center top;
+    .promo-track { position: relative; width: 100%; height: 100%; }
+    .promo-slide { display: none; position: relative; width: 100%; min-height: clamp(260px, 38vw, 500px); }
+    .promo-slide.is-active { display: block; }
+    .promo-slide img {
+      width: 100%; height: 100%; min-height: clamp(260px, 38vw, 500px);
+      object-fit: cover; object-position: center top;
+      position: absolute; inset: 0;
       transition: transform 0.4s ease;
     }
-    .promo-card:hover img {
-      transform: scale(1.03);
-    }
-    .promo-card__overlay {
+    .promo-slide.is-active img { transform: scale(1.02); }
+    .promo-slide__overlay {
+      position: absolute; inset: 0;
       background: linear-gradient(
-        to top,
-        rgba(0,0,0,0.82) 0%,
-        rgba(0,0,0,0.35) 50%,
+        90deg,
+        rgba(0,0,0,0.78) 0%,
+        rgba(0,0,0,0.38) 55%,
         rgba(0,0,0,0.08) 100%
       );
     }
-    .promo-card__body {
-      justify-content: flex-end;
-      padding: clamp(20px, 3vw, 36px);
-      gap: 8px;
+    .promo-slide__body {
+      position: relative; z-index: 2;
+      height: clamp(260px, 38vw, 500px);
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: clamp(24px, 5vw, 72px);
+      gap: 14px; max-width: 560px;
     }
-    .promo-card__title {
-      font-size: clamp(1.4rem, 2.8vw, 2.2rem);
-      text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+    .promo-slide__eyebrow {
+      display: inline-flex;
+      font-family: "Outfit", sans-serif; font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--pink);
+      background: rgba(255,63,142,0.12);
+      border: 1px solid rgba(255,63,142,0.3);
+      padding: 5px 12px; border-radius: var(--pill);
+      width: fit-content;
+    }
+    .promo-slide__title {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+      font-weight: 900; line-height: 1.05; color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    }
+    .promo-slide__title span { color: var(--pink); }
+    .promo-slide__desc {
+      font-size: clamp(0.88rem, 1.3vw, 1rem);
+      color: rgba(255,255,255,0.8); line-height: 1.6; max-width: 36ch;
+    }
+    .promo-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 42px; height: 42px; border: 0; border-radius: 50%;
+      background: rgba(255,255,255,0.9); color: #111;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 5;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .promo-arrow:hover { transform: translateY(-50%) scale(1.05); background: #fff; }
+    .promo-arrow--prev { left: 16px; }
+    .promo-arrow--next { right: 16px; }
+    .promo-dots {
+      position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 3;
+    }
+    .promo-dot {
+      width: 8px; height: 8px; border-radius: 50%; border: 0;
+      background: rgba(255,255,255,0.5); cursor: pointer;
+      transition: width 0.2s, background 0.2s;
+    }
+    .promo-dot.is-active { width: 24px; border-radius: 4px; background: #fff; }
+    @media (max-width: 760px) {
+      .promo-arrow { display: none; }
+      .promo-slide__body { padding: 24px; }
     }
   </style>
 </head>
@@ -1391,6 +1446,52 @@
       </div>
     </section>
 
+    <!-- ── PROMO CAROUSEL ── -->
+    <div class="section-wrap" id="promoCarouselWrap">
+      <div class="sec-head">
+        <div class="sec-head__left">
+          <span class="sec-eyebrow">Destacados</span>
+          <h2 class="sec-title">Colecciones de la temporada</h2>
+        </div>
+      </div>
+      <div class="promo-carousel" id="promoCarousel">
+        <div class="promo-track" id="promoTrack">
+
+          <article class="promo-slide">
+            <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Estilo Urbano Invernal ROMIX" loading="lazy" />
+            <div class="promo-slide__overlay"></div>
+            <div class="promo-slide__body">
+              <span class="promo-slide__eyebrow">Colecci&oacute;n Invierno</span>
+              <h3 class="promo-slide__title">ESTILO URBANO<br><span>INVERNAL</span></h3>
+              <p class="promo-slide__desc">Camperas, buzos y polares para el fr&iacute;o con dise&ntilde;o que te acompa&ntilde;a.</p>
+              <a class="btn-pink" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito">Ver M&aacute;s</a>
+            </div>
+          </article>
+
+          <article class="promo-slide">
+            <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" />
+            <div class="promo-slide__overlay"></div>
+            <div class="promo-slide__body">
+              <span class="promo-slide__eyebrow">L&iacute;nea Deportiva</span>
+              <h3 class="promo-slide__title">ENTREN&Aacute; CON<br><span>ESTILO</span></h3>
+              <p class="promo-slide__desc">Ropa dise&ntilde;ada para impulsar tu mejor versi&oacute;n en cada movimiento.</p>
+              <a class="btn-pink" href="catalogo.html?q_any=dry,deportivo,lycra,saplex">Descubrir Ahora</a>
+            </div>
+          </article>
+
+        </div>
+
+        <button class="promo-arrow promo-arrow--prev" type="button" id="promoPrev" aria-label="Anterior">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="promo-arrow promo-arrow--next" type="button" id="promoNext" aria-label="Siguiente">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="promo-dots" id="promoDots"></div>
+      </div>
+    </div>
+
     <section class="products-section" id="ofertas" aria-labelledby="ofertas-titulo">
       <div class="section-head">
         <div>
@@ -1420,31 +1521,6 @@
       </div>
     </section>
 
-    <!-- ── PROMO BANNERS ── -->
-    <div class="section-wrap">
-      <div class="promo-grid">
-        <article class="promo-card">
-          <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Estilo Urbano Invernal ROMIX" loading="lazy" />
-          <div class="promo-card__overlay"></div>
-          <div class="promo-card__body">
-            <span class="sec-eyebrow" style="margin-bottom:4px;">Colecci&oacute;n Invierno</span>
-            <h3 class="promo-card__title">ESTILO URBANO INVERNAL</h3>
-            <p class="promo-card__desc">Camperas, buzos y polares para el fr&iacute;o con dise&ntilde;o que te acompa&ntilde;a.</p>
-            <a class="btn-pink" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" style="width:fit-content;">Ver M&aacute;s</a>
-          </div>
-        </article>
-        <article class="promo-card">
-          <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" />
-          <div class="promo-card__overlay"></div>
-          <div class="promo-card__body">
-            <span class="sec-eyebrow" style="margin-bottom:4px;">L&iacute;nea Deportiva</span>
-            <h3 class="promo-card__title">ENTREN&Aacute; CON ESTILO</h3>
-            <p class="promo-card__desc">Ropa dise&ntilde;ada para impulsar tu mejor versi&oacute;n en cada movimiento.</p>
-            <a class="btn-pink" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" style="width:fit-content;">Descubrir Ahora</a>
-          </div>
-        </article>
-      </div>
-    </div>
   </main>
 
   <footer class="site-footer">
@@ -1998,6 +2074,42 @@
         const body = encodeURIComponent("Quiero suscribirme al newsletter ROMIX con este email: " + value);
         window.location.href = "mailto:info@romix.com.ar?subject=" + subject + "&body=" + body;
       });
+    })();
+
+    /* ── PROMO CAROUSEL ── */
+    (function(){
+      const wrap = document.getElementById("promoCarousel");
+      if(!wrap) return;
+      const slides = Array.from(wrap.querySelectorAll(".promo-slide"));
+      const dotsWrap = document.getElementById("promoDots");
+      const prevBtn = document.getElementById("promoPrev");
+      const nextBtn = document.getElementById("promoNext");
+      if(!slides.length || !dotsWrap) return;
+      let current = 0, timer = null, dots = [];
+      const autoplayMs = 5000;
+      const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function render(){
+        slides.forEach((s,i) => s.classList.toggle("is-active", i === current));
+        dots.forEach((d,i) => d.classList.toggle("is-active", i === current));
+      }
+      function goTo(i){ current = (i + slides.length) % slides.length; render(); }
+      function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+      function start(){ stop(); if(reduceMotion || slides.length < 2) return; timer = setInterval(() => goTo(current + 1), autoplayMs); }
+
+      slides.forEach((_,i) => {
+        const d = document.createElement("button");
+        d.type = "button";
+        d.className = "promo-dot" + (i === 0 ? " is-active" : "");
+        d.setAttribute("aria-label", "Banner " + (i + 1));
+        d.addEventListener("click", () => { goTo(i); start(); });
+        dotsWrap.appendChild(d);
+      });
+      dots = Array.from(dotsWrap.querySelectorAll(".promo-dot"));
+      if(prevBtn) prevBtn.addEventListener("click", () => { goTo(current - 1); start(); });
+      if(nextBtn) nextBtn.addEventListener("click", () => { goTo(current + 1); start(); });
+      document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
+      render(); start();
     })();
 
     (async function initHomeCatalogData() {

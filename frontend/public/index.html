@@ -1091,53 +1091,31 @@
       overflow: hidden;
     }
     .promo-slide.is-active { display: block; }
+    .promo-slide__link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      text-decoration: none;
+    }
+    .promo-slide__link img,
     .promo-slide img {
-      width: 100%; height: 100%; min-height: clamp(260px, 38vw, 500px);
+      display: block;
+      width: 100%; height: 100%; min-height: inherit;
       object-fit: cover; object-position: center center;
       object-view-box: inset(0);
-      position: absolute; inset: 0;
       transition: transform 0.4s ease;
       max-width: 100%;
       image-rendering: auto;
     }
     .promo-slide.is-active img { transform: scale(1.02); }
-    .promo-slide__overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(
-        90deg,
-        rgba(0,0,0,0.78) 0%,
-        rgba(0,0,0,0.38) 55%,
-        rgba(0,0,0,0.08) 100%
-      );
-    }
-    .promo-slide__body {
-      position: relative; z-index: 2;
-      height: clamp(260px, 38vw, 500px);
-      display: flex; flex-direction: column;
-      justify-content: center;
-      padding: clamp(24px, 5vw, 72px);
-      gap: 14px; max-width: 560px;
-    }
-    .promo-slide__eyebrow {
-      display: inline-flex;
-      font-family: "Outfit", sans-serif; font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--pink);
-      background: rgba(255,63,142,0.12);
-      border: 1px solid rgba(255,63,142,0.3);
-      padding: 5px 12px; border-radius: var(--pill);
-      width: fit-content;
-    }
-    .promo-slide__title {
-      font-family: "Outfit", sans-serif;
-      font-size: clamp(1.8rem, 4.5vw, 3.4rem);
-      font-weight: 900; line-height: 1.05; color: #fff;
-      text-shadow: 0 2px 20px rgba(0,0,0,0.4);
-    }
-    .promo-slide__title span { color: var(--pink); }
-    .promo-slide__desc {
-      font-size: clamp(0.88rem, 1.3vw, 1rem);
-      color: rgba(255,255,255,0.8); line-height: 1.6; max-width: 36ch;
+    .promo-slide__overlay,
+    .promo-slide__body,
+    .promo-slide__eyebrow,
+    .promo-slide__title,
+    .promo-slide__desc,
+    .promo-slide .btn-pink {
+      display: none;
     }
     .promo-arrow {
       position: absolute; top: 50%; transform: translateY(-50%);
@@ -1163,7 +1141,6 @@
     .promo-dot.is-active { width: 24px; border-radius: 4px; background: #fff; }
     @media (max-width: 760px) {
       .promo-arrow { display: none; }
-      .promo-slide__body { padding: 24px; }
     }
   </style>
 </head>
@@ -1469,25 +1446,15 @@
         <div class="promo-track" id="promoTrack">
 
           <article class="promo-slide">
-            <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Estilo Urbano Invernal ROMIX" loading="lazy" />
-            <div class="promo-slide__overlay"></div>
-            <div class="promo-slide__body">
-              <span class="promo-slide__eyebrow">Colecci&oacute;n Invierno</span>
-              <h3 class="promo-slide__title">ESTILO URBANO<br><span>INVERNAL</span></h3>
-              <p class="promo-slide__desc">Camperas, buzos y polares para el fr&iacute;o con dise&ntilde;o que te acompa&ntilde;a.</p>
-              <a class="btn-pink" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito">Ver M&aacute;s</a>
-            </div>
+            <a class="promo-slide__link" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" aria-label="Ver colecci&oacute;n invierno ROMIX">
+              <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Estilo Urbano Invernal ROMIX" loading="lazy" />
+            </a>
           </article>
 
           <article class="promo-slide">
-            <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" />
-            <div class="promo-slide__overlay"></div>
-            <div class="promo-slide__body">
-              <span class="promo-slide__eyebrow">L&iacute;nea Deportiva</span>
-              <h3 class="promo-slide__title">ENTREN&Aacute; CON<br><span>ESTILO</span></h3>
-              <p class="promo-slide__desc">Ropa dise&ntilde;ada para impulsar tu mejor versi&oacute;n en cada movimiento.</p>
-              <a class="btn-pink" href="catalogo.html?q_any=dry,deportivo,lycra,saplex">Descubrir Ahora</a>
-            </div>
+            <a class="promo-slide__link" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" aria-label="Ver l&iacute;nea deportiva ROMIX">
+              <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" />
+            </a>
           </article>
 
         </div>

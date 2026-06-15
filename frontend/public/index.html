@@ -1070,6 +1070,35 @@
         grid-auto-columns: calc(100% - 26px);
       }
     }
+
+    /* ── PROMO BANNERS mejorados ── */
+    .promo-card {
+      min-height: clamp(280px, 35vw, 480px);
+    }
+    .promo-card img {
+      object-position: center top;
+      transition: transform 0.4s ease;
+    }
+    .promo-card:hover img {
+      transform: scale(1.03);
+    }
+    .promo-card__overlay {
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.82) 0%,
+        rgba(0,0,0,0.35) 50%,
+        rgba(0,0,0,0.08) 100%
+      );
+    }
+    .promo-card__body {
+      justify-content: flex-end;
+      padding: clamp(20px, 3vw, 36px);
+      gap: 8px;
+    }
+    .promo-card__title {
+      font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+      text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+    }
   </style>
 </head>
 <body>
@@ -1391,28 +1420,31 @@
       </div>
     </section>
 
-    <section class="promo-banners" aria-label="Banners promocionales">
-      <article class="banner-card">
-        <a class="banner-image-link" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" aria-label="Ver abrigos">
-          <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Abrigos urbanos de invierno" loading="lazy" />
-        </a>
-        <div class="banner-content">
-          <h3>ABRIGOS QUE TE ACOMPA&Ntilde;AN</h3>
-          <p>M&aacute;xima calidez y confort para cada d&iacute;a.</p>
-          <a class="btn-primary" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito">Ver abrigos</a>
-        </div>
-      </article>
-      <article class="banner-card">
-        <a class="banner-image-link" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" aria-label="Ver linea deportiva">
-          <img src="images/ROPA_DEPORTIVA.png" alt="Linea deportiva ROMIX" loading="lazy" />
-        </a>
-        <div class="banner-content">
-          <h3>REND&Iacute; AL M&Aacute;XIMO CON ESTILO</h3>
-          <p>Ropa dise&ntilde;ada para impulsar tu mejor versi&oacute;n.</p>
-          <a class="btn-primary" href="catalogo.html?q_any=dry,deportivo,lycra,saplex">Ver deportivo</a>
-        </div>
-      </article>
-    </section>
+    <!-- ── PROMO BANNERS ── -->
+    <div class="section-wrap">
+      <div class="promo-grid">
+        <article class="promo-card">
+          <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Estilo Urbano Invernal ROMIX" loading="lazy" />
+          <div class="promo-card__overlay"></div>
+          <div class="promo-card__body">
+            <span class="sec-eyebrow" style="margin-bottom:4px;">Colecci&oacute;n Invierno</span>
+            <h3 class="promo-card__title">ESTILO URBANO INVERNAL</h3>
+            <p class="promo-card__desc">Camperas, buzos y polares para el fr&iacute;o con dise&ntilde;o que te acompa&ntilde;a.</p>
+            <a class="btn-pink" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" style="width:fit-content;">Ver M&aacute;s</a>
+          </div>
+        </article>
+        <article class="promo-card">
+          <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" />
+          <div class="promo-card__overlay"></div>
+          <div class="promo-card__body">
+            <span class="sec-eyebrow" style="margin-bottom:4px;">L&iacute;nea Deportiva</span>
+            <h3 class="promo-card__title">ENTREN&Aacute; CON ESTILO</h3>
+            <p class="promo-card__desc">Ropa dise&ntilde;ada para impulsar tu mejor versi&oacute;n en cada movimiento.</p>
+            <a class="btn-pink" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" style="width:fit-content;">Descubrir Ahora</a>
+          </div>
+        </article>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">

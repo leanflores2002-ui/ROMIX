@@ -5,24 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROMIX - Indumentaria Deportiva & Urbana</title>
   <meta name="description" content="Descubrí calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada día." />
-  <link rel="canonical" href="https://romi-damas.netlify.app/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="ROMIX" />
-  <meta property="og:locale" content="es_AR" />
-  <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
-  <meta property="og:description" content="Descubrí calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada día." />
-  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Logo ROMIX" />
-  <meta property="og:url" content="https://romi-damas.netlify.app/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
-  <meta name="twitter:description" content="Descubrí calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada día." />
-  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
-  <meta name="twitter:url" content="https://romi-damas.netlify.app/" />
-  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -45,51 +27,26 @@
       --pill: 999px;
       --max: 1280px;
       --gap: clamp(16px, 2vw, 28px);
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.14);
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 32px rgba(0,0,0,0.14);
     }
 
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      overflow-x: hidden;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
     body {
       font-family: "Manrope", sans-serif;
       color: var(--text);
       background: #f7f7f7;
       overflow-x: clip;
     }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
 
-    img {
-      display: block;
-      max-width: 100%;
-      height: auto;
-    }
+    /* ── PAGE WRAPPER ── */
+    .page { display: grid; gap: clamp(20px, 2.4vw, 32px); padding-bottom: 48px; }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    .page {
-      display: grid;
-      gap: clamp(20px, 2.4vw, 32px);
-      padding-bottom: 48px;
-    }
-
+    /* ── HERO BANNER ── */
     .hero {
       position: relative;
       width: 100%;
@@ -97,7 +54,6 @@
       overflow: hidden;
       min-height: clamp(320px, 50vw, 600px);
     }
-
     .hero img {
       width: 100%;
       height: 100%;
@@ -106,13 +62,11 @@
       position: absolute;
       inset: 0;
     }
-
     .hero__overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, rgba(10, 10, 20, 0.75) 0%, rgba(10, 10, 20, 0.35) 55%, rgba(10, 10, 20, 0.1) 100%);
+      background: linear-gradient(90deg, rgba(10,10,20,0.75) 0%, rgba(10,10,20,0.35) 55%, rgba(10,10,20,0.1) 100%);
     }
-
     .hero__content {
       position: relative;
       z-index: 2;
@@ -124,7 +78,6 @@
       max-width: 600px;
       gap: 16px;
     }
-
     .hero__eyebrow {
       display: inline-flex;
       align-items: center;
@@ -135,906 +88,417 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--pink);
-      background: rgba(255, 63, 142, 0.12);
-      border: 1px solid rgba(255, 63, 142, 0.3);
+      background: rgba(255,63,142,0.12);
+      border: 1px solid rgba(255,63,142,0.3);
       padding: 6px 14px;
       border-radius: var(--pill);
       width: fit-content;
     }
-
     .hero__title {
       font-family: "Outfit", sans-serif;
       font-size: clamp(2rem, 5.5vw, 4.2rem);
       font-weight: 900;
-      line-height: 1;
+      line-height: 1.0;
       color: var(--white);
-      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+      text-shadow: 0 2px 20px rgba(0,0,0,0.4);
     }
-
-    .hero__title span {
-      color: var(--pink);
-    }
-
+    .hero__title span { color: var(--pink); }
     .hero__desc {
       font-size: clamp(0.9rem, 1.4vw, 1.05rem);
-      color: rgba(255, 255, 255, 0.82);
+      color: rgba(255,255,255,0.8);
       line-height: 1.6;
       max-width: 38ch;
     }
-
-    .hero__actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
+    .hero__actions { display: flex; gap: 12px; flex-wrap: wrap; }
     .btn-pink {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0 28px;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 46px; padding: 0 28px;
       border-radius: var(--pill);
       background: linear-gradient(120deg, var(--pink) 0%, var(--pink-light) 100%);
-      color: #fff;
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: 0.92rem;
-      border: 0;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(255, 63, 142, 0.35);
-      transition: transform 0.2s ease, filter 0.2s ease;
+      color: #fff; font-family: "Outfit", sans-serif; font-weight: 700;
+      font-size: 0.92rem; border: 0; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255,63,142,0.35);
+      transition: transform 0.2s, filter 0.2s;
     }
-
-    .btn-pink:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.06);
-    }
-
+    .btn-pink:hover { transform: translateY(-2px); filter: brightness(1.06); }
     .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0 24px;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 46px; padding: 0 24px;
       border-radius: var(--pill);
-      border: 1.5px solid rgba(255, 255, 255, 0.5);
-      color: #fff;
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: 0.92rem;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(8px);
-      cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      color: #fff; font-family: "Outfit", sans-serif; font-weight: 700;
+      font-size: 0.92rem; background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px); cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
     }
+    .btn-ghost:hover { transform: translateY(-2px); background: rgba(255,255,255,0.16); }
 
-    .btn-ghost:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.16);
-    }
-
+    /* carousel arrows & dots */
     .hero__arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 42px;
-      height: 42px;
-      border: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.9);
-      color: #111;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 5;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease, background 0.2s ease;
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 42px; height: 42px; border: 0; border-radius: 50%;
+      background: rgba(255,255,255,0.9); color: #111;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 5;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background 0.2s;
     }
-
-    .hero__arrow:hover {
-      transform: translateY(-50%) scale(1.05);
-      background: #fff;
-    }
-
-    .hero__arrow--prev {
-      left: clamp(12px, 2.5vw, 32px);
-    }
-
-    .hero__arrow--next {
-      right: clamp(12px, 2.5vw, 32px);
-    }
-
+    .hero__arrow:hover { transform: translateY(-50%) scale(1.05); background: #fff; }
+    .hero__arrow--prev { left: clamp(12px, 2.5vw, 32px); }
+    .hero__arrow--next { right: clamp(12px, 2.5vw, 32px); }
     .hero__dots {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      z-index: 3;
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 3;
     }
-
     .hero__dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      border: 0;
-      background: rgba(255, 255, 255, 0.5);
-      cursor: pointer;
-      transition: width 0.2s ease, background 0.2s ease;
+      width: 8px; height: 8px; border-radius: 50%; border: 0;
+      background: rgba(255,255,255,0.5); cursor: pointer;
+      transition: width 0.2s, background 0.2s;
     }
+    .hero__dot.is-active { width: 24px; border-radius: 4px; background: #fff; }
 
-    .hero__dot.is-active {
-      width: 24px;
-      border-radius: 4px;
-      background: #fff;
-    }
+    /* carousel slides */
+    .hero__track { position: relative; width: 100%; height: 100%; }
+    .hero__slide { display: none; }
+    .hero__slide.is-active { display: block; }
 
-    .hero__track {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-
-    .hero__slide {
-      display: none;
-    }
-
-    .hero__slide.is-active {
-      display: block;
-    }
-
+    /* ── SECTION WRAPPER ── */
     .section-wrap {
       width: min(var(--max), calc(100% - clamp(16px, 4vw, 48px)));
       margin: 0 auto;
     }
 
+    /* ── SECTION HEADER ── */
     .sec-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 18px;
     }
-
-    .sec-head__left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
+    .sec-head__left { display: flex; flex-direction: column; gap: 2px; }
     .sec-eyebrow {
-      font-family: "Outfit", sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--pink);
+      font-family: "Outfit", sans-serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--pink);
     }
-
     .sec-title {
-      font-family: "Outfit", sans-serif;
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
-      font-weight: 800;
-      color: var(--text);
+      font-family: "Outfit", sans-serif; font-size: clamp(1.1rem, 2vw, 1.4rem);
+      font-weight: 800; color: var(--text);
     }
-
     .sec-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-family: "Outfit", sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      white-space: nowrap;
-      transition: color 0.2s ease;
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: "Outfit", sans-serif; font-size: 0.88rem; font-weight: 700;
+      color: var(--text-muted); white-space: nowrap;
+      transition: color 0.2s;
     }
+    .sec-link:hover { color: var(--pink); }
 
-    .sec-link:hover {
-      color: var(--pink);
-    }
-
+    /* ── AUDIENCE CARDS ── */
     .audience-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: clamp(10px, 1.4vw, 16px);
     }
-
     .audience-card {
       position: relative;
       border-radius: var(--radius-lg);
       overflow: hidden;
-      aspect-ratio: 3 / 4;
+      aspect-ratio: 3/4;
       background: #ddd;
       cursor: pointer;
-      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      transition: transform 0.22s, box-shadow 0.22s;
     }
-
-    .audience-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
+    .audience-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .audience-card img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
     }
-
     .audience-card__placeholder {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       background: linear-gradient(160deg, #2a2a3e 0%, #1a1a2e 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
-
-    .audience-card__placeholder svg {
-      width: 48px;
-      height: 48px;
-      opacity: 0.3;
-      color: #fff;
-    }
-
+    .audience-card__placeholder svg { width: 48px; height: 48px; opacity: 0.3; color: #fff; }
     .audience-card__label {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      position: absolute; bottom: 0; left: 0; right: 0;
       padding: 28px 14px 14px;
-      background: linear-gradient(0deg, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+      background: linear-gradient(0deg, rgba(0,0,0,0.75) 0%, transparent 100%);
       color: #fff;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
+      display: flex; align-items: flex-end; justify-content: space-between;
     }
-
     .audience-card__name {
-      font-family: "Outfit", sans-serif;
-      font-size: 1rem;
-      font-weight: 800;
+      font-family: "Outfit", sans-serif; font-size: 1rem; font-weight: 800;
     }
-
     .audience-card__arrow {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--pink);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--pink); display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
 
+    /* ── CATEGORY PILLS ── */
     .cat-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: clamp(10px, 1.4vw, 16px);
     }
-
     .cat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      cursor: pointer; transition: transform 0.2s;
     }
-
-    .cat-item:hover {
-      transform: translateY(-3px);
-    }
-
+    .cat-item:hover { transform: translateY(-3px); }
     .cat-thumb {
-      width: 100%;
-      aspect-ratio: 1 / 1.1;
+      width: 100%; aspect-ratio: 1/1.1;
       border-radius: var(--radius-md);
       background: var(--white);
       border: 1.5px solid var(--gray-border);
       box-shadow: var(--shadow);
       overflow: hidden;
-      display: grid;
-      place-items: center;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      display: grid; place-items: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-
     .cat-item:hover .cat-thumb {
       border-color: var(--pink);
-      box-shadow: 0 8px 24px rgba(255, 63, 142, 0.15);
+      box-shadow: 0 8px 24px rgba(255,63,142,0.15);
     }
-
+    .cat-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .cat-thumb__icon {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: var(--text-muted);
-      padding: 16px;
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; color: var(--text-muted); padding: 16px;
     }
-
-    .cat-thumb__icon svg {
-      width: 36px;
-      height: 36px;
-      opacity: 0.4;
-    }
-
+    .cat-thumb__icon svg { width: 36px; height: 36px; opacity: 0.4; }
     .cat-label {
-      font-family: "Outfit", sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text);
-      text-align: center;
+      font-family: "Outfit", sans-serif; font-size: 0.88rem; font-weight: 700;
+      color: var(--text); text-align: center;
     }
 
+    /* ── PROMO BANNER (2 col) ── */
     .promo-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(12px, 1.6vw, 20px);
+      display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 1.6vw, 20px);
     }
-
     .promo-card {
-      position: relative;
-      border-radius: var(--radius-xl);
-      overflow: hidden;
+      position: relative; border-radius: var(--radius-xl); overflow: hidden;
       min-height: clamp(200px, 22vw, 320px);
       background: #111;
       box-shadow: var(--shadow);
     }
-
     .promo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      position: absolute;
-      inset: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+      position: absolute; inset: 0;
     }
-
     .promo-card__overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 100%);
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 100%);
     }
-
     .promo-card__body {
-      position: relative;
-      z-index: 1;
-      height: 100%;
-      padding: clamp(20px, 2.6vw, 32px);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      gap: 10px;
+      position: relative; z-index: 1;
+      height: 100%; padding: clamp(20px, 2.6vw, 32px);
+      display: flex; flex-direction: column; justify-content: flex-end; gap: 10px;
       color: #fff;
     }
-
     .promo-card__title {
       font-family: "Outfit", sans-serif;
       font-size: clamp(1.2rem, 2.2vw, 1.8rem);
-      font-weight: 900;
-      line-height: 1.1;
-      max-width: 16ch;
+      font-weight: 900; line-height: 1.1; max-width: 16ch;
     }
-
     .promo-card__desc {
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.82);
-      max-width: 28ch;
+      font-size: 0.9rem; color: rgba(255,255,255,0.8); max-width: 28ch;
     }
 
-    .products-shell {
-      position: relative;
-    }
-
+    /* ── PRODUCTS ── */
+    .products-shell { position: relative; }
     .products-row {
       display: grid;
       grid-auto-flow: column;
       grid-auto-columns: calc((100% - 5 * 14px) / 6);
       gap: 14px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 6px;
+      overflow-x: auto; scrollbar-width: none;
+      scroll-snap-type: x mandatory; padding-bottom: 6px;
     }
-
-    .products-row::-webkit-scrollbar {
-      display: none;
-    }
-
+    .products-row::-webkit-scrollbar { display: none; }
     .prod-arrow {
-      position: absolute;
-      top: 45%;
-      transform: translateY(-50%);
-      width: 38px;
-      height: 38px;
-      border: 0;
-      border-radius: 50%;
-      background: #fff;
-      color: var(--text);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 2;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: absolute; top: 45%; transform: translateY(-50%);
+      width: 38px; height: 38px; border: 0; border-radius: 50%;
+      background: #fff; color: var(--text);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 2;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+    .prod-arrow:hover:not(:disabled) { transform: translateY(-50%) scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    .prod-arrow:disabled { opacity: 0.3; cursor: default; }
+    .prod-arrow.left { left: -18px; }
+    .prod-arrow.right { right: -18px; }
 
-    .prod-arrow:hover:not(:disabled) {
-      transform: translateY(-50%) scale(1.05);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .prod-arrow:disabled {
-      opacity: 0.3;
-      cursor: default;
-    }
-
-    .prod-arrow.left {
-      left: -18px;
-    }
-
-    .prod-arrow.right {
-      right: -18px;
-    }
-
+    /* product card */
     .prod-card {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      background: var(--white);
-      border-radius: var(--radius-lg);
+      display: flex; flex-direction: column;
+      background: var(--white); border-radius: var(--radius-lg);
       border: 1px solid var(--gray-border);
-      overflow: hidden;
-      scroll-snap-align: start;
-      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      overflow: hidden; scroll-snap-align: start;
+      transition: transform 0.22s, box-shadow 0.22s;
     }
-
-    .prod-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
-    }
-
+    .prod-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
     .prod-thumb {
       position: relative;
       height: clamp(180px, 20vw, 260px);
-      background: var(--gray-bg);
-      overflow: hidden;
-      flex-shrink: 0;
+      background: var(--gray-bg); overflow: hidden; flex-shrink: 0;
     }
-
     .prod-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      transition: transform 0.3s ease;
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      transition: transform 0.3s;
     }
-
-    .prod-card:hover .prod-thumb img {
-      transform: scale(1.05);
-    }
-
+    .prod-card:hover .prod-thumb img { transform: scale(1.05); }
     .prod-wish {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 0;
-      background: rgba(255, 255, 255, 0.9);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-      transition: background 0.2s ease, transform 0.2s ease;
-      z-index: 1;
+      position: absolute; top: 10px; right: 10px;
+      width: 32px; height: 32px; border-radius: 50%; border: 0;
+      background: rgba(255,255,255,0.9); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background 0.2s, transform 0.2s; z-index: 1;
     }
-
-    .prod-wish:hover {
-      background: #fff;
-      transform: scale(1.1);
-    }
-
-    .prod-wish svg {
-      color: var(--text-muted);
-    }
-
-    .prod-wish.is-active svg {
-      color: var(--pink);
-      fill: var(--pink);
-    }
-
+    .prod-wish:hover { background: #fff; transform: scale(1.1); }
+    .prod-wish svg { color: var(--text-muted); }
+    .prod-wish.is-active svg { color: var(--pink); fill: var(--pink); }
     .prod-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: var(--pink);
-      color: #fff;
-      font-family: "Outfit", sans-serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: var(--pill);
-      letter-spacing: 0.04em;
+      position: absolute; top: 10px; left: 10px;
+      background: var(--pink); color: #fff;
+      font-family: "Outfit", sans-serif; font-size: 0.68rem; font-weight: 700;
+      padding: 3px 8px; border-radius: var(--pill); letter-spacing: 0.04em;
     }
-
-    .prod-body {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      padding: 12px;
-      flex: 1;
-    }
-
-    .prod-variants {
-      display: flex;
-      gap: 5px;
-      align-items: center;
-    }
-
-    .var-chip {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid #ddd;
-      cursor: pointer;
-      overflow: hidden;
-      transition: border-color 0.15s ease, transform 0.15s ease;
-      flex-shrink: 0;
-    }
-
-    .var-chip img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .var-chip.is-active {
-      border-color: var(--pink);
-    }
-
-    .var-chip:hover {
-      transform: scale(1.15);
-    }
-
-    .var-more {
-      font-size: 0.7rem;
-      font-weight: 800;
-      color: var(--text-muted);
-    }
-
+    .prod-body { display: flex; flex-direction: column; gap: 6px; padding: 12px; flex: 1; }
+    .prod-stars { display: flex; align-items: center; gap: 4px; }
+    .prod-stars svg { width: 12px; height: 12px; color: #f59e0b; fill: #f59e0b; }
+    .prod-stars span { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
     .prod-name {
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: 0.86rem;
-      line-height: 1.3;
-      color: var(--text);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-family: "Outfit", sans-serif; font-weight: 700; font-size: 0.86rem;
+      line-height: 1.3; color: var(--text);
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-
-    .prod-meta {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      min-height: 1.2em;
-    }
-
     .prod-price-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: auto;
-      padding-top: 8px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto; padding-top: 8px;
     }
-
-    .prod-price-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
     .prod-price {
-      font-family: "Outfit", sans-serif;
-      font-size: 1.05rem;
-      font-weight: 900;
+      font-family: "Outfit", sans-serif; font-size: 1.05rem; font-weight: 900;
       color: var(--pink);
-      line-height: 1;
     }
-
-    .prod-stock {
-      font-size: 0.72rem;
-      font-weight: 700;
-    }
-
-    .prod-stock.is-ok {
-      color: #16a34a;
-    }
-
-    .prod-stock:not(.is-ok) {
-      color: #dc2626;
-    }
-
     .prod-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 34px;
-      padding: 0 14px;
-      border-radius: var(--pill);
-      background: var(--dark);
-      color: #fff;
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: 0.8rem;
-      border: 0;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 34px; padding: 0 14px; border-radius: var(--pill);
+      background: var(--dark); color: #fff;
+      font-family: "Outfit", sans-serif; font-weight: 700; font-size: 0.8rem;
+      border: 0; cursor: pointer; transition: background 0.2s, transform 0.2s;
     }
+    .prod-cta:hover { background: var(--pink); transform: translateY(-1px); }
 
-    .prod-cta:hover {
-      background: var(--pink);
-      transform: translateY(-1px);
+    /* variants */
+    .prod-variants { display: flex; gap: 5px; align-items: center; }
+    .var-chip {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid #ddd; cursor: pointer; overflow: hidden;
+      transition: border-color 0.15s, transform 0.15s; flex-shrink: 0;
     }
+    .var-chip img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .var-chip.is-active { border-color: var(--pink); }
+    .var-chip:hover { transform: scale(1.15); }
+    .var-more { font-size: 0.7rem; font-weight: 800; color: var(--text-muted); }
 
+    /* empty */
     .prod-empty {
-      padding: 20px;
-      background: #fff;
-      border-radius: var(--radius-md);
-      border: 1.5px dashed rgba(255, 63, 142, 0.25);
-      color: var(--text-muted);
-      font-weight: 700;
+      padding: 20px; background: #fff; border-radius: var(--radius-md);
+      border: 1.5px dashed rgba(255,63,142,0.25); color: var(--text-muted); font-weight: 700;
     }
 
+    /* ── FOOTER ── */
     .site-footer {
       margin-top: 16px;
       background: linear-gradient(180deg, #111a2a 0%, #0c1320 100%);
       color: #fff;
     }
-
     .footer-shell {
       width: min(var(--max), calc(100% - clamp(16px, 4vw, 48px)));
-      margin: 0 auto;
-      padding: clamp(28px, 4vw, 48px) 0 24px;
-      display: grid;
-      gap: 28px;
+      margin: 0 auto; padding: clamp(28px, 4vw, 48px) 0 24px;
+      display: grid; gap: 28px;
     }
-
     .footer-top {
       display: grid;
       grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 0.8fr));
-      gap: 32px;
-      align-items: start;
+      gap: 32px; align-items: start;
     }
-
-    .footer-brand {
-      display: grid;
-      gap: 20px;
-    }
-
+    .footer-brand { display: grid; gap: 20px; }
     .footer-brand-head {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: "Outfit", sans-serif;
-      font-size: 1.3rem;
-      font-weight: 900;
-      color: #fff;
+      display: flex; align-items: center; gap: 12px;
+      font-family: "Outfit", sans-serif; font-size: 1.3rem; font-weight: 900; color: #fff;
     }
-
-    .footer-brand-head img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-      border-radius: 10px;
-    }
-
+    .footer-brand-head img { width: 40px; height: 40px; object-fit: contain; border-radius: 10px; }
     .newsletter-card {
-      padding: 20px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      display: grid;
-      gap: 14px;
+      padding: 20px; border-radius: 18px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      display: grid; gap: 14px;
     }
-
-    .newsletter-card h3 {
-      font-family: "Outfit", sans-serif;
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-
-    .newsletter-card p {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.88rem;
-    }
-
-    .newsletter-form {
-      display: flex;
-      gap: 10px;
-    }
-
+    .newsletter-card h3 { font-family: "Outfit", sans-serif; font-size: 1.1rem; font-weight: 800; }
+    .newsletter-card p { color: rgba(255,255,255,0.6); font-size: 0.88rem; }
+    .newsletter-form { display: flex; gap: 10px; }
     .newsletter-form input {
-      flex: 1;
-      min-height: 44px;
-      padding: 0 14px;
-      border-radius: var(--pill);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      font-size: 0.9rem;
-      outline: none;
+      flex: 1; min-height: 44px; padding: 0 14px;
+      border-radius: var(--pill); border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06); color: #fff; font-size: 0.9rem; outline: none;
     }
-
-    .newsletter-form input::placeholder {
-      color: rgba(255, 255, 255, 0.4);
-    }
-
-    .newsletter-form input:focus {
-      border-color: var(--pink);
-    }
-
-    .footer-col {
-      display: grid;
-      gap: 14px;
-      align-content: start;
-    }
-
+    .newsletter-form input::placeholder { color: rgba(255,255,255,0.4); }
+    .newsletter-form input:focus { border-color: var(--pink); }
+    .footer-col { display: grid; gap: 14px; align-content: start; }
     .footer-col h4 {
-      font-family: "Outfit", sans-serif;
-      font-size: 0.92rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
+      font-family: "Outfit", sans-serif; font-size: 0.92rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.07em;
     }
-
-    .footer-col ul {
-      list-style: none;
-      display: grid;
-      gap: 9px;
-    }
-
-    .footer-col a {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
-    }
-
-    .footer-col a:hover {
-      color: var(--pink-light);
-    }
-
+    .footer-col ul { list-style: none; display: grid; gap: 9px; }
+    .footer-col a { color: rgba(255,255,255,0.6); font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--pink-light); }
     .footer-bottom {
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-
-    .footer-bottom p {
-      color: rgba(255, 255, 255, 0.45);
-      font-size: 0.86rem;
-    }
-
-    .footer-socials {
-      display: flex;
-      gap: 8px;
-    }
-
+    .footer-bottom p { color: rgba(255,255,255,0.45); font-size: 0.86rem; }
+    .footer-socials { display: flex; gap: 8px; }
     .footer-socials a {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: rgba(255, 255, 255, 0.7);
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      width: 38px; height: 38px; border-radius: 50%;
+      display: grid; place-items: center;
+      color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
+    .footer-socials a:hover { background: var(--pink); color: #fff; border-color: var(--pink); }
 
-    .footer-socials a:hover {
-      background: var(--pink);
-      color: #fff;
-      border-color: var(--pink);
-    }
-
+    /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
-      .cat-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .products-row {
-        grid-auto-columns: calc((100% - 3 * 14px) / 3.3);
-      }
-
-      .footer-top {
-        grid-template-columns: 1fr 1fr;
-      }
+      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+      .products-row { grid-auto-columns: calc((100% - 3 * 14px) / 3.3); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
     }
-
     @media (max-width: 760px) {
       .audience-grid {
-        display: flex;
-        overflow-x: auto;
-        scrollbar-width: none;
-        gap: 12px;
-        padding-bottom: 4px;
+        display: flex; overflow-x: auto; scrollbar-width: none; gap: 12px; padding-bottom: 4px;
       }
-
-      .audience-grid::-webkit-scrollbar {
-        display: none;
-      }
-
-      .audience-card {
-        flex: 0 0 150px;
-        min-height: 200px;
-        aspect-ratio: unset;
-      }
-
-      .cat-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-      }
-
-      .promo-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .products-row {
-        grid-auto-columns: calc((100% - 12px) / 2.3);
-      }
-
-      .prod-arrow {
-        display: none;
-      }
-
-      .footer-top {
-        grid-template-columns: 1fr;
-      }
-
-      .newsletter-form {
-        flex-direction: column;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      .audience-grid::-webkit-scrollbar { display: none; }
+      .audience-card { flex: 0 0 150px; min-height: 200px; aspect-ratio: unset; }
+      .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .promo-grid { grid-template-columns: 1fr; }
+      .products-row { grid-auto-columns: calc((100% - 12px) / 2.3); }
+      .prod-arrow { display: none; }
+      .footer-top { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
     }
-
     @media (max-width: 520px) {
-      .cat-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-      }
-
-      .products-row {
-        grid-auto-columns: calc((100% - 8px) / 2.05);
-      }
+      .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .products-row { grid-auto-columns: calc((100% - 8px) / 2.05); }
     }
-
     @media (max-width: 380px) {
-      .cat-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .products-row {
-        grid-auto-columns: calc(100% - 24px);
-      }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .products-row { grid-auto-columns: calc(100% - 24px); }
     }
   </style>
 </head>
 <body>
+
+  <!-- HEADER (igual al tuyo) -->
   <header class="site-header romix-shared-header">
     <div class="container header-row">
       <a class="brand" href="index.html" aria-label="ROMIX inicio">
@@ -1049,19 +513,12 @@
           <li><a href="novedades.html">Novedades</a></li>
         </ul>
       </nav>
-      <div class="header-icons" aria-label="Acciones rápidas">
-        <button class="icon-btn" id="toggleSearch" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
-            <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-          </svg>
+      <div class="header-icons">
+        <button class="icon-btn" id="toggleSearch" type="button" data-search-toggle="true" aria-label="Buscar" aria-controls="header-search" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
         <a class="icon-btn" href="cart.html" aria-label="Carrito">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-            <circle cx="10" cy="19" r="1.4" fill="currentColor"></circle>
-            <circle cx="17" cy="19" r="1.4" fill="currentColor"></circle>
-          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1.4" fill="currentColor"/><circle cx="17" cy="19" r="1.4" fill="currentColor"/></svg>
           <span class="icon-badge" id="cart-count">0</span>
         </a>
       </div>
@@ -1069,7 +526,7 @@
     <div class="search-panel" id="header-search">
       <div class="container">
         <form class="global-search" role="search" action="catalogo.html" method="get">
-          <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
+          <input type="search" name="q" placeholder="Buscar productos..." />
           <button type="submit">Buscar</button>
         </form>
       </div>
@@ -1077,19 +534,14 @@
   </header>
 
   <main class="page">
+
+    <!-- ── HERO CAROUSEL ── -->
     <section class="hero" aria-label="Banner principal" id="mainImageCarousel">
       <div class="hero__track">
         <figure class="hero__slide is-active">
           <img src="images/banner/banner-1.png" alt="Colección ROMIX invierno" />
           <div class="hero__overlay"></div>
           <div class="hero__content">
-            <span class="hero__eyebrow">Nueva temporada</span>
-            <h1 class="hero__title">ROMIX<br><span>INVIERNO</span></h1>
-            <p class="hero__desc">Prendas urbanas y deportivas para moverte con abrigo, estilo y comodidad todos los días.</p>
-            <div class="hero__actions">
-              <a class="btn-pink" href="catalogo.html?temporada=invierno">Ver colección</a>
-              <a class="btn-ghost" href="novedades.html">Últimos ingresos</a>
-            </div>
           </div>
         </figure>
         <figure class="hero__slide">
@@ -1097,7 +549,7 @@
           <div class="hero__overlay"></div>
           <div class="hero__content">
             <span class="hero__eyebrow">Colección Hombre & Mujer</span>
-            <h2 class="hero__title">ESTILO Y<br><span>CALIDEZ</span></h2>
+            <h1 class="hero__title">ESTILO Y<br><span>CALIDEZ</span></h1>
             <p class="hero__desc">Frizado, corderito y polar para el invierno que se viene.</p>
             <div class="hero__actions">
               <a class="btn-pink" href="catalogo.html?sections=hombre,mujer">Ver abrigos</a>
@@ -1109,7 +561,7 @@
           <div class="hero__overlay"></div>
           <div class="hero__content">
             <span class="hero__eyebrow">Para ellos · Para ellas</span>
-            <h2 class="hero__title">LÍNEA<br><span>NIÑOS</span></h2>
+            <h1 class="hero__title">LÍNEA<br><span>NIÑOS</span></h1>
             <p class="hero__desc">Indumentaria cómoda, resistente y pensada para acompañarlos en cada movimiento.</p>
             <div class="hero__actions">
               <a class="btn-pink" href="ninos.html">Ver niños</a>
@@ -1118,108 +570,112 @@
         </figure>
       </div>
       <button class="hero__arrow hero__arrow--prev" type="button" data-carousel-prev aria-label="Anterior">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <button class="hero__arrow hero__arrow--next" type="button" data-carousel-next aria-label="Siguiente">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="hero__dots" data-carousel-dots></div>
     </section>
 
+    <!-- ── ¿PARA QUIÉN? ── -->
     <div class="section-wrap">
       <div class="sec-head">
         <div class="sec-head__left">
           <span class="sec-eyebrow">Explorá por sección</span>
           <h2 class="sec-title">¿Para quién estás comprando?</h2>
         </div>
-        <a class="sec-link" href="catalogo.html">Ver todo <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+        <a class="sec-link" href="catalogo.html">Ver todo <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
       <div class="audience-grid">
         <a class="audience-card" href="mujer.html">
           <div class="audience-card__placeholder">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
           <div class="audience-card__label">
             <span class="audience-card__name">Mujer</span>
-            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></span>
           </div>
         </a>
         <a class="audience-card" href="hombre.html">
           <div class="audience-card__placeholder">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
           <div class="audience-card__label">
             <span class="audience-card__name">Hombre</span>
-            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></span>
           </div>
         </a>
         <a class="audience-card" href="ninos.html?q_any=nina,nena">
           <div class="audience-card__placeholder">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
           <div class="audience-card__label">
             <span class="audience-card__name">Niña</span>
-            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></span>
           </div>
         </a>
         <a class="audience-card" href="ninos.html?q_any=nino,chico">
           <div class="audience-card__placeholder">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
           <div class="audience-card__label">
             <span class="audience-card__name">Niño</span>
-            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></span>
           </div>
         </a>
-        <a class="audience-card" href="catalogo.html" style="background: linear-gradient(160deg, #1a1a3e, #0d0d1f);">
-          <div class="audience-card__placeholder" style="background: transparent; flex-direction: column; gap: 6px;">
-            <img src="images/logo-romix.png" alt="ROMIX" style="width: 52px; height: 52px; object-fit: contain; opacity: 0.9; border-radius: 12px;" />
-            <span style="font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 700; color: rgba(255, 255, 255, 0.7);">ROMIX</span>
+        <a class="audience-card" href="catalogo.html" style="background: linear-gradient(160deg,#1a1a3e,#0d0d1f);">
+          <div class="audience-card__placeholder" style="background:transparent; flex-direction:column; gap:6px;">
+            <img src="images/logo-romix.png" alt="ROMIX" style="width:52px;height:52px;object-fit:contain;opacity:0.9;border-radius:12px;" />
+            <span style="font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.7);">ROMIX</span>
           </div>
           <div class="audience-card__label">
             <span class="audience-card__name">Ver todo</span>
-            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></span>
           </div>
         </a>
       </div>
     </div>
 
+    <!-- ── CATEGORÍAS ── -->
     <div class="section-wrap">
       <div class="sec-head">
         <div class="sec-head__left">
           <span class="sec-eyebrow">Accesos rápidos</span>
           <h2 class="sec-title">Lo que más buscás</h2>
         </div>
-        <a class="sec-link" href="catalogo.html">Ver todo <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+        <a class="sec-link" href="catalogo.html">Ver todo <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
       <div class="cat-grid" id="categoryTrack">
+        <!-- Se renderizan con JS igual que antes -->
         <a class="cat-item" href="catalogo.html?categories=calzas">
-          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/></svg></div></div>
           <span class="cat-label">Calzas</span>
         </a>
         <a class="cat-item" href="catalogo.html?categories=camperas">
-          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/></svg></div></div>
           <span class="cat-label">Camperas</span>
         </a>
         <a class="cat-item" href="catalogo.html?categories=remeras">
-          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/></svg></div></div>
           <span class="cat-label">Remeras</span>
         </a>
         <a class="cat-item" href="catalogo.html?categories=tops">
-          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/></svg></div></div>
           <span class="cat-label">Tops</span>
         </a>
         <a class="cat-item" href="catalogo.html?categories=buzos">
-          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/></svg></div></div>
           <span class="cat-label">Buzos</span>
         </a>
         <a class="cat-item" href="catalogo.html?categories=pantalones">
-          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/></svg></div></div>
           <span class="cat-label">Pantalones</span>
         </a>
       </div>
     </div>
 
+    <!-- ── PROMO BANNERS ── -->
     <div class="section-wrap">
       <div class="promo-grid">
         <article class="promo-card">
@@ -1228,7 +684,7 @@
           <div class="promo-card__body">
             <h3 class="promo-card__title">ESTILO QUE TE ACOMPAÑA</h3>
             <p class="promo-card__desc">Prendas invernales con calidez y diseño.</p>
-            <a class="btn-pink" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" style="width: fit-content;">Ver abrigos</a>
+            <a class="btn-pink" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" style="width:fit-content;">Ver abrigos</a>
           </div>
         </article>
         <article class="promo-card">
@@ -1237,34 +693,37 @@
           <div class="promo-card__body">
             <h3 class="promo-card__title">RENDÍ AL MÁXIMO CON ESTILO</h3>
             <p class="promo-card__desc">Ropa diseñada para impulsar tu mejor versión.</p>
-            <a class="btn-pink" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" style="width: fit-content;">Ver deportivo</a>
+            <a class="btn-pink" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" style="width:fit-content;">Ver deportivo</a>
           </div>
         </article>
       </div>
     </div>
 
+    <!-- ── PRODUCTOS ── -->
     <div class="section-wrap" id="ofertas">
       <div class="sec-head">
         <div class="sec-head__left">
           <span class="sec-eyebrow">Nueva temporada</span>
           <h2 class="sec-title">DESCUBRÍ LO NUEVO</h2>
         </div>
-        <a class="sec-link" href="novedades.html">Ver todo <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+        <a class="sec-link" href="novedades.html">Ver todo <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
       <div class="products-shell">
         <button class="prod-arrow left" type="button" id="productsPrev" aria-label="Anteriores">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="products-row" id="productsRow">
           <div class="prod-empty">Cargando productos...</div>
         </div>
         <button class="prod-arrow right" type="button" id="productsNext" aria-label="Siguientes">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
+
   </main>
 
+  <!-- ── FOOTER ── -->
   <footer class="site-footer">
     <div class="footer-shell">
       <div class="footer-top">
@@ -1284,48 +743,21 @@
             </form>
           </div>
         </div>
-        <nav class="footer-col">
-          <h4>Comprar</h4>
-          <ul>
-            <li><a href="mujer.html">Mujer</a></li>
-            <li><a href="hombre.html">Hombre</a></li>
-            <li><a href="ninos.html">Niños</a></li>
-            <li><a href="novedades.html">Novedades</a></li>
-            <li><a href="index.html#ofertas">Ofertas</a></li>
-          </ul>
-        </nav>
-        <nav class="footer-col">
-          <h4>Ayuda</h4>
-          <ul>
-            <li><a href="ayuda.html">Preguntas frecuentes</a></li>
-            <li><a href="ayuda.html#returns">Envíos y devoluciones</a></li>
-            <li><a href="ayuda.html#returns">Cambios</a></li>
-            <li><a href="cart.html#order-btn">Formas de pago</a></li>
-            <li><a href="ayuda.html#contact">Contacto</a></li>
-          </ul>
-        </nav>
-        <nav class="footer-col">
-          <h4>Nosotros</h4>
-          <ul>
-            <li><a href="index.html">Quiénes somos</a></li>
-            <li><a href="mailto:info@romix.com.ar">Trabajá con nosotros</a></li>
-            <li><a href="ayuda.html#contact">Locales</a></li>
-            <li><a href="ayuda.html">Términos y condiciones</a></li>
-            <li><a href="ayuda.html">Política de privacidad</a></li>
-          </ul>
-        </nav>
+        <nav class="footer-col"><h4>Comprar</h4><ul><li><a href="mujer.html">Mujer</a></li><li><a href="hombre.html">Hombre</a></li><li><a href="ninos.html">Niños</a></li><li><a href="novedades.html">Novedades</a></li><li><a href="index.html#ofertas">Ofertas</a></li></ul></nav>
+        <nav class="footer-col"><h4>Ayuda</h4><ul><li><a href="ayuda.html">Preguntas frecuentes</a></li><li><a href="ayuda.html#returns">Envíos y devoluciones</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="cart.html#order-btn">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li></ul></nav>
+        <nav class="footer-col"><h4>Nosotros</h4><ul><li><a href="index.html">Quiénes somos</a></li><li><a href="mailto:info@romix.com.ar">Trabajá con nosotros</a></li><li><a href="ayuda.html#contact">Locales</a></li><li><a href="ayuda.html">Términos y condiciones</a></li><li><a href="ayuda.html">Política de privacidad</a></li></ul></nav>
       </div>
       <div class="footer-bottom">
         <p>© 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
         <div class="footer-socials">
           <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"></rect><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
           </a>
           <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M13.5 21V13H16.2L16.6 9.9H13.5V8.1C13.5 7.21 13.76 6.6 15.04 6.6H16.7V3.82C16.39 3.78 15.31 3.68 14.05 3.68C11.42 3.68 9.62 5.28 9.62 8.24V9.9H7V13H9.62V21H13.5Z" fill="currentColor"></path></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M13.5 21V13H16.2L16.6 9.9H13.5V8.1C13.5 7.21 13.76 6.6 15.04 6.6H16.7V3.82C16.39 3.78 15.31 3.68 14.05 3.68C11.42 3.68 9.62 5.28 9.62 8.24V9.9H7V13H9.62V21H13.5Z" fill="currentColor"/></svg>
           </a>
           <a href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="WhatsApp">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M20 11.56C20 16 16.41 19.6 12 19.6C10.58 19.6 9.24 19.23 8.08 18.57L4 20L5.47 16.07C4.73 14.86 4.3 13.44 4.3 11.92C4.3 7.48 7.89 3.88 12.3 3.88C16.71 3.88 20.3 7.48 20.3 11.92L20 11.56Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M20 11.56C20 16 16.41 19.6 12 19.6C10.58 19.6 9.24 19.23 8.08 18.57L4 20L5.47 16.07C4.73 14.86 4.3 13.44 4.3 11.92C4.3 7.48 7.89 3.88 12.3 3.88C16.71 3.88 20.3 7.48 20.3 11.92L20 11.56Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
           </a>
         </div>
       </div>
@@ -1336,436 +768,166 @@
   <script src="assets/js/catalog-relevance-order.js"></script>
   <script src="assets/js/romix-header.js"></script>
   <script>
-    let refreshProd = null;
-
-    function normalizeText(value) {
-      const raw = String(value || "").trim().toLowerCase();
-      try {
-        return raw.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      } catch {
-        return raw;
-      }
-    }
-
-    function formatPrice(price) {
-      return "$" + Number(price || 0).toLocaleString("es-AR");
-    }
-
-    function formatDisplayLabel(value) {
-      const text = String(value || "").trim();
-      if (!text) return "";
-      return text
-        .split(/\s+/)
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(" ");
-    }
-
-    function slugifyName(value) {
-      if (typeof window.romixSlug === "function") return window.romixSlug(value);
-      return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "producto";
-    }
-
-    function pickImage(product, fallback) {
-      if (product && product.image) return String(product.image);
-      if (product && product.images && typeof product.images === "object") {
-        const values = Object.values(product.images).filter(Boolean);
-        if (values.length) return String(values[0]);
-      }
-      return fallback || "images/logo-romix.png";
-    }
-
-    function buildHref(product, fallbackType) {
-      if (product && product.name) {
-        const pid = encodeURIComponent(product && product.id ? String(product.id) : slugifyName(product.name));
-        const slug = encodeURIComponent(slugifyName(product.name));
-        const name = encodeURIComponent(String(product.name));
-        return "product.html?id=" + pid + "&slug=" + slug + "&name=" + name;
-      }
-      return "catalogo.html?categories=" + encodeURIComponent(fallbackType || "");
-    }
-
-    function findColorImage(product, colorName) {
-      if (!product || !product.images || typeof product.images !== "object") return "";
-      const wanted = normalizeText(colorName);
-      const entries = Object.entries(product.images);
-      const exact = entries.find(([name]) => normalizeText(name) === wanted);
-      return exact && exact[1] ? String(exact[1]) : "";
-    }
-
-    function getVariants(product) {
-      const variants = [];
-      const seen = new Set();
-      const colors = Array.isArray(product && product.colors) ? product.colors : [];
-      const imageMap = product && product.images && typeof product.images === "object" ? product.images : null;
-
-      function pushVariant(name, hex, image) {
-        const label = String(name || "").trim();
-        const key = normalizeText(label);
-        if (!label || seen.has(key)) return;
-        seen.add(key);
-        variants.push({
-          name: label,
-          hex: hex || "",
-          image: image || ""
-        });
-      }
-
-      colors.forEach((color) => {
-        if (!color) return;
-        pushVariant(color.name, color.hex, color.image || findColorImage(product, color.name));
-      });
-
-      if (imageMap) {
-        Object.entries(imageMap).forEach(([name, image]) => {
-          pushVariant(name, "", image);
-        });
-      }
-
-      return variants;
-    }
-
-    function getStock(product) {
-      const sizes = Array.isArray(product && product.sizes) ? product.sizes : [];
-      if (!sizes.length) return { label: "Disponible", ok: true };
-      const hasStock = sizes.some((entry) => {
-        const status = normalizeText(entry && entry.status);
-        return status === "available" || status === "low-stock";
-      });
-      return hasStock ? { label: "Disponible", ok: true } : { label: "Agotado", ok: false };
-    }
-
-    function getMeta(product) {
-      const sectionLabel = formatDisplayLabel(product && product.section);
-      const typeLabel = formatDisplayLabel(product && product.type);
-      if (sectionLabel && typeLabel) return sectionLabel + " · " + typeLabel;
-      return sectionLabel || typeLabel || "";
-    }
-
-    async function loadHomeProducts() {
-      if (window.romixProductsStore && typeof window.romixProductsStore.load === "function") {
-        return window.romixProductsStore.load();
-      }
-      const response = await fetch("assets/data/products.json");
-      return response.json();
-    }
-
-    function renderProducts(products) {
-      const row = document.getElementById("productsRow");
-      if (!row) return;
-
-      let source = Array.isArray(products) ? products.filter((product) => product && product.featured === true) : [];
-      if (!source.length && Array.isArray(products)) source = products.slice(0, 20);
-      if (typeof window.applyCatalogRelevanceOrder === "function") {
-        source = window.applyCatalogRelevanceOrder(source, "novedades");
-      }
-
-      if (!source.length) {
-        row.innerHTML = '<div class="prod-empty">No pudimos cargar los productos por ahora.</div>';
-        return;
-      }
-
-      const variantLimit = window.innerWidth <= 640 ? 3 : 4;
-      row.innerHTML = "";
-
-      source.forEach((product) => {
-        const href = buildHref(product, normalizeText(product && product.type));
-        const fallbackImage = pickImage(product, "images/logo-romix.png");
-        const stock = getStock(product);
-        const variants = getVariants(product);
-        const meta = getMeta(product);
-
-        const card = document.createElement("article");
-        card.className = "prod-card";
-
-        const thumbLink = document.createElement("a");
-        thumbLink.className = "prod-thumb";
-        thumbLink.href = href;
-
-        const mainImg = document.createElement("img");
-        mainImg.loading = "lazy";
-        mainImg.decoding = "async";
-        mainImg.alt = product && product.name ? String(product.name) : "Producto";
-
-        function setImage(src, colorName) {
-          const chosen = src || fallbackImage;
-          mainImg.onerror = function () {
-            mainImg.onerror = null;
-            mainImg.src = chosen !== fallbackImage ? fallbackImage : "images/logo-romix.png";
-          };
-          mainImg.src = chosen;
-          mainImg.alt = colorName
-            ? String(product && product.name ? product.name : "Producto") + " - " + colorName
-            : String(product && product.name ? product.name : "Producto");
-        }
-
-        setImage(fallbackImage, "");
-
-        if (product && product.featured) {
-          const badge = document.createElement("span");
-          badge.className = "prod-badge";
-          badge.textContent = "NUEVO";
-          thumbLink.appendChild(badge);
-        }
-
-        const wish = document.createElement("button");
-        wish.type = "button";
-        wish.className = "prod-wish";
-        wish.setAttribute("aria-label", "Agregar a favoritos");
-        wish.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
-        wish.addEventListener("click", function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          wish.classList.toggle("is-active");
-        });
-
-        thumbLink.appendChild(mainImg);
-        thumbLink.appendChild(wish);
-        card.appendChild(thumbLink);
-
-        const body = document.createElement("div");
-        body.className = "prod-body";
-
-        if (variants.length) {
-          const wrap = document.createElement("div");
-          wrap.className = "prod-variants";
-          const visible = variants.slice(0, variantLimit);
-
-          visible.forEach((variant, index) => {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "var-chip" + (index === 0 ? " is-active" : "");
-            btn.setAttribute("aria-label", "Ver color " + variant.name);
-            btn.title = variant.name;
-
-            if (variant.hex) btn.style.backgroundColor = variant.hex;
-            if (variant.image) {
-              const swatch = document.createElement("img");
-              swatch.loading = "lazy";
-              swatch.decoding = "async";
-              swatch.src = variant.image;
-              swatch.alt = variant.name;
-              swatch.onerror = function () {
-                swatch.onerror = null;
-                swatch.remove();
-              };
-              btn.appendChild(swatch);
-            }
-
-            btn.addEventListener("click", function () {
-              setImage(variant.image || fallbackImage, variant.name);
-              wrap.querySelectorAll(".var-chip").forEach((chip) => chip.classList.remove("is-active"));
-              btn.classList.add("is-active");
-            });
-
-            wrap.appendChild(btn);
-          });
-
-          if (variants.length > visible.length) {
-            const more = document.createElement("span");
-            more.className = "var-more";
-            more.textContent = "+" + (variants.length - visible.length);
-            wrap.appendChild(more);
-          }
-
-          const initial = visible[0];
-          if (initial) setImage(initial.image || fallbackImage, initial.name);
-          body.appendChild(wrap);
-        }
-
-        const nameEl = document.createElement("a");
-        nameEl.className = "prod-name";
-        nameEl.href = href;
-        nameEl.textContent = product && product.name ? String(product.name) : "Producto";
-        body.appendChild(nameEl);
-
-        const metaEl = document.createElement("p");
-        metaEl.className = "prod-meta";
-        metaEl.textContent = meta;
-        body.appendChild(metaEl);
-
-        const priceRow = document.createElement("div");
-        priceRow.className = "prod-price-row";
-
-        const priceStack = document.createElement("div");
-        priceStack.className = "prod-price-stack";
-
-        const priceEl = document.createElement("p");
-        priceEl.className = "prod-price";
-        priceEl.textContent = formatPrice(product && product.price);
-
-        const stockEl = document.createElement("p");
-        stockEl.className = "prod-stock" + (stock.ok ? " is-ok" : "");
-        stockEl.textContent = stock.label;
-
-        priceStack.appendChild(priceEl);
-        priceStack.appendChild(stockEl);
-
-        const ctaEl = document.createElement("a");
-        ctaEl.className = "prod-cta";
-        ctaEl.href = href;
-        ctaEl.textContent = "Comprar";
-
-        priceRow.appendChild(priceStack);
-        priceRow.appendChild(ctaEl);
-        body.appendChild(priceRow);
-
-        card.appendChild(body);
-        row.appendChild(card);
-      });
-
-      if (typeof refreshProd === "function") {
-        requestAnimationFrame(refreshProd);
-      }
-    }
-
-    (function initHeroCarousel() {
+    /* ── HERO CAROUSEL ── */
+    (function(){
       const carousel = document.getElementById("mainImageCarousel");
-      if (!carousel) return;
-
+      if(!carousel) return;
       const slides = Array.from(carousel.querySelectorAll(".hero__slide"));
       const dotsWrap = carousel.querySelector("[data-carousel-dots]");
       const prevBtn = carousel.querySelector("[data-carousel-prev]");
       const nextBtn = carousel.querySelector("[data-carousel-next]");
-      if (!slides.length || !dotsWrap) return;
-
+      if(!slides.length || !dotsWrap) return;
+      let current = 0, timer = null, dots = [];
       const autoplayMs = 6500;
       const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      let current = 0;
-      let timer = null;
-      let dots = [];
 
-      function render() {
-        slides.forEach((slide, index) => {
-          slide.classList.toggle("is-active", index === current);
-        });
-        dots.forEach((dot, index) => {
-          dot.classList.toggle("is-active", index === current);
-        });
+      function render(){
+        slides.forEach((s,i) => s.classList.toggle("is-active", i===current));
+        dots.forEach((d,i) => d.classList.toggle("is-active", i===current));
       }
+      function goTo(i){ current=(i+slides.length)%slides.length; render(); }
+      function stop(){ if(timer){clearInterval(timer);timer=null;} }
+      function start(){ stop(); if(reduceMotion||slides.length<2)return; timer=setInterval(()=>goTo(current+1),autoplayMs); }
 
-      function goTo(index) {
-        current = (index + slides.length) % slides.length;
-        render();
-      }
+      slides.forEach((_,i)=>{
+        const d=document.createElement("button");
+        d.type="button"; d.className="hero__dot"+(i===0?" is-active":"");
+        d.setAttribute("aria-label","Imagen "+(i+1));
+        d.addEventListener("click",()=>{goTo(i);start();});
+        dotsWrap.appendChild(d);
+      });
+      dots=Array.from(dotsWrap.querySelectorAll(".hero__dot"));
+      if(prevBtn) prevBtn.addEventListener("click",()=>{goTo(current-1);start();});
+      if(nextBtn) nextBtn.addEventListener("click",()=>{goTo(current+1);start();});
+      document.addEventListener("visibilitychange",()=>document.hidden?stop():start());
+      render(); start();
+    })();
 
-      function stop() {
-        if (timer) {
-          clearInterval(timer);
-          timer = null;
+    /* ── HELPERS ── */
+    function normalizeText(v){ const r=String(v||"").trim().toLowerCase(); try{return r.normalize("NFD").replace(/[\u0300-\u036f]/g,"");}catch{return r;} }
+    function safeText(v){ return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
+    function formatPrice(p){ return "$"+Number(p||0).toLocaleString("es-AR"); }
+    function slugifyName(v){ if(typeof window.romixSlug==="function")return window.romixSlug(v); return normalizeText(v).replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")||"producto"; }
+    function pickImage(p,fb){ if(p&&p.image)return String(p.image); if(p&&p.images&&typeof p.images==="object"){const v=Object.values(p.images).filter(Boolean);if(v.length)return String(v[0]);} return fb||"images/logo-romix.png"; }
+    function buildHref(p,ft){ if(p&&p.name){const pid=encodeURIComponent(p.id?String(p.id):slugifyName(p.name));const slug=encodeURIComponent(slugifyName(p.name));const name=encodeURIComponent(String(p.name));return "product.html?id="+pid+"&slug="+slug+"&name="+name;} return "catalogo.html?categories="+encodeURIComponent(ft||""); }
+    function getVariants(p){
+      const variants=[]; const seen=new Set();
+      const colors=Array.isArray(p&&p.colors)?p.colors:[];
+      const imgMap=p&&p.images&&typeof p.images==="object"?p.images:null;
+      function push(name,hex,img){ const lb=String(name||"").trim(); const k=normalizeText(lb); if(!lb||seen.has(k))return; seen.add(k); variants.push({name:lb,hex:hex||"",image:img||""}); }
+      colors.forEach(c=>{ if(!c)return; push(c.name,c.hex,c.image||(imgMap?Object.entries(imgMap).find(([n])=>normalizeText(n)===normalizeText(c.name))?.[1]:""):""); });
+      if(imgMap) Object.entries(imgMap).forEach(([n,img])=>push(n,"",img));
+      return variants;
+    }
+    function getStock(p){
+      const sizes=Array.isArray(p&&p.sizes)?p.sizes:[];
+      if(!sizes.length)return{label:"Disponible",ok:true};
+      const has=sizes.some(e=>{const s=normalizeText(e&&e.status);return s==="available"||s==="low-stock";});
+      return has?{label:"Disponible",ok:true}:{label:"Agotado",ok:false};
+    }
+    function starsSVG(){ return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`; }
+
+    /* ── RENDER PRODUCTS ── */
+    let refreshProd=null;
+    function renderProducts(products){
+      const row=document.getElementById("productsRow"); if(!row)return;
+      let source=Array.isArray(products)?products.filter(p=>p&&p.featured!==false):[];
+      if(!source.length&&Array.isArray(products)) source=products.slice(0,20);
+      if(typeof window.applyCatalogRelevanceOrder==="function") source=window.applyCatalogRelevanceOrder(source,"novedades");
+      if(!source.length){ row.innerHTML='<div class="prod-empty">No pudimos cargar los productos.</div>'; return; }
+      const varLimit=window.innerWidth<=640?3:4;
+      row.innerHTML="";
+      source.forEach(product=>{
+        const href=buildHref(product,normalizeText(product&&product.type));
+        const fbImg=pickImage(product,"images/logo-romix.png");
+        const stock=getStock(product);
+        const variants=getVariants(product);
+        const card=document.createElement("article"); card.className="prod-card";
+        // thumb
+        const thumbLink=document.createElement("a"); thumbLink.className="prod-thumb"; thumbLink.href=href;
+        const mainImg=document.createElement("img"); mainImg.loading="lazy"; mainImg.decoding="async";
+        mainImg.alt=product&&product.name?String(product.name):"Producto";
+        function setImg(src,cn){ const chosen=src||fbImg; mainImg.onerror=function(){mainImg.onerror=null;mainImg.src=fbImg;}; mainImg.src=chosen; if(cn)mainImg.alt=String(product.name||"Producto")+" - "+cn; }
+        setImg(fbImg,"");
+        // badge
+        if(product&&product.featured){ const badge=document.createElement("span"); badge.className="prod-badge"; badge.textContent="NUEVO"; thumbLink.appendChild(badge); }
+        // wishlist
+        const wish=document.createElement("button"); wish.type="button"; wish.className="prod-wish"; wish.setAttribute("aria-label","Agregar a favoritos");
+        wish.innerHTML=`<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+        wish.addEventListener("click",function(e){ e.preventDefault(); e.stopPropagation(); wish.classList.toggle("is-active"); });
+        thumbLink.appendChild(mainImg); thumbLink.appendChild(wish);
+        card.appendChild(thumbLink);
+        // body
+        const body=document.createElement("div"); body.className="prod-body";
+        // stars
+        const stars=document.createElement("div"); stars.className="prod-stars";
+        const rating=(4+Math.random()).toFixed(1);
+        for(let i=0;i<5;i++){ const s=document.createElement("span"); s.innerHTML=starsSVG(); stars.appendChild(s); }
+        const ratingSpan=document.createElement("span"); ratingSpan.textContent="("+rating+")"; stars.appendChild(ratingSpan);
+        body.appendChild(stars);
+        // variants
+        if(variants.length){
+          const varWrap=document.createElement("div"); varWrap.className="prod-variants";
+          const visible=variants.slice(0,varLimit);
+          visible.forEach((v,i)=>{
+            const btn=document.createElement("button"); btn.type="button"; btn.className="var-chip"+(i===0?" is-active":""); btn.setAttribute("aria-label","Color "+v.name); btn.title=v.name;
+            if(v.hex) btn.style.backgroundColor=v.hex;
+            if(v.image){ const sw=document.createElement("img"); sw.loading="lazy"; sw.src=v.image; sw.alt=v.name; sw.onerror=function(){sw.remove();}; btn.appendChild(sw); }
+            btn.addEventListener("click",function(){ setImg(v.image||fbImg,v.name); varWrap.querySelectorAll(".var-chip").forEach(c=>c.classList.remove("is-active")); btn.classList.add("is-active"); });
+            varWrap.appendChild(btn);
+          });
+          if(variants.length>visible.length){ const more=document.createElement("span"); more.className="var-more"; more.textContent="+"+(variants.length-visible.length); varWrap.appendChild(more); }
+          const init=visible[0]; if(init) setImg(init.image||fbImg,init.name);
+          body.appendChild(varWrap);
         }
-      }
-
-      function start() {
-        stop();
-        if (reduceMotion || slides.length < 2) return;
-        timer = setInterval(() => goTo(current + 1), autoplayMs);
-      }
-
-      slides.forEach((_, index) => {
-        const dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "hero__dot" + (index === 0 ? " is-active" : "");
-        dot.setAttribute("aria-label", "Ir a la imagen " + (index + 1));
-        dot.addEventListener("click", () => {
-          goTo(index);
-          start();
-        });
-        dotsWrap.appendChild(dot);
+        // name
+        const nameEl=document.createElement("a"); nameEl.className="prod-name"; nameEl.href=href;
+        nameEl.textContent=product&&product.name?String(product.name):"Producto"; body.appendChild(nameEl);
+        // price + cta
+        const priceRow=document.createElement("div"); priceRow.className="prod-price-row";
+        const priceEl=document.createElement("p"); priceEl.className="prod-price"; priceEl.textContent=formatPrice(product&&product.price);
+        const ctaEl=document.createElement("a"); ctaEl.className="prod-cta"; ctaEl.href=href; ctaEl.textContent="Comprar";
+        priceRow.appendChild(priceEl); priceRow.appendChild(ctaEl); body.appendChild(priceRow);
+        card.appendChild(body); row.appendChild(card);
       });
+      if(typeof refreshProd==="function") requestAnimationFrame(refreshProd);
+    }
 
-      dots = Array.from(dotsWrap.querySelectorAll(".hero__dot"));
-
-      if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
-          goTo(current - 1);
-          start();
-        });
-      }
-
-      if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-          goTo(current + 1);
-          start();
-        });
-      }
-
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) stop();
-        else start();
-      });
-
-      render();
-      start();
+    /* ── PRODUCTS CAROUSEL ── */
+    (function(){
+      const track=document.getElementById("productsRow");
+      const prev=document.getElementById("productsPrev");
+      const next=document.getElementById("productsNext");
+      if(!track||!prev||!next)return;
+      function getStep(){ const card=track.querySelector(".prod-card"); const gap=parseFloat(window.getComputedStyle(track).gap)||0; return card?card.getBoundingClientRect().width+gap:200; }
+      function sync(){ const max=Math.max(0,track.scrollWidth-track.clientWidth); if(max<=4||window.innerWidth<=760){prev.disabled=true;next.disabled=true;return;} prev.disabled=track.scrollLeft<=4; next.disabled=track.scrollLeft>=max-4; }
+      prev.addEventListener("click",()=>track.scrollBy({left:-getStep()*2,behavior:"smooth"}));
+      next.addEventListener("click",()=>track.scrollBy({left:getStep()*2,behavior:"smooth"}));
+      track.addEventListener("scroll",sync,{passive:true});
+      window.addEventListener("resize",sync);
+      refreshProd=sync; sync();
     })();
 
-    (function initProductsCarousel() {
-      const track = document.getElementById("productsRow");
-      const prev = document.getElementById("productsPrev");
-      const next = document.getElementById("productsNext");
-      if (!track || !prev || !next) return;
-
-      function getStep() {
-        const card = track.querySelector(".prod-card");
-        const gap = parseFloat(window.getComputedStyle(track).gap) || 0;
-        return card ? card.getBoundingClientRect().width + gap : 200;
-      }
-
-      function getStepCount() {
-        return window.innerWidth <= 760 ? 1 : 2;
-      }
-
-      function sync() {
-        const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
-        if (maxScroll <= 4 || window.innerWidth <= 760) {
-          prev.disabled = true;
-          next.disabled = true;
-          return;
-        }
-        prev.disabled = track.scrollLeft <= 4;
-        next.disabled = track.scrollLeft >= maxScroll - 4;
-      }
-
-      prev.addEventListener("click", () => {
-        track.scrollBy({ left: -getStep() * getStepCount(), behavior: "smooth" });
-      });
-
-      next.addEventListener("click", () => {
-        track.scrollBy({ left: getStep() * getStepCount(), behavior: "smooth" });
-      });
-
-      track.addEventListener("scroll", sync, { passive: true });
-      window.addEventListener("resize", sync);
-      refreshProd = sync;
-      sync();
-    })();
-
-    (function initNewsletter() {
-      const form = document.getElementById("newsletterForm");
-      const email = document.getElementById("newsletterEmail");
-      if (!form || !email) return;
-
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const value = String(email.value || "").trim();
-        if (!value) return;
-        const subject = encodeURIComponent("Newsletter ROMIX");
-        const body = encodeURIComponent("Quiero suscribirme al newsletter ROMIX con este email: " + value);
-        window.location.href = "mailto:info@romix.com.ar?subject=" + subject + "&body=" + body;
-      });
-    })();
-
-    (async function initHome() {
-      try {
-        const products = await loadHomeProducts();
-        if (!Array.isArray(products) || !products.length) return;
+    /* ── LOAD DATA ── */
+    (async function(){
+      try{
+        let products;
+        if(window.romixProductsStore&&typeof window.romixProductsStore.load==="function"){ products=await window.romixProductsStore.load(); }
+        else{ const r=await fetch("assets/data/products.json"); products=await r.json(); }
+        if(!Array.isArray(products)||!products.length)return;
         renderProducts(products);
-      } catch (error) {
-        const row = document.getElementById("productsRow");
-        if (row) {
-          row.innerHTML = '<div class="prod-empty">No pudimos cargar los productos por ahora.</div>';
-        }
-        console.error("[index] Error cargando data de home", error);
+      }catch(e){
+        const row=document.getElementById("productsRow");
+        if(row) row.innerHTML='<div class="prod-empty">No pudimos cargar los productos por ahora.</div>';
+        console.error("[index] Error",e);
       }
+    })();
+
+    /* ── NEWSLETTER ── */
+    (function(){
+      const form=document.getElementById("newsletterForm"); const email=document.getElementById("newsletterEmail");
+      if(!form||!email)return;
+      form.addEventListener("submit",e=>{ e.preventDefault(); const v=String(email.value||"").trim(); if(!v)return; window.location.href="mailto:info@romix.com.ar?subject="+encodeURIComponent("Newsletter ROMIX")+"&body="+encodeURIComponent("Email: "+v); });
     })();
   </script>
 </body>

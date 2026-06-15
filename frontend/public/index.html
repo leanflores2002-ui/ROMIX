@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROMIX - Indumentaria Deportiva & Urbana</title>
-  <meta name="description" content="Descubr&iacute; calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada d&iacute;a." />
+  <meta name="description" content="Descubrí calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada día." />
   <link rel="canonical" href="https://romi-damas.netlify.app/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ROMIX" />
   <meta property="og:locale" content="es_AR" />
   <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
-  <meta property="og:description" content="Descubr&iacute; calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada d&iacute;a." />
+  <meta property="og:description" content="Descubrí calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada día." />
   <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -18,7 +18,7 @@
   <meta property="og:url" content="https://romi-damas.netlify.app/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
-  <meta name="twitter:description" content="Descubr&iacute; calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada d&iacute;a." />
+  <meta name="twitter:description" content="Descubrí calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada día." />
   <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
   <meta name="twitter:url" content="https://romi-damas.netlify.app/" />
   <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
@@ -29,26 +29,24 @@
   <link rel="stylesheet" href="assets/css/romix-header.css" />
   <style>
     :root {
-      --pink-strong: #ff3f8e;
-      --pink-main: #ff5fa3;
-      --pink-soft: #ffd9e8;
-      --navy-strong: #0f1c2c;
-      --navy-soft: #16263b;
-      --ice: #eff4fb;
-      --surface: #ffffff;
-      --surface-soft: #f9f7fc;
-      --text-main: #1f1a26;
-      --text-muted: #685f78;
-      --line-soft: rgba(31, 26, 38, 0.08);
-      --shadow-soft: 0 14px 34px rgba(255, 95, 163, 0.12);
-      --shadow-card: 0 16px 34px rgba(18, 24, 37, 0.08);
-      --radius-xl: 32px;
-      --radius-lg: 24px;
-      --radius-md: 18px;
-      --radius-sm: 12px;
+      --pink: #ff3f8e;
+      --pink-light: #ff5fa3;
+      --dark: #111111;
+      --dark-soft: #1a1a1a;
+      --gray-bg: #f5f5f5;
+      --gray-border: #e8e8e8;
+      --text: #111111;
+      --text-muted: #777777;
+      --white: #ffffff;
+      --radius-xl: 20px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --radius-sm: 8px;
       --pill: 999px;
-      --home-max: 1200px;
-      --section-gap: clamp(22px, 2.6vw, 34px);
+      --max: 1280px;
+      --gap: clamp(16px, 2vw, 28px);
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.14);
     }
 
     *,
@@ -60,27 +58,18 @@
     }
 
     html {
-      width: 100%;
-      max-width: 100%;
       overflow-x: hidden;
     }
 
     body {
-      width: 100%;
-      max-width: 100%;
-      min-height: 100vh;
       font-family: "Manrope", sans-serif;
-      color: var(--text-main);
-      background:
-        radial-gradient(860px 340px at 7% -9%, #ffe5f1 0%, transparent 66%),
-        radial-gradient(820px 330px at 95% 0%, #efe8ff 0%, transparent 64%),
-        #faf8fd;
+      color: var(--text);
+      background: #f7f7f7;
       overflow-x: clip;
     }
 
     img {
       display: block;
-      width: 100%;
       max-width: 100%;
       height: auto;
     }
@@ -95,410 +84,443 @@
       font: inherit;
     }
 
-    .home {
-      width: min(var(--home-max), calc(100% - clamp(20px, 4vw, 56px)));
-      margin: clamp(14px, 2.4vw, 24px) auto clamp(28px, 4vw, 44px);
+    .page {
       display: grid;
-      gap: var(--section-gap);
+      gap: clamp(20px, 2.4vw, 32px);
+      padding-bottom: 48px;
     }
 
-    .home > * {
-      min-width: 0;
-    }
-
-    .home,
-    .products-shell,
-    .products-row,
-    .promo-banners,
-    .banner-card {
-      max-width: 100%;
-    }
-
-    .main-hero-carousel {
+    .hero {
       position: relative;
-      width: 100vw;
-      max-width: 100vw;
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-      background: #ece9f3;
+      width: 100%;
+      background: #1a1a2e;
+      overflow: hidden;
+      min-height: clamp(320px, 50vw, 600px);
     }
 
-    .main-hero-carousel__viewport,
-    .main-hero-carousel__track {
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(10, 10, 20, 0.75) 0%, rgba(10, 10, 20, 0.35) 55%, rgba(10, 10, 20, 0.1) 100%);
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      height: clamp(320px, 50vw, 600px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(24px, 5vw, 80px);
+      max-width: 600px;
+      gap: 16px;
+    }
+
+    .hero__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Outfit", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--pink);
+      background: rgba(255, 63, 142, 0.12);
+      border: 1px solid rgba(255, 63, 142, 0.3);
+      padding: 6px 14px;
+      border-radius: var(--pill);
+      width: fit-content;
+    }
+
+    .hero__title {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(2rem, 5.5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1;
+      color: var(--white);
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero__title span {
+      color: var(--pink);
+    }
+
+    .hero__desc {
+      font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.6;
+      max-width: 38ch;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-pink {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 28px;
+      border-radius: var(--pill);
+      background: linear-gradient(120deg, var(--pink) 0%, var(--pink-light) 100%);
+      color: #fff;
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: 0;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255, 63, 142, 0.35);
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn-pink:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 24px;
+      border-radius: var(--pill);
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+      color: #fff;
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-ghost:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .hero__arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      color: #111;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .hero__arrow:hover {
+      transform: translateY(-50%) scale(1.05);
+      background: #fff;
+    }
+
+    .hero__arrow--prev {
+      left: clamp(12px, 2.5vw, 32px);
+    }
+
+    .hero__arrow--next {
+      right: clamp(12px, 2.5vw, 32px);
+    }
+
+    .hero__dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 3;
+    }
+
+    .hero__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: width 0.2s ease, background 0.2s ease;
+    }
+
+    .hero__dot.is-active {
+      width: 24px;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .hero__track {
       position: relative;
       width: 100%;
       height: 100%;
     }
 
-    .main-hero-carousel__slide {
+    .hero__slide {
       display: none;
     }
 
-    .main-hero-carousel__slide.is-active {
+    .hero__slide.is-active {
       display: block;
     }
 
-    .main-hero-carousel__slide-link,
-    .main-hero-carousel__slide img {
-      width: 100%;
-      height: auto;
-      object-fit: unset;
+    .section-wrap {
+      width: min(var(--max), calc(100% - clamp(16px, 4vw, 48px)));
+      margin: 0 auto;
     }
 
-    .main-hero-carousel__slide-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .main-hero-carousel__slide img {
-      object-fit: cover;
-      object-position: center;
-    }
-
-    .btn-primary,
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      padding: 0 24px;
-      border-radius: var(--pill);
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: clamp(0.88rem, 0.96vw, 0.98rem);
-      transition: transform 0.2s ease, filter 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-    }
-
-    .btn-primary {
-      border: 0;
-      color: #ffffff;
-      background: linear-gradient(120deg, var(--pink-strong) 0%, var(--pink-main) 100%);
-      box-shadow: 0 12px 22px rgba(255, 63, 142, 0.26);
-      cursor: pointer;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      filter: brightness(0.96);
-    }
-
-    .btn-secondary {
-      border: 1.5px solid rgba(255, 255, 255, 0.56);
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-secondary:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.84);
-    }
-
-    .main-hero-carousel__arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      border: 0;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.88);
-      color: #1f1a26;
-      box-shadow: 0 10px 24px rgba(31, 26, 38, 0.2);
-      cursor: pointer;
-      z-index: 5;
-      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .main-hero-carousel__arrow:hover {
-      transform: translateY(-50%) scale(1.04);
-      background: #ffffff;
-      box-shadow: 0 14px 24px rgba(31, 26, 38, 0.24);
-    }
-
-    .main-hero-carousel__arrow:focus-visible {
-      outline: 2px solid rgba(31, 26, 38, 0.45);
-      outline-offset: 2px;
-    }
-
-    .main-hero-carousel__arrow--prev {
-      left: clamp(12px, 3vw, 40px);
-    }
-
-    .main-hero-carousel__arrow--next {
-      right: clamp(12px, 3vw, 40px);
-    }
-
-    .main-hero-carousel__dots {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: clamp(12px, 2vw, 24px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      z-index: 2;
-    }
-
-    .main-hero-carousel__dot {
-      width: 9px;
-      height: 9px;
-      border: 0;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.72);
-      cursor: pointer;
-      transition: width 0.2s ease, background-color 0.2s ease;
-    }
-
-    .main-hero-carousel__dot.is-active {
-      width: 26px;
-      background: #ffffff;
-    }
-
-    .surface-section {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-card);
-      overflow: hidden;
-    }
-
-    .surface-section--dark {
-      background: linear-gradient(160deg, var(--navy-soft) 0%, var(--navy-strong) 100%);
-      border-color: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-    }
-
-    .section-head {
+    .sec-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
-    .section-head h2 {
+    .sec-head__left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sec-eyebrow {
       font-family: "Outfit", sans-serif;
-      font-size: clamp(1.2rem, 2.2vw, 1.56rem);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+
+    .sec-title {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
       font-weight: 800;
-      line-height: 1.12;
-      color: var(--text-main);
+      color: var(--text);
     }
 
-    .surface-section--dark .section-head h2 {
-      color: #ffffff;
-    }
-
-    .section-link {
+    .sec-link {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       font-family: "Outfit", sans-serif;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 700;
+      color: var(--text-muted);
       white-space: nowrap;
-      color: var(--text-main);
       transition: color 0.2s ease;
     }
 
-    .section-link:hover {
-      color: var(--pink-strong);
-    }
-
-    .surface-section--dark .section-link {
-      color: rgba(255, 255, 255, 0.92);
-    }
-
-    .surface-section--dark .section-link:hover {
-      color: #ffffff;
-    }
-
-    .section-eyebrow {
-      display: block;
-      margin-bottom: 6px;
-      font-family: "Outfit", sans-serif;
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--pink-strong);
-    }
-
-    .audience-section {
-      padding: clamp(20px, 2.4vw, 28px);
+    .sec-link:hover {
+      color: var(--pink);
     }
 
     .audience-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: clamp(12px, 1.6vw, 18px);
+      grid-template-columns: repeat(5, 1fr);
+      gap: clamp(10px, 1.4vw, 16px);
     }
 
     .audience-card {
       position: relative;
-      display: flex;
-      flex-direction: column;
       border-radius: var(--radius-lg);
       overflow: hidden;
-      min-height: 210px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      aspect-ratio: 3 / 4;
+      background: #ddd;
+      cursor: pointer;
       transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
 
     .audience-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 20px 34px rgba(6, 11, 19, 0.24);
+      box-shadow: var(--shadow-hover);
     }
 
-    .audience-card.dark {
-      background: rgba(255, 255, 255, 0.14);
-    }
-
-    .audience-thumb {
-      flex: 1;
-      min-height: 210px;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .audience-label {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
+    .audience-card__placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, #2a2a3e 0%, #1a1a2e 100%);
       display: flex;
       align-items: center;
+      justify-content: center;
+    }
+
+    .audience-card__placeholder svg {
+      width: 48px;
+      height: 48px;
+      opacity: 0.3;
+      color: #fff;
+    }
+
+    .audience-card__label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 28px 14px 14px;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+      color: #fff;
+      display: flex;
+      align-items: flex-end;
       justify-content: space-between;
-      gap: 12px;
-      padding: 12px 14px;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(8px);
-      color: var(--text-main);
+    }
+
+    .audience-card__name {
       font-family: "Outfit", sans-serif;
-      font-size: 0.96rem;
-      font-weight: 700;
+      font-size: 1rem;
+      font-weight: 800;
     }
 
-    .audience-card.dark .audience-label {
-      background: rgba(15, 28, 44, 0.88);
-      color: #ffffff;
-    }
-
-    .audience-arrow {
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      display: inline-flex;
+    .audience-card__arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--pink);
+      display: flex;
       align-items: center;
       justify-content: center;
-      flex: 0 0 auto;
-      background: linear-gradient(120deg, var(--pink-strong) 0%, var(--pink-main) 100%);
-      color: #ffffff;
-      box-shadow: 0 8px 18px rgba(255, 63, 142, 0.28);
+      flex-shrink: 0;
     }
 
-    .categories-section {
-      padding: clamp(20px, 2.4vw, 28px);
-    }
-
-    .categories-grid {
+    .cat-grid {
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: clamp(12px, 1.6vw, 18px);
+      grid-template-columns: repeat(6, 1fr);
+      gap: clamp(10px, 1.4vw, 16px);
     }
 
-    .category-item {
+    .cat-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
-      text-align: center;
+      gap: 10px;
+      cursor: pointer;
       transition: transform 0.2s ease;
     }
 
-    .category-item:hover {
+    .cat-item:hover {
       transform: translateY(-3px);
     }
 
-    .category-thumb {
+    .cat-thumb {
       width: 100%;
-      aspect-ratio: 1 / 1.06;
+      aspect-ratio: 1 / 1.1;
       border-radius: var(--radius-md);
+      background: var(--white);
+      border: 1.5px solid var(--gray-border);
+      box-shadow: var(--shadow);
       overflow: hidden;
-      background: linear-gradient(180deg, #ffffff 0%, #f5f7fb 100%);
-      border: 1px solid rgba(31, 26, 38, 0.08);
-      box-shadow: 0 8px 18px rgba(18, 24, 37, 0.06);
       display: grid;
       place-items: center;
-      padding: 14px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .category-item:hover .category-thumb {
-      transform: translateY(-2px);
-      border-color: rgba(255, 63, 142, 0.24);
-      box-shadow: 0 14px 24px rgba(18, 24, 37, 0.1);
+    .cat-item:hover .cat-thumb {
+      border-color: var(--pink);
+      box-shadow: 0 8px 24px rgba(255, 63, 142, 0.15);
     }
 
-    .category-item span {
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: 0.94rem;
-      color: var(--text-main);
-    }
-
-    .category-image-placeholder {
+    .cat-thumb__icon {
       width: 100%;
       height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 18px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
-      color: rgba(21, 35, 56, 0.7);
+      gap: 8px;
+      color: var(--text-muted);
+      padding: 16px;
+    }
+
+    .cat-thumb__icon svg {
+      width: 36px;
+      height: 36px;
+      opacity: 0.4;
+    }
+
+    .cat-label {
+      font-family: "Outfit", sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
       text-align: center;
     }
 
-    .audience-thumb .category-image-placeholder {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.1) 100%);
-      color: rgba(255, 255, 255, 0.88);
+    .promo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(12px, 1.6vw, 20px);
     }
 
-    .category-image-placeholder svg {
-      width: 34px;
-      height: 34px;
-      opacity: 0.72;
-      flex: 0 0 auto;
+    .promo-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      min-height: clamp(200px, 22vw, 320px);
+      background: #111;
+      box-shadow: var(--shadow);
     }
 
-    .category-image-placeholder strong {
-      display: block;
+    .promo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      position: absolute;
+      inset: 0;
+    }
+
+    .promo-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 100%);
+    }
+
+    .promo-card__body {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: clamp(20px, 2.6vw, 32px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 10px;
+      color: #fff;
+    }
+
+    .promo-card__title {
       font-family: "Outfit", sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
+      font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+      font-weight: 900;
+      line-height: 1.1;
+      max-width: 16ch;
     }
 
-    .category-image-placeholder span {
-      display: block;
-      max-width: 100%;
-      font-size: 0.68rem;
-      line-height: 1.35;
-      opacity: 0.85;
-      word-break: break-word;
-    }
-
-    .products-section .section-head {
-      margin-bottom: 18px;
+    .promo-card__desc {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 28ch;
     }
 
     .products-shell {
@@ -508,46 +530,81 @@
     .products-row {
       display: grid;
       grid-auto-flow: column;
-      grid-auto-columns: calc((100% - 5 * 16px) / 6);
-      gap: 16px;
+      grid-auto-columns: calc((100% - 5 * 14px) / 6);
+      gap: 14px;
       overflow-x: auto;
       scrollbar-width: none;
       scroll-snap-type: x mandatory;
-      padding-bottom: 8px;
+      padding-bottom: 6px;
     }
 
     .products-row::-webkit-scrollbar {
       display: none;
     }
 
-    .product-card {
+    .prod-arrow {
+      position: absolute;
+      top: 45%;
+      transform: translateY(-50%);
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--text);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .prod-arrow:hover:not(:disabled) {
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .prod-arrow:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .prod-arrow.left {
+      left: -18px;
+    }
+
+    .prod-arrow.right {
+      right: -18px;
+    }
+
+    .prod-card {
       display: flex;
       flex-direction: column;
       min-width: 0;
-      height: 100%;
-      background: #ffffff;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(31, 26, 38, 0.08);
-      box-shadow: 0 8px 20px rgba(18, 24, 37, 0.06);
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-border);
       overflow: hidden;
       scroll-snap-align: start;
       transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
 
-    .product-card:hover {
+    .prod-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 18px 32px rgba(18, 24, 37, 0.1);
+      box-shadow: var(--shadow-hover);
     }
 
-    .product-thumb {
+    .prod-thumb {
       position: relative;
-      height: clamp(210px, 22vw, 270px);
-      background: #f7f7fb;
+      height: clamp(180px, 20vw, 260px);
+      background: var(--gray-bg);
       overflow: hidden;
       flex-shrink: 0;
     }
 
-    .product-thumb img {
+    .prod-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -555,245 +612,199 @@
       transition: transform 0.3s ease;
     }
 
-    .product-card:hover .product-thumb img {
-      transform: scale(1.04);
+    .prod-card:hover .prod-thumb img {
+      transform: scale(1.05);
     }
 
-    .product-body {
+    .prod-wish {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      transition: background 0.2s ease, transform 0.2s ease;
+      z-index: 1;
+    }
+
+    .prod-wish:hover {
+      background: #fff;
+      transform: scale(1.1);
+    }
+
+    .prod-wish svg {
+      color: var(--text-muted);
+    }
+
+    .prod-wish.is-active svg {
+      color: var(--pink);
+      fill: var(--pink);
+    }
+
+    .prod-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--pink);
+      color: #fff;
+      font-family: "Outfit", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--pill);
+      letter-spacing: 0.04em;
+    }
+
+    .prod-body {
       display: flex;
       flex-direction: column;
       gap: 7px;
+      padding: 12px;
       flex: 1;
-      padding: 14px;
     }
 
-    .product-variants {
+    .prod-variants {
       display: flex;
-      align-items: center;
       gap: 5px;
+      align-items: center;
     }
 
-    .variant-chip {
-      width: 22px;
-      height: 22px;
+    .var-chip {
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       border: 2px solid #ddd;
       cursor: pointer;
-      flex-shrink: 0;
       overflow: hidden;
       transition: border-color 0.15s ease, transform 0.15s ease;
+      flex-shrink: 0;
     }
 
-    .variant-chip img {
+    .var-chip img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
     }
 
-    .variant-chip.is-active {
-      border-color: var(--pink-strong);
+    .var-chip.is-active {
+      border-color: var(--pink);
     }
 
-    .variant-chip:hover {
-      transform: scale(1.12);
+    .var-chip:hover {
+      transform: scale(1.15);
     }
 
-    .variant-more {
-      font-size: 0.72rem;
+    .var-more {
+      font-size: 0.7rem;
       font-weight: 800;
       color: var(--text-muted);
     }
 
-    .product-name {
+    .prod-name {
       font-family: "Outfit", sans-serif;
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       line-height: 1.3;
-      color: var(--text-main);
+      color: var(--text);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      min-height: 2.5em;
     }
 
-    .product-meta {
-      font-size: 0.76rem;
+    .prod-meta {
+      font-size: 0.74rem;
       color: var(--text-muted);
+      min-height: 1.2em;
     }
 
-    .price-row {
+    .prod-price-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      margin-top: 2px;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 8px;
     }
 
-    .product-price {
+    .prod-price-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .prod-price {
       font-family: "Outfit", sans-serif;
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       font-weight: 900;
-      color: var(--pink-strong);
+      color: var(--pink);
       line-height: 1;
     }
 
-    .stock-note {
+    .prod-stock {
       font-size: 0.72rem;
       font-weight: 700;
     }
 
-    .stock-note.status-available {
+    .prod-stock.is-ok {
       color: #16a34a;
     }
 
-    .stock-note.status-out {
+    .prod-stock:not(.is-ok) {
       color: #dc2626;
     }
 
-    .product-cta {
+    .prod-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 40px;
-      margin-top: 8px;
+      min-height: 34px;
+      padding: 0 14px;
       border-radius: var(--pill);
-      background: linear-gradient(120deg, var(--pink-strong) 0%, var(--pink-main) 100%);
-      color: #ffffff;
+      background: var(--dark);
+      color: #fff;
       font-family: "Outfit", sans-serif;
       font-weight: 700;
-      font-size: 0.9rem;
-      transition: filter 0.2s ease, transform 0.2s ease;
+      font-size: 0.8rem;
+      border: 0;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
     }
 
-    .product-cta:hover {
-      filter: brightness(0.96);
+    .prod-cta:hover {
+      background: var(--pink);
       transform: translateY(-1px);
     }
 
-    .products-empty {
-      padding: 18px;
-      background: #ffffff;
+    .prod-empty {
+      padding: 20px;
+      background: #fff;
       border-radius: var(--radius-md);
-      border: 1px dashed rgba(255, 63, 142, 0.28);
+      border: 1.5px dashed rgba(255, 63, 142, 0.25);
       color: var(--text-muted);
       font-weight: 700;
     }
 
-    .products-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 2;
-      width: 42px;
-      height: 42px;
-      border: 0;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.95);
-      color: var(--text-main);
-      box-shadow: 0 10px 20px rgba(18, 24, 37, 0.14);
-      cursor: pointer;
-      transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
-    }
-
-    .products-arrow:hover:not(:disabled) {
-      transform: translateY(-50%) scale(1.04);
-      background: #ffffff;
-    }
-
-    .products-arrow:disabled {
-      opacity: 0.36;
-      cursor: default;
-    }
-
-    .products-arrow.left {
-      left: -20px;
-    }
-
-    .products-arrow.right {
-      right: -20px;
-    }
-
-    .promo-banners {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .banner-card {
-      position: relative;
-      min-height: clamp(220px, 22vw, 300px);
-      border-radius: var(--radius-xl);
-      overflow: hidden;
-      background: #111827;
-      box-shadow: 0 18px 36px rgba(18, 24, 37, 0.1);
-    }
-
-    .banner-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(5, 10, 20, 0.82) 0%, rgba(5, 10, 20, 0.44) 52%, rgba(5, 10, 20, 0.18) 100%);
-      pointer-events: none;
-    }
-
-    .banner-image-link {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .banner-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    .banner-content {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-start;
-      gap: 10px;
-      padding: clamp(20px, 2.6vw, 28px);
-      color: #ffffff;
-    }
-
-    .banner-content h3 {
-      font-family: "Outfit", sans-serif;
-      font-size: clamp(1.2rem, 2vw, 1.6rem);
-      font-weight: 800;
-      line-height: 1.08;
-      max-width: 16ch;
-    }
-
-    .banner-content p {
-      font-size: 0.95rem;
-      line-height: 1.55;
-      color: rgba(255, 255, 255, 0.84);
-      max-width: 30ch;
-    }
-
     .site-footer {
-      margin-top: clamp(24px, 4vw, 44px);
+      margin-top: 16px;
       background: linear-gradient(180deg, #111a2a 0%, #0c1320 100%);
-      color: #ffffff;
+      color: #fff;
     }
 
     .footer-shell {
-      width: min(var(--home-max), calc(100% - clamp(20px, 4vw, 56px)));
+      width: min(var(--max), calc(100% - clamp(16px, 4vw, 48px)));
       margin: 0 auto;
-      padding: clamp(28px, 4vw, 46px) 0 24px;
+      padding: clamp(28px, 4vw, 48px) 0 24px;
       display: grid;
-      gap: 26px;
+      gap: 28px;
     }
 
     .footer-top {
@@ -805,7 +816,7 @@
 
     .footer-brand {
       display: grid;
-      gap: 22px;
+      gap: 20px;
     }
 
     .footer-brand-head {
@@ -813,39 +824,36 @@
       align-items: center;
       gap: 12px;
       font-family: "Outfit", sans-serif;
-      font-size: 1.36rem;
+      font-size: 1.3rem;
       font-weight: 900;
-      color: #ffffff;
+      color: #fff;
     }
 
     .footer-brand-head img {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       object-fit: contain;
-      border-radius: 12px;
+      border-radius: 10px;
     }
 
     .newsletter-card {
-      padding: 22px;
-      border-radius: 20px;
+      padding: 20px;
+      border-radius: 18px;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       display: grid;
-      gap: 16px;
+      gap: 14px;
     }
 
     .newsletter-card h3 {
       font-family: "Outfit", sans-serif;
-      font-size: clamp(1.08rem, 1.8vw, 1.38rem);
+      font-size: 1.1rem;
       font-weight: 800;
-      color: #ffffff;
-      line-height: 1.2;
     }
 
     .newsletter-card p {
-      color: rgba(255, 255, 255, 0.64);
-      font-size: 0.9rem;
-      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.88rem;
     }
 
     .newsletter-form {
@@ -855,67 +863,66 @@
 
     .newsletter-form input {
       flex: 1;
-      min-height: 46px;
-      padding: 0 16px;
+      min-height: 44px;
+      padding: 0 14px;
       border-radius: var(--pill);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(255, 255, 255, 0.06);
-      color: #ffffff;
-      font-size: 0.92rem;
+      color: #fff;
+      font-size: 0.9rem;
       outline: none;
     }
 
     .newsletter-form input::placeholder {
-      color: rgba(255, 255, 255, 0.42);
+      color: rgba(255, 255, 255, 0.4);
     }
 
     .newsletter-form input:focus {
-      border-color: var(--pink-strong);
+      border-color: var(--pink);
     }
 
-    .footer-column {
+    .footer-col {
       display: grid;
-      gap: 16px;
+      gap: 14px;
       align-content: start;
     }
 
-    .footer-column h4 {
+    .footer-col h4 {
       font-family: "Outfit", sans-serif;
-      font-size: 1rem;
+      font-size: 0.92rem;
       font-weight: 800;
-      color: #ffffff;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.07em;
     }
 
-    .footer-column ul {
+    .footer-col ul {
       list-style: none;
       display: grid;
-      gap: 10px;
+      gap: 9px;
     }
 
-    .footer-column a {
-      color: rgba(255, 255, 255, 0.64);
-      font-size: 0.92rem;
+    .footer-col a {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
       transition: color 0.2s ease;
     }
 
-    .footer-column a:hover {
-      color: var(--pink-main);
+    .footer-col a:hover {
+      color: var(--pink-light);
     }
 
     .footer-bottom {
-      padding-top: 22px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
+      gap: 16px;
     }
 
     .footer-bottom p {
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 0.86rem;
     }
 
     .footer-socials {
@@ -924,44 +931,30 @@
     }
 
     .footer-socials a {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: grid;
       place-items: center;
-      color: rgba(255, 255, 255, 0.72);
-      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
 
     .footer-socials a:hover {
-      background: var(--pink-strong);
-      color: #ffffff;
-      border-color: var(--pink-strong);
-    }
-
-    @media (max-width: 1200px) {
-      .products-arrow.left {
-        left: -12px;
-      }
-
-      .products-arrow.right {
-        right: -12px;
-      }
+      background: var(--pink);
+      color: #fff;
+      border-color: var(--pink);
     }
 
     @media (max-width: 1024px) {
-      .audience-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-      }
-
-      .categories-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+      .cat-grid {
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .products-row {
-        grid-auto-columns: calc((100% - 3 * 16px) / 3.4);
+        grid-auto-columns: calc((100% - 3 * 14px) / 3.3);
       }
 
       .footer-top {
@@ -970,21 +963,6 @@
     }
 
     @media (max-width: 760px) {
-      .home {
-        gap: 32px;
-        margin-top: 12px;
-      }
-
-      .main-hero-carousel {
-        
-      }
-
-      .btn-primary,
-      .btn-secondary {
-        min-height: 42px;
-        padding: 0 20px;
-      }
-
       .audience-grid {
         display: flex;
         overflow-x: auto;
@@ -998,28 +976,26 @@
       }
 
       .audience-card {
-        flex: 0 0 160px;
+        flex: 0 0 150px;
+        min-height: 200px;
+        aspect-ratio: unset;
       }
 
-      .categories-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
+      .cat-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
       }
 
-      .products-row {
-        grid-auto-columns: calc((100% - 2 * 12px) / 2.3);
-      }
-
-      .products-arrow {
-        display: none;
-      }
-
-      .promo-banners {
+      .promo-grid {
         grid-template-columns: 1fr;
       }
 
-      .banner-card {
-        min-height: 220px;
+      .products-row {
+        grid-auto-columns: calc((100% - 12px) / 2.3);
+      }
+
+      .prod-arrow {
+        display: none;
       }
 
       .footer-top {
@@ -1037,37 +1013,23 @@
     }
 
     @media (max-width: 520px) {
-      .main-hero-carousel__arrow {
-        width: 40px;
-        height: 40px;
-      }
-
-      .audience-card {
-        flex: 0 0 142px;
-        min-height: 190px;
-      }
-
-      .audience-thumb {
-        min-height: 190px;
-      }
-
-      .categories-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
+      .cat-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
       }
 
       .products-row {
-        grid-auto-columns: calc((100% - 10px) / 2.05);
+        grid-auto-columns: calc((100% - 8px) / 2.05);
       }
     }
 
     @media (max-width: 380px) {
-      .categories-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .cat-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .products-row {
-        grid-auto-columns: calc(100% - 26px);
+        grid-auto-columns: calc(100% - 24px);
       }
     }
   </style>
@@ -1079,24 +1041,22 @@
         <img src="images/logo-romix.png" alt="Logo ROMIX" />
         ROMIX<span class="brand-dot">.</span>
       </a>
-
       <nav aria-label="Principal">
         <ul class="main-nav">
           <li><a href="mujer.html">Mujer</a></li>
           <li><a href="hombre.html">Hombre</a></li>
-          <li><a href="ninos.html">Ni&ntilde;os</a></li>
+          <li><a href="ninos.html">Niños</a></li>
           <li><a href="novedades.html">Novedades</a></li>
         </ul>
       </nav>
-
-      <div class="header-icons" aria-label="Acciones rapidas">
+      <div class="header-icons" aria-label="Acciones rápidas">
         <button class="icon-btn" id="toggleSearch" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
             <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
           </svg>
         </button>
-        <a class="icon-btn" href="cart.html" aria-label="Carrito de compras">
+        <a class="icon-btn" href="cart.html" aria-label="Carrito">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             <circle cx="10" cy="19" r="1.4" fill="currentColor"></circle>
@@ -1106,10 +1066,9 @@
         </a>
       </div>
     </div>
-
     <div class="search-panel" id="header-search">
       <div class="container">
-        <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
+        <form class="global-search" role="search" action="catalogo.html" method="get">
           <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
           <button type="submit">Buscar</button>
         </form>
@@ -1117,302 +1076,193 @@
     </div>
   </header>
 
-  <main class="home">
-    <section class="main-hero-carousel" aria-label="Banner principal">
-      <div class="main-hero-carousel__viewport" id="mainImageCarousel">
-        <div class="main-hero-carousel__track">
-          <figure class="main-hero-carousel__slide is-active">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?temporada=invierno&q_any=termica,campera,polar" aria-label="Ver coleccion para invierno">
-              <img src="images/banner/banner-1.png" alt="Coleccion ROMIX para invierno" />
-            </a>
-          </figure>
-          <figure class="main-hero-carousel__slide">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=hombre,mujer&q_any=frizado,corderito,polar" aria-label="Ver abrigo para hombre y mujer">
-              <img src="images/banner/banner-2.png" alt="Abrigo termico ROMIX" />
-            </a>
-          </figure>
-          <figure class="main-hero-carousel__slide">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=ninos&q_any=termica,campera,buzo" aria-label="Ver coleccion de ninos">
-              <img src="images/banner/banner-3.png" alt="Coleccion infantil ROMIX" />
-            </a>
-          </figure>
-        </div>
-
-        <button class="main-hero-carousel__arrow main-hero-carousel__arrow--prev" type="button" data-carousel-prev aria-label="Imagen anterior">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </button>
-        <button class="main-hero-carousel__arrow main-hero-carousel__arrow--next" type="button" data-carousel-next aria-label="Imagen siguiente">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </button>
-        <div class="main-hero-carousel__dots" data-carousel-dots aria-label="Selector de imagenes"></div>
+  <main class="page">
+    <section class="hero" aria-label="Banner principal" id="mainImageCarousel">
+      <div class="hero__track">
+        <figure class="hero__slide is-active">
+          <img src="images/banner/banner-1.png" alt="Colección ROMIX invierno" />
+          <div class="hero__overlay"></div>
+          <div class="hero__content">
+            <span class="hero__eyebrow">Nueva temporada</span>
+            <h1 class="hero__title">ROMIX<br><span>INVIERNO</span></h1>
+            <p class="hero__desc">Prendas urbanas y deportivas para moverte con abrigo, estilo y comodidad todos los días.</p>
+            <div class="hero__actions">
+              <a class="btn-pink" href="catalogo.html?temporada=invierno">Ver colección</a>
+              <a class="btn-ghost" href="novedades.html">Últimos ingresos</a>
+            </div>
+          </div>
+        </figure>
+        <figure class="hero__slide">
+          <img src="images/banner/banner-2.png" alt="Abrigo térmico ROMIX" />
+          <div class="hero__overlay"></div>
+          <div class="hero__content">
+            <span class="hero__eyebrow">Colección Hombre & Mujer</span>
+            <h2 class="hero__title">ESTILO Y<br><span>CALIDEZ</span></h2>
+            <p class="hero__desc">Frizado, corderito y polar para el invierno que se viene.</p>
+            <div class="hero__actions">
+              <a class="btn-pink" href="catalogo.html?sections=hombre,mujer">Ver abrigos</a>
+            </div>
+          </div>
+        </figure>
+        <figure class="hero__slide">
+          <img src="images/banner/banner-3.png" alt="Colección infantil ROMIX" />
+          <div class="hero__overlay"></div>
+          <div class="hero__content">
+            <span class="hero__eyebrow">Para ellos · Para ellas</span>
+            <h2 class="hero__title">LÍNEA<br><span>NIÑOS</span></h2>
+            <p class="hero__desc">Indumentaria cómoda, resistente y pensada para acompañarlos en cada movimiento.</p>
+            <div class="hero__actions">
+              <a class="btn-pink" href="ninos.html">Ver niños</a>
+            </div>
+          </div>
+        </figure>
       </div>
+      <button class="hero__arrow hero__arrow--prev" type="button" data-carousel-prev aria-label="Anterior">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </button>
+      <button class="hero__arrow hero__arrow--next" type="button" data-carousel-next aria-label="Siguiente">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </button>
+      <div class="hero__dots" data-carousel-dots></div>
     </section>
 
-    <section class="audience-section surface-section surface-section--dark" aria-labelledby="quick-shop-title">
-      <div class="section-head">
-        <h2 id="quick-shop-title">&iquest;Para qui&eacute;n est&aacute;s comprando?</h2>
+    <div class="section-wrap">
+      <div class="sec-head">
+        <div class="sec-head__left">
+          <span class="sec-eyebrow">Explorá por sección</span>
+          <h2 class="sec-title">¿Para quién estás comprando?</h2>
+        </div>
+        <a class="sec-link" href="catalogo.html">Ver todo <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
       </div>
       <div class="audience-grid">
         <a class="audience-card" href="mujer.html">
-          <div class="audience-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/mujer.jpg" aria-label="Placeholder de imagen para Mujer">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/mujer.jpg</span>
-            </div>
+          <div class="audience-card__placeholder">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
           </div>
-          <div class="audience-label">
-            <span>Mujer</span>
-            <span class="audience-arrow" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </span>
+          <div class="audience-card__label">
+            <span class="audience-card__name">Mujer</span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
           </div>
         </a>
         <a class="audience-card" href="hombre.html">
-          <div class="audience-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/hombre.jpg" aria-label="Placeholder de imagen para Hombre">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/hombre.jpg</span>
-            </div>
+          <div class="audience-card__placeholder">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
           </div>
-          <div class="audience-label">
-            <span>Hombre</span>
-            <span class="audience-arrow" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </span>
+          <div class="audience-card__label">
+            <span class="audience-card__name">Hombre</span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
           </div>
         </a>
         <a class="audience-card" href="ninos.html?q_any=nina,nena">
-          <div class="audience-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/nina.jpg" aria-label="Placeholder de imagen para Niña">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/nina.jpg</span>
-            </div>
+          <div class="audience-card__placeholder">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
           </div>
-          <div class="audience-label">
-            <span>Ni&ntilde;a</span>
-            <span class="audience-arrow" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </span>
+          <div class="audience-card__label">
+            <span class="audience-card__name">Niña</span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
           </div>
         </a>
         <a class="audience-card" href="ninos.html?q_any=nino,chico">
-          <div class="audience-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/nino.jpg" aria-label="Placeholder de imagen para Niño">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/nino.jpg</span>
-            </div>
+          <div class="audience-card__placeholder">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
           </div>
-          <div class="audience-label">
-            <span>Ni&ntilde;o</span>
-            <span class="audience-arrow" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </span>
+          <div class="audience-card__label">
+            <span class="audience-card__name">Niño</span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
           </div>
         </a>
-        <a class="audience-card dark" href="catalogo.html">
-          <div class="audience-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/ver-todo.jpg" aria-label="Placeholder de imagen para Ver todo">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/ver-todo.jpg</span>
-            </div>
+        <a class="audience-card" href="catalogo.html" style="background: linear-gradient(160deg, #1a1a3e, #0d0d1f);">
+          <div class="audience-card__placeholder" style="background: transparent; flex-direction: column; gap: 6px;">
+            <img src="images/logo-romix.png" alt="ROMIX" style="width: 52px; height: 52px; object-fit: contain; opacity: 0.9; border-radius: 12px;" />
+            <span style="font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 700; color: rgba(255, 255, 255, 0.7);">ROMIX</span>
           </div>
-          <div class="audience-label">
-            <span>Ver todo</span>
-            <span class="audience-arrow" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </span>
+          <div class="audience-card__label">
+            <span class="audience-card__name">Ver todo</span>
+            <span class="audience-card__arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg></span>
           </div>
         </a>
       </div>
-    </section>
+    </div>
 
-    <section class="categories-section surface-section" aria-labelledby="category-title">
-      <div class="section-head">
-        <h2 id="category-title">Accesos directos a lo que m&aacute;s busc&aacute;s</h2>
-        <a class="section-link" href="catalogo.html">Ver todo
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </a>
-      </div>
-      <div class="categories-grid" id="categoryTrack">
-        <a class="category-item" href="catalogo.html?categories=calzas">
-          <div class="category-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/calzas.jpg" aria-label="Placeholder de imagen para Calzas">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/calzas.jpg</span>
-            </div>
-          </div>
-          <span>Calzas</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=camperas">
-          <div class="category-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/camperas.jpg" aria-label="Placeholder de imagen para Camperas">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/camperas.jpg</span>
-            </div>
-          </div>
-          <span>Camperas</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=remeras">
-          <div class="category-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/remeras.jpg" aria-label="Placeholder de imagen para Remeras">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/remeras.jpg</span>
-            </div>
-          </div>
-          <span>Remeras</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=tops">
-          <div class="category-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/tops.jpg" aria-label="Placeholder de imagen para Tops">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/tops.jpg</span>
-            </div>
-          </div>
-          <span>Tops</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=buzos">
-          <div class="category-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/buzos.jpg" aria-label="Placeholder de imagen para Buzos">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/buzos.jpg</span>
-            </div>
-          </div>
-          <span>Buzos</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=pantalones">
-          <div class="category-thumb">
-            <div class="category-image-placeholder" data-image-path="images/categorias/pantalones.jpg" aria-label="Placeholder de imagen para Pantalones">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-              <strong>Imagen</strong>
-              <span>images/categorias/pantalones.jpg</span>
-            </div>
-          </div>
-          <span>Pantalones</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="products-section" id="ofertas" aria-labelledby="ofertas-titulo">
-      <div class="section-head">
-        <div>
-          <span class="section-eyebrow">Nueva temporada</span>
-          <h2 id="ofertas-titulo">DESCUBR&Iacute; LO NUEVO</h2>
+    <div class="section-wrap">
+      <div class="sec-head">
+        <div class="sec-head__left">
+          <span class="sec-eyebrow">Accesos rápidos</span>
+          <h2 class="sec-title">Lo que más buscás</h2>
         </div>
-        <a class="section-link" href="novedades.html">Ver todo
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
+        <a class="sec-link" href="catalogo.html">Ver todo <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+      </div>
+      <div class="cat-grid" id="categoryTrack">
+        <a class="cat-item" href="catalogo.html?categories=calzas">
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <span class="cat-label">Calzas</span>
         </a>
+        <a class="cat-item" href="catalogo.html?categories=camperas">
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <span class="cat-label">Camperas</span>
+        </a>
+        <a class="cat-item" href="catalogo.html?categories=remeras">
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <span class="cat-label">Remeras</span>
+        </a>
+        <a class="cat-item" href="catalogo.html?categories=tops">
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <span class="cat-label">Tops</span>
+        </a>
+        <a class="cat-item" href="catalogo.html?categories=buzos">
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <span class="cat-label">Buzos</span>
+        </a>
+        <a class="cat-item" href="catalogo.html?categories=pantalones">
+          <div class="cat-thumb"><div class="cat-thumb__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect></svg></div></div>
+          <span class="cat-label">Pantalones</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="section-wrap">
+      <div class="promo-grid">
+        <article class="promo-card">
+          <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Abrigos ROMIX" loading="lazy" />
+          <div class="promo-card__overlay"></div>
+          <div class="promo-card__body">
+            <h3 class="promo-card__title">ESTILO QUE TE ACOMPAÑA</h3>
+            <p class="promo-card__desc">Prendas invernales con calidez y diseño.</p>
+            <a class="btn-pink" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" style="width: fit-content;">Ver abrigos</a>
+          </div>
+        </article>
+        <article class="promo-card">
+          <img src="images/ROPA_DEPORTIVA.png" alt="Ropa deportiva ROMIX" loading="lazy" />
+          <div class="promo-card__overlay"></div>
+          <div class="promo-card__body">
+            <h3 class="promo-card__title">RENDÍ AL MÁXIMO CON ESTILO</h3>
+            <p class="promo-card__desc">Ropa diseñada para impulsar tu mejor versión.</p>
+            <a class="btn-pink" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" style="width: fit-content;">Ver deportivo</a>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="section-wrap" id="ofertas">
+      <div class="sec-head">
+        <div class="sec-head__left">
+          <span class="sec-eyebrow">Nueva temporada</span>
+          <h2 class="sec-title">DESCUBRÍ LO NUEVO</h2>
+        </div>
+        <a class="sec-link" href="novedades.html">Ver todo <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
       </div>
       <div class="products-shell">
-        <button class="products-arrow left" type="button" id="productsPrev" aria-label="Ver productos anteriores">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
+        <button class="prod-arrow left" type="button" id="productsPrev" aria-label="Anteriores">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </button>
         <div class="products-row" id="productsRow">
-          <div class="products-empty">Cargando productos...</div>
+          <div class="prod-empty">Cargando productos...</div>
         </div>
-        <button class="products-arrow right" type="button" id="productsNext" aria-label="Ver mas productos">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
+        <button class="prod-arrow right" type="button" id="productsNext" aria-label="Siguientes">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </button>
       </div>
-    </section>
-
-    <section class="promo-banners" aria-label="Banners promocionales">
-      <article class="banner-card">
-        <a class="banner-image-link" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" aria-label="Ver abrigos">
-          <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Abrigos urbanos de invierno" loading="lazy" />
-        </a>
-        <div class="banner-content">
-          <h3>ABRIGOS QUE TE ACOMPA&Ntilde;AN</h3>
-          <p>M&aacute;xima calidez y confort para cada d&iacute;a.</p>
-          <a class="btn-primary" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito">Ver abrigos</a>
-        </div>
-      </article>
-      <article class="banner-card">
-        <a class="banner-image-link" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" aria-label="Ver linea deportiva">
-          <img src="images/ROPA_DEPORTIVA.png" alt="Linea deportiva ROMIX" loading="lazy" />
-        </a>
-        <div class="banner-content">
-          <h3>REND&Iacute; AL M&Aacute;XIMO CON ESTILO</h3>
-          <p>Ropa dise&ntilde;ada para impulsar tu mejor versi&oacute;n.</p>
-          <a class="btn-primary" href="catalogo.html?q_any=dry,deportivo,lycra,saplex">Ver deportivo</a>
-        </div>
-      </article>
-    </section>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -1429,71 +1279,53 @@
               <p>Suscribite y enterate antes que nadie.</p>
             </div>
             <form class="newsletter-form" id="newsletterForm">
-              <input type="email" id="newsletterEmail" name="email" placeholder="Tu email" aria-label="Tu email" required />
-              <button class="btn-primary" type="submit">Suscribirme</button>
+              <input type="email" id="newsletterEmail" name="email" placeholder="Tu email" required />
+              <button class="btn-pink" type="submit">Suscribirme</button>
             </form>
           </div>
         </div>
-
-        <nav class="footer-column" aria-label="Comprar">
+        <nav class="footer-col">
           <h4>Comprar</h4>
           <ul>
             <li><a href="mujer.html">Mujer</a></li>
             <li><a href="hombre.html">Hombre</a></li>
-            <li><a href="ninos.html">Ni&ntilde;os</a></li>
+            <li><a href="ninos.html">Niños</a></li>
             <li><a href="novedades.html">Novedades</a></li>
             <li><a href="index.html#ofertas">Ofertas</a></li>
           </ul>
         </nav>
-
-        <nav class="footer-column" aria-label="Ayuda">
+        <nav class="footer-col">
           <h4>Ayuda</h4>
           <ul>
-            <li><a href="ayuda.html#size-guide">Preguntas frecuentes</a></li>
-            <li><a href="ayuda.html#returns">Env&iacute;os y devoluciones</a></li>
+            <li><a href="ayuda.html">Preguntas frecuentes</a></li>
+            <li><a href="ayuda.html#returns">Envíos y devoluciones</a></li>
             <li><a href="ayuda.html#returns">Cambios</a></li>
             <li><a href="cart.html#order-btn">Formas de pago</a></li>
             <li><a href="ayuda.html#contact">Contacto</a></li>
           </ul>
         </nav>
-
-        <nav class="footer-column" aria-label="Nosotros">
+        <nav class="footer-col">
           <h4>Nosotros</h4>
           <ul>
-            <li><a href="index.html">Qui&eacute;nes somos</a></li>
-            <li><a href="mailto:info@romix.com.ar?subject=Trabajo%20en%20ROMIX">Trabaj&aacute; con nosotros</a></li>
+            <li><a href="index.html">Quiénes somos</a></li>
+            <li><a href="mailto:info@romix.com.ar">Trabajá con nosotros</a></li>
             <li><a href="ayuda.html#contact">Locales</a></li>
-            <li><a href="ayuda.html">T&eacute;rminos y condiciones</a></li>
-            <li><a href="ayuda.html">Pol&iacute;tica de privacidad</a></li>
+            <li><a href="ayuda.html">Términos y condiciones</a></li>
+            <li><a href="ayuda.html">Política de privacidad</a></li>
           </ul>
         </nav>
       </div>
-
       <div class="footer-bottom">
-        <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
-        <div class="footer-socials" aria-label="Redes sociales">
+        <p>© 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
+        <div class="footer-socials">
           <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"></rect>
-              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle>
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle>
-            </svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"></rect><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg>
           </a>
           <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M13.5 21V13H16.2L16.6 9.9H13.5V8.1C13.5 7.21 13.76 6.6 15.04 6.6H16.7V3.82C16.39 3.78 15.31 3.68 14.05 3.68C11.42 3.68 9.62 5.28 9.62 8.24V9.9H7V13H9.62V21H13.5Z" fill="currentColor"></path>
-            </svg>
-          </a>
-          <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M19.59 6.69A4.83 4.83 0 0 1 15.82 2.44V2H12.37V15.67A2.89 2.89 0 0 1 9.49 18.17A2.89 2.89 0 0 1 6.6 15.28A2.89 2.89 0 0 1 9.49 12.39C9.77 12.39 10.03 12.43 10.28 12.49V9.01A6.33 6.33 0 0 0 9.49 8.96A6.34 6.34 0 0 0 3.15 15.3A6.34 6.34 0 0 0 9.49 21.64A6.34 6.34 0 0 0 15.82 15.3V8.95A8.24 8.24 0 0 0 20.64 10.49V7.04A4.85 4.85 0 0 1 19.59 6.69Z" fill="currentColor"></path>
-            </svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M13.5 21V13H16.2L16.6 9.9H13.5V8.1C13.5 7.21 13.76 6.6 15.04 6.6H16.7V3.82C16.39 3.78 15.31 3.68 14.05 3.68C11.42 3.68 9.62 5.28 9.62 8.24V9.9H7V13H9.62V21H13.5Z" fill="currentColor"></path></svg>
           </a>
           <a href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="WhatsApp">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M20 11.56C20 16 16.41 19.6 12 19.6C10.58 19.6 9.24 19.23 8.08 18.57L4 20L5.47 16.07C4.73 14.86 4.3 13.44 4.3 11.92C4.3 7.48 7.89 3.88 12.3 3.88C16.71 3.88 20.3 7.48 20.3 11.92L20 11.56Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path>
-              <path d="M9.29 8.96C9.49 8.52 9.7 8.51 10.06 8.49C10.22 8.48 10.39 8.48 10.55 8.49C10.73 8.49 11.02 8.42 11.28 9.04C11.54 9.66 12.16 11.12 12.23 11.25C12.31 11.38 12.36 11.53 12.26 11.71C12.17 11.89 12.13 11.99 11.99 12.16C11.85 12.33 11.69 12.53 11.57 12.66C11.44 12.8 11.31 12.95 11.5 13.27C11.68 13.59 12.32 14.61 13.25 15.44C14.45 16.51 15.46 16.84 15.81 16.98C16.17 17.12 16.37 17.1 16.54 16.91C16.71 16.71 17.26 16.06 17.47 15.75C17.68 15.44 17.89 15.49 18.19 15.6C18.49 15.7 20.06 16.47 20.39 16.64C20.71 16.81 20.93 16.89 21.01 17.03C21.09 17.17 21.09 17.84 20.87 18.49C20.65 19.14 19.57 19.75 18.93 19.84C18.29 19.93 17.49 19.97 14.87 18.89C12.24 17.81 10.57 16.08 9.43 14.47C8.29 12.86 7.52 11.02 7.39 10.21C7.26 9.4 7.58 8.85 7.97 8.46C8.35 8.08 8.69 8.03 8.92 8.03C9.15 8.03 9.29 8.04 9.29 8.96Z" fill="currentColor"></path>
-            </svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M20 11.56C20 16 16.41 19.6 12 19.6C10.58 19.6 9.24 19.23 8.08 18.57L4 20L5.47 16.07C4.73 14.86 4.3 13.44 4.3 11.92C4.3 7.48 7.89 3.88 12.3 3.88C16.71 3.88 20.3 7.48 20.3 11.92L20 11.56Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path></svg>
           </a>
         </div>
       </div>
@@ -1504,16 +1336,7 @@
   <script src="assets/js/catalog-relevance-order.js"></script>
   <script src="assets/js/romix-header.js"></script>
   <script>
-    const HOME_CATEGORIES = [
-      { label: "Calzas", query: "calzas", imagePath: "images/categorias/calzas.jpg" },
-      { label: "Camperas", query: "camperas", imagePath: "images/categorias/camperas.jpg" },
-      { label: "Remeras", query: "remeras", imagePath: "images/categorias/remeras.jpg" },
-      { label: "Tops", query: "tops", imagePath: "images/categorias/tops.jpg" },
-      { label: "Buzos", query: "buzos", imagePath: "images/categorias/buzos.jpg" },
-      { label: "Pantalones", query: "pantalones", imagePath: "images/categorias/pantalones.jpg" }
-    ];
-
-    let refreshProductsCarousel = null;
+    let refreshProd = null;
 
     function normalizeText(value) {
       const raw = String(value || "").trim().toLowerCase();
@@ -1522,28 +1345,6 @@
       } catch {
         return raw;
       }
-    }
-
-    function safeText(value) {
-      return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
-
-    function productKey(product) {
-      return normalizeText(product && product.name) + "::" + normalizeText(product && product.type);
-    }
-
-    function pickImage(product, fallback) {
-      if (product && product.image) return String(product.image);
-      if (product && product.images && typeof product.images === "object") {
-        const values = Object.values(product.images).filter(Boolean);
-        if (values.length) return String(values[0]);
-      }
-      return fallback || "images/logo-romix.png";
     }
 
     function formatPrice(price) {
@@ -1559,6 +1360,30 @@
         .join(" ");
     }
 
+    function slugifyName(value) {
+      if (typeof window.romixSlug === "function") return window.romixSlug(value);
+      return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "producto";
+    }
+
+    function pickImage(product, fallback) {
+      if (product && product.image) return String(product.image);
+      if (product && product.images && typeof product.images === "object") {
+        const values = Object.values(product.images).filter(Boolean);
+        if (values.length) return String(values[0]);
+      }
+      return fallback || "images/logo-romix.png";
+    }
+
+    function buildHref(product, fallbackType) {
+      if (product && product.name) {
+        const pid = encodeURIComponent(product && product.id ? String(product.id) : slugifyName(product.name));
+        const slug = encodeURIComponent(slugifyName(product.name));
+        const name = encodeURIComponent(String(product.name));
+        return "product.html?id=" + pid + "&slug=" + slug + "&name=" + name;
+      }
+      return "catalogo.html?categories=" + encodeURIComponent(fallbackType || "");
+    }
+
     function findColorImage(product, colorName) {
       if (!product || !product.images || typeof product.images !== "object") return "";
       const wanted = normalizeText(colorName);
@@ -1567,7 +1392,7 @@
       return exact && exact[1] ? String(exact[1]) : "";
     }
 
-    function getProductVariants(product) {
+    function getVariants(product) {
       const variants = [];
       const seen = new Set();
       const colors = Array.isArray(product && product.colors) ? product.colors : [];
@@ -1599,56 +1424,21 @@
       return variants;
     }
 
-    function getProductMeta(product) {
-      const sectionLabel = formatDisplayLabel(product && product.section);
-      const typeLabel = formatDisplayLabel(product && product.type);
-      if (sectionLabel && typeLabel) return sectionLabel + " | " + typeLabel;
-      return sectionLabel || typeLabel || "";
-    }
-
-    function getProductStockMeta(product) {
+    function getStock(product) {
       const sizes = Array.isArray(product && product.sizes) ? product.sizes : [];
-      if (!sizes.length) return { label: "Disponible", cssClass: "status-available" };
+      if (!sizes.length) return { label: "Disponible", ok: true };
       const hasStock = sizes.some((entry) => {
         const status = normalizeText(entry && entry.status);
         return status === "available" || status === "low-stock";
       });
-      return hasStock
-        ? { label: "Disponible", cssClass: "status-available" }
-        : { label: "Agotado", cssClass: "status-out" };
+      return hasStock ? { label: "Disponible", ok: true } : { label: "Agotado", ok: false };
     }
 
-    function slugifyName(value) {
-      if (typeof window.romixSlug === "function") return window.romixSlug(value);
-      return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "producto";
-    }
-
-    function buildProductHref(product, fallbackType) {
-      if (product && product.name) {
-        const pid = encodeURIComponent(product && product.id ? String(product.id) : slugifyName(product.name));
-        const slug = encodeURIComponent(slugifyName(product.name));
-        const name = encodeURIComponent(String(product.name));
-        return "product.html?id=" + pid + "&slug=" + slug + "&name=" + name;
-      }
-      return "catalogo.html?categories=" + encodeURIComponent(fallbackType || "");
-    }
-
-    function sortByPriceDesc(items) {
-      return (Array.isArray(items) ? items : []).slice().sort((a, b) => Number((b && b.price) || 0) - Number((a && a.price) || 0));
-    }
-
-    function getNovedadesSource(products) {
-      const source = Array.isArray(products) ? products : [];
-      const featured = source.filter((item) => item && item.featured === true);
-      return featured.length ? featured : source.slice(0, 20);
-    }
-
-    function pickByTypes(products, types, usedKeys) {
-      const wanted = (Array.isArray(types) ? types : []).map(normalizeText);
-      const pool = sortByPriceDesc(products.filter((item) => wanted.includes(normalizeText(item && item.type))));
-      const chosen = pool.find((item) => !usedKeys.has(productKey(item))) || pool[0] || null;
-      if (chosen) usedKeys.add(productKey(chosen));
-      return chosen;
+    function getMeta(product) {
+      const sectionLabel = formatDisplayLabel(product && product.section);
+      const typeLabel = formatDisplayLabel(product && product.type);
+      if (sectionLabel && typeLabel) return sectionLabel + " · " + typeLabel;
+      return sectionLabel || typeLabel || "";
     }
 
     async function loadHomeProducts() {
@@ -1659,43 +1449,18 @@
       return response.json();
     }
 
-    function renderCategories() {
-      const track = document.getElementById("categoryTrack");
-      if (!track) return;
-
-      track.innerHTML = HOME_CATEGORIES.map((category) => {
-        const href = "catalogo.html?categories=" + encodeURIComponent(category.query);
-        const imagePath = safeText(category.imagePath);
-        return `
-          <a class="category-item" href="${href}">
-            <div class="category-thumb">
-              <div class="category-image-placeholder" data-image-path="${imagePath}" aria-label="Placeholder de imagen para ${safeText(category.label)}">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"></rect>
-                  <circle cx="9" cy="10" r="1.6" fill="currentColor"></circle>
-                  <path d="M6.5 16L10.2 12.3C10.6 11.9 11.2 11.9 11.6 12.3L13.3 14L15.2 12.1C15.6 11.7 16.2 11.7 16.6 12.1L18 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-                <strong>Imagen</strong>
-                <span>${imagePath}</span>
-              </div>
-            </div>
-            <span>${safeText(category.label)}</span>
-          </a>
-        `;
-      }).join("");
-    }
-
     function renderProducts(products) {
       const row = document.getElementById("productsRow");
       if (!row) return;
 
-      let source = Array.isArray(getNovedadesSource(products)) ? getNovedadesSource(products).slice() : [];
+      let source = Array.isArray(products) ? products.filter((product) => product && product.featured === true) : [];
+      if (!source.length && Array.isArray(products)) source = products.slice(0, 20);
       if (typeof window.applyCatalogRelevanceOrder === "function") {
         source = window.applyCatalogRelevanceOrder(source, "novedades");
       }
 
       if (!source.length) {
-        row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+        row.innerHTML = '<div class="prod-empty">No pudimos cargar los productos por ahora.</div>';
         return;
       }
 
@@ -1703,18 +1468,17 @@
       row.innerHTML = "";
 
       source.forEach((product) => {
-        const type = normalizeText(product && product.type);
-        const href = buildProductHref(product, type);
+        const href = buildHref(product, normalizeText(product && product.type));
         const fallbackImage = pickImage(product, "images/logo-romix.png");
-        const stockInfo = getProductStockMeta(product);
-        const variantsData = getProductVariants(product);
-        const metaText = getProductMeta(product);
+        const stock = getStock(product);
+        const variants = getVariants(product);
+        const meta = getMeta(product);
 
         const card = document.createElement("article");
-        card.className = "product-card";
+        card.className = "prod-card";
 
         const thumbLink = document.createElement("a");
-        thumbLink.className = "product-thumb";
+        thumbLink.className = "prod-thumb";
         thumbLink.href = href;
 
         const mainImg = document.createElement("img");
@@ -1722,7 +1486,7 @@
         mainImg.decoding = "async";
         mainImg.alt = product && product.name ? String(product.name) : "Producto";
 
-        function setImg(src, colorName) {
+        function setImage(src, colorName) {
           const chosen = src || fallbackImage;
           mainImg.onerror = function () {
             mainImg.onerror = null;
@@ -1734,21 +1498,42 @@
             : String(product && product.name ? product.name : "Producto");
         }
 
-        setImg(fallbackImage, "");
+        setImage(fallbackImage, "");
+
+        if (product && product.featured) {
+          const badge = document.createElement("span");
+          badge.className = "prod-badge";
+          badge.textContent = "NUEVO";
+          thumbLink.appendChild(badge);
+        }
+
+        const wish = document.createElement("button");
+        wish.type = "button";
+        wish.className = "prod-wish";
+        wish.setAttribute("aria-label", "Agregar a favoritos");
+        wish.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+        wish.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          wish.classList.toggle("is-active");
+        });
+
         thumbLink.appendChild(mainImg);
+        thumbLink.appendChild(wish);
+        card.appendChild(thumbLink);
 
         const body = document.createElement("div");
-        body.className = "product-body";
+        body.className = "prod-body";
 
-        if (variantsData.length) {
-          const varWrap = document.createElement("div");
-          varWrap.className = "product-variants";
-          const visible = variantsData.slice(0, variantLimit);
+        if (variants.length) {
+          const wrap = document.createElement("div");
+          wrap.className = "prod-variants";
+          const visible = variants.slice(0, variantLimit);
 
           visible.forEach((variant, index) => {
             const btn = document.createElement("button");
             btn.type = "button";
-            btn.className = "variant-chip" + (index === 0 ? " is-active" : "");
+            btn.className = "var-chip" + (index === 0 ? " is-active" : "");
             btn.setAttribute("aria-label", "Ver color " + variant.name);
             btn.title = variant.name;
 
@@ -1762,72 +1547,74 @@
               swatch.onerror = function () {
                 swatch.onerror = null;
                 swatch.remove();
-                btn.classList.add("variant-chip--color");
               };
               btn.appendChild(swatch);
-            } else {
-              btn.classList.add("variant-chip--color");
             }
 
             btn.addEventListener("click", function () {
-              setImg(variant.image || fallbackImage, variant.name);
-              varWrap.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
+              setImage(variant.image || fallbackImage, variant.name);
+              wrap.querySelectorAll(".var-chip").forEach((chip) => chip.classList.remove("is-active"));
               btn.classList.add("is-active");
             });
 
-            varWrap.appendChild(btn);
+            wrap.appendChild(btn);
           });
 
-          if (variantsData.length > visible.length) {
+          if (variants.length > visible.length) {
             const more = document.createElement("span");
-            more.className = "variant-more";
-            more.textContent = "+" + (variantsData.length - visible.length);
-            varWrap.appendChild(more);
+            more.className = "var-more";
+            more.textContent = "+" + (variants.length - visible.length);
+            wrap.appendChild(more);
           }
 
           const initial = visible[0];
-          if (initial) setImg(initial.image || fallbackImage, initial.name);
-          body.appendChild(varWrap);
+          if (initial) setImage(initial.image || fallbackImage, initial.name);
+          body.appendChild(wrap);
         }
 
         const nameEl = document.createElement("a");
-        nameEl.className = "product-name";
+        nameEl.className = "prod-name";
         nameEl.href = href;
         nameEl.textContent = product && product.name ? String(product.name) : "Producto";
         body.appendChild(nameEl);
 
-        if (metaText) {
-          const meta = document.createElement("p");
-          meta.className = "product-meta";
-          meta.textContent = metaText;
-          body.appendChild(meta);
-        }
+        const metaEl = document.createElement("p");
+        metaEl.className = "prod-meta";
+        metaEl.textContent = meta;
+        body.appendChild(metaEl);
 
         const priceRow = document.createElement("div");
-        priceRow.className = "price-row";
-        const price = document.createElement("p");
-        price.className = "product-price";
-        price.textContent = formatPrice(product && product.price);
-        const stock = document.createElement("p");
-        stock.className = "stock-note " + stockInfo.cssClass;
-        stock.textContent = stockInfo.label;
-        priceRow.appendChild(price);
-        priceRow.appendChild(stock);
+        priceRow.className = "prod-price-row";
+
+        const priceStack = document.createElement("div");
+        priceStack.className = "prod-price-stack";
+
+        const priceEl = document.createElement("p");
+        priceEl.className = "prod-price";
+        priceEl.textContent = formatPrice(product && product.price);
+
+        const stockEl = document.createElement("p");
+        stockEl.className = "prod-stock" + (stock.ok ? " is-ok" : "");
+        stockEl.textContent = stock.label;
+
+        priceStack.appendChild(priceEl);
+        priceStack.appendChild(stockEl);
+
+        const ctaEl = document.createElement("a");
+        ctaEl.className = "prod-cta";
+        ctaEl.href = href;
+        ctaEl.textContent = "Comprar";
+
+        priceRow.appendChild(priceStack);
+        priceRow.appendChild(ctaEl);
         body.appendChild(priceRow);
 
-        const cta = document.createElement("a");
-        cta.className = "product-cta";
-        cta.href = href;
-        cta.textContent = "Comprar";
-        body.appendChild(cta);
-
-        card.appendChild(thumbLink);
         card.appendChild(body);
         row.appendChild(card);
       });
 
-      if (typeof refreshProductsCarousel === "function") {
-        requestAnimationFrame(refreshProductsCarousel);
+      if (typeof refreshProd === "function") {
+        requestAnimationFrame(refreshProd);
       }
     }
 
@@ -1835,7 +1622,7 @@
       const carousel = document.getElementById("mainImageCarousel");
       if (!carousel) return;
 
-      const slides = Array.from(carousel.querySelectorAll(".main-hero-carousel__slide"));
+      const slides = Array.from(carousel.querySelectorAll(".hero__slide"));
       const dotsWrap = carousel.querySelector("[data-carousel-dots]");
       const prevBtn = carousel.querySelector("[data-carousel-prev]");
       const nextBtn = carousel.querySelector("[data-carousel-next]");
@@ -1861,15 +1648,15 @@
         render();
       }
 
-      function stopAutoplay() {
+      function stop() {
         if (timer) {
           clearInterval(timer);
           timer = null;
         }
       }
 
-      function startAutoplay() {
-        stopAutoplay();
+      function start() {
+        stop();
         if (reduceMotion || slides.length < 2) return;
         timer = setInterval(() => goTo(current + 1), autoplayMs);
       }
@@ -1877,38 +1664,38 @@
       slides.forEach((_, index) => {
         const dot = document.createElement("button");
         dot.type = "button";
-        dot.className = "main-hero-carousel__dot" + (index === 0 ? " is-active" : "");
+        dot.className = "hero__dot" + (index === 0 ? " is-active" : "");
         dot.setAttribute("aria-label", "Ir a la imagen " + (index + 1));
         dot.addEventListener("click", () => {
           goTo(index);
-          startAutoplay();
+          start();
         });
         dotsWrap.appendChild(dot);
       });
 
-      dots = Array.from(dotsWrap.querySelectorAll(".main-hero-carousel__dot"));
+      dots = Array.from(dotsWrap.querySelectorAll(".hero__dot"));
 
       if (prevBtn) {
         prevBtn.addEventListener("click", () => {
           goTo(current - 1);
-          startAutoplay();
+          start();
         });
       }
 
       if (nextBtn) {
         nextBtn.addEventListener("click", () => {
           goTo(current + 1);
-          startAutoplay();
+          start();
         });
       }
 
       document.addEventListener("visibilitychange", () => {
-        if (document.hidden) stopAutoplay();
-        else startAutoplay();
+        if (document.hidden) stop();
+        else start();
       });
 
       render();
-      startAutoplay();
+      start();
     })();
 
     (function initProductsCarousel() {
@@ -1918,17 +1705,16 @@
       if (!track || !prev || !next) return;
 
       function getStep() {
-        const card = track.querySelector(".product-card");
-        const styles = window.getComputedStyle(track);
-        const gap = parseFloat(styles.columnGap || styles.gap) || 0;
-        return card ? card.getBoundingClientRect().width + gap : 210;
+        const card = track.querySelector(".prod-card");
+        const gap = parseFloat(window.getComputedStyle(track).gap) || 0;
+        return card ? card.getBoundingClientRect().width + gap : 200;
       }
 
       function getStepCount() {
         return window.innerWidth <= 760 ? 1 : 2;
       }
 
-      function syncButtons() {
+      function sync() {
         const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
         if (maxScroll <= 4 || window.innerWidth <= 760) {
           prev.disabled = true;
@@ -1947,10 +1733,10 @@
         track.scrollBy({ left: getStep() * getStepCount(), behavior: "smooth" });
       });
 
-      track.addEventListener("scroll", syncButtons, { passive: true });
-      window.addEventListener("resize", syncButtons);
-      refreshProductsCarousel = syncButtons;
-      syncButtons();
+      track.addEventListener("scroll", sync, { passive: true });
+      window.addEventListener("resize", sync);
+      refreshProd = sync;
+      sync();
     })();
 
     (function initNewsletter() {
@@ -1968,16 +1754,15 @@
       });
     })();
 
-    (async function initHomeCatalogData() {
+    (async function initHome() {
       try {
         const products = await loadHomeProducts();
         if (!Array.isArray(products) || !products.length) return;
-        renderCategories();
         renderProducts(products);
       } catch (error) {
         const row = document.getElementById("productsRow");
         if (row) {
-          row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+          row.innerHTML = '<div class="prod-empty">No pudimos cargar los productos por ahora.</div>';
         }
         console.error("[index] Error cargando data de home", error);
       }

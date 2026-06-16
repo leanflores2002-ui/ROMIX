@@ -39,6 +39,13 @@
     { key: "price-desc", label: "Mayor a menor precio" }
   ];
 
+  const NINO_AUDIENCE_PRODUCT_SLUGS = new Set([
+    "campera-frizada-algodon-nino",
+    "pantalon-frizado-algodon-premium-nino-recto",
+    "pantalon-algodon-rustico-chico",
+    "camiseta-termica-de-nino"
+  ]);
+
   const STOCK_META = {
     available: { label: "Disponible", css: "status-available" },
     low: { label: "Por agotarse", css: "status-low" },
@@ -96,6 +103,7 @@
     searchAnyTokens: [],
     searchExcludeTokens: [],
     selected: {
+      audiences: new Set(),
       sections: new Set(),
       colors: new Set(),
       categories: new Set(),
@@ -104,6 +112,7 @@
       sizes: new Set()
     },
     optionLabels: {
+      audiences: new Map(),
       sections: new Map(),
       colors: new Map(),
       categories: new Map(),
@@ -168,6 +177,10 @@
     const target = state.optionLabels[group];
     const key = String(value || "");
     if (target && target.has(key)) return target.get(key);
+    if (group === "audiences") {
+      if (key === "nina") return "Niña";
+      if (key === "nino") return "Niño";
+    }
     if (group === "sizes") return key;
     return titleCase(key);
   }
@@ -287,6 +300,12 @@
   function normalizeSectionFilterValue(value) {
     const key = normalizeSection(value);
     if (key === "mujer" || key === "hombre" || key === "ninos") return key;
+    return "";
+  }
+
+  function normalizeAudienceFilterValue(value) {
+    const key = normalizeText(value);
+    if (key === "nino" || key === "nina") return key;
     return "";
   }
 
@@ -490,12 +509,44 @@
     return Array.from(new Set(keys));
   }
 
+  function readInitialAudienceFilterKeys() {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      return [];
+    }
+
+    const keys = [];
+    ["audiencia", "audience"].forEach((param) => {
+      params.getAll(param).forEach((value) => {
+        String(value || "")
+          .split(",")
+          .map((token) => token.trim())
+          .filter(Boolean)
+          .forEach((token) => {
+            const normalized = normalizeAudienceFilterValue(token);
+            if (normalized) keys.push(normalized);
+          });
+      });
+    });
+
+    return Array.from(new Set(keys));
+  }
+
   function applyInitialFiltersFromQuery() {
+    const requestedAudiences = readInitialAudienceFilterKeys();
     const requestedSections = readInitialSectionFilterKeys();
     const requestedCategories = readInitialCategoryFilterKeys();
     const requestedTypes = readInitialTypeFilterKeys();
     const requestedSeasons = readInitialSeasonFilterKeys();
     const requestedSizes = readInitialSizeFilterKeys();
+
+    if (requestedAudiences.length) {
+      const audienceKey = requestedAudiences[0];
+      state.selected.audiences.add(audienceKey);
+      setOptionLabel("audiences", audienceKey, audienceKey === "nina" ? "Niña" : "Niño");
+    }
 
     if (state.scope === "catalogo" && requestedSections.length) {
       const availableSections = new Set(SECTION_OPTIONS.map((option) => option.key));
@@ -1038,6 +1089,11 @@
       parts.push({ label: getOptionLabel("categories", categoryValue) });
     }
 
+    const audienceValue = getSingleSelectedValue("audiences");
+    if (audienceValue) {
+      parts.push({ label: getOptionLabel("audiences", audienceValue) });
+    }
+
     breadcrumb.innerHTML = "";
     parts.forEach((part, index) => {
       const node = part.href ? document.createElement("a") : document.createElement("span");
@@ -1298,6 +1354,15 @@
   }
 
   function matchFilters(product) {
+    if (state.selected.audiences.size) {
+      const selectedAudience = getSingleSelectedValue("audiences");
+      const isNinosProduct = product.section === "ninos";
+      const isNinoProduct = NINO_AUDIENCE_PRODUCT_SLUGS.has(product.slug);
+
+      if (selectedAudience === "nino" && (!isNinosProduct || !isNinoProduct)) return false;
+      if (selectedAudience === "nina" && (!isNinosProduct || isNinoProduct)) return false;
+    }
+
     if (state.scope === "catalogo" && state.selected.sections.size) {
       if (!state.selected.sections.has(product.section)) return false;
     }

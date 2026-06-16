@@ -980,12 +980,26 @@
       }
 
       .audience-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 22px 16px;
+        display: grid;
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(132px, 42vw);
+        gap: 18px;
+        overflow-x: auto;
+        padding: 4px 6px 10px 0;
+        scroll-snap-type: x proximity;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .audience-grid::-webkit-scrollbar {
+        display: none;
       }
 
       .audience-card {
         gap: 14px;
+        scroll-snap-align: start;
       }
 
       .audience-thumb {
@@ -1037,6 +1051,10 @@
       .main-hero-carousel__arrow {
         width: 40px;
         height: 40px;
+      }
+
+      .audience-grid {
+        grid-auto-columns: minmax(124px, 44vw);
       }
 
       .audience-thumb {

@@ -884,6 +884,7 @@
       --radius-lg: 22px;
       --radius-md: 16px;
       --radius-sm: 12px;
+      --product-sticky-top: calc(clamp(66px, 6.6vw, 74px) + 16px);
     }
 
     body {
@@ -931,10 +932,17 @@
     .detail-grid {
       display: grid;
       grid-template-columns: 1fr;
+      grid-template-areas:
+        "gallery"
+        "info"
+        "extras";
       gap: 22px;
+      align-items: start;
+      overflow: visible;
     }
 
     .gallery {
+      grid-area: gallery;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -1084,7 +1092,22 @@
     .thumb-nav.next { right: -2px; }
 
     .info-panel {
+      grid-area: info;
+      min-width: 0;
       gap: 16px;
+    }
+
+    .detail-extras {
+      grid-area: extras;
+      min-width: 0;
+      display: grid;
+      gap: 30px;
+      overflow: visible;
+    }
+
+    .detail-extras .features-panel,
+    .detail-extras .related-products {
+      margin-top: 0;
     }
 
     .title-row {
@@ -1736,6 +1759,9 @@
 
       .detail-grid {
         grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+        grid-template-areas:
+          "gallery info"
+          "extras info";
         gap: 30px;
         align-items: flex-start;
       }
@@ -1790,6 +1816,12 @@
       .thumb-nav.next {
         left: auto;
         right: auto;
+      }
+
+      .info-panel {
+        position: sticky;
+        top: var(--product-sticky-top);
+        align-self: start;
       }
 
       .related-grid {
@@ -1847,13 +1879,6 @@
     <a class="back-link" href="index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i> Volver al inicio</a>
     <section id="product-detail" class="detail-panel" aria-live="polite">
       <p class="status">Cargando producto...</p>
-    </section>
-    <section id="features-section" class="features-panel" hidden>
-      <div id="product-accordion" class="product-accordion" aria-live="polite"></div>
-    </section>
-    <section class="related-products">
-      <h2 class="related-title">Nuestros clientes también vieron</h2>
-      <div id="related-grid" class="related-grid"></div>
     </section>
   </main>
 
@@ -3531,6 +3556,15 @@
                 <input id="share-link-input" type="text" readonly aria-label="Link para compartir" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
               </div>
             </div>
+            <div class="detail-extras">
+              <section id="features-section" class="features-panel" hidden>
+                <div id="product-accordion" class="product-accordion" aria-live="polite"></div>
+              </section>
+              <section id="related-products-section" class="related-products">
+                <h2 class="related-title">Nuestros clientes también vieron</h2>
+                <div id="related-grid" class="related-grid"></div>
+              </section>
+            </div>
           </div>
           <div class="zoom-modal" id="zoom-modal" aria-hidden="true">
             <div class="zoom-panel" role="dialog" aria-modal="true" aria-label="Zoom de producto" aria-describedby="zoom-help" tabindex="-1">
@@ -4014,6 +4048,7 @@
     }
 
     function renderRelatedProducts(allProducts, currentProduct) {
+      const section = document.getElementById('related-products-section');
       const container = document.getElementById('related-grid');
       if (!container || !Array.isArray(allProducts) || !currentProduct) return;
 
@@ -4032,6 +4067,7 @@
       });
 
       if (!relatedRaw.length) {
+        if (section) section.hidden = true;
         container.innerHTML = '<p style="color:#6c757d;font-size:.9rem;">No hay recomendaciones disponibles.</p>';
         return;
       }
@@ -4041,6 +4077,7 @@
         .sort(() => Math.random() - 0.5)
         .slice(0, 8);
 
+      if (section) section.hidden = false;
       container.innerHTML = '';
 
       related.forEach(p => {

@@ -10,6 +10,7 @@
   <style>
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    html { scroll-padding-top:110px; }
     body { background:#f6f4f6; color:#232323; }
     a { color:inherit; }
     .skip-link{position:absolute;left:-9999px;top:auto}
@@ -38,6 +39,11 @@
 
     .container { max-width:1600px; margin:30px auto; padding:0 28px; }
     .help-page { display:grid; gap:24px; }
+    #size-guide,
+    #returns,
+    #payments,
+    #contact,
+    #faq { scroll-margin-top:118px; }
     .help-page a { text-decoration:none; }
     .help-hero,
     .help-surface,
@@ -190,7 +196,10 @@
       display:grid;
       grid-template-columns:repeat(5, minmax(0, 1fr));
       gap:16px;
+      scrollbar-width:none;
     }
+    .quick-links::-webkit-scrollbar,
+    .tabs::-webkit-scrollbar { display:none; }
     .quick-link-card {
       display:grid;
       gap:12px;
@@ -295,6 +304,7 @@
       background:#fff5f8;
       border:1px solid #f3d4df;
       margin-bottom:22px;
+      scrollbar-width:none;
     }
     .tab-button {
       border:none;
@@ -333,6 +343,16 @@
     }
     .size-guide-table-wrap {
       overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:thin;
+      scrollbar-color:#e8ccd8 transparent;
+    }
+    .size-guide-table-wrap::-webkit-scrollbar {
+      height:8px;
+    }
+    .size-guide-table-wrap::-webkit-scrollbar-thumb {
+      background:#e8ccd8;
+      border-radius:999px;
     }
     .size-guide-table {
       width:100%;
@@ -505,6 +525,7 @@
       gap:18px;
       font-weight:700;
       color:#212733;
+      line-height:1.45;
     }
     .faq-item summary::-webkit-details-marker { display:none; }
     .faq-item summary i {
@@ -534,35 +555,159 @@
       .quick-links { grid-template-columns:repeat(3, minmax(0, 1fr)); }
     }
     @media (max-width: 768px) {
+      html { scroll-padding-top:88px; }
       .header-container { grid-template-columns:1fr; }
       .global-search { width:100%; }
       .global-search input[type="search"] { min-width:0; }
       .nav-secondary { padding-left:16px; padding-right:16px; }
       .container { padding:0 16px; }
+      main.container.help-page { margin:18px auto 24px; gap:16px; }
       .help-hero,
       .help-wide-card,
       .checklist { grid-template-columns:1fr; }
-      .help-hero { padding:24px; }
-      .help-wide-card { padding:24px; }
+      .help-surface { padding:22px 18px; border-radius:16px; }
+      .help-hero,
+      .help-wide-card { padding:22px 18px; border-radius:20px; }
+      .hero-copy { gap:14px; }
+      .help-hero p { font-size:.96rem; line-height:1.6; }
       .hero-search { grid-template-columns:1fr; }
-      .quick-links { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .hero-search input,
+      .hero-search button,
+      .help-button { min-height:48px; padding:13px 16px; }
+      .hero-meta {
+        display:grid;
+        grid-template-columns:1fr;
+        gap:10px;
+      }
+      .hero-meta li {
+        padding:10px 12px;
+        font-size:.92rem;
+      }
+      .hero-visual {
+        min-height:0;
+        padding-top:4px;
+      }
+      .hero-visual::before,
+      .hero-visual::after { display:none; }
+      .hero-visual img {
+        width:min(74vw, 280px);
+        max-height:220px;
+      }
+      .quick-links {
+        display:flex;
+        gap:12px;
+        overflow-x:auto;
+        padding:0 2px 6px;
+        margin:0 -2px;
+        scroll-snap-type:x proximity;
+        -webkit-overflow-scrolling:touch;
+      }
+      .quick-link-card {
+        flex:0 0 82%;
+        min-width:250px;
+        min-height:auto;
+        padding:18px;
+        scroll-snap-align:start;
+      }
+      .help-wide-card .info-icon {
+        width:52px;
+        height:52px;
+        border-radius:16px;
+      }
+      .checklist { gap:12px; }
       .section-heading { flex-direction:column; }
       .cta-row { justify-content:flex-start; }
-      .size-guide-block { padding:18px; }
+      .tabs {
+        display:flex;
+        flex-wrap:nowrap;
+        overflow-x:auto;
+        width:auto;
+        gap:8px;
+        padding:6px;
+        margin-left:-2px;
+        margin-right:-2px;
+        scroll-snap-type:x proximity;
+        -webkit-overflow-scrolling:touch;
+      }
+      .tab-button {
+        width:auto;
+        flex:0 0 auto;
+        min-width:max-content;
+        padding:12px 16px;
+        scroll-snap-align:start;
+      }
+      .size-guide-block {
+        padding:16px;
+        gap:14px;
+      }
+      .size-guide-table-wrap {
+        margin:0 -2px;
+        padding-bottom:6px;
+      }
+      .size-guide-table { min-width:360px; }
+      .size-guide-table th,
+      .size-guide-table td {
+        padding:10px 11px;
+        font-size:.88rem;
+        white-space:nowrap;
+      }
+      .size-guide-visual { padding:12px; }
+      .size-guide-note {
+        padding:12px 14px;
+        font-size:.9rem;
+      }
+      .detail-card,
+      .contact-item,
+      .faq-item { padding:18px; }
+      .social-links {
+        display:grid;
+        grid-template-columns:1fr;
+      }
+      .social-links a {
+        justify-content:center;
+        padding:12px 14px;
+      }
+      .faq-item summary {
+        align-items:flex-start;
+        font-size:.98rem;
+      }
+      .faq-item p { font-size:.95rem; }
     }
     @media (max-width: 560px) {
-      .quick-links { grid-template-columns:1fr; }
-      .tabs { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); width:100%; }
-      .tab-button { width:100%; }
-      .help-hero h1 { font-size:2rem; }
+      main.container.help-page { margin:14px auto 22px; gap:14px; }
+      .help-hero h1 { font-size:1.85rem; }
+      .help-eyebrow {
+        font-size:.72rem;
+        padding:7px 11px;
+      }
+      .quick-link-card {
+        flex-basis:88%;
+        min-width:230px;
+      }
+      .quick-link-icon,
+      .info-icon {
+        width:42px;
+        height:42px;
+        border-radius:13px;
+      }
+      .detail-card h3,
+      .payment-card h3,
+      .contact-item h3 { font-size:1rem; }
       .payment-card {
         padding:20px 18px;
         gap:14px;
+        grid-template-columns:36px minmax(0, 1fr);
       }
       .payment-icon {
         width:36px;
         height:36px;
         border-radius:12px;
+      }
+      .size-guide-table { min-width:330px; }
+      .size-guide-table th,
+      .size-guide-table td {
+        font-size:.84rem;
+        padding:9px 10px;
       }
     }
   </style>

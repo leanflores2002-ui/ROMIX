@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Guía de talles y políticas de Política de Cambios de Romix, tu tienda de ropa para invierno 2025.">
-  <meta name="keywords" content="Romix, guía de talles, cambios, devoluciones, ropa invierno">
+  <meta name="description" content="Centro de ayuda de ROMIX con gu&iacute;a de talles, cambios, medios de pago y contacto.">
+  <meta name="keywords" content="ROMIX, centro de ayuda, gu&iacute;a de talles, cambios, medios de pago">
   <title>Romix - Ayuda</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background:#f5f5f5; color:#232323; }
+    body { background:#f6f4f6; color:#232323; }
     a { color:inherit; }
     .skip-link{position:absolute;left:-9999px;top:auto}
     .skip-link:focus{left:12px;top:12px;z-index:9999;background:#fff;color:#000;padding:8px 10px;border-radius:8px}
@@ -37,27 +37,449 @@
     .nav-secondary a:hover { background:rgba(255,255,255,.12); }
 
     .container { max-width:1600px; margin:30px auto; padding:0 28px; }
-    .help-section { background:#fff; border-radius:12px; padding:26px; margin-top:24px; box-shadow:0 12px 32px rgba(0,0,0,.08); }
-    .section-title { font-size:1.8rem; color:var(--secondary); margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #eee; display:flex; align-items:center; gap:10px; }
-    .help-section h3 { color:var(--secondary); margin:18px 0 12px; font-size:1.2rem; }
-    .help-section p { margin-bottom:14px; line-height:1.6; color:#343a40; }
-    .size-guide-table { width:100%; border-collapse:collapse; margin-top:14px; }
-    .size-guide-table th, .size-guide-table td { padding:12px; text-align:left; border-bottom:1px solid #e9ecef; }
-    .size-guide-table th { background:var(--light); color:var(--secondary); font-weight:800; }
-    .size-guide-table td { font-size:.95rem; color:#212529; }
-    .returns-info { list-style:none; padding:0; margin:0 0 12px; }
-    .returns-info li { margin-bottom:10px; display:flex; align-items:center; gap:10px; color:#343a40; }
-    .returns-info li i { color:var(--primary); }
-    .contact-card { background:#fff; border:1px solid #f3dfee; border-radius:14px; padding:18px; box-shadow:0 10px 24px rgba(0,0,0,0.05); }
-    .contact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; align-items:flex-start; }
-    .contact-block h4 { margin:0 0 10px; color:#1b1f24; }
-    .contact-list { list-style:none; padding:0; margin:0; color:#343a40; }
-    .contact-list li { margin-bottom:8px; display:flex; gap:8px; }
-    .contact-list li i { color:var(--primary); margin-top:2px; }
-    .contact-hours { margin:10px 0 0; padding:0; list-style:none; color:#343a40; }
-    .contact-hours li { display:flex; justify-content:space-between; border-bottom:1px solid #f1f3f5; padding:6px 0; font-size:.95rem; }
-    .contact-hours li:last-child { border-bottom:none; }
-    .contact-note { font-size:.9rem; color:#6c757d; margin-top:8px; }
+    .help-page { display:grid; gap:24px; }
+    .help-page a { text-decoration:none; }
+    .help-hero,
+    .help-surface,
+    .help-wide-card {
+      background:#fff;
+      border:1px solid #f3d4df;
+      border-radius:18px;
+      box-shadow:0 18px 40px rgba(46, 26, 35, 0.05);
+    }
+    .help-hero {
+      display:grid;
+      grid-template-columns:minmax(0, 1.18fr) minmax(280px, .82fr);
+      gap:24px;
+      padding:34px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 63, 134, 0.14), transparent 42%),
+        linear-gradient(135deg, #fff6f9 0%, #ffffff 62%, #fff2f7 100%);
+      overflow:hidden;
+      align-items:center;
+    }
+    .hero-copy { display:grid; gap:18px; }
+    .help-eyebrow {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:max-content;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#fff;
+      color:var(--primary);
+      border:1px solid rgba(232, 62, 140, 0.16);
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    .help-hero h1 {
+      font-size:clamp(2.2rem, 4vw, 3.6rem);
+      line-height:1.05;
+      color:#1f2530;
+      letter-spacing:-0.04em;
+      margin:0;
+    }
+    .help-hero p {
+      margin:0;
+      max-width:620px;
+      font-size:1.02rem;
+      line-height:1.7;
+      color:#58606b;
+    }
+    .hero-search {
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) auto;
+      gap:10px;
+      align-items:center;
+      max-width:620px;
+    }
+    .hero-search input {
+      width:100%;
+      padding:15px 18px;
+      border-radius:14px;
+      border:1px solid #ead6de;
+      background:#fff;
+      color:#20252e;
+      font-size:1rem;
+      outline:none;
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    .hero-search input:focus {
+      border-color:rgba(255, 63, 134, 0.55);
+      box-shadow:0 0 0 4px rgba(255, 63, 134, 0.1);
+    }
+    .hero-search button,
+    .help-button {
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg, #ff4c91 0%, #e83e8c 100%);
+      color:#fff;
+      font-weight:800;
+      padding:15px 22px;
+      cursor:pointer;
+      box-shadow:0 14px 30px rgba(232, 62, 140, 0.18);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .hero-search button:hover,
+    .help-button:hover { transform:translateY(-1px); box-shadow:0 18px 34px rgba(232, 62, 140, 0.24); }
+    .search-feedback {
+      min-height:20px;
+      font-size:.92rem;
+      color:#7a4d63;
+    }
+    .hero-meta {
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    .hero-meta li {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:11px 14px;
+      border-radius:14px;
+      background:rgba(255,255,255,0.78);
+      border:1px solid rgba(232, 62, 140, 0.14);
+      color:#4f5660;
+      font-size:.95rem;
+    }
+    .hero-meta i { color:var(--primary); }
+    .hero-visual {
+      position:relative;
+      min-height:320px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .hero-visual::before,
+    .hero-visual::after {
+      content:"";
+      position:absolute;
+      border-radius:28px;
+      background:rgba(255, 255, 255, 0.72);
+      border:1px solid rgba(232, 62, 140, 0.12);
+      z-index:0;
+    }
+    .hero-visual::before {
+      top:12px;
+      right:18px;
+      width:180px;
+      height:180px;
+    }
+    .hero-visual::after {
+      left:8px;
+      bottom:14px;
+      width:120px;
+      height:120px;
+      background:rgba(255, 63, 134, 0.08);
+    }
+    .hero-visual img {
+      position:relative;
+      z-index:1;
+      width:min(100%, 430px);
+      max-height:360px;
+      object-fit:contain;
+      filter:drop-shadow(0 24px 50px rgba(31, 37, 48, 0.12));
+    }
+    .quick-links {
+      display:grid;
+      grid-template-columns:repeat(5, minmax(0, 1fr));
+      gap:16px;
+    }
+    .quick-link-card {
+      display:grid;
+      gap:12px;
+      min-height:150px;
+      padding:22px 20px;
+      border-radius:18px;
+      background:#fff;
+      border:1px solid #f3d4df;
+      box-shadow:0 14px 32px rgba(46, 26, 35, 0.04);
+      transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .quick-link-card:hover {
+      transform:translateY(-2px);
+      border-color:#efb4c8;
+      box-shadow:0 18px 36px rgba(46, 26, 35, 0.08);
+    }
+    .quick-link-icon,
+    .info-icon {
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255, 63, 134, 0.12);
+      color:var(--primary);
+      font-size:1.15rem;
+    }
+    .quick-link-card h3,
+    .help-surface h2,
+    .help-wide-card h2 {
+      margin:0;
+      color:#212733;
+      letter-spacing:-0.02em;
+    }
+    .quick-link-card h3 { font-size:1.05rem; }
+    .help-surface h2,
+    .help-wide-card h2 { font-size:1.5rem; }
+    .quick-link-card p,
+    .help-surface p,
+    .help-wide-card p,
+    .help-surface li,
+    .help-wide-card li {
+      color:#5d6470;
+      line-height:1.65;
+    }
+    .quick-link-card p { margin:0; font-size:.95rem; }
+    .help-wide-card {
+      display:grid;
+      grid-template-columns:auto minmax(0, 1fr);
+      gap:22px;
+      padding:30px;
+    }
+    .help-wide-card .info-icon {
+      width:60px;
+      height:60px;
+      border-radius:18px;
+      font-size:1.35rem;
+    }
+    .section-heading {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:22px;
+    }
+    .section-heading p {
+      margin:8px 0 0;
+      max-width:760px;
+    }
+    .checklist {
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:14px 22px;
+      list-style:none;
+      padding:0;
+      margin:20px 0 0;
+    }
+    .checklist li,
+    .detail-list li,
+    .payment-list li,
+    .contact-listing li {
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .checklist li i,
+    .detail-list i,
+    .payment-list i,
+    .contact-listing i,
+    .social-links i {
+      color:var(--primary);
+      margin-top:4px;
+    }
+    .help-surface { padding:30px; }
+    .tabs {
+      display:inline-flex;
+      flex-wrap:wrap;
+      gap:10px;
+      padding:6px;
+      border-radius:16px;
+      background:#fff5f8;
+      border:1px solid #f3d4df;
+      margin-bottom:22px;
+    }
+    .tab-button {
+      border:none;
+      background:transparent;
+      color:#6c7380;
+      padding:11px 18px;
+      border-radius:12px;
+      font-weight:700;
+      cursor:pointer;
+      transition:background .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+    .tab-button.is-active {
+      background:#fff;
+      color:var(--primary);
+      box-shadow:0 10px 18px rgba(232, 62, 140, 0.12);
+    }
+    .size-panel[hidden] { display:none; }
+    .size-grid {
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:18px;
+    }
+    .size-guide-block {
+      display:grid;
+      gap:16px;
+      border:1px solid #f0d9e2;
+      border-radius:16px;
+      background:#fff;
+      padding:20px;
+      box-shadow:0 12px 28px rgba(46, 26, 35, 0.04);
+    }
+    .size-guide-block h3 {
+      margin:0;
+      color:#212733;
+      font-size:1.08rem;
+    }
+    .size-guide-table-wrap {
+      overflow-x:auto;
+    }
+    .size-guide-table {
+      width:100%;
+      min-width:440px;
+      border-collapse:separate;
+      border-spacing:0;
+      border:1px solid #f0d9e2;
+      border-radius:14px;
+      overflow:hidden;
+      background:#fff;
+    }
+    .size-guide-table th,
+    .size-guide-table td {
+      padding:12px 14px;
+      text-align:left;
+      border-bottom:1px solid #f6e7ee;
+      font-size:.95rem;
+    }
+    .size-guide-table th {
+      background:#fff5f8;
+      color:#5b6270;
+      font-weight:800;
+    }
+    .size-guide-table td { color:#232a35; }
+    .size-guide-table tbody tr:last-child td { border-bottom:none; }
+    .size-guide-visual {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      border-radius:16px;
+      border:1px solid #f3d4df;
+      background:linear-gradient(180deg, #fff9fb 0%, #ffffff 100%);
+    }
+    .size-guide-visual img {
+      width:100%;
+      height:auto;
+      max-height:680px;
+      object-fit:contain;
+      display:block;
+      border-radius:12px;
+      background:#fff;
+    }
+    .size-guide-note {
+      margin:0;
+      color:#717784;
+      font-size:.94rem;
+      padding:14px 16px;
+      border-radius:14px;
+      background:#fff7fa;
+      border:1px solid #f3d4df;
+    }
+    .detail-grid {
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:18px;
+    }
+    .detail-card {
+      padding:22px;
+      border-radius:16px;
+      background:#fcfbfc;
+      border:1px solid #f0dde5;
+    }
+    .detail-card h3,
+    .payment-card h3,
+    .contact-item h3 {
+      margin:0 0 10px;
+      font-size:1.06rem;
+      color:#212733;
+    }
+    .detail-list,
+    .payment-list,
+    .contact-listing {
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap:14px;
+    }
+    .cta-row {
+      display:flex;
+      justify-content:flex-end;
+      margin-top:22px;
+    }
+    .payment-grid {
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:18px;
+    }
+    .payment-card,
+    .contact-item,
+    .faq-item {
+      padding:22px;
+      border-radius:16px;
+      border:1px solid #f0dde5;
+      background:#fff;
+    }
+    .payment-card p,
+    .contact-item p { margin:0; }
+    .contact-layout {
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:18px;
+    }
+    .contact-listing strong { color:#212733; }
+    .social-links {
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+    .social-links a {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid #f0dde5;
+      background:#fff8fb;
+      color:#4f5660;
+      font-weight:600;
+    }
+    .faq-list {
+      display:grid;
+      gap:14px;
+    }
+    .faq-item summary {
+      list-style:none;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      font-weight:700;
+      color:#212733;
+    }
+    .faq-item summary::-webkit-details-marker { display:none; }
+    .faq-item summary i {
+      transition:transform .2s ease;
+      color:var(--primary);
+    }
+    .faq-item[open] summary i { transform:rotate(45deg); }
+    .faq-item p {
+      margin:14px 0 0;
+      padding-top:14px;
+      border-top:1px solid #f5e6ec;
+    }
 
     footer { background:#343a40; color:#fff; padding:30px 0; margin-top:40px; }
     .footer-grid { max-width:1600px; margin:0 auto; padding:0 28px; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:30px; }
@@ -66,12 +488,36 @@
     .footer-grid li { margin-bottom:10px; color:#adb5bd; }
     .footer-note { text-align:center; padding-top:20px; margin-top:20px; border-top:1px solid #495057; color:#adb5bd; font-size:.9rem; }
 
+    @media (max-width: 1024px) {
+      .help-hero,
+      .detail-grid,
+      .payment-grid,
+      .contact-layout,
+      .size-grid { grid-template-columns:1fr; }
+      .quick-links { grid-template-columns:repeat(3, minmax(0, 1fr)); }
+    }
     @media (max-width: 768px) {
       .header-container { grid-template-columns:1fr; }
       .global-search { width:100%; }
       .global-search input[type="search"] { min-width:0; }
       .nav-secondary { padding-left:16px; padding-right:16px; }
       .container { padding:0 16px; }
+      .help-hero,
+      .help-wide-card,
+      .checklist { grid-template-columns:1fr; }
+      .help-hero { padding:24px; }
+      .help-wide-card { padding:24px; }
+      .hero-search { grid-template-columns:1fr; }
+      .quick-links { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .section-heading { flex-direction:column; }
+      .cta-row { justify-content:flex-start; }
+      .size-guide-block { padding:18px; }
+    }
+    @media (max-width: 560px) {
+      .quick-links { grid-template-columns:1fr; }
+      .tabs { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); width:100%; }
+      .tab-button { width:100%; }
+      .help-hero h1 { font-size:2rem; }
     }
   </style>
   <link rel="stylesheet" href="assets/css/responsive.css">
@@ -81,12 +527,12 @@
   <meta property="og:site_name" content="ROMIX">
   <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">
   <meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta property="og:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg">
+  <meta property="og:image" content="https://romix-ropas.vercel.app//images/logo-romix-social-20260502.jpg">
   <meta property="og:url" content="https://romix-ropas.vercel.app/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana">
   <meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg">  
+  <meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg">
   <link rel="stylesheet" href="assets/css/romix-header.css">
   <link rel="stylesheet" href="assets/css/romix-footer.css">
 </head>
@@ -136,160 +582,365 @@
   </div>
 </header>
 
-  <div class="container" id="main">
-    <section id="size-guide" class="help-section">
-      <h2 class="section-title"><i class="fas fa-ruler"></i> Guía de Talles</h2>
-      <p>Encuentra el talle perfecto para tus prendas con nuestras tablas de medidas. Todas las medidas están en centímetros y corresponden a las dimensiones del cuerpo, no de la prenda. Recomendamos medirte con una cinta métrica para asegurar el mejor ajuste.</p>
-
-      <h3>Mujer - Pantalones y Calzas</h3>
-      <table class="size-guide-table">
-        <thead>
-          <tr><th>Talle</th><th>Cintura</th><th>Cadera</th><th>Largo</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>60-64</td><td>86-90</td><td>98</td></tr>
-          <tr><td>2</td><td>64-68</td><td>90-94</td><td>99</td></tr>
-          <tr><td>3</td><td>68-72</td><td>94-98</td><td>100</td></tr>
-          <tr><td>4</td><td>72-76</td><td>98-102</td><td>101</td></tr>
-          <tr><td>5</td><td>76-80</td><td>102-106</td><td>102</td></tr>
-          <tr><td>6</td><td>80-84</td><td>106-110</td><td>103</td></tr>
-          <tr><td>7</td><td>84-88</td><td>110-114</td><td>104</td></tr>
-          <tr><td>8</td><td>88-92</td><td>114-118</td><td>105</td></tr>
-        </tbody>
-      </table>
-
-      <h3>Mujer - Camperas y Buzos</h3>
-      <table class="size-guide-table">
-        <thead>
-          <tr><th>Talle</th><th>Busto</th><th>Cintura</th><th>Largo</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>80-84</td><td>60-64</td><td>60</td></tr>
-          <tr><td>2</td><td>84-88</td><td>64-68</td><td>61</td></tr>
-          <tr><td>3</td><td>88-92</td><td>68-72</td><td>62</td></tr>
-          <tr><td>4</td><td>92-96</td><td>72-76</td><td>63</td></tr>
-          <tr><td>5</td><td>96-100</td><td>76-80</td><td>64</td></tr>
-          <tr><td>6</td><td>100-104</td><td>80-84</td><td>65</td></tr>
-          <tr><td>7</td><td>104-108</td><td>84-88</td><td>66</td></tr>
-          <tr><td>8</td><td>108-112</td><td>88-92</td><td>67</td></tr>
-        </tbody>
-      </table>
-
-      <h3>Hombre - Pantalones</h3>
-      <table class="size-guide-table">
-        <thead>
-          <tr><th>Talle</th><th>Cintura</th><th>Cadera</th><th>Largo</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>70-74</td><td>90-94</td><td>102</td></tr>
-          <tr><td>2</td><td>74-78</td><td>94-98</td><td>103</td></tr>
-          <tr><td>3</td><td>78-82</td><td>98-102</td><td>104</td></tr>
-          <tr><td>4</td><td>82-86</td><td>102-106</td><td>105</td></tr>
-          <tr><td>5</td><td>86-90</td><td>106-110</td><td>106</td></tr>
-          <tr><td>6</td><td>90-94</td><td>110-114</td><td>107</td></tr>
-          <tr><td>7</td><td>94-98</td><td>114-118</td><td>108</td></tr>
-          <tr><td>8</td><td>98-102</td><td>118-122</td><td>109</td></tr>
-        </tbody>
-      </table>
-
-      <h3>Hombre - Camperas, Buzos y Camisetas</h3>
-      <table class="size-guide-table">
-        <thead>
-          <tr><th>Talle</th><th>Pecho</th><th>Cintura</th><th>Largo</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>88-92</td><td>70-74</td><td>65</td></tr>
-          <tr><td>2</td><td>92-96</td><td>74-78</td><td>66</td></tr>
-          <tr><td>3</td><td>96-100</td><td>78-82</td><td>67</td></tr>
-          <tr><td>4</td><td>100-104</td><td>82-86</td><td>68</td></tr>
-          <tr><td>5</td><td>104-108</td><td>86-90</td><td>69</td></tr>
-          <tr><td>6</td><td>108-112</td><td>90-94</td><td>70</td></tr>
-          <tr><td>7</td><td>112-116</td><td>94-98</td><td>71</td></tr>
-          <tr><td>8</td><td>116-120</td><td>98-102</td><td>72</td></tr>
-        </tbody>
-      </table>
-
-      <h3>Niños - Pantalones y Calzas</h3>
-      <table class="size-guide-table">
-        <thead>
-          <tr><th>Talle</th><th>Cintura</th><th>Cadera</th><th>Largo</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>6</td><td>54-56</td><td>62-64</td><td>70</td></tr>
-          <tr><td>8</td><td>56-58</td><td>64-66</td><td>75</td></tr>
-          <tr><td>10</td><td>58-60</td><td>66-68</td><td>80</td></tr>
-          <tr><td>12</td><td>60-62</td><td>68-70</td><td>85</td></tr>
-          <tr><td>14</td><td>62-64</td><td>70-72</td><td>90</td></tr>
-          <tr><td>16</td><td>64-66</td><td>72-74</td><td>95</td></tr>
-        </tbody>
-      </table>
-
-      <h3>Niños - Camperas, Buzos y Camisetas</h3>
-      <table class="size-guide-table">
-        <thead>
-          <tr><th>Talle</th><th>Pecho</th><th>Cintura</th><th>Largo</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>6</td><td>62-64</td><td>54-56</td><td>45</td></tr>
-          <tr><td>8</td><td>64-66</td><td>56-58</td><td>48</td></tr>
-          <tr><td>10</td><td>66-68</td><td>58-60</td><td>51</td></tr>
-          <tr><td>12</td><td>68-70</td><td>60-62</td><td>54</td></tr>
-          <tr><td>14</td><td>70-72</td><td>62-64</td><td>57</td></tr>
-          <tr><td>16</td><td>72-74</td><td>64-66</td><td>60</td></tr>
-        </tbody>
-      </table>
+  <main class="container help-page" id="main">
+    <section class="help-hero" aria-labelledby="help-title">
+      <div class="hero-copy">
+        <span class="help-eyebrow"><i class="fas fa-headset" aria-hidden="true"></i> Soporte ROMIX</span>
+        <div>
+          <h1 id="help-title">Centro de Ayuda</h1>
+          <p>Toda la informaci&oacute;n que necesit&aacute;s para comprar con seguridad.</p>
+        </div>
+        <form class="hero-search" id="help-search-form" role="search" aria-label="Buscar dentro del centro de ayuda">
+          <input id="help-search-input" type="search" placeholder="&iquest;En qu&eacute; podemos ayudarte?" aria-label="Buscar dentro del centro de ayuda" />
+          <button type="submit">Buscar</button>
+        </form>
+        <div class="search-feedback" id="help-search-feedback" aria-live="polite"></div>
+        <ul class="hero-meta" aria-label="Resumen del centro de ayuda">
+          <li><i class="fas fa-ruler-combined" aria-hidden="true"></i> Gu&iacute;as claras de talles</li>
+          <li><i class="fas fa-sync-alt" aria-hidden="true"></i> Cambios</li>
+          <li><i class="fas fa-wallet" aria-hidden="true"></i> Medios de pago esenciales</li>
+        </ul>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <img src="images/camperas.png" alt="" />
+      </div>
     </section>
 
-    <section id="returns" class="help-section">
-      <h2 class="section-title"><i class="fas fa-exchange-alt"></i> Política de Cambios</h2>
-      <p>En Romix, queremos que estés completamente satisfecho con tu compra. Si necesitas realizar un cambio o devolución, sigue estas indicaciones:</p>
-
-      <h3>Condiciones para Cambios</h3>
-      <ul class="returns-info">
-        <li><i class="fas fa-check-circle"></i> Los cambios deben realizarse dentro de los 15 días posteriores a la compra.</li>
-        <li><i class="fas fa-check-circle"></i> La prenda debe estar sin usar y con etiquetas originales.</li>
-        <li><i class="fas fa-check-circle"></i> Puedes cambiar por otro talle o color del mismo producto (no se hacen cambios por otro articulo).</li>
-        <li><i class="fas fa-check-circle"></i> En caso de solicitar un cambio por un talle mayor al comprado, y dicho talle corresponde a la categoría de talle especial, se deberá abonar la diferencia correspondiente.</li>        
-        <li><i class="fas fa-check-circle"></i> Los cambios en tienda física no tienen costo.</li>
-      </ul>
-
-      <h3>Proceso de Cambio</h3>
-      <p>Para iniciar un cambio:</p>
-      <ul class="returns-info">
-        <li><i class="fas fa-phone"></i> Contáctanos por WhatsApp al +54 9 11 5427-2065.</li>
-        <li><i class="fas fa-store"></i> Visita nuestra tienda en Concordia 514 local B, CABA, durante el horario de atención.</li>
-      </ul>
+    <section class="quick-links" aria-label="Accesos r&aacute;pidos">
+      <a class="quick-link-card" href="#size-guide">
+        <span class="quick-link-icon"><i class="fas fa-ruler-combined" aria-hidden="true"></i></span>
+        <div>
+          <h3>Gu&iacute;a de talles</h3>
+          <p>Tablas claras para mujer, hombre y ni&ntilde;os.</p>
+        </div>
+      </a>
+      <a class="quick-link-card" href="#returns">
+        <span class="quick-link-icon"><i class="fas fa-exchange-alt" aria-hidden="true"></i></span>
+        <div>
+          <h3>Cambios</h3>
+          <p>Condiciones, plazos y c&oacute;mo iniciar el tr&aacute;mite.</p>
+        </div>
+      </a>
+      <a class="quick-link-card" href="#payments">
+        <span class="quick-link-icon"><i class="fas fa-wallet" aria-hidden="true"></i></span>
+        <div>
+          <h3>Medios de pago</h3>
+          <p>Mercado Pago, transferencia y efectivo.</p>
+        </div>
+      </a>
+      <a class="quick-link-card" href="#contact">
+        <span class="quick-link-icon"><i class="fas fa-comment-dots" aria-hidden="true"></i></span>
+        <div>
+          <h3>Contacto</h3>
+          <p>Canales directos y horarios de atenci&oacute;n.</p>
+        </div>
+      </a>
+      <a class="quick-link-card" href="#faq">
+        <span class="quick-link-icon"><i class="fas fa-question-circle" aria-hidden="true"></i></span>
+        <div>
+          <h3>Preguntas frecuentes</h3>
+          <p>Respuestas r&aacute;pidas antes de comprar.</p>
+        </div>
+      </a>
     </section>
 
-    <section id="contact" class="help-section">
-      <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Contacto y Ubicación</h2>
-      <div class="contact-card">
-        <div class="contact-grid">
-          <div class="contact-block">
-            <h4>Información de contacto</h4>
-            <ul class="contact-list">
-              <li><i class="fas fa-store"></i> <span><strong>Tienda física:</strong> Concordia 514 local B, CABA</span></li>
-              <li><i class="fas fa-phone"></i> <span><strong>Teléfono:</strong> <a href="tel:+5491154272065">+54 9 11 5427-2065</a></span></li>
-              <li><i class="fas fa-mobile-alt"></i> <span><strong>WhatsApp:</strong> <a href="https://wa.me/5491154272065" target="_blank" rel="noopener">+54 9 11 5427-2065</a></span></li>
-              <li><i class="fas fa-envelope"></i> <span><strong>Email:</strong> <a href="mailto:info@romix.com.ar">info@romix.com.ar</a></span></li>
-            </ul>
-            <h4 style="margin-top:14px;">Horarios de atención</h4>
-            <ul class="contact-hours">
-              <li><span>Lunes a Viernes</span><span>7:00 - 16:30 hs</span></li>
-              <li><span>Sábados</span><span>7:00 - 12:30 hs</span></li>
-              <li><span>Domingos</span><span>Cerrado</span></li>
-            </ul>
-          </div>
-          <div class="contact-block">
-            <h4>Formas de Pago</h4>
-            <div class="contact-note"><i class="fas fa-wallet"></i> Efectivo, Transferencia, Mercado Pago</div>
-            <h4 style="margin-top:16px;">Seguinos en redes</h4>
-            <div class="contact-note">Instagram / Facebook</div>
-          </div>
+    <section class="help-wide-card" aria-labelledby="before-buy-title">
+      <span class="info-icon"><i class="fas fa-shopping-bag" aria-hidden="true"></i></span>
+      <div>
+        <h2 id="before-buy-title">Antes de comprar, ten&eacute; en cuenta</h2>
+        <p>Preparamos esta gu&iacute;a para que tu compra sea simple, clara y sin dudas.</p>
+        <ul class="checklist">
+          <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Revis&aacute; tu talle con nuestra gu&iacute;a antes de comprar.</span></li>
+          <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Compar&aacute; las medidas con una prenda que ya tengas.</span></li>
+          <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Le&eacute; la pol&iacute;tica de cambios.</span></li>
+          <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Verific&aacute; la disponibilidad de stock en la p&aacute;gina del producto.</span></li>
+          <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Revis&aacute; la descripci&oacute;n y los detalles del producto antes de comprar.</span></li>
+          <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Ante cualquier duda, contactanos. &iexcl;Estamos para ayudarte!</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="size-guide" class="help-surface" aria-labelledby="size-guide-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="size-guide-title">Gu&iacute;a de talles</h2>
+          <p>Consult&aacute; las referencias por categor&iacute;a y eleg&iacute; con m&aacute;s confianza. Las medidas est&aacute;n expresadas en cent&iacute;metros y se relacionan con las letras de cada gu&iacute;a visual.</p>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Gu&iacute;a de talles por segmento">
+        <button class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="tab-mujer" id="tab-button-mujer" data-target="mujer">Mujer</button>
+        <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-hombre" id="tab-button-hombre" data-target="hombre">Hombre</button>
+        <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-ninos" id="tab-button-ninos" data-target="ninos">Ni&ntilde;os</button>
+      </div>
+
+      <div class="size-panel" id="tab-mujer" role="tabpanel" aria-labelledby="tab-button-mujer">
+        <div class="size-grid">
+          <section class="size-guide-block">
+            <h3>Pantalones y Calzas</h3>
+            <div class="size-guide-table-wrap">
+              <table class="size-guide-table">
+                <thead>
+                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>60-64</td><td>86-90</td><td>98</td></tr>
+                  <tr><td>2</td><td>64-68</td><td>90-94</td><td>99</td></tr>
+                  <tr><td>3</td><td>68-72</td><td>94-98</td><td>100</td></tr>
+                  <tr><td>4</td><td>72-76</td><td>98-102</td><td>101</td></tr>
+                  <tr><td>5</td><td>76-80</td><td>102-106</td><td>102</td></tr>
+                  <tr><td>6</td><td>80-84</td><td>106-110</td><td>103</td></tr>
+                  <tr><td>7</td><td>84-88</td><td>110-114</td><td>104</td></tr>
+                  <tr><td>8</td><td>88-92</td><td>114-118</td><td>105</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-pantalon.png" alt="Gu&iacute;a visual de pantalones y calzas con referencias A, B y C." />
+            </div>
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
+          <section class="size-guide-block">
+            <h3>Camperas, Buzos y Remeras</h3>
+            <div class="size-guide-table-wrap">
+              <table class="size-guide-table">
+                <thead>
+                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>80-84</td><td>60-64</td><td>60</td></tr>
+                  <tr><td>2</td><td>84-88</td><td>64-68</td><td>61</td></tr>
+                  <tr><td>3</td><td>88-92</td><td>68-72</td><td>62</td></tr>
+                  <tr><td>4</td><td>92-96</td><td>72-76</td><td>63</td></tr>
+                  <tr><td>5</td><td>96-100</td><td>76-80</td><td>64</td></tr>
+                  <tr><td>6</td><td>100-104</td><td>80-84</td><td>65</td></tr>
+                  <tr><td>7</td><td>104-108</td><td>84-88</td><td>66</td></tr>
+                  <tr><td>8</td><td>108-112</td><td>88-92</td><td>67</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-superior.png" alt="Gu&iacute;a visual de camperas, buzos y remeras con referencias A, B y C." />
+            </div>
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
+        </div>
+      </div>
+
+      <div class="size-panel" id="tab-hombre" role="tabpanel" aria-labelledby="tab-button-hombre" hidden>
+        <div class="size-grid">
+          <section class="size-guide-block">
+            <h3>Pantalones y Calzas</h3>
+            <div class="size-guide-table-wrap">
+              <table class="size-guide-table">
+                <thead>
+                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>70-74</td><td>90-94</td><td>102</td></tr>
+                  <tr><td>2</td><td>74-78</td><td>94-98</td><td>103</td></tr>
+                  <tr><td>3</td><td>78-82</td><td>98-102</td><td>104</td></tr>
+                  <tr><td>4</td><td>82-86</td><td>102-106</td><td>105</td></tr>
+                  <tr><td>5</td><td>86-90</td><td>106-110</td><td>106</td></tr>
+                  <tr><td>6</td><td>90-94</td><td>110-114</td><td>107</td></tr>
+                  <tr><td>7</td><td>94-98</td><td>114-118</td><td>108</td></tr>
+                  <tr><td>8</td><td>98-102</td><td>118-122</td><td>109</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-pantalon.png" alt="Gu&iacute;a visual de pantalones y calzas con referencias A, B y C." />
+            </div>
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
+          <section class="size-guide-block">
+            <h3>Camperas, Buzos y Remeras</h3>
+            <div class="size-guide-table-wrap">
+              <table class="size-guide-table">
+                <thead>
+                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>88-92</td><td>70-74</td><td>65</td></tr>
+                  <tr><td>2</td><td>92-96</td><td>74-78</td><td>66</td></tr>
+                  <tr><td>3</td><td>96-100</td><td>78-82</td><td>67</td></tr>
+                  <tr><td>4</td><td>100-104</td><td>82-86</td><td>68</td></tr>
+                  <tr><td>5</td><td>104-108</td><td>86-90</td><td>69</td></tr>
+                  <tr><td>6</td><td>108-112</td><td>90-94</td><td>70</td></tr>
+                  <tr><td>7</td><td>112-116</td><td>94-98</td><td>71</td></tr>
+                  <tr><td>8</td><td>116-120</td><td>98-102</td><td>72</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-superior.png" alt="Gu&iacute;a visual de camperas, buzos y remeras con referencias A, B y C." />
+            </div>
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
+        </div>
+      </div>
+
+      <div class="size-panel" id="tab-ninos" role="tabpanel" aria-labelledby="tab-button-ninos" hidden>
+        <div class="size-grid">
+          <section class="size-guide-block">
+            <h3>Pantalones y Calzas</h3>
+            <div class="size-guide-table-wrap">
+              <table class="size-guide-table">
+                <thead>
+                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>6</td><td>54-56</td><td>62-64</td><td>70</td></tr>
+                  <tr><td>8</td><td>56-58</td><td>64-66</td><td>75</td></tr>
+                  <tr><td>10</td><td>58-60</td><td>66-68</td><td>80</td></tr>
+                  <tr><td>12</td><td>60-62</td><td>68-70</td><td>85</td></tr>
+                  <tr><td>14</td><td>62-64</td><td>70-72</td><td>90</td></tr>
+                  <tr><td>16</td><td>64-66</td><td>72-74</td><td>95</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-pantalon.png" alt="Gu&iacute;a visual de pantalones y calzas con referencias A, B y C." />
+            </div>
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
+          <section class="size-guide-block">
+            <h3>Camperas, Buzos y Remeras</h3>
+            <div class="size-guide-table-wrap">
+              <table class="size-guide-table">
+                <thead>
+                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>6</td><td>62-64</td><td>54-56</td><td>45</td></tr>
+                  <tr><td>8</td><td>64-66</td><td>56-58</td><td>48</td></tr>
+                  <tr><td>10</td><td>66-68</td><td>58-60</td><td>51</td></tr>
+                  <tr><td>12</td><td>68-70</td><td>60-62</td><td>54</td></tr>
+                  <tr><td>14</td><td>70-72</td><td>62-64</td><td>57</td></tr>
+                  <tr><td>16</td><td>72-74</td><td>64-66</td><td>60</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-superior.png" alt="Gu&iacute;a visual de camperas, buzos y remeras con referencias A, B y C." />
+            </div>
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
         </div>
       </div>
     </section>
-  </div>
+
+    <section id="returns" class="help-surface" aria-labelledby="returns-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="returns-title">Cambios y devoluciones</h2>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>Condiciones y plazos</h3>
+          <ul class="detail-list">
+            <li><i class="fas fa-calendar-alt" aria-hidden="true"></i><span>Los cambios deben realizarse dentro de los 15 d&iacute;as posteriores a la compra.</span></li>
+            <li><i class="fas fa-tag" aria-hidden="true"></i><span>La prenda debe estar sin usar y con etiquetas originales.</span></li>
+            <li><i class="fas fa-sync-alt" aria-hidden="true"></i><span>Pod&eacute;s cambiar por otro talle o color del mismo producto. No se hacen cambios por otro art&iacute;culo.</span></li>
+            <li><i class="fas fa-ruler-combined" aria-hidden="true"></i><span>En caso de solicitar un cambio por un talle mayor al comprado, y dicho talle corresponde a la categor&iacute;a de talle especial, se deber&aacute; abonar la diferencia correspondiente.</span></li>
+            <li><i class="fas fa-store" aria-hidden="true"></i><span>Los cambios en tienda f&iacute;sica no tienen costo.</span></li>
+          </ul>
+        </article>
+        <article class="detail-card">
+          <h3>C&oacute;mo solicitarlo</h3>
+          <ul class="detail-list">
+            <li><i class="fab fa-whatsapp" aria-hidden="true"></i><span>Contactanos por WhatsApp al +54 9 11 5427-2065.</span></li>
+            <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i><span>Visit&aacute; nuestra tienda en Concordia 514 local B, CABA, durante el horario de atenci&oacute;n.</span></li>
+          </ul>
+        </article>
+      </div>
+
+    </section>
+
+    <section id="payments" class="help-surface" aria-labelledby="payments-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="payments-title">Medios de pago</h2>
+          <p>Estas son las opciones disponibles para finalizar tu compra de forma simple y segura.</p>
+        </div>
+      </div>
+
+      <div class="payment-grid">
+        <article class="payment-card">
+          <h3>Mercado Pago</h3>
+          <p>Pag&aacute; de forma segura con tu cuenta de Mercado Pago.</p>
+        </article>
+        <article class="payment-card">
+          <h3>Transferencia</h3>
+          <p>Realiz&aacute; una transferencia bancaria y envianos el comprobante.</p>
+        </article>
+        <article class="payment-card">
+          <h3>Efectivo</h3>
+          <p>Pag&aacute; en efectivo en puntos habilitados o al retirar tu compra, si corresponde.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="help-surface" aria-labelledby="contact-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="contact-title">Contacto y ubicaci&oacute;n</h2>
+          <p>Eleg&iacute; el canal que te resulte m&aacute;s c&oacute;modo y te respondemos dentro del horario de atenci&oacute;n.</p>
+        </div>
+      </div>
+
+      <div class="contact-layout">
+        <article class="contact-item">
+          <ul class="contact-listing">
+            <li><i class="fab fa-whatsapp" aria-hidden="true"></i><span><strong>WhatsApp:</strong> <a href="https://wa.me/5491154272065" target="_blank" rel="noopener">+54 9 11 5427-2065</a></span></li>
+            <li><i class="fas fa-clock" aria-hidden="true"></i><span><strong>Horario de atenci&oacute;n:</strong> Lunes a viernes de 7:00 a 16:30 hs. S&aacute;bados de 7:00 a 12:30 hs.</span></li>
+            <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i><span><strong>Ubicaci&oacute;n:</strong> CABA, Argentina</span></li>
+            <li><i class="fas fa-store" aria-hidden="true"></i><span><strong>Local:</strong> Concordia 514 local B</span></li>
+          </ul>
+        </article>
+        <article class="contact-item">
+          <h3>Redes sociales</h3>
+          <p>Segu&iacute; a ROMIX para ver novedades, lanzamientos y m&aacute;s ideas para combinar tus prendas.</p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i> Instagram</a>
+            <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener"><i class="fab fa-facebook-f" aria-hidden="true"></i> Facebook</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" class="help-surface" aria-labelledby="faq-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="faq-title">Preguntas frecuentes</h2>
+          <p>Respuestas cortas para consultas habituales antes y despu&eacute;s de comprar.</p>
+        </div>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>&iquest;C&oacute;mo s&eacute; qu&eacute; talle elegir? <i class="fas fa-plus" aria-hidden="true"></i></summary>
+          <p>Us&aacute; la gu&iacute;a de talles de esta misma p&aacute;gina, compar&aacute; tus medidas con una prenda similar y, si segu&iacute;s con dudas, escribinos para orientarte.</p>
+        </details>
+        <details class="faq-item">
+          <summary>&iquest;Puedo cambiar un producto comprado en oferta? <i class="fas fa-plus" aria-hidden="true"></i></summary>
+          <p>S&iacute;, siempre que cumpla las condiciones generales de cambio detalladas en esta secci&oacute;n.</p>
+        </details>
+        <details class="faq-item">
+          <summary>&iquest;C&oacute;mo solicito una factura? <i class="fas fa-plus" aria-hidden="true"></i></summary>
+          <p>Pod&eacute;s pedirla por WhatsApp o por e-mail indicando tu n&uacute;mero de pedido y los datos de facturaci&oacute;n correspondientes.</p>
+        </details>
+      </div>
+    </section>
+  </main>
 
   <footer>
     <div class="footer-grid">
@@ -298,7 +949,7 @@
         <ul>
           <li><a href="mujer.html" style="color:#adb5bd;text-decoration:none;">Ropa para Mujer</a></li>
           <li><a href="hombre.html" style="color:#adb5bd;text-decoration:none;">Ropa para Hombre</a></li>
-          <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Niños</a></li>
+          <li><a href="ninos.html" style="color:#adb5bd;text-decoration:none;">Ropa para Ni&ntilde;os</a></li>
           <li><a href="novedades.html" style="color:#adb5bd;text-decoration:none;">Novedades</a></li>
           <li><a href="index.html#ofertas" style="color:#adb5bd;text-decoration:none;">Ofertas</a></li>
         </ul>
@@ -306,16 +957,16 @@
       <div>
         <h4>Ayuda</h4>
         <ul>
-          <li><a href="ayuda.html#size-guide" style="color:#adb5bd;text-decoration:none;">Guía de talles</a></li>
-          <li><a href="ayuda.html#returns" style="color:#adb5bd;text-decoration:none;">Política de Cambios</a></li>
+          <li><a href="ayuda.html#size-guide" style="color:#adb5bd;text-decoration:none;">Gu&iacute;a de talles</a></li>
+          <li><a href="ayuda.html#returns" style="color:#adb5bd;text-decoration:none;">Pol&iacute;tica de Cambios</a></li>
         </ul>
       </div>
       <div>
         <h4>Contacto</h4>
         <ul>
-          <li><a href="ayuda.html#contact" style="color:#adb5bd;text-decoration:none;">Dirección y horarios</a></li>
+          <li><a href="ayuda.html#contact" style="color:#adb5bd;text-decoration:none;">Direcci&oacute;n y horarios</a></li>
           <li><a href="https://wa.me/5491154272065" target="_blank" rel="noopener" style="color:#adb5bd;text-decoration:none;">WhatsApp</a></li>
-          <li><a href="tel:+5491154272065" style="color:#adb5bd;text-decoration:none;">Llamar por teléfono</a></li>
+          <li><a href="tel:+5491154272065" style="color:#adb5bd;text-decoration:none;">Llamar por tel&eacute;fono</a></li>
         </ul>
       </div>
     </div>
@@ -326,23 +977,69 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (window.romixCart) window.romixCart.updateBadge();
+
+      const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
+      const tabPanels = Array.from(document.querySelectorAll('.size-panel'));
+      const searchForm = document.getElementById('help-search-form');
+      const searchInput = document.getElementById('help-search-input');
+      const searchFeedback = document.getElementById('help-search-feedback');
+
+      const activateTab = (target) => {
+        tabButtons.forEach((button) => {
+          const isActive = button.dataset.target === target;
+          button.classList.toggle('is-active', isActive);
+          button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        tabPanels.forEach((panel) => {
+          panel.hidden = panel.id !== `tab-${target}`;
+        });
+      };
+
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => activateTab(button.dataset.target));
+      });
+
+      if (searchForm && searchInput && searchFeedback) {
+        const searchable = Array.from(document.querySelectorAll('main#main section[id], main#main details'));
+        const normalize = (value) => value
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+
+        searchForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const query = normalize(searchInput.value.trim());
+
+          if (!query) {
+            searchFeedback.textContent = 'Escribi una palabra clave para buscar dentro del Centro de Ayuda.';
+            return;
+          }
+
+          const match = searchable.find((item) => normalize(item.textContent).includes(query));
+
+          if (!match) {
+            searchFeedback.textContent = 'No encontramos resultados para esa busqueda.';
+            return;
+          }
+
+          const parentPanel = match.closest('.size-panel');
+          if (parentPanel) {
+            activateTab(parentPanel.id.replace('tab-', ''));
+          }
+
+          if (match.tagName === 'DETAILS') {
+            match.open = true;
+          }
+
+          match.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          searchFeedback.textContent = 'Te llevamos a la seccion mas relevante.';
+        });
+      }
     });
   </script>
   <script src="assets/js/romix-header.js"></script>
   <script src="assets/js/romix-footer.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

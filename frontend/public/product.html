@@ -1603,6 +1603,7 @@
     }
 
     .related-products {
+      position: relative;
       margin-top: 34px;
       padding: 0;
     }
@@ -1610,71 +1611,36 @@
     .related-products__header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 16px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .related-title {
       margin: 0;
-      font-size: clamp(1.18rem, 1.6vw, 1.4rem);
+      font-size: clamp(1.16rem, 1.5vw, 1.38rem);
       font-weight: 800;
-      color: #4a4153;
+      color: #3d3543;
       letter-spacing: -0.01em;
-    }
-
-    .related-products__nav {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .related-products__nav-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      border: 1px solid rgba(239, 78, 161, 0.18);
-      background: rgba(255, 255, 255, 0.96);
-      color: var(--rose-600);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(221, 134, 184, 0.18);
-      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease, color .18s ease;
-    }
-
-    .related-products__nav-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 24px rgba(221, 134, 184, 0.24);
-    }
-
-    .related-products__nav-btn:focus-visible {
-      outline: 2px solid rgba(239, 78, 161, 0.42);
-      outline-offset: 2px;
-    }
-
-    .related-products__nav-btn[disabled] {
-      opacity: 0.42;
-      cursor: default;
-      transform: none;
-      box-shadow: none;
-      color: #b9aebd;
     }
 
     .related-products__track {
       position: relative;
+    }
+
+    .related-products__viewport {
       overflow: hidden;
+      margin: 0 26px;
     }
 
     .related-products__list {
       display: grid;
       grid-auto-flow: column;
-      grid-auto-columns: calc((100% - (18px * 3)) / 4);
-      gap: 18px;
+      grid-auto-columns: clamp(220px, 22vw, 248px);
+      gap: 14px;
       overflow-x: auto;
       overflow-y: hidden;
-      padding: 4px 2px 12px;
+      padding: 4px 2px 14px;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
@@ -1686,89 +1652,247 @@
       display: none;
     }
 
+    .related-card,
     .related-products__card {
       min-width: 0;
-      display: grid;
-      grid-template-rows: auto 1fr;
+      display: flex;
+      flex-direction: column;
       text-decoration: none;
       color: inherit;
-      border-radius: 22px;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      background: rgba(255, 255, 255, 0.88);
-      box-shadow: 0 16px 30px rgba(222, 154, 193, 0.18);
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #ebe6eb;
+      box-shadow: 0 4px 14px rgba(24, 20, 27, 0.08);
       overflow: hidden;
       scroll-snap-align: start;
       transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
     }
 
+    .related-card:hover,
     .related-products__card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 22px 36px rgba(214, 122, 177, 0.24);
-      border-color: rgba(239, 78, 161, 0.22);
+      border-color: #e5dde4;
+      box-shadow: 0 22px 44px rgba(24, 20, 27, 0.12);
     }
 
+    .related-card:focus-visible,
     .related-products__card:focus-visible {
-      outline: 2px solid rgba(239, 78, 161, 0.42);
-      outline-offset: 3px;
+      outline: 3px solid rgba(255, 79, 147, 0.35);
+      outline-offset: 2px;
     }
 
-    .related-products__media {
+    .related-card__image-wrap,
+    .related-products__image-wrap {
+      position: relative;
       aspect-ratio: 4 / 5;
-      background:
-        radial-gradient(circle at top, rgba(255, 227, 240, 0.9), rgba(255, 247, 252, 0.94) 55%, #fff 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px 16px 12px;
-      border-bottom: 1px solid rgba(247, 232, 241, 0.92);
+      background: linear-gradient(180deg, #fbf8fa 0%, #f5eff4 100%);
+      border-bottom: 1px solid #f2edf1;
+      overflow: hidden;
     }
 
-    .related-products__media img {
+    .related-card__image,
+    .related-products__image {
       width: 100%;
       height: 100%;
-      object-fit: contain;
       display: block;
-      filter: drop-shadow(0 10px 18px rgba(174, 124, 155, 0.12));
+      object-fit: cover;
+      object-position: center top;
+      transform: scale(1.04);
+      transition: transform .3s ease;
     }
 
+    .related-card:hover .related-card__image,
+    .related-products__card:hover .related-products__image {
+      transform: scale(1.08);
+    }
+
+    .related-card__badge,
+    .related-products__badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      max-width: calc(100% - 20px);
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(237, 225, 233, 0.96);
+      color: #453a45;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+    }
+
+    .related-card__body,
     .related-products__content {
-      display: grid;
-      gap: 6px;
-      padding: 14px 16px 16px;
-      align-content: start;
-      min-height: 132px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px 12px 14px;
     }
 
+    .related-card__thumbs,
+    .related-products__thumbs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+    }
+
+    .related-card__thumb,
+    .related-products__thumb {
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #ddd5dc;
+      background: #fff;
+      flex: 0 0 auto;
+    }
+
+    .related-card__thumb img,
+    .related-products__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .related-card__more,
+    .related-products__more {
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #f4f4f4;
+      border: 1px solid #ddd5dc;
+      color: #30283a;
+      font-size: 10px;
+      font-weight: 700;
+      flex: 0 0 auto;
+    }
+
+    .related-card__thumbs[hidden],
+    .related-products__thumbs[hidden] {
+      display: none;
+    }
+
+    .related-card__title,
     .related-products__name {
       margin: 0;
-      color: #403747;
-      font-size: 0.98rem;
+      color: #2f2934;
+      font-size: 0.95rem;
       font-weight: 700;
       line-height: 1.35;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      min-height: 2.55em;
     }
 
-    .related-products__price {
-      color: var(--rose-600);
-      font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-    }
-
+    .related-card__meta,
     .related-products__meta {
-      color: #8f8499;
-      font-size: 0.82rem;
-      line-height: 1.4;
-      min-height: 1.2em;
+      margin: 0;
+      color: #726772;
+      font-size: 0.8rem;
+      line-height: 1.35;
+      text-transform: lowercase;
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+
+    .related-card__footer,
+    .related-products__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .related-card__price,
+    .related-products__price {
+      color: #ff2f7d;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .related-card__stock,
+    .related-products__stock {
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .related-card__stock.is-available,
+    .related-products__stock.is-available {
+      color: #48c774;
+    }
+
+    .related-card__stock.is-low,
+    .related-products__stock.is-low {
+      color: #f39c4a;
+    }
+
+    .related-card__stock.is-out,
+    .related-products__stock.is-out {
+      color: #de5d6d;
+    }
+
+    .related-products__nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(239, 78, 161, 0.22);
+      background: rgba(255, 255, 255, 0.98);
+      color: #ff2f7d;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(24, 20, 27, 0.12);
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+
+    .related-products__nav-btn:hover {
+      box-shadow: 0 16px 28px rgba(24, 20, 27, 0.16);
+    }
+
+    .related-products__nav-btn:focus-visible {
+      outline: 2px solid rgba(255, 79, 147, 0.45);
+      outline-offset: 2px;
+    }
+
+    .related-products__nav-btn[disabled] {
+      opacity: 0.35;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .related-products__nav--prev {
+      left: 0;
+    }
+
+    .related-products__nav--next {
+      right: 0;
     }
 
     .romix-toast {
@@ -1788,9 +1912,13 @@
         gap: 16px;
       }
 
+      .related-products__viewport {
+        margin: 0 18px;
+      }
+
       .related-products__list {
-        grid-auto-columns: calc((100% - (16px * 2)) / 3);
-        gap: 16px;
+        grid-auto-columns: clamp(208px, 31vw, 234px);
+        gap: 12px;
       }
 
       .main-image {
@@ -1841,13 +1969,17 @@
         height: clamp(180px, 50vw, 260px);
       }
 
-      .related-products__header {
-        align-items: flex-end;
+      .related-products__viewport {
+        margin: 0;
+      }
+
+      .related-products__nav-btn {
+        display: none;
       }
 
       .related-products__list {
-        grid-auto-columns: calc((100% - 14px) / 2);
-        gap: 14px;
+        grid-auto-columns: minmax(0, 46%);
+        gap: 10px;
       }
 
       .mobile-product-name {
@@ -1870,19 +2002,14 @@
     }
 
     @media (max-width: 520px) {
-      .related-products__nav-btn {
-        width: 38px;
-        height: 38px;
-      }
-
       .related-products__list {
-        grid-auto-columns: minmax(0, 84%);
+        grid-auto-columns: minmax(0, 78%);
         gap: 12px;
       }
 
+      .related-card__body,
       .related-products__content {
-        min-height: 124px;
-        padding: 13px 14px 15px;
+        padding: 11px 11px 13px;
       }
     }
 
@@ -2026,17 +2153,17 @@
     <section id="related-products-section" class="related-products">
       <div class="related-products__header">
         <h2 class="related-title">Nuestros clientes también vieron</h2>
-        <div class="related-products__nav" aria-label="Navegacion de productos recomendados">
-          <button id="related-prev" class="related-products__nav-btn" type="button" aria-label="Ver productos anteriores" aria-controls="related-grid">
-            <i class="fas fa-chevron-left" aria-hidden="true"></i>
-          </button>
-          <button id="related-next" class="related-products__nav-btn" type="button" aria-label="Ver productos siguientes" aria-controls="related-grid">
-            <i class="fas fa-chevron-right" aria-hidden="true"></i>
-          </button>
-        </div>
       </div>
       <div class="related-products__track">
-        <div id="related-grid" class="related-products__list" aria-live="polite"></div>
+        <button id="related-prev" class="related-products__nav-btn related-products__nav--prev" type="button" aria-label="Ver productos anteriores" aria-controls="related-grid">
+          <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <div class="related-products__viewport">
+          <div id="related-grid" class="related-products__list" aria-live="polite"></div>
+        </div>
+        <button id="related-next" class="related-products__nav-btn related-products__nav--next" type="button" aria-label="Ver productos siguientes" aria-controls="related-grid">
+          <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
       </div>
     </section>
   </main>
@@ -4351,6 +4478,43 @@
         .sort(() => Math.random() - 0.5)
         .slice(0, 8);
 
+      const getBadgeLabel = (product) => {
+        const raw = String(product.type || product.typeLabel || '').trim();
+        if (!raw) return 'Producto';
+        return raw;
+      };
+
+      const getMetaLabel = (product) => {
+        const sectionText = String(product.section || '').trim();
+        const typeText = String(product.type || product.typeLabel || '').trim();
+        return [sectionText, typeText]
+          .filter(Boolean)
+          .map((value) => value.toLowerCase())
+          .join(' | ');
+      };
+
+      const getVariantThumbs = (product) => {
+        const thumbs = [];
+        const gallery = getGallery(product);
+        gallery.forEach((item) => {
+          if (!item || !item.src) return;
+          if (thumbs.some((thumb) => thumb.src === item.src)) return;
+          thumbs.push({ src: item.src, alt: item.label || product.name || 'Variante' });
+        });
+        return thumbs.slice(0, 4);
+      };
+
+      const getStockMeta = (product) => {
+        const stockMap = buildStockMap(product);
+        const totals = Object.values(stockMap || {}).map((sizeMap) =>
+          Object.values(sizeMap || {}).reduce((sum, qty) => sum + (Number(qty) || 0), 0)
+        );
+        const total = totals.length ? Math.max(...totals) : Number(product.stock || 0);
+        if (total <= 0) return { label: 'Agotado', css: 'is-out' };
+        if (total <= 3) return { label: 'Por agotarse', css: 'is-low' };
+        return { label: 'Disponible', css: 'is-available' };
+      };
+
       if (section) section.hidden = false;
       container.innerHTML = '';
 
@@ -4362,14 +4526,19 @@
         }
 
         const card = document.createElement('a');
-        card.className = 'related-products__card';
+        card.className = 'related-products__card related-card';
         card.setAttribute('aria-label', p.name || 'Producto relacionado');
         card.href = href;
 
-        const thumb = document.createElement('div');
-        thumb.className = 'related-products__media';
+        const imageWrap = document.createElement('div');
+        imageWrap.className = 'related-products__image-wrap related-card__image-wrap';
+
+        const badge = document.createElement('span');
+        badge.className = 'related-products__badge related-card__badge';
+        badge.textContent = getBadgeLabel(p);
 
         const img = document.createElement('img');
+        img.className = 'related-products__image related-card__image';
         img.src = p.image || (p.images ? Object.values(p.images)[0] : '') || PLACEHOLDER;
         img.alt = p.name || '';
         img.loading = 'lazy';
@@ -4378,29 +4547,68 @@
           img.onerror = null;
           img.src = PLACEHOLDER;
         };
-        thumb.appendChild(img);
+        imageWrap.appendChild(badge);
+        imageWrap.appendChild(img);
 
         const content = document.createElement('div');
-        content.className = 'related-products__content';
+        content.className = 'related-products__content related-card__body';
+
+        const thumbs = document.createElement('div');
+        thumbs.className = 'related-products__thumbs related-card__thumbs';
+        const variantThumbs = getVariantThumbs(p);
+        if (!variantThumbs.length || variantThumbs.length <= 1) {
+          thumbs.hidden = true;
+        } else {
+          variantThumbs.slice(0, 3).forEach((variant) => {
+            const thumb = document.createElement('span');
+            thumb.className = 'related-products__thumb related-card__thumb';
+            const thumbImg = document.createElement('img');
+            thumbImg.src = variant.src || PLACEHOLDER;
+            thumbImg.alt = variant.alt || p.name || 'Variante';
+            thumbImg.loading = 'lazy';
+            thumbImg.decoding = 'async';
+            thumbImg.onerror = () => {
+              thumbImg.onerror = null;
+              thumbImg.src = PLACEHOLDER;
+            };
+            thumb.appendChild(thumbImg);
+            thumbs.appendChild(thumb);
+          });
+          if (variantThumbs.length > 3) {
+            const more = document.createElement('span');
+            more.className = 'related-products__more related-card__more';
+            more.textContent = '+' + (variantThumbs.length - 3);
+            thumbs.appendChild(more);
+          }
+        }
 
         const name = document.createElement('div');
-        name.className = 'related-products__name';
+        name.className = 'related-products__name related-card__title';
         name.textContent = p.name || 'Producto';
 
-        const price = document.createElement('div');
-        price.className = 'related-products__price';
+        const meta = document.createElement('div');
+        meta.className = 'related-products__meta related-card__meta';
+        meta.textContent = getMetaLabel(p);
+
+        const footer = document.createElement('div');
+        footer.className = 'related-products__footer related-card__footer';
+
+        const price = document.createElement('strong');
+        price.className = 'related-products__price related-card__price';
         price.textContent = '$' + Number(p.price || 0).toLocaleString('es-AR');
 
-        const meta = document.createElement('div');
-        meta.className = 'related-products__meta';
-        const typeText = p.type ? String(p.type) : '';
-        const sectionText = p.section ? String(p.section) : '';
-        meta.textContent = [sectionText, typeText].filter(Boolean).join(' | ');
+        const stock = document.createElement('span');
+        const stockMeta = getStockMeta(p);
+        stock.className = 'related-products__stock related-card__stock ' + stockMeta.css;
+        stock.textContent = stockMeta.label;
 
+        content.appendChild(thumbs);
         content.appendChild(name);
-        content.appendChild(price);
         content.appendChild(meta);
-        card.appendChild(thumb);
+        footer.appendChild(price);
+        footer.appendChild(stock);
+        content.appendChild(footer);
+        card.appendChild(imageWrap);
         card.appendChild(content);
 
         container.appendChild(card);

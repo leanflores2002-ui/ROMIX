@@ -316,29 +316,27 @@
       display:grid;
       grid-template-columns:repeat(2, minmax(0, 1fr));
       gap:18px;
-      margin-bottom:18px;
     }
-    .size-card,
-    .size-guide-card {
+    .size-guide-block {
+      display:grid;
+      gap:16px;
       border:1px solid #f0d9e2;
       border-radius:16px;
-      overflow:hidden;
       background:#fff;
+      padding:20px;
+      box-shadow:0 12px 28px rgba(46, 26, 35, 0.04);
     }
-    .size-card h3,
-    .size-guide-card h3 {
+    .size-guide-block h3 {
       margin:0;
-      padding:18px 20px 12px;
       color:#212733;
       font-size:1.08rem;
     }
-    .table-wrap {
+    .size-guide-table-wrap {
       overflow-x:auto;
-      padding:0 14px 14px;
     }
     .size-guide-table {
       width:100%;
-      min-width:420px;
+      min-width:440px;
       border-collapse:separate;
       border-spacing:0;
       border:1px solid #f0d9e2;
@@ -360,66 +358,67 @@
     }
     .size-guide-table td { color:#232a35; }
     .size-guide-table tbody tr:last-child td { border-bottom:none; }
-    .size-note {
-      margin:0;
-      padding:0 20px 18px;
-      color:#717784;
-      font-size:.94rem;
-    }
-    .measurement-help-card {
-      display:grid;
-      grid-template-columns:minmax(160px, 200px) minmax(0, 1fr);
-      gap:18px;
-      margin:0 14px 14px;
-      padding:16px;
-      border:1px solid #f3d4df;
-      border-radius:16px;
-      background:linear-gradient(180deg, #fff8fb 0%, #ffffff 100%);
-    }
-    .measurement-help-image {
+    .size-guide-visual {
       display:flex;
       align-items:center;
       justify-content:center;
-      border-radius:14px;
-      background:#fff;
-      border:1px solid #f4e2e9;
-      padding:12px;
-      min-height:190px;
+      padding:18px;
+      border-radius:16px;
+      border:1px solid #f3d4df;
+      background:linear-gradient(180deg, #fff9fb 0%, #ffffff 100%);
     }
-    .measurement-help-image img {
+    .size-guide-visual img {
       width:100%;
-      max-width:180px;
       height:auto;
+      max-height:680px;
+      object-fit:contain;
       display:block;
+      border-radius:12px;
+      background:#fff;
     }
-    .measurement-help-content {
+    .size-guide-measure-explainer {
       display:grid;
-      align-content:center;
-      gap:12px;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:14px;
     }
-    .measurement-help-title {
-      margin:0;
+    .size-guide-measure-item {
+      display:grid;
+      gap:8px;
+      padding:16px;
+      border-radius:14px;
+      border:1px solid #f0dde5;
+      background:#fcfbfc;
+    }
+    .size-guide-measure-item strong {
       color:#212733;
       font-size:1rem;
-      letter-spacing:-0.02em;
     }
-    .measurement-help-list {
-      list-style:none;
-      padding:0;
+    .size-guide-measure-item p {
       margin:0;
-      display:grid;
-      gap:10px;
-    }
-    .measurement-help-list li {
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
       color:#5d6470;
-      line-height:1.6;
+      line-height:1.65;
     }
-    .measurement-help-list li i {
+    .size-guide-measure-key {
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff1f6;
+      border:1px solid #f3d4df;
       color:var(--primary);
-      margin-top:4px;
+      font-size:1.25rem;
+      font-weight:800;
+    }
+    .size-guide-note {
+      margin:0;
+      color:#717784;
+      font-size:.94rem;
+      padding:14px 16px;
+      border-radius:14px;
+      background:#fff7fa;
+      border:1px solid #f3d4df;
     }
     .detail-grid {
       display:grid;
@@ -531,6 +530,7 @@
       .contact-layout,
       .size-grid { grid-template-columns:1fr; }
       .quick-links { grid-template-columns:repeat(3, minmax(0, 1fr)); }
+      .size-guide-measure-explainer { grid-template-columns:1fr; }
     }
     @media (max-width: 768px) {
       .header-container { grid-template-columns:1fr; }
@@ -540,15 +540,14 @@
       .container { padding:0 16px; }
       .help-hero,
       .help-wide-card,
-      .checklist,
-      .measurement-help-card { grid-template-columns:1fr; }
+      .checklist { grid-template-columns:1fr; }
       .help-hero { padding:24px; }
       .help-wide-card { padding:24px; }
       .hero-search { grid-template-columns:1fr; }
       .quick-links { grid-template-columns:repeat(2, minmax(0, 1fr)); }
       .section-heading { flex-direction:column; }
       .cta-row { justify-content:flex-start; }
-      .measurement-help-image { min-height:unset; }
+      .size-guide-block { padding:18px; }
     }
     @media (max-width: 560px) {
       .quick-links { grid-template-columns:1fr; }
@@ -701,7 +700,7 @@
       <div class="section-heading">
         <div>
           <h2 id="size-guide-title">Gu&iacute;a de talles</h2>
-          <p>Consult&aacute; las referencias por categor&iacute;a y eleg&iacute; con m&aacute;s confianza. Las medidas est&aacute;n expresadas en cent&iacute;metros.</p>
+          <p>Consult&aacute; las referencias por categor&iacute;a y eleg&iacute; con m&aacute;s confianza. Las medidas est&aacute;n expresadas en cent&iacute;metros y se relacionan con las letras de cada gu&iacute;a visual.</p>
         </div>
       </div>
 
@@ -713,12 +712,12 @@
 
       <div class="size-panel" id="tab-mujer" role="tabpanel" aria-labelledby="tab-button-mujer">
         <div class="size-grid">
-          <article class="size-card size-guide-card">
+          <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
-            <div class="table-wrap">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>Cintura</th><th>Cadera</th><th>Largo</th></tr>
+                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>60-64</td><td>86-90</td><td>98</td></tr>
@@ -727,30 +726,40 @@
                   <tr><td>4</td><td>72-76</td><td>98-102</td><td>101</td></tr>
                   <tr><td>5</td><td>76-80</td><td>102-106</td><td>102</td></tr>
                   <tr><td>6</td><td>80-84</td><td>106-110</td><td>103</td></tr>
+                  <tr><td>7</td><td>84-88</td><td>110-114</td><td>104</td></tr>
+                  <tr><td>8</td><td>88-92</td><td>114-118</td><td>105</td></tr>
                 </tbody>
               </table>
             </div>
-            <p class="size-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
-            <div class="measurement-help-card">
-              <div class="measurement-help-image">
-                <img src="images/help/measurement-bottoms-guide.svg" alt="Gu&iacute;a visual para medir cintura, cadera y largo en pantalones y calzas." />
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-pantalon.png" alt="Gu&iacute;a visual de pantalones y calzas con referencias A, B y C." />
+            </div>
+            <div class="size-guide-measure-explainer">
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">A</span>
+                <strong>A - Cintura</strong>
+                <p>Med&iacute; de lado a lado la cintura de la prenda en plano, sobre la parte superior, sin estirar la tela.</p>
               </div>
-              <div class="measurement-help-content">
-                <h4 class="measurement-help-title">&iquest;C&oacute;mo medir esta prenda?</h4>
-                <ul class="measurement-help-list">
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Cintura:</strong> med&iacute; la parte superior de la prenda o la parte m&aacute;s angosta de la cintura.</span></li>
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Cadera:</strong> med&iacute; la parte m&aacute;s ancha.</span></li>
-                  <li><i class="fas fa-ruler-vertical" aria-hidden="true"></i><span><strong>Largo:</strong> med&iacute; desde la cintura hasta el final de la prenda.</span></li>
-                </ul>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">B</span>
+                <strong>B - Cadera</strong>
+                <p>Med&iacute; de lado a lado la parte m&aacute;s ancha de la cadera de la prenda, manteni&eacute;ndola extendida sobre una superficie plana.</p>
+              </div>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">C</span>
+                <strong>C - Largo total</strong>
+                <p>Med&iacute; el largo completo de la prenda desde la parte superior de la cintura hasta el final de la botamanga.</p>
               </div>
             </div>
-          </article>
-          <article class="size-card size-guide-card">
-            <h3>Camperas, Buzos y Camisetas</h3>
-            <div class="table-wrap">
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
+          <section class="size-guide-block">
+            <h3>Camperas, Buzos y Remeras</h3>
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>Busto</th><th>Cintura</th><th>Largo</th></tr>
+                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>80-84</td><td>60-64</td><td>60</td></tr>
@@ -759,35 +768,45 @@
                   <tr><td>4</td><td>92-96</td><td>72-76</td><td>63</td></tr>
                   <tr><td>5</td><td>96-100</td><td>76-80</td><td>64</td></tr>
                   <tr><td>6</td><td>100-104</td><td>80-84</td><td>65</td></tr>
+                  <tr><td>7</td><td>104-108</td><td>84-88</td><td>66</td></tr>
+                  <tr><td>8</td><td>108-112</td><td>88-92</td><td>67</td></tr>
                 </tbody>
               </table>
             </div>
-            <p class="size-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
-            <div class="measurement-help-card">
-              <div class="measurement-help-image">
-                <img src="images/help/measurement-tops-guide.svg" alt="Gu&iacute;a visual para medir busto, cintura y largo en camperas, buzos y camisetas." />
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-superior.png" alt="Gu&iacute;a visual de camperas, buzos y remeras con referencias A, B y C." />
+            </div>
+            <div class="size-guide-measure-explainer">
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">A</span>
+                <strong>A - Busto</strong>
+                <p>Med&iacute; de axila a axila o alrededor de la parte m&aacute;s ancha del pecho, seg&uacute;n el criterio de la tabla.</p>
               </div>
-              <div class="measurement-help-content">
-                <h4 class="measurement-help-title">&iquest;C&oacute;mo medir esta prenda?</h4>
-                <ul class="measurement-help-list">
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Pecho:</strong> med&iacute; de axila a axila o alrededor de la parte m&aacute;s ancha del pecho, seg&uacute;n el criterio de la tabla.</span></li>
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Cintura:</strong> med&iacute; la parte m&aacute;s angosta.</span></li>
-                  <li><i class="fas fa-ruler-vertical" aria-hidden="true"></i><span><strong>Largo:</strong> med&iacute; desde la parte superior del hombro hacia abajo.</span></li>
-                </ul>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">B</span>
+                <strong>B - Cintura</strong>
+                <p>Med&iacute; la parte m&aacute;s angosta a la altura de la cintura, manteniendo la prenda extendida.</p>
+              </div>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">C</span>
+                <strong>C - Largo total</strong>
+                <p>Med&iacute; desde la parte superior del hombro hasta el ruedo inferior de la prenda.</p>
               </div>
             </div>
-          </article>
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
         </div>
       </div>
 
       <div class="size-panel" id="tab-hombre" role="tabpanel" aria-labelledby="tab-button-hombre" hidden>
         <div class="size-grid">
-          <article class="size-card size-guide-card">
+          <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
-            <div class="table-wrap">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>Cintura</th><th>Cadera</th><th>Largo</th></tr>
+                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>70-74</td><td>90-94</td><td>102</td></tr>
@@ -796,30 +815,40 @@
                   <tr><td>4</td><td>82-86</td><td>102-106</td><td>105</td></tr>
                   <tr><td>5</td><td>86-90</td><td>106-110</td><td>106</td></tr>
                   <tr><td>6</td><td>90-94</td><td>110-114</td><td>107</td></tr>
+                  <tr><td>7</td><td>94-98</td><td>114-118</td><td>108</td></tr>
+                  <tr><td>8</td><td>98-102</td><td>118-122</td><td>109</td></tr>
                 </tbody>
               </table>
             </div>
-            <p class="size-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
-            <div class="measurement-help-card">
-              <div class="measurement-help-image">
-                <img src="images/help/measurement-bottoms-guide.svg" alt="Gu&iacute;a visual para medir cintura, cadera y largo en pantalones y calzas." />
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-pantalon.png" alt="Gu&iacute;a visual de pantalones y calzas con referencias A, B y C." />
+            </div>
+            <div class="size-guide-measure-explainer">
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">A</span>
+                <strong>A - Cintura</strong>
+                <p>Med&iacute; de lado a lado la cintura de la prenda en plano, sobre la parte superior, sin estirar la tela.</p>
               </div>
-              <div class="measurement-help-content">
-                <h4 class="measurement-help-title">&iquest;C&oacute;mo medir esta prenda?</h4>
-                <ul class="measurement-help-list">
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Cintura:</strong> med&iacute; la parte superior de la prenda o la parte m&aacute;s angosta de la cintura.</span></li>
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Cadera:</strong> med&iacute; la parte m&aacute;s ancha.</span></li>
-                  <li><i class="fas fa-ruler-vertical" aria-hidden="true"></i><span><strong>Largo:</strong> med&iacute; desde la cintura hasta el final de la prenda.</span></li>
-                </ul>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">B</span>
+                <strong>B - Cadera</strong>
+                <p>Med&iacute; de lado a lado la parte m&aacute;s ancha de la cadera de la prenda, manteni&eacute;ndola extendida sobre una superficie plana.</p>
+              </div>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">C</span>
+                <strong>C - Largo total</strong>
+                <p>Med&iacute; el largo completo de la prenda desde la parte superior de la cintura hasta el final de la botamanga.</p>
               </div>
             </div>
-          </article>
-          <article class="size-card size-guide-card">
-            <h3>Camperas, Buzos y Camisetas</h3>
-            <div class="table-wrap">
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
+          <section class="size-guide-block">
+            <h3>Camperas, Buzos y Remeras</h3>
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>Pecho</th><th>Cintura</th><th>Largo</th></tr>
+                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>88-92</td><td>70-74</td><td>65</td></tr>
@@ -828,35 +857,45 @@
                   <tr><td>4</td><td>100-104</td><td>82-86</td><td>68</td></tr>
                   <tr><td>5</td><td>104-108</td><td>86-90</td><td>69</td></tr>
                   <tr><td>6</td><td>108-112</td><td>90-94</td><td>70</td></tr>
+                  <tr><td>7</td><td>112-116</td><td>94-98</td><td>71</td></tr>
+                  <tr><td>8</td><td>116-120</td><td>98-102</td><td>72</td></tr>
                 </tbody>
               </table>
             </div>
-            <p class="size-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
-            <div class="measurement-help-card">
-              <div class="measurement-help-image">
-                <img src="images/help/measurement-tops-guide.svg" alt="Gu&iacute;a visual para medir pecho, cintura y largo en camperas, buzos y camisetas." />
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-superior.png" alt="Gu&iacute;a visual de camperas, buzos y remeras con referencias A, B y C." />
+            </div>
+            <div class="size-guide-measure-explainer">
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">A</span>
+                <strong>A - Busto</strong>
+                <p>Med&iacute; de axila a axila o alrededor de la parte m&aacute;s ancha del pecho, seg&uacute;n el criterio de la tabla.</p>
               </div>
-              <div class="measurement-help-content">
-                <h4 class="measurement-help-title">&iquest;C&oacute;mo medir esta prenda?</h4>
-                <ul class="measurement-help-list">
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Pecho:</strong> med&iacute; de axila a axila o alrededor de la parte m&aacute;s ancha del pecho, seg&uacute;n el criterio de la tabla.</span></li>
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Cintura:</strong> med&iacute; la parte m&aacute;s angosta.</span></li>
-                  <li><i class="fas fa-ruler-vertical" aria-hidden="true"></i><span><strong>Largo:</strong> med&iacute; desde la parte superior del hombro hacia abajo.</span></li>
-                </ul>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">B</span>
+                <strong>B - Cintura</strong>
+                <p>Med&iacute; la parte m&aacute;s angosta a la altura de la cintura, manteniendo la prenda extendida.</p>
+              </div>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">C</span>
+                <strong>C - Largo total</strong>
+                <p>Med&iacute; desde la parte superior del hombro hasta el ruedo inferior de la prenda.</p>
               </div>
             </div>
-          </article>
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
         </div>
       </div>
 
       <div class="size-panel" id="tab-ninos" role="tabpanel" aria-labelledby="tab-button-ninos" hidden>
         <div class="size-grid">
-          <article class="size-card size-guide-card">
+          <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
-            <div class="table-wrap">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>Cintura</th><th>Cadera</th><th>Largo</th></tr>
+                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>6</td><td>54-56</td><td>62-64</td><td>70</td></tr>
@@ -868,27 +907,35 @@
                 </tbody>
               </table>
             </div>
-            <p class="size-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
-            <div class="measurement-help-card">
-              <div class="measurement-help-image">
-                <img src="images/help/measurement-bottoms-guide.svg" alt="Gu&iacute;a visual para medir cintura, cadera y largo en pantalones y calzas." />
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-pantalon.png" alt="Gu&iacute;a visual de pantalones y calzas con referencias A, B y C." />
+            </div>
+            <div class="size-guide-measure-explainer">
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">A</span>
+                <strong>A - Cintura</strong>
+                <p>Med&iacute; de lado a lado la cintura de la prenda en plano, sobre la parte superior, sin estirar la tela.</p>
               </div>
-              <div class="measurement-help-content">
-                <h4 class="measurement-help-title">&iquest;C&oacute;mo medir esta prenda?</h4>
-                <ul class="measurement-help-list">
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Cintura:</strong> med&iacute; la parte superior de la prenda o la parte m&aacute;s angosta de la cintura.</span></li>
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Cadera:</strong> med&iacute; la parte m&aacute;s ancha.</span></li>
-                  <li><i class="fas fa-ruler-vertical" aria-hidden="true"></i><span><strong>Largo:</strong> med&iacute; desde la cintura hasta el final de la prenda.</span></li>
-                </ul>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">B</span>
+                <strong>B - Cadera</strong>
+                <p>Med&iacute; de lado a lado la parte m&aacute;s ancha de la cadera de la prenda, manteni&eacute;ndola extendida sobre una superficie plana.</p>
+              </div>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">C</span>
+                <strong>C - Largo total</strong>
+                <p>Med&iacute; el largo completo de la prenda desde la parte superior de la cintura hasta el final de la botamanga.</p>
               </div>
             </div>
-          </article>
-          <article class="size-card size-guide-card">
-            <h3>Camperas, Buzos y Camisetas</h3>
-            <div class="table-wrap">
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
+          <section class="size-guide-block">
+            <h3>Camperas, Buzos y Remeras</h3>
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>Pecho</th><th>Cintura</th><th>Largo</th></tr>
+                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>6</td><td>62-64</td><td>54-56</td><td>45</td></tr>
@@ -900,21 +947,29 @@
                 </tbody>
               </table>
             </div>
-            <p class="size-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
-            <div class="measurement-help-card">
-              <div class="measurement-help-image">
-                <img src="images/help/measurement-tops-guide.svg" alt="Gu&iacute;a visual para medir pecho, cintura y largo en camperas, buzos y camisetas." />
+            <div class="size-guide-visual">
+              <!-- Cambiar esta imagen por la guia correspondiente -->
+              <img src="images/guia-medidas-superior.png" alt="Gu&iacute;a visual de camperas, buzos y remeras con referencias A, B y C." />
+            </div>
+            <div class="size-guide-measure-explainer">
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">A</span>
+                <strong>A - Busto</strong>
+                <p>Med&iacute; de axila a axila o alrededor de la parte m&aacute;s ancha del pecho, seg&uacute;n el criterio de la tabla.</p>
               </div>
-              <div class="measurement-help-content">
-                <h4 class="measurement-help-title">&iquest;C&oacute;mo medir esta prenda?</h4>
-                <ul class="measurement-help-list">
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Pecho:</strong> med&iacute; de axila a axila o alrededor de la parte m&aacute;s ancha del pecho, seg&uacute;n el criterio de la tabla.</span></li>
-                  <li><i class="fas fa-ruler-horizontal" aria-hidden="true"></i><span><strong>Cintura:</strong> med&iacute; la parte m&aacute;s angosta.</span></li>
-                  <li><i class="fas fa-ruler-vertical" aria-hidden="true"></i><span><strong>Largo:</strong> med&iacute; desde la parte superior del hombro hacia abajo.</span></li>
-                </ul>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">B</span>
+                <strong>B - Cintura</strong>
+                <p>Med&iacute; la parte m&aacute;s angosta a la altura de la cintura, manteniendo la prenda extendida.</p>
+              </div>
+              <div class="size-guide-measure-item">
+                <span class="size-guide-measure-key">C</span>
+                <strong>C - Largo total</strong>
+                <p>Med&iacute; desde la parte superior del hombro hasta el ruedo inferior de la prenda.</p>
               </div>
             </div>
-          </article>
+            <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
+          </section>
         </div>
       </div>
     </section>

@@ -895,7 +895,7 @@
         linear-gradient(155deg, #fff8fc 0%, #fff 45%, #fff5fb 100%);
       min-height: 100vh;
       position: relative;
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
     .page-container {
@@ -1085,16 +1085,6 @@
 
     .info-panel {
       gap: 16px;
-      position: sticky;
-      top: 80px;
-      max-height: calc(100vh - 96px);
-      overflow-y: auto;
-      scrollbar-width: none;
-      align-self: flex-start;
-    }
-
-    .info-panel::-webkit-scrollbar {
-      display: none;
     }
 
     .title-row {
@@ -1658,12 +1648,13 @@
       .detail-grid {
         grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
         gap: 30px;
-        align-items: flex-start;
+        align-items: start;
       }
 
       .info-panel {
+        position: sticky;
         top: 88px;
-        max-height: calc(100vh - 104px);
+        align-self: flex-start;
       }
 
       .gallery {

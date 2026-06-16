@@ -59,7 +59,6 @@
     '      <h4>Ayuda</h4>',
     '      <ul>',
     '        <li><a href="ayuda.html#size-guide">Preguntas frecuentes</a></li>',
-    '        <li><a href="ayuda.html#returns">Env&iacute;os y devoluciones</a></li>',
     '        <li><a href="ayuda.html#returns">Cambios</a></li>',
     '        <li><a href="cart.html#order-btn">Formas de pago</a></li>',
     '        <li><a href="ayuda.html#contact">Contacto</a></li>',

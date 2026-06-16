@@ -82,7 +82,7 @@
     '          <path d="M13.5 21V13H16.2L16.6 9.9H13.5V8.1C13.5 7.21 13.76 6.6 15.04 6.6H16.7V3.82C16.39 3.78 15.31 3.68 14.05 3.68C11.42 3.68 9.62 5.28 9.62 8.24V9.9H7V13H9.62V21H13.5Z" fill="currentColor"></path>',
     '        </svg>',
     '      </a>',
-    '      <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">',
+    '      <a href="https://www.tiktok.com/@romix_tienda?_r=1&_t=ZS-97FOkImZhLN" target="_blank" rel="noopener" aria-label="TikTok">',
     '        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">',
     '          <path d="M19.59 6.69A4.83 4.83 0 0 1 15.82 2.44V2H12.37V15.67A2.89 2.89 0 0 1 9.49 18.17A2.89 2.89 0 0 1 6.6 15.28A2.89 2.89 0 0 1 9.49 12.39C9.77 12.39 10.03 12.43 10.28 12.49V9.01A6.33 6.33 0 0 0 9.49 8.96A6.34 6.34 0 0 0 3.15 15.3A6.34 6.34 0 0 0 9.49 21.64A6.34 6.34 0 0 0 15.82 15.3V8.95A8.24 8.24 0 0 0 20.64 10.49V7.04A4.85 4.85 0 0 1 19.59 6.69Z" fill="currentColor"></path>',
     '        </svg>',

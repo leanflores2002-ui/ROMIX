@@ -419,10 +419,47 @@
     }
     .payment-grid {
       display:grid;
-      grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:18px;
+      gap:0;
+      border:1px solid #f0dde5;
+      border-radius:18px;
+      background:#fff;
+      overflow:hidden;
+      box-shadow:0 14px 30px rgba(46, 26, 35, 0.04);
     }
-    .payment-card,
+    .payment-card {
+      display:grid;
+      grid-template-columns:auto minmax(0, 1fr);
+      gap:16px;
+      align-items:flex-start;
+      padding:22px 24px;
+      background:linear-gradient(180deg, #ffffff 0%, #fffafb 100%);
+      border-bottom:1px solid #f2e8ed;
+    }
+    .payment-card:last-child {
+      border-bottom:none;
+    }
+    .payment-icon {
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      border:1px solid #f1d9e2;
+      background:#fff5f8;
+      color:var(--primary);
+      font-size:1.12rem;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+    .payment-icon--mercado {
+      background:linear-gradient(135deg, #eef8ff 0%, #f8fcff 100%);
+      border-color:#d4ebfb;
+      color:#009ee3;
+    }
+    .payment-copy {
+      min-width:0;
+    }
     .contact-item,
     .faq-item {
       padding:22px;
@@ -518,6 +555,15 @@
       .tabs { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); width:100%; }
       .tab-button { width:100%; }
       .help-hero h1 { font-size:2rem; }
+      .payment-card {
+        padding:20px 18px;
+        gap:14px;
+      }
+      .payment-icon {
+        width:36px;
+        height:36px;
+        border-radius:12px;
+      }
     }
   </style>
   <link rel="stylesheet" href="assets/css/responsive.css">
@@ -875,16 +921,31 @@
 
       <div class="payment-grid">
         <article class="payment-card">
-          <h3>Mercado Pago</h3>
-          <p>Pag&aacute; de forma segura con tu cuenta de Mercado Pago.</p>
+          <div class="payment-icon payment-icon--mercado" aria-hidden="true">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="payment-copy">
+            <h3>Mercado Pago</h3>
+            <p>Pag&aacute; de forma segura con tu cuenta de Mercado Pago.</p>
+          </div>
         </article>
         <article class="payment-card">
-          <h3>Transferencia</h3>
-          <p>Realiz&aacute; una transferencia bancaria y envianos el comprobante.</p>
+          <div class="payment-icon" aria-hidden="true">
+            <i class="fas fa-landmark"></i>
+          </div>
+          <div class="payment-copy">
+            <h3>Transferencia</h3>
+            <p>Realiz&aacute; una transferencia bancaria y envianos el comprobante.</p>
+          </div>
         </article>
         <article class="payment-card">
-          <h3>Efectivo</h3>
-          <p>Pag&aacute; en efectivo en puntos habilitados o al retirar tu compra, si corresponde.</p>
+          <div class="payment-icon" aria-hidden="true">
+            <i class="fas fa-money-bill-wave"></i>
+          </div>
+          <div class="payment-copy">
+            <h3>Efectivo</h3>
+            <p>Pag&aacute; en efectivo en puntos habilitados o al retirar tu compra, si corresponde.</p>
+          </div>
         </article>
       </div>
     </section>

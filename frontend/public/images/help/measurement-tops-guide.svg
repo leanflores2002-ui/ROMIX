@@ -1,0 +1,18 @@
+<svg width="280" height="320" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="280" height="320" rx="24" fill="#FFF8FB"/>
+  <rect x="34" y="26" width="212" height="268" rx="20" fill="white" stroke="#F1D9E3"/>
+  <path d="M108 84L126 60H154L172 84L196 98L182 126L170 118V252H110V118L98 126L84 98L108 84Z" fill="#F7DCE7" stroke="#E83E8C" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M92 124H188" stroke="#FF78A9" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 7"/>
+  <path d="M102 164H178" stroke="#E83E8C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M198 60V252" stroke="#E83E8C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M190 60H206" stroke="#E83E8C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M190 252H206" stroke="#E83E8C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M92 124H84" stroke="#FF78A9" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M102 164H94" stroke="#E83E8C" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="66" cy="124" r="18" fill="white" stroke="#F1D9E3"/>
+  <circle cx="74" cy="164" r="18" fill="white" stroke="#F1D9E3"/>
+  <circle cx="224" cy="66" r="18" fill="white" stroke="#F1D9E3"/>
+  <text x="66" y="129" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="700" fill="#E83E8C">Pecho</text>
+  <text x="74" y="169" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="700" fill="#E83E8C">Cintura</text>
+  <text x="224" y="71" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="700" fill="#E83E8C">Largo</text>
+</svg>

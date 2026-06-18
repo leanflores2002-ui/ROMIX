@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/product.html",
+      "destination": "/api/product"
+    }
+  ]
+}

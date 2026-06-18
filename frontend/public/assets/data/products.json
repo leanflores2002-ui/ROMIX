@@ -351,7 +351,8 @@
                     "Negro":  "images/calza_con_piel_adentro_dama_negro.png",
                     "Gris melange":  "images/calza_con_piel_adentro_dama_gris_melange.png",
                     "Gris oscuro":  "images/calza_con_piel_adentro_dama_gris_oscuro.png",
-                    "Azul marino":  "images/calza_con_piel_adentro_dama_azul_marino.png"
+                    "Azul marino":  "images/calza_con_piel_adentro_dama_azul_marino.png",
+                    "Bordo":"images/calza_con_piel_adentro_dama_bordo.png"
                 },
     "price":  11000,
     "priceByGroup":  {
@@ -379,6 +380,10 @@
                    {
                        "name":  "Azul marino",
                        "hex":  "#0B1F5B"
+                   },
+                   {
+                       "name":  "Bordo",
+                       "hex":  "#800000"
                    }
                ],
     "sizes":  [
@@ -907,7 +912,8 @@
                     "Rojo":  "images/campera_polar_corto_corderito_rojo.png",
                     "Azul marino":  "images/campera_polar_corto_corderito_azul_marino.png",
                     "Negro":  "images/campera_polar_corto_corderito_negro.png",
-                    "Beige":  "images/campera_polar_corto_corderito_beige.png"
+                    "Beige":  "images/campera_polar_corto_corderito_beige.png",
+                    "Verde olivo":  "images/campera_polar_corto_corderito_verde_olivo.png"
                 },
     "price":  17000,
     "priceByGroup":  {
@@ -943,6 +949,10 @@
                    {
                        "name":  "Beige",
                        "hex":  "#E5D3B3"
+                   },
+                   {
+                       "name":  "Verde olivo",
+                       "hex":  "#556B2F"
                    }
                ],
     "sizes":  [
@@ -1787,7 +1797,8 @@
                     "Negro":  "images/camiseta_termica_hombre_negro.png",
                     "Azul marino":  "images/camiseta_termica_hombre_azul_marino.png",
                     "Marrón":  "images/camiseta_termica_hombre_marron.png",
-                    "Gris":  "images/camiseta_termica_hombre_gris.png"
+                    "Gris":  "images/camiseta_termica_hombre_gris.png",
+                    "Blanco":  "images/camiseta_termica_hombre_blanco.png"
                 },
     "price":  11500,
     "priceByGroup":  {
@@ -1815,6 +1826,10 @@
                    {
                        "name":  "Gris",
                        "hex":  "#808080"
+                   },
+                   {
+                       "name":  "Blanco",
+                       "hex":  "#FFFFFF"
                    }
                ],
     "sizes":  [

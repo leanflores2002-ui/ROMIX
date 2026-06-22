@@ -3,6 +3,10 @@
   const PLACEHOLDER = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="540" height="700"><rect width="100%" height="100%" fill="#fff7fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b7a6af" font-family="Segoe UI, Arial" font-size="24">ROMIX</text></svg>');
   const COLOR_LIMIT = 8;
   const SIZE_BASE = ["1", "2", "3", "4", "5", "6"];
+  const imageUtils = window.romixImageUtils || {};
+  const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
+    ? imageUtils.dimensions.productCard
+    : { width: 720, height: 960 };
 
   const PAGE_CONFIG = {
     mujer: { title: "Mujer", label: "Mujer" },
@@ -724,7 +728,8 @@
         key,
         name,
         hex: entry.hex || RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da",
-        image: colorImageMap[key] || fallbackImage
+        image: colorImageMap[key] || fallbackImage,
+        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : ""
       });
     });
 
@@ -749,7 +754,8 @@
         key: "unico",
         name: "Unico",
         hex: "#dddddd",
-        image: fallbackImage
+        image: fallbackImage,
+        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : ""
       });
     }
 
@@ -788,6 +794,9 @@
     const seasonKey = normalizeSeason(raw && raw.season, name);
     const baseStock = raw && raw.stockStatus ? normalizeStatus(raw.stockStatus) : "";
     const coverImage = colors[0] && colors[0].image ? colors[0].image : ((raw && raw.image) || PLACEHOLDER);
+    const coverThumb = colors[0] && colors[0].thumb
+      ? colors[0].thumb
+      : (typeof imageUtils.toThumbPath === "function" && coverImage !== PLACEHOLDER ? imageUtils.toThumbPath(coverImage) : "");
 
     return {
       id: String((raw && raw.id) || (section + "-" + slugify(name))),
@@ -800,6 +809,7 @@
       typeLabel,
       categoryKey,
       image: coverImage,
+      thumb: coverThumb || coverImage,
       price: Number((raw && raw.price) || 0),
       badge: String((raw && raw.badge) || "").trim(),
       featuredBadge: String((raw && raw.featuredBadge) || "").trim(),
@@ -1238,7 +1248,7 @@
       let selectedColor = getFirstColor(product);
 
       const image = document.createElement("img");
-      const defaultImageSrc = product.image || PLACEHOLDER;
+      const defaultImageSrc = product.thumb || product.image || PLACEHOLDER;
 
       function setMainImage(src, colorName) {
         const candidate = src || defaultImageSrc;
@@ -1258,7 +1268,9 @@
 
       image.loading = "lazy";
       image.decoding = "async";
-      setMainImage((selectedColor && selectedColor.image) || defaultImageSrc, selectedColor && selectedColor.name);
+      image.width = cardImageSize.width;
+      image.height = cardImageSize.height;
+      setMainImage(defaultImageSrc, selectedColor && selectedColor.name);
 
       const tag = document.createElement("span");
       tag.className = "product-tag";
@@ -1282,22 +1294,9 @@
           button.setAttribute("aria-label", "Ver color " + color.name);
           button.title = color.name;
           button.style.backgroundColor = color.hex || "#efecf3";
-
-          const swatch = document.createElement("img");
-          swatch.loading = "lazy";
-          swatch.decoding = "async";
-          swatch.src = color.image || product.image || PLACEHOLDER;
-          swatch.alt = color.name;
-          swatch.onerror = function onSwatchError() {
-            swatch.onerror = null;
-            swatch.remove();
-            button.classList.add("variant-chip--color");
-          };
-
-          button.appendChild(swatch);
+          button.classList.add("variant-chip--color");
           button.addEventListener("click", function () {
             selectedColor = color;
-            setMainImage(color.image || defaultImageSrc, color.name);
             variants.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
             button.classList.add("is-active");
           });

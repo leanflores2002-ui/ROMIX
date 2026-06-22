@@ -68,6 +68,7 @@
   </style>
 
   <link rel="stylesheet" href="assets/css/responsive.css" />
+  <script src="assets/js/romix-image-utils.js"></script>
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/products-store.js"></script>
@@ -133,7 +134,7 @@
       root.innerHTML = `
         <div class="card detail">
           <div class="thumb">
-            <img src="${img}" alt="${p.name || ''}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';"/>
+            <img src="${img}" alt="${p.name || ''}" width="1200" height="1600" decoding="async" onerror="this.onerror=null;this.src='${PLACEHOLDER}';"/>
           </div>
           <div>
             <div style="margin-bottom:6px;">${badge}</div>
@@ -366,7 +367,7 @@
   <header class="site-header romix-shared-header">
   <div class="container header-row">
     <a class="brand" href="index.html" aria-label="ROMIX inicio">
-      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      <img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />
       ROMIX<span class="brand-dot">.</span>
     </a>
 

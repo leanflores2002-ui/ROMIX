@@ -4,7 +4,7 @@
     '  <div class="footer-top">',
     '    <div class="footer-brand">',
     '      <a href="index.html" class="footer-logo" aria-label="ROMIX">',
-    '        <img src="images/logo-romix.png" alt="ROMIX" />',
+    '        <img src="images/logo-romix.png" alt="ROMIX" width="752" height="829" loading="lazy" decoding="async" />',
     '        <div class="footer-logo-copy">',
     '          <strong>ROMIX</strong>',
     '          <span>Sportswear &amp; Fashion</span>',

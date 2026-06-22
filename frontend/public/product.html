@@ -1685,7 +1685,7 @@
     .related-card__image-wrap,
     .related-products__image-wrap {
       position: relative;
-      aspect-ratio: 4 / 5;
+      aspect-ratio: 3 / 4;
       background: linear-gradient(180deg, #fbf8fa 0%, #f5eff4 100%);
       border-bottom: 1px solid #f2edf1;
       overflow: hidden;
@@ -2146,7 +2146,7 @@
   <header class="site-header romix-shared-header">
   <div class="container header-row">
     <a class="brand" href="index.html" aria-label="ROMIX inicio">
-      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      <img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />
       ROMIX<span class="brand-dot">.</span>
     </a>
 
@@ -2241,6 +2241,7 @@
     <div style="text-align:center;padding-top:20px;margin-top:20px;border-top:1px solid #495057;color:#adb5bd;font-size:.9rem;">&copy; 2025 Romix - Todos los derechos reservados</div>
   </footer>
 
+  <script src="assets/js/romix-image-utils.js"></script>
   <script src="assets/js/color-utils.js"></script>
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
@@ -2271,6 +2272,13 @@
       const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360"><rect width="100%" height="100%" fill="#f8f9fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="20">Imagen no disponible</text></svg>`);
       const DATA_URL = 'assets/data/products.json';
       const CART_KEY = 'cart';
+      const imageUtils = window.romixImageUtils || {};
+      const productImageSize = imageUtils.dimensions && imageUtils.dimensions.productFull
+        ? imageUtils.dimensions.productFull
+        : { width: 1200, height: 1600 };
+      const thumbImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
+        ? imageUtils.dimensions.productCard
+        : { width: 720, height: 960 };
       const sanitizeList = typeof window.sanitizeList === 'function' ? window.sanitizeList : list => Array.isArray(list) ? list : [];
       let currentProduct = null;
       let currentQty = 1;
@@ -2285,6 +2293,11 @@
       const normalizeColorName = typeof colorUtils.normalizeColorName === 'function'
         ? colorUtils.normalizeColorName
         : (value) => (value || '').toString().trim();
+      function toThumbImage(src) {
+        if (!src || String(src).startsWith('data:')) return src || PLACEHOLDER;
+        if (typeof imageUtils.toThumbPath === 'function') return imageUtils.toThumbPath(src);
+        return src;
+      }
       function normalizeColorKey(value) {
         const raw = (value ?? '').toString().trim();
         if (!raw) return '';
@@ -3062,14 +3075,14 @@
         if (product.images && typeof product.images === 'object') {
           Object.keys(product.images).forEach(label => {
             const src = product.images[label];
-            if (src) images.push({ label, src });
+            if (src) images.push({ label, src, thumbSrc: toThumbImage(src) });
           });
         }
         if (!images.length && product.image) {
-          images.push({ label: 'principal', src: product.image });
+          images.push({ label: 'principal', src: product.image, thumbSrc: toThumbImage(product.image) });
         }
         if (!images.length) {
-          images.push({ label: 'placeholder', src: PLACEHOLDER });
+          images.push({ label: 'placeholder', src: PLACEHOLDER, thumbSrc: PLACEHOLDER });
         }
         return images;
       }
@@ -3785,7 +3798,7 @@
         currentProduct = product;
         const gallery = getGallery(product);
         const preloadGallery = () => {
-          gallery.slice(1, 6).forEach(item => {
+          gallery.slice(1, 3).forEach(item => {
             if (!item || !item.src) return;
             const img = new Image();
             img.decoding = 'async';
@@ -3807,7 +3820,7 @@
           <div class="detail-grid">
             <div class="gallery">
               <div class="main-image" role="button" tabindex="0" aria-label="Abrir zoom de imagen" aria-haspopup="dialog">
-                <img id="main-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" decoding="async" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />
+                <img id="main-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />
                 <button type="button" class="zoom-btn" id="zoom-open" aria-label="Acercar imagen" aria-haspopup="dialog">
                   <i class="fas fa-search-plus" aria-hidden="true"></i>
                 </button>
@@ -3818,7 +3831,7 @@
                   <i class="fas fa-chevron-up" aria-hidden="true"></i>
                 </button>
                 <div class="thumbs" id="gallery-thumbs" role="listbox" aria-label="Miniaturas del producto">
-                  ${gallery.map((image, index) => `<img src="${image.src}" alt="${image.label || product.name}" data-index="${index}" data-color="${image.label || ''}" ${index === 0 ? 'class="active"' : ''} role="option" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy"/>`).join('')}
+                  ${gallery.map((image, index) => `<img src="${image.thumbSrc || image.src}" alt="${image.label || product.name}" data-index="${index}" data-color="${image.label || ''}" data-full="${image.src}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" ${index === 0 ? 'class="active"' : ''} role="option" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`).join('')}
                 </div>
                 <button type="button" class="thumb-nav next" id="thumbs-next" aria-label="Ver miniaturas siguientes">
                   <i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -3897,7 +3910,7 @@
               <button type="button" class="zoom-close" id="zoom-close" aria-label="Cerrar">x</button>
               <button type="button" class="zoom-nav prev" id="zoom-prev" aria-label="Anterior">&lt;</button>
               <div class="zoom-stage" id="zoom-stage" tabindex="0" aria-label="Imagen ampliada">
-                <img id="zoom-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" decoding="async" />
+                <img id="zoom-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" decoding="async" />
               </div>
               <button type="button" class="zoom-nav next" id="zoom-next" aria-label="Siguiente">&gt;</button>
             </div>
@@ -4423,10 +4436,12 @@
         thumb.className = 'related-card-thumb';
 
         const img = document.createElement('img');
-        img.src = p.image || (p.images ? Object.values(p.images)[0] : '');
+        img.src = toThumbImage(p.image || (p.images ? Object.values(p.images)[0] : ''));
         img.alt = p.name || '';
         img.loading = 'lazy';
         img.decoding = 'async';
+        img.width = thumbImageSize.width;
+        img.height = thumbImageSize.height;
         thumb.appendChild(img);
 
         const name = document.createElement('div');
@@ -4540,8 +4555,8 @@
         const gallery = getGallery(product);
         gallery.forEach((item) => {
           if (!item || !item.src) return;
-          if (thumbs.some((thumb) => thumb.src === item.src)) return;
-          thumbs.push({ src: item.src, alt: item.label || product.name || 'Variante' });
+          if (thumbs.some((thumb) => thumb.src === item.thumbSrc)) return;
+          thumbs.push({ src: item.thumbSrc || item.src, alt: item.label || product.name || 'Variante' });
         });
         return thumbs.slice(0, 4);
       };
@@ -4581,10 +4596,12 @@
 
         const img = document.createElement('img');
         img.className = 'related-products__image related-card__image';
-        img.src = p.image || (p.images ? Object.values(p.images)[0] : '') || PLACEHOLDER;
+        img.src = toThumbImage(p.image || (p.images ? Object.values(p.images)[0] : '') || PLACEHOLDER);
         img.alt = p.name || '';
         img.loading = 'lazy';
         img.decoding = 'async';
+        img.width = thumbImageSize.width;
+        img.height = thumbImageSize.height;
         img.onerror = () => {
           img.onerror = null;
           img.src = PLACEHOLDER;
@@ -4609,6 +4626,8 @@
             thumbImg.alt = variant.alt || p.name || 'Variante';
             thumbImg.loading = 'lazy';
             thumbImg.decoding = 'async';
+            thumbImg.width = thumbImageSize.width;
+            thumbImg.height = thumbImageSize.height;
             thumbImg.onerror = () => {
               thumbImg.onerror = null;
               thumbImg.src = PLACEHOLDER;

@@ -1,5 +1,9 @@
 (function () {
   const DEFAULT_AUTOPLAY_MS = 12000;
+  const imageUtils = window.romixImageUtils || {};
+  const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
+    ? imageUtils.dimensions.productCard
+    : { width: 720, height: 960 };
 
   function formatPrice(value) {
     if (typeof window.formatPriceARS === 'function') {
@@ -16,9 +20,11 @@
 
   function getProductImage(product) {
     if (!product) return '';
+    if (product.image && typeof imageUtils.toThumbPath === 'function') return imageUtils.toThumbPath(product.image);
     if (product.image) return product.image;
     if (product.images && typeof product.images === 'object') {
       const first = Object.values(product.images).find(Boolean);
+      if (first && typeof imageUtils.toThumbPath === 'function') return imageUtils.toThumbPath(first);
       return first || '';
     }
     return '';
@@ -34,6 +40,9 @@
     media.className = 'promo-card__media';
     const img = document.createElement('img');
     img.loading = 'lazy';
+    img.decoding = 'async';
+    img.width = cardImageSize.width;
+    img.height = cardImageSize.height;
     img.alt = product && product.name ? product.name : 'Producto';
     img.src = getProductImage(product) || '';
     media.appendChild(img);

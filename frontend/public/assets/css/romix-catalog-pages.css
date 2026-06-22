@@ -622,7 +622,8 @@ a {
 
 .product-thumb {
   position: relative;
-  height: clamp(210px, 26vw, 272px);
+  width: 100%;
+  aspect-ratio: 3 / 4;
   background: linear-gradient(180deg, #fbf8fa 0%, #f5eff4 100%);
   border-bottom: 1px solid #f2edf1;
   display: flex;
@@ -1069,7 +1070,7 @@ a {
 
   .product-thumb {
     height: auto;
-    aspect-ratio: 4 / 5.15;
+    aspect-ratio: 3 / 4;
   }
 
   .product-thumb img {

@@ -3,6 +3,8 @@
   const PLACEHOLDER = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="540" height="700"><rect width="100%" height="100%" fill="#fff7fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b7a6af" font-family="Segoe UI, Arial" font-size="24">ROMIX</text></svg>');
   const COLOR_LIMIT = 8;
   const SIZE_BASE = ["1", "2", "3", "4", "5", "6"];
+  const INITIAL_VISIBLE_PRODUCTS = 12;
+  const LOAD_MORE_STEP = 12;
   const imageUtils = window.romixImageUtils || {};
   const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
     ? imageUtils.dimensions.productCard
@@ -126,7 +128,8 @@
     },
     showAllColors: false,
     showAllSizes: false,
-    sizeValues: []
+    sizeValues: [],
+    visibleCount: INITIAL_VISIBLE_PRODUCTS
   };
 
   function isCompactVariantViewport() {
@@ -678,6 +681,71 @@
     return "available";
   }
 
+  function getRawImageMap(product) {
+    if (!product || typeof product !== "object") return null;
+    if (product.imageMap && typeof product.imageMap === "object" && !Array.isArray(product.imageMap)) {
+      return product.imageMap;
+    }
+    if (product.images && typeof product.images === "object" && !Array.isArray(product.images)) {
+      return product.images;
+    }
+    return null;
+  }
+
+  function getRawImageList(product) {
+    const result = [];
+    const seen = new Set();
+
+    function push(src) {
+      const value = String(src || "").trim();
+      if (!value || seen.has(value)) return;
+      seen.add(value);
+      result.push(value);
+    }
+
+    if (product && product.image) push(product.image);
+
+    const imageMap = getRawImageMap(product);
+    if (imageMap) {
+      Object.values(imageMap).forEach(push);
+    }
+
+    if (Array.isArray(product && product.images)) {
+      product.images.forEach(push);
+    }
+
+    return result;
+  }
+
+  function thumbSetFromSources(src, fallbackSrc, avifSrc) {
+    const primary = String(src || "").trim();
+    const avif = String(avifSrc || "").trim();
+    const fallback = String(fallbackSrc || "").trim()
+      || (typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : primary);
+    const webp = /\.webp$/i.test(primary) ? primary : "";
+    const avifFromPrimary = /\.avif$/i.test(primary) ? primary : "";
+    const modernAvif = avif || avifFromPrimary;
+    const usesModern = !!(webp || modernAvif);
+
+    return {
+      src: usesModern ? (fallback || primary || PLACEHOLDER) : (primary || fallback || PLACEHOLDER),
+      fallbackSrc: fallback || primary || PLACEHOLDER,
+      webpSrc: webp,
+      avifSrc: modernAvif
+    };
+  }
+
+  function resolveThumbSet(product, color) {
+    const colorThumb = String(color && color.thumb || "").trim();
+    const productThumb = String(product && (product.thumbnail || product.thumb) || "").trim();
+    const primary = colorThumb || productThumb || String(product && product.image || "").trim() || PLACEHOLDER;
+    const fallback = String(color && color.thumbFallback || "").trim()
+      || String(product && (product.thumbnailFallback || product.thumbFallback) || "").trim();
+    const avif = String(color && color.thumbAvif || "").trim()
+      || String(product && product.thumbnailAvif || "").trim();
+    return thumbSetFromSources(primary, fallback, avif);
+  }
+
   function statusFromSizes(sizes) {
     if (!Array.isArray(sizes) || !sizes.length) return "available";
     let available = 0;
@@ -699,11 +767,12 @@
 
   function resolveColorImageMap(product) {
     const map = {};
-    if (!product || !product.images || typeof product.images !== "object") return map;
+    const imageMap = getRawImageMap(product);
+    if (!imageMap) return map;
 
-    Object.keys(product.images).forEach((colorName) => {
+    Object.keys(imageMap).forEach((colorName) => {
       const key = normalizeText(colorName);
-      const src = String(product.images[colorName] || "").trim();
+      const src = String(imageMap[colorName] || "").trim();
       if (!key || !src) return;
       map[key] = src;
     });
@@ -729,12 +798,15 @@
         name,
         hex: entry.hex || RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da",
         image: colorImageMap[key] || fallbackImage,
-        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : ""
+        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : "",
+        thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : "",
+        thumbAvif: ""
       });
     });
 
-    if (product && product.images && typeof product.images === "object") {
-      Object.keys(product.images).forEach((colorName) => {
+    const imageMap = getRawImageMap(product);
+    if (imageMap) {
+      Object.keys(imageMap).forEach((colorName) => {
         const name = String(colorName || "").trim();
         if (!name) return;
         const key = normalizeText(name);
@@ -744,7 +816,10 @@
           key,
           name,
           hex: RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da",
-          image: colorImageMap[key] || fallbackImage
+          image: colorImageMap[key] || fallbackImage,
+          thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : "",
+          thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : "",
+          thumbAvif: ""
         });
       });
     }
@@ -755,7 +830,9 @@
         name: "Unico",
         hex: "#dddddd",
         image: fallbackImage,
-        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : ""
+        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : "",
+        thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : "",
+        thumbAvif: ""
       });
     }
 
@@ -793,10 +870,21 @@
     const filterColorKeys = Array.from(new Set(colors.map((entry) => normalizeColorToFilterKey(entry.name)).filter(Boolean)));
     const seasonKey = normalizeSeason(raw && raw.season, name);
     const baseStock = raw && raw.stockStatus ? normalizeStatus(raw.stockStatus) : "";
-    const coverImage = colors[0] && colors[0].image ? colors[0].image : ((raw && raw.image) || PLACEHOLDER);
-    const coverThumb = colors[0] && colors[0].thumb
-      ? colors[0].thumb
-      : (typeof imageUtils.toThumbPath === "function" && coverImage !== PLACEHOLDER ? imageUtils.toThumbPath(coverImage) : "");
+    const galleryImages = getRawImageList(raw);
+    const rawImageMap = getRawImageMap(raw);
+    const coverImage = colors[0] && colors[0].image
+      ? colors[0].image
+      : (galleryImages[0] || ((raw && raw.image) || PLACEHOLDER));
+    const rawThumbnail = String(raw && raw.thumbnail || "").trim();
+    const rawThumbnailFallback = String(raw && raw.thumbnailFallback || "").trim();
+    const rawThumbnailAvif = String(raw && raw.thumbnailAvif || "").trim();
+    const coverThumb = rawThumbnail
+      || (colors[0] && colors[0].thumb)
+      || (typeof imageUtils.toThumbPath === "function" && coverImage !== PLACEHOLDER ? imageUtils.toThumbPath(coverImage) : "")
+      || coverImage;
+    const coverThumbFallback = rawThumbnailFallback
+      || (colors[0] && colors[0].thumbFallback)
+      || (typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(coverThumb) : coverThumb);
 
     return {
       id: String((raw && raw.id) || (section + "-" + slugify(name))),
@@ -810,6 +898,12 @@
       categoryKey,
       image: coverImage,
       thumb: coverThumb || coverImage,
+      thumbFallback: coverThumbFallback || coverThumb || coverImage,
+      thumbnail: coverThumb || coverImage,
+      thumbnailFallback: coverThumbFallback || coverThumb || coverImage,
+      thumbnailAvif: rawThumbnailAvif || (colors[0] && colors[0].thumbAvif) || "",
+      imageMap: rawImageMap,
+      images: galleryImages,
       price: Number((raw && raw.price) || 0),
       badge: String((raw && raw.badge) || "").trim(),
       featuredBadge: String((raw && raw.featuredBadge) || "").trim(),
@@ -980,7 +1074,46 @@
     const target = document.getElementById("products-summary");
     if (!target) return;
 
-    target.innerHTML = "Mostrando <strong>" + state.view.length + "</strong> de <strong>" + state.products.length + "</strong> productos";
+    const visible = Math.min(state.visibleCount, state.view.length);
+    target.innerHTML = "Mostrando <strong>" + visible + "</strong> de <strong>" + state.view.length + "</strong> productos";
+  }
+
+  function ensureLoadMoreControls() {
+    const grid = document.getElementById("product-grid");
+    if (!grid || !grid.parentElement) return null;
+
+    let wrap = document.getElementById("catalog-load-more-wrap");
+    if (!wrap) {
+      wrap = document.createElement("div");
+      wrap.id = "catalog-load-more-wrap";
+      wrap.className = "catalog-load-more";
+      const button = document.createElement("button");
+      button.id = "catalog-load-more-btn";
+      button.type = "button";
+      button.className = "catalog-load-more-btn";
+      button.addEventListener("click", function () {
+        state.visibleCount = Math.min(state.visibleCount + LOAD_MORE_STEP, state.view.length);
+        renderGrid();
+      });
+      wrap.appendChild(button);
+      grid.parentElement.appendChild(wrap);
+    }
+
+    return {
+      wrap,
+      button: wrap.querySelector("button")
+    };
+  }
+
+  function updateLoadMoreControls() {
+    const controls = ensureLoadMoreControls();
+    if (!controls || !controls.wrap || !controls.button) return;
+
+    const visible = Math.min(state.visibleCount, state.view.length);
+    const remaining = Math.max(0, state.view.length - visible);
+    controls.wrap.hidden = remaining <= 0;
+    controls.button.hidden = remaining <= 0;
+    controls.button.textContent = remaining > LOAD_MORE_STEP ? "Ver " + LOAD_MORE_STEP + " mas" : "Ver mas";
   }
 
   function buildSortSelect(id, extraClassName) {
@@ -1216,10 +1349,13 @@
       }
       grid.appendChild(empty);
       renderSummary();
+      updateLoadMoreControls();
       return;
     }
 
-    state.view.forEach((product) => {
+    const visibleProducts = state.view.slice(0, state.visibleCount);
+
+    visibleProducts.forEach((product, index) => {
       const card = document.createElement("article");
       card.className = "product-card";
       const productDetailUrl = detailUrl(product);
@@ -1246,37 +1382,95 @@
       const thumb = document.createElement("div");
       thumb.className = "product-thumb";
       let selectedColor = getFirstColor(product);
+      const isPriorityImage = index < 4;
+      const defaultThumbSet = resolveThumbSet(product, null);
+      const initialThumbSet = resolveThumbSet(product, selectedColor);
+      const media = typeof imageUtils.createPicture === "function"
+        ? imageUtils.createPicture({
+            src: initialThumbSet.src,
+            fallbackSrc: initialThumbSet.fallbackSrc,
+            webpSrc: initialThumbSet.webpSrc,
+            avifSrc: initialThumbSet.avifSrc,
+            alt: selectedColor && selectedColor.name ? (product.name + " - " + selectedColor.name) : product.name,
+            width: cardImageSize.width,
+            height: cardImageSize.height,
+            loading: isPriorityImage ? "eager" : "lazy",
+            decoding: "async",
+            fetchpriority: isPriorityImage ? "high" : "low"
+          })
+        : null;
+      const image = media ? media.img : document.createElement("img");
+      const picture = media ? media.picture : null;
 
-      const image = document.createElement("img");
-      const defaultImageSrc = product.thumb || product.image || PLACEHOLDER;
+      function syncPictureSource(type, src) {
+        if (!picture) return;
+        const selector = 'source[type="' + type + '"]';
+        const current = picture.querySelector(selector);
+        if (!src) {
+          if (current) current.remove();
+          return;
+        }
+        if (current) {
+          current.srcset = src;
+          return;
+        }
+        const source = document.createElement("source");
+        source.type = type;
+        source.srcset = src;
+        if (type === "image/avif") {
+          picture.insertBefore(source, picture.firstChild);
+          return;
+        }
+        const imgTag = picture.querySelector("img");
+        picture.insertBefore(source, imgTag || null);
+      }
 
-      function setMainImage(src, colorName) {
-        const candidate = src || defaultImageSrc;
+      function setMainImage(colorOption, colorName) {
+        const nextSet = resolveThumbSet(product, colorOption);
         image.onerror = function onImageError() {
           image.onerror = null;
-          if (candidate !== defaultImageSrc) {
-            image.src = defaultImageSrc;
+          if (image.src !== defaultThumbSet.fallbackSrc) {
+            image.src = defaultThumbSet.fallbackSrc;
             image.alt = product.name;
+            thumb.classList.add("is-loaded");
             return;
           }
           image.src = PLACEHOLDER;
           image.alt = product.name;
+          thumb.classList.add("is-loaded");
         };
-        image.src = candidate;
+
+        syncPictureSource("image/avif", nextSet.avifSrc);
+        syncPictureSource("image/webp", nextSet.webpSrc);
+        image.src = nextSet.src;
         image.alt = colorName ? (product.name + " - " + colorName) : product.name;
       }
 
-      image.loading = "lazy";
-      image.decoding = "async";
-      image.width = cardImageSize.width;
-      image.height = cardImageSize.height;
-      setMainImage(defaultImageSrc, selectedColor && selectedColor.name);
+      image.addEventListener("load", function () {
+        thumb.classList.add("is-loaded");
+      });
+
+      image.addEventListener("error", function () {
+        thumb.classList.add("is-loaded");
+      });
+
+      if (!media) {
+        image.loading = isPriorityImage ? "eager" : "lazy";
+        image.decoding = "async";
+        image.width = cardImageSize.width;
+        image.height = cardImageSize.height;
+        image.setAttribute("fetchpriority", isPriorityImage ? "high" : "low");
+        thumb.appendChild(image);
+      } else {
+        thumb.appendChild(picture);
+      }
+
+      setMainImage(selectedColor, selectedColor && selectedColor.name);
 
       const tag = document.createElement("span");
       tag.className = "product-tag";
       tag.textContent = product.typeLabel || "Producto";
 
-      thumb.appendChild(image);
       thumb.appendChild(tag);
 
       const body = document.createElement("div");
@@ -1299,6 +1493,8 @@
             selectedColor = color;
             variants.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
             button.classList.add("is-active");
+            thumb.classList.remove("is-loaded");
+            setMainImage(color, color.name);
           });
 
           variants.appendChild(button);
@@ -1350,6 +1546,7 @@
     });
 
     renderSummary();
+    updateLoadMoreControls();
   }
 
   function matchFilters(product) {
@@ -1448,6 +1645,7 @@
   function applyFilters() {
     state.view = state.products.filter(matchFilters);
     sortProductsView();
+    state.visibleCount = INITIAL_VISIBLE_PRODUCTS;
     renderGrid();
     renderActiveFilters();
     renderBreadcrumb();

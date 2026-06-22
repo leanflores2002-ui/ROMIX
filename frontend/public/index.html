@@ -23,7 +23,7 @@
   <meta name="twitter:url" content="https://romi-damas.netlify.app/" />
   <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix.png" />
-  <link rel="preload" as="image" href="images/banners/banner-1.png" />
+  <link rel="preload" as="image" href="images/banners/banner-1.webp" type="image/webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -141,6 +141,7 @@
     }
 
     .main-hero-carousel__slide-link,
+    .main-hero-carousel__slide picture,
     .main-hero-carousel__slide img {
       width: 100%;
       height: auto;
@@ -531,16 +532,55 @@
       flex-shrink: 0;
     }
 
+    .product-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.34) 50%, rgba(255, 255, 255, 0) 100%);
+      transform: translateX(-100%);
+      animation: homeCardShimmer 1.3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .product-thumb.is-loaded::after {
+      opacity: 0;
+      animation: none;
+    }
+
+    .product-thumb picture {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
     .product-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center top;
-      transition: transform 0.3s ease;
+      transition: opacity 0.28s ease, transform 0.3s ease;
+      opacity: 0;
+      position: relative;
+      z-index: 0;
+    }
+
+    .product-thumb.is-loaded img {
+      opacity: 1;
     }
 
     .product-card:hover .product-thumb img {
       transform: scale(1.04);
+    }
+
+    @keyframes homeCardShimmer {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(100%);
+      }
     }
 
     .product-body {
@@ -1229,17 +1269,26 @@
         <div class="main-hero-carousel__track">
           <figure class="main-hero-carousel__slide is-active">
             <a class="main-hero-carousel__slide-link" href="catalogo.html?temporada=invierno&q_any=termica,campera,polar" aria-label="Ver coleccion para invierno">
-              <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" decoding="async" fetchpriority="high" />
+              <picture>
+                <source srcset="images/banners/banner-1.webp" type="image/webp" />
+                <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" decoding="async" fetchpriority="high" />
+              </picture>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
             <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=hombre,mujer&q_any=frizado,corderito,polar" aria-label="Ver abrigo para hombre y mujer">
-              <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" />
+              <picture>
+                <source srcset="images/banners/banner-2.webp" type="image/webp" />
+                <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" />
+              </picture>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
             <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=ninos&q_any=termica,campera,buzo" aria-label="Ver coleccion de ninos">
-              <img src="images/banners/banner-3.png" alt="Coleccion infantil ROMIX" width="1900" height="1267" loading="lazy" decoding="async" />
+              <picture>
+                <source srcset="images/banners/banner-3.webp" type="image/webp" />
+                <img src="images/banners/banner-3.png" alt="Coleccion infantil ROMIX" width="1900" height="1267" loading="lazy" decoding="async" />
+              </picture>
             </a>
           </figure>
         </div>
@@ -1560,21 +1609,53 @@
       return normalizeText(product && product.name) + "::" + normalizeText(product && product.type);
     }
 
+    function getImageMap(product) {
+      if (!product || typeof product !== "object") return null;
+      if (product.imageMap && typeof product.imageMap === "object" && !Array.isArray(product.imageMap)) {
+        return product.imageMap;
+      }
+      if (product.images && typeof product.images === "object" && !Array.isArray(product.images)) {
+        return product.images;
+      }
+      return null;
+    }
+
     function pickImage(product, fallback) {
       if (product && product.image) return String(product.image);
-      if (product && product.images && typeof product.images === "object") {
-        const values = Object.values(product.images).filter(Boolean);
+      const imageMap = getImageMap(product);
+      if (imageMap) {
+        const values = Object.values(imageMap).filter(Boolean);
         if (values.length) return String(values[0]);
+      }
+      if (Array.isArray(product && product.images) && product.images.length) {
+        return String(product.images[0]);
       }
       return fallback || "images/logo-romix.png";
     }
 
     function pickThumbImage(product, fallback) {
+      if (product && product.thumbnail) return String(product.thumbnail);
       const fullImage = pickImage(product, fallback);
       if (fullImage && typeof imageUtils.toThumbPath === "function" && !fullImage.startsWith("data:")) {
         return imageUtils.toThumbPath(fullImage);
       }
       return fullImage;
+    }
+
+    function resolveThumbSet(product, preferredImage) {
+      const primary = String(preferredImage || pickThumbImage(product, "images/logo-romix.png") || "").trim();
+      const fallback = String(product && product.thumbnailFallback || "").trim()
+        || (typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : primary);
+      const avif = String(product && product.thumbnailAvif || "").trim();
+      const webp = /\.webp$/i.test(primary) ? primary : "";
+      const usesModern = !!(webp || avif);
+
+      return {
+        src: usesModern ? (fallback || primary || "images/logo-romix.png") : (primary || fallback || "images/logo-romix.png"),
+        fallbackSrc: fallback || primary || "images/logo-romix.png",
+        webpSrc: webp,
+        avifSrc: avif
+      };
     }
 
     function formatPrice(price) {
@@ -1591,9 +1672,10 @@
     }
 
     function findColorImage(product, colorName) {
-      if (!product || !product.images || typeof product.images !== "object") return "";
+      const imageMap = getImageMap(product);
+      if (!imageMap) return "";
       const wanted = normalizeText(colorName);
-      const entries = Object.entries(product.images);
+      const entries = Object.entries(imageMap);
       const exact = entries.find(([name]) => normalizeText(name) === wanted);
       return exact && exact[1] ? String(exact[1]) : "";
     }
@@ -1602,17 +1684,21 @@
       const variants = [];
       const seen = new Set();
       const colors = Array.isArray(product && product.colors) ? product.colors : [];
-      const imageMap = product && product.images && typeof product.images === "object" ? product.images : null;
+      const imageMap = getImageMap(product);
 
       function pushVariant(name, hex, image) {
         const label = String(name || "").trim();
         const key = normalizeText(label);
         if (!label || seen.has(key)) return;
         seen.add(key);
+        const thumb = image && typeof imageUtils.toThumbPath === "function" && !String(image).startsWith("data:")
+          ? imageUtils.toThumbPath(image)
+          : pickThumbImage(product, "images/logo-romix.png");
         variants.push({
           name: label,
           hex: hex || "",
-          image: image || ""
+          image: image || "",
+          thumb
         });
       }
 
@@ -1726,10 +1812,10 @@
       const variantLimit = window.innerWidth <= 640 ? 3 : 4;
       row.innerHTML = "";
 
-      source.forEach((product) => {
+      source.forEach((product, index) => {
         const type = normalizeText(product && product.type);
         const href = buildProductHref(product, type);
-        const fallbackImage = pickThumbImage(product, "images/logo-romix.png");
+        const defaultThumbSet = resolveThumbSet(product);
         const stockInfo = getProductStockMeta(product);
         const variantsData = getProductVariants(product);
         const metaText = getProductMeta(product);
@@ -1740,28 +1826,87 @@
         const thumbLink = document.createElement("a");
         thumbLink.className = "product-thumb";
         thumbLink.href = href;
+        const isPriorityImage = index < 4;
+        const media = typeof imageUtils.createPicture === "function"
+          ? imageUtils.createPicture({
+              src: defaultThumbSet.src,
+              fallbackSrc: defaultThumbSet.fallbackSrc,
+              webpSrc: defaultThumbSet.webpSrc,
+              avifSrc: defaultThumbSet.avifSrc,
+              alt: product && product.name ? String(product.name) : "Producto",
+              width: cardImageSize.width,
+              height: cardImageSize.height,
+              loading: isPriorityImage ? "eager" : "lazy",
+              decoding: "async",
+              fetchpriority: isPriorityImage ? "high" : "low"
+            })
+          : null;
+        const mainImg = media ? media.img : document.createElement("img");
+        const picture = media ? media.picture : null;
 
-        const mainImg = document.createElement("img");
-        mainImg.loading = "lazy";
-        mainImg.decoding = "async";
-        mainImg.width = cardImageSize.width;
-        mainImg.height = cardImageSize.height;
-        mainImg.alt = product && product.name ? String(product.name) : "Producto";
+        function syncPictureSource(type, src) {
+          if (!picture) return;
+          const selector = 'source[type="' + type + '"]';
+          const current = picture.querySelector(selector);
+          if (!src) {
+            if (current) current.remove();
+            return;
+          }
+          if (current) {
+            current.srcset = src;
+            return;
+          }
+          const sourceTag = document.createElement("source");
+          sourceTag.type = type;
+          sourceTag.srcset = src;
+          if (type === "image/avif") {
+            picture.insertBefore(sourceTag, picture.firstChild);
+            return;
+          }
+          picture.insertBefore(sourceTag, picture.querySelector("img") || null);
+        }
 
         function setImg(src, colorName) {
-          const chosen = src || fallbackImage;
+          const chosenSet = resolveThumbSet(product, src);
           mainImg.onerror = function () {
             mainImg.onerror = null;
-            mainImg.src = chosen !== fallbackImage ? fallbackImage : "images/logo-romix.png";
+            if (mainImg.src !== defaultThumbSet.fallbackSrc) {
+              mainImg.src = defaultThumbSet.fallbackSrc;
+              mainImg.alt = product && product.name ? String(product.name) : "Producto";
+              thumbLink.classList.add("is-loaded");
+              return;
+            }
+            mainImg.src = "images/logo-romix.png";
+            thumbLink.classList.add("is-loaded");
           };
-          mainImg.src = chosen;
+          syncPictureSource("image/avif", chosenSet.avifSrc);
+          syncPictureSource("image/webp", chosenSet.webpSrc);
+          mainImg.src = chosenSet.src;
           mainImg.alt = colorName
             ? String(product && product.name ? product.name : "Producto") + " - " + colorName
             : String(product && product.name ? product.name : "Producto");
         }
 
-        setImg(fallbackImage, "");
-        thumbLink.appendChild(mainImg);
+        mainImg.addEventListener("load", function () {
+          thumbLink.classList.add("is-loaded");
+        });
+
+        mainImg.addEventListener("error", function () {
+          thumbLink.classList.add("is-loaded");
+        });
+
+        if (!media) {
+          mainImg.loading = isPriorityImage ? "eager" : "lazy";
+          mainImg.decoding = "async";
+          mainImg.width = cardImageSize.width;
+          mainImg.height = cardImageSize.height;
+          mainImg.setAttribute("fetchpriority", isPriorityImage ? "high" : "low");
+          thumbLink.appendChild(mainImg);
+        } else {
+          thumbLink.appendChild(picture);
+        }
+
+        setImg("", "");
 
         const body = document.createElement("div");
         body.className = "product-body";
@@ -1784,6 +1929,8 @@
             btn.addEventListener("click", function () {
               varWrap.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
               btn.classList.add("is-active");
+              thumbLink.classList.remove("is-loaded");
+              setImg(variant.thumb || variant.image, variant.name);
             });
 
             varWrap.appendChild(btn);

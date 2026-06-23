@@ -237,6 +237,12 @@
       right: clamp(12px, 3vw, 40px);
     }
 
+    .main-hero-carousel__arrow,
+    .promo-arrow,
+    .products-arrow {
+      display: none !important;
+    }
+
     .main-hero-carousel__dots {
       position: absolute;
       left: 50%;
@@ -1015,8 +1021,9 @@
         margin-top: 12px;
       }
 
-      .main-hero-carousel {
-        
+      .main-hero-carousel__viewport {
+        overflow: hidden;
+        touch-action: pan-y;
       }
 
       .btn-primary,
@@ -1059,10 +1066,6 @@
 
       .products-row {
         grid-auto-columns: calc((100% - 2 * 12px) / 2.3);
-      }
-
-      .products-arrow {
-        display: none;
       }
 
       .promo-banners {
@@ -1200,6 +1203,9 @@
       .promo-slide {
         min-height: 0;
       }
+      .promo-carousel {
+        touch-action: pan-y;
+      }
       .promo-slide__link {
         height: auto;
         min-height: 0;
@@ -1210,13 +1216,6 @@
         min-height: 0;
         object-fit: contain;
       }
-      .promo-arrow {
-        display: inline-flex;
-        width: 36px;
-        height: 36px;
-      }
-      .promo-arrow--prev { left: 10px; }
-      .promo-arrow--next { right: 10px; }
       .promo-dots { bottom: 12px; }
     }
   </style>
@@ -2049,6 +2048,8 @@
       let current = 0;
       let timer = null;
       let dots = [];
+      let touchStartX = 0;
+      let touchStartY = 0;
 
       function render() {
         slides.forEach((slide, index) => {
@@ -2110,6 +2111,24 @@
         else startAutoplay();
       });
 
+      carousel.addEventListener("touchstart", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) return;
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+
+      carousel.addEventListener("touchend", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) return;
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+        if (deltaX < 0) goTo(current + 1);
+        else goTo(current - 1);
+        startAutoplay();
+      }, { passive: true });
+
       render();
       startAutoplay();
     })();
@@ -2169,6 +2188,7 @@
       let current = 0, timer = null, dots = [];
       const autoplayMs = 5000;
       const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let touchStartX = 0, touchStartY = 0;
 
       function render(){
         slides.forEach((s,i) => s.classList.toggle("is-active", i === current));
@@ -2190,6 +2210,22 @@
       if(prevBtn) prevBtn.addEventListener("click", () => { goTo(current - 1); start(); });
       if(nextBtn) nextBtn.addEventListener("click", () => { goTo(current + 1); start(); });
       document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
+      wrap.addEventListener("touchstart", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) return;
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+      wrap.addEventListener("touchend", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) return;
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+        if (deltaX < 0) goTo(current + 1);
+        else goTo(current - 1);
+        start();
+      }, { passive: true });
       render(); start();
     })();
 

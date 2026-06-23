@@ -1644,17 +1644,24 @@
 
     function resolveThumbSet(product, preferredImage) {
       const primary = String(preferredImage || pickThumbImage(product, "images/logo-romix.png") || "").trim();
-      const fallback = String(product && product.thumbnailFallback || "").trim()
+      const ext = typeof imageUtils.extension === "function" ? imageUtils.extension(primary) : "";
+      const defaultThumb = pickThumbImage(product, "images/logo-romix.png");
+      const isDefaultThumb = !preferredImage || String(primary) === String(defaultThumb);
+      const fallback = (isDefaultThumb ? String(product && product.thumbnailFallback || "").trim() : "")
         || (typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : primary);
-      const avif = String(product && product.thumbnailAvif || "").trim();
-      const webp = /\.webp$/i.test(primary) ? primary : "";
-      const usesModern = !!(webp || avif);
+      const derivedWebp = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "webp") : primary;
+      const derivedAvif = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "avif") : "";
+      const avif = isDefaultThumb ? String(product && product.thumbnailAvif || "").trim() : "";
+      const webp = /\.webp$/i.test(primary) ? primary : (ext && ext !== "avif" ? derivedWebp : "");
+      const fallbackSrc = ext === "webp" || ext === "avif"
+        ? ((typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : fallback) || fallback)
+        : (primary || fallback || "images/logo-romix.png");
 
       return {
-        src: usesModern ? (fallback || primary || "images/logo-romix.png") : (primary || fallback || "images/logo-romix.png"),
-        fallbackSrc: fallback || primary || "images/logo-romix.png",
+        src: fallbackSrc,
+        fallbackSrc: fallbackSrc,
         webpSrc: webp,
-        avifSrc: avif
+        avifSrc: /\.avif$/i.test(primary) ? primary : (avif || derivedAvif)
       };
     }
 

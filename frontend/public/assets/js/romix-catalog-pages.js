@@ -719,17 +719,21 @@
 
   function thumbSetFromSources(src, fallbackSrc, avifSrc) {
     const primary = String(src || "").trim();
+    const ext = typeof imageUtils.extension === "function" ? imageUtils.extension(primary) : "";
     const avif = String(avifSrc || "").trim();
     const fallback = String(fallbackSrc || "").trim()
       || (typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : primary);
-    const webp = /\.webp$/i.test(primary) ? primary : "";
-    const avifFromPrimary = /\.avif$/i.test(primary) ? primary : "";
-    const modernAvif = avif || avifFromPrimary;
-    const usesModern = !!(webp || modernAvif);
+    const derivedWebp = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "webp") : primary;
+    const derivedAvif = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "avif") : "";
+    const webp = /\.webp$/i.test(primary) ? primary : (ext && ext !== "avif" ? derivedWebp : "");
+    const modernAvif = /\.avif$/i.test(primary) ? primary : (avif || derivedAvif);
+    const resolvedFallback = ext === "webp" || ext === "avif"
+      ? ((typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : fallback) || fallback)
+      : (primary || fallback || PLACEHOLDER);
 
     return {
-      src: usesModern ? (fallback || primary || PLACEHOLDER) : (primary || fallback || PLACEHOLDER),
-      fallbackSrc: fallback || primary || PLACEHOLDER,
+      src: resolvedFallback,
+      fallbackSrc: resolvedFallback,
       webpSrc: webp,
       avifSrc: modernAvif
     };
@@ -742,7 +746,7 @@
     const fallback = String(color && color.thumbFallback || "").trim()
       || String(product && (product.thumbnailFallback || product.thumbFallback) || "").trim();
     const avif = String(color && color.thumbAvif || "").trim()
-      || String(product && product.thumbnailAvif || "").trim();
+      || (!colorThumb ? String(product && product.thumbnailAvif || "").trim() : "");
     return thumbSetFromSources(primary, fallback, avif);
   }
 

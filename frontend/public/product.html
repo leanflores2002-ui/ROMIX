@@ -551,11 +551,137 @@
     .size-selector.has-error .size-chip:not([disabled]) {
       border-color: rgba(217, 43, 127, 0.35);
     }
+    .size-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .size-guide-trigger {
+      border: none;
+      background: transparent;
+      color: #2f2a35;
+      text-decoration: underline;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0;
+    }
     .product-size-error {
       margin-top: 8px;
       color: #d92b7f;
       font-size: 14px;
       font-weight: 700;
+    }
+    .size-guide-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .35);
+      z-index: 9997;
+    }
+    .size-guide-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(520px, 94vw);
+      height: 100vh;
+      background: #fff;
+      z-index: 9998;
+      box-shadow: -10px 0 30px rgba(0,0,0,.16);
+      display: flex;
+      flex-direction: column;
+    }
+    .size-guide-overlay[hidden],
+    .size-guide-drawer[hidden] {
+      display: none;
+    }
+    .size-guide-drawer__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid #f3cfe2;
+    }
+    .size-guide-drawer__eyebrow {
+      margin: 0 0 4px;
+      color: #d92b7f;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .size-guide-drawer__header h2 {
+      margin: 0;
+      color: #2f2a35;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+    .size-guide-drawer__close {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid #d8d3db;
+      background: #fff;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .size-guide-drawer__body {
+      padding: 18px 22px 28px;
+      overflow-y: auto;
+    }
+    .size-guide-section h3 {
+      margin: 0 0 12px;
+      color: #2f2a35;
+      font-size: 18px;
+    }
+    .size-guide-table-wrap {
+      overflow-x: auto;
+      border: 1px solid #f3cfe2;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .size-guide-table {
+      width: 100%;
+      min-width: 460px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .size-guide-table th,
+    .size-guide-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #f5dbe8;
+      text-align: center;
+    }
+    .size-guide-table th {
+      background: #fff3f8;
+      font-weight: 800;
+    }
+    .size-guide-table th:first-child,
+    .size-guide-table td:first-child {
+      text-align: left;
+      font-weight: 800;
+    }
+    .size-guide-note {
+      background: #fff7fb;
+      border: 1px solid #f3cfe2;
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .size-guide-note ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .size-guide-note li {
+      margin-bottom: 8px;
+      color: #4d4653;
+      line-height: 1.45;
+    }
+    .size-guide-disclaimer {
+      margin: 12px 0 0;
+      color: #8a7d8e;
+      font-size: 13px;
     }
     .size-chip {
       border-radius: 12px;
@@ -1340,11 +1466,160 @@
       border-color: rgba(217, 43, 127, 0.35);
     }
 
+    .size-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .size-guide-trigger {
+      border: none;
+      background: transparent;
+      color: #52465e;
+      text-decoration: underline;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0;
+    }
+
     .product-size-error {
       margin-top: 8px;
       color: #d92b7f;
       font-size: 14px;
       font-weight: 700;
+    }
+
+    .size-guide-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(23, 17, 29, 0.38);
+      z-index: 9997;
+    }
+
+    .size-guide-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(520px, 94vw);
+      height: 100vh;
+      background: #fffdfd;
+      z-index: 9998;
+      box-shadow: -14px 0 34px rgba(45, 24, 41, 0.18);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .size-guide-overlay[hidden],
+    .size-guide-drawer[hidden] {
+      display: none;
+    }
+
+    .size-guide-drawer__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid #f3cfe2;
+      background: linear-gradient(180deg, rgba(255, 244, 249, 0.88) 0%, rgba(255, 255, 255, 0.96) 100%);
+    }
+
+    .size-guide-drawer__eyebrow {
+      margin: 0 0 4px;
+      color: #d92b7f;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .size-guide-drawer__header h2 {
+      margin: 0;
+      color: #2f2a35;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .size-guide-drawer__close {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(216, 211, 219, 0.9);
+      background: #fff;
+      color: #4c4155;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .size-guide-drawer__body {
+      padding: 18px 22px 28px;
+      overflow-y: auto;
+    }
+
+    .size-guide-section h3 {
+      margin: 0 0 12px;
+      color: #2f2a35;
+      font-size: 18px;
+    }
+
+    .size-guide-table-wrap {
+      overflow-x: auto;
+      border: 1px solid #f3cfe2;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      background: #fff;
+    }
+
+    .size-guide-table {
+      width: 100%;
+      min-width: 460px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .size-guide-table th,
+    .size-guide-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #f5dbe8;
+      text-align: center;
+    }
+
+    .size-guide-table th {
+      background: #fff3f8;
+      font-weight: 800;
+    }
+
+    .size-guide-table th:first-child,
+    .size-guide-table td:first-child {
+      text-align: left;
+      font-weight: 800;
+    }
+
+    .size-guide-note {
+      background: #fff7fb;
+      border: 1px solid #f3cfe2;
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .size-guide-note ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .size-guide-note li {
+      margin-bottom: 8px;
+      color: #4d4653;
+      line-height: 1.45;
+    }
+
+    .size-guide-disclaimer {
+      margin: 12px 0 0;
+      color: #8a7d8e;
+      font-size: 13px;
     }
 
     .size-chip {
@@ -2025,6 +2300,23 @@
       .zoom-nav {
         display: none;
       }
+
+      .size-guide-drawer {
+        width: 100vw;
+        max-width: 100vw;
+      }
+
+      .size-guide-drawer__header {
+        padding: 18px 16px 14px;
+      }
+
+      .size-guide-drawer__body {
+        padding: 16px;
+      }
+
+      .size-guide-table {
+        min-width: 430px;
+      }
     }
 
     @media (max-width: 700px) {
@@ -2349,6 +2641,124 @@
       let currentSelectedColor = 'Unico';
       let currentSelectedSize = '';
       let preloadedProductCache;
+      const SIZE_GUIDES = {
+        mujer_inferior: {
+          title: 'Guía de talles Mujer - Pantalones y Calzas',
+          subtitle: 'Pantalones y Calzas',
+          columns: ['Talle', 'A (Cintura)', 'B (Cadera)', 'C (Largo total)'],
+          rows: [
+            ['1', '74-78', '98-102', '109'],
+            ['2', '78-82', '102-106', '110'],
+            ['3', '82-86', '106-110', '111'],
+            ['4', '86-90', '110-114', '112'],
+            ['5', '90-94', '114-118', '113'],
+            ['6', '94-98', '118-122', '114'],
+            ['7', '98-102', '122-126', '115'],
+            ['8', '102-106', '126-130', '116']
+          ],
+          howToMeasure: [
+            'A - Cintura: medí alrededor de la cintura de la prenda, dando toda la vuelta.',
+            'B - Cadera: medí alrededor de la parte más ancha de la cadera.',
+            'C - Largo total: medí el largo completo de la prenda desde la parte superior de la cintura hasta el final de la botamanga.'
+          ]
+        },
+        mujer_superior: {
+          title: 'Guía de talles Mujer - Camperas, Buzos y Remeras',
+          subtitle: 'Camperas, Buzos y Remeras',
+          columns: ['Talle', 'A (Busto)', 'B (Cintura)', 'C (Largo total)'],
+          rows: [
+            ['1', '92-96', '88-92', '61'],
+            ['2', '96-100', '92-96', '62'],
+            ['3', '100-104', '96-100', '63'],
+            ['4', '104-108', '100-104', '64'],
+            ['5', '108-112', '104-108', '65'],
+            ['6', '112-116', '108-112', '66'],
+            ['7', '116-120', '112-116', '67'],
+            ['8', '120-124', '116-120', '68']
+          ],
+          howToMeasure: [
+            'A - Busto: medí de axila a axila alrededor de la parte más ancha del pecho, dando toda la vuelta a la prenda.',
+            'B - Cintura: medí alrededor de la parte más angosta o a la altura de la cintura.',
+            'C - Largo total: medí desde la parte superior del hombro hasta el ruedo inferior de la prenda.'
+          ]
+        },
+        hombre_inferior: {
+          title: 'Guía de talles Hombre - Pantalones y Calzas',
+          subtitle: 'Pantalones y Calzas',
+          columns: ['Talle', 'A (Cintura)', 'B (Cadera)', 'C (Largo total)'],
+          rows: [
+            ['1', '74-78', '112-116', '104'],
+            ['2', '78-82', '116-120', '105'],
+            ['3', '82-86', '120-124', '106'],
+            ['4', '86-90', '124-128', '107'],
+            ['5', '90-94', '128-132', '108'],
+            ['6', '94-98', '132-136', '109'],
+            ['7', '98-102', '136-140', '110'],
+            ['8', '102-106', '140-144', '111']
+          ],
+          howToMeasure: [
+            'A - Cintura: medí alrededor de la cintura de la prenda, dando toda la vuelta.',
+            'B - Cadera: medí alrededor de la parte más ancha de la cadera.',
+            'C - Largo total: medí el largo completo de la prenda desde la parte superior de la cintura hasta el final de la botamanga.'
+          ]
+        },
+        hombre_superior: {
+          title: 'Guía de talles Hombre - Camperas, Buzos y Remeras',
+          subtitle: 'Camperas, Buzos y Remeras',
+          columns: ['Talle', 'A (Busto)', 'B (Cintura)', 'C (Largo total)'],
+          rows: [
+            ['1', '104-108', '100-104', '66'],
+            ['2', '108-112', '104-108', '67'],
+            ['3', '112-116', '108-112', '68'],
+            ['4', '116-120', '112-116', '69'],
+            ['5', '120-124', '116-120', '70'],
+            ['6', '124-128', '120-124', '71'],
+            ['7', '128-132', '124-128', '72'],
+            ['8', '132-136', '128-132', '73']
+          ],
+          howToMeasure: [
+            'A - Busto: medí de axila a axila alrededor de la parte más ancha del pecho, dando toda la vuelta a la prenda.',
+            'B - Cintura: medí alrededor de la parte más angosta o a la altura de la cintura.',
+            'C - Largo total: medí desde la parte superior del hombro hasta el ruedo inferior de la prenda.'
+          ]
+        },
+        ninos_inferior: {
+          title: 'Guía de talles Niños - Pantalones y Calzas',
+          subtitle: 'Pantalones y Calzas',
+          columns: ['Talle', 'A (Cintura)', 'B (Cadera)', 'C (Largo total)'],
+          rows: [
+            ['6', '54-56', '62-64', '70'],
+            ['8', '56-58', '64-66', '75'],
+            ['10', '58-60', '66-68', '80'],
+            ['12', '60-62', '68-70', '85'],
+            ['14', '62-64', '70-72', '90'],
+            ['16', '64-66', '72-74', '95']
+          ],
+          howToMeasure: [
+            'A - Cintura: medí alrededor de la cintura de la prenda, dando toda la vuelta.',
+            'B - Cadera: medí alrededor de la parte más ancha de la cadera.',
+            'C - Largo total: medí el largo completo de la prenda desde la parte superior de la cintura hasta el final de la botamanga.'
+          ]
+        },
+        ninos_superior: {
+          title: 'Guía de talles Niños - Camperas, Buzos y Remeras',
+          subtitle: 'Camperas, Buzos y Remeras',
+          columns: ['Talle', 'A (Busto)', 'B (Cintura)', 'C (Largo total)'],
+          rows: [
+            ['6', '62-64', '54-56', '45'],
+            ['8', '64-66', '56-58', '48'],
+            ['10', '66-68', '58-60', '51'],
+            ['12', '68-70', '60-62', '54'],
+            ['14', '70-72', '62-64', '57'],
+            ['16', '72-74', '64-66', '60']
+          ],
+          howToMeasure: [
+            'A - Busto: medí de axila a axila alrededor de la parte más ancha del pecho, dando toda la vuelta a la prenda.',
+            'B - Cintura: medí alrededor de la parte más angosta o a la altura de la cintura.',
+            'C - Largo total: medí desde la parte superior del hombro hasta el ruedo inferior de la prenda.'
+          ]
+        }
+      };
       const colorUtils = typeof window.romixColorUtils === 'object' ? window.romixColorUtils : {};
       const getDisplayColorName = typeof colorUtils.getDisplayColorName === 'function'
         ? colorUtils.getDisplayColorName
@@ -3986,9 +4396,140 @@
         });
       }
 
+      function normalizeGuideText(value) {
+        return String(value || '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .trim();
+      }
+
+      function getSizeGuideKey(product) {
+        const section = normalizeGuideText(product && product.section);
+        const type = normalizeGuideText(product && product.type);
+        const name = normalizeGuideText(product && product.name);
+        const text = [section, type, name].filter(Boolean).join(' ');
+
+        let gender = 'mujer';
+        if (text.includes('hombre') || section.includes('hombre')) {
+          gender = 'hombre';
+        }
+        if (
+          text.includes('nino') ||
+          text.includes('nina') ||
+          text.includes('ninos') ||
+          text.includes('ninas') ||
+          text.includes('chico') ||
+          text.includes('chica') ||
+          section.includes('nino') ||
+          section.includes('ninos')
+        ) {
+          gender = 'ninos';
+        }
+
+        let category = 'superior';
+        if (
+          text.includes('pantalon') ||
+          text.includes('calza') ||
+          text.includes('babucha') ||
+          text.includes('jogger') ||
+          text.includes('palazo') ||
+          text.includes('short') ||
+          text.includes('bermuda')
+        ) {
+          category = 'inferior';
+        }
+        if (
+          text.includes('campera') ||
+          text.includes('buzo') ||
+          text.includes('remera') ||
+          text.includes('camiseta') ||
+          text.includes('top')
+        ) {
+          category = 'superior';
+        }
+
+        return `${gender}_${category}`;
+      }
+
+      function renderSizeGuide(product) {
+        const key = getSizeGuideKey(product);
+        const guide = SIZE_GUIDES[key] || SIZE_GUIDES.mujer_superior;
+        const title = document.getElementById('size-guide-title');
+        const body = document.getElementById('size-guide-body');
+
+        if (!title || !body) return;
+
+        title.textContent = guide.title;
+        body.innerHTML = `
+          <section class="size-guide-section">
+            <h3>${guide.subtitle}</h3>
+            <div class="size-guide-table-wrap">
+              <table class="size-guide-table">
+                <thead>
+                  <tr>
+                    ${guide.columns.map((col) => `<th>${col}</th>`).join('')}
+                  </tr>
+                </thead>
+                <tbody>
+                  ${guide.rows.map((row) => `
+                    <tr>
+                      ${row.map((cell) => `<td>${cell}</td>`).join('')}
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+            <div class="size-guide-note">
+              <h3>¿Cómo medir?</h3>
+              <ul>
+                ${guide.howToMeasure.map((item) => `<li>${item}</li>`).join('')}
+              </ul>
+              <p class="size-guide-disclaimer">
+                Las medidas son aproximadas y pueden variar según el modelo.
+              </p>
+            </div>
+          </section>
+        `;
+      }
+
+      function openSizeGuide(product) {
+        renderSizeGuide(product);
+        const overlay = document.getElementById('size-guide-overlay');
+        const drawer = document.getElementById('size-guide-drawer');
+
+        if (overlay) overlay.hidden = false;
+        if (drawer) {
+          drawer.hidden = false;
+          drawer.setAttribute('aria-hidden', 'false');
+        }
+
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSizeGuide() {
+        const overlay = document.getElementById('size-guide-overlay');
+        const drawer = document.getElementById('size-guide-drawer');
+
+        if (overlay) overlay.hidden = true;
+        if (drawer) {
+          drawer.hidden = true;
+          drawer.setAttribute('aria-hidden', 'true');
+        }
+
+        document.body.style.overflow = '';
+      }
+
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeSizeGuide();
+        }
+      });
+
       function renderProduct(product){
         const detail = document.getElementById('product-detail');
         if (!detail) return;
+        closeSizeGuide();
         currentProduct = product;
         const gallery = getGallery(product);
         const preloadGallery = () => {
@@ -4057,7 +4598,10 @@
                 <div id="color-stock-info" class="stock-info-color"></div>
               </div>
               <div class="selector size-selector" id="size-selector">
-                <div class="selector-label">Talle</div>
+                <div class="size-header">
+                  <span class="selector-label">Seleccionar talle</span>
+                  <button type="button" class="size-guide-trigger" id="size-guide-trigger">Guía de talles</button>
+                </div>
                 <div class="size-options" id="size-options"></div>
                 <p id="size-error" class="product-size-error" hidden></p>
               </div>
@@ -4110,6 +4654,17 @@
               <button type="button" class="zoom-nav next" id="zoom-next" aria-label="Siguiente">&gt;</button>
             </div>
           </div>
+          <div class="size-guide-overlay" id="size-guide-overlay" hidden></div>
+          <aside class="size-guide-drawer" id="size-guide-drawer" hidden aria-hidden="true">
+            <div class="size-guide-drawer__header">
+              <div>
+                <p class="size-guide-drawer__eyebrow">Guía de talles</p>
+                <h2 id="size-guide-title">Guía de talles</h2>
+              </div>
+              <button type="button" class="size-guide-drawer__close" id="size-guide-close" aria-label="Cerrar">×</button>
+            </div>
+            <div class="size-guide-drawer__body" id="size-guide-body"></div>
+          </aside>
           `;
         document.title = product.name ? `ROMIX - ${product.name}` : 'ROMIX - Detalle';
 
@@ -4128,9 +4683,22 @@
         const purchaseActions = detail.querySelector('#purchase-actions');
         const btnAdd = detail.querySelector('#btn-add');
         const btnBuy = detail.querySelector('#btn-buy');
+        const sizeGuideTrigger = detail.querySelector('#size-guide-trigger');
+        const sizeGuideOverlay = detail.querySelector('#size-guide-overlay');
+        const sizeGuideClose = detail.querySelector('#size-guide-close');
         let colorPickerApi = null;
         setupZoomModal(detail, gallery);
         setupInlineZoom(detail);
+
+        if (sizeGuideTrigger) {
+          sizeGuideTrigger.onclick = () => openSizeGuide(product);
+        }
+        if (sizeGuideOverlay) {
+          sizeGuideOverlay.onclick = () => closeSizeGuide();
+        }
+        if (sizeGuideClose) {
+          sizeGuideClose.onclick = () => closeSizeGuide();
+        }
 
         const canonicalColor = (value) => {
           const raw = (value || '').toString().trim();

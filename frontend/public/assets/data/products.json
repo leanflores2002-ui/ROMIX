@@ -2,7 +2,7 @@
   {
     "section": "mujer",
     "type": "calzas",
-    "name": "Calza tÃ©rmica lycra chupÃ­n dama",
+    "name": "Calza termica lycra chupin dama",
     "season": "invierno",
     "image": "images/products/calza_termica_lycra_chupin_dama_negro.png",
     "images": [
@@ -86,7 +86,7 @@
   {
     "section": "mujer",
     "type": "calzas",
-    "name": "Calza tÃ©rmica jaspeada saplex chupÃ­n dama",
+    "name": "Calza termica jaspeada saplex chupin dama",
     "season": "invierno",
     "image": "images/products/calza_termica_jaspeada_saplex_chupin_dama_violeta.png",
     "images": [
@@ -170,7 +170,7 @@
   {
     "section": "mujer",
     "type": "calzas",
-    "name": "Calza tÃ©rmica lycra recta dama",
+    "name": "Calza termica lycra recta dama",
     "season": "invierno",
     "image": "images/products/calza_termica_lycra_recta_dama_negro.png",
     "images": [
@@ -238,7 +238,7 @@
   {
     "section": "mujer",
     "type": "calzas",
-    "name": "Calza tÃ©rmica jaspeado saplex recta dama",
+    "name": "Calza termica jaspeado saplex recta dama",
     "season": "invierno",
     "image": "images/products/calza_termica_jaspeado_saplex_recta_dama_gris_melange.png",
     "images": [
@@ -318,7 +318,7 @@
   {
     "section": "mujer",
     "type": "calzas",
-    "name": "Calza tÃ©rmica oxford dama",
+    "name": "Calza termica oxford dama",
     "season": "invierno",
     "image": "images/products/calza_termica_oxford_dama_negro.png",
     "images": [
@@ -464,7 +464,7 @@
   {
     "section": "mujer",
     "type": "calzas",
-    "name": "Calza tÃ©rmica doble cintura chupin dama",
+    "name": "Calza termica doble cintura chupin dama",
     "season": "invierno",
     "image": "images/products/calza_termica_doble_cintura_chupin_dama_negro.png",
     "images": [
@@ -530,7 +530,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n Jogger TÃ©rmico Lycra",
+    "name": "Pantalon Jogger Térmico Lycra",
     "season": "invierno",
     "image": "images/products/pantalon_jogger_termico_negro.png",
     "images": [
@@ -589,7 +589,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n jogger tÃ©rmica jaspeado dama",
+    "name": "Pantalon jogger termica jaspeado dama",
     "season": "invierno",
     "image": "images/products/pantalon_jogger_termica_jaspeado_dama_gris_melange.png",
     "images": [
@@ -669,7 +669,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n algodÃ³n rÃºstico recto frizado dama",
+    "name": "Pantalon algodon rustico recto frizado dama",
     "season": "invierno",
     "image": "images/products/pantalon_algodon_rustico_recto_frizado_dama_negro.png",
     "images": [
@@ -749,7 +749,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "Babucha premium frizado algodÃ³n dama",
+    "name": "Babucha premium frizado algodon dama",
     "season": "invierno",
     "image": "images/products/babucha_premium_frizado_algodon_dama_negro.png",
     "images": [
@@ -1199,7 +1199,7 @@
   {
     "section": "mujer",
     "type": "buzos",
-    "name": "Maxibuzo Frizado AlgodÃ³n sin capucha dama",
+    "name": "Maxibuzo Frizado algodon sin capucha dama",
     "season": "invierno",
     "image": "images/products/maxibuzo_frisado_algodon_sin_capucha_negro.png",
     "images": [
@@ -1295,7 +1295,7 @@
   {
     "section": "mujer",
     "type": "buzos",
-    "name": "Maxibuzo Frizado AlgodÃ³n con capucha dama",
+    "name": "Maxibuzo Frizado algodon con capucha dama",
     "season": "invierno",
     "image": "images/products/maxibuzo_frizado_algodon_con_capucha_negro.png",
     "images": [
@@ -1403,7 +1403,7 @@
   {
     "section": "hombre",
     "type": "pantalones",
-    "name": "PantalÃ³n algodÃ³n frizado premium hombre",
+    "name": "Pantalon algodon frizado premium hombre",
     "season": "invierno",
     "image": "images/products/pantalon_algodon_frizado_premium_hombre_negro.png",
     "images": [
@@ -1433,7 +1433,7 @@
         "hex": "#A9A9A9"
       },
       {
-        "name": "MarrÃ³n",
+        "name": "Marron",
         "hex": "#654321"
       },
       {
@@ -1482,7 +1482,7 @@
     "imageMap": {
       "Negro": "images/products/pantalon_algodon_frizado_premium_hombre_negro.png",
       "Gris melange": "images/products/pantalon_algodon_frizado_premium_hombre_gris_melange.png",
-      "MarrÃ³n": "images/products/pantalon_algodon_frizado_premium_hombre_marron.png",
+      "Marron": "images/products/pantalon_algodon_frizado_premium_hombre_marron.png",
       "Azul marino": "images/products/pantalon_algodon_frizado_premium_hombre_azul_marino.png",
       "Gris oscuro": "images/products/pantalon_algodon_frizado_premium_hombre_gris_oscuro.png"
     },
@@ -1493,7 +1493,7 @@
   {
     "section": "hombre",
     "type": "pantalones",
-    "name": "Babucha frizado algodÃ³n premium hombre",
+    "name": "Babucha frizado algodon premium hombre",
     "season": "invierno",
     "image": "images/products/babucha_frizado_algodon_premium_hombre_negro.png",
     "images": [
@@ -1561,7 +1561,7 @@
   {
     "section": "hombre",
     "type": "camperas",
-    "name": "Campera algodÃ³n frizado hombre",
+    "name": "Campera algodon frizado hombre",
     "season": "invierno",
     "image": "images/products/campera_algodon_frizado_hombre_negro.png",
     "images": [
@@ -1739,7 +1739,7 @@
   {
     "section": "hombre",
     "type": "buzos",
-    "name": "Maxibuzo Frizado AlgodÃ³n con capucha hombre",
+    "name": "Maxibuzo Frizado algodon con capucha hombre",
     "season": "invierno",
     "image": "images/products/maxibuzo_frizado_algodon_con_capucha_hombre_negro.png",
     "images": [
@@ -1836,7 +1836,7 @@
   {
     "section": "hombre",
     "type": "buzos",
-    "name": "Maxibuzo Frizado AlgodÃ³n sin capucha hombre",
+    "name": "Maxibuzo Frizado algodon sin capucha hombre",
     "season": "invierno",
     "image": "images/products/maxibuzo_frizado_algodon_sin_capucha_hombre_negro.png",
     "images": [
@@ -1921,7 +1921,7 @@
   {
     "section": "mujer",
     "type": "remeras",
-    "name": "Camiseta tÃ©rmica dama",
+    "name": "Camiseta termica dama",
     "season": "invierno",
     "image": "images/products/camiseta_termica_dama_negro.png",
     "images": [
@@ -1965,7 +1965,7 @@
         "hex": "#C8A2C8"
       },
       {
-        "name": "BordÃ³",
+        "name": "Bordo",
         "hex": "#800020"
       },
       {
@@ -2013,7 +2013,7 @@
       "Verde": "images/products/camiseta_termica_dama_verde.png",
       "Azul": "images/products/camiseta_termica_dama_azul.png",
       "Lila": "images/products/camiseta_termica_dama_lila.png",
-      "BordÃ³": "images/products/camiseta_termica_dama_bordo.png",
+      "Bordo": "images/products/camiseta_termica_dama_bordo.png",
       "Gris": "images/products/camiseta_termica_dama_gris.png"
     },
     "thumbnailFallback": "images/thumbs/camiseta_termica_dama_negro-thumb.jpg",
@@ -2023,7 +2023,7 @@
   {
     "section": "hombre",
     "type": "remeras",
-    "name": "Camiseta tÃ©rmica hombre",
+    "name": "Camiseta termica hombre",
     "season": "invierno",
     "image": "images/products/camiseta_termica_hombre_negro.png",
     "images": [
@@ -2052,7 +2052,7 @@
         "hex": "#1E4ED8"
       },
       {
-        "name": "MarrÃ³n",
+        "name": "Marron",
         "hex": "#654321"
       },
       {
@@ -2093,7 +2093,7 @@
     "imageMap": {
       "Negro": "images/products/camiseta_termica_hombre_negro.png",
       "Azul marino": "images/products/camiseta_termica_hombre_azul_marino.png",
-      "MarrÃ³n": "images/products/camiseta_termica_hombre_marron.png",
+      "Marron": "images/products/camiseta_termica_hombre_marron.png",
       "Gris": "images/products/camiseta_termica_hombre_gris.png"
     },
     "thumbnailFallback": "images/thumbs/camiseta_termica_hombre_negro-thumb.jpg",
@@ -2103,7 +2103,7 @@
   {
     "section": "ninos",
     "type": "calzas",
-    "name": "Calza TÃ©rmica liso NiÃ±a",
+    "name": "Calza termica liso Niña",
     "season": "invierno",
     "image": "images/products/calza_termica_nina_negro.png",
     "price": 5500,
@@ -2158,7 +2158,7 @@
   {
     "section": "ninos",
     "type": "calzas",
-    "name": "Calza TÃ©rmica jaspeado NiÃ±a",
+    "name": "Calza termica jaspeado Niña",
     "season": "invierno",
     "image": "images/products/calza_termica_nina_jaspeado_gris_melange.png",
     "images": [
@@ -2234,7 +2234,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n jogger fibrana liso",
+    "name": "Pantalon jogger fibrana liso",
     "season": "verano",
     "image": "images/products/pantalon_jogger_fibrana_negro.png",
     "images": [
@@ -2345,7 +2345,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n jogger fibrana estampado",
+    "name": "Pantalon jogger fibrana estampado",
     "season": "verano",
     "image": "images/products/pantalon_jogger_fibrana_estampado_1.png",
     "images": [
@@ -2596,7 +2596,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n recto fibrana",
+    "name": "Pantalon recto fibrana",
     "season": "verano",
     "image": "images/products/pantalon_recto_fibrana_estampado_1.png",
     "images": [
@@ -5099,7 +5099,7 @@
   {
     "section": "mujer",
     "type": "shorts",
-    "name": "Short AlgodÃ³n c/lycra tiro alto",
+    "name": "Short algodon c/lycra tiro alto",
     "season": "verano",
     "image": "images/products/short_algodon_lycra_tiro_alto_negro.png",
     "images": [
@@ -5616,7 +5616,7 @@
   {
     "section": "mujer",
     "type": "shorts",
-    "name": "Short AlgodÃ³n morley",
+    "name": "Short algodon morley",
     "season": "verano",
     "image": "images/products/short_algodon_morley_negro.png",
     "images": [
@@ -6035,7 +6035,7 @@
   {
     "section": "mujer",
     "type": "ciclistas",
-    "name": "Ciclista algodÃ³n con lycra",
+    "name": "Ciclista algodon con lycra",
     "season": "verano",
     "image": "images/products/ciclista_algodon_lycra_negro.png",
     "images": [
@@ -6885,7 +6885,7 @@
         "hex": "#C8A2C8"
       },
       {
-        "name": "BordÃ³",
+        "name": "Bordo",
         "hex": "#800020"
       },
       {
@@ -6940,7 +6940,7 @@
       "Coral": "images/products/remera_lycra_dry_dama_coral.png",
       "Violeta": "images/products/remera_lycra_dry_dama_violeta.png",
       "Lila": "images/products/remera_lycra_dry_dama_lila.png",
-      "BordÃ³": "images/products/remera_lycra_dry_dama_bordo.png",
+      "Bordo": "images/products/remera_lycra_dry_dama_bordo.png",
       "Francia": "images/products/remera_lycra_dry_dama_francia.png",
       "Azul": "images/products/remera_lycra_dry_dama_azul.png",
       "Gris": "images/products/remera_lycra_dry_dama_gris.png",
@@ -7147,7 +7147,7 @@
   {
     "section": "mujer",
     "type": "remeras",
-    "name": "Remera AlgodÃ³n Jaspeado Dama",
+    "name": "Remera algodon Jaspeado Dama",
     "season": "verano",
     "image": "images/products/remera_algodon_jaspeado_dama_lila.png",
     "images": [
@@ -7245,7 +7245,7 @@
   {
     "section": "mujer",
     "type": "remeras",
-    "name": "Remera algodÃ³n jaspeado combinado dama",
+    "name": "Remera algodon jaspeado combinado dama",
     "season": "verano",
     "image": "images/products/remera_algodon_jaspeado_combinado_dama_gris_melange.png",
     "images": [
@@ -8492,7 +8492,7 @@
   {
     "section": "hombre",
     "type": "pantalones",
-    "name": "Babucha rÃºstico con lycra hombre",
+    "name": "Babucha rustico con lycra hombre",
     "season": "media-estacion",
     "image": "images/products/babucha_rustico_lycra_hombre_negro.png",
     "images": [
@@ -8830,7 +8830,7 @@
   {
     "section": "hombre",
     "type": "pantalones",
-    "name": "PantalÃ³n rÃºstico con cierre en bolsillos hombre",
+    "name": "Pantalon rustico con cierre en bolsillos hombre",
     "season": "media-estacion",
     "image": "images/products/pantalon_rustico_cierre_bolsillo_hombre_negro.png",
     "images": [
@@ -8914,7 +8914,7 @@
   {
     "section": "hombre",
     "type": "pantalones",
-    "name": "PantalÃ³n algodon frizado con cierre en bolsillos hombre",
+    "name": "Pantalon algodon frizado con cierre en bolsillos hombre",
     "season": "invierno",
     "image": "images/products/pantalon_algodon_frizado_cierre_bolsillos_hombre_negro.png",
     "images": [
@@ -9270,7 +9270,7 @@
   {
     "section": "hombre",
     "type": "camperas",
-    "name": "Campera rÃºstico hombre",
+    "name": "Campera rustico hombre",
     "season": "media-estacion",
     "image": "images/products/campera_rustico_hombre_negro.png",
     "images": [
@@ -9356,7 +9356,7 @@
   {
     "section": "hombre",
     "type": "bermudas",
-    "name": "Bermuda rÃºstico hombre",
+    "name": "Bermuda rustico hombre",
     "season": "verano",
     "image": "images/products/bermuda_rustico_hombre_negro.png",
     "images": [
@@ -9613,7 +9613,7 @@
         "hex": "#1E4ED8"
       },
       {
-        "name": "BordÃ³",
+        "name": "Bordo",
         "hex": "#800020"
       },
       {
@@ -9659,7 +9659,7 @@
       "Negro": "images/products/remera_deportivo_dry_hombre_negro.png",
       "Blanco": "images/products/remera_deportivo_dry_hombre_blanco.png",
       "Azul": "images/products/remera_deportivo_dry_hombre_azul.png",
-      "BordÃ³": "images/products/remera_deportivo_dry_hombre_bordo.png",
+      "Bordo": "images/products/remera_deportivo_dry_hombre_bordo.png",
       "Gris melange": "images/products/remera_deportivo_dry_hombre_gris_melange.png",
       "Beige": "images/products/remera_deportivo_dry_hombre_beige.png"
     },
@@ -9670,7 +9670,7 @@
   {
     "section": "mujer",
     "type": "remeras",
-    "name": "Remera oversize algodÃ³n peinado",
+    "name": "Remera oversize algodon peinado",
     "season": "media-estacion",
     "featured": true,
     "featuredBadge": "Nuevo",
@@ -9744,7 +9744,7 @@
   {
     "section": "hombre",
     "type": "remeras",
-    "name": "Remera algodÃ³n peinado hombre",
+    "name": "Remera algodon peinado hombre",
     "season": "media-estacion",
     "featured": true,
     "featuredBadge": "Nuevo",
@@ -9818,7 +9818,7 @@
   {
     "section": "ninos",
     "type": "remeras",
-    "name": "Remera oversize algodÃ³n peinado chico",
+    "name": "Remera oversize algodon peinado chico",
     "season": "media-estacion",
     "featured": true,
     "featuredBadge": "Nuevo",
@@ -9884,7 +9884,7 @@
   {
     "section": "hombre",
     "type": "remeras",
-    "name": "Remera algodÃ³n molino hombre",
+    "name": "Remera algodon molino hombre",
     "season": "verano",
     "image": "images/products/remera_algodon_molino_hombre_gris_oscuro.png",
     "images": [
@@ -9960,7 +9960,7 @@
   {
     "section": "hombre",
     "type": "buzos",
-    "name": "Buzo rÃºstico con lycra hombre",
+    "name": "Buzo rustico con lycra hombre",
     "season": "media-estacion",
     "image": "images/products/buzo_rustico_lycra_hombre_negro.png",
     "images": [
@@ -10005,7 +10005,7 @@
   {
     "section": "mujer",
     "type": "buzos",
-    "name": "Buzo rÃºstico con lycra dama",
+    "name": "Buzo rustico con lycra dama",
     "season": "media-estacion",
     "image": "images/products/buzo_rustico_lycra_dama_gris_melange.png",
     "images": [
@@ -10247,7 +10247,7 @@
   {
     "section": "ninos",
     "type": "calzas",
-    "name": "Calza algodÃ³n con lycra niÃ±a",
+    "name": "Calza algodon con lycra Niña",
     "season": "media-estacion",
     "image": "images/products/calza_algodon_lycra_nina_negro.png",
     "images": [
@@ -10463,7 +10463,7 @@
   {
     "section": "ninos",
     "type": "ciclistas",
-    "name": "Ciclista algodÃ³n con lycra nena",
+    "name": "Ciclista algodon con lycra nena",
     "season": "verano",
     "image": "images/products/ciclista_algodon_lycra_nena_negro.png",
     "images": [
@@ -10487,7 +10487,7 @@
     ],
     "colors": [
       {
-        "name": "BordÃ³",
+        "name": "Bordo",
         "hex": "#800020"
       },
       {
@@ -10495,7 +10495,7 @@
         "hex": "#D3D3D3"
       },
       {
-        "name": "Azul petrÃ³leo",
+        "name": "Azul petroleo",
         "hex": "#005F6A"
       },
       {
@@ -10542,9 +10542,9 @@
       }
     ],
     "imageMap": {
-      "BordÃ³": "images/products/ciclista_algodon_lycra_nena_bordo.png",
+      "Bordo": "images/products/ciclista_algodon_lycra_nena_bordo.png",
       "Gris melange": "images/products/ciclista_algodon_lycra_nena_gris_melange.png",
-      "Azul petrÃ³leo": "images/products/ciclista_algodon_lycra_nena_azul_petroleo.png",
+      "Azul petroleo": "images/products/ciclista_algodon_lycra_nena_azul_petroleo.png",
       "Negro": "images/products/ciclista_algodon_lycra_nena_negro.png",
       "Naranja": "images/products/ciclista_algodon_lycra_nena_naranja.png",
       "Azul marino": "images/products/ciclista_algodon_lycra_nena_azul_marino.png",
@@ -10814,7 +10814,7 @@
   {
     "section": "ninos",
     "type": "bermudas",
-    "name": "Bermuda AlgodÃ³n rÃºstico NiÃ±o",
+    "name": "Bermuda algodon rustico Niño",
     "season": "verano",
     "image": "images/products/bermuda_algodon_rustico_nino_azul.png",
     "images": [
@@ -10878,7 +10878,7 @@
   {
     "section": "ninos",
     "type": "pantalones",
-    "name": "PantalÃ³n algodÃ³n rÃºstico chico",
+    "name": "Pantalon algodon rustico chico",
     "season": "media-estacion",
     "featured": true,
     "featuredBadge": "Nuevo",
@@ -10938,7 +10938,7 @@
   {
     "section": "ninos",
     "type": "shorts",
-    "name": "Short algodÃ³n rÃºstico chico",
+    "name": "Short algodon rustico chico",
     "season": "verano",
     "featured": true,
     "featuredBadge": "Nuevo",
@@ -10998,7 +10998,7 @@
   {
     "section": "ninos",
     "type": "remeras",
-    "name": "Camiseta tÃ©rmica de nena",
+    "name": "Camiseta termica de nena",
     "season": "invierno",
     "image": "images/products/camiseta_termica_nina_negro.png",
     "images": [
@@ -11086,7 +11086,7 @@
   {
     "section": "ninos",
     "type": "remeras",
-    "name": "Camiseta tÃ©rmica de niÃ±o",
+    "name": "Camiseta termica de Niño",
     "season": "invierno",
     "image": "images/products/camiseta_termica_nino_negro.png",
     "images": [
@@ -11174,7 +11174,7 @@
   {
     "section": "ninos",
     "type": "pantalones",
-    "name": "PantalÃ³n frizado algodÃ³n premium niÃ±o recto",
+    "name": "Pantalon frizado algodon premium Niño recto",
     "season": "invierno",
     "image": "images/products/pantalon_frizado_algodon_premium_nino_recto_negro.png",
     "images": [
@@ -11250,7 +11250,7 @@
   {
     "section": "ninos",
     "type": "camperas",
-    "name": "Campera frizada algodÃ³n niÃ±o",
+    "name": "Campera frizada algodon Niño",
     "season": "invierno",
     "image": "images/products/campera_frizada_algodon_nino_negro.png",
     "images": [
@@ -11326,7 +11326,7 @@
   {
     "section": "ninos",
     "type": "camperas",
-    "name": "Campera algodÃ³n frizada de niÃ±a",
+    "name": "Campera algodon frizada de Niña",
     "season": "invierno",
     "image": "images/products/campera_frizada_algodon_nina_negro.png",
     "images": [
@@ -11402,7 +11402,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "Babucha jogger AlgodÃ³n rÃºstico cargo dama",
+    "name": "Babucha jogger algodon rustico cargo dama",
     "season": "media-estacion",
     "featured": true,
     "featuredBadge": "Por agotarse",
@@ -11478,7 +11478,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "Babucha modal con puÃ±o",
+    "name": "Babucha modal con puño",
     "season": "media-estacion",
     "image": "images/products/babucha_modal_con puño_negro.png",
     "images": [
@@ -11575,7 +11575,7 @@
   {
     "section": "mujer",
     "type": "calzas",
-    "name": "Calza AlgodÃ³n c/lycra chupin",
+    "name": "Calza algodon c/lycra chupin",
     "season": "media-estacion",
     "image": "images/products/Calza_algodon con lycra_chupin_negro.png",
     "images": [
@@ -11721,7 +11721,7 @@
   {
     "section": "mujer",
     "type": "calzas",
-    "name": "Calza AlgodÃ³n c/lycra recta",
+    "name": "Calza algodon c/lycra recta",
     "season": "media-estacion",
     "image": "images/products/Calza_algodon con lycra_recta_negro.png",
     "images": [
@@ -12444,7 +12444,7 @@
     "name": "Calza lycra estampado",
     "season": "media-estacion",
     "featured": true,
-    "featuredBadge": "MÃ¡s vendido",
+    "featuredBadge": "Más vendido",
     "image": "images/products/calza_lycra_estampado_1.png",
     "images": [
       "images/products/calza_lycra_estampado_1.png",
@@ -12688,7 +12688,7 @@
     "name": "Calza lycra morley dama",
     "season": "media-estacion",
     "featured": true,
-    "featuredBadge": "MÃ¡s vendido",
+    "featuredBadge": "Más vendido",
     "image": "images/products/calza_lycra_morley_negro.png",
     "images": [
       "images/products/calza_lycra_morley_negro.png",
@@ -13388,7 +13388,7 @@
     "name": "Campera lycra estampado",
     "season": "media-estacion",
     "featured": true,
-    "featuredBadge": "MÃ¡s vendido",
+    "featuredBadge": "Más vendido",
     "image": "images/products/campera_lycra_estampado_1.png",
     "images": [
       "images/products/campera_lycra_estampado_1.png",
@@ -13755,7 +13755,7 @@
   {
     "section": "mujer",
     "type": "camperas",
-    "name": "Campera rÃºstico con lycra dama",
+    "name": "Campera rustico con lycra dama",
     "season": "media-estacion",
     "image": "images/products/campera_rustico_lycra_dama_negro.png",
     "images": [
@@ -13797,7 +13797,7 @@
         "hex": "#1E4ED8"
       },
       {
-        "name": "BordÃ³",
+        "name": "Bordo",
         "hex": "#800020"
       },
       {
@@ -13852,7 +13852,7 @@
       "Gris melange": "images/products/campera_rustico_lycra_dama_gris_melange.png",
       "Verde": "images/products/campera_rustico_lycra_dama_verde.png",
       "Azul": "images/products/campera_rustico_lycra_dama_azul.png",
-      "BordÃ³": "images/products/campera_rustico_lycra_dama_bordo.png",
+      "Bordo": "images/products/campera_rustico_lycra_dama_bordo.png",
       "Coral": "images/products/campera_rustico_lycra_dama_coral.png",
       "Gris oscuro": "images/products/campera_rustico_lycra_dama_gris_oscuro.png",
       "Violeta": "images/products/campera_rustico_lycra_dama_violeta.png",
@@ -13867,7 +13867,7 @@
   {
     "section": "mujer",
     "type": "camperas",
-    "name": "Campera oversize algodÃ³n rÃºstico",
+    "name": "Campera oversize algodon rustico",
     "season": "media-estacion",
     "featured": true,
     "featuredBadge": "Nuevo",
@@ -13955,7 +13955,7 @@
   {
     "section": "mujer",
     "type": "camperas",
-    "name": "Campera premium algodÃ³n frizado dama",
+    "name": "Campera premium algodon frizado dama",
     "season": "invierno",
     "image": "images/products/campera_premium_algodon_frizado_dama_negro.png",
     "images": [
@@ -14223,7 +14223,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n jogger de lycra dama",
+    "name": "Pantalon jogger de lycra dama",
     "season": "media-estacion",
     "image": "images/products/pantalon_jogger_lycra_negro.png",
     "images": [
@@ -14289,7 +14289,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n jogger de lycra jaspeado dama",
+    "name": "Pantalon jogger de lycra jaspeado dama",
     "season": "media-estacion",
     "image": "images/products/pantalon_jogger_saplex_jaspeado_gris melange.png",
     "images": [
@@ -14385,7 +14385,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n jogger rÃºstico c/lycra dama",
+    "name": "Pantalon jogger rustico c/lycra dama",
     "season": "media-estacion",
     "image": "images/products/pantalon_jogger_rustico_negro.png",
     "images": [
@@ -14487,7 +14487,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n modal con tira",
+    "name": "Pantalon modal con tira",
     "season": "media-estacion",
     "image": "images/products/pantalon_modal_con tira_negro.png",
     "images": [
@@ -14590,7 +14590,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n morley liviano dama",
+    "name": "Pantalon morley liviano dama",
     "season": "media-estacion",
     "image": "images/products/pantalon_morley_liviano_negro.png",
     "images": [
@@ -14664,7 +14664,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n rÃºstico recto dama",
+    "name": "Pantalon rustico recto dama",
     "season": "media-estacion",
     "image": "images/products/pantalon_rustico_recto_negro.png",
     "images": [
@@ -14750,7 +14750,7 @@
   {
     "section": "mujer",
     "type": "pantalones",
-    "name": "PantalÃ³n Recto CEY",
+    "name": "Pantalon Recto CEY",
     "season": "verano",
     "image": "images/products/pantalon_recto_cey_negro.png",
     "images": [

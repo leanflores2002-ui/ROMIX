@@ -1495,9 +1495,9 @@
       right: 0;
       width: min(48vw, 760px);
       height: 100vh;
-      background: #fffdfd;
+      background: #ffffff;
       z-index: 9998;
-      box-shadow: -14px 0 34px rgba(45, 24, 41, 0.18);
+      box-shadow: -10px 0 40px rgba(0,0,0,0.14);
       display: flex;
       flex-direction: column;
     }
@@ -1513,13 +1513,13 @@
       justify-content: space-between;
       gap: 14px;
       padding: 22px 22px 16px;
-      border-bottom: 1px solid #f3cfe2;
-      background: linear-gradient(180deg, rgba(255, 244, 249, 0.88) 0%, rgba(255, 255, 255, 0.96) 100%);
+      border-bottom: 1px solid #ebebeb;
+      background: #fff;
     }
 
     .size-guide-drawer__eyebrow {
       margin: 0 0 4px;
-      color: #d92b7f;
+      color: #dc2e8d;
       font-size: 13px;
       font-weight: 800;
       text-transform: uppercase;
@@ -1558,8 +1558,8 @@
 
     .size-guide-table-wrap {
       overflow-x: auto;
-      border: 1px solid #f3cfe2;
-      border-radius: 12px;
+      border: 1px solid #e8e8e8;
+      border-radius: 10px;
       margin-bottom: 18px;
       background: #fff;
     }
@@ -1574,13 +1574,18 @@
     .size-guide-table th,
     .size-guide-table td {
       padding: 11px 12px;
-      border-bottom: 1px solid #f5dbe8;
+      border-bottom: 1px solid #efefef;
       text-align: center;
     }
 
     .size-guide-table th {
-      background: #fff3f8;
-      font-weight: 800;
+      background: #f7f7f7;
+      color: #171717;
+      font-weight: 700;
+    }
+
+    .size-guide-table td {
+      color: #3f3f46;
     }
 
     .size-guide-table th:first-child,
@@ -4467,35 +4472,35 @@
       function renderSizeGuide(product) {
         const key = getSizeGuideKey(product);
         const guide = SIZE_GUIDES[key] || SIZE_GUIDES.mujer_superior;
-        const imageSrc = getSizeGuideImage(product);
         const title = document.getElementById('size-guide-title');
         const body = document.getElementById('size-guide-body');
-
         if (!title || !body) return;
-
         title.textContent = guide.title;
+
+        const talles = guide.rows.map((row) => row[0]);
+        const numMedidas = guide.columns.length - 1;
+
+        const headerCells = `<th>Talle</th>` + talles.map((t) => `<th>${t}</th>`).join('');
+        let bodyRows = '';
+        for (let m = 0; m < numMedidas; m++) {
+          const label = guide.columns[m + 1];
+          const cells = guide.rows.map((row) => `<td>${row[m + 1]}</td>`).join('');
+          bodyRows += `<tr><th>${label}</th>${cells}</tr>`;
+        }
+
         body.innerHTML = `
-          <section class="size-guide-section">
-            <h3 class="size-guide-subtitle">${guide.subtitle}</h3>
-            <div class="size-guide-table-wrap">
-              <table class="size-guide-table">
-                <thead>
-                  <tr>
-                    ${guide.columns.map((col) => `<th>${col}</th>`).join('')}
-                  </tr>
-                </thead>
-                <tbody>
-                  ${guide.rows.map((row) => `
-                    <tr>
-                      ${row.map((cell) => `<td>${cell}</td>`).join('')}
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
-            <div class="size-guide-figure">
-              <img src="${imageSrc}" alt="${guide.title}" loading="eager" decoding="async" />
-            </div>
+          <p style="margin:0 0 16px;font-size:0.95rem;color:#52505a;">Encontrá tu talle correcto en la tabla a continuación.</p>
+          <div class="size-guide-table-wrap">
+            <table class="size-guide-table">
+              <thead><tr>${headerCells}</tr></thead>
+              <tbody>${bodyRows}</tbody>
+            </table>
+          </div>
+          <section style="margin-top:20px;">
+            <h3 style="font-size:1rem;font-weight:700;color:#2f2a35;margin:0 0 10px;">¿Cómo tomar las medidas?</h3>
+            <ul style="margin:0;padding:0 0 0 16px;color:#52505a;font-size:0.9rem;line-height:1.7;">
+              ${guide.howToMeasure.map((step) => `<li>${step}</li>`).join('')}
+            </ul>
           </section>
         `;
       }

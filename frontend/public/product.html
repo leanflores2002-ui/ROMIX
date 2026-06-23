@@ -583,7 +583,7 @@
       position: fixed;
       top: 0;
       right: 0;
-      width: min(48vw, 760px);
+      width: min(520px, 94vw);
       height: 100vh;
       background: #fff;
       z-index: 9998;
@@ -628,7 +628,7 @@
       cursor: pointer;
     }
     .size-guide-drawer__body {
-      padding: 18px 20px 28px;
+      padding: 18px 22px 28px;
       overflow-y: auto;
     }
     .size-guide-section h3 {
@@ -640,7 +640,7 @@
       overflow-x: auto;
       border: 1px solid #f3cfe2;
       border-radius: 12px;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
     .size-guide-table {
       width: 100%;
@@ -663,16 +663,25 @@
       text-align: left;
       font-weight: 800;
     }
-    .size-guide-figure {
+    .size-guide-note {
+      background: #fff7fb;
       border: 1px solid #f3cfe2;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fff;
+      border-radius: 14px;
+      padding: 16px;
     }
-    .size-guide-figure img {
-      display: block;
-      width: 100%;
-      height: auto;
+    .size-guide-note ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .size-guide-note li {
+      margin-bottom: 8px;
+      color: #4d4653;
+      line-height: 1.45;
+    }
+    .size-guide-disclaimer {
+      margin: 12px 0 0;
+      color: #8a7d8e;
+      font-size: 13px;
     }
     .size-chip {
       border-radius: 12px;
@@ -1493,7 +1502,7 @@
       position: fixed;
       top: 0;
       right: 0;
-      width: min(48vw, 760px);
+      width: min(520px, 94vw);
       height: 100vh;
       background: #fffdfd;
       z-index: 9998;
@@ -1546,7 +1555,7 @@
     }
 
     .size-guide-drawer__body {
-      padding: 18px 20px 28px;
+      padding: 18px 22px 28px;
       overflow-y: auto;
     }
 
@@ -1560,7 +1569,7 @@
       overflow-x: auto;
       border: 1px solid #f3cfe2;
       border-radius: 12px;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
       background: #fff;
     }
 
@@ -1589,16 +1598,28 @@
       font-weight: 800;
     }
 
-    .size-guide-figure {
+    .size-guide-note {
+      background: #fff7fb;
       border: 1px solid #f3cfe2;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fff;
+      border-radius: 14px;
+      padding: 16px;
     }
-    .size-guide-figure img {
-      display: block;
-      width: 100%;
-      height: auto;
+
+    .size-guide-note ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .size-guide-note li {
+      margin-bottom: 8px;
+      color: #4d4653;
+      line-height: 1.45;
+    }
+
+    .size-guide-disclaimer {
+      margin: 12px 0 0;
+      color: #8a7d8e;
+      font-size: 13px;
     }
 
     .size-chip {
@@ -4431,43 +4452,9 @@
         return `${gender}_${category}`;
       }
 
-      function getSizeGuideImage(product) {
-        const section = normalizeGuideText(product && product.section);
-        const type = normalizeGuideText(product && product.type);
-        const name = normalizeGuideText(product && product.name);
-        const text = [section, type, name].filter(Boolean).join(' ');
-
-        const isLower =
-          text.includes('pantalon') ||
-          text.includes('calza') ||
-          text.includes('babucha') ||
-          text.includes('jogger') ||
-          text.includes('palazo') ||
-          text.includes('short') ||
-          text.includes('bermuda');
-
-        const isUpper =
-          text.includes('campera') ||
-          text.includes('buzo') ||
-          text.includes('remera') ||
-          text.includes('camiseta') ||
-          text.includes('top');
-
-        if (isLower) {
-          return 'images/guia-medidas-pantalon.png';
-        }
-
-        if (isUpper) {
-          return 'images/guia-medidas-superior.png';
-        }
-
-        return 'images/guia-medidas-superior.png';
-      }
-
       function renderSizeGuide(product) {
         const key = getSizeGuideKey(product);
         const guide = SIZE_GUIDES[key] || SIZE_GUIDES.mujer_superior;
-        const imageSrc = getSizeGuideImage(product);
         const title = document.getElementById('size-guide-title');
         const body = document.getElementById('size-guide-body');
 
@@ -4476,7 +4463,7 @@
         title.textContent = guide.title;
         body.innerHTML = `
           <section class="size-guide-section">
-            <h3 class="size-guide-subtitle">${guide.subtitle}</h3>
+            <h3>${guide.subtitle}</h3>
             <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
@@ -4493,8 +4480,14 @@
                 </tbody>
               </table>
             </div>
-            <div class="size-guide-figure">
-              <img src="${imageSrc}" alt="${guide.title}" loading="eager" decoding="async" />
+            <div class="size-guide-note">
+              <h3>¿Cómo medir?</h3>
+              <ul>
+                ${guide.howToMeasure.map((item) => `<li>${item}</li>`).join('')}
+              </ul>
+              <p class="size-guide-disclaimer">
+                Las medidas son aproximadas y pueden variar según el modelo.
+              </p>
             </div>
           </section>
         `;

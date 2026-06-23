@@ -548,6 +548,15 @@
       flex-wrap: wrap;
       gap: 8px;
     }
+    .size-selector.has-error .size-chip:not([disabled]) {
+      border-color: rgba(217, 43, 127, 0.35);
+    }
+    .product-size-error {
+      margin-top: 8px;
+      color: #d92b7f;
+      font-size: 14px;
+      font-weight: 700;
+    }
     .size-chip {
       border-radius: 12px;
       border: 1px solid #d6d8db;
@@ -1325,6 +1334,17 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+    }
+
+    .size-selector.has-error .size-chip:not([disabled]) {
+      border-color: rgba(217, 43, 127, 0.35);
+    }
+
+    .product-size-error {
+      margin-top: 8px;
+      color: #d92b7f;
+      font-size: 14px;
+      font-weight: 700;
     }
 
     .size-chip {
@@ -2962,6 +2982,51 @@
         return basePrice > 0 ? [formatProductPrice(basePrice)] : [];
       }
 
+      function getSelectedSizeValue() {
+        const activeChip = document.querySelector(
+          '[data-size-option].is-active, [data-size-option].active, [data-size-option].selected, .size-chip.is-active, .size-chip.active, .size-chip.selected'
+        );
+
+        if (activeChip) {
+          return String(
+            activeChip.dataset.sizeValue ||
+            activeChip.dataset.size ||
+            activeChip.textContent ||
+            ''
+          ).trim();
+        }
+
+        return String(currentSelectedSize || '').trim();
+      }
+
+      function showSizeError() {
+        const error = document.querySelector('#size-error');
+        const selector = document.querySelector('#size-selector');
+
+        if (error) {
+          error.textContent = 'Por favor, seleccioná tu talle';
+          error.hidden = false;
+        }
+
+        if (selector) {
+          selector.classList.add('has-error');
+        }
+      }
+
+      function clearSizeError() {
+        const error = document.querySelector('#size-error');
+        const selector = document.querySelector('#size-selector');
+
+        if (error) {
+          error.textContent = '';
+          error.hidden = true;
+        }
+
+        if (selector) {
+          selector.classList.remove('has-error');
+        }
+      }
+
       function updatePriceForSize(product, sizeValue){
         const priceEl = document.getElementById('product-price');
         if (!priceEl) return;
@@ -2969,7 +3034,7 @@
         priceEl.textContent = '$' + Number(newPrice || 0).toLocaleString('es-AR');
       }
 
-            function addCurrentProductToCart() {
+      function addCurrentProductToCart() {
         let colorKey = currentSelectedColor || 'Unico';
         let colorId = null;
         const colorActive = document.querySelector('[data-color-option].is-active, [data-color-option].active, [data-color-option].selected');
@@ -2984,15 +3049,10 @@
           if (candidateId != null) colorId = candidateId;
         }
 
-        let size = currentSelectedSize || 'U';
-        const sizeActive = document.querySelector('[data-size-option].is-active, [data-size-option].active, .size-chip.selected');
-        if (sizeActive) {
-          const datasetSize = sizeActive.dataset.sizeValue || sizeActive.dataset.size;
-          if (datasetSize) {
-            size = String(datasetSize);
-          } else if (currentSelectedSize) {
-            size = currentSelectedSize;
-          }
+        const size = getSelectedSizeValue();
+        if (!size) {
+          showSizeError();
+          return null;
         }
 
         const qty = currentQty || 1;
@@ -3996,9 +4056,10 @@
                 </div>
                 <div id="color-stock-info" class="stock-info-color"></div>
               </div>
-              <div class="selector">
+              <div class="selector size-selector" id="size-selector">
                 <div class="selector-label">Talle</div>
                 <div class="size-options" id="size-options"></div>
+                <p id="size-error" class="product-size-error" hidden></p>
               </div>
               <div class="selector quantity-row">
                 <div class="selector-label">Cantidad</div>
@@ -4236,9 +4297,10 @@
           const map = stockMap[colorName] || stockMap['Unico'] || {};
           let keys = sizeOrder.length ? [...new Set([...sizeOrder, ...Object.keys(map)])] : Object.keys(map);
           if (!keys.length) keys.push('Unico');
+          activeSize = '';
+          currentSelectedSize = '';
           sizeWrapper.innerHTML = '';
           let total = 0;
-          let firstAvailable = null;
           keys.forEach(sizeKey => {
             const qty = Number(map[sizeKey] ?? 0);
             total += qty;
@@ -4253,27 +4315,17 @@
             chip.textContent = sizeKey;
             if (state === 'out') chip.classList.add('out');
             chip.addEventListener('click', () => {
-              if (state === 'out') return;
-              sizeWrapper.querySelectorAll('.size-chip').forEach(el => el.classList.remove('selected', 'is-active', 'size-option--active'));
-              chip.classList.add('selected', 'is-active', 'size-option--active');
-              activeSize = sizeKey;
-              currentSelectedSize = sizeKey;
-              updatePriceForSize(product, activeSize);
+              if (chip.disabled || chip.classList.contains('out')) return;
+              sizeWrapper.querySelectorAll('.size-chip').forEach(el => el.classList.remove('selected', 'is-active', 'active', 'size-option--active'));
+              chip.classList.add('selected', 'is-active', 'active', 'size-option--active');
+              currentSelectedSize = String(chip.dataset.size || chip.dataset.sizeValue || chip.textContent || '').trim();
+              activeSize = currentSelectedSize;
+              clearSizeError();
+              updatePriceForSize(product, currentSelectedSize);
             });
             sizeWrapper.appendChild(chip);
-            if (!firstAvailable && state !== 'out') firstAvailable = sizeKey;
           });
-          if (!activeSize || !sizeWrapper.querySelector(`.size-chip[data-size="${activeSize}"]`)) {
-            const fallback = sizeWrapper.querySelector('.size-chip:not(.out)');
-            if (fallback) {
-              fallback.classList.add('selected', 'is-active', 'size-option--active');
-              activeSize = fallback.dataset.size;
-            } else if (sizeWrapper.firstChild) {
-              sizeWrapper.firstChild.classList.add('selected', 'is-active', 'size-option--active');
-              activeSize = sizeWrapper.firstChild.dataset.size;
-            }
-          }
-          currentSelectedSize = activeSize || currentSelectedSize || '';
+          clearSizeError();
           const label = getStockLabel(total);
           if (stockNote) {
             stockNote.textContent = label;
@@ -4358,6 +4410,9 @@
           const opts = options || {};
           activeColor = colorName;
           currentSelectedColor = colorName;
+          activeSize = '';
+          currentSelectedSize = '';
+          clearSizeError();
 
           if (!opts.skipPickerSync && colorPickerApi) {
             colorPickerApi.selectColor(colorName, { silent: true });
@@ -4406,7 +4461,7 @@
           }
           renderSizesForColor(colorName);
           updateSizesStateForColor(product, colorName);
-          if (activeSize) updatePriceForSize(product, activeSize);
+          updatePriceForSize(product, '');
         }
 
         if (swatchWrapper) {
@@ -4451,14 +4506,28 @@
         setActiveColor(defaultColorName);
 
         if (btnAdd) {
-          btnAdd.addEventListener('click', () => {
-            addCurrentProductToCart();
+          btnAdd.addEventListener('click', (event) => {
+            event.preventDefault();
+            const size = getSelectedSizeValue();
+            if (!size) {
+              showSizeError();
+              return;
+            }
+            const added = addCurrentProductToCart();
+            if (!added) return;
           });
         }
 
         if (btnBuy) {
-          btnBuy.addEventListener('click', () => {
-            addCurrentProductToCart();
+          btnBuy.addEventListener('click', (event) => {
+            event.preventDefault();
+            const size = getSelectedSizeValue();
+            if (!size) {
+              showSizeError();
+              return;
+            }
+            const added = addCurrentProductToCart();
+            if (!added) return;
             window.location.href = 'cart.html';
           });
         }

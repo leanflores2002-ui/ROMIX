@@ -576,18 +576,19 @@
     .size-guide-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, .35);
+      background: rgba(0, 0, 0, 0.45);
       z-index: 9997;
     }
     .size-guide-drawer {
       position: fixed;
       top: 0;
       right: 0;
-      width: min(48vw, 760px);
+      width: min(50vw, 760px);
+      min-width: 620px;
       height: 100vh;
       background: #fff;
       z-index: 9998;
-      box-shadow: -10px 0 30px rgba(0,0,0,.16);
+      box-shadow: -16px 0 40px rgba(0, 0, 0, 0.18);
       display: flex;
       flex-direction: column;
     }
@@ -600,7 +601,7 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 14px;
-      padding: 22px 22px 16px;
+      padding: 28px 30px 20px;
       border-bottom: 1px solid #f3cfe2;
     }
     .size-guide-drawer__eyebrow {
@@ -628,7 +629,7 @@
       cursor: pointer;
     }
     .size-guide-drawer__body {
-      padding: 18px 20px 28px;
+      padding: 24px 30px 36px;
       overflow-y: auto;
     }
     .size-guide-section h3 {
@@ -637,20 +638,21 @@
       font-size: 18px;
     }
     .size-guide-table-wrap {
+      width: 100%;
       overflow-x: auto;
       border: 1px solid #f3cfe2;
-      border-radius: 12px;
-      margin-bottom: 18px;
+      border-radius: 14px;
+      margin-bottom: 24px;
     }
     .size-guide-table {
       width: 100%;
-      min-width: 460px;
+      min-width: 560px;
       border-collapse: collapse;
-      font-size: 14px;
+      font-size: 15px;
     }
     .size-guide-table th,
     .size-guide-table td {
-      padding: 11px 12px;
+      padding: 14px 16px;
       border-bottom: 1px solid #f5dbe8;
       text-align: center;
     }
@@ -664,8 +666,9 @@
       font-weight: 800;
     }
     .size-guide-figure {
+      width: 100%;
       border: 1px solid #f3cfe2;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       background: #fff;
     }
@@ -1485,7 +1488,7 @@
     .size-guide-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(23, 17, 29, 0.38);
+      background: rgba(0, 0, 0, 0.45);
       z-index: 9997;
     }
 
@@ -1493,11 +1496,12 @@
       position: fixed;
       top: 0;
       right: 0;
-      width: min(48vw, 760px);
+      width: min(50vw, 760px);
+      min-width: 620px;
       height: 100vh;
       background: #fffdfd;
       z-index: 9998;
-      box-shadow: -14px 0 34px rgba(45, 24, 41, 0.18);
+      box-shadow: -16px 0 40px rgba(0, 0, 0, 0.18);
       display: flex;
       flex-direction: column;
     }
@@ -1512,7 +1516,7 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 14px;
-      padding: 22px 22px 16px;
+      padding: 28px 30px 20px;
       border-bottom: 1px solid #f3cfe2;
       background: linear-gradient(180deg, rgba(255, 244, 249, 0.88) 0%, rgba(255, 255, 255, 0.96) 100%);
     }
@@ -1546,7 +1550,7 @@
     }
 
     .size-guide-drawer__body {
-      padding: 18px 20px 28px;
+      padding: 24px 30px 36px;
       overflow-y: auto;
     }
 
@@ -1557,23 +1561,24 @@
     }
 
     .size-guide-table-wrap {
+      width: 100%;
       overflow-x: auto;
       border: 1px solid #f3cfe2;
-      border-radius: 12px;
-      margin-bottom: 18px;
+      border-radius: 14px;
+      margin-bottom: 24px;
       background: #fff;
     }
 
     .size-guide-table {
       width: 100%;
-      min-width: 460px;
+      min-width: 560px;
       border-collapse: collapse;
-      font-size: 14px;
+      font-size: 15px;
     }
 
     .size-guide-table th,
     .size-guide-table td {
-      padding: 11px 12px;
+      padding: 14px 16px;
       border-bottom: 1px solid #f5dbe8;
       text-align: center;
     }
@@ -1590,8 +1595,9 @@
     }
 
     .size-guide-figure {
+      width: 100%;
       border: 1px solid #f3cfe2;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       background: #fff;
     }
@@ -2282,6 +2288,7 @@
 
       .size-guide-drawer {
         width: 100vw;
+        min-width: 0;
         max-width: 100vw;
       }
 
@@ -2294,7 +2301,7 @@
       }
 
       .size-guide-table {
-        min-width: 430px;
+        min-width: 520px;
       }
     }
 

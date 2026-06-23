@@ -548,6 +548,15 @@
       flex-wrap: wrap;
       gap: 8px;
     }
+    .size-selector.has-error .size-chip:not([disabled]) {
+      border-color: rgba(217, 43, 127, 0.35);
+    }
+    .product-size-error {
+      margin-top: 8px;
+      color: #d92b7f;
+      font-size: 14px;
+      font-weight: 700;
+    }
     .size-chip {
       border-radius: 12px;
       border: 1px solid #d6d8db;
@@ -1325,6 +1334,17 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+    }
+
+    .size-selector.has-error .size-chip:not([disabled]) {
+      border-color: rgba(217, 43, 127, 0.35);
+    }
+
+    .product-size-error {
+      margin-top: 8px;
+      color: #d92b7f;
+      font-size: 14px;
+      font-weight: 700;
     }
 
     .size-chip {
@@ -2970,6 +2990,9 @@
       }
 
             function addCurrentProductToCart() {
+        if (!validateSelectedSize()) {
+          return null;
+        }
         let colorKey = currentSelectedColor || 'Unico';
         let colorId = null;
         const colorActive = document.querySelector('[data-color-option].is-active, [data-color-option].active, [data-color-option].selected');
@@ -2984,15 +3007,17 @@
           if (candidateId != null) colorId = candidateId;
         }
 
-        let size = currentSelectedSize || 'U';
+        let size = currentSelectedSize || '';
         const sizeActive = document.querySelector('[data-size-option].is-active, [data-size-option].active, .size-chip.selected');
         if (sizeActive) {
           const datasetSize = sizeActive.dataset.sizeValue || sizeActive.dataset.size;
           if (datasetSize) {
             size = String(datasetSize);
-          } else if (currentSelectedSize) {
-            size = currentSelectedSize;
           }
+        }
+        if (!size) {
+          showSizeError();
+          return null;
         }
 
         const qty = currentQty || 1;
@@ -3996,9 +4021,10 @@
                 </div>
                 <div id="color-stock-info" class="stock-info-color"></div>
               </div>
-              <div class="selector">
+              <div class="selector size-selector" id="size-selector">
                 <div class="selector-label">Talle</div>
                 <div class="size-options" id="size-options"></div>
+                <p id="size-error" class="product-size-error" hidden></p>
               </div>
               <div class="selector quantity-row">
                 <div class="selector-label">Cantidad</div>
@@ -4060,6 +4086,8 @@
         const swatchWrapper = detail.querySelector('#color-options');
         const selectedColorNameEl = detail.querySelector('#selectedColorName');
         const sizeWrapper = detail.querySelector('#size-options');
+        const sizeSelector = detail.querySelector('#size-selector');
+        const sizeError = detail.querySelector('#size-error');
         const stockNote = detail.querySelector('#stock-note');
         const quantityInput = detail.querySelector('#quantity-input');
         const minusBtn = detail.querySelector('#quantity-minus');
@@ -4140,6 +4168,38 @@
         const sizeOrder = Array.isArray(product.sizes) ? product.sizes.map(size => String(size.size || size)).filter(Boolean) : [];
         let activeColor = defaultColorName;
         let activeSize = '';
+
+        function clearSizeError() {
+          if (sizeError) {
+            sizeError.textContent = '';
+            sizeError.hidden = true;
+          }
+          if (sizeSelector) {
+            sizeSelector.classList.remove('has-error');
+          }
+        }
+
+        function showSizeError() {
+          if (sizeError) {
+            sizeError.textContent = 'Por favor, seleccioná tu talle';
+            sizeError.hidden = false;
+          }
+          if (sizeSelector) {
+            sizeSelector.classList.add('has-error');
+          }
+        }
+
+        function validateSelectedSize() {
+          const activeChip = sizeWrapper
+            ? sizeWrapper.querySelector('.size-chip.selected, .size-chip.is-active, .size-option--active')
+            : null;
+          if (activeSize && activeChip) {
+            clearSizeError();
+            return true;
+          }
+          showSizeError();
+          return false;
+        }
 
         function setActiveThumb(targetIndex) {
           if (!thumbContainer) return;
@@ -4236,9 +4296,9 @@
           const map = stockMap[colorName] || stockMap['Unico'] || {};
           let keys = sizeOrder.length ? [...new Set([...sizeOrder, ...Object.keys(map)])] : Object.keys(map);
           if (!keys.length) keys.push('Unico');
+          const previousSize = activeSize;
           sizeWrapper.innerHTML = '';
           let total = 0;
-          let firstAvailable = null;
           keys.forEach(sizeKey => {
             const qty = Number(map[sizeKey] ?? 0);
             total += qty;
@@ -4258,22 +4318,23 @@
               chip.classList.add('selected', 'is-active', 'size-option--active');
               activeSize = sizeKey;
               currentSelectedSize = sizeKey;
+              clearSizeError();
               updatePriceForSize(product, activeSize);
             });
-            sizeWrapper.appendChild(chip);
-            if (!firstAvailable && state !== 'out') firstAvailable = sizeKey;
-          });
-          if (!activeSize || !sizeWrapper.querySelector(`.size-chip[data-size="${activeSize}"]`)) {
-            const fallback = sizeWrapper.querySelector('.size-chip:not(.out)');
-            if (fallback) {
-              fallback.classList.add('selected', 'is-active', 'size-option--active');
-              activeSize = fallback.dataset.size;
-            } else if (sizeWrapper.firstChild) {
-              sizeWrapper.firstChild.classList.add('selected', 'is-active', 'size-option--active');
-              activeSize = sizeWrapper.firstChild.dataset.size;
+            if (previousSize && previousSize === sizeKey && state !== 'out') {
+              chip.classList.add('selected', 'is-active', 'size-option--active');
             }
+            sizeWrapper.appendChild(chip);
+          });
+          const preservedSelection = previousSize && sizeWrapper.querySelector(`.size-chip[data-size="${previousSize}"].selected`);
+          if (preservedSelection) {
+            activeSize = previousSize;
+            currentSelectedSize = previousSize;
+          } else {
+            activeSize = '';
+            currentSelectedSize = '';
           }
-          currentSelectedSize = activeSize || currentSelectedSize || '';
+          clearSizeError();
           const label = getStockLabel(total);
           if (stockNote) {
             stockNote.textContent = label;
@@ -4458,7 +4519,8 @@
 
         if (btnBuy) {
           btnBuy.addEventListener('click', () => {
-            addCurrentProductToCart();
+            const added = addCurrentProductToCart();
+            if (!added) return;
             window.location.href = 'cart.html';
           });
         }

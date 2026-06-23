@@ -1685,31 +1685,47 @@
       const seen = new Set();
       const colors = Array.isArray(product && product.colors) ? product.colors : [];
       const imageMap = getImageMap(product);
+      const imageList = Array.isArray(product && product.images) ? product.images.filter(Boolean) : [];
 
-      function pushVariant(name, hex, image) {
+      function resolveVariantImage(label, explicitImage, index) {
+        const direct = String(explicitImage || "").trim();
+        if (direct) return direct;
+        const mapped = findColorImage(product, label);
+        if (mapped) return mapped;
+        const byIndex = String(imageList[index] || "").trim();
+        if (byIndex) return byIndex;
+        return pickImage(product, "images/logo-romix.png");
+      }
+
+      function pushVariant(name, hex, image, index) {
         const label = String(name || "").trim();
         const key = normalizeText(label);
         if (!label || seen.has(key)) return;
         seen.add(key);
-        const thumb = image && typeof imageUtils.toThumbPath === "function" && !String(image).startsWith("data:")
-          ? imageUtils.toThumbPath(image)
+        const resolvedImage = resolveVariantImage(label, image, index);
+        const thumb = resolvedImage && typeof imageUtils.toThumbPath === "function" && !String(resolvedImage).startsWith("data:")
+          ? imageUtils.toThumbPath(resolvedImage)
           : pickThumbImage(product, "images/logo-romix.png");
         variants.push({
           name: label,
           hex: hex || "",
-          image: image || "",
+          image: resolvedImage,
           thumb
         });
       }
 
-      colors.forEach((color) => {
+      colors.forEach((color, index) => {
         if (!color) return;
-        pushVariant(color.name, color.hex, color.image || findColorImage(product, color.name));
+        pushVariant(color.name, color.hex, color.image, index);
       });
 
       if (imageMap) {
         Object.entries(imageMap).forEach(([name, image]) => {
-          pushVariant(name, "", image);
+          pushVariant(name, "", image, variants.length);
+        });
+      } else if (!variants.length && imageList.length > 1) {
+        imageList.forEach((image, index) => {
+          pushVariant("Vista " + (index + 1), "", image, index);
         });
       }
 
@@ -1757,7 +1773,12 @@
     function getNovedadesSource(products) {
       const source = Array.isArray(products) ? products : [];
       const featured = source.filter((item) => item && item.featured === true);
-      return featured.length ? featured : source.slice(0, 20);
+      if (featured.length) return featured;
+      const winter = source.filter((item) => {
+        const season = normalizeText(item && (item.seasonKey || item.season));
+        return season.includes("invierno");
+      });
+      return winter.length ? winter.slice(0, 20) : source.slice(0, 20);
     }
 
     function pickByTypes(products, types, usedKeys) {
@@ -1770,10 +1791,16 @@
 
     async function loadHomeProducts() {
       if (window.romixProductsStore && typeof window.romixProductsStore.load === "function") {
-        return window.romixProductsStore.load();
+        const data = await window.romixProductsStore.load({ dataUrl: "assets/data/products.json" });
+        return Array.isArray(data) ? data : [];
       }
-      const response = await fetch("assets/data/products.json");
-      return response.json();
+      const response = await fetch(new URL("assets/data/products.json", window.location.href));
+      if (!response.ok) {
+        throw new Error("No se pudo cargar products.json para home (" + response.status + ")");
+      }
+      const text = await response.text();
+      const parsed = JSON.parse(String(text || "").replace(/^\uFEFF/, ""));
+      return Array.isArray(parsed) ? parsed : [];
     }
 
     function renderCategories() {
@@ -1926,7 +1953,9 @@
             if (variant.hex) btn.style.backgroundColor = variant.hex;
             btn.classList.add("variant-chip--color");
 
-            btn.addEventListener("click", function () {
+            btn.addEventListener("click", function (event) {
+              event.preventDefault();
+              event.stopPropagation();
               varWrap.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
               btn.classList.add("is-active");
               thumbLink.classList.remove("is-loaded");
@@ -1944,7 +1973,7 @@
           }
 
           const initial = visible[0];
-          if (initial) setImg(fallbackImage, initial.name);
+          if (initial) setImg(initial.thumb || initial.image, initial.name);
           body.appendChild(varWrap);
         }
 
@@ -2151,8 +2180,15 @@
     (async function initHomeCatalogData() {
       try {
         const products = await loadHomeProducts();
-        if (!Array.isArray(products) || !products.length) return;
         renderCategories();
+        if (!Array.isArray(products) || !products.length) {
+          const row = document.getElementById("productsRow");
+          if (row) {
+            row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+          }
+          console.warn("[index] loadHomeProducts devolvio una lista vacia");
+          return;
+        }
         renderProducts(products);
       } catch (error) {
         const row = document.getElementById("productsRow");

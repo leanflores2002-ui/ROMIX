@@ -784,22 +784,33 @@
     const result = [];
     const seen = new Set();
     const fallbackImage = String((product && product.image) || "").trim() || PLACEHOLDER;
+    const imageList = Array.isArray(product && product.images) ? product.images.filter(Boolean) : [];
+
+    function resolveColorImage(name, index) {
+      const key = normalizeText(name);
+      const fromMap = String(colorImageMap[key] || "").trim();
+      if (fromMap) return fromMap;
+      const fromIndex = String(imageList[index] || "").trim();
+      if (fromIndex) return fromIndex;
+      return fallbackImage;
+    }
 
     const fromList = Array.isArray(product && product.colors) ? product.colors : [];
-    fromList.forEach((entry) => {
+    fromList.forEach((entry, index) => {
       if (!entry) return;
       const name = String(entry.name || entry.value || "").trim();
       if (!name) return;
       const key = normalizeText(name);
       if (!key || seen.has(key)) return;
       seen.add(key);
+      const resolvedImage = resolveColorImage(name, index);
       result.push({
         key,
         name,
         hex: entry.hex || RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da",
-        image: colorImageMap[key] || fallbackImage,
-        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : "",
-        thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : "",
+        image: resolvedImage,
+        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : "",
+        thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : "",
         thumbAvif: ""
       });
     });
@@ -816,9 +827,9 @@
           key,
           name,
           hex: RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da",
-          image: colorImageMap[key] || fallbackImage,
-          thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : "",
-          thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(colorImageMap[key] || fallbackImage) : "",
+          image: resolveColorImage(name, result.length),
+          thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : "",
+          thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : "",
           thumbAvif: ""
         });
       });
@@ -1489,7 +1500,9 @@
           button.title = color.name;
           button.style.backgroundColor = color.hex || "#efecf3";
           button.classList.add("variant-chip--color");
-          button.addEventListener("click", function () {
+          button.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
             selectedColor = color;
             variants.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
             button.classList.add("is-active");

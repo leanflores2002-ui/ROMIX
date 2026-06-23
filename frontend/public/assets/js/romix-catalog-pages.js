@@ -815,7 +815,8 @@
         image: resolvedImage,
         thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : "",
         thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : "",
-        thumbAvif: ""
+        thumbAvif: "",
+        swatchImage: resolvedImage
       });
     });
 
@@ -834,7 +835,8 @@
           image: resolveColorImage(name, result.length),
           thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : "",
           thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : "",
-          thumbAvif: ""
+          thumbAvif: "",
+          swatchImage: resolveColorImage(name, result.length)
         });
       });
     }
@@ -847,7 +849,8 @@
         image: fallbackImage,
         thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : "",
         thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : "",
-        thumbAvif: ""
+        thumbAvif: "",
+        swatchImage: fallbackImage
       });
     }
 
@@ -1502,7 +1505,12 @@
           button.className = "variant-chip" + (index === 0 ? " is-active" : "");
           button.setAttribute("aria-label", "Ver color " + color.name);
           button.title = color.name;
+          button.dataset.colorName = color.name;
+          button.dataset.colorIndex = String(index);
           button.style.backgroundColor = color.hex || "#efecf3";
+          if (color.swatchImage) {
+            button.style.backgroundImage = "url('" + String(color.swatchImage).replace(/'/g, "%27") + "')";
+          }
           button.classList.add("variant-chip--color");
           button.addEventListener("click", function (event) {
             event.preventDefault();

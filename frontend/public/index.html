@@ -603,6 +603,9 @@
       border-radius: 50%;
       border: 2px solid #ddd;
       background-color: #ffffff;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       cursor: pointer;
       flex-shrink: 0;
       overflow: hidden;
@@ -1717,7 +1720,8 @@
           name: label,
           hex: hex || "",
           image: resolvedImage,
-          thumb
+          thumb,
+          swatchImage: resolvedImage
         });
       }
 
@@ -1956,8 +1960,13 @@
             btn.className = "variant-chip" + (index === 0 ? " is-active" : "");
             btn.setAttribute("aria-label", "Ver color " + variant.name);
             btn.title = variant.name;
+            btn.dataset.colorName = variant.name;
+            btn.dataset.colorIndex = String(index);
 
-            if (variant.hex) btn.style.backgroundColor = variant.hex;
+            btn.style.backgroundColor = variant.hex || "#efecf3";
+            if (variant.swatchImage) {
+              btn.style.backgroundImage = "url('" + String(variant.swatchImage).replace(/'/g, "%27") + "')";
+            }
             btn.classList.add("variant-chip--color");
 
             btn.addEventListener("click", function (event) {

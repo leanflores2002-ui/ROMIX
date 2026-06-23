@@ -695,13 +695,16 @@ a {
   width: 34px;
   height: 34px;
   min-width: 34px;
-  border-radius: 8px;
+  border-radius: 999px;
   border: 1px solid #ddd5dc;
   padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: #ffffff;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   overflow: hidden;
   flex: 0 0 auto;
   cursor: pointer;

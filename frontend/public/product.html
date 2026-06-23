@@ -248,8 +248,12 @@
       justify-content: center;
     }
     .zoom-stage img {
-      max-width: 100%;
-      max-height: 100%;
+      max-width: min(90vw, 100%);
+      max-height: min(90vh, 100%);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      transform: none;
       transform-origin: center;
       cursor: zoom-in;
       user-select: none;
@@ -995,6 +999,12 @@
     }
 
     .zoom-stage img {
+      max-width: 90vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      transform: none;
       touch-action: none;
       user-select: none;
       will-change: transform;
@@ -1940,6 +1950,15 @@
         width: 100%;
         height: min(74vh, 620px);
         border-radius: 16px;
+      }
+
+      .zoom-stage img {
+        max-width: 94vw;
+        max-height: 82vh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        transform: none;
       }
 
       .zoom-close {
@@ -3296,7 +3315,9 @@
 
         function applyTransform(){
           clampTranslate();
-          zoomImage.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
+          zoomImage.style.transform = scale <= 1
+            ? 'none'
+            : 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
         }
 
         function updateZoomState(){
@@ -3308,7 +3329,13 @@
           translateX = 0;
           translateY = 0;
           hoverZoomActive = false;
+          dragging = false;
+          touchDragging = false;
+          touchMoved = false;
+          dragMoved = false;
+          pinchStartDistance = 0;
           zoomImage.style.transformOrigin = '50% 50%';
+          stage.classList.remove('dragging');
           applyTransform();
           updateZoomState();
         }
@@ -3316,6 +3343,7 @@
         function syncImage(){
           const src = items[currentIndex] || mainImage.src;
           zoomImage.src = src;
+          zoomImage.alt = mainImage.alt || 'Producto ampliado';
           reset();
           counterEl.textContent = (currentIndex + 1) + ' / ' + total;
           prevBtn.disabled = currentIndex <= 0;
@@ -3346,6 +3374,7 @@
           touchDragging = false;
           hoverZoomActive = false;
           stage.classList.remove('dragging');
+          reset();
           document.body.style.overflow = '';
           isOpen = false;
           document.removeEventListener('keydown', onKeydown);
@@ -3430,7 +3459,7 @@
         }, { passive: false });
 
         stage.addEventListener('click', (evt) => {
-          if (!allowHoverZoom) return;
+          if (allowHoverZoom) return;
           if (!isOpen || dragging) return;
           if (dragMoved) {
             dragMoved = false;
@@ -3453,7 +3482,14 @@
 
         stage.addEventListener('mousemove', (evt) => {
           if (!allowHoverZoom) return;
-          if (!hoverZoomActive || scale <= 1) return;
+          if (!isOpen || dragging) return;
+          if (scale <= 1) {
+            scale = clampScale(1.85);
+            translateX = 0;
+            translateY = 0;
+            hoverZoomActive = true;
+            updateZoomState();
+          }
           const rect = stage.getBoundingClientRect();
           if (!rect.width || !rect.height) return;
           const x = Math.max(0, Math.min(evt.clientX - rect.left, rect.width));
@@ -3464,6 +3500,11 @@
           translateX = 0;
           translateY = 0;
           applyTransform();
+        });
+
+        stage.addEventListener('mouseleave', () => {
+          if (!allowHoverZoom || !isOpen) return;
+          reset();
         });
 
         function distance(touchA, touchB){

@@ -885,8 +885,8 @@
   <script id="preloaded-product" type="application/json">
     {{ product_json if product_json is defined else "null" }}
   </script>
-  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ROMIX">
   <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">
@@ -2213,7 +2213,10 @@
   <header class="site-header romix-shared-header">
   <div class="container header-row">
     <a class="brand" href="index.html" aria-label="ROMIX inicio">
-      <img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />
+      <picture class="brand-logo-media">
+        <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp" />
+        <img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />
+      </picture>
       ROMIX<span class="brand-dot">.</span>
     </a>
 
@@ -2367,6 +2370,14 @@
         if (!src || String(src).startsWith('data:')) return src || PLACEHOLDER;
         if (typeof imageUtils.toThumbPath === 'function') return imageUtils.toThumbPath(src);
         return src;
+      }
+      function toWebpImage(src) {
+        const value = String(src || '').trim();
+        if (!value || value === PLACEHOLDER || value.startsWith('data:')) return '';
+        const ext = typeof imageUtils.extension === 'function' ? imageUtils.extension(value) : '';
+        if (!/^(png|jpg|jpeg|webp)$/i.test(ext)) return '';
+        if (ext === 'webp') return value;
+        return typeof imageUtils.replaceExtension === 'function' ? imageUtils.replaceExtension(value, 'webp') : '';
       }
       function getProductImageMap(product) {
         if (!product || typeof product !== 'object') return null;
@@ -3250,7 +3261,12 @@
           const value = String(src || '').trim();
           if (!value || seen.has(value)) return;
           seen.add(value);
-          images.push({ label, src: value, thumbSrc: thumbSrc || pickProductThumb(product, value) });
+          images.push({
+            label,
+            src: value,
+            webpSrc: toWebpImage(value),
+            thumbSrc: thumbSrc || pickProductThumb(product, value)
+          });
         }
 
         if (product.image) {
@@ -3271,7 +3287,7 @@
         }
 
         if (!images.length) {
-          images.push({ label: 'placeholder', src: PLACEHOLDER, thumbSrc: PLACEHOLDER });
+          images.push({ label: 'placeholder', src: PLACEHOLDER, webpSrc: '', thumbSrc: PLACEHOLDER });
         }
         return images;
       }
@@ -4026,7 +4042,7 @@
         if (!detail) return;
         currentProduct = product;
         const gallery = getGallery(product);
-        ensureProductImagePreload(gallery[0] && gallery[0].src);
+        ensureProductImagePreload(gallery[0] && (gallery[0].webpSrc || gallery[0].src));
         const preloadGallery = () => {
           gallery.slice(1, 3).forEach(item => {
             if (!item || !item.src) return;
@@ -4050,7 +4066,10 @@
           <div class="detail-grid">
             <div class="gallery">
               <div class="main-image" role="button" tabindex="0" aria-label="Abrir zoom de imagen" aria-haspopup="dialog">
-                <img id="main-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />
+                <picture id="main-image-picture">
+                  ${gallery[0].webpSrc ? `<source srcset="${gallery[0].webpSrc}" type="image/webp" />` : ''}
+                  <img id="main-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />
+                </picture>
                 <button type="button" class="zoom-btn" id="zoom-open" aria-label="Acercar imagen" aria-haspopup="dialog">
                   <i class="fas fa-search-plus" aria-hidden="true"></i>
                 </button>
@@ -4302,6 +4321,33 @@
           }
         }
 
+        function syncPictureSource(picture, type, src) {
+          if (!picture) return;
+          const selector = 'source[type="' + type + '"]';
+          const current = picture.querySelector(selector);
+          if (!src) {
+            if (current) current.remove();
+            return;
+          }
+          if (current) {
+            current.srcset = src;
+            return;
+          }
+          const sourceTag = document.createElement('source');
+          sourceTag.type = type;
+          sourceTag.srcset = src;
+          picture.insertBefore(sourceTag, picture.firstChild);
+        }
+
+        function setResponsiveMainImage(src, alt) {
+          if (!mainImage) return;
+          const nextSrc = String(src || '').trim() || PLACEHOLDER;
+          const picture = mainImage.closest('picture');
+          syncPictureSource(picture, 'image/webp', toWebpImage(nextSrc));
+          mainImage.src = nextSrc;
+          if (alt != null) mainImage.alt = alt;
+        }
+
         if (thumbContainer) {
           const thumbs = Array.from(thumbContainer.querySelectorAll('[data-index]'));
           thumbs.forEach((thumb, index) => {
@@ -4311,7 +4357,10 @@
               if (targetColor && findColorOption(product, targetColor)) {
                 setActiveColor(targetColor, { imageOverride: gallery[index].src, skipThumbSync: true });
               } else if (mainImage) {
-                mainImage.src = gallery[index].src;
+                setResponsiveMainImage(
+                  gallery[index].src,
+                  gallery[index].label ? `${product.name || 'Producto'} - ${gallery[index].label}` : (product.name || 'Producto')
+                );
               }
             };
             thumb.addEventListener('click', activateThumb);
@@ -4498,8 +4547,10 @@
                 imageOverride = matchedSwatch.dataset.colorImage;
               }
             }
-            mainImage.src = imageOverride || getColorImage(product, colorName);
-            mainImage.alt = displayName ? `${product.name || 'Producto'} - ${displayName}` : (product.name || 'Producto');
+            setResponsiveMainImage(
+              imageOverride || getColorImage(product, colorName),
+              displayName ? `${product.name || 'Producto'} - ${displayName}` : (product.name || 'Producto')
+            );
           }
           if (thumbContainer && !opts.skipThumbSync) {
             const targetKey = normalizeColorKey(colorName);

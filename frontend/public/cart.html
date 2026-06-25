@@ -75,8 +75,8 @@
     .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
   </style>
   <link rel="stylesheet" href="assets/css/responsive.css">
-  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ROMIX">
   <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">
@@ -732,7 +732,10 @@
     <header class="site-header romix-shared-header">
   <div class="container header-row">
     <a class="brand" href="index.html" aria-label="ROMIX inicio">
-      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      <picture class="brand-logo-media">
+        <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp" />
+        <img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />
+      </picture>
       ROMIX<span class="brand-dot">.</span>
     </a>
 

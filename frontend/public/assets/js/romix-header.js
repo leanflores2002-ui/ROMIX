@@ -1,4 +1,10 @@
 (function () {
+  const BRAND_LOGO_PICTURE = '' +
+    '<picture class="brand-logo-media">' +
+      '<source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp">' +
+      '<img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />' +
+    '</picture>';
+
   var imageUtils = window.romixImageUtils || {};
 
   function normalizeText(value) {
@@ -370,13 +376,13 @@
           '</button>' +
         '</div>' +
         '<a class="brand" href="index.html" aria-label="ROMIX inicio">' +
-          '<img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />' +
+          BRAND_LOGO_PICTURE +
           'ROMIX<span class="brand-dot">.</span>' +
         '</a>' +
         '<nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">' +
           '<div class="mobile-drawer-header">' +
             '<a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio">' +
-              '<img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />' +
+              BRAND_LOGO_PICTURE +
               '<span>ROMIX</span>' +
             '</a>' +
             '<button class="mobile-drawer-close" id="close-mobile-nav" type="button" aria-label="Cerrar menu">' +

@@ -835,7 +835,7 @@
         thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : "",
         thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : "",
         thumbAvif: "",
-        swatchImage: resolvedImage
+        swatchImage: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : resolvedImage
       });
     });
 
@@ -855,7 +855,7 @@
           thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : "",
           thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : "",
           thumbAvif: "",
-          swatchImage: resolveColorImage(name, result.length)
+          swatchImage: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : resolveColorImage(name, result.length)
         });
       });
     }
@@ -869,7 +869,7 @@
         thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : "",
         thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : "",
         thumbAvif: "",
-        swatchImage: fallbackImage
+        swatchImage: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : fallbackImage
       });
     }
 

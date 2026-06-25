@@ -26,7 +26,8 @@
   <link rel="preload" as="image" href="images/banners/banner-1.webp" type="image/webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
   <link rel="stylesheet" href="assets/css/romix-header.css" />
   <link rel="stylesheet" href="assets/css/romix-footer.css" />
   <style>
@@ -275,6 +276,8 @@
       border: 1px solid rgba(255, 255, 255, 0.7);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-card);
+      content-visibility: auto;
+      contain-intrinsic-size: 780px;
       overflow: hidden;
     }
 
@@ -1273,7 +1276,7 @@
             <a class="main-hero-carousel__slide-link" href="catalogo.html?temporada=invierno&q_any=termica,campera,polar" aria-label="Ver coleccion para invierno">
               <picture>
                 <source srcset="images/banners/banner-1.webp" type="image/webp" />
-                <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" decoding="async" fetchpriority="high" />
+                <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" loading="eager" decoding="async" fetchpriority="high" sizes="100vw" />
               </picture>
             </a>
           </figure>
@@ -1281,7 +1284,7 @@
             <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=hombre,mujer&q_any=frizado,corderito,polar" aria-label="Ver abrigo para hombre y mujer">
               <picture>
                 <source srcset="images/banners/banner-2.webp" type="image/webp" />
-                <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" />
+                <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
               </picture>
             </a>
           </figure>
@@ -1289,7 +1292,7 @@
             <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=ninos&q_any=termica,campera,buzo" aria-label="Ver coleccion de ninos">
               <picture>
                 <source srcset="images/banners/banner-3.webp" type="image/webp" />
-                <img src="images/banners/banner-3.png" alt="Coleccion infantil ROMIX" width="1900" height="1267" loading="lazy" decoding="async" />
+                <img src="images/banners/banner-3.png" alt="Coleccion infantil ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
               </picture>
             </a>
           </figure>
@@ -1577,6 +1580,7 @@
     const squareImageSize = imageUtils.dimensions && imageUtils.dimensions.square
       ? imageUtils.dimensions.square
       : { width: 1254, height: 1254 };
+    const HOME_CARD_IMAGE_SIZES = "(max-width: 640px) min(62vw, 240px), (max-width: 960px) min(34vw, 240px), 240px";
 
     const HOME_CATEGORIES = [
       { label: "Calzas", query: "calzas", imagePath: "images/calzas.png" },
@@ -1847,7 +1851,9 @@
       }
 
       const variantLimit = window.innerWidth <= 640 ? 3 : 4;
+      const homeProductLimit = window.innerWidth <= 768 ? 8 : 12;
       row.innerHTML = "";
+      source = source.slice(0, homeProductLimit);
 
       source.forEach((product, index) => {
         const type = normalizeText(product && product.type);
@@ -1863,7 +1869,6 @@
         const thumbLink = document.createElement("a");
         thumbLink.className = "product-thumb";
         thumbLink.href = href;
-        const isPriorityImage = index < 4;
         const media = typeof imageUtils.createPicture === "function"
           ? imageUtils.createPicture({
               src: defaultThumbSet.src,
@@ -1873,9 +1878,10 @@
               alt: product && product.name ? String(product.name) : "Producto",
               width: cardImageSize.width,
               height: cardImageSize.height,
-              loading: isPriorityImage ? "eager" : "lazy",
+              loading: "lazy",
               decoding: "async",
-              fetchpriority: isPriorityImage ? "high" : "low"
+              fetchpriority: "low",
+              sizes: HOME_CARD_IMAGE_SIZES
             })
           : null;
         const mainImg = media ? media.img : document.createElement("img");
@@ -1933,11 +1939,12 @@
         });
 
         if (!media) {
-          mainImg.loading = isPriorityImage ? "eager" : "lazy";
+          mainImg.loading = "lazy";
           mainImg.decoding = "async";
           mainImg.width = cardImageSize.width;
           mainImg.height = cardImageSize.height;
-          mainImg.setAttribute("fetchpriority", isPriorityImage ? "high" : "low");
+          mainImg.sizes = HOME_CARD_IMAGE_SIZES;
+          mainImg.setAttribute("fetchpriority", "low");
           thumbLink.appendChild(mainImg);
         } else {
           thumbLink.appendChild(picture);
@@ -1957,7 +1964,8 @@
             const btn = document.createElement("button");
             btn.type = "button";
             btn.className = "variant-chip" + (index === 0 ? " is-active" : "");
-            btn.setAttribute("aria-label", "Ver color " + variant.name);
+            btn.setAttribute("aria-label", "Seleccionar color " + variant.name);
+            btn.setAttribute("aria-pressed", index === 0 ? "true" : "false");
             btn.title = variant.name;
             btn.dataset.colorName = variant.name;
             btn.dataset.colorIndex = String(index);
@@ -1971,8 +1979,12 @@
             btn.addEventListener("click", function (event) {
               event.preventDefault();
               event.stopPropagation();
-              varWrap.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
+              varWrap.querySelectorAll(".variant-chip").forEach((chip) => {
+                chip.classList.remove("is-active");
+                chip.setAttribute("aria-pressed", "false");
+              });
               btn.classList.add("is-active");
+              btn.setAttribute("aria-pressed", "true");
               thumbLink.classList.remove("is-loaded");
               setImg(variant.thumb || variant.image, variant.name);
             });

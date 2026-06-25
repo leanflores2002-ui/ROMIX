@@ -3,12 +3,11 @@
   const PLACEHOLDER = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="540" height="700"><rect width="100%" height="100%" fill="#fff7fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b7a6af" font-family="Segoe UI, Arial" font-size="24">ROMIX</text></svg>');
   const COLOR_LIMIT = 8;
   const SIZE_BASE = ["1", "2", "3", "4", "5", "6"];
-  const INITIAL_VISIBLE_PRODUCTS = 12;
-  const LOAD_MORE_STEP = 12;
   const imageUtils = window.romixImageUtils || {};
   const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
     ? imageUtils.dimensions.productCard
     : { width: 720, height: 960 };
+  const CARD_IMAGE_SIZES = "(max-width: 640px) calc(50vw - 22px), (max-width: 960px) calc(50vw - 28px), (max-width: 1200px) calc(33vw - 26px), 280px";
 
   const PAGE_CONFIG = {
     mujer: { title: "Mujer", label: "Mujer" },
@@ -129,11 +128,31 @@
     showAllColors: false,
     showAllSizes: false,
     sizeValues: [],
-    visibleCount: INITIAL_VISIBLE_PRODUCTS
+    visibleCount: window.innerWidth <= 768 ? 8 : 12
   };
 
   function isCompactVariantViewport() {
     return window.innerWidth <= 768;
+  }
+
+  function getInitialVisibleProducts() {
+    return window.innerWidth <= 768 ? 8 : 12;
+  }
+
+  function getLoadMoreStep() {
+    return window.innerWidth <= 768 ? 8 : 12;
+  }
+
+  function getCardImagePriority(index) {
+    if (window.innerWidth <= 768) {
+      return index < 2
+        ? { loading: "eager", fetchpriority: "high" }
+        : { loading: "lazy", fetchpriority: "low" };
+    }
+
+    return index < 4
+      ? { loading: "eager", fetchpriority: "high" }
+      : { loading: "lazy", fetchpriority: "low" };
   }
 
   function stripAccents(value) {
@@ -1110,7 +1129,7 @@
       button.type = "button";
       button.className = "catalog-load-more-btn";
       button.addEventListener("click", function () {
-        state.visibleCount = Math.min(state.visibleCount + LOAD_MORE_STEP, state.view.length);
+        state.visibleCount = Math.min(state.visibleCount + getLoadMoreStep(), state.view.length);
         renderGrid();
       });
       wrap.appendChild(button);
@@ -1131,7 +1150,8 @@
     const remaining = Math.max(0, state.view.length - visible);
     controls.wrap.hidden = remaining <= 0;
     controls.button.hidden = remaining <= 0;
-    controls.button.textContent = remaining > LOAD_MORE_STEP ? "Ver " + LOAD_MORE_STEP + " mas" : "Ver mas";
+    const step = getLoadMoreStep();
+    controls.button.textContent = remaining > step ? "Ver " + step + " mas" : "Ver mas";
   }
 
   function buildSortSelect(id, extraClassName) {
@@ -1400,7 +1420,7 @@
       const thumb = document.createElement("div");
       thumb.className = "product-thumb";
       let selectedColor = getFirstColor(product);
-      const isPriorityImage = index < 4;
+      const imagePriority = getCardImagePriority(index);
       const defaultThumbSet = resolveThumbSet(product, null);
       const initialThumbSet = resolveThumbSet(product, selectedColor);
       const media = typeof imageUtils.createPicture === "function"
@@ -1412,9 +1432,10 @@
             alt: selectedColor && selectedColor.name ? (product.name + " - " + selectedColor.name) : product.name,
             width: cardImageSize.width,
             height: cardImageSize.height,
-            loading: isPriorityImage ? "eager" : "lazy",
+            loading: imagePriority.loading,
             decoding: "async",
-            fetchpriority: isPriorityImage ? "high" : "low"
+            fetchpriority: imagePriority.fetchpriority,
+            sizes: CARD_IMAGE_SIZES
           })
         : null;
       const image = media ? media.img : document.createElement("img");
@@ -1473,11 +1494,12 @@
       });
 
       if (!media) {
-        image.loading = isPriorityImage ? "eager" : "lazy";
+        image.loading = imagePriority.loading;
         image.decoding = "async";
         image.width = cardImageSize.width;
         image.height = cardImageSize.height;
-        image.setAttribute("fetchpriority", isPriorityImage ? "high" : "low");
+        image.sizes = CARD_IMAGE_SIZES;
+        image.setAttribute("fetchpriority", imagePriority.fetchpriority);
         thumb.appendChild(image);
       } else {
         thumb.appendChild(picture);
@@ -1503,7 +1525,8 @@
           const button = document.createElement("button");
           button.type = "button";
           button.className = "variant-chip" + (index === 0 ? " is-active" : "");
-          button.setAttribute("aria-label", "Ver color " + color.name);
+          button.setAttribute("aria-label", "Seleccionar color " + color.name);
+          button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
           button.title = color.name;
           button.dataset.colorName = color.name;
           button.dataset.colorIndex = String(index);
@@ -1516,8 +1539,12 @@
             event.preventDefault();
             event.stopPropagation();
             selectedColor = color;
-            variants.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
+            variants.querySelectorAll(".variant-chip").forEach((chip) => {
+              chip.classList.remove("is-active");
+              chip.setAttribute("aria-pressed", "false");
+            });
             button.classList.add("is-active");
+            button.setAttribute("aria-pressed", "true");
             thumb.classList.remove("is-loaded");
             setMainImage(color, color.name);
           });
@@ -1670,7 +1697,7 @@
   function applyFilters() {
     state.view = state.products.filter(matchFilters);
     sortProductsView();
-    state.visibleCount = INITIAL_VISIBLE_PRODUCTS;
+    state.visibleCount = getInitialVisibleProducts();
     renderGrid();
     renderActiveFilters();
     renderBreadcrumb();

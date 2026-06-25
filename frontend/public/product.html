@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROMIX - Detalle</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
   <style>
     :root {
       --primary: #e83e8c;
@@ -894,8 +900,6 @@
   <link rel="stylesheet" href="assets/css/romix-header.css">
   <link rel="stylesheet" href="assets/css/romix-footer.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
-
     :root {
       --rose-50: #fff7fc;
       --rose-100: #ffebf6;
@@ -2342,6 +2346,9 @@
       const thumbImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
         ? imageUtils.dimensions.productCard
         : { width: 720, height: 960 };
+      const PRODUCT_IMAGE_SIZES = '(max-width: 960px) calc(100vw - 28px), min(58vw, 720px)';
+      const THUMB_IMAGE_SIZES = '(max-width: 960px) 76px, 96px';
+      const RELATED_IMAGE_SIZES = '(max-width: 640px) 42vw, (max-width: 960px) 28vw, 220px';
       const sanitizeList = typeof window.sanitizeList === 'function' ? window.sanitizeList : list => Array.isArray(list) ? list : [];
       let currentProduct = null;
       let currentQty = 1;
@@ -2605,6 +2612,23 @@
         return new URL(raw.replace(/^\/+/, ''), location.origin + '/').href;
       }
 
+      function ensureProductImagePreload(value) {
+        const href = toAbsoluteUrl(value);
+        if (!href || href === toAbsoluteUrl(PLACEHOLDER)) return;
+        let link = document.querySelector('link[data-romix-product-preload="true"]');
+        if (!link) {
+          link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.setAttribute('fetchpriority', 'high');
+          link.setAttribute('data-romix-product-preload', 'true');
+          document.head.appendChild(link);
+        }
+        if (link.href !== href) {
+          link.href = href;
+        }
+      }
+
       function firstProductImage(product) {
         if (!product || typeof product !== 'object') return '';
         const direct = String(product.image || '').trim();
@@ -2727,7 +2751,10 @@
         const qtySpan = document.getElementById('quantity-value') || document.getElementById('qty');
         if (qtySpan) qtySpan.textContent = String(v);
         const qtyInput = document.getElementById('quantity-input');
-        if (qtyInput) qtyInput.value = String(v);
+        if (qtyInput) {
+          qtyInput.value = String(v);
+          qtyInput.max = String(STOCK_MAX);
+        }
       }
 
       function getPriceGroupForSize(sizeValue, productSection) {
@@ -3002,6 +3029,7 @@
       function showSizeError() {
         const error = document.querySelector('#size-error');
         const selector = document.querySelector('#size-selector');
+        const options = document.querySelector('#size-options');
 
         if (error) {
           error.textContent = 'Por favor, seleccioná tu talle';
@@ -3011,11 +3039,15 @@
         if (selector) {
           selector.classList.add('has-error');
         }
+        if (options) {
+          options.setAttribute('aria-invalid', 'true');
+        }
       }
 
       function clearSizeError() {
         const error = document.querySelector('#size-error');
         const selector = document.querySelector('#size-selector');
+        const options = document.querySelector('#size-options');
 
         if (error) {
           error.textContent = '';
@@ -3024,6 +3056,9 @@
 
         if (selector) {
           selector.classList.remove('has-error');
+        }
+        if (options) {
+          options.removeAttribute('aria-invalid');
         }
       }
 
@@ -3991,6 +4026,7 @@
         if (!detail) return;
         currentProduct = product;
         const gallery = getGallery(product);
+        ensureProductImagePreload(gallery[0] && gallery[0].src);
         const preloadGallery = () => {
           gallery.slice(1, 3).forEach(item => {
             if (!item || !item.src) return;
@@ -4014,7 +4050,7 @@
           <div class="detail-grid">
             <div class="gallery">
               <div class="main-image" role="button" tabindex="0" aria-label="Abrir zoom de imagen" aria-haspopup="dialog">
-                <img id="main-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />
+                <img id="main-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />
                 <button type="button" class="zoom-btn" id="zoom-open" aria-label="Acercar imagen" aria-haspopup="dialog">
                   <i class="fas fa-search-plus" aria-hidden="true"></i>
                 </button>
@@ -4025,7 +4061,7 @@
                   <i class="fas fa-chevron-up" aria-hidden="true"></i>
                 </button>
                 <div class="thumbs" id="gallery-thumbs" role="listbox" aria-label="Miniaturas del producto">
-                  ${gallery.map((image, index) => `<img src="${image.thumbSrc || image.src}" alt="${image.label || product.name}" data-index="${index}" data-color="${image.label || ''}" data-full="${image.src}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" ${index === 0 ? 'class="active"' : ''} role="option" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`).join('')}
+                  ${gallery.map((image, index) => `<img src="${image.thumbSrc || image.src}" alt="${image.label || product.name}" data-index="${index}" data-color="${image.label || ''}" data-full="${image.src}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" sizes="${THUMB_IMAGE_SIZES}" ${index === 0 ? 'class="active"' : ''} role="option" tabindex="0" aria-label="Ver imagen ${index + 1} de ${gallery.length}" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`).join('')}
                 </div>
                 <button type="button" class="thumb-nav next" id="thumbs-next" aria-label="Ver miniaturas siguientes">
                   <i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -4058,14 +4094,14 @@
               </div>
               <div class="selector size-selector" id="size-selector">
                 <div class="selector-label">Talle</div>
-                <div class="size-options" id="size-options"></div>
-                <p id="size-error" class="product-size-error" hidden></p>
+                <div class="size-options" id="size-options" role="group" aria-label="Seleccionar talle" aria-describedby="size-error"></div>
+                <p id="size-error" class="product-size-error" aria-live="polite" role="status" hidden></p>
               </div>
               <div class="selector quantity-row">
                 <div class="selector-label">Cantidad</div>
                 <div class="qty-control">
                   <button type="button" id="quantity-minus" aria-label="Disminuir cantidad">-</button>
-                  <input id="quantity-input" type="number" min="1" value="1" />
+                  <input id="quantity-input" type="number" min="1" value="1" inputmode="numeric" aria-label="Cantidad" />
                   <button type="button" id="quantity-plus" aria-label="Aumentar cantidad">+</button>
                 </div>
               </div>
@@ -4204,7 +4240,7 @@
 
         function setActiveThumb(targetIndex) {
           if (!thumbContainer) return;
-          const thumbs = Array.from(thumbContainer.querySelectorAll('img'));
+          const thumbs = Array.from(thumbContainer.querySelectorAll('[data-index]'));
           thumbs.forEach((el, idx) => {
             const isActive = idx === targetIndex;
             el.classList.toggle('active', isActive);
@@ -4267,9 +4303,9 @@
         }
 
         if (thumbContainer) {
-          const thumbs = Array.from(thumbContainer.querySelectorAll('img'));
+          const thumbs = Array.from(thumbContainer.querySelectorAll('[data-index]'));
           thumbs.forEach((thumb, index) => {
-            thumb.addEventListener('click', () => {
+            const activateThumb = () => {
               setActiveThumb(index);
               const targetColor = thumb.dataset.color || '';
               if (targetColor && findColorOption(product, targetColor)) {
@@ -4277,6 +4313,12 @@
               } else if (mainImage) {
                 mainImage.src = gallery[index].src;
               }
+            };
+            thumb.addEventListener('click', activateThumb);
+            thumb.addEventListener('keydown', (event) => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              activateThumb();
             });
           });
           thumbContainer.addEventListener('scroll', () => {
@@ -4304,20 +4346,26 @@
           keys.forEach(sizeKey => {
             const qty = Number(map[sizeKey] ?? 0);
             total += qty;
-            const state = qty <= 0 ? 'out' : (qty <= 3 ? 'low' : 'available');
+            const stockState = qty <= 0 ? 'out' : (qty <= 3 ? 'low' : 'available');
             const chip = document.createElement('button');
             chip.type = 'button';
             chip.className = 'size-chip size-option';
-            chip.dataset.state = state;
+            chip.dataset.state = stockState;
             chip.dataset.size = sizeKey;
             chip.dataset.sizeOption = 'true';
             chip.dataset.sizeValue = sizeKey;
             chip.textContent = sizeKey;
-            if (state === 'out') chip.classList.add('out');
+            chip.setAttribute('aria-pressed', 'false');
+            chip.setAttribute('aria-label', stockState === 'low' ? `Seleccionar talle ${sizeKey}, pocas unidades` : `Seleccionar talle ${sizeKey}`);
+            if (stockState === 'out') chip.classList.add('out');
             chip.addEventListener('click', () => {
               if (chip.disabled || chip.classList.contains('out')) return;
-              sizeWrapper.querySelectorAll('.size-chip').forEach(el => el.classList.remove('selected', 'is-active', 'active', 'size-option--active'));
+              sizeWrapper.querySelectorAll('.size-chip').forEach(el => {
+                el.classList.remove('selected', 'is-active', 'active', 'size-option--active');
+                el.setAttribute('aria-pressed', 'false');
+              });
               chip.classList.add('selected', 'is-active', 'active', 'size-option--active');
+              chip.setAttribute('aria-pressed', 'true');
               currentSelectedSize = String(chip.dataset.size || chip.dataset.sizeValue || chip.textContent || '').trim();
               activeSize = currentSelectedSize;
               clearSizeError();
@@ -4375,14 +4423,19 @@
 
             btn.classList.remove('size-option--available', 'size-option--low', 'size-option--out');
             btn.disabled = false;
+            btn.removeAttribute('aria-disabled');
 
             if (stock <= 0) {
               btn.classList.add('size-option--out');
               btn.disabled = true;
+              btn.setAttribute('aria-disabled', 'true');
+              btn.setAttribute('aria-label', `Talle ${sizeVal} sin stock`);
             } else if (stock <= 3) {
               btn.classList.add('size-option--low');
+              btn.setAttribute('aria-label', `Seleccionar talle ${sizeVal}, pocas unidades`);
             } else {
               btn.classList.add('size-option--available');
+              btn.setAttribute('aria-label', `Seleccionar talle ${sizeVal}`);
             }
           });
 
@@ -4435,6 +4488,7 @@
             selectedColorNameEl.textContent = displayName || fallbackName || '';
           }
           if (mainImage) {
+            const displayName = getDisplayColorName(product, colorName || '');
             let imageOverride = opts.imageOverride;
             if (!imageOverride && swatchWrapper) {
               const targetKey = normalizeColorKey(colorName);
@@ -4445,16 +4499,17 @@
               }
             }
             mainImage.src = imageOverride || getColorImage(product, colorName);
+            mainImage.alt = displayName ? `${product.name || 'Producto'} - ${displayName}` : (product.name || 'Producto');
           }
           if (thumbContainer && !opts.skipThumbSync) {
             const targetKey = normalizeColorKey(colorName);
-            thumbContainer.querySelectorAll('img').forEach(thumb => {
+            thumbContainer.querySelectorAll('[data-index]').forEach(thumb => {
               const thumbKey = normalizeColorKey(thumb.dataset.color || '');
               const match = targetKey && thumbKey && thumbKey === targetKey;
               thumb.classList.toggle('active', match);
               thumb.setAttribute('aria-selected', match ? 'true' : 'false');
             });
-            const activeThumb = thumbContainer.querySelector('img.active');
+            const activeThumb = thumbContainer.querySelector('[data-index].active');
             if (activeThumb) {
               activeThumb.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
             }
@@ -4616,7 +4671,7 @@
       const related = relatedRaw
         .slice()
         .sort(() => Math.random() - 0.5)
-        .slice(0, 8);
+        .slice(0, window.innerWidth <= 768 ? 6 : 8);
 
       if (section) section.hidden = false;
       container.innerHTML = '';
@@ -4806,6 +4861,7 @@
         img.decoding = 'async';
         img.width = thumbImageSize.width;
         img.height = thumbImageSize.height;
+        img.sizes = RELATED_IMAGE_SIZES;
         img.onerror = () => {
           img.onerror = null;
           img.src = PLACEHOLDER;
@@ -4832,6 +4888,7 @@
             thumbImg.decoding = 'async';
             thumbImg.width = thumbImageSize.width;
             thumbImg.height = thumbImageSize.height;
+            thumbImg.sizes = THUMB_IMAGE_SIZES;
             thumbImg.onerror = () => {
               thumbImg.onerror = null;
               thumbImg.src = PLACEHOLDER;
@@ -4903,12 +4960,14 @@
         });
       }
 
+      const productsRequest = loadProducts();
+
       async function init(){
         setupBackLink();
         updateCartCount();
         const serverProduct = parsePreloadedProduct();
         try {
-          const list = await loadProducts();
+          const list = await productsRequest;
           const safeList = Array.isArray(list) ? list.filter(item => !isBlockedSeasonProduct(item)) : [];
           const product = (serverProduct && !isBlockedSeasonProduct(serverProduct))
             ? serverProduct
@@ -4933,7 +4992,11 @@
         }
       }
 
-      window.addEventListener('DOMContentLoaded', init);
+      if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', init, { once: true });
+      } else {
+        init();
+      }
     })();
   </script>
   <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>

@@ -21,8 +21,13 @@
   <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix.png" />
 
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
   <link rel="stylesheet" href="assets/css/romix-footer.css" />
 
   <style>
@@ -79,6 +84,7 @@
         <rect width="100%" height="100%" fill="#f8f9fb"/>\
         <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="28">Imagen no disponible</text>\
       </svg>`);
+    const PRODUCT_IMAGE_SIZES = '(max-width: 980px) calc(100vw - 56px), min(56vw, 720px)';
 
     const sharedSlugify = (function(){
       if (typeof window.romixSlugify === 'function') return window.romixSlugify;
@@ -112,6 +118,22 @@
       catch {}
     }
 
+    function ensureProductImagePreload(value) {
+      const raw = String(value || '').trim();
+      if (!raw || raw.startsWith('data:')) return;
+      const href = /^https?:\/\//i.test(raw) ? raw : new URL(raw.replace(/^\/+/, ''), location.origin + '/').href;
+      let link = document.querySelector('link[data-romix-detalle-preload="true"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.setAttribute('fetchpriority', 'high');
+        link.setAttribute('data-romix-detalle-preload', 'true');
+        document.head.appendChild(link);
+      }
+      link.href = href;
+    }
+
     function render(p){
       const root = document.getElementById('root');
       if(!root){
@@ -126,6 +148,8 @@
       const price = Number(p.price||0);
       const stock = estimateStock(p);
       const stockLabel = stock <= 0 ? 'Agotado' : (stock <= 3 ? 'Por agotarse' : 'Disponible');
+      const firstColorName = (p.colors && p.colors[0] && (p.colors[0].name || p.colors[0])) || '';
+      ensureProductImagePreload(img);
 
       const badge = p.type
         ? `<span class="muted" style="background:#f1f3f5;border-radius:999px;padding:6px 10px;font-weight:800;">${p.type}</span>`
@@ -134,7 +158,7 @@
       root.innerHTML = `
         <div class="card detail">
           <div class="thumb">
-            <img src="${img}" alt="${p.name || ''}" width="1200" height="1600" decoding="async" onerror="this.onerror=null;this.src='${PLACEHOLDER}';"/>
+            <img src="${img}" alt="${p.name || ''}${firstColorName ? ` - ${firstColorName}` : ''}" width="1200" height="1600" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';"/>
           </div>
           <div>
             <div style="margin-bottom:6px;">${badge}</div>
@@ -155,7 +179,7 @@
               <div style="font-weight:800;margin-bottom:6px;color:#1b1f24">Cantidad</div>
               <div class="qty-row">
                 <button id="dec" type="button" class="qty-btn" aria-label="Disminuir">-</button>
-                <input id="qty" class="qty-input" type="number" min="1" value="1" />
+                <input id="qty" class="qty-input" type="number" min="1" value="1" inputmode="numeric" aria-label="Cantidad" />
                 <button id="inc" type="button" class="qty-btn" aria-label="Aumentar">+</button>
               </div>
 
@@ -190,6 +214,7 @@
       const updateButton = ()=>{
         const q = Math.max(1, Math.min(parseInt(qty.value, 10) || 1, Math.max(1, max)));
         qty.value = q;
+        qty.max = String(Math.max(1, max));
         btnText.textContent = `Agregar al Carrito - $${(price*q).toLocaleString('es-AR')}`;
         add.disabled = max <= 0;
       };
@@ -287,7 +312,7 @@
       return season.includes('verano');
     }
 
-    async function init(){
+    async function init(productsPromise){
       updateCartCount();
 
       const params = new URLSearchParams(location.search);
@@ -302,7 +327,7 @@
 
       try{
         let list = preloadedProducts();
-        if (!Array.isArray(list) || !list.length) list = await fetchProductList();
+        if (!Array.isArray(list) || !list.length) list = await (productsPromise || fetchProductList());
         const products = (Array.isArray(list) ? list : []).filter(p => !isBlockedSeasonProduct(p));
 
         let product = null;
@@ -358,7 +383,11 @@
       }
     }
 
-    window.addEventListener('DOMContentLoaded', init);
+    const productsRequest = fetchProductList();
+
+    window.addEventListener('DOMContentLoaded', () => {
+      init(productsRequest);
+    }, { once: true });
   </script>
   <link rel="stylesheet" href="assets/css/romix-header.css">
 </head>

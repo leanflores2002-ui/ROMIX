@@ -119,6 +119,7 @@
 
     .main-hero-carousel {
       position: relative;
+      --hero-height: clamp(420px, 48vw, 720px);
       width: 100vw;
       max-width: 100vw;
       margin-left: calc(50% - 50vw);
@@ -130,11 +131,15 @@
     .main-hero-carousel__track {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: var(--hero-height);
     }
 
     .main-hero-carousel__slide {
       display: none;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
 
     .main-hero-carousel__slide.is-active {
@@ -145,19 +150,118 @@
     .main-hero-carousel__slide picture,
     .main-hero-carousel__slide img {
       width: 100%;
-      height: auto;
-      object-fit: unset;
+      height: 100%;
     }
 
     .main-hero-carousel__slide-link {
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .main-hero-carousel__slide picture {
+      display: block;
+      flex: 1 1 auto;
+      min-width: 100%;
     }
 
     .main-hero-carousel__slide img {
       object-fit: cover;
       object-position: center;
+    }
+
+    .main-hero-carousel__slide:nth-child(1) img {
+      object-position: 58% 34%;
+    }
+
+    .main-hero-carousel__slide:nth-child(2) img {
+      object-position: 60% 34%;
+    }
+
+    .main-hero-carousel__slide:nth-child(3) img {
+      object-position: 62% 36%;
+    }
+
+    .main-hero-carousel__overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(90deg, rgba(3, 5, 12, 0.9) 0%, rgba(7, 9, 18, 0.68) 30%, rgba(7, 9, 18, 0.24) 52%, rgba(7, 9, 18, 0) 72%);
+      pointer-events: none;
+    }
+
+    .main-hero-carousel__content {
+      position: absolute;
+      top: 50%;
+      left: clamp(28px, 7vw, 128px);
+      z-index: 2;
+      width: min(36vw, 520px);
+      transform: translateY(-50%);
+      color: #ffffff;
+      pointer-events: none;
+    }
+
+    .main-hero-carousel__content--winter {
+      left: clamp(22px, 5vw, 76px);
+      width: min(29vw, 390px);
+    }
+
+    .main-hero-carousel__content--kids {
+      left: clamp(20px, 4.6vw, 72px);
+      width: min(27vw, 360px);
+    }
+
+    .main-hero-carousel__title {
+      display: block;
+      font-family: "Teko", "Outfit", sans-serif;
+      font-size: clamp(4.4rem, 8.8vw, 10.4rem);
+      font-weight: 700;
+      line-height: 0.78;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      text-shadow: 0 8px 30px rgba(0, 0, 0, 0.34);
+    }
+
+    .main-hero-carousel__title-line {
+      display: block;
+    }
+
+    .main-hero-carousel__content--winter .main-hero-carousel__title {
+      font-size: clamp(3.6rem, 5.9vw, 6.7rem);
+    }
+
+    .main-hero-carousel__content--kids .main-hero-carousel__title {
+      font-size: clamp(3.5rem, 5.5vw, 6.3rem);
+    }
+
+    .main-hero-carousel__subtitle {
+      display: block;
+      max-width: 420px;
+      margin-top: clamp(12px, 1.5vw, 22px);
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(0.92rem, 1.15vw, 1.2rem);
+      font-weight: 700;
+      line-height: 1.35;
+      text-shadow: 0 5px 20px rgba(0, 0, 0, 0.48);
+    }
+
+    .main-hero-carousel__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: clamp(38px, 3.2vw, 50px);
+      margin-top: clamp(18px, 2vw, 28px);
+      padding: 0 clamp(20px, 2.2vw, 34px);
+      border-radius: var(--pill);
+      color: #111111;
+      background: #ffffff;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(0.86rem, 0.95vw, 1rem);
+      font-weight: 900;
+      line-height: 1;
     }
 
     .btn-primary,
@@ -997,6 +1101,10 @@
     }
 
     @media (max-width: 1024px) {
+      .main-hero-carousel {
+        --hero-height: clamp(430px, 54vw, 560px);
+      }
+
       .audience-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
@@ -1024,9 +1132,69 @@
         margin-top: 12px;
       }
 
+      .main-hero-carousel {
+        --hero-height: clamp(430px, 118vw, 520px);
+      }
+
       .main-hero-carousel__viewport {
         overflow: hidden;
         touch-action: pan-y;
+      }
+
+      .main-hero-carousel__slide:nth-child(1) img {
+        object-position: 66% center;
+      }
+
+      .main-hero-carousel__slide:nth-child(2) img {
+        object-position: 66% center;
+      }
+
+      .main-hero-carousel__slide:nth-child(3) img {
+        object-position: 58% center;
+      }
+
+      .main-hero-carousel__overlay {
+        background: linear-gradient(90deg, rgba(3, 5, 12, 0.94) 0%, rgba(7, 9, 18, 0.72) 42%, rgba(7, 9, 18, 0.28) 68%, rgba(7, 9, 18, 0) 100%);
+      }
+
+      .main-hero-carousel__content {
+        left: clamp(16px, 5vw, 28px);
+        width: min(54vw, 300px);
+      }
+
+      .main-hero-carousel__content--winter {
+        width: min(48vw, 260px);
+      }
+
+      .main-hero-carousel__content--kids {
+        width: min(48vw, 260px);
+      }
+
+      .main-hero-carousel__title {
+        font-size: clamp(3rem, 13.5vw, 5rem);
+        line-height: 0.82;
+      }
+
+      .main-hero-carousel__content--winter .main-hero-carousel__title {
+        font-size: clamp(2.45rem, 11.2vw, 4rem);
+      }
+
+      .main-hero-carousel__content--kids .main-hero-carousel__title {
+        font-size: clamp(2.35rem, 10.6vw, 3.8rem);
+      }
+
+      .main-hero-carousel__subtitle {
+        max-width: 260px;
+        margin-top: 10px;
+        font-size: clamp(0.82rem, 2.9vw, 1.06rem);
+        line-height: 1.28;
+      }
+
+      .main-hero-carousel__cta {
+        min-height: 40px;
+        margin-top: 15px;
+        padding: 0 20px;
+        font-size: 0.84rem;
       }
 
       .btn-primary,
@@ -1105,6 +1273,50 @@
         height: 40px;
       }
 
+      .main-hero-carousel__content {
+        width: min(56vw, 230px);
+      }
+
+      .main-hero-carousel__content--winter {
+        width: min(50vw, 205px);
+      }
+
+      .main-hero-carousel__title {
+        font-size: clamp(2.75rem, 13.2vw, 3.85rem);
+      }
+
+      .main-hero-carousel__content--winter .main-hero-carousel__title {
+        font-size: clamp(2.1rem, 10.8vw, 3rem);
+      }
+
+      .main-hero-carousel__content--kids {
+        top: 54%;
+        left: 14px;
+        width: min(46vw, 188px);
+      }
+
+      .main-hero-carousel__content--kids .main-hero-carousel__title {
+        font-size: clamp(1.9rem, 9.8vw, 2.55rem);
+      }
+
+      .main-hero-carousel__content--kids .main-hero-carousel__subtitle {
+        max-width: 188px;
+        font-size: clamp(0.66rem, 2.5vw, 0.78rem);
+        line-height: 1.2;
+      }
+
+      .main-hero-carousel__subtitle {
+        max-width: 218px;
+        font-size: clamp(0.76rem, 2.8vw, 0.92rem);
+      }
+
+      .main-hero-carousel__cta {
+        min-height: 38px;
+        margin-top: 13px;
+        padding: 0 19px;
+        font-size: 0.8rem;
+      }
+
       .audience-grid {
         grid-auto-columns: minmax(124px, 44vw);
       }
@@ -1124,6 +1336,38 @@
     }
 
     @media (max-width: 380px) {
+      .main-hero-carousel {
+        --hero-height: clamp(420px, 130vw, 500px);
+      }
+
+      .main-hero-carousel__content {
+        left: 14px;
+        width: 56vw;
+      }
+
+      .main-hero-carousel__content--winter {
+        width: 52vw;
+      }
+
+      .main-hero-carousel__content--kids {
+        top: 54%;
+        left: 12px;
+        width: 46vw;
+      }
+
+      .main-hero-carousel__title {
+        font-size: clamp(2.35rem, 12.4vw, 3rem);
+      }
+
+      .main-hero-carousel__subtitle {
+        font-size: 0.72rem;
+        line-height: 1.22;
+      }
+
+      .main-hero-carousel__content--kids .main-hero-carousel__title {
+        font-size: clamp(1.62rem, 8.6vw, 2rem);
+      }
+
       .categories-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1281,6 +1525,15 @@
                 <source srcset="images/banners/banner-1.webp" type="image/webp" />
                 <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" loading="eager" decoding="async" fetchpriority="high" sizes="100vw" />
               </picture>
+              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
+              <span class="main-hero-carousel__content">
+                <span class="main-hero-carousel__title">
+                  <span class="main-hero-carousel__title-line">CONJUNTO</span>
+                  <span class="main-hero-carousel__title-line">SPORT</span>
+                </span>
+                <span class="main-hero-carousel__subtitle">Dise&ntilde;ado para entrenar con comodidad, confianza y estilo.</span>
+                <span class="main-hero-carousel__cta">Comprar ahora</span>
+              </span>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
@@ -1289,6 +1542,15 @@
                 <source srcset="images/banners/banner-2.webp" type="image/webp" />
                 <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
               </picture>
+              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
+              <span class="main-hero-carousel__content main-hero-carousel__content--winter">
+                <span class="main-hero-carousel__title">
+                  <span class="main-hero-carousel__title-line">COLECCI&Oacute;N</span>
+                  <span class="main-hero-carousel__title-line">INVIERNO</span>
+                </span>
+                <span class="main-hero-carousel__subtitle">Abrigo, confort y estilo para acompa&ntilde;arte en los d&iacute;as m&aacute;s fr&iacute;os.</span>
+                <span class="main-hero-carousel__cta">Comprar ahora</span>
+              </span>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
@@ -1297,6 +1559,15 @@
                 <source srcset="images/banners/banner-3.webp" type="image/webp" />
                 <img src="images/banners/banner-3.png" alt="Coleccion infantil ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
               </picture>
+              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
+              <span class="main-hero-carousel__content main-hero-carousel__content--kids">
+                <span class="main-hero-carousel__title">
+                  <span class="main-hero-carousel__title-line">COLECCI&Oacute;N</span>
+                  <span class="main-hero-carousel__title-line">KIDS</span>
+                </span>
+                <span class="main-hero-carousel__subtitle">Comodidad, abrigo y estilo para acompa&ntilde;ar cada momento de juego.</span>
+                <span class="main-hero-carousel__cta">Comprar ahora</span>
+              </span>
             </a>
           </figure>
         </div>

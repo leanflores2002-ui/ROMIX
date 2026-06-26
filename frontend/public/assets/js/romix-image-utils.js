@@ -258,16 +258,39 @@
     }) || null;
   }
 
-  function getColorImage(color, product) {
+  function getColorImage(productOrColor, colorOrProduct, index) {
+    let product = null;
+    let color = null;
+    let colorIndex = Number(index);
+
+    if (productOrColor && typeof productOrColor === "object" && Array.isArray(productOrColor.colors)) {
+      product = productOrColor;
+      color = colorOrProduct;
+    } else if (colorOrProduct && typeof colorOrProduct === "object" && (Array.isArray(colorOrProduct.colors) || colorOrProduct.image || colorOrProduct.imageMap || colorOrProduct.images)) {
+      color = productOrColor;
+      product = colorOrProduct;
+    } else {
+      color = productOrColor;
+      product = colorOrProduct;
+    }
+
     if (color && typeof color === "object" && cleanPath(color.image)) {
       return cleanPath(color.image);
     }
+
     const namedColor = findProductColor(product, color);
     if (namedColor && namedColor.image) return cleanPath(namedColor.image);
+
     if (color && typeof color === "object" && color.name) {
       const legacyImage = findColorImageInLegacyMap(product, color.name);
       if (legacyImage) return legacyImage;
     }
+
+    if (Number.isFinite(colorIndex) && colorIndex >= 0) {
+      const imageList = getProductImageList(product);
+      if (imageList[colorIndex]) return cleanPath(imageList[colorIndex]);
+    }
+
     return getProductMainImage(product);
   }
 
@@ -280,16 +303,20 @@
     const explicitFallback = cleanPath((colorEntry && colorEntry.thumbFallback) || (product && (product.thumbnailFallback || product.thumbFallback)));
     const explicitAvif = cleanPath((colorEntry && colorEntry.thumbAvif) || (product && product.thumbnailAvif));
     const explicitThumbExt = extension(explicitThumb);
-    const thumbFallback = explicitThumb && explicitThumbExt && explicitThumbExt !== "webp" && explicitThumbExt !== "avif"
+    const thumbFallback = explicitThumb && explicitThumbExt && explicitThumbExt !== "avif"
       ? explicitThumb
       : "";
-    const fallbackSrc = explicitFallback || thumbFallback || mainImage;
+    const fallbackSrc = explicitFallback || mainImage;
+    const derivedThumb = mainImage ? getThumbPath(mainImage) : "";
+    const primarySrc = thumbFallback || derivedThumb || fallbackSrc || mainImage;
+    const explicitWebp = explicitThumbExt === "webp" ? explicitThumb : "";
+    const explicitAvifSrc = extension(explicitAvif) === "avif" ? explicitAvif : "";
 
     return {
-      src: fallbackSrc || mainImage,
+      src: primarySrc || fallbackSrc || mainImage,
       fallbackSrc: fallbackSrc || mainImage,
-      webpSrc: explicitThumbExt === "webp" ? explicitThumb : getThumbPath(mainImage),
-      avifSrc: extension(explicitAvif) === "avif" ? explicitAvif : getAvifThumbPath(mainImage),
+      webpSrc: explicitWebp,
+      avifSrc: explicitAvifSrc,
       originalSrc: mainImage
     };
   }

@@ -2379,6 +2379,10 @@
         if (ext === 'webp') return value;
         return typeof imageUtils.replaceExtension === 'function' ? imageUtils.replaceExtension(value, 'webp') : '';
       }
+      function getSafeWebpSource(src) {
+        const value = String(src || '').trim();
+        return /\.webp(?:$|\?)/i.test(value) ? value : '';
+      }
       function getProductImageMap(product) {
         return typeof imageUtils.getProductLegacyImageMap === 'function'
           ? imageUtils.getProductLegacyImageMap(product)
@@ -3247,7 +3251,7 @@
           images.push({
             label,
             src: value,
-            webpSrc: toWebpImage(value),
+            webpSrc: getSafeWebpSource(value),
             thumbSrc: thumbSrc || pickProductThumb(product, value)
           });
         }
@@ -4294,7 +4298,7 @@
           if (!mainImage) return;
           const nextSrc = String(src || '').trim() || PLACEHOLDER;
           const picture = mainImage.closest('picture');
-          syncPictureSource(picture, 'image/webp', toWebpImage(nextSrc));
+          syncPictureSource(picture, 'image/webp', getSafeWebpSource(nextSrc));
           mainImage.src = nextSrc;
           if (alt != null) mainImage.alt = alt;
         }

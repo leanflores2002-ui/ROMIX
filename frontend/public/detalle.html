@@ -160,7 +160,7 @@
         || p.image
         || (p.images && (p.images['Negro'] || Object.values(p.images)[0]))
         || PLACEHOLDER;
-      const imgWebp = toWebpImage(img);
+      const imgWebp = /\.webp(?:$|\?)/i.test(String(img || '').trim()) ? img : '';
       const price = Number(p.price||0);
       const stock = estimateStock(p);
       const stockLabel = stock <= 0 ? 'Agotado' : (stock <= 3 ? 'Por agotarse' : 'Disponible');

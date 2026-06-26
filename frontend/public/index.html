@@ -181,6 +181,16 @@
       pointer-events: none;
     }
 
+    .main-hero-carousel__content--winter {
+      left: clamp(22px, 5vw, 76px);
+      width: min(29vw, 390px);
+    }
+
+    .main-hero-carousel__content--kids {
+      left: clamp(20px, 4.6vw, 72px);
+      width: min(27vw, 360px);
+    }
+
     .main-hero-carousel__title {
       display: block;
       font-family: "Teko", "Outfit", sans-serif;
@@ -194,6 +204,14 @@
 
     .main-hero-carousel__title-line {
       display: block;
+    }
+
+    .main-hero-carousel__content--winter .main-hero-carousel__title {
+      font-size: clamp(3.6rem, 5.9vw, 6.7rem);
+    }
+
+    .main-hero-carousel__content--kids .main-hero-carousel__title {
+      font-size: clamp(3.5rem, 5.5vw, 6.3rem);
     }
 
     .main-hero-carousel__subtitle {
@@ -1102,9 +1120,25 @@
         width: min(46vw, 260px);
       }
 
+      .main-hero-carousel__content--winter {
+        width: min(42vw, 230px);
+      }
+
+      .main-hero-carousel__content--kids {
+        width: min(42vw, 230px);
+      }
+
       .main-hero-carousel__title {
         font-size: clamp(2.35rem, 12vw, 4.2rem);
         line-height: 0.82;
+      }
+
+      .main-hero-carousel__content--winter .main-hero-carousel__title {
+        font-size: clamp(2.1rem, 10.6vw, 3.7rem);
+      }
+
+      .main-hero-carousel__content--kids .main-hero-carousel__title {
+        font-size: clamp(2rem, 10.2vw, 3.5rem);
       }
 
       .main-hero-carousel__subtitle {
@@ -1201,8 +1235,32 @@
         width: min(45vw, 190px);
       }
 
+      .main-hero-carousel__content--winter {
+        width: min(42vw, 176px);
+      }
+
       .main-hero-carousel__title {
         font-size: clamp(2rem, 11.4vw, 3rem);
+      }
+
+      .main-hero-carousel__content--winter .main-hero-carousel__title {
+        font-size: clamp(1.7rem, 9.8vw, 2.55rem);
+      }
+
+      .main-hero-carousel__content--kids {
+        top: 56%;
+        left: 14px;
+        width: min(39vw, 160px);
+      }
+
+      .main-hero-carousel__content--kids .main-hero-carousel__title {
+        font-size: clamp(1.55rem, 8.8vw, 2.1rem);
+      }
+
+      .main-hero-carousel__content--kids .main-hero-carousel__subtitle {
+        max-width: 160px;
+        font-size: clamp(0.58rem, 2.3vw, 0.68rem);
+        line-height: 1.18;
       }
 
       .main-hero-carousel__subtitle {
@@ -1241,6 +1299,16 @@
         width: 44vw;
       }
 
+      .main-hero-carousel__content--winter {
+        width: 42vw;
+      }
+
+      .main-hero-carousel__content--kids {
+        top: 56%;
+        left: 12px;
+        width: 40vw;
+      }
+
       .main-hero-carousel__title {
         font-size: clamp(1.8rem, 10.8vw, 2.45rem);
       }
@@ -1248,6 +1316,10 @@
       .main-hero-carousel__subtitle {
         font-size: 0.6rem;
         line-height: 1.2;
+      }
+
+      .main-hero-carousel__content--kids .main-hero-carousel__title {
+        font-size: clamp(1.38rem, 8.2vw, 1.72rem);
       }
 
       .categories-grid {
@@ -1424,6 +1496,15 @@
                 <source srcset="images/banners/banner-2.webp" type="image/webp" />
                 <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
               </picture>
+              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
+              <span class="main-hero-carousel__content main-hero-carousel__content--winter">
+                <span class="main-hero-carousel__title">
+                  <span class="main-hero-carousel__title-line">COLECCI&Oacute;N</span>
+                  <span class="main-hero-carousel__title-line">INVIERNO</span>
+                </span>
+                <span class="main-hero-carousel__subtitle">Abrigo, confort y estilo para acompa&ntilde;arte en los d&iacute;as m&aacute;s fr&iacute;os.</span>
+                <span class="main-hero-carousel__cta">Comprar ahora</span>
+              </span>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
@@ -1432,6 +1513,15 @@
                 <source srcset="images/banners/banner-3.webp" type="image/webp" />
                 <img src="images/banners/banner-3.png" alt="Coleccion infantil ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
               </picture>
+              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
+              <span class="main-hero-carousel__content main-hero-carousel__content--kids">
+                <span class="main-hero-carousel__title">
+                  <span class="main-hero-carousel__title-line">COLECCI&Oacute;N</span>
+                  <span class="main-hero-carousel__title-line">KIDS</span>
+                </span>
+                <span class="main-hero-carousel__subtitle">Comodidad, abrigo y estilo para acompa&ntilde;ar cada momento de juego.</span>
+                <span class="main-hero-carousel__cta">Comprar ahora</span>
+              </span>
             </a>
           </figure>
         </div>

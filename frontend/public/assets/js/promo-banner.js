@@ -20,13 +20,10 @@
 
   function getProductImage(product) {
     if (!product) return '';
-    const imageSources = typeof imageUtils.getProductImageSources === 'function'
-      ? imageUtils.getProductImageSources(product, null, 0)
-      : [];
-    if (imageSources.length) return imageSources[0];
     const mainImage = typeof imageUtils.getProductMainImage === 'function'
       ? imageUtils.getProductMainImage(product)
       : (product.image || '');
+    if (mainImage && typeof imageUtils.getThumbPath === 'function') return imageUtils.getThumbPath(mainImage);
     return mainImage || '';
   }
 
@@ -45,12 +42,6 @@
     img.height = cardImageSize.height;
     img.alt = product && product.name ? product.name : 'Producto';
     img.src = getProductImage(product) || '';
-    img.onerror = function onPromoImageError() {
-      img.onerror = null;
-      img.src = (product && (typeof imageUtils.getProductMainImage === 'function'
-        ? imageUtils.getProductMainImage(product)
-        : product.image)) || 'images/logo-romix.png';
-    };
     media.appendChild(img);
 
     const price = document.createElement('span');

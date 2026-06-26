@@ -15050,10 +15050,10 @@
   "type": "camperas",
   "name": "Chaleco polar con corderito hombre",
   "season": "invierno",
-  "image": "images/products/chaleco_polar_con_corderito_hombre_invierno_negro.png",
+  "image": "images/products/chaleco_polar_con_corderito_hombre_negro.png",
   "images": [
-    "images/products/chaleco_polar_con_corderito_hombre_invierno_negro.png",
-    "images/products/chaleco_polar_con_corderito_hombre_invierno_verde.png"
+    "images/products/chaleco_polar_con_corderito_hombre_negro.png",
+    "images/products/chaleco_polar_con_corderito_hombre_verde.png"
   ],
   "price": 16000,
   "priceByGroup": {
@@ -15081,12 +15081,12 @@
     { "size": "8", "status": "available" }
   ],
   "imageMap": {
-    "Negro": "images/products/chaleco_polar_con_corderito_hombre_invierno_negro.png",
-    "Verde": "images/products/chaleco_polar_con_corderito_hombre_invierno_verde.png"
+    "Negro": "images/products/chaleco_polar_con_corderito_hombre_negro.png",
+    "Verde": "images/products/chaleco_polar_con_corderito_hombre_verde.png"
   },
-  "thumbnailFallback": "images/thumbs/chaleco_polar_con_corderito_hombre_invierno_negro-thumb.jpg",
-  "thumbnail": "images/thumbs/chaleco_polar_con_corderito_hombre_invierno_negro-thumb.webp",
-  "thumbnailAvif": "images/thumbs/chaleco_polar_con_corderito_hombre_invierno_negro-thumb.avif"
+  "thumbnailFallback": "images/thumbs/chaleco_polar_con_corderito_hombre_negro-thumb.jpg",
+  "thumbnail": "images/thumbs/chaleco_polar_con_corderito_hombre_negro-thumb.webp",
+  "thumbnailAvif": "images/thumbs/chaleco_polar_con_corderito_hombre_negro-thumb.avif"
 },
 {
   "section": "mujer",

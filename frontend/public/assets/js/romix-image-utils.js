@@ -126,18 +126,6 @@
     return normalized;
   }
 
-  function uniquePaths(list) {
-    const seen = new Set();
-    const result = [];
-    (Array.isArray(list) ? list : []).forEach(function (entry) {
-      const value = cleanPath(entry);
-      if (!value || seen.has(value)) return;
-      seen.add(value);
-      result.push(value);
-    });
-    return result;
-  }
-
   function getProductLegacyImageMap(product) {
     if (!product || typeof product !== "object") return null;
     if (product.imageMap && typeof product.imageMap === "object" && !Array.isArray(product.imageMap)) {
@@ -185,31 +173,6 @@
       return normalizeColorKey(entryName) === target;
     });
     return key ? cleanPath(legacyMap[key]) : "";
-  }
-
-  function getImageFromOldFormat(product, color, index) {
-    const colorIndex = Number.isFinite(Number(index))
-      ? Number(index)
-      : Number.isFinite(Number(color && color.index))
-        ? Number(color.index)
-        : 0;
-    const colorName = typeof color === "string"
-      ? color
-      : color && typeof color === "object"
-        ? (color.name || color.value || "")
-        : "";
-    return findColorImageInLegacyMap(product, colorName)
-      || cleanPath(Array.isArray(product && product.images) ? product.images[colorIndex] : "")
-      || cleanPath(product && product.image)
-      || "";
-  }
-
-  function getImageFromNewFormat(product, color) {
-    if (color && typeof color === "object" && cleanPath(color.image)) {
-      return cleanPath(color.image);
-    }
-    const namedColor = findProductColor(product, color);
-    return cleanPath(namedColor && namedColor.image) || "";
   }
 
   function resolveProductColorEntries(product) {
@@ -295,49 +258,6 @@
     }) || null;
   }
 
-  function getProductImageSources(product, color, index) {
-    const colorEntry = color && typeof color === "object"
-      ? color
-      : findProductColor(product, color);
-    const colorIndex = Number.isFinite(Number(index))
-      ? Number(index)
-      : Number.isFinite(Number(colorEntry && colorEntry.index))
-        ? Number(colorEntry.index)
-        : 0;
-    const oldImage = getImageFromOldFormat(product, colorEntry || color, colorIndex);
-    const newImage = getImageFromNewFormat(product, colorEntry || color);
-    return uniquePaths([
-      cleanPath(colorEntry && colorEntry.thumbAvif),
-      cleanPath(colorEntry && colorEntry.thumb),
-      cleanPath(colorEntry && colorEntry.thumbFallback),
-      cleanPath(product && product.thumbnailAvif),
-      cleanPath(product && (product.thumbnail || product.thumb)),
-      cleanPath(product && (product.thumbnailFallback || product.thumbFallback)),
-      oldImage,
-      newImage,
-      cleanPath(product && product.image)
-    ]);
-  }
-
-  function getProductDetailImageSources(product, color, index) {
-    const colorEntry = color && typeof color === "object"
-      ? color
-      : findProductColor(product, color);
-    const colorIndex = Number.isFinite(Number(index))
-      ? Number(index)
-      : Number.isFinite(Number(colorEntry && colorEntry.index))
-        ? Number(colorEntry.index)
-        : 0;
-    const oldImage = getImageFromOldFormat(product, colorEntry || color, colorIndex);
-    const newImage = getImageFromNewFormat(product, colorEntry || color);
-    return uniquePaths([
-      oldImage,
-      newImage,
-      cleanPath(product && product.image),
-      getProductMainImage(product)
-    ]);
-  }
-
   function getColorImage(productOrColor, colorOrProduct, index) {
     let product = null;
     let color = null;
@@ -378,60 +298,27 @@
     const colorEntry = color && typeof color === "object"
       ? Object.assign({}, color, { image: getColorImage(color, product) })
       : findProductColor(product, color);
-    const colorIndex = Number.isFinite(Number(colorEntry && colorEntry.index)) ? Number(colorEntry.index) : 0;
-    const sources = getProductImageSources(product, colorEntry || color, colorIndex);
-    const detailSources = getProductDetailImageSources(product, colorEntry || color, colorIndex);
-    const mainImage = detailSources[0] || getColorImage(colorEntry || color, product) || getProductMainImage(product);
-    const fallbackSrc = mainImage || sources[0] || "";
+    const mainImage = getColorImage(colorEntry || color, product) || getProductMainImage(product);
+    const explicitThumb = cleanPath((colorEntry && colorEntry.thumb) || (product && (product.thumbnail || product.thumb)));
+    const explicitFallback = cleanPath((colorEntry && colorEntry.thumbFallback) || (product && (product.thumbnailFallback || product.thumbFallback)));
+    const explicitAvif = cleanPath((colorEntry && colorEntry.thumbAvif) || (product && product.thumbnailAvif));
+    const explicitThumbExt = extension(explicitThumb);
+    const thumbFallback = explicitThumb && explicitThumbExt && explicitThumbExt !== "avif"
+      ? explicitThumb
+      : "";
+    const fallbackSrc = explicitFallback || mainImage;
+    const derivedThumb = mainImage ? getThumbPath(mainImage) : "";
+    const primarySrc = thumbFallback || derivedThumb || fallbackSrc || mainImage;
+    const explicitWebp = explicitThumbExt === "webp" ? explicitThumb : "";
+    const explicitAvifSrc = extension(explicitAvif) === "avif" ? explicitAvif : "";
 
     return {
-      src: sources[0] || fallbackSrc,
+      src: primarySrc || fallbackSrc || mainImage,
       fallbackSrc: fallbackSrc || mainImage,
-      webpSrc: "",
-      avifSrc: "",
-      originalSrc: mainImage,
-      sources: sources.length ? sources : uniquePaths([fallbackSrc, mainImage])
+      webpSrc: explicitWebp,
+      avifSrc: explicitAvifSrc,
+      originalSrc: mainImage
     };
-  }
-
-  function setImageWithFallback(img, sources, options) {
-    if (!img) return;
-    const opts = options || {};
-    const queue = uniquePaths(sources);
-    const placeholderSrc = cleanPath(opts.placeholderSrc);
-    const placeholderClassName = String(opts.placeholderClassName || "").trim();
-    const token = String(Date.now()) + Math.random().toString(16).slice(2);
-    img.dataset.romixFallbackToken = token;
-    let currentIndex = -1;
-
-    function applySource(nextSrc) {
-      if (img.dataset.romixFallbackToken !== token) return;
-      if (typeof opts.onSourceChange === "function") {
-        opts.onSourceChange(nextSrc, currentIndex);
-      }
-      if (placeholderClassName) {
-        img.classList.toggle(placeholderClassName, nextSrc === placeholderSrc && !!placeholderSrc);
-      }
-      if (nextSrc) {
-        img.src = nextSrc;
-        return;
-      }
-      img.removeAttribute("src");
-    }
-
-    function tryNext() {
-      if (img.dataset.romixFallbackToken !== token) return;
-      currentIndex += 1;
-      if (currentIndex < queue.length) {
-        applySource(queue[currentIndex]);
-        return;
-      }
-      img.onerror = null;
-      applySource(placeholderSrc);
-    }
-
-    img.onerror = tryNext;
-    tryNext();
   }
 
   function applyImageAttributes(img, options) {
@@ -489,19 +376,13 @@
     getMobileImagePath,
     toThumbPath,
     fallbackRasterPath,
-    uniquePaths,
     getProductLegacyImageMap,
     getProductImageList,
-    getImageFromOldFormat,
-    getImageFromNewFormat,
-    getProductImageSources,
-    getProductDetailImageSources,
     resolveProductColorEntries,
     getProductMainImage,
     findProductColor,
     getColorImage,
     getProductThumbSet,
-    setImageWithFallback,
     createPicture,
     dimensions: {
       productCard: { width: PRODUCT_CARD_WIDTH, height: PRODUCT_CARD_HEIGHT },

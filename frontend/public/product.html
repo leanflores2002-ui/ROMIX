@@ -2398,10 +2398,11 @@
           || (typeof imageUtils.getProductMainImage === 'function' ? imageUtils.getProductMainImage(product) : '')
           || (product && product.image)
           || PLACEHOLDER;
-        const imageSources = typeof imageUtils.getProductImageSources === 'function'
-          ? imageUtils.getProductImageSources(product, { image: mainImage })
-          : [];
-        return imageSources[0] || toThumbImage(mainImage);
+        const thumbSet = typeof imageUtils.getProductThumbSet === 'function'
+          ? imageUtils.getProductThumbSet(product, { image: mainImage })
+          : null;
+        return (thumbSet && (thumbSet.webpSrc || thumbSet.src))
+          || toThumbImage(mainImage);
       }
       function normalizeColorKey(value) {
         const raw = (value ?? '').toString().trim();
@@ -3243,46 +3244,33 @@
         const colorEntries = typeof imageUtils.resolveProductColorEntries === 'function'
           ? imageUtils.resolveProductColorEntries(product)
           : [];
-        function push(label, detailSources, thumbSources) {
-          const imageSources = Array.isArray(detailSources) ? detailSources.filter(Boolean) : [detailSources].filter(Boolean);
-          const previewSources = Array.isArray(thumbSources) ? thumbSources.filter(Boolean) : [thumbSources].filter(Boolean);
-          const value = String(imageSources[0] || '').trim();
+        function push(label, src, thumbSrc) {
+          const value = String(src || '').trim();
           if (!value || seen.has(value)) return;
           seen.add(value);
           images.push({
             label,
             src: value,
-            sources: imageSources,
             webpSrc: getSafeWebpSource(value),
-            thumbSrc: String(previewSources[0] || '').trim() || pickProductThumb(product, value),
-            thumbSources: previewSources.length ? previewSources : [String(previewSources[0] || pickProductThumb(product, value) || value).trim()]
+            thumbSrc: thumbSrc || pickProductThumb(product, value)
           });
         }
 
         if (colorEntries.length) {
           colorEntries.forEach((color, index) => {
-            const detailSources = typeof imageUtils.getProductDetailImageSources === 'function'
-              ? imageUtils.getProductDetailImageSources(product, color, index)
-              : [typeof imageUtils.getColorImage === 'function' ? imageUtils.getColorImage(color, product) : String(color && color.image || '').trim()].filter(Boolean);
-            const thumbSources = typeof imageUtils.getProductImageSources === 'function'
-              ? imageUtils.getProductImageSources(product, color, index)
-              : [pickProductThumb(product, detailSources[0])].filter(Boolean);
-            push(color && color.name ? color.name : (index === 0 ? 'principal' : `vista-${index + 1}`), detailSources, thumbSources);
+            const resolvedImage = typeof imageUtils.getColorImage === 'function'
+              ? imageUtils.getColorImage(color, product)
+              : String(color && color.image || '').trim();
+            push(color && color.name ? color.name : (index === 0 ? 'principal' : `vista-${index + 1}`), resolvedImage, pickProductThumb(product, resolvedImage));
           });
         }
 
         getProductImageList(product).forEach((src, index) => {
-          const detailSources = typeof imageUtils.getProductDetailImageSources === 'function'
-            ? imageUtils.getProductDetailImageSources(product, null, index)
-            : [src].filter(Boolean);
-          const thumbSources = typeof imageUtils.getProductImageSources === 'function'
-            ? imageUtils.getProductImageSources(product, null, index)
-            : [pickProductThumb(product, src)].filter(Boolean);
-          push(index === 0 ? 'principal' : `vista-${index + 1}`, detailSources, thumbSources);
+          push(index === 0 ? 'principal' : `vista-${index + 1}`, src, pickProductThumb(product, src));
         });
 
         if (!images.length) {
-          images.push({ label: 'placeholder', src: PLACEHOLDER, sources: [PLACEHOLDER], webpSrc: '', thumbSrc: PLACEHOLDER, thumbSources: [PLACEHOLDER] });
+          images.push({ label: 'placeholder', src: PLACEHOLDER, webpSrc: '', thumbSrc: PLACEHOLDER });
         }
         return images;
       }
@@ -3296,13 +3284,6 @@
         return (typeof imageUtils.getProductMainImage === 'function'
           ? imageUtils.getProductMainImage(product)
           : '') || PLACEHOLDER;
-      }
-      function getDetailImageSources(product, color, index) {
-        if (typeof imageUtils.getProductDetailImageSources === 'function') {
-          const sources = imageUtils.getProductDetailImageSources(product, color, index);
-          if (Array.isArray(sources) && sources.length) return sources;
-        }
-        return [getColorImage(product, color)].filter(Boolean);
       }
 
       function getStockLabel(total){
@@ -4315,39 +4296,24 @@
 
         function setResponsiveMainImage(src, alt) {
           if (!mainImage) return;
+          const nextSrc = String(src || '').trim() || PLACEHOLDER;
           const picture = mainImage.closest('picture');
-          const sourceList = Array.isArray(src) ? src : [String(src || '').trim()].filter(Boolean);
-          syncPictureSource(picture, 'image/webp', '');
+          syncPictureSource(picture, 'image/webp', getSafeWebpSource(nextSrc));
+          mainImage.src = nextSrc;
           if (alt != null) mainImage.alt = alt;
-          if (typeof imageUtils.setImageWithFallback === 'function') {
-            imageUtils.setImageWithFallback(mainImage, sourceList, {
-              placeholderSrc: PLACEHOLDER
-            });
-            return;
-          }
-          mainImage.src = String(sourceList[0] || PLACEHOLDER).trim() || PLACEHOLDER;
         }
 
         if (thumbContainer) {
           const thumbs = Array.from(thumbContainer.querySelectorAll('[data-index]'));
           thumbs.forEach((thumb, index) => {
-            if (typeof imageUtils.setImageWithFallback === 'function' && gallery[index]) {
-              imageUtils.setImageWithFallback(thumb, gallery[index].thumbSources || [gallery[index].thumbSrc || gallery[index].src], {
-                placeholderSrc: PLACEHOLDER
-              });
-            }
             const activateThumb = () => {
               setActiveThumb(index);
               const targetColor = thumb.dataset.color || '';
               if (targetColor && findColorOption(product, targetColor)) {
-                setActiveColor(targetColor, {
-                  imageOverride: gallery[index].src,
-                  imageSources: gallery[index].sources || [gallery[index].src],
-                  skipThumbSync: true
-                });
+                setActiveColor(targetColor, { imageOverride: gallery[index].src, skipThumbSync: true });
               } else if (mainImage) {
                 setResponsiveMainImage(
-                  gallery[index].sources || [gallery[index].src],
+                  gallery[index].src,
                   gallery[index].label ? `${product.name || 'Producto'} - ${gallery[index].label}` : (product.name || 'Producto')
                 );
               }
@@ -4365,7 +4331,6 @@
           window.addEventListener('resize', updateThumbNav);
           updateThumbNav();
         }
-        setResponsiveMainImage(gallery[0].sources || [gallery[0].src], product.name || 'Producto');
         if (thumbsPrevBtn) {
           thumbsPrevBtn.addEventListener('click', () => scrollThumbs(-1));
         }
@@ -4529,7 +4494,6 @@
           if (mainImage) {
             const displayName = getDisplayColorName(product, colorName || '');
             let imageOverride = opts.imageOverride;
-            let imageSources = Array.isArray(opts.imageSources) ? opts.imageSources.filter(Boolean) : null;
             if (!imageOverride && swatchWrapper) {
               const targetKey = normalizeColorKey(colorName);
               const matchedSwatch = Array.from(swatchWrapper.querySelectorAll('.color-swatch'))
@@ -4538,12 +4502,8 @@
                 imageOverride = matchedSwatch.dataset.colorImage;
               }
             }
-            if (!imageSources || !imageSources.length) {
-              const colorOption = findColorOption(product, colorName);
-              imageSources = getDetailImageSources(product, colorOption || colorName, colorOption && colorOption.index);
-            }
             setResponsiveMainImage(
-              imageSources && imageSources.length ? imageSources : [imageOverride || getColorImage(product, colorName)],
+              imageOverride || getColorImage(product, colorName),
               displayName ? `${product.name || 'Producto'} - ${displayName}` : (product.name || 'Producto')
             );
           }
@@ -4576,15 +4536,12 @@
             const colorImage = typeof imageUtils.getColorImage === 'function'
               ? imageUtils.getColorImage(color, product)
               : (color.image || '');
-            const colorThumbSources = typeof imageUtils.getProductImageSources === 'function'
-              ? imageUtils.getProductImageSources(product, color, color && color.index)
-              : [];
             const colorSwatchImage = color.swatch
               || color.preview
               || color.pattern
               || color.thumb
               || color.thumbnail
-              || colorThumbSources[0]
+              || (typeof imageUtils.getThumbPath === 'function' ? imageUtils.getThumbPath(colorImage) : '')
               || colorImage
               || '';
             btn.dataset.color = colorName;

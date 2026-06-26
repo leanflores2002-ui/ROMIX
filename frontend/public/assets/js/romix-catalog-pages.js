@@ -737,21 +737,18 @@
   function resolveThumbSet(product, color) {
     if (typeof imageUtils.getProductThumbSet === "function") {
       const resolved = imageUtils.getProductThumbSet(product, color);
-      if (resolved && (resolved.src || resolved.originalSrc)) {
+      if (resolved && (resolved.src || resolved.webpSrc || resolved.avifSrc)) {
         return {
           src: resolved.src || resolved.originalSrc || PLACEHOLDER,
           fallbackSrc: resolved.fallbackSrc || resolved.src || resolved.originalSrc || PLACEHOLDER,
           webpSrc: resolved.webpSrc || "",
           avifSrc: resolved.avifSrc || "",
-          originalSrc: resolved.originalSrc || resolved.src || PLACEHOLDER,
-          sources: Array.isArray(resolved.sources) ? resolved.sources.slice() : [resolved.src || resolved.originalSrc || PLACEHOLDER]
+          originalSrc: resolved.originalSrc || resolved.src || PLACEHOLDER
         };
       }
     }
     const primaryImage = String(product && product.image || "").trim() || PLACEHOLDER;
-    return Object.assign(thumbSetFromSources(primaryImage, primaryImage, ""), {
-      sources: [primaryImage]
-    });
+    return thumbSetFromSources(primaryImage, primaryImage, "");
   }
 
   function statusFromSizes(sizes) {
@@ -797,18 +794,15 @@
     return entries.map((entry) => {
       const name = String(entry && (entry.name || entry.value) || "Unico").trim() || "Unico";
       const key = normalizeText(name) || "unico";
-      const imageSources = typeof imageUtils.getProductImageSources === "function"
-        ? imageUtils.getProductImageSources(product, entry, entry && entry.index)
-        : [];
       const resolvedImage = (typeof imageUtils.getColorImage === "function"
         ? imageUtils.getColorImage(entry, product)
         : String(entry && entry.image || "").trim()) || fallbackImage;
       const thumb = String(entry && entry.thumb || "").trim()
-        || imageSources[0]
-        || resolvedImage;
+        || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : "");
       const thumbFallback = String(entry && entry.thumbFallback || "").trim()
         || resolvedImage;
-      const thumbAvif = String(entry && entry.thumbAvif || "").trim();
+      const thumbAvif = String(entry && entry.thumbAvif || "").trim()
+        || (typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(resolvedImage) : "");
       return Object.assign({}, entry, {
         key,
         name,
@@ -1413,22 +1407,31 @@
 
       function setMainImage(colorOption, colorName) {
         const nextSet = resolveThumbSet(product, colorOption);
-        syncPictureSource("image/avif", nextSet.avifSrc);
-        syncPictureSource("image/webp", nextSet.webpSrc);
-        image.alt = colorName ? (product.name + " - " + colorName) : product.name;
-        if (typeof imageUtils.setImageWithFallback === "function") {
-          syncPictureSource("image/avif", "");
-          syncPictureSource("image/webp", "");
-          imageUtils.setImageWithFallback(image, nextSet.sources, {
-            placeholderSrc: PLACEHOLDER
-          });
-          return;
-        }
         image.onerror = function onImageError() {
           image.onerror = null;
-          image.src = defaultThumbSet.fallbackSrc || PLACEHOLDER;
+          syncPictureSource("image/avif", "");
+          syncPictureSource("image/webp", "");
+          if (nextSet.originalSrc && image.src !== nextSet.originalSrc) {
+            image.src = nextSet.originalSrc;
+            image.alt = colorName ? (product.name + " - " + colorName) : product.name;
+            thumb.classList.add("is-loaded");
+            return;
+          }
+          if (image.src !== defaultThumbSet.fallbackSrc) {
+            image.src = defaultThumbSet.fallbackSrc;
+            image.alt = product.name;
+            thumb.classList.add("is-loaded");
+            return;
+          }
+          image.src = PLACEHOLDER;
+          image.alt = product.name;
+          thumb.classList.add("is-loaded");
         };
+
+        syncPictureSource("image/avif", nextSet.avifSrc);
+        syncPictureSource("image/webp", nextSet.webpSrc);
         image.src = nextSet.src;
+        image.alt = colorName ? (product.name + " - " + colorName) : product.name;
       }
 
       image.addEventListener("load", function () {

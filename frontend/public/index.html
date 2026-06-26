@@ -1710,7 +1710,7 @@
     function resolveThumbSet(product, preferredImage) {
       if (typeof imageUtils.getProductThumbSet === "function") {
         const colorEntry = preferredImage
-          ? (typeof preferredImage === "object" ? preferredImage : { image: preferredImage })
+          ? { image: preferredImage }
           : null;
         const resolved = imageUtils.getProductThumbSet(product, colorEntry);
         if (resolved) {
@@ -1719,8 +1719,7 @@
             fallbackSrc: resolved.fallbackSrc || resolved.src || resolved.originalSrc || "images/logo-romix.png",
             webpSrc: resolved.webpSrc || "",
             avifSrc: resolved.avifSrc || "",
-            originalSrc: resolved.originalSrc || resolved.src || "images/logo-romix.png",
-            sources: Array.isArray(resolved.sources) ? resolved.sources.slice() : [resolved.src || resolved.originalSrc || "images/logo-romix.png"]
+            originalSrc: resolved.originalSrc || resolved.src || "images/logo-romix.png"
           };
         }
       }
@@ -1730,8 +1729,7 @@
         fallbackSrc: mainImage,
         webpSrc: "",
         avifSrc: "",
-        originalSrc: mainImage,
-        sources: [mainImage]
+        originalSrc: mainImage
       };
     }
 
@@ -1762,19 +1760,13 @@
         : [];
       if (!colorEntries.length) return [];
       return colorEntries.map((color, index) => {
-        const imageSources = typeof imageUtils.getProductImageSources === "function"
-          ? imageUtils.getProductImageSources(product, color, color && color.index)
-          : [];
         const resolvedImage = (typeof imageUtils.getColorImage === "function"
           ? imageUtils.getColorImage(color, product)
           : String(color && color.image || "").trim())
           || pickImage(product, "images/logo-romix.png");
         const thumb = String(color && color.thumb || "").trim()
-          || imageSources[0]
-          || resolvedImage
-          || pickThumbImage(product, "images/logo-romix.png");
+          || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : pickThumbImage(product, "images/logo-romix.png"));
         return {
-          index: Number.isFinite(Number(color && color.index)) ? Number(color.index) : index,
           name: String(color && (color.name || color.value) || ("Color " + (index + 1))).trim(),
           hex: color && color.hex ? color.hex : "",
           image: resolvedImage,
@@ -1955,26 +1947,35 @@
           picture.insertBefore(sourceTag, picture.querySelector("img") || null);
         }
 
-        function setImg(variantOrImage, colorName) {
-          const chosenSet = resolveThumbSet(product, variantOrImage);
+        function setImg(src, colorName) {
+          const chosenSet = resolveThumbSet(product, src);
+          mainImg.onerror = function () {
+            mainImg.onerror = null;
+            syncPictureSource("image/avif", "");
+            syncPictureSource("image/webp", "");
+            if (chosenSet.originalSrc && mainImg.src !== chosenSet.originalSrc) {
+              mainImg.src = chosenSet.originalSrc;
+              mainImg.alt = colorName
+                ? String(product && product.name ? product.name : "Producto") + " - " + colorName
+                : String(product && product.name ? product.name : "Producto");
+              thumbLink.classList.add("is-loaded");
+              return;
+            }
+            if (mainImg.src !== defaultThumbSet.fallbackSrc) {
+              mainImg.src = defaultThumbSet.fallbackSrc;
+              mainImg.alt = product && product.name ? String(product.name) : "Producto";
+              thumbLink.classList.add("is-loaded");
+              return;
+            }
+            mainImg.src = "images/logo-romix.png";
+            thumbLink.classList.add("is-loaded");
+          };
           syncPictureSource("image/avif", chosenSet.avifSrc);
           syncPictureSource("image/webp", chosenSet.webpSrc);
+          mainImg.src = chosenSet.src;
           mainImg.alt = colorName
             ? String(product && product.name ? product.name : "Producto") + " - " + colorName
             : String(product && product.name ? product.name : "Producto");
-          if (typeof imageUtils.setImageWithFallback === "function") {
-            syncPictureSource("image/avif", "");
-            syncPictureSource("image/webp", "");
-            imageUtils.setImageWithFallback(mainImg, chosenSet.sources, {
-              placeholderSrc: "images/logo-romix.png"
-            });
-            return;
-          }
-          mainImg.onerror = function () {
-            mainImg.onerror = null;
-            mainImg.src = defaultThumbSet.fallbackSrc || "images/logo-romix.png";
-          };
-          mainImg.src = chosenSet.src;
         }
 
         mainImg.addEventListener("load", function () {
@@ -2033,7 +2034,7 @@
               btn.classList.add("is-active");
               btn.setAttribute("aria-pressed", "true");
               thumbLink.classList.remove("is-loaded");
-              setImg(variant, variant.name);
+              setImg(variant.thumb || variant.image, variant.name);
             });
 
             varWrap.appendChild(btn);
@@ -2047,7 +2048,7 @@
           }
 
           const initial = visible[0];
-          if (initial) setImg(initial, initial.name);
+          if (initial) setImg(initial.thumb || initial.image, initial.name);
           body.appendChild(varWrap);
         }
 

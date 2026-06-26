@@ -1085,7 +1085,7 @@
             const thumbSrc = findImageForItem(item);
             const label = getCartDisplayItem(item).name || 'Producto';
             return thumbSrc
-              ? `<img class="summary-thumb" src="${thumbSrc}" alt="${label}" onerror="this.onerror=null;this.src='images/logo-romix.png';" />`
+              ? `<img class="summary-thumb" src="${thumbSrc}" alt="${label}" />`
               : `<span class="summary-thumb summary-thumb-empty" role="img" aria-label="${label}">-</span>`;
           }).join('');
           const more = cart.length > 4 ? `<span class="summary-thumb-more">+${cart.length - 4}</span>` : '';
@@ -1117,7 +1117,7 @@
             <div class="item-check">
               <input class="item-select" type="checkbox" checked aria-label="Producto seleccionado" />
             </div>
-            <div class="cart-thumb">${img ? `<img src="${img}" alt="${displayItem.name}" onerror="this.onerror=null;this.src='images/logo-romix.png';">` : '<span style="color:#a99cb2;font-weight:700;">Sin imagen</span>'}</div>
+            <div class="cart-thumb">${img ? `<img src="${img}" alt="${displayItem.name}">` : '<span style="color:#a99cb2;font-weight:700;">Sin imagen</span>'}</div>
             <div class="cart-info">
               <div class="brand">${typeLabel}</div>
               <div class="name">${displayItem.name}</div>

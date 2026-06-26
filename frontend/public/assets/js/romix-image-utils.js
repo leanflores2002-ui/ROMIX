@@ -11,6 +11,19 @@
   const PROMO_HEIGHT = 921;
   const LOGO_WIDTH = 752;
   const LOGO_HEIGHT = 829;
+  const PRODUCTS_DIR = "images/products/";
+  const THUMBS_DIR = "images/thumbs/";
+  const MOBILE_DIR = "images/mobile/";
+
+  function normalizeColorKey(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "";
+    try {
+      return raw.normalize("NFD").replace(/\p{Diacritic}+/gu, "").toLowerCase();
+    } catch {
+      return raw.toLowerCase();
+    }
+  }
 
   function cleanPath(value) {
     return String(value || "").trim().split(/[?#]/)[0];
@@ -38,12 +51,71 @@
     return normalized.slice(0, dotIndex + 1) + safeExtension;
   }
 
+  function hasThumbSuffix(value) {
+    return /-thumb\.(png|jpe?g|webp|avif)$/i.test(cleanPath(value));
+  }
+
+  function hasMobileSuffix(value) {
+    return /-mobile\.(png|jpe?g|webp|avif)$/i.test(cleanPath(value));
+  }
+
+  function appendSuffixBeforeExtension(value, suffix, nextExtension) {
+    const normalized = cleanPath(value);
+    if (!normalized) return "";
+    const safeSuffix = String(suffix || "").trim();
+    const base = safeSuffix && normalized.includes(safeSuffix)
+      ? normalized
+      : normalized.replace(/(\.[^./]+)$/i, safeSuffix + "$1");
+    return nextExtension ? replaceExtension(base, nextExtension) : base;
+  }
+
+  function getThumbPath(imagePath) {
+    const normalized = cleanPath(imagePath);
+    if (!normalized) return "";
+    if (/^data:/i.test(normalized)) return normalized;
+    if (normalized.includes(THUMBS_DIR)) {
+      return hasThumbSuffix(normalized)
+        ? replaceExtension(normalized, "webp")
+        : appendSuffixBeforeExtension(normalized, "-thumb", "webp");
+    }
+    if (normalized.includes(PRODUCTS_DIR)) {
+      return appendSuffixBeforeExtension(normalized.replace(PRODUCTS_DIR, THUMBS_DIR), "-thumb", "webp");
+    }
+    return appendSuffixBeforeExtension(normalized, "-thumb", "webp");
+  }
+
+  function getAvifThumbPath(imagePath) {
+    const normalized = cleanPath(imagePath);
+    if (!normalized) return "";
+    if (/^data:/i.test(normalized)) return normalized;
+    if (normalized.includes(THUMBS_DIR)) {
+      return hasThumbSuffix(normalized)
+        ? replaceExtension(normalized, "avif")
+        : appendSuffixBeforeExtension(normalized, "-thumb", "avif");
+    }
+    if (normalized.includes(PRODUCTS_DIR)) {
+      return appendSuffixBeforeExtension(normalized.replace(PRODUCTS_DIR, THUMBS_DIR), "-thumb", "avif");
+    }
+    return appendSuffixBeforeExtension(normalized, "-thumb", "avif");
+  }
+
+  function getMobileImagePath(imagePath) {
+    const normalized = cleanPath(imagePath);
+    if (!normalized) return "";
+    if (/^data:/i.test(normalized)) return normalized;
+    if (normalized.includes(MOBILE_DIR)) {
+      return hasMobileSuffix(normalized)
+        ? replaceExtension(normalized, "webp")
+        : appendSuffixBeforeExtension(normalized, "-mobile", "webp");
+    }
+    if (normalized.includes(PRODUCTS_DIR)) {
+      return appendSuffixBeforeExtension(normalized.replace(PRODUCTS_DIR, MOBILE_DIR), "-mobile", "webp");
+    }
+    return appendSuffixBeforeExtension(normalized, "-mobile", "webp");
+  }
+
   function toThumbPath(value) {
-    const fileName = basename(value);
-    if (!fileName) return "";
-    const dotIndex = fileName.lastIndexOf(".");
-    const stem = dotIndex >= 0 ? fileName.slice(0, dotIndex) : fileName;
-    return "images/thumbs/" + stem + "-thumb.jpg";
+    return getThumbPath(value);
   }
 
   function fallbackRasterPath(value) {
@@ -52,6 +124,174 @@
     const ext = extension(normalized);
     if (ext === "avif" || ext === "webp") return replaceExtension(normalized, "jpg");
     return normalized;
+  }
+
+  function getProductLegacyImageMap(product) {
+    if (!product || typeof product !== "object") return null;
+    if (product.imageMap && typeof product.imageMap === "object" && !Array.isArray(product.imageMap)) {
+      return product.imageMap;
+    }
+    if (product.images && typeof product.images === "object" && !Array.isArray(product.images)) {
+      return product.images;
+    }
+    return null;
+  }
+
+  function getProductImageList(product) {
+    const result = [];
+    const seen = new Set();
+
+    function push(src) {
+      const value = cleanPath(src);
+      if (!value || seen.has(value)) return;
+      seen.add(value);
+      result.push(value);
+    }
+
+    if (product && product.image) push(product.image);
+
+    const legacyMap = getProductLegacyImageMap(product);
+    if (legacyMap) {
+      Object.values(legacyMap).forEach(push);
+    }
+
+    if (Array.isArray(product && product.images)) {
+      product.images.forEach(push);
+    }
+
+    return result;
+  }
+
+  function findColorImageInLegacyMap(product, colorName) {
+    const target = normalizeColorKey(colorName);
+    if (!target) return "";
+    const legacyMap = getProductLegacyImageMap(product);
+    if (!legacyMap) return "";
+    const direct = cleanPath(legacyMap[colorName]);
+    if (direct) return direct;
+    const key = Object.keys(legacyMap).find(function (entryName) {
+      return normalizeColorKey(entryName) === target;
+    });
+    return key ? cleanPath(legacyMap[key]) : "";
+  }
+
+  function resolveProductColorEntries(product) {
+    const legacyMap = getProductLegacyImageMap(product);
+    const imageList = Array.isArray(product && product.images) ? product.images.filter(Boolean).map(cleanPath) : [];
+    const mainFallback = cleanPath(product && product.image);
+    const legacyValues = legacyMap ? Object.values(legacyMap).map(cleanPath).filter(Boolean) : [];
+    const firstLegacyImage = legacyValues[0] || imageList[0] || mainFallback || "";
+    let palette = [];
+
+    if (Array.isArray(product && product.colors)) {
+      palette = product.colors.slice();
+    } else if (product && product.colors && typeof product.colors === "object") {
+      const values = Object.values(product.colors);
+      if (values.every(function (entry) { return entry && typeof entry === "object"; })) {
+        palette = values;
+      } else if (product.colors.name || product.colors.value || product.colors.image) {
+        palette = [product.colors];
+      }
+    }
+
+    if (palette.length) {
+      return palette.map(function (entry, index) {
+        const color = entry && typeof entry === "object" ? entry : { name: entry };
+        const name = String(color.name || color.value || "").trim() || ("Color " + (index + 1));
+        const resolvedImage = cleanPath(color.image)
+          || findColorImageInLegacyMap(product, name)
+          || cleanPath(imageList[index])
+          || firstLegacyImage;
+        return Object.assign({}, color, {
+          index: index,
+          name: name,
+          image: resolvedImage
+        });
+      });
+    }
+
+    if (legacyMap) {
+      return Object.keys(legacyMap).map(function (colorName, index) {
+        return {
+          index: index,
+          name: String(colorName || "").trim() || ("Color " + (index + 1)),
+          image: cleanPath(legacyMap[colorName]) || firstLegacyImage
+        };
+      }).filter(function (entry) {
+        return !!entry.image;
+      });
+    }
+
+    if (imageList.length) {
+      return imageList.map(function (image, index) {
+        return {
+          index: index,
+          name: index === 0 ? "Principal" : ("Vista " + (index + 1)),
+          image: image
+        };
+      });
+    }
+
+    if (mainFallback) {
+      return [{ index: 0, name: "Unico", image: mainFallback }];
+    }
+
+    return [];
+  }
+
+  function getProductMainImage(product) {
+    const colors = resolveProductColorEntries(product);
+    if (colors[0] && colors[0].image) return colors[0].image;
+    return cleanPath(product && product.image)
+      || getProductImageList(product)[0]
+      || "";
+  }
+
+  function findProductColor(product, lookup) {
+    const target = typeof lookup === "string"
+      ? normalizeColorKey(lookup)
+      : normalizeColorKey(lookup && (lookup.name || lookup.value));
+    if (!target) return null;
+    const colors = resolveProductColorEntries(product);
+    return colors.find(function (entry) {
+      return normalizeColorKey(entry && (entry.name || entry.value)) === target;
+    }) || null;
+  }
+
+  function getColorImage(color, product) {
+    if (color && typeof color === "object" && cleanPath(color.image)) {
+      return cleanPath(color.image);
+    }
+    const namedColor = findProductColor(product, color);
+    if (namedColor && namedColor.image) return cleanPath(namedColor.image);
+    if (color && typeof color === "object" && color.name) {
+      const legacyImage = findColorImageInLegacyMap(product, color.name);
+      if (legacyImage) return legacyImage;
+    }
+    return getProductMainImage(product);
+  }
+
+  function getProductThumbSet(product, color) {
+    const colorEntry = color && typeof color === "object"
+      ? Object.assign({}, color, { image: getColorImage(color, product) })
+      : findProductColor(product, color);
+    const mainImage = getColorImage(colorEntry || color, product) || getProductMainImage(product);
+    const explicitThumb = cleanPath((colorEntry && colorEntry.thumb) || (product && (product.thumbnail || product.thumb)));
+    const explicitFallback = cleanPath((colorEntry && colorEntry.thumbFallback) || (product && (product.thumbnailFallback || product.thumbFallback)));
+    const explicitAvif = cleanPath((colorEntry && colorEntry.thumbAvif) || (product && product.thumbnailAvif));
+    const explicitThumbExt = extension(explicitThumb);
+    const thumbFallback = explicitThumb && explicitThumbExt && explicitThumbExt !== "webp" && explicitThumbExt !== "avif"
+      ? explicitThumb
+      : "";
+    const fallbackSrc = explicitFallback || thumbFallback || mainImage;
+
+    return {
+      src: fallbackSrc || mainImage,
+      fallbackSrc: fallbackSrc || mainImage,
+      webpSrc: explicitThumbExt === "webp" ? explicitThumb : getThumbPath(mainImage),
+      avifSrc: extension(explicitAvif) === "avif" ? explicitAvif : getAvifThumbPath(mainImage),
+      originalSrc: mainImage
+    };
   }
 
   function applyImageAttributes(img, options) {
@@ -104,8 +344,18 @@
     basename,
     extension,
     replaceExtension,
+    getThumbPath,
+    getAvifThumbPath,
+    getMobileImagePath,
     toThumbPath,
     fallbackRasterPath,
+    getProductLegacyImageMap,
+    getProductImageList,
+    resolveProductColorEntries,
+    getProductMainImage,
+    findProductColor,
+    getColorImage,
+    getProductThumbSet,
     createPicture,
     dimensions: {
       productCard: { width: PRODUCT_CARD_WIDTH, height: PRODUCT_CARD_HEIGHT },

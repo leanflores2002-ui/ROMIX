@@ -153,12 +153,18 @@
         return;
       }
 
-      const img = p.image || (p.images && (p.images['Negro'] || Object.values(p.images)[0])) || PLACEHOLDER;
+      const resolvedColors = typeof imageUtils.resolveProductColorEntries === 'function'
+        ? imageUtils.resolveProductColorEntries(p)
+        : [];
+      const img = (typeof imageUtils.getProductMainImage === 'function' ? imageUtils.getProductMainImage(p) : '')
+        || p.image
+        || (p.images && (p.images['Negro'] || Object.values(p.images)[0]))
+        || PLACEHOLDER;
       const imgWebp = toWebpImage(img);
       const price = Number(p.price||0);
       const stock = estimateStock(p);
       const stockLabel = stock <= 0 ? 'Agotado' : (stock <= 3 ? 'Por agotarse' : 'Disponible');
-      const firstColorName = (p.colors && p.colors[0] && (p.colors[0].name || p.colors[0])) || '';
+      const firstColorName = (resolvedColors[0] && resolvedColors[0].name) || (p.colors && p.colors[0] && (p.colors[0].name || p.colors[0])) || '';
       ensureProductImagePreload(imgWebp || img);
 
       const badge = p.type

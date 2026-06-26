@@ -20,14 +20,11 @@
 
   function getProductImage(product) {
     if (!product) return '';
-    if (product.image && typeof imageUtils.toThumbPath === 'function') return imageUtils.toThumbPath(product.image);
-    if (product.image) return product.image;
-    if (product.images && typeof product.images === 'object') {
-      const first = Object.values(product.images).find(Boolean);
-      if (first && typeof imageUtils.toThumbPath === 'function') return imageUtils.toThumbPath(first);
-      return first || '';
-    }
-    return '';
+    const mainImage = typeof imageUtils.getProductMainImage === 'function'
+      ? imageUtils.getProductMainImage(product)
+      : (product.image || '');
+    if (mainImage && typeof imageUtils.getThumbPath === 'function') return imageUtils.getThumbPath(mainImage);
+    return mainImage || '';
   }
 
   function createCard(product) {
@@ -77,7 +74,12 @@
     const nextBtn = carousel.querySelector('[data-carousel-next]');
 
     const source = options && Array.isArray(options.products) ? options.products : [];
-    const items = source.filter(p => p && (p.image || (p.images && Object.keys(p.images).length))).slice(0, 18);
+    const items = source.filter(p => {
+      if (!p) return false;
+      return typeof imageUtils.getProductMainImage === 'function'
+        ? !!imageUtils.getProductMainImage(p)
+        : !!(p.image || (p.images && Object.keys(p.images).length));
+    }).slice(0, 18);
 
     if (!items.length) {
       root.classList.add('promo-banner--empty');

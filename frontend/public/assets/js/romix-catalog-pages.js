@@ -701,39 +701,15 @@
   }
 
   function getRawImageMap(product) {
-    if (!product || typeof product !== "object") return null;
-    if (product.imageMap && typeof product.imageMap === "object" && !Array.isArray(product.imageMap)) {
-      return product.imageMap;
-    }
-    if (product.images && typeof product.images === "object" && !Array.isArray(product.images)) {
-      return product.images;
-    }
-    return null;
+    return typeof imageUtils.getProductLegacyImageMap === "function"
+      ? imageUtils.getProductLegacyImageMap(product)
+      : null;
   }
 
   function getRawImageList(product) {
-    const result = [];
-    const seen = new Set();
-
-    function push(src) {
-      const value = String(src || "").trim();
-      if (!value || seen.has(value)) return;
-      seen.add(value);
-      result.push(value);
-    }
-
-    if (product && product.image) push(product.image);
-
-    const imageMap = getRawImageMap(product);
-    if (imageMap) {
-      Object.values(imageMap).forEach(push);
-    }
-
-    if (Array.isArray(product && product.images)) {
-      product.images.forEach(push);
-    }
-
-    return result;
+    return typeof imageUtils.getProductImageList === "function"
+      ? imageUtils.getProductImageList(product)
+      : [];
   }
 
   function thumbSetFromSources(src, fallbackSrc, avifSrc) {
@@ -759,14 +735,20 @@
   }
 
   function resolveThumbSet(product, color) {
-    const colorThumb = String(color && color.thumb || "").trim();
-    const productThumb = String(product && (product.thumbnail || product.thumb) || "").trim();
-    const primary = colorThumb || productThumb || String(product && product.image || "").trim() || PLACEHOLDER;
-    const fallback = String(color && color.thumbFallback || "").trim()
-      || String(product && (product.thumbnailFallback || product.thumbFallback) || "").trim();
-    const avif = String(color && color.thumbAvif || "").trim()
-      || (!colorThumb ? String(product && product.thumbnailAvif || "").trim() : "");
-    return thumbSetFromSources(primary, fallback, avif);
+    if (typeof imageUtils.getProductThumbSet === "function") {
+      const resolved = imageUtils.getProductThumbSet(product, color);
+      if (resolved && (resolved.src || resolved.webpSrc || resolved.avifSrc)) {
+        return {
+          src: resolved.src || resolved.originalSrc || PLACEHOLDER,
+          fallbackSrc: resolved.fallbackSrc || resolved.src || resolved.originalSrc || PLACEHOLDER,
+          webpSrc: resolved.webpSrc || "",
+          avifSrc: resolved.avifSrc || "",
+          originalSrc: resolved.originalSrc || resolved.src || PLACEHOLDER
+        };
+      }
+    }
+    const primaryImage = String(product && product.image || "").trim() || PLACEHOLDER;
+    return thumbSetFromSources(primaryImage, primaryImage, "");
   }
 
   function statusFromSizes(sizes) {
@@ -788,92 +770,50 @@
     return "available";
   }
 
-  function resolveColorImageMap(product) {
-    const map = {};
-    const imageMap = getRawImageMap(product);
-    if (!imageMap) return map;
+  function buildColors(product) {
+    const entries = typeof imageUtils.resolveProductColorEntries === "function"
+      ? imageUtils.resolveProductColorEntries(product)
+      : [];
+    const fallbackImage = (typeof imageUtils.getProductMainImage === "function"
+      ? imageUtils.getProductMainImage(product)
+      : String(product && product.image || "").trim()) || PLACEHOLDER;
 
-    Object.keys(imageMap).forEach((colorName) => {
-      const key = normalizeText(colorName);
-      const src = String(imageMap[colorName] || "").trim();
-      if (!key || !src) return;
-      map[key] = src;
-    });
-
-    return map;
-  }
-
-  function buildColors(product, colorImageMap) {
-    const result = [];
-    const seen = new Set();
-    const fallbackImage = String((product && product.image) || "").trim() || PLACEHOLDER;
-    const imageList = Array.isArray(product && product.images) ? product.images.filter(Boolean) : [];
-
-    function resolveColorImage(name, index) {
-      const key = normalizeText(name);
-      const fromMap = String(colorImageMap[key] || "").trim();
-      if (fromMap) return fromMap;
-      const fromIndex = String(imageList[index] || "").trim();
-      if (fromIndex) return fromIndex;
-      return fallbackImage;
-    }
-
-    const fromList = Array.isArray(product && product.colors) ? product.colors : [];
-    fromList.forEach((entry, index) => {
-      if (!entry) return;
-      const name = String(entry.name || entry.value || "").trim();
-      if (!name) return;
-      const key = normalizeText(name);
-      if (!key || seen.has(key)) return;
-      seen.add(key);
-      const resolvedImage = resolveColorImage(name, index);
-      result.push({
-        key,
-        name,
-        hex: entry.hex || RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da",
-        image: resolvedImage,
-        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : "",
-        thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : "",
-        thumbAvif: "",
-        swatchImage: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolvedImage) : resolvedImage
-      });
-    });
-
-    const imageMap = getRawImageMap(product);
-    if (imageMap) {
-      Object.keys(imageMap).forEach((colorName) => {
-        const name = String(colorName || "").trim();
-        if (!name) return;
-        const key = normalizeText(name);
-        if (!key || seen.has(key)) return;
-        seen.add(key);
-        result.push({
-          key,
-          name,
-          hex: RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da",
-          image: resolveColorImage(name, result.length),
-          thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : "",
-          thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : "",
-          thumbAvif: "",
-          swatchImage: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(resolveColorImage(name, result.length)) : resolveColorImage(name, result.length)
-        });
-      });
-    }
-
-    if (!result.length) {
-      result.push({
+    if (!entries.length) {
+      return [{
         key: "unico",
         name: "Unico",
         hex: "#dddddd",
         image: fallbackImage,
-        thumb: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : "",
-        thumbFallback: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : "",
-        thumbAvif: "",
-        swatchImage: typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(fallbackImage) : fallbackImage
-      });
+        thumb: typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(fallbackImage) : fallbackImage,
+        thumbFallback: fallbackImage,
+        thumbAvif: typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(fallbackImage) : "",
+        swatchImage: typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(fallbackImage) : fallbackImage
+      }];
     }
 
-    return result;
+    return entries.map((entry) => {
+      const name = String(entry && (entry.name || entry.value) || "Unico").trim() || "Unico";
+      const key = normalizeText(name) || "unico";
+      const resolvedImage = (typeof imageUtils.getColorImage === "function"
+        ? imageUtils.getColorImage(entry, product)
+        : String(entry && entry.image || "").trim()) || fallbackImage;
+      const thumb = String(entry && entry.thumb || "").trim()
+        || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : "");
+      const thumbFallback = String(entry && entry.thumbFallback || "").trim()
+        || resolvedImage;
+      const thumbAvif = String(entry && entry.thumbAvif || "").trim()
+        || (typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(resolvedImage) : "");
+      return Object.assign({}, entry, {
+        key,
+        name,
+        hex: entry && entry.hex ? entry.hex : (RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da"),
+        image: resolvedImage,
+        thumb,
+        thumbFallback,
+        thumbAvif,
+        swatchImage: thumb || resolvedImage
+      });
+    });
   }
 
   function buildSizes(product) {
@@ -902,26 +842,27 @@
     const typeKey = normalizeTypeFilterValue(typeRaw);
     const categoryKey = categoryKeyFromType(typeRaw);
     const sizes = buildSizes(raw);
-    const colorImageMap = resolveColorImageMap(raw);
-    const colors = buildColors(raw, colorImageMap);
+    const colors = buildColors(raw);
     const filterColorKeys = Array.from(new Set(colors.map((entry) => normalizeColorToFilterKey(entry.name)).filter(Boolean)));
     const seasonKey = normalizeSeason(raw && raw.season, name);
     const baseStock = raw && raw.stockStatus ? normalizeStatus(raw.stockStatus) : "";
     const galleryImages = getRawImageList(raw);
     const rawImageMap = getRawImageMap(raw);
-    const coverImage = colors[0] && colors[0].image
-      ? colors[0].image
-      : (galleryImages[0] || ((raw && raw.image) || PLACEHOLDER));
+    const coverImage = (typeof imageUtils.getProductMainImage === "function"
+      ? imageUtils.getProductMainImage(raw)
+      : "")
+      || (colors[0] && colors[0].image)
+      || (galleryImages[0] || ((raw && raw.image) || PLACEHOLDER));
     const rawThumbnail = String(raw && raw.thumbnail || "").trim();
     const rawThumbnailFallback = String(raw && raw.thumbnailFallback || "").trim();
     const rawThumbnailAvif = String(raw && raw.thumbnailAvif || "").trim();
     const coverThumb = rawThumbnail
       || (colors[0] && colors[0].thumb)
-      || (typeof imageUtils.toThumbPath === "function" && coverImage !== PLACEHOLDER ? imageUtils.toThumbPath(coverImage) : "")
+      || (typeof imageUtils.getThumbPath === "function" && coverImage !== PLACEHOLDER ? imageUtils.getThumbPath(coverImage) : "")
       || coverImage;
     const coverThumbFallback = rawThumbnailFallback
       || (colors[0] && colors[0].thumbFallback)
-      || (typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(coverThumb) : coverThumb);
+      || coverImage;
 
     return {
       id: String((raw && raw.id) || (section + "-" + slugify(name))),
@@ -938,7 +879,7 @@
       thumbFallback: coverThumbFallback || coverThumb || coverImage,
       thumbnail: coverThumb || coverImage,
       thumbnailFallback: coverThumbFallback || coverThumb || coverImage,
-      thumbnailAvif: rawThumbnailAvif || (colors[0] && colors[0].thumbAvif) || "",
+      thumbnailAvif: rawThumbnailAvif || (colors[0] && colors[0].thumbAvif) || (typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(coverImage) : ""),
       imageMap: rawImageMap,
       images: galleryImages,
       price: Number((raw && raw.price) || 0),
@@ -1468,6 +1409,14 @@
         const nextSet = resolveThumbSet(product, colorOption);
         image.onerror = function onImageError() {
           image.onerror = null;
+          syncPictureSource("image/avif", "");
+          syncPictureSource("image/webp", "");
+          if (nextSet.originalSrc && image.src !== nextSet.originalSrc) {
+            image.src = nextSet.originalSrc;
+            image.alt = colorName ? (product.name + " - " + colorName) : product.name;
+            thumb.classList.add("is-loaded");
+            return;
+          }
           if (image.src !== defaultThumbSet.fallbackSrc) {
             image.src = defaultThumbSet.fallbackSrc;
             image.alt = product.name;

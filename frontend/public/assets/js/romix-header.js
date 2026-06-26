@@ -328,7 +328,7 @@
           '<div class="mega-panel-grid">' +
             '<div class="mega-panel-columns">' + columns + '</div>' +
             '<a class="mega-promo" href="' + escapeHtml(promo.href || item.page) + '" data-mega-link="true">' +
-              '<img src="' + escapeHtml(promo.image && typeof imageUtils.toThumbPath === "function" ? imageUtils.toThumbPath(promo.image) : (promo.image || "images/logo-romix.png")) + '" alt="' + escapeHtml(promo.alt || item.label) + '" loading="lazy" decoding="async" width="720" height="960" />' +
+              '<img src="' + escapeHtml(promo.image && typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(promo.image) : (promo.image || "images/logo-romix.png")) + '" alt="' + escapeHtml(promo.alt || item.label) + '" loading="lazy" decoding="async" width="720" height="960" />' +
               '<span class="mega-promo-overlay"></span>' +
               '<span class="mega-promo-copy">' +
                 '<span class="mega-promo-eyebrow">' + escapeHtml(promo.eyebrow || "Nueva coleccion") + '</span>' +

@@ -9,7 +9,8 @@
   "scripts": {
     "test": "node tests/pageTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js",
     "sync:price-groups": "node scripts/addPriceByGroupPlaceholder.js",
-    "generate:share-pages": "node scripts/generate-share-pages.js"
+    "generate:share-pages": "node scripts/generate-share-pages.js",
+    "generate:images": "node scripts/generate-images.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   "homepage": "https://github.com/Leandro18122022/web#readme",
   "devDependencies": {
     "axe-core": "^4.11.0",
-    "jsdom": "^27.3.0"
+    "jsdom": "^27.3.0",
+    "sharp": "^0.34.4"
   }
 }

@@ -1686,58 +1686,50 @@
     }
 
     function getImageMap(product) {
-      if (!product || typeof product !== "object") return null;
-      if (product.imageMap && typeof product.imageMap === "object" && !Array.isArray(product.imageMap)) {
-        return product.imageMap;
-      }
-      if (product.images && typeof product.images === "object" && !Array.isArray(product.images)) {
-        return product.images;
-      }
-      return null;
+      return typeof imageUtils.getProductLegacyImageMap === "function"
+        ? imageUtils.getProductLegacyImageMap(product)
+        : null;
     }
 
     function pickImage(product, fallback) {
-      if (product && product.image) return String(product.image);
-      const imageMap = getImageMap(product);
-      if (imageMap) {
-        const values = Object.values(imageMap).filter(Boolean);
-        if (values.length) return String(values[0]);
-      }
-      if (Array.isArray(product && product.images) && product.images.length) {
-        return String(product.images[0]);
-      }
-      return fallback || "images/logo-romix.png";
+      const resolved = typeof imageUtils.getProductMainImage === "function"
+        ? imageUtils.getProductMainImage(product)
+        : "";
+      return resolved || fallback || "images/logo-romix.png";
     }
 
     function pickThumbImage(product, fallback) {
       if (product && product.thumbnail) return String(product.thumbnail);
       const fullImage = pickImage(product, fallback);
-      if (fullImage && typeof imageUtils.toThumbPath === "function" && !fullImage.startsWith("data:")) {
-        return imageUtils.toThumbPath(fullImage);
+      if (fullImage && typeof imageUtils.getThumbPath === "function" && !fullImage.startsWith("data:")) {
+        return imageUtils.getThumbPath(fullImage);
       }
       return fullImage;
     }
 
     function resolveThumbSet(product, preferredImage) {
-      const primary = String(preferredImage || pickThumbImage(product, "images/logo-romix.png") || "").trim();
-      const ext = typeof imageUtils.extension === "function" ? imageUtils.extension(primary) : "";
-      const defaultThumb = pickThumbImage(product, "images/logo-romix.png");
-      const isDefaultThumb = !preferredImage || String(primary) === String(defaultThumb);
-      const fallback = (isDefaultThumb ? String(product && product.thumbnailFallback || "").trim() : "")
-        || (typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : primary);
-      const derivedWebp = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "webp") : primary;
-      const derivedAvif = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "avif") : "";
-      const avif = isDefaultThumb ? String(product && product.thumbnailAvif || "").trim() : "";
-      const webp = /\.webp$/i.test(primary) ? primary : (ext && ext !== "avif" ? derivedWebp : "");
-      const fallbackSrc = ext === "webp" || ext === "avif"
-        ? ((typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : fallback) || fallback)
-        : (primary || fallback || "images/logo-romix.png");
-
+      if (typeof imageUtils.getProductThumbSet === "function") {
+        const colorEntry = preferredImage
+          ? { image: preferredImage }
+          : null;
+        const resolved = imageUtils.getProductThumbSet(product, colorEntry);
+        if (resolved) {
+          return {
+            src: resolved.src || resolved.originalSrc || "images/logo-romix.png",
+            fallbackSrc: resolved.fallbackSrc || resolved.src || resolved.originalSrc || "images/logo-romix.png",
+            webpSrc: resolved.webpSrc || "",
+            avifSrc: resolved.avifSrc || "",
+            originalSrc: resolved.originalSrc || resolved.src || "images/logo-romix.png"
+          };
+        }
+      }
+      const mainImage = String(preferredImage || pickImage(product, "images/logo-romix.png") || "").trim();
       return {
-        src: fallbackSrc,
-        fallbackSrc: fallbackSrc,
-        webpSrc: webp,
-        avifSrc: /\.avif$/i.test(primary) ? primary : (avif || derivedAvif)
+        src: mainImage,
+        fallbackSrc: mainImage,
+        webpSrc: "",
+        avifSrc: "",
+        originalSrc: mainImage
       };
     }
 
@@ -1755,65 +1747,33 @@
     }
 
     function findColorImage(product, colorName) {
-      const imageMap = getImageMap(product);
-      if (!imageMap) return "";
-      const wanted = normalizeText(colorName);
-      const entries = Object.entries(imageMap);
-      const exact = entries.find(([name]) => normalizeText(name) === wanted);
-      return exact && exact[1] ? String(exact[1]) : "";
+      if (typeof imageUtils.findProductColor === "function") {
+        const color = imageUtils.findProductColor(product, colorName);
+        return color && color.image ? String(color.image) : "";
+      }
+      return "";
     }
 
     function getProductVariants(product) {
-      const variants = [];
-      const seen = new Set();
-      const colors = Array.isArray(product && product.colors) ? product.colors : [];
-      const imageMap = getImageMap(product);
-      const imageList = Array.isArray(product && product.images) ? product.images.filter(Boolean) : [];
-
-      function resolveVariantImage(label, explicitImage, index) {
-        const direct = String(explicitImage || "").trim();
-        if (direct) return direct;
-        const mapped = findColorImage(product, label);
-        if (mapped) return mapped;
-        const byIndex = String(imageList[index] || "").trim();
-        if (byIndex) return byIndex;
-        return pickImage(product, "images/logo-romix.png");
-      }
-
-      function pushVariant(name, hex, image, index) {
-        const label = String(name || "").trim();
-        const key = normalizeText(label);
-        if (!label || seen.has(key)) return;
-        seen.add(key);
-        const resolvedImage = resolveVariantImage(label, image, index);
-        const thumb = resolvedImage && typeof imageUtils.toThumbPath === "function" && !String(resolvedImage).startsWith("data:")
-          ? imageUtils.toThumbPath(resolvedImage)
-          : pickThumbImage(product, "images/logo-romix.png");
-        variants.push({
-          name: label,
-          hex: hex || "",
+      const colorEntries = typeof imageUtils.resolveProductColorEntries === "function"
+        ? imageUtils.resolveProductColorEntries(product)
+        : [];
+      if (!colorEntries.length) return [];
+      return colorEntries.map((color, index) => {
+        const resolvedImage = (typeof imageUtils.getColorImage === "function"
+          ? imageUtils.getColorImage(color, product)
+          : String(color && color.image || "").trim())
+          || pickImage(product, "images/logo-romix.png");
+        const thumb = String(color && color.thumb || "").trim()
+          || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : pickThumbImage(product, "images/logo-romix.png"));
+        return {
+          name: String(color && (color.name || color.value) || ("Color " + (index + 1))).trim(),
+          hex: color && color.hex ? color.hex : "",
           image: resolvedImage,
           thumb,
           swatchImage: thumb || resolvedImage
-        });
-      }
-
-      colors.forEach((color, index) => {
-        if (!color) return;
-        pushVariant(color.name, color.hex, color.image, index);
+        };
       });
-
-      if (imageMap) {
-        Object.entries(imageMap).forEach(([name, image]) => {
-          pushVariant(name, "", image, variants.length);
-        });
-      } else if (!variants.length && imageList.length > 1) {
-        imageList.forEach((image, index) => {
-          pushVariant("Vista " + (index + 1), "", image, index);
-        });
-      }
-
-      return variants;
     }
 
     function getProductMeta(product) {
@@ -1991,6 +1951,16 @@
           const chosenSet = resolveThumbSet(product, src);
           mainImg.onerror = function () {
             mainImg.onerror = null;
+            syncPictureSource("image/avif", "");
+            syncPictureSource("image/webp", "");
+            if (chosenSet.originalSrc && mainImg.src !== chosenSet.originalSrc) {
+              mainImg.src = chosenSet.originalSrc;
+              mainImg.alt = colorName
+                ? String(product && product.name ? product.name : "Producto") + " - " + colorName
+                : String(product && product.name ? product.name : "Producto");
+              thumbLink.classList.add("is-loaded");
+              return;
+            }
             if (mainImg.src !== defaultThumbSet.fallbackSrc) {
               mainImg.src = defaultThumbSet.fallbackSrc;
               mainImg.alt = product && product.name ? String(product.name) : "Producto";

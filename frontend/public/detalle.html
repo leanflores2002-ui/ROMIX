@@ -156,7 +156,11 @@
       const resolvedColors = typeof imageUtils.resolveProductColorEntries === 'function'
         ? imageUtils.resolveProductColorEntries(p)
         : [];
-      const img = (typeof imageUtils.getProductMainImage === 'function' ? imageUtils.getProductMainImage(p) : '')
+      const imageSources = typeof imageUtils.getProductDetailImageSources === 'function'
+        ? imageUtils.getProductDetailImageSources(p, resolvedColors[0] || null, 0)
+        : [];
+      const img = imageSources[0]
+        || (typeof imageUtils.getProductMainImage === 'function' ? imageUtils.getProductMainImage(p) : '')
         || p.image
         || (p.images && (p.images['Negro'] || Object.values(p.images)[0]))
         || PLACEHOLDER;
@@ -224,6 +228,12 @@
       `;
 
       const qty = document.getElementById('qty');
+      const mainImage = root.querySelector('.thumb img');
+      if (mainImage && typeof imageUtils.setImageWithFallback === 'function') {
+        imageUtils.setImageWithFallback(mainImage, imageSources.length ? imageSources : [img], {
+          placeholderSrc: PLACEHOLDER
+        });
+      }
       const dec = document.getElementById('dec');
       const inc = document.getElementById('inc');
       const add = document.getElementById('add');

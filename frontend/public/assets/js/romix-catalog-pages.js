@@ -737,18 +737,21 @@
   function resolveThumbSet(product, color) {
     if (typeof imageUtils.getProductThumbSet === "function") {
       const resolved = imageUtils.getProductThumbSet(product, color);
-      if (resolved && (resolved.src || resolved.webpSrc || resolved.avifSrc)) {
+      if (resolved && (resolved.src || resolved.originalSrc)) {
         return {
           src: resolved.src || resolved.originalSrc || PLACEHOLDER,
           fallbackSrc: resolved.fallbackSrc || resolved.src || resolved.originalSrc || PLACEHOLDER,
           webpSrc: resolved.webpSrc || "",
           avifSrc: resolved.avifSrc || "",
-          originalSrc: resolved.originalSrc || resolved.src || PLACEHOLDER
+          originalSrc: resolved.originalSrc || resolved.src || PLACEHOLDER,
+          sources: Array.isArray(resolved.sources) ? resolved.sources.slice() : [resolved.src || resolved.originalSrc || PLACEHOLDER]
         };
       }
     }
     const primaryImage = String(product && product.image || "").trim() || PLACEHOLDER;
-    return thumbSetFromSources(primaryImage, primaryImage, "");
+    return Object.assign(thumbSetFromSources(primaryImage, primaryImage, ""), {
+      sources: [primaryImage]
+    });
   }
 
   function statusFromSizes(sizes) {
@@ -794,15 +797,18 @@
     return entries.map((entry) => {
       const name = String(entry && (entry.name || entry.value) || "Unico").trim() || "Unico";
       const key = normalizeText(name) || "unico";
+      const imageSources = typeof imageUtils.getProductImageSources === "function"
+        ? imageUtils.getProductImageSources(product, entry, entry && entry.index)
+        : [];
       const resolvedImage = (typeof imageUtils.getColorImage === "function"
         ? imageUtils.getColorImage(entry, product)
         : String(entry && entry.image || "").trim()) || fallbackImage;
       const thumb = String(entry && entry.thumb || "").trim()
-        || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : "");
+        || imageSources[0]
+        || resolvedImage;
       const thumbFallback = String(entry && entry.thumbFallback || "").trim()
         || resolvedImage;
-      const thumbAvif = String(entry && entry.thumbAvif || "").trim()
-        || (typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(resolvedImage) : "");
+      const thumbAvif = String(entry && entry.thumbAvif || "").trim();
       return Object.assign({}, entry, {
         key,
         name,
@@ -1407,31 +1413,22 @@
 
       function setMainImage(colorOption, colorName) {
         const nextSet = resolveThumbSet(product, colorOption);
-        image.onerror = function onImageError() {
-          image.onerror = null;
-          syncPictureSource("image/avif", "");
-          syncPictureSource("image/webp", "");
-          if (nextSet.originalSrc && image.src !== nextSet.originalSrc) {
-            image.src = nextSet.originalSrc;
-            image.alt = colorName ? (product.name + " - " + colorName) : product.name;
-            thumb.classList.add("is-loaded");
-            return;
-          }
-          if (image.src !== defaultThumbSet.fallbackSrc) {
-            image.src = defaultThumbSet.fallbackSrc;
-            image.alt = product.name;
-            thumb.classList.add("is-loaded");
-            return;
-          }
-          image.src = PLACEHOLDER;
-          image.alt = product.name;
-          thumb.classList.add("is-loaded");
-        };
-
         syncPictureSource("image/avif", nextSet.avifSrc);
         syncPictureSource("image/webp", nextSet.webpSrc);
-        image.src = nextSet.src;
         image.alt = colorName ? (product.name + " - " + colorName) : product.name;
+        if (typeof imageUtils.setImageWithFallback === "function") {
+          syncPictureSource("image/avif", "");
+          syncPictureSource("image/webp", "");
+          imageUtils.setImageWithFallback(image, nextSet.sources, {
+            placeholderSrc: PLACEHOLDER
+          });
+          return;
+        }
+        image.onerror = function onImageError() {
+          image.onerror = null;
+          image.src = defaultThumbSet.fallbackSrc || PLACEHOLDER;
+        };
+        image.src = nextSet.src;
       }
 
       image.addEventListener("load", function () {

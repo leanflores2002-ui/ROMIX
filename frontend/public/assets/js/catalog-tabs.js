@@ -52,16 +52,17 @@
       const price = money(p.price);
       const subtitle = `${cap(p.section||section)} • ${p.type||''}`;
       const badge = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
+      const imageSources = typeof imageUtils.getProductImageSources === 'function'
+        ? imageUtils.getProductImageSources(p, null, 0)
+        : [];
       const mainImage = typeof imageUtils.getProductMainImage === 'function'
         ? imageUtils.getProductMainImage(p)
         : (p.image || '');
-      const img = typeof imageUtils.getThumbPath === 'function' && mainImage
-        ? imageUtils.getThumbPath(mainImage)
-        : (mainImage || 'images/placeholder.jpg');
+      const img = imageSources[0] || mainImage || 'images/logo-romix.png';
       return `
       <div class="product-card" data-type="${p.type||''}">
         <div class="product-image">
-          <img src="${img}" alt="${p.name||''}" loading="lazy" decoding="async" width="${cardImageSize.width}" height="${cardImageSize.height}" onerror="this.onerror=null;this.src='images/placeholder.jpg';"/>
+          <img src="${img}" alt="${p.name||''}" loading="lazy" decoding="async" width="${cardImageSize.width}" height="${cardImageSize.height}" onerror="this.onerror=null;this.src='${mainImage || 'images/logo-romix.png'}';"/>
           ${badge}
         </div>
         <div class="product-info">

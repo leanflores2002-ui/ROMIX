@@ -52,6 +52,49 @@ function loadImageUtils() {
     'Las miniaturas deben caer a la imagen original del producto cuando falta el thumb'
   );
 
+  const greenThumbSet = utils.getProductThumbSet(product, 'Verde');
+  assert(
+    greenThumbSet.src === 'images/thumbs/chaleco_polar_con_corderito_hombre_invierno_verde-thumb.webp',
+    'La miniatura de un color seleccionado debe derivarse de la imagen de ese color, no de la miniatura global'
+  );
+
+  const productWithColorGalleries = {
+    image: 'images/products/chaleco_negro_1.png',
+    colors: [
+      {
+        name: 'Negro',
+        images: [
+          'images/products/chaleco_negro_1.png',
+          'images/products/chaleco_negro_2.png'
+        ]
+      },
+      {
+        name: 'Verde olivo',
+        slug: 'verde-olivo',
+        imagenes: [
+          'images/products/chaleco_verde_1.png',
+          'images/products/chaleco_verde_2.png'
+        ],
+        thumbnail: 'images/thumbs/chaleco_verde_1-thumb.webp'
+      }
+    ],
+    thumbnail: 'images/thumbs/chaleco_negro_1-thumb.webp'
+  };
+
+  const resolvedColors = utils.resolveProductColorEntries(productWithColorGalleries);
+  assert(
+    resolvedColors[1].image === 'images/products/chaleco_verde_1.png',
+    'El color debe usar la primera imagen de su propio array como imagen principal'
+  );
+  assert(
+    Array.isArray(resolvedColors[1].images) && resolvedColors[1].images.length === 2,
+    'Cada color debe conservar su propio array de imagenes sin mezclar miniaturas'
+  );
+  assert(
+    utils.getColorImage(productWithColorGalleries, 'Verde olivo') === 'images/products/chaleco_verde_1.png',
+    'La busqueda por nombre de color debe resolver su primera imagen exacta'
+  );
+
   const img = dom.window.document.createElement('img');
   utils.applyImageWithFallback(
     img,

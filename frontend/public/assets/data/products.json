@@ -15064,11 +15064,23 @@
   "colors": [
     {
       "name": "Negro",
-      "hex": "#000000"
+      "hex": "#000000",
+      "images": [
+        "images/products/chaleco_polar_con_corderito_hombre_invierno_negro.png"
+      ],
+      "thumbnail": "images/thumbs/chaleco_polar_con_corderito_hombre_invierno_negro-thumb.webp",
+      "thumbnailFallback": "images/thumbs/chaleco_polar_con_corderito_hombre_invierno_negro-thumb.jpg",
+      "thumbnailAvif": "images/thumbs/chaleco_polar_con_corderito_hombre_invierno_negro-thumb.avif"
     },
     {
       "name": "Verde",
-      "hex": "#008000"
+      "hex": "#008000",
+      "images": [
+        "images/products/chaleco_polar_con_corderito_hombre_invierno_verde.png"
+      ],
+      "thumbnail": "images/thumbs/chaleco_polar_con_corderito_hombre_invierno_verde-thumb.webp",
+      "thumbnailFallback": "images/thumbs/chaleco_polar_con_corderito_hombre_invierno_verde-thumb.jpg",
+      "thumbnailAvif": "images/thumbs/chaleco_polar_con_corderito_hombre_invierno_verde-thumb.avif"
     }
   ],
   "sizes": [
@@ -15107,11 +15119,23 @@
   "colors": [
     {
       "name": "Negro",
-      "hex": "#000000"
+      "hex": "#000000",
+      "images": [
+        "images/products/chaleco_polar_con_corderito_mujer_invierno_negro.png"
+      ],
+      "thumbnail": "images/thumbs/chaleco_polar_con_corderito_mujer_invierno_negro-thumb.webp",
+      "thumbnailFallback": "images/thumbs/chaleco_polar_con_corderito_mujer_invierno_negro-thumb.jpg",
+      "thumbnailAvif": "images/thumbs/chaleco_polar_con_corderito_mujer_invierno_negro-thumb.avif"
     },
     {
       "name": "Verde",
-      "hex": "#008000"
+      "hex": "#008000",
+      "images": [
+        "images/products/chaleco_polar_con_corderito_mujer_invierno_verde.png"
+      ],
+      "thumbnail": "images/thumbs/chaleco_polar_con_corderito_mujer_invierno_verde-thumb.webp",
+      "thumbnailFallback": "images/thumbs/chaleco_polar_con_corderito_mujer_invierno_verde-thumb.jpg",
+      "thumbnailAvif": "images/thumbs/chaleco_polar_con_corderito_mujer_invierno_verde-thumb.avif"
     }
   ],
   "sizes": [

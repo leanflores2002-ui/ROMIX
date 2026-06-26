@@ -751,63 +751,6 @@
     return thumbSetFromSources(primaryImage, primaryImage, "");
   }
 
-  function uniqueImageSources(values) {
-    const result = [];
-    const seen = new Set();
-    (Array.isArray(values) ? values : [values]).forEach((value) => {
-      const normalized = String(value || "").trim();
-      if (!normalized || seen.has(normalized)) return;
-      seen.add(normalized);
-      result.push(normalized);
-    });
-    return result;
-  }
-
-  function getColorIndex(product, color, index) {
-    if (Number.isInteger(Number(index)) && Number(index) >= 0) return Number(index);
-    if (color && Number.isInteger(Number(color.index)) && Number(color.index) >= 0) return Number(color.index);
-    const colorName = String(color && (color.name || color.value) || "").trim();
-    if (!colorName || !Array.isArray(product && product.colors)) return 0;
-    const matchIndex = product.colors.findIndex((entry) => String(entry && entry.name || "").trim() === colorName);
-    return matchIndex >= 0 ? matchIndex : 0;
-  }
-
-  function getColorName(color) {
-    return String(color && (color.name || color.value) || "").trim();
-  }
-
-  function getOriginalCardImageSources(product, color, index) {
-    const colorName = getColorName(color);
-    const colorIndex = getColorIndex(product, color, index);
-    const safeOriginals = typeof imageUtils.getSafeProductImageSources === "function"
-      ? imageUtils.getSafeProductImageSources(product, colorName, colorIndex)
-      : [];
-    return uniqueImageSources([
-      product && product.imageMap && colorName ? product.imageMap[colorName] : "",
-      Array.isArray(product && product.images) ? product.images[colorIndex] : "",
-      product && product.image,
-      safeOriginals
-    ]);
-  }
-
-  function getCardImageSources(product, color, index) {
-    return uniqueImageSources([
-      product && product.thumbnailAvif,
-      product && product.thumbnail,
-      product && product.thumbnailFallback,
-      getOriginalCardImageSources(product, color, index)
-    ]);
-  }
-
-  function getColorImageSources(product, color, index) {
-    return uniqueImageSources([
-      getOriginalCardImageSources(product, color, index),
-      product && product.thumbnailFallback,
-      product && product.thumbnail,
-      product && product.thumbnailAvif
-    ]);
-  }
-
   function statusFromSizes(sizes) {
     if (!Array.isArray(sizes) || !sizes.length) return "available";
     let available = 0;
@@ -1419,12 +1362,14 @@
       thumb.className = "product-thumb";
       let selectedColor = getFirstColor(product);
       const imagePriority = getCardImagePriority(index);
+      const defaultThumbSet = resolveThumbSet(product, null);
+      const initialThumbSet = resolveThumbSet(product, selectedColor);
       const media = typeof imageUtils.createPicture === "function"
         ? imageUtils.createPicture({
-            src: PLACEHOLDER,
-            fallbackSrc: PLACEHOLDER,
-            webpSrc: "",
-            avifSrc: "",
+            src: initialThumbSet.src,
+            fallbackSrc: initialThumbSet.fallbackSrc,
+            webpSrc: initialThumbSet.webpSrc,
+            avifSrc: initialThumbSet.avifSrc,
             alt: selectedColor && selectedColor.name ? (product.name + " - " + selectedColor.name) : product.name,
             width: cardImageSize.width,
             height: cardImageSize.height,
@@ -1460,34 +1405,32 @@
         picture.insertBefore(source, imgTag || null);
       }
 
-      function setMainImage(colorOption, colorName, colorIndex, sourceFactory) {
-        const sources = typeof sourceFactory === "function"
-          ? sourceFactory(product, colorOption, colorIndex)
-          : getCardImageSources(product, colorOption, colorIndex);
-        syncPictureSource("image/avif", "");
-        syncPictureSource("image/webp", "");
-        if (typeof imageUtils.applyImageWithFallback === "function") {
-          imageUtils.applyImageWithFallback(
-            image,
-            sources,
-            colorName ? (product.name + " - " + colorName) : product.name,
-            {
-              placeholder: PLACEHOLDER,
-              onBeforeSet: function () {
-                syncPictureSource("image/avif", "");
-                syncPictureSource("image/webp", "");
-              }
-            }
-          );
-          return;
-        }
+      function setMainImage(colorOption, colorName) {
+        const nextSet = resolveThumbSet(product, colorOption);
         image.onerror = function onImageError() {
           image.onerror = null;
+          syncPictureSource("image/avif", "");
+          syncPictureSource("image/webp", "");
+          if (nextSet.originalSrc && image.src !== nextSet.originalSrc) {
+            image.src = nextSet.originalSrc;
+            image.alt = colorName ? (product.name + " - " + colorName) : product.name;
+            thumb.classList.add("is-loaded");
+            return;
+          }
+          if (image.src !== defaultThumbSet.fallbackSrc) {
+            image.src = defaultThumbSet.fallbackSrc;
+            image.alt = product.name;
+            thumb.classList.add("is-loaded");
+            return;
+          }
           image.src = PLACEHOLDER;
           image.alt = product.name;
           thumb.classList.add("is-loaded");
         };
-        image.src = sources[0] || PLACEHOLDER;
+
+        syncPictureSource("image/avif", nextSet.avifSrc);
+        syncPictureSource("image/webp", nextSet.webpSrc);
+        image.src = nextSet.src;
         image.alt = colorName ? (product.name + " - " + colorName) : product.name;
       }
 
@@ -1511,7 +1454,7 @@
         thumb.appendChild(picture);
       }
 
-      setMainImage(selectedColor, selectedColor && selectedColor.name, selectedColor && selectedColor.index, getCardImageSources);
+      setMainImage(selectedColor, selectedColor && selectedColor.name);
 
       const tag = document.createElement("span");
       tag.className = "product-tag";
@@ -1537,6 +1480,9 @@
           button.dataset.colorName = color.name;
           button.dataset.colorIndex = String(index);
           button.style.backgroundColor = color.hex || "#efecf3";
+          if (color.swatchImage) {
+            button.style.backgroundImage = "url('" + String(color.swatchImage).replace(/'/g, "%27") + "')";
+          }
           button.classList.add("variant-chip--color");
           button.addEventListener("click", function (event) {
             event.preventDefault();
@@ -1549,7 +1495,7 @@
             button.classList.add("is-active");
             button.setAttribute("aria-pressed", "true");
             thumb.classList.remove("is-loaded");
-            setMainImage(color, color.name, index, getColorImageSources);
+            setMainImage(color, color.name);
           });
 
           variants.appendChild(button);

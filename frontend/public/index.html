@@ -153,11 +153,75 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
 
     .main-hero-carousel__slide img {
       object-fit: cover;
       object-position: center;
+    }
+
+    .main-hero-carousel__overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(90deg, rgba(3, 5, 12, 0.9) 0%, rgba(7, 9, 18, 0.68) 30%, rgba(7, 9, 18, 0.24) 52%, rgba(7, 9, 18, 0) 72%);
+      pointer-events: none;
+    }
+
+    .main-hero-carousel__content {
+      position: absolute;
+      top: 50%;
+      left: clamp(28px, 7vw, 128px);
+      z-index: 2;
+      width: min(36vw, 520px);
+      transform: translateY(-50%);
+      color: #ffffff;
+      pointer-events: none;
+    }
+
+    .main-hero-carousel__title {
+      display: block;
+      font-family: "Teko", "Outfit", sans-serif;
+      font-size: clamp(4.4rem, 8.8vw, 10.4rem);
+      font-weight: 700;
+      line-height: 0.78;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      text-shadow: 0 8px 30px rgba(0, 0, 0, 0.34);
+    }
+
+    .main-hero-carousel__title-line {
+      display: block;
+    }
+
+    .main-hero-carousel__subtitle {
+      display: block;
+      max-width: 420px;
+      margin-top: clamp(12px, 1.5vw, 22px);
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(0.92rem, 1.15vw, 1.2rem);
+      font-weight: 700;
+      line-height: 1.35;
+      text-shadow: 0 5px 20px rgba(0, 0, 0, 0.48);
+    }
+
+    .main-hero-carousel__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: clamp(38px, 3.2vw, 50px);
+      margin-top: clamp(18px, 2vw, 28px);
+      padding: 0 clamp(20px, 2.2vw, 34px);
+      border-radius: var(--pill);
+      color: #111111;
+      background: #ffffff;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(0.86rem, 0.95vw, 1rem);
+      font-weight: 900;
+      line-height: 1;
     }
 
     .btn-primary,
@@ -1029,6 +1093,34 @@
         touch-action: pan-y;
       }
 
+      .main-hero-carousel__overlay {
+        background: linear-gradient(90deg, rgba(3, 5, 12, 0.9) 0%, rgba(7, 9, 18, 0.64) 36%, rgba(7, 9, 18, 0.18) 58%, rgba(7, 9, 18, 0) 78%);
+      }
+
+      .main-hero-carousel__content {
+        left: clamp(16px, 5vw, 28px);
+        width: min(46vw, 260px);
+      }
+
+      .main-hero-carousel__title {
+        font-size: clamp(2.35rem, 12vw, 4.2rem);
+        line-height: 0.82;
+      }
+
+      .main-hero-carousel__subtitle {
+        max-width: 220px;
+        margin-top: 8px;
+        font-size: clamp(0.68rem, 2.45vw, 0.86rem);
+        line-height: 1.25;
+      }
+
+      .main-hero-carousel__cta {
+        min-height: 34px;
+        margin-top: 12px;
+        padding: 0 17px;
+        font-size: 0.76rem;
+      }
+
       .btn-primary,
       .btn-secondary {
         min-height: 42px;
@@ -1105,6 +1197,26 @@
         height: 40px;
       }
 
+      .main-hero-carousel__content {
+        width: min(45vw, 190px);
+      }
+
+      .main-hero-carousel__title {
+        font-size: clamp(2rem, 11.4vw, 3rem);
+      }
+
+      .main-hero-carousel__subtitle {
+        max-width: 176px;
+        font-size: clamp(0.62rem, 2.55vw, 0.74rem);
+      }
+
+      .main-hero-carousel__cta {
+        min-height: 30px;
+        margin-top: 10px;
+        padding: 0 14px;
+        font-size: 0.68rem;
+      }
+
       .audience-grid {
         grid-auto-columns: minmax(124px, 44vw);
       }
@@ -1124,6 +1236,20 @@
     }
 
     @media (max-width: 380px) {
+      .main-hero-carousel__content {
+        left: 14px;
+        width: 44vw;
+      }
+
+      .main-hero-carousel__title {
+        font-size: clamp(1.8rem, 10.8vw, 2.45rem);
+      }
+
+      .main-hero-carousel__subtitle {
+        font-size: 0.6rem;
+        line-height: 1.2;
+      }
+
       .categories-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1281,6 +1407,15 @@
                 <source srcset="images/banners/banner-1.webp" type="image/webp" />
                 <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" loading="eager" decoding="async" fetchpriority="high" sizes="100vw" />
               </picture>
+              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
+              <span class="main-hero-carousel__content">
+                <span class="main-hero-carousel__title">
+                  <span class="main-hero-carousel__title-line">CONJUNTO</span>
+                  <span class="main-hero-carousel__title-line">SPORT</span>
+                </span>
+                <span class="main-hero-carousel__subtitle">Dise&ntilde;ado para entrenar con comodidad, confianza y estilo.</span>
+                <span class="main-hero-carousel__cta">Comprar ahora</span>
+              </span>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">

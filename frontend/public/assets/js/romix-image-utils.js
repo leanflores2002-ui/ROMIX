@@ -321,6 +321,161 @@
     };
   }
 
+  function uniqueSources(values) {
+    const result = [];
+    const seen = new Set();
+    (Array.isArray(values) ? values : [values]).forEach(function (value) {
+      const normalized = cleanPath(value);
+      if (!normalized || seen.has(normalized)) return;
+      seen.add(normalized);
+      result.push(normalized);
+    });
+    return result;
+  }
+
+  function getColorIndex(product, colorName, index) {
+    const numericIndex = Number(index);
+    if (Number.isInteger(numericIndex) && numericIndex >= 0) return numericIndex;
+    const colorEntry = findProductColor(product, colorName);
+    if (colorEntry && Number.isInteger(Number(colorEntry.index)) && Number(colorEntry.index) >= 0) {
+      return Number(colorEntry.index);
+    }
+    return 0;
+  }
+
+  function getImageFallbackSources(imagePath) {
+    const normalized = cleanPath(imagePath);
+    if (!normalized) return [];
+    if (/^data:/i.test(normalized)) return [normalized];
+
+    const result = [];
+    const push = function (value) {
+      const next = cleanPath(value);
+      if (!next || result.includes(next)) return;
+      result.push(next);
+    };
+
+    push(normalized);
+
+    const ext = extension(normalized);
+    if (normalized.includes(THUMBS_DIR) || hasThumbSuffix(normalized)) {
+      const originalBase = normalized
+        .replace(THUMBS_DIR, PRODUCTS_DIR)
+        .replace(/-thumb(?=\.[^./]+$)/i, "");
+      [
+        originalBase,
+        replaceExtension(originalBase, "png"),
+        replaceExtension(originalBase, "jpg"),
+        replaceExtension(originalBase, "jpeg"),
+        replaceExtension(originalBase, "webp")
+      ].forEach(push);
+      return result;
+    }
+
+    if (ext === "avif" || ext === "webp") {
+      [
+        replaceExtension(normalized, "png"),
+        replaceExtension(normalized, "jpg"),
+        replaceExtension(normalized, "jpeg")
+      ].forEach(push);
+    }
+
+    return result;
+  }
+
+  function getSafeProductImageSources(product, colorName, index) {
+    if (!product || typeof product !== "object") return [];
+    const colorEntry = findProductColor(product, colorName);
+    const colorIndex = getColorIndex(product, colorName, index);
+    const imageList = Array.isArray(product.images) ? product.images.map(cleanPath) : [];
+    const colorLabel = colorEntry && colorEntry.name ? colorEntry.name : colorName;
+
+    return uniqueSources([
+      findColorImageInLegacyMap(product, colorLabel),
+      cleanPath(colorEntry && colorEntry.image),
+      imageList[colorIndex],
+      cleanPath(product.image),
+      cleanPath(product.thumbnailFallback),
+      cleanPath(product.thumbnail),
+      cleanPath(product.thumbnailAvif)
+    ]);
+  }
+
+  function getSafeProductImage(product, colorName, index) {
+    const sources = getSafeProductImageSources(product, colorName, index);
+    return sources[0] || "";
+  }
+
+  function getSafeProductThumbSources(product, colorName, index) {
+    if (!product || typeof product !== "object") return [];
+    const colorEntry = findProductColor(product, colorName);
+    const baseSources = getSafeProductImageSources(product, colorName, index);
+    const thumbCandidates = [
+      cleanPath(colorEntry && (colorEntry.thumbAvif || colorEntry.thumbnailAvif)),
+      cleanPath(colorEntry && (colorEntry.thumb || colorEntry.thumbnail)),
+      cleanPath(colorEntry && (colorEntry.thumbFallback || colorEntry.thumbnailFallback)),
+      cleanPath(product.thumbnailAvif),
+      cleanPath(product.thumbnail || product.thumb),
+      cleanPath(product.thumbnailFallback || product.thumbFallback)
+    ];
+
+    const expanded = [];
+    thumbCandidates.forEach(function (candidate) {
+      getImageFallbackSources(candidate).forEach(function (value) {
+        expanded.push(value);
+      });
+    });
+
+    return uniqueSources(expanded.concat(baseSources));
+  }
+
+  function getSafeProductThumb(product, colorName, index) {
+    const sources = getSafeProductThumbSources(product, colorName, index);
+    return sources[0] || "";
+  }
+
+  function applyImageWithFallback(img, sources, altText, options) {
+    if (!img) return img;
+    const opts = options || {};
+    const validSources = uniqueSources(sources);
+    const placeholder = cleanPath(opts.placeholder);
+    let cursor = 0;
+
+    if (altText != null) {
+      img.alt = String(altText || "Producto ROMIX");
+    } else if (!img.alt) {
+      img.alt = "Producto ROMIX";
+    }
+    img.classList.remove("is-placeholder");
+
+    function next() {
+      while (cursor < validSources.length) {
+        const nextSrc = validSources[cursor++];
+        if (!nextSrc) continue;
+        if (typeof opts.onBeforeSet === "function") {
+          opts.onBeforeSet(nextSrc, cursor - 1, validSources);
+        }
+        img.src = nextSrc;
+        return;
+      }
+
+      img.onerror = null;
+      if (typeof opts.onBeforeSet === "function") {
+        opts.onBeforeSet("", cursor, validSources);
+      }
+      if (placeholder) {
+        img.src = placeholder;
+        img.classList.add("is-placeholder");
+      } else {
+        img.removeAttribute("src");
+      }
+    }
+
+    img.onerror = next;
+    next();
+    return img;
+  }
+
   function applyImageAttributes(img, options) {
     if (!img || !options) return img;
     if (options.alt != null) img.alt = String(options.alt);
@@ -383,6 +538,12 @@
     findProductColor,
     getColorImage,
     getProductThumbSet,
+    getImageFallbackSources,
+    getSafeProductImageSources,
+    getSafeProductImage,
+    getSafeProductThumbSources,
+    getSafeProductThumb,
+    applyImageWithFallback,
     createPicture,
     dimensions: {
       productCard: { width: PRODUCT_CARD_WIDTH, height: PRODUCT_CARD_HEIGHT },

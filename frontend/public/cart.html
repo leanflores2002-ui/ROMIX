@@ -836,7 +836,7 @@
     </div>
     <div style="text-align:center;padding-top:20px;margin-top:20px;border-top:1px solid #495057;color:#adb5bd;font-size:.9rem;">&copy; 2025 Romix - Todos los derechos reservados</div>
   </footer>
-
+  <script src="assets/js/romix-image-utils.js"></script>
     <script src="assets/js/color-utils.js"></script>
   <script src="assets/js/cart.js"></script>
   <script>
@@ -879,6 +879,7 @@
     const POST_ORDER_MESSAGE = 'Pedido enviado correctamente';
     const POST_ORDER_SUBTITLE = 'La disponibilidad de los productos esta sujeta a stock al momento de la confirmacion por parte del vendedor.';
     const POST_ORDER_BUTTON_LABEL = 'Seguir comprando';
+    const CART_IMAGE_PLACEHOLDER = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><rect width="100%" height="100%" fill="#fff8fd"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b79ab0" font-family="Segoe UI, Arial" font-size="16">ROMIX</text></svg>')}`;
     let orderStatus = null;
     let orderInProgress = false;
 
@@ -907,11 +908,35 @@
       };
     }
 
+    function getImageSourcesForItem(item) {
+      const rawImage = item && item.image ? String(item.image).trim() : '';
+      if (!rawImage) return [];
+      if (window.romixImageUtils && typeof window.romixImageUtils.getImageFallbackSources === 'function') {
+        return window.romixImageUtils.getImageFallbackSources(rawImage);
+      }
+      return [rawImage];
+    }
+
     function findImageForItem(item){
-      try {
-        if (item && item.image) return item.image;
-      } catch {}
-      return '';
+      const sources = getImageSourcesForItem(item);
+      return sources[0] || '';
+    }
+
+    function applyCartImage(img, item, altText) {
+      if (!img) return;
+      const sources = getImageSourcesForItem(item);
+      if (window.romixImageUtils && typeof window.romixImageUtils.applyImageWithFallback === 'function') {
+        window.romixImageUtils.applyImageWithFallback(img, sources, altText, {
+          placeholder: CART_IMAGE_PLACEHOLDER
+        });
+        return;
+      }
+      img.alt = altText || 'Producto ROMIX';
+      img.onerror = () => {
+        img.onerror = null;
+        img.src = CART_IMAGE_PLACEHOLDER;
+      };
+      img.src = sources[0] || CART_IMAGE_PLACEHOLDER;
     }
 
     function showCartAlert(type, message) {
@@ -1090,6 +1115,9 @@
           }).join('');
           const more = cart.length > 4 ? `<span class="summary-thumb-more">+${cart.length - 4}</span>` : '';
           summaryThumbs.innerHTML = thumbs + more;
+          Array.from(summaryThumbs.querySelectorAll('img.summary-thumb')).forEach((imgEl, index) => {
+            applyCartImage(imgEl, cart[index], imgEl.alt || 'Producto');
+          });
         } else {
           summaryThumbs.innerHTML = '<span class="summary-thumb-empty">Sin productos.</span>';
         }
@@ -1141,6 +1169,7 @@
           el.querySelector('.inc').addEventListener('click', ()=>handleQty(key, qty + 1));
           el.querySelector('input').addEventListener('input', (ev)=>handleQty(key, ev.target.value));
           el.querySelector('.remove').addEventListener('click', ()=>handleRemove(key));
+          applyCartImage(el.querySelector('.cart-thumb img'), item, displayItem.name || 'Producto');
           list.appendChild(el);
         });
         if (orderBtn) orderBtn.disabled = false;

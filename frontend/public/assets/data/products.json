@@ -15044,5 +15044,72 @@
     "thumbnailFallback": "images/thumbs/chaleco_inflable_dama_invierno_violeta-thumb.jpg",
     "thumbnail": "images/thumbs/chaleco_inflable_dama_invierno_violeta-thumb.webp",
     "thumbnailAvif": "images/thumbs/chaleco_inflable_dama_invierno_violeta-thumb.avif"
-  }
+  },
+{
+  "section": "hombre",
+  "type": "camperas",
+  "name": "Chaleco polar con corderito hombre",
+  "season": "invierno",
+  "price": 16000,
+  "priceByGroup": {
+    "common": 16000,
+    "special": 17000
+  },
+  "specialSizes": [6, 7, 8],
+  "colors": [
+    {
+      "name": "Negro",
+      "hex": "#000000",
+      "image": "images/products/chaleco_polar_con_corderito_hombre_invierno_negro.png"
+    },
+    {
+      "name": "Verde",
+      "hex": "#008000",
+      "image": "images/products/chaleco_polar_con_corderito_hombre_invierno_verde.png"
+    }
+  ],
+  "sizes": [
+    { "size": "2", "status": "available" },
+    { "size": "3", "status": "available" },
+    { "size": "4", "status": "available" },
+    { "size": "5", "status": "available" },
+    { "size": "6", "status": "available" },
+    { "size": "7", "status": "available" },
+    { "size": "8", "status": "available" }
+  ]
+},
+{
+  "section": "mujer",
+  "type": "camperas",
+  "name": "Chaleco polar con corderito oversize dama",
+  "season": "invierno",
+  "price": 16000,
+  "priceByGroup": {
+    "common": 16000,
+    "special": 17000
+  },
+  "specialSizes": [6, 7, 8],
+  "colors": [
+    {
+      "name": "Negro",
+      "hex": "#000000",
+      "image": "images/products/chaleco_polar_con_corderito_mujer_invierno_negro.png"
+    },
+    {
+      "name": "Verde",
+      "hex": "#008000",
+      "image": "images/products/chaleco_polar_con_corderito_mujer_invierno_verde.png"
+    }
+  ],
+  "sizes": [
+    { "size": "2", "status": "available" },
+    { "size": "3", "status": "available" },
+    { "size": "4", "status": "available" },
+    { "size": "5", "status": "available" },
+    { "size": "6", "status": "available" },
+    { "size": "7", "status": "available" },
+    { "size": "8", "status": "available" }
+  ]
+}
+
 ]

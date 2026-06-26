@@ -1222,6 +1222,7 @@
       .promo-dots { bottom: 12px; }
     }
   </style>
+  <link rel="stylesheet" href="assets/css/romix-home-premium.css" />
 </head>
 <body>
   <header class="site-header romix-shared-header">
@@ -1275,30 +1276,39 @@
     <section class="main-hero-carousel" aria-label="Banner principal">
       <div class="main-hero-carousel__viewport" id="mainImageCarousel">
         <div class="main-hero-carousel__track">
-          <figure class="main-hero-carousel__slide is-active">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?temporada=invierno&q_any=termica,campera,polar" aria-label="Ver coleccion para invierno">
-              <picture>
-                <source srcset="images/banners/banner-1.webp" type="image/webp" />
-                <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" loading="eager" decoding="async" fetchpriority="high" sizes="100vw" />
-              </picture>
-            </a>
-          </figure>
-          <figure class="main-hero-carousel__slide">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=hombre,mujer&q_any=frizado,corderito,polar" aria-label="Ver abrigo para hombre y mujer">
-              <picture>
-                <source srcset="images/banners/banner-2.webp" type="image/webp" />
-                <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
-              </picture>
-            </a>
-          </figure>
-          <figure class="main-hero-carousel__slide">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=ninos&q_any=termica,campera,buzo" aria-label="Ver coleccion de ninos">
-              <picture>
-                <source srcset="images/banners/banner-3.webp" type="image/webp" />
-                <img src="images/banners/banner-3.png" alt="Coleccion infantil ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
-              </picture>
-            </a>
-          </figure>
+          <article class="main-hero-carousel__slide is-active">
+            <div class="main-hero-carousel__slide-shell">
+              <div class="main-hero-carousel__copy">
+                <p class="main-hero-carousel__eyebrow">ROMIX.</p>
+                <h1 class="main-hero-carousel__title">HECHOS PARA<br />EL <span class="main-hero-carousel__title-accent">INVIERNO</span></h1>
+                <p class="main-hero-carousel__lead">Abrigos termicos. Comodos. Resistentes.</p>
+                <p class="main-hero-carousel__description">Enfrenta el frio sin renunciar al estilo, con prendas de alto abrigo, silueta urbana y una presencia de marca mas limpia y contundente.</p>
+                <div class="main-hero-carousel__actions">
+                  <a class="hero-button hero-button--primary" href="mujer.html?temporada=invierno">
+                    <span>Ver mujer</span>
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                      <path d="M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </a>
+                  <a class="hero-button hero-button--ghost" href="hombre.html?temporada=invierno">
+                    <span>Ver hombre</span>
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                      <path d="M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <div class="main-hero-carousel__visual">
+                <picture class="main-hero-carousel__media">
+                  <source srcset="images/optimized/ESTILO_URBANO_INVERNAL-960.webp 960w, images/optimized/ESTILO_URBANO_INVERNAL-1440.webp 1440w" sizes="(max-width: 820px) calc(100vw - 40px), (max-width: 1280px) 48vw, 620px" type="image/webp" />
+                  <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Campana ROMIX de invierno con look urbano" width="1708" height="921" loading="eager" decoding="async" fetchpriority="high" />
+                </picture>
+                <span class="main-hero-carousel__visual-note">Campana invierno 2026</span>
+              </div>
+            </div>
+          </article>
         </div>
 
         <button class="main-hero-carousel__arrow main-hero-carousel__arrow--prev" type="button" data-carousel-prev aria-label="Imagen anterior">
@@ -1480,7 +1490,7 @@
       </div>
     </div>
 
-    <section class="products-section" id="ofertas" aria-labelledby="ofertas-titulo">
+    <section class="products-section surface-section" id="ofertas" aria-labelledby="ofertas-titulo">
       <div class="section-head">
         <div>
           <span class="section-eyebrow">Nueva temporada</span>

@@ -396,29 +396,56 @@
             '<ul class="main-nav">' + navLinks(activeKey) + '</ul>' +
           '</div>' +
         '</nav>' +
-        '<div class="header-icons" aria-label="Acciones rapidas">' +
-          '<button class="icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">' +
-            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
-              '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>' +
-              '<path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-            '</svg>' +
-          '</button>' +
-          '<a class="icon-btn" href="cart.html" aria-label="Carrito de compras">' +
-            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
-              '<path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
-              '<circle cx="10" cy="19" r="1.4" fill="currentColor"></circle>' +
-              '<circle cx="17" cy="19" r="1.4" fill="currentColor"></circle>' +
-            '</svg>' +
-            '<span class="icon-badge" id="cart-count">0</span>' +
-          '</a>' +
+        '<div class="header-tools">' +
+          '<form id="global-search-form" class="global-search global-search--desktop" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">' +
+            '<span class="global-search__icon" aria-hidden="true">' +
+              '<svg width="18" height="18" viewBox="0 0 24 24" fill="none">' +
+                '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>' +
+                '<path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
+              '</svg>' +
+            '</span>' +
+            '<input type="search" name="q" placeholder="Buscar productos" aria-label="Buscar producto" />' +
+            '<button class="global-search__submit" type="submit" aria-label="Buscar">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+                '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>' +
+                '<path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
+              '</svg>' +
+            '</button>' +
+          '</form>' +
+          '<div class="header-icons" aria-label="Acciones rapidas">' +
+            '<a class="icon-btn header-cart-btn" href="cart.html" aria-label="Carrito de compras">' +
+              '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+                '<path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
+                '<circle cx="10" cy="19" r="1.4" fill="currentColor"></circle>' +
+                '<circle cx="17" cy="19" r="1.4" fill="currentColor"></circle>' +
+              '</svg>' +
+              '<span class="icon-badge" id="cart-count">0</span>' +
+            '</a>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="header-info-bar">' +
+        '<div class="container">' +
+          '<p class="header-info-copy">Cambios faciles y sin costo | Paga con Mercado Pago, transferencia o efectivo</p>' +
         '</div>' +
       '</div>' +
       '<button class="mobile-nav-scrim" id="mobile-nav-scrim" type="button" aria-label="Cerrar menu" hidden></button>' +
       '<div class="search-panel" id="header-search">' +
         '<div class="container">' +
-          '<form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">' +
-            '<input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />' +
-            '<button type="submit">Buscar</button>' +
+          '<form class="global-search global-search--mobile" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">' +
+            '<span class="global-search__icon" aria-hidden="true">' +
+              '<svg width="18" height="18" viewBox="0 0 24 24" fill="none">' +
+                '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>' +
+                '<path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
+              '</svg>' +
+            '</span>' +
+            '<input type="search" name="q" placeholder="Buscar productos" aria-label="Buscar producto" />' +
+            '<button class="global-search__submit" type="submit" aria-label="Buscar">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+                '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>' +
+                '<path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
+              '</svg>' +
+            '</button>' +
           '</form>' +
         '</div>' +
       '</div>';
@@ -460,7 +487,7 @@
         if (header) header.classList.remove("is-hidden");
       }
       if (open) {
-        var input = panel.querySelector('input[name="q"]');
+        var input = panel.querySelector('.global-search input[name="q"]');
         if (input) input.focus();
       }
     }
@@ -748,7 +775,8 @@
       var searchOpen = !!(searchPanel && searchPanel.classList.contains("is-open"));
       var megaOpen = header.classList.contains("has-open-menu");
       var filtersOpen = document.body && document.body.classList.contains("filters-open");
-      var mustStayVisible = searchOpen || megaOpen || filtersOpen || currentY < FORCE_VISIBLE_TOP;
+      var mobileMenuOpen = document.body && document.body.classList.contains("mobile-nav-open");
+      var mustStayVisible = searchOpen || megaOpen || filtersOpen || mobileMenuOpen || currentY < FORCE_VISIBLE_TOP;
 
       if (mustStayVisible) {
         hidden = false;

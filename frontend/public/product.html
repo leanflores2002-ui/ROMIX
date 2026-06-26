@@ -2438,6 +2438,28 @@
           return raw.toLowerCase();
         }
       }
+
+      function variantColorKey(value) {
+        return normalizeColorKey(value).replace(/[^a-z0-9]+/g, '');
+      }
+
+      function colorEntryKey(color, fallbackName) {
+        const candidates = [
+          color && color.slug,
+          color && color.id,
+          color && color.colorId,
+          color && color.variantId,
+          color && color.variant_id,
+          color && color.name,
+          color && color.value,
+          fallbackName
+        ];
+        for (const candidate of candidates) {
+          const key = variantColorKey(candidate);
+          if (key) return key;
+        }
+        return 'unico';
+      }
       const findColorOption = typeof colorUtils.findColorOption === 'function'
         ? colorUtils.findColorOption
         : (product, lookup) => {
@@ -2524,10 +2546,10 @@
         }
 
         function selectByName(name, silent) {
-          const targetName = (name || '').toString().toLowerCase();
+          const targetName = variantColorKey(name);
           const swatches = getSwatches();
           const existing = swatches.find(btn =>
-            (btn.dataset.colorName || btn.dataset.color || '').toString().toLowerCase() === targetName
+            (btn.dataset.colorKey || variantColorKey(btn.dataset.colorName || btn.dataset.color || '')) === targetName
           ) || swatches.find(btn => btn.classList.contains('active') || btn.getAttribute('aria-pressed') === 'true') || swatches[0];
 
           if (!existing) return null;
@@ -3282,20 +3304,27 @@
                 color && color.variantId,
                 color && color.variant_id
               ];
-              return keys.some(key => normalizeColorKey(key) === targetKey);
+              return keys.some(key => variantColorKey(key) === variantColorKey(targetKey));
             })
           : null;
-        const selectedEntries = opts.allColors
+        const selectedEntries = opts.onlyColor
+          ? (selectedColor ? [selectedColor] : (colorEntries[0] ? [colorEntries[0]] : []))
+          : colorEntries;
+        const fallbackEntries = opts.allColors
           ? colorEntries
-          : (selectedColor ? [selectedColor] : (colorEntries[0] ? [colorEntries[0]] : []));
-        function push(label, sourceList, thumbSourceList) {
+          : selectedEntries;
+        function push(label, sourceList, thumbSourceList, color) {
           const sources = Array.isArray(sourceList) ? sourceList.filter(Boolean) : [String(sourceList || '').trim()].filter(Boolean);
           const thumbSources = Array.isArray(thumbSourceList) ? thumbSourceList.filter(Boolean) : [String(thumbSourceList || '').trim()].filter(Boolean);
           const value = String(sources[0] || '').trim();
           if (!value || seen.has(value)) return;
           seen.add(value);
+          const key = colorEntryKey(color, label);
           images.push({
             label,
+            colorName: label,
+            colorKey: key,
+            variantId: color && (color.variantId || color.variant_id || color.id || color.colorId) || '',
             src: value,
             sources,
             webpSrc: getSafeWebpSource(value),
@@ -3304,8 +3333,8 @@
           });
         }
 
-        if (selectedEntries.length) {
-          selectedEntries.forEach((color, index) => {
+        if (fallbackEntries.length) {
+          fallbackEntries.forEach((color, index) => {
             const colorName = color && color.name ? color.name : (index === 0 ? 'principal' : `vista-${index + 1}`);
             const colorIndex = Number.isInteger(Number(color && color.index)) ? Number(color.index) : index;
             const explicitImages = typeof imageUtils.getColorImageList === 'function'
@@ -3316,7 +3345,8 @@
               push(
                 colorName,
                 imageIndex === 0 ? getSafeProductImageSources(product, colorName, colorIndex) : [src],
-                imageIndex === 0 ? getSafeProductThumbSources(product, colorName, colorIndex) : [pickProductThumb(product, src), src]
+                imageIndex === 0 ? getSafeProductThumbSources(product, colorName, colorIndex) : [pickProductThumb(product, src), src],
+                color
               );
             });
           });
@@ -4119,7 +4149,7 @@
         const detail = document.getElementById('product-detail');
         if (!detail) return;
         currentProduct = product;
-        let gallery = getGallery(product, colorParam || '');
+        let gallery = getGallery(product);
         ensureProductImagePreload(gallery[0] && (gallery[0].webpSrc || gallery[0].src));
         const preloadGallery = () => {
           gallery.slice(1, 3).forEach(item => {
@@ -4160,7 +4190,7 @@
                   <i class="fas fa-chevron-up" aria-hidden="true"></i>
                 </button>
                 <div class="thumbs" id="gallery-thumbs" role="listbox" aria-label="Miniaturas del producto">
-                  ${gallery.map((image, index) => `<img src="${image.thumbSrc || image.src}" alt="${image.label || product.name}" data-index="${index}" data-color="${image.label || ''}" data-full="${image.src}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" sizes="${THUMB_IMAGE_SIZES}" ${index === 0 ? 'class="active"' : ''} role="option" tabindex="0" aria-label="Ver imagen ${index + 1} de ${gallery.length}" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`).join('')}
+                  ${gallery.map((image, index) => `<img src="${image.thumbSrc || image.src}" alt="${image.label || product.name}" data-index="${index}" data-color="${image.label || ''}" data-color-key="${image.colorKey || ''}" data-full="${image.src}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" sizes="${THUMB_IMAGE_SIZES}" ${index === 0 ? 'class="active"' : ''} role="option" tabindex="0" aria-label="Ver imagen ${index + 1} de ${gallery.length}" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`).join('')}
                 </div>
                 <button type="button" class="thumb-nav next" id="thumbs-next" aria-label="Ver miniaturas siguientes">
                   <i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -4428,8 +4458,9 @@
         function thumbMarkup(item, index, total) {
           const src = item && (item.thumbSrc || item.src) ? String(item.thumbSrc || item.src) : PLACEHOLDER;
           const label = item && item.label ? String(item.label) : (product.name || 'Producto');
+          const colorKey = item && item.colorKey ? String(item.colorKey) : variantColorKey(label);
           const full = item && item.src ? String(item.src) : PLACEHOLDER;
-          return `<img src="${src}" alt="${label}" data-index="${index}" data-color="${label}" data-full="${full}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" sizes="${THUMB_IMAGE_SIZES}" ${index === 0 ? 'class="active"' : ''} role="option" tabindex="0" aria-label="Ver imagen ${index + 1} de ${total}" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`;
+          return `<img src="${src}" alt="${label}" data-index="${index}" data-color="${label}" data-color-key="${colorKey}" data-full="${full}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" sizes="${THUMB_IMAGE_SIZES}" ${index === 0 ? 'class="active"' : ''} role="option" tabindex="0" aria-label="Ver imagen ${index + 1} de ${total}" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`;
         }
 
         function bindGalleryThumbs() {
@@ -4449,12 +4480,7 @@
               );
             }
             const activateThumb = () => {
-              const nextItem = gallery[index] || {};
-              setActiveThumb(index);
-              setResponsiveMainImage(
-                Array.isArray(nextItem.sources) ? nextItem.sources : [nextItem.src],
-                nextItem.label ? `${product.name || 'Producto'} - ${nextItem.label}` : (product.name || 'Producto')
-              );
+              selectVariant(index);
             };
             thumb.addEventListener('click', activateThumb);
             thumb.addEventListener('keydown', (event) => {
@@ -4465,29 +4491,69 @@
           });
         }
 
-        function renderGalleryForColor(colorName) {
-          gallery = getGallery(product, colorName);
-          if (thumbsPanel) thumbsPanel.hidden = gallery.length <= 1;
-          if (thumbContainer) {
-            thumbContainer.innerHTML = gallery.map((item, index) => thumbMarkup(item, index, gallery.length)).join('');
-            thumbContainer.scrollTop = 0;
-            thumbContainer.scrollLeft = 0;
-            bindGalleryThumbs();
+        function syncSwatchesForVariant(item, options = {}) {
+          if (!item) return;
+          const key = item.colorKey || variantColorKey(item.colorName || item.label || '');
+          const colorName = item.colorName || item.label || '';
+          if (!options.skipPickerSync && colorPickerApi) {
+            colorPickerApi.selectColor(colorName, { silent: true });
           }
-          if (zoomApi && typeof zoomApi.setGallery === 'function') {
-            zoomApi.setGallery(gallery);
+          if (swatchWrapper) {
+            swatchWrapper.querySelectorAll('.color-swatch').forEach(btn => {
+              const btnKey = btn.dataset.colorKey || variantColorKey(btn.dataset.colorName || btn.dataset.color || '');
+              const match = key && btnKey === key;
+              btn.classList.toggle('active', match);
+              btn.classList.toggle('selected', match);
+              btn.classList.toggle('is-active', match);
+              btn.setAttribute('aria-pressed', match ? 'true' : 'false');
+            });
           }
-          const first = gallery[0] || {};
-          const displayName = getDisplayColorName(product, colorName || first.label || '');
+        }
+
+        function findGalleryIndexForColor(colorName) {
+          const key = variantColorKey(colorName);
+          if (!key) return 0;
+          const exact = gallery.findIndex(item => {
+            const itemKeys = [
+              item && item.colorKey,
+              item && item.colorName,
+              item && item.label,
+              item && item.variantId
+            ];
+            return itemKeys.some(value => variantColorKey(value) === key);
+          });
+          return exact >= 0 ? exact : 0;
+        }
+
+        function selectVariant(index, options = {}) {
+          const targetIndex = Math.max(0, Math.min(Number(index) || 0, Math.max(0, gallery.length - 1)));
+          const item = gallery[targetIndex] || gallery[0] || {};
+          const colorName = item.colorName || item.label || 'Unico';
+          const displayName = getDisplayColorName(product, colorName);
+
+          activeColor = colorName;
+          currentSelectedColor = colorName;
+          activeSize = '';
+          currentSelectedSize = '';
+          clearSizeError();
+
+          setActiveThumb(targetIndex);
+          syncSwatchesForVariant(item, options);
+          if (selectedColorNameEl && !options.skipLabelUpdate) {
+            selectedColorNameEl.textContent = displayName || colorName || '';
+          }
           setResponsiveMainImage(
-            Array.isArray(first.sources) ? first.sources : [first.src || PLACEHOLDER],
+            Array.isArray(item.sources) ? item.sources : [item.src || PLACEHOLDER],
             displayName ? `${product.name || 'Producto'} - ${displayName}` : (product.name || 'Producto')
           );
-          setActiveThumb(0);
+          renderSizesForColor(colorName);
+          updateSizesStateForColor(product, colorName);
+          updatePriceForSize(product, '');
           window.requestAnimationFrame(updateThumbNav);
         }
 
         if (thumbContainer) {
+          bindGalleryThumbs();
           thumbContainer.addEventListener('scroll', () => {
             window.requestAnimationFrame(updateThumbNav);
           });
@@ -4627,36 +4693,10 @@
 
         function setActiveColor(colorName, options = {}){
           const opts = options || {};
-          activeColor = colorName;
-          currentSelectedColor = colorName;
-          activeSize = '';
-          currentSelectedSize = '';
-          clearSizeError();
-
-          if (!opts.skipPickerSync && colorPickerApi) {
-            colorPickerApi.selectColor(colorName, { silent: true });
-          } else if (swatchWrapper) {
-            const targetName = String(colorName || '').toLowerCase();
-            swatchWrapper.querySelectorAll('.color-swatch').forEach(btn => {
-              const btnName = (btn.dataset.colorName || btn.dataset.color || '').toString().toLowerCase();
-              const match = btnName === targetName;
-              btn.classList.toggle('active', match);
-              btn.classList.toggle('selected', match);
-              btn.classList.toggle('is-active', match);
-              btn.setAttribute('aria-pressed', match ? 'true' : 'false');
-            });
-          }
-
-          if (selectedColorNameEl && !opts.skipLabelUpdate) {
-            const activeSwatch = swatchWrapper ? swatchWrapper.querySelector('.color-swatch.active') : null;
-            const fallbackName = activeSwatch ? (activeSwatch.dataset.colorName || activeSwatch.dataset.color || activeSwatch.dataset.colorHex || '') : '';
-            const displayName = getDisplayColorName(product, colorName || fallbackName);
-            selectedColorNameEl.textContent = displayName || fallbackName || '';
-          }
-          renderGalleryForColor(colorName);
-          renderSizesForColor(colorName);
-          updateSizesStateForColor(product, colorName);
-          updatePriceForSize(product, '');
+          selectVariant(findGalleryIndexForColor(colorName), {
+            skipPickerSync: !!opts.skipPickerSync,
+            skipLabelUpdate: !!opts.skipLabelUpdate
+          });
         }
 
         if (swatchWrapper) {
@@ -4668,6 +4708,7 @@
             const colorName = color.name || `color-${index + 1}`;
             const colorHex = color.hex || color.value || '#000';
             const colorImage = getSafeProductImage(product, colorName, index);
+            const key = colorEntryKey(color, colorName);
             const colorSwatchImage = color.swatch
               || color.preview
               || color.pattern
@@ -4676,6 +4717,7 @@
             btn.dataset.color = colorName;
             btn.dataset.colorOption = 'true';
             btn.dataset.colorName = colorName;
+            btn.dataset.colorKey = key;
             btn.dataset.colorHex = colorHex;
             btn.dataset.colorImage = colorImage;
             if (colorSwatchImage) {

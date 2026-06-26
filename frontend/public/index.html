@@ -4,29 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROMIX - Indumentaria Deportiva & Urbana</title>
-  <meta name="description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia." />
-  <link rel="canonical" href="https://romix-ropas.vercel.app/" />
+  <meta name="description" content="Descubr&iacute; calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada d&iacute;a." />
+  <link rel="canonical" href="https://romi-damas.netlify.app/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ROMIX" />
   <meta property="og:locale" content="es_AR" />
   <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
-  <meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia." />
-  <meta property="og:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg" />
+  <meta property="og:description" content="Descubr&iacute; calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada d&iacute;a." />
+  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Logo ROMIX" />
-  <meta property="og:url" content="https://romix-ropas.vercel.app/" />
+  <meta property="og:url" content="https://romi-damas.netlify.app/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
-  <meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia." />
-  <meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg" />
-  <meta name="twitter:url" content="https://romix-ropas.vercel.app/" />
-  <link rel="stylesheet" href="assets/css/romix-header.css" />
-  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <meta name="twitter:description" content="Descubr&iacute; calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada d&iacute;a." />
+  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
+  <meta name="twitter:url" content="https://romi-damas.netlify.app/" />
+  <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
+  <link rel="preload" as="image" href="images/banners/banner-1.webp" type="image/webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
+  <link rel="stylesheet" href="assets/css/romix-header.css" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css" />
   <style>
     :root {
       --pink-strong: #ff3f8e;
@@ -139,6 +142,7 @@
     }
 
     .main-hero-carousel__slide-link,
+    .main-hero-carousel__slide picture,
     .main-hero-carousel__slide img {
       width: 100%;
       height: auto;
@@ -234,6 +238,12 @@
       right: clamp(12px, 3vw, 40px);
     }
 
+    .main-hero-carousel__arrow,
+    .promo-arrow,
+    .products-arrow {
+      display: none !important;
+    }
+
     .main-hero-carousel__dots {
       position: absolute;
       left: 50%;
@@ -266,6 +276,8 @@
       border: 1px solid rgba(255, 255, 255, 0.7);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-card);
+      content-visibility: auto;
+      contain-intrinsic-size: 780px;
       overflow: hidden;
     }
 
@@ -522,10 +534,33 @@
 
     .product-thumb {
       position: relative;
-      height: clamp(210px, 22vw, 270px);
+      width: 100%;
+      aspect-ratio: 3 / 4;
       background: #f7f7fb;
       overflow: hidden;
       flex-shrink: 0;
+    }
+
+    .product-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.34) 50%, rgba(255, 255, 255, 0) 100%);
+      transform: translateX(-100%);
+      animation: homeCardShimmer 1.3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .product-thumb.is-loaded::after {
+      opacity: 0;
+      animation: none;
+    }
+
+    .product-thumb picture {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     .product-thumb img {
@@ -533,11 +568,28 @@
       height: 100%;
       object-fit: cover;
       object-position: center top;
-      transition: transform 0.3s ease;
+      transition: opacity 0.28s ease, transform 0.3s ease;
+      opacity: 0;
+      position: relative;
+      z-index: 0;
+    }
+
+    .product-thumb.is-loaded img {
+      opacity: 1;
     }
 
     .product-card:hover .product-thumb img {
       transform: scale(1.04);
+    }
+
+    @keyframes homeCardShimmer {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(100%);
+      }
     }
 
     .product-body {
@@ -555,10 +607,14 @@
     }
 
     .variant-chip {
-      width: 22px;
-      height: 22px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       border: 2px solid #ddd;
+      background-color: #ffffff;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       cursor: pointer;
       flex-shrink: 0;
       overflow: hidden;
@@ -968,8 +1024,9 @@
         margin-top: 12px;
       }
 
-      .main-hero-carousel {
-        
+      .main-hero-carousel__viewport {
+        overflow: hidden;
+        touch-action: pan-y;
       }
 
       .btn-primary,
@@ -1012,10 +1069,6 @@
 
       .products-row {
         grid-auto-columns: calc((100% - 2 * 12px) / 2.3);
-      }
-
-      .products-arrow {
-        display: none;
       }
 
       .promo-banners {
@@ -1153,6 +1206,9 @@
       .promo-slide {
         min-height: 0;
       }
+      .promo-carousel {
+        touch-action: pan-y;
+      }
       .promo-slide__link {
         height: auto;
         min-height: 0;
@@ -1163,13 +1219,6 @@
         min-height: 0;
         object-fit: contain;
       }
-      .promo-arrow {
-        display: inline-flex;
-        width: 36px;
-        height: 36px;
-      }
-      .promo-arrow--prev { left: 10px; }
-      .promo-arrow--next { right: 10px; }
       .promo-dots { bottom: 12px; }
     }
   </style>
@@ -1178,7 +1227,10 @@
   <header class="site-header romix-shared-header">
     <div class="container header-row">
       <a class="brand" href="index.html" aria-label="ROMIX inicio">
-        <img src="images/logo-romix.png" alt="Logo ROMIX" />
+        <picture class="brand-logo-media">
+          <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp" />
+          <img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />
+        </picture>
         ROMIX<span class="brand-dot">.</span>
       </a>
 
@@ -1225,17 +1277,26 @@
         <div class="main-hero-carousel__track">
           <figure class="main-hero-carousel__slide is-active">
             <a class="main-hero-carousel__slide-link" href="catalogo.html?temporada=invierno&q_any=termica,campera,polar" aria-label="Ver coleccion para invierno">
-              <img src="images/banner/banner-1.png" alt="Coleccion ROMIX para invierno" />
+              <picture>
+                <source srcset="images/banners/banner-1.webp" type="image/webp" />
+                <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" loading="eager" decoding="async" fetchpriority="high" sizes="100vw" />
+              </picture>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
             <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=hombre,mujer&q_any=frizado,corderito,polar" aria-label="Ver abrigo para hombre y mujer">
-              <img src="images/banner/banner-2.png" alt="Abrigo termico ROMIX" />
+              <picture>
+                <source srcset="images/banners/banner-2.webp" type="image/webp" />
+                <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
+              </picture>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
             <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=ninos&q_any=termica,campera,buzo" aria-label="Ver coleccion de ninos">
-              <img src="images/banner/banner-3.png" alt="Coleccion infantil ROMIX" />
+              <picture>
+                <source srcset="images/banners/banner-3.webp" type="image/webp" />
+                <img src="images/banners/banner-3.png" alt="Coleccion infantil ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
+              </picture>
             </a>
           </figure>
         </div>
@@ -1264,31 +1325,46 @@
       <div class="audience-grid">
         <a class="audience-card" href="catalogo.html?section=mujer" aria-label="Ir a la categor&iacute;a Mujer">
           <div class="audience-thumb">
-            <img src="images/mujer.png" alt="Mujer" loading="lazy" decoding="async" />
+            <picture>
+              <source srcset="images/optimized/mujer-640.webp 640w, images/optimized/mujer-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/mujer.png" alt="Mujer" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span class="audience-label">MUJER</span>
         </a>
         <a class="audience-card" href="catalogo.html?section=hombre" aria-label="Ir a la categor&iacute;a Hombre">
           <div class="audience-thumb">
-            <img src="images/hombre.png" alt="Hombre" loading="lazy" decoding="async" />
+            <picture>
+              <source srcset="images/optimized/hombre-640.webp 640w, images/optimized/hombre-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/hombre.png" alt="Hombre" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span class="audience-label">HOMBRE</span>
         </a>
         <a class="audience-card" href="catalogo.html?audiencia=nina" aria-label="Ir a la categor&iacute;a Ni&ntilde;a">
           <div class="audience-thumb">
-            <img src="images/nina.png" alt="Ni&ntilde;a" loading="lazy" decoding="async" />
+            <picture>
+              <source srcset="images/optimized/nina-640.webp 640w, images/optimized/nina-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/nina.png" alt="Ni&ntilde;a" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span class="audience-label">NI&Ntilde;A</span>
         </a>
         <a class="audience-card" href="catalogo.html?audiencia=nino" aria-label="Ir a la categor&iacute;a Ni&ntilde;o">
           <div class="audience-thumb">
-            <img src="images/nino.png" alt="Ni&ntilde;o" loading="lazy" decoding="async" />
+            <picture>
+              <source srcset="images/optimized/nino-640.webp 640w, images/optimized/nino-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/nino.png" alt="Ni&ntilde;o" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span class="audience-label">NI&Ntilde;O</span>
         </a>
         <a class="audience-card" href="catalogo.html" aria-label="Ir a ver todo el cat&aacute;logo">
           <div class="audience-thumb">
-            <img src="images/ver-todo.png" alt="Ver todo" loading="lazy" decoding="async" />
+            <picture>
+              <source srcset="images/optimized/ver-todo-640.webp 640w, images/optimized/ver-todo-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/ver-todo.png" alt="Ver todo" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span class="audience-label">VER TODO</span>
         </a>
@@ -1307,37 +1383,55 @@
       <div class="categories-grid" id="categoryTrack">
         <a class="category-item" href="catalogo.html?categories=calzas">
           <div class="category-thumb">
-            <img src="images/calzas.png" alt="Calzas" loading="lazy" />
+            <picture>
+              <source srcset="images/optimized/calzas-640.webp 640w, images/optimized/calzas-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/calzas.png" alt="Calzas" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span>Calzas</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=camperas">
           <div class="category-thumb">
-            <img src="images/camperas.png" alt="Camperas" loading="lazy" />
+            <picture>
+              <source srcset="images/optimized/camperas-640.webp 640w, images/optimized/camperas-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/camperas.png" alt="Camperas" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span>Camperas</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=remeras">
           <div class="category-thumb">
-            <img src="images/remeras.png" alt="Remeras" loading="lazy" />
+            <picture>
+              <source srcset="images/optimized/remeras-640.webp 640w, images/optimized/remeras-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/remeras.png" alt="Remeras" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span>Remeras</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=tops">
           <div class="category-thumb">
-            <img src="images/tops.png" alt="Tops" loading="lazy" />
+            <picture>
+              <source srcset="images/optimized/tops-640.webp 640w, images/optimized/tops-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/tops.png" alt="Tops" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span>Tops</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=buzos">
           <div class="category-thumb">
-            <img src="images/buzos.png" alt="Buzos" loading="lazy" />
+            <picture>
+              <source srcset="images/optimized/buzos-640.webp 640w, images/optimized/buzos-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/buzos.png" alt="Buzos" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span>Buzos</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=pantalones">
           <div class="category-thumb">
-            <img src="images/pantalones.png" alt="Pantalones" loading="lazy" />
+            <picture>
+              <source srcset="images/optimized/pantalones-640.webp 640w, images/optimized/pantalones-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
+              <img src="images/pantalones.png" alt="Pantalones" loading="lazy" decoding="async" width="1254" height="1254" />
+            </picture>
           </div>
           <span>Pantalones</span>
         </a>
@@ -1357,13 +1451,19 @@
 
           <article class="promo-slide">
             <a class="promo-slide__link" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" aria-label="Ver colecci&oacute;n invierno ROMIX">
-              <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Estilo Urbano Invernal ROMIX" loading="lazy" />
+              <picture>
+                <source srcset="images/optimized/ESTILO_URBANO_INVERNAL-960.webp 960w, images/optimized/ESTILO_URBANO_INVERNAL-1440.webp 1440w" sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 960px) min(82vw, 760px), 760px" type="image/webp" />
+                <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Estilo Urbano Invernal ROMIX" loading="lazy" decoding="async" width="1708" height="921" />
+              </picture>
             </a>
           </article>
 
           <article class="promo-slide">
             <a class="promo-slide__link" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" aria-label="Ver l&iacute;nea deportiva ROMIX">
-              <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" />
+              <picture>
+                <source srcset="images/optimized/ROPA_DEPORTIVA-960.webp 960w, images/optimized/ROPA_DEPORTIVA-1440.webp 1440w" sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 960px) min(82vw, 760px), 760px" type="image/webp" />
+                <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" decoding="async" width="1708" height="921" />
+              </picture>
             </a>
           </article>
 
@@ -1416,7 +1516,10 @@
       <div class="footer-top">
         <div class="footer-brand">
           <a href="index.html" class="footer-logo" aria-label="ROMIX">
-            <img src="images/logo-romix.png" alt="ROMIX" />
+            <picture class="footer-logo-media">
+              <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp" />
+              <img src="images/logo-romix.png" alt="ROMIX" width="752" height="829" loading="lazy" decoding="async" />
+            </picture>
             <div class="footer-logo-copy">
               <strong>ROMIX</strong>
               <span>Sportswear &amp; Fashion</span>
@@ -1510,17 +1613,28 @@
     </div>
   </footer>
 
+  <script src="assets/js/romix-image-utils.js"></script>
   <script src="assets/js/products-store.js"></script>
   <script src="assets/js/catalog-relevance-order.js"></script>
   <script src="assets/js/romix-header.js"></script>
   <script>
+    const imageUtils = window.romixImageUtils || {};
+    const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
+      ? imageUtils.dimensions.productCard
+      : { width: 720, height: 960 };
+    const squareImageSize = imageUtils.dimensions && imageUtils.dimensions.square
+      ? imageUtils.dimensions.square
+      : { width: 1254, height: 1254 };
+    const HOME_CARD_IMAGE_SIZES = "(max-width: 640px) min(62vw, 240px), (max-width: 960px) min(34vw, 240px), 240px";
+    const HOME_SQUARE_IMAGE_SIZES = "(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px";
+
     const HOME_CATEGORIES = [
-      { label: "Calzas", query: "calzas", imagePath: "images/calzas.png" },
-      { label: "Camperas", query: "camperas", imagePath: "images/camperas.png" },
-      { label: "Remeras", query: "remeras", imagePath: "images/remeras.png" },
-      { label: "Tops", query: "tops", imagePath: "images/tops.png" },
-      { label: "Buzos", query: "buzos", imagePath: "images/buzos.png" },
-      { label: "Pantalones", query: "pantalones", imagePath: "images/pantalones.png" }
+      { label: "Calzas", query: "calzas", imagePath: "images/calzas.png", optimizedBase: "calzas" },
+      { label: "Camperas", query: "camperas", imagePath: "images/camperas.png", optimizedBase: "camperas" },
+      { label: "Remeras", query: "remeras", imagePath: "images/remeras.png", optimizedBase: "remeras" },
+      { label: "Tops", query: "tops", imagePath: "images/tops.png", optimizedBase: "tops" },
+      { label: "Buzos", query: "buzos", imagePath: "images/buzos.png", optimizedBase: "buzos" },
+      { label: "Pantalones", query: "pantalones", imagePath: "images/pantalones.png", optimizedBase: "pantalones" }
     ];
 
     let refreshProductsCarousel = null;
@@ -1543,17 +1657,80 @@
         .replace(/'/g, "&#39;");
     }
 
+    function buildOptimizedPictureMarkup(config) {
+      const options = config || {};
+      const fallbackSrc = safeText(options.fallbackSrc || "images/logo-romix.png");
+      const alt = safeText(options.alt || "");
+      const optimizedBase = safeText(options.optimizedBase || "");
+      const widths = Array.isArray(options.widths) ? options.widths.filter(Boolean) : [];
+      const srcset = optimizedBase
+        ? widths.map((width) => `images/optimized/${optimizedBase}-${width}.webp ${width}w`).join(", ")
+        : "";
+      const sizes = safeText(options.sizes || "");
+      const width = Number(options.width) || squareImageSize.width;
+      const height = Number(options.height) || squareImageSize.height;
+      const sourceMarkup = srcset
+        ? `<source srcset="${srcset}"${sizes ? ` sizes="${sizes}"` : ""} type="image/webp" />`
+        : "";
+
+      return `
+        <picture>
+          ${sourceMarkup}
+          <img src="${fallbackSrc}" alt="${alt}" loading="lazy" decoding="async" width="${width}" height="${height}" />
+        </picture>
+      `;
+    }
+
     function productKey(product) {
       return normalizeText(product && product.name) + "::" + normalizeText(product && product.type);
     }
 
+    function getImageMap(product) {
+      return typeof imageUtils.getProductLegacyImageMap === "function"
+        ? imageUtils.getProductLegacyImageMap(product)
+        : null;
+    }
+
     function pickImage(product, fallback) {
-      if (product && product.image) return String(product.image);
-      if (product && product.images && typeof product.images === "object") {
-        const values = Object.values(product.images).filter(Boolean);
-        if (values.length) return String(values[0]);
+      const resolved = typeof imageUtils.getProductMainImage === "function"
+        ? imageUtils.getProductMainImage(product)
+        : "";
+      return resolved || fallback || "images/logo-romix.png";
+    }
+
+    function pickThumbImage(product, fallback) {
+      if (product && product.thumbnail) return String(product.thumbnail);
+      const fullImage = pickImage(product, fallback);
+      if (fullImage && typeof imageUtils.getThumbPath === "function" && !fullImage.startsWith("data:")) {
+        return imageUtils.getThumbPath(fullImage);
       }
-      return fallback || "images/logo-romix.png";
+      return fullImage;
+    }
+
+    function resolveThumbSet(product, preferredImage) {
+      if (typeof imageUtils.getProductThumbSet === "function") {
+        const colorEntry = preferredImage
+          ? { image: preferredImage }
+          : null;
+        const resolved = imageUtils.getProductThumbSet(product, colorEntry);
+        if (resolved) {
+          return {
+            src: resolved.src || resolved.originalSrc || "images/logo-romix.png",
+            fallbackSrc: resolved.fallbackSrc || resolved.src || resolved.originalSrc || "images/logo-romix.png",
+            webpSrc: resolved.webpSrc || "",
+            avifSrc: resolved.avifSrc || "",
+            originalSrc: resolved.originalSrc || resolved.src || "images/logo-romix.png"
+          };
+        }
+      }
+      const mainImage = String(preferredImage || pickImage(product, "images/logo-romix.png") || "").trim();
+      return {
+        src: mainImage,
+        fallbackSrc: mainImage,
+        webpSrc: "",
+        avifSrc: "",
+        originalSrc: mainImage
+      };
     }
 
     function formatPrice(price) {
@@ -1570,43 +1747,33 @@
     }
 
     function findColorImage(product, colorName) {
-      if (!product || !product.images || typeof product.images !== "object") return "";
-      const wanted = normalizeText(colorName);
-      const entries = Object.entries(product.images);
-      const exact = entries.find(([name]) => normalizeText(name) === wanted);
-      return exact && exact[1] ? String(exact[1]) : "";
+      if (typeof imageUtils.findProductColor === "function") {
+        const color = imageUtils.findProductColor(product, colorName);
+        return color && color.image ? String(color.image) : "";
+      }
+      return "";
     }
 
     function getProductVariants(product) {
-      const variants = [];
-      const seen = new Set();
-      const colors = Array.isArray(product && product.colors) ? product.colors : [];
-      const imageMap = product && product.images && typeof product.images === "object" ? product.images : null;
-
-      function pushVariant(name, hex, image) {
-        const label = String(name || "").trim();
-        const key = normalizeText(label);
-        if (!label || seen.has(key)) return;
-        seen.add(key);
-        variants.push({
-          name: label,
-          hex: hex || "",
-          image: image || ""
-        });
-      }
-
-      colors.forEach((color) => {
-        if (!color) return;
-        pushVariant(color.name, color.hex, color.image || findColorImage(product, color.name));
+      const colorEntries = typeof imageUtils.resolveProductColorEntries === "function"
+        ? imageUtils.resolveProductColorEntries(product)
+        : [];
+      if (!colorEntries.length) return [];
+      return colorEntries.map((color, index) => {
+        const resolvedImage = (typeof imageUtils.getColorImage === "function"
+          ? imageUtils.getColorImage(color, product)
+          : String(color && color.image || "").trim())
+          || pickImage(product, "images/logo-romix.png");
+        const thumb = String(color && color.thumb || "").trim()
+          || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : pickThumbImage(product, "images/logo-romix.png"));
+        return {
+          name: String(color && (color.name || color.value) || ("Color " + (index + 1))).trim(),
+          hex: color && color.hex ? color.hex : "",
+          image: resolvedImage,
+          thumb,
+          swatchImage: thumb || resolvedImage
+        };
       });
-
-      if (imageMap) {
-        Object.entries(imageMap).forEach(([name, image]) => {
-          pushVariant(name, "", image);
-        });
-      }
-
-      return variants;
     }
 
     function getProductMeta(product) {
@@ -1650,7 +1817,12 @@
     function getNovedadesSource(products) {
       const source = Array.isArray(products) ? products : [];
       const featured = source.filter((item) => item && item.featured === true);
-      return featured.length ? featured : source.slice(0, 20);
+      if (featured.length) return featured;
+      const winter = source.filter((item) => {
+        const season = normalizeText(item && (item.seasonKey || item.season));
+        return season.includes("invierno");
+      });
+      return winter.length ? winter.slice(0, 20) : source.slice(0, 20);
     }
 
     function pickByTypes(products, types, usedKeys) {
@@ -1663,10 +1835,16 @@
 
     async function loadHomeProducts() {
       if (window.romixProductsStore && typeof window.romixProductsStore.load === "function") {
-        return window.romixProductsStore.load();
+        const data = await window.romixProductsStore.load({ dataUrl: "assets/data/products.json" });
+        return Array.isArray(data) ? data : [];
       }
-      const response = await fetch("assets/data/products.json");
-      return response.json();
+      const response = await fetch(new URL("assets/data/products.json", window.location.href));
+      if (!response.ok) {
+        throw new Error("No se pudo cargar products.json para home (" + response.status + ")");
+      }
+      const text = await response.text();
+      const parsed = JSON.parse(String(text || "").replace(/^\uFEFF/, ""));
+      return Array.isArray(parsed) ? parsed : [];
     }
 
     function renderCategories() {
@@ -1680,7 +1858,15 @@
         return `
           <a class="category-item" href="${href}">
             <div class="category-thumb">
-              <img src="${imagePath}" alt="${label}" loading="lazy" />
+              ${buildOptimizedPictureMarkup({
+                fallbackSrc: imagePath,
+                optimizedBase: category.optimizedBase,
+                alt: label,
+                widths: [640, 960],
+                sizes: HOME_SQUARE_IMAGE_SIZES,
+                width: squareImageSize.width,
+                height: squareImageSize.height
+              })}
             </div>
             <span>${label}</span>
           </a>
@@ -1703,12 +1889,14 @@
       }
 
       const variantLimit = window.innerWidth <= 640 ? 3 : 4;
+      const homeProductLimit = window.innerWidth <= 768 ? 8 : 12;
       row.innerHTML = "";
+      source = source.slice(0, homeProductLimit);
 
-      source.forEach((product) => {
+      source.forEach((product, index) => {
         const type = normalizeText(product && product.type);
         const href = buildProductHref(product, type);
-        const fallbackImage = pickImage(product, "images/logo-romix.png");
+        const defaultThumbSet = resolveThumbSet(product);
         const stockInfo = getProductStockMeta(product);
         const variantsData = getProductVariants(product);
         const metaText = getProductMeta(product);
@@ -1719,26 +1907,98 @@
         const thumbLink = document.createElement("a");
         thumbLink.className = "product-thumb";
         thumbLink.href = href;
+        const media = typeof imageUtils.createPicture === "function"
+          ? imageUtils.createPicture({
+              src: defaultThumbSet.src,
+              fallbackSrc: defaultThumbSet.fallbackSrc,
+              webpSrc: defaultThumbSet.webpSrc,
+              avifSrc: defaultThumbSet.avifSrc,
+              alt: product && product.name ? String(product.name) : "Producto",
+              width: cardImageSize.width,
+              height: cardImageSize.height,
+              loading: "lazy",
+              decoding: "async",
+              fetchpriority: "low",
+              sizes: HOME_CARD_IMAGE_SIZES
+            })
+          : null;
+        const mainImg = media ? media.img : document.createElement("img");
+        const picture = media ? media.picture : null;
 
-        const mainImg = document.createElement("img");
-        mainImg.loading = "lazy";
-        mainImg.decoding = "async";
-        mainImg.alt = product && product.name ? String(product.name) : "Producto";
+        function syncPictureSource(type, src) {
+          if (!picture) return;
+          const selector = 'source[type="' + type + '"]';
+          const current = picture.querySelector(selector);
+          if (!src) {
+            if (current) current.remove();
+            return;
+          }
+          if (current) {
+            current.srcset = src;
+            return;
+          }
+          const sourceTag = document.createElement("source");
+          sourceTag.type = type;
+          sourceTag.srcset = src;
+          if (type === "image/avif") {
+            picture.insertBefore(sourceTag, picture.firstChild);
+            return;
+          }
+          picture.insertBefore(sourceTag, picture.querySelector("img") || null);
+        }
 
         function setImg(src, colorName) {
-          const chosen = src || fallbackImage;
+          const chosenSet = resolveThumbSet(product, src);
           mainImg.onerror = function () {
             mainImg.onerror = null;
-            mainImg.src = chosen !== fallbackImage ? fallbackImage : "images/logo-romix.png";
+            syncPictureSource("image/avif", "");
+            syncPictureSource("image/webp", "");
+            if (chosenSet.originalSrc && mainImg.src !== chosenSet.originalSrc) {
+              mainImg.src = chosenSet.originalSrc;
+              mainImg.alt = colorName
+                ? String(product && product.name ? product.name : "Producto") + " - " + colorName
+                : String(product && product.name ? product.name : "Producto");
+              thumbLink.classList.add("is-loaded");
+              return;
+            }
+            if (mainImg.src !== defaultThumbSet.fallbackSrc) {
+              mainImg.src = defaultThumbSet.fallbackSrc;
+              mainImg.alt = product && product.name ? String(product.name) : "Producto";
+              thumbLink.classList.add("is-loaded");
+              return;
+            }
+            mainImg.src = "images/logo-romix.png";
+            thumbLink.classList.add("is-loaded");
           };
-          mainImg.src = chosen;
+          syncPictureSource("image/avif", chosenSet.avifSrc);
+          syncPictureSource("image/webp", chosenSet.webpSrc);
+          mainImg.src = chosenSet.src;
           mainImg.alt = colorName
             ? String(product && product.name ? product.name : "Producto") + " - " + colorName
             : String(product && product.name ? product.name : "Producto");
         }
 
-        setImg(fallbackImage, "");
-        thumbLink.appendChild(mainImg);
+        mainImg.addEventListener("load", function () {
+          thumbLink.classList.add("is-loaded");
+        });
+
+        mainImg.addEventListener("error", function () {
+          thumbLink.classList.add("is-loaded");
+        });
+
+        if (!media) {
+          mainImg.loading = "lazy";
+          mainImg.decoding = "async";
+          mainImg.width = cardImageSize.width;
+          mainImg.height = cardImageSize.height;
+          mainImg.sizes = HOME_CARD_IMAGE_SIZES;
+          mainImg.setAttribute("fetchpriority", "low");
+          thumbLink.appendChild(mainImg);
+        } else {
+          thumbLink.appendChild(picture);
+        }
+
+        setImg("", "");
 
         const body = document.createElement("div");
         body.className = "product-body";
@@ -1752,30 +2012,29 @@
             const btn = document.createElement("button");
             btn.type = "button";
             btn.className = "variant-chip" + (index === 0 ? " is-active" : "");
-            btn.setAttribute("aria-label", "Ver color " + variant.name);
+            btn.setAttribute("aria-label", "Seleccionar color " + variant.name);
+            btn.setAttribute("aria-pressed", index === 0 ? "true" : "false");
             btn.title = variant.name;
+            btn.dataset.colorName = variant.name;
+            btn.dataset.colorIndex = String(index);
 
-            if (variant.hex) btn.style.backgroundColor = variant.hex;
-            if (variant.image) {
-              const swatch = document.createElement("img");
-              swatch.loading = "lazy";
-              swatch.decoding = "async";
-              swatch.src = variant.image;
-              swatch.alt = variant.name;
-              swatch.onerror = function () {
-                swatch.onerror = null;
-                swatch.remove();
-                btn.classList.add("variant-chip--color");
-              };
-              btn.appendChild(swatch);
-            } else {
-              btn.classList.add("variant-chip--color");
+            btn.style.backgroundColor = variant.hex || "#efecf3";
+            if (variant.swatchImage) {
+              btn.style.backgroundImage = "url('" + String(variant.swatchImage).replace(/'/g, "%27") + "')";
             }
+            btn.classList.add("variant-chip--color");
 
-            btn.addEventListener("click", function () {
-              setImg(variant.image || fallbackImage, variant.name);
-              varWrap.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
+            btn.addEventListener("click", function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              varWrap.querySelectorAll(".variant-chip").forEach((chip) => {
+                chip.classList.remove("is-active");
+                chip.setAttribute("aria-pressed", "false");
+              });
               btn.classList.add("is-active");
+              btn.setAttribute("aria-pressed", "true");
+              thumbLink.classList.remove("is-loaded");
+              setImg(variant.thumb || variant.image, variant.name);
             });
 
             varWrap.appendChild(btn);
@@ -1789,7 +2048,7 @@
           }
 
           const initial = visible[0];
-          if (initial) setImg(initial.image || fallbackImage, initial.name);
+          if (initial) setImg(initial.thumb || initial.image, initial.name);
           body.appendChild(varWrap);
         }
 
@@ -1849,6 +2108,8 @@
       let current = 0;
       let timer = null;
       let dots = [];
+      let touchStartX = 0;
+      let touchStartY = 0;
 
       function render() {
         slides.forEach((slide, index) => {
@@ -1910,6 +2171,24 @@
         else startAutoplay();
       });
 
+      carousel.addEventListener("touchstart", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) return;
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+
+      carousel.addEventListener("touchend", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) return;
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+        if (deltaX < 0) goTo(current + 1);
+        else goTo(current - 1);
+        startAutoplay();
+      }, { passive: true });
+
       render();
       startAutoplay();
     })();
@@ -1969,6 +2248,7 @@
       let current = 0, timer = null, dots = [];
       const autoplayMs = 5000;
       const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let touchStartX = 0, touchStartY = 0;
 
       function render(){
         slides.forEach((s,i) => s.classList.toggle("is-active", i === current));
@@ -1990,14 +2270,37 @@
       if(prevBtn) prevBtn.addEventListener("click", () => { goTo(current - 1); start(); });
       if(nextBtn) nextBtn.addEventListener("click", () => { goTo(current + 1); start(); });
       document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
+      wrap.addEventListener("touchstart", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) return;
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+      wrap.addEventListener("touchend", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) return;
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+        if (deltaX < 0) goTo(current + 1);
+        else goTo(current - 1);
+        start();
+      }, { passive: true });
       render(); start();
     })();
 
     (async function initHomeCatalogData() {
       try {
         const products = await loadHomeProducts();
-        if (!Array.isArray(products) || !products.length) return;
         renderCategories();
+        if (!Array.isArray(products) || !products.length) {
+          const row = document.getElementById("productsRow");
+          if (row) {
+            row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+          }
+          console.warn("[index] loadHomeProducts devolvio una lista vacia");
+          return;
+        }
         renderProducts(products);
       } catch (error) {
         const row = document.getElementById("productsRow");

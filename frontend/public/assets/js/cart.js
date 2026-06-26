@@ -245,7 +245,7 @@
         <p class="romix-cart-added-panel__status">Agregado a la bolsa de compra</p>
       </div>
       <div class="romix-cart-added-panel__content">
-        <img class="romix-cart-added-panel__image" src="${PANEL_IMAGE_PLACEHOLDER}" alt="Producto agregado" loading="lazy" decoding="async" />
+        <img class="romix-cart-added-panel__image" src="${PANEL_IMAGE_PLACEHOLDER}" alt="Producto agregado" loading="lazy" decoding="async" width="720" height="960" />
         <div class="romix-cart-added-panel__info">
           <p class="romix-cart-added-panel__name">Producto</p>
           <p class="romix-cart-added-panel__type">Indumentaria</p>

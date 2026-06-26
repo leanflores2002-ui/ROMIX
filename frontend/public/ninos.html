@@ -5,25 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROMIX - Niños</title>
   <meta name="description" content="Coleccion ROMIX para ninos: prendas comodas y resistentes para todos los dias." />
-  <link rel="canonical" href="https://romix-ropas.vercel.app/ninos.html" />
+  <link rel="canonical" href="https://romi-damas.netlify.app/ninos.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ROMIX" />
   <meta property="og:locale" content="es_AR" />
   <meta property="og:title" content="ROMIX - Ninos" />
   <meta property="og:description" content="Coleccion ROMIX para ninos: prendas comodas y resistentes para todos los dias." />
-  <meta property="og:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg" />
+  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
   <meta property="og:image:alt" content="Logo ROMIX" />
-  <meta property="og:url" content="https://romix-ropas.vercel.app/ninos.html" />
+  <meta property="og:url" content="https://romi-damas.netlify.app/ninos.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ROMIX - Ninos" />
   <meta name="twitter:description" content="Coleccion ROMIX para ninos: prendas comodas y resistentes para todos los dias." />
-  <meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
   <link rel="stylesheet" href="assets/css/romix-catalog-pages.css" />
   <link rel="stylesheet" href="assets/css/romix-header.css" />
   <link rel="stylesheet" href="assets/css/romix-footer.css" />
-  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
 </head>
 <body data-catalog-scope="ninos">
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -31,7 +37,10 @@
   <header class="site-header romix-shared-header">
   <div class="container header-row">
     <a class="brand" href="index.html" aria-label="ROMIX inicio">
-      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      <picture class="brand-logo-media">
+        <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp" />
+        <img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />
+      </picture>
       ROMIX<span class="brand-dot">.</span>
     </a>
 
@@ -144,10 +153,11 @@
 
   <div id="catalog-toast" class="catalog-toast" aria-live="polite" role="status"></div>
 
-  <script src="assets/js/cart.js"></script>
-  <script src="assets/js/products-store.js"></script>
-  <script src="assets/js/romix-catalog-pages.js"></script>
-  <script src="assets/js/romix-header.js"></script>
-  <script src="assets/js/romix-footer.js"></script>
+  <script src="assets/js/romix-image-utils.js" defer></script>
+  <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/products-store.js" defer></script>
+  <script src="assets/js/romix-catalog-pages.js" defer></script>
+  <script src="assets/js/romix-header.js" defer></script>
+  <script src="assets/js/romix-footer.js" defer></script>
 </body>
 </html>

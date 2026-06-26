@@ -1,4 +1,12 @@
 (function () {
+  const BRAND_LOGO_PICTURE = '' +
+    '<picture class="brand-logo-media">' +
+      '<source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp">' +
+      '<img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />' +
+    '</picture>';
+
+  var imageUtils = window.romixImageUtils || {};
+
   function normalizeText(value) {
     var raw = value == null ? "" : String(value).trim().toLowerCase();
     if (!raw) return "";
@@ -64,7 +72,7 @@
           title: "Tu mejor version",
           cta: "Ver productos",
           href: buildHref(mujer, { temporada: "invierno" }),
-          image: "images/campera_lycra_fucsia.png",
+          image: "images/products/campera_lycra_fucsia.png",
           alt: "Campera deportiva ROMIX para mujer"
         },
         columns: [
@@ -128,7 +136,7 @@
           title: "Listo para el frio",
           cta: "Ver productos",
           href: buildHref(hombre, { temporada: "invierno" }),
-          image: "images/campera_algodon_frizado_hombre_azul_marino.png",
+          image: "images/products/campera_algodon_frizado_hombre_azul_marino.png",
           alt: "Campera ROMIX para hombre"
         },
         columns: [
@@ -188,7 +196,7 @@
           title: "Movimiento para todo el dia",
           cta: "Ver productos",
           href: buildHref(ninos, { temporada: "invierno" }),
-          image: "images/campera_frizada_algodon_nino_azul_marino.png",
+          image: "images/products/campera_frizada_algodon_nino_azul_marino.png",
           alt: "Campera infantil ROMIX"
         },
         columns: [
@@ -241,7 +249,7 @@
           title: "Lo nuevo de ROMIX",
           cta: "Ver productos",
           href: novedades,
-          image: "images/campera_oversize_algodon_rustico_azul.png",
+          image: "images/products/campera_oversize_algodon_rustico_azul.png",
           alt: "Nueva coleccion ROMIX"
         },
         columns: [
@@ -320,7 +328,7 @@
           '<div class="mega-panel-grid">' +
             '<div class="mega-panel-columns">' + columns + '</div>' +
             '<a class="mega-promo" href="' + escapeHtml(promo.href || item.page) + '" data-mega-link="true">' +
-              '<img src="' + escapeHtml(promo.image || "images/logo-romix.png") + '" alt="' + escapeHtml(promo.alt || item.label) + '" loading="lazy" />' +
+              '<img src="' + escapeHtml(promo.image && typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(promo.image) : (promo.image || "images/logo-romix.png")) + '" alt="' + escapeHtml(promo.alt || item.label) + '" loading="lazy" decoding="async" width="720" height="960" />' +
               '<span class="mega-promo-overlay"></span>' +
               '<span class="mega-promo-copy">' +
                 '<span class="mega-promo-eyebrow">' + escapeHtml(promo.eyebrow || "Nueva coleccion") + '</span>' +
@@ -368,13 +376,13 @@
           '</button>' +
         '</div>' +
         '<a class="brand" href="index.html" aria-label="ROMIX inicio">' +
-          '<img src="images/logo-romix.png" alt="Logo ROMIX" />' +
+          BRAND_LOGO_PICTURE +
           'ROMIX<span class="brand-dot">.</span>' +
         '</a>' +
         '<nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">' +
           '<div class="mobile-drawer-header">' +
             '<a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio">' +
-              '<img src="images/logo-romix.png" alt="Logo ROMIX" />' +
+              BRAND_LOGO_PICTURE +
               '<span>ROMIX</span>' +
             '</a>' +
             '<button class="mobile-drawer-close" id="close-mobile-nav" type="button" aria-label="Cerrar menu">' +

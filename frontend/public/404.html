@@ -3,83 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Redirigiendo...</title>
+  <title>ROMIX - Redirigiendo</title>
+  <meta name="robots" content="noindex" />
   <meta http-equiv="refresh" content="0; url=index.html" />
-  <script>window.location.replace('index.html');</script>
-  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix.png" />
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="ROMIX">
-  <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">
-  <meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta property="og:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg">
-  <meta property="og:url" content="https://romix-ropas.vercel.app/">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana">
-  <meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg">  
-  <link rel="stylesheet" href="assets/css/romix-header.css">
-  <link rel="stylesheet" href="assets/css/romix-footer.css">
+  <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #fff8fc;
+      --card: #ffffff;
+      --text: #312a36;
+      --muted: #7c7283;
+      --accent: #ef4ea1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(680px 320px at 10% 0%, rgba(255, 213, 235, 0.72), transparent 60%),
+        radial-gradient(640px 320px at 100% 10%, rgba(242, 233, 255, 0.68), transparent 58%),
+        var(--bg);
+    }
+
+    .redirect-card {
+      width: min(100%, 420px);
+      padding: 28px 24px;
+      text-align: center;
+      border-radius: 22px;
+      background: var(--card);
+      box-shadow: 0 20px 48px rgba(49, 42, 54, 0.1);
+    }
+
+    .redirect-card img {
+      width: 88px;
+      height: 97px;
+      margin: 0 auto 16px;
+      display: block;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 1.4rem;
+      line-height: 1.15;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--accent);
+      font-weight: 700;
+    }
+  </style>
+  <script>
+    window.location.replace("index.html");
+  </script>
 </head>
 <body>
-  <header class="site-header romix-shared-header">
-    <div class="container header-row">
-      <a class="brand" href="index.html" aria-label="ROMIX inicio">
-        <img src="images/logo-romix.png" alt="Logo ROMIX" />
-        ROMIX<span class="brand-dot">.</span>
-      </a>
-
-      <nav aria-label="Principal">
-        <ul class="main-nav">
-          <li><a href="mujer.html">Mujer</a></li>
-          <li><a href="hombre.html">Hombre</a></li>
-          <li><a href="ninos.html">Ninos</a></li>
-          <li><a href="novedades.html">Novedades</a></li>
-        </ul>
-      </nav>
-
-      <div class="header-icons" aria-label="Acciones rapidas">
-        <button class="icon-btn" id="toggleSearch" type="button" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
-            <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </button>
-        <a class="icon-btn" href="cart.html" aria-label="Carrito de compras">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <circle cx="10" cy="19" r="1.4" fill="currentColor" />
-            <circle cx="17" cy="19" r="1.4" fill="currentColor" />
-          </svg>
-          <span class="icon-badge" id="cart-count">0</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="search-panel" id="header-search">
-      <div class="container">
-        <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
-          <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />
-          <button type="submit">Buscar</button>
-        </form>
-      </div>
-    </div>
-  </header>
-  <p>Redirigiendo a <a href="index.html">inicio</a>...</p>
-  <script src="assets/js/romix-header.js"></script>
-  <script src="assets/js/romix-footer.js"></script>
-
+  <main class="redirect-card">
+    <picture class="brand-logo-media">
+      <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="88px" type="image/webp" />
+      <img src="images/logo-romix.png" alt="ROMIX" width="752" height="829" decoding="async" />
+    </picture>
+    <h1>Redirigiendo a ROMIX</h1>
+    <p>Si no se abre automáticamente, seguí este enlace a <a href="index.html">inicio</a>.</p>
+  </main>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

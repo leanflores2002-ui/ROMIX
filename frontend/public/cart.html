@@ -4,7 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROMIX - Mi Carrito</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --light:#f8f9fa; --dark:#343a40; --radius:10px; }
     * { box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -70,23 +75,21 @@
     .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
   </style>
   <link rel="stylesheet" href="assets/css/responsive.css">
-  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ROMIX">
   <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">
   <meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta property="og:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg">
-  <meta property="og:url" content="https://romix-ropas.vercel.app/">
+  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg">
+  <meta property="og:url" content="https://romi-damas.netlify.app/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana">
   <meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg">
+  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg">
   <link rel="stylesheet" href="assets/css/romix-header.css">
   <link rel="stylesheet" href="assets/css/romix-footer.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
-
     :root {
       --rose-50: #fff8fc;
       --rose-100: #ffeff8;
@@ -729,7 +732,10 @@
     <header class="site-header romix-shared-header">
   <div class="container header-row">
     <a class="brand" href="index.html" aria-label="ROMIX inicio">
-      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      <picture class="brand-logo-media">
+        <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp" />
+        <img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />
+      </picture>
       ROMIX<span class="brand-dot">.</span>
     </a>
 
@@ -830,7 +836,7 @@
     </div>
     <div style="text-align:center;padding-top:20px;margin-top:20px;border-top:1px solid #495057;color:#adb5bd;font-size:.9rem;">&copy; 2025 Romix - Todos los derechos reservados</div>
   </footer>
-
+  <script src="assets/js/romix-image-utils.js"></script>
     <script src="assets/js/color-utils.js"></script>
   <script src="assets/js/cart.js"></script>
   <script>
@@ -873,6 +879,7 @@
     const POST_ORDER_MESSAGE = 'Pedido enviado correctamente';
     const POST_ORDER_SUBTITLE = 'La disponibilidad de los productos esta sujeta a stock al momento de la confirmacion por parte del vendedor.';
     const POST_ORDER_BUTTON_LABEL = 'Seguir comprando';
+    const CART_IMAGE_PLACEHOLDER = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><rect width="100%" height="100%" fill="#fff8fd"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b79ab0" font-family="Segoe UI, Arial" font-size="16">ROMIX</text></svg>')}`;
     let orderStatus = null;
     let orderInProgress = false;
 
@@ -901,11 +908,35 @@
       };
     }
 
+    function getImageSourcesForItem(item) {
+      const rawImage = item && item.image ? String(item.image).trim() : '';
+      if (!rawImage) return [];
+      if (window.romixImageUtils && typeof window.romixImageUtils.getImageFallbackSources === 'function') {
+        return window.romixImageUtils.getImageFallbackSources(rawImage);
+      }
+      return [rawImage];
+    }
+
     function findImageForItem(item){
-      try {
-        if (item && item.image) return item.image;
-      } catch {}
-      return '';
+      const sources = getImageSourcesForItem(item);
+      return sources[0] || '';
+    }
+
+    function applyCartImage(img, item, altText) {
+      if (!img) return;
+      const sources = getImageSourcesForItem(item);
+      if (window.romixImageUtils && typeof window.romixImageUtils.applyImageWithFallback === 'function') {
+        window.romixImageUtils.applyImageWithFallback(img, sources, altText, {
+          placeholder: CART_IMAGE_PLACEHOLDER
+        });
+        return;
+      }
+      img.alt = altText || 'Producto ROMIX';
+      img.onerror = () => {
+        img.onerror = null;
+        img.src = CART_IMAGE_PLACEHOLDER;
+      };
+      img.src = sources[0] || CART_IMAGE_PLACEHOLDER;
     }
 
     function showCartAlert(type, message) {
@@ -1084,6 +1115,9 @@
           }).join('');
           const more = cart.length > 4 ? `<span class="summary-thumb-more">+${cart.length - 4}</span>` : '';
           summaryThumbs.innerHTML = thumbs + more;
+          Array.from(summaryThumbs.querySelectorAll('img.summary-thumb')).forEach((imgEl, index) => {
+            applyCartImage(imgEl, cart[index], imgEl.alt || 'Producto');
+          });
         } else {
           summaryThumbs.innerHTML = '<span class="summary-thumb-empty">Sin productos.</span>';
         }
@@ -1135,6 +1169,7 @@
           el.querySelector('.inc').addEventListener('click', ()=>handleQty(key, qty + 1));
           el.querySelector('input').addEventListener('input', (ev)=>handleQty(key, ev.target.value));
           el.querySelector('.remove').addEventListener('click', ()=>handleRemove(key));
+          applyCartImage(el.querySelector('.cart-thumb img'), item, displayItem.name || 'Producto');
           list.appendChild(el);
         });
         if (orderBtn) orderBtn.disabled = false;
@@ -1160,7 +1195,7 @@
   <script src="assets/js/inventory.js"></script>
   <script src="assets/js/romix-header.js"></script>
   <script src="assets/js/romix-footer.js"></script>
-
+</body>
 </html>
 
 

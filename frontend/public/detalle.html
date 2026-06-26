@@ -10,19 +10,25 @@
   <meta property="og:site_name" content="ROMIX" />
   <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
   <meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia." />
-  <meta property="og:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg" />
-  <meta property="og:url" content="https://romix-ropas.vercel.app/" />
+  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
+  <meta property="og:url" content="https://romi-damas.netlify.app/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
   <meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia." />
-  <meta name="twitter:image" content="https://romix-ropas.vercel.app/images/logo-romix-social-20260502.jpg" />
+  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
 
   <!-- Icons -->
-  <link rel="icon" href="images/logo-romix.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix.png" />
+  <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
 
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css" />
 
   <style>
     :root { --primary:#e83e8c; --secondary:#6f42c1; --success:#28a745; --danger:#dc3545; --muted:#6c757d; }
@@ -67,6 +73,7 @@
   </style>
 
   <link rel="stylesheet" href="assets/css/responsive.css" />
+  <script src="assets/js/romix-image-utils.js"></script>
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/products-store.js"></script>
@@ -77,6 +84,7 @@
         <rect width="100%" height="100%" fill="#f8f9fb"/>\
         <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="28">Imagen no disponible</text>\
       </svg>`);
+    const PRODUCT_IMAGE_SIZES = '(max-width: 980px) calc(100vw - 56px), min(56vw, 720px)';
 
     const sharedSlugify = (function(){
       if (typeof window.romixSlugify === 'function') return window.romixSlugify;
@@ -110,6 +118,31 @@
       catch {}
     }
 
+    function toWebpImage(value) {
+      const raw = String(value || '').trim();
+      if (!raw || raw === PLACEHOLDER || raw.startsWith('data:')) return '';
+      const ext = typeof imageUtils.extension === 'function' ? imageUtils.extension(raw) : '';
+      if (!/^(png|jpg|jpeg|webp)$/i.test(ext)) return '';
+      if (ext === 'webp') return raw;
+      return typeof imageUtils.replaceExtension === 'function' ? imageUtils.replaceExtension(raw, 'webp') : '';
+    }
+
+    function ensureProductImagePreload(value) {
+      const raw = String(value || '').trim();
+      if (!raw || raw.startsWith('data:')) return;
+      const href = /^https?:\/\//i.test(raw) ? raw : new URL(raw.replace(/^\/+/, ''), location.origin + '/').href;
+      let link = document.querySelector('link[data-romix-detalle-preload="true"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.setAttribute('fetchpriority', 'high');
+        link.setAttribute('data-romix-detalle-preload', 'true');
+        document.head.appendChild(link);
+      }
+      link.href = href;
+    }
+
     function render(p){
       const root = document.getElementById('root');
       if(!root){
@@ -120,10 +153,19 @@
         return;
       }
 
-      const img = p.image || (p.images && (p.images['Negro'] || Object.values(p.images)[0])) || PLACEHOLDER;
+      const resolvedColors = typeof imageUtils.resolveProductColorEntries === 'function'
+        ? imageUtils.resolveProductColorEntries(p)
+        : [];
+      const img = (typeof imageUtils.getProductMainImage === 'function' ? imageUtils.getProductMainImage(p) : '')
+        || p.image
+        || (p.images && (p.images['Negro'] || Object.values(p.images)[0]))
+        || PLACEHOLDER;
+      const imgWebp = /\.webp(?:$|\?)/i.test(String(img || '').trim()) ? img : '';
       const price = Number(p.price||0);
       const stock = estimateStock(p);
       const stockLabel = stock <= 0 ? 'Agotado' : (stock <= 3 ? 'Por agotarse' : 'Disponible');
+      const firstColorName = (resolvedColors[0] && resolvedColors[0].name) || (p.colors && p.colors[0] && (p.colors[0].name || p.colors[0])) || '';
+      ensureProductImagePreload(imgWebp || img);
 
       const badge = p.type
         ? `<span class="muted" style="background:#f1f3f5;border-radius:999px;padding:6px 10px;font-weight:800;">${p.type}</span>`
@@ -132,7 +174,10 @@
       root.innerHTML = `
         <div class="card detail">
           <div class="thumb">
-            <img src="${img}" alt="${p.name || ''}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';"/>
+            <picture>
+              ${imgWebp ? `<source srcset="${imgWebp}" type="image/webp" />` : ''}
+              <img src="${img}" alt="${p.name || ''}${firstColorName ? ` - ${firstColorName}` : ''}" width="1200" height="1600" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';"/>
+            </picture>
           </div>
           <div>
             <div style="margin-bottom:6px;">${badge}</div>
@@ -153,7 +198,7 @@
               <div style="font-weight:800;margin-bottom:6px;color:#1b1f24">Cantidad</div>
               <div class="qty-row">
                 <button id="dec" type="button" class="qty-btn" aria-label="Disminuir">-</button>
-                <input id="qty" class="qty-input" type="number" min="1" value="1" />
+                <input id="qty" class="qty-input" type="number" min="1" value="1" inputmode="numeric" aria-label="Cantidad" />
                 <button id="inc" type="button" class="qty-btn" aria-label="Aumentar">+</button>
               </div>
 
@@ -188,6 +233,7 @@
       const updateButton = ()=>{
         const q = Math.max(1, Math.min(parseInt(qty.value, 10) || 1, Math.max(1, max)));
         qty.value = q;
+        qty.max = String(Math.max(1, max));
         btnText.textContent = `Agregar al Carrito - $${(price*q).toLocaleString('es-AR')}`;
         add.disabled = max <= 0;
       };
@@ -285,7 +331,7 @@
       return season.includes('verano');
     }
 
-    async function init(){
+    async function init(productsPromise){
       updateCartCount();
 
       const params = new URLSearchParams(location.search);
@@ -300,7 +346,7 @@
 
       try{
         let list = preloadedProducts();
-        if (!Array.isArray(list) || !list.length) list = await fetchProductList();
+        if (!Array.isArray(list) || !list.length) list = await (productsPromise || fetchProductList());
         const products = (Array.isArray(list) ? list : []).filter(p => !isBlockedSeasonProduct(p));
 
         let product = null;
@@ -356,17 +402,23 @@
       }
     }
 
-    window.addEventListener('DOMContentLoaded', init);
+    const productsRequest = fetchProductList();
+
+    window.addEventListener('DOMContentLoaded', () => {
+      init(productsRequest);
+    }, { once: true });
   </script>
   <link rel="stylesheet" href="assets/css/romix-header.css">
-  <link rel="stylesheet" href="assets/css/romix-footer.css">
 </head>
 
 <body>
   <header class="site-header romix-shared-header">
   <div class="container header-row">
     <a class="brand" href="index.html" aria-label="ROMIX inicio">
-      <img src="images/logo-romix.png" alt="Logo ROMIX" />
+      <picture class="brand-logo-media">
+        <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp" />
+        <img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />
+      </picture>
       ROMIX<span class="brand-dot">.</span>
     </a>
 
@@ -411,7 +463,7 @@
     <div id="root"></div>
   </main>
   <script src="assets/js/romix-header.js"></script>
-  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/romix-footer.js"></script>
 </body>
 </html>
 

@@ -6,7 +6,7 @@ const PUBLIC_DIR = path.join(ROOT_DIR, "frontend", "public");
 const PRODUCTS_FILE = path.join(PUBLIC_DIR, "assets", "data", "products.json");
 const SHARE_DIR = path.join(PUBLIC_DIR, "share");
 const FALLBACK_IMAGE = "images/logo-romix-social-1200x630.png";
-const DEFAULT_SITE_URL = "https://romix-ropas.vercel.app";
+const DEFAULT_SITE_URL = "https://romi-damas.netlify.app";
 
 function normalizeSiteUrl(raw) {
   const value = String(raw || "").trim();

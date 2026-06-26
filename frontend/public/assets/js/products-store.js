@@ -68,6 +68,11 @@
     return (Array.isArray(base) ? base : []).filter((item) => !shouldHideProduct(item));
   }
 
+  function parseJsonText(text) {
+    const cleaned = String(text || '').replace(/^\uFEFF/, '');
+    return JSON.parse(cleaned);
+  }
+
   function now() {
     return Date.now();
   }
@@ -125,12 +130,24 @@
           if (apiList.length) writeSessionCache(apiList);
           return apiList;
         }
-      } catch {}
+      } catch (error) {
+        console.warn('[products-store] API fallback omitido', error);
+      }
     }
 
     const response = await fetch(dataUrl);
-    if (!response.ok) throw new Error('HTTP ' + response.status);
-    const fileList = sanitizeList(await response.json());
+    if (!response.ok) {
+      throw new Error('No se pudo cargar products.json (' + response.status + ') desde ' + dataUrl.href);
+    }
+    const text = await response.text();
+    let parsed;
+    try {
+      parsed = parseJsonText(text);
+    } catch (error) {
+      console.error('[products-store] JSON invalido en ' + dataUrl.href, error);
+      throw error;
+    }
+    const fileList = sanitizeList(Array.isArray(parsed) ? parsed : []);
     writeSessionCache(fileList);
     return fileList;
   }

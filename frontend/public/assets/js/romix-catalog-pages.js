@@ -3,6 +3,11 @@
   const PLACEHOLDER = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="540" height="700"><rect width="100%" height="100%" fill="#fff7fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b7a6af" font-family="Segoe UI, Arial" font-size="24">ROMIX</text></svg>');
   const COLOR_LIMIT = 8;
   const SIZE_BASE = ["1", "2", "3", "4", "5", "6"];
+  const imageUtils = window.romixImageUtils || {};
+  const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
+    ? imageUtils.dimensions.productCard
+    : { width: 720, height: 960 };
+  const CARD_IMAGE_SIZES = "(max-width: 640px) calc(50vw - 22px), (max-width: 960px) calc(50vw - 28px), (max-width: 1200px) calc(33vw - 26px), 280px";
 
   const PAGE_CONFIG = {
     mujer: { title: "Mujer", label: "Mujer" },
@@ -122,11 +127,32 @@
     },
     showAllColors: false,
     showAllSizes: false,
-    sizeValues: []
+    sizeValues: [],
+    visibleCount: window.innerWidth <= 768 ? 8 : 12
   };
 
   function isCompactVariantViewport() {
     return window.innerWidth <= 768;
+  }
+
+  function getInitialVisibleProducts() {
+    return window.innerWidth <= 768 ? 8 : 12;
+  }
+
+  function getLoadMoreStep() {
+    return window.innerWidth <= 768 ? 8 : 12;
+  }
+
+  function getCardImagePriority(index) {
+    if (window.innerWidth <= 768) {
+      return index < 2
+        ? { loading: "eager", fetchpriority: "high" }
+        : { loading: "lazy", fetchpriority: "low" };
+    }
+
+    return index < 4
+      ? { loading: "eager", fetchpriority: "high" }
+      : { loading: "lazy", fetchpriority: "low" };
   }
 
   function stripAccents(value) {
@@ -674,6 +700,57 @@
     return "available";
   }
 
+  function getRawImageMap(product) {
+    return typeof imageUtils.getProductLegacyImageMap === "function"
+      ? imageUtils.getProductLegacyImageMap(product)
+      : null;
+  }
+
+  function getRawImageList(product) {
+    return typeof imageUtils.getProductImageList === "function"
+      ? imageUtils.getProductImageList(product)
+      : [];
+  }
+
+  function thumbSetFromSources(src, fallbackSrc, avifSrc) {
+    const primary = String(src || "").trim();
+    const ext = typeof imageUtils.extension === "function" ? imageUtils.extension(primary) : "";
+    const avif = String(avifSrc || "").trim();
+    const fallback = String(fallbackSrc || "").trim()
+      || (typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : primary);
+    const derivedWebp = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "webp") : primary;
+    const derivedAvif = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "avif") : "";
+    const webp = /\.webp$/i.test(primary) ? primary : (ext && ext !== "avif" ? derivedWebp : "");
+    const modernAvif = /\.avif$/i.test(primary) ? primary : (avif || derivedAvif);
+    const resolvedFallback = ext === "webp" || ext === "avif"
+      ? ((typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : fallback) || fallback)
+      : (primary || fallback || PLACEHOLDER);
+
+    return {
+      src: resolvedFallback,
+      fallbackSrc: resolvedFallback,
+      webpSrc: webp,
+      avifSrc: modernAvif
+    };
+  }
+
+  function resolveThumbSet(product, color) {
+    if (typeof imageUtils.getProductThumbSet === "function") {
+      const resolved = imageUtils.getProductThumbSet(product, color);
+      if (resolved && (resolved.src || resolved.webpSrc || resolved.avifSrc)) {
+        return {
+          src: resolved.src || resolved.originalSrc || PLACEHOLDER,
+          fallbackSrc: resolved.fallbackSrc || resolved.src || resolved.originalSrc || PLACEHOLDER,
+          webpSrc: resolved.webpSrc || "",
+          avifSrc: resolved.avifSrc || "",
+          originalSrc: resolved.originalSrc || resolved.src || PLACEHOLDER
+        };
+      }
+    }
+    const primaryImage = String(product && product.image || "").trim() || PLACEHOLDER;
+    return thumbSetFromSources(primaryImage, primaryImage, "");
+  }
+
   function statusFromSizes(sizes) {
     if (!Array.isArray(sizes) || !sizes.length) return "available";
     let available = 0;
@@ -693,67 +770,50 @@
     return "available";
   }
 
-  function resolveColorImageMap(product) {
-    const map = {};
-    if (!product || !product.images || typeof product.images !== "object") return map;
+  function buildColors(product) {
+    const entries = typeof imageUtils.resolveProductColorEntries === "function"
+      ? imageUtils.resolveProductColorEntries(product)
+      : [];
+    const fallbackImage = (typeof imageUtils.getProductMainImage === "function"
+      ? imageUtils.getProductMainImage(product)
+      : String(product && product.image || "").trim()) || PLACEHOLDER;
 
-    Object.keys(product.images).forEach((colorName) => {
-      const key = normalizeText(colorName);
-      const src = String(product.images[colorName] || "").trim();
-      if (!key || !src) return;
-      map[key] = src;
-    });
-
-    return map;
-  }
-
-  function buildColors(product, colorImageMap) {
-    const result = [];
-    const seen = new Set();
-    const fallbackImage = String((product && product.image) || "").trim() || PLACEHOLDER;
-
-    const fromList = Array.isArray(product && product.colors) ? product.colors : [];
-    fromList.forEach((entry) => {
-      if (!entry) return;
-      const name = String(entry.name || entry.value || "").trim();
-      if (!name) return;
-      const key = normalizeText(name);
-      if (!key || seen.has(key)) return;
-      seen.add(key);
-      result.push({
-        key,
-        name,
-        hex: entry.hex || RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da",
-        image: colorImageMap[key] || fallbackImage
-      });
-    });
-
-    if (product && product.images && typeof product.images === "object") {
-      Object.keys(product.images).forEach((colorName) => {
-        const name = String(colorName || "").trim();
-        if (!name) return;
-        const key = normalizeText(name);
-        if (!key || seen.has(key)) return;
-        seen.add(key);
-        result.push({
-          key,
-          name,
-          hex: RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da",
-          image: colorImageMap[key] || fallbackImage
-        });
-      });
-    }
-
-    if (!result.length) {
-      result.push({
+    if (!entries.length) {
+      return [{
         key: "unico",
         name: "Unico",
         hex: "#dddddd",
-        image: fallbackImage
-      });
+        image: fallbackImage,
+        thumb: typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(fallbackImage) : fallbackImage,
+        thumbFallback: fallbackImage,
+        thumbAvif: typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(fallbackImage) : "",
+        swatchImage: typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(fallbackImage) : fallbackImage
+      }];
     }
 
-    return result;
+    return entries.map((entry) => {
+      const name = String(entry && (entry.name || entry.value) || "Unico").trim() || "Unico";
+      const key = normalizeText(name) || "unico";
+      const resolvedImage = (typeof imageUtils.getColorImage === "function"
+        ? imageUtils.getColorImage(entry, product)
+        : String(entry && entry.image || "").trim()) || fallbackImage;
+      const thumb = String(entry && entry.thumb || "").trim()
+        || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : "");
+      const thumbFallback = String(entry && entry.thumbFallback || "").trim()
+        || resolvedImage;
+      const thumbAvif = String(entry && entry.thumbAvif || "").trim()
+        || (typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(resolvedImage) : "");
+      return Object.assign({}, entry, {
+        key,
+        name,
+        hex: entry && entry.hex ? entry.hex : (RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da"),
+        image: resolvedImage,
+        thumb,
+        thumbFallback,
+        thumbAvif,
+        swatchImage: thumb || resolvedImage
+      });
+    });
   }
 
   function buildSizes(product) {
@@ -782,12 +842,27 @@
     const typeKey = normalizeTypeFilterValue(typeRaw);
     const categoryKey = categoryKeyFromType(typeRaw);
     const sizes = buildSizes(raw);
-    const colorImageMap = resolveColorImageMap(raw);
-    const colors = buildColors(raw, colorImageMap);
+    const colors = buildColors(raw);
     const filterColorKeys = Array.from(new Set(colors.map((entry) => normalizeColorToFilterKey(entry.name)).filter(Boolean)));
     const seasonKey = normalizeSeason(raw && raw.season, name);
     const baseStock = raw && raw.stockStatus ? normalizeStatus(raw.stockStatus) : "";
-    const coverImage = colors[0] && colors[0].image ? colors[0].image : ((raw && raw.image) || PLACEHOLDER);
+    const galleryImages = getRawImageList(raw);
+    const rawImageMap = getRawImageMap(raw);
+    const coverImage = (typeof imageUtils.getProductMainImage === "function"
+      ? imageUtils.getProductMainImage(raw)
+      : "")
+      || (colors[0] && colors[0].image)
+      || (galleryImages[0] || ((raw && raw.image) || PLACEHOLDER));
+    const rawThumbnail = String(raw && raw.thumbnail || "").trim();
+    const rawThumbnailFallback = String(raw && raw.thumbnailFallback || "").trim();
+    const rawThumbnailAvif = String(raw && raw.thumbnailAvif || "").trim();
+    const coverThumb = rawThumbnail
+      || (colors[0] && colors[0].thumb)
+      || (typeof imageUtils.getThumbPath === "function" && coverImage !== PLACEHOLDER ? imageUtils.getThumbPath(coverImage) : "")
+      || coverImage;
+    const coverThumbFallback = rawThumbnailFallback
+      || (colors[0] && colors[0].thumbFallback)
+      || coverImage;
 
     return {
       id: String((raw && raw.id) || (section + "-" + slugify(name))),
@@ -800,6 +875,13 @@
       typeLabel,
       categoryKey,
       image: coverImage,
+      thumb: coverThumb || coverImage,
+      thumbFallback: coverThumbFallback || coverThumb || coverImage,
+      thumbnail: coverThumb || coverImage,
+      thumbnailFallback: coverThumbFallback || coverThumb || coverImage,
+      thumbnailAvif: rawThumbnailAvif || (colors[0] && colors[0].thumbAvif) || (typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(coverImage) : ""),
+      imageMap: rawImageMap,
+      images: galleryImages,
       price: Number((raw && raw.price) || 0),
       badge: String((raw && raw.badge) || "").trim(),
       featuredBadge: String((raw && raw.featuredBadge) || "").trim(),
@@ -970,7 +1052,47 @@
     const target = document.getElementById("products-summary");
     if (!target) return;
 
-    target.innerHTML = "Mostrando <strong>" + state.view.length + "</strong> de <strong>" + state.products.length + "</strong> productos";
+    const visible = Math.min(state.visibleCount, state.view.length);
+    target.innerHTML = "Mostrando <strong>" + visible + "</strong> de <strong>" + state.view.length + "</strong> productos";
+  }
+
+  function ensureLoadMoreControls() {
+    const grid = document.getElementById("product-grid");
+    if (!grid || !grid.parentElement) return null;
+
+    let wrap = document.getElementById("catalog-load-more-wrap");
+    if (!wrap) {
+      wrap = document.createElement("div");
+      wrap.id = "catalog-load-more-wrap";
+      wrap.className = "catalog-load-more";
+      const button = document.createElement("button");
+      button.id = "catalog-load-more-btn";
+      button.type = "button";
+      button.className = "catalog-load-more-btn";
+      button.addEventListener("click", function () {
+        state.visibleCount = Math.min(state.visibleCount + getLoadMoreStep(), state.view.length);
+        renderGrid();
+      });
+      wrap.appendChild(button);
+      grid.parentElement.appendChild(wrap);
+    }
+
+    return {
+      wrap,
+      button: wrap.querySelector("button")
+    };
+  }
+
+  function updateLoadMoreControls() {
+    const controls = ensureLoadMoreControls();
+    if (!controls || !controls.wrap || !controls.button) return;
+
+    const visible = Math.min(state.visibleCount, state.view.length);
+    const remaining = Math.max(0, state.view.length - visible);
+    controls.wrap.hidden = remaining <= 0;
+    controls.button.hidden = remaining <= 0;
+    const step = getLoadMoreStep();
+    controls.button.textContent = remaining > step ? "Ver " + step + " mas" : "Ver mas";
   }
 
   function buildSortSelect(id, extraClassName) {
@@ -1206,10 +1328,13 @@
       }
       grid.appendChild(empty);
       renderSummary();
+      updateLoadMoreControls();
       return;
     }
 
-    state.view.forEach((product) => {
+    const visibleProducts = state.view.slice(0, state.visibleCount);
+
+    visibleProducts.forEach((product, index) => {
       const card = document.createElement("article");
       card.className = "product-card";
       const productDetailUrl = detailUrl(product);
@@ -1236,35 +1361,105 @@
       const thumb = document.createElement("div");
       thumb.className = "product-thumb";
       let selectedColor = getFirstColor(product);
+      const imagePriority = getCardImagePriority(index);
+      const defaultThumbSet = resolveThumbSet(product, null);
+      const initialThumbSet = resolveThumbSet(product, selectedColor);
+      const media = typeof imageUtils.createPicture === "function"
+        ? imageUtils.createPicture({
+            src: initialThumbSet.src,
+            fallbackSrc: initialThumbSet.fallbackSrc,
+            webpSrc: initialThumbSet.webpSrc,
+            avifSrc: initialThumbSet.avifSrc,
+            alt: selectedColor && selectedColor.name ? (product.name + " - " + selectedColor.name) : product.name,
+            width: cardImageSize.width,
+            height: cardImageSize.height,
+            loading: imagePriority.loading,
+            decoding: "async",
+            fetchpriority: imagePriority.fetchpriority,
+            sizes: CARD_IMAGE_SIZES
+          })
+        : null;
+      const image = media ? media.img : document.createElement("img");
+      const picture = media ? media.picture : null;
 
-      const image = document.createElement("img");
-      const defaultImageSrc = product.image || PLACEHOLDER;
+      function syncPictureSource(type, src) {
+        if (!picture) return;
+        const selector = 'source[type="' + type + '"]';
+        const current = picture.querySelector(selector);
+        if (!src) {
+          if (current) current.remove();
+          return;
+        }
+        if (current) {
+          current.srcset = src;
+          return;
+        }
+        const source = document.createElement("source");
+        source.type = type;
+        source.srcset = src;
+        if (type === "image/avif") {
+          picture.insertBefore(source, picture.firstChild);
+          return;
+        }
+        const imgTag = picture.querySelector("img");
+        picture.insertBefore(source, imgTag || null);
+      }
 
-      function setMainImage(src, colorName) {
-        const candidate = src || defaultImageSrc;
+      function setMainImage(colorOption, colorName) {
+        const nextSet = resolveThumbSet(product, colorOption);
         image.onerror = function onImageError() {
           image.onerror = null;
-          if (candidate !== defaultImageSrc) {
-            image.src = defaultImageSrc;
+          syncPictureSource("image/avif", "");
+          syncPictureSource("image/webp", "");
+          if (nextSet.originalSrc && image.src !== nextSet.originalSrc) {
+            image.src = nextSet.originalSrc;
+            image.alt = colorName ? (product.name + " - " + colorName) : product.name;
+            thumb.classList.add("is-loaded");
+            return;
+          }
+          if (image.src !== defaultThumbSet.fallbackSrc) {
+            image.src = defaultThumbSet.fallbackSrc;
             image.alt = product.name;
+            thumb.classList.add("is-loaded");
             return;
           }
           image.src = PLACEHOLDER;
           image.alt = product.name;
+          thumb.classList.add("is-loaded");
         };
-        image.src = candidate;
+
+        syncPictureSource("image/avif", nextSet.avifSrc);
+        syncPictureSource("image/webp", nextSet.webpSrc);
+        image.src = nextSet.src;
         image.alt = colorName ? (product.name + " - " + colorName) : product.name;
       }
 
-      image.loading = "lazy";
-      image.decoding = "async";
-      setMainImage((selectedColor && selectedColor.image) || defaultImageSrc, selectedColor && selectedColor.name);
+      image.addEventListener("load", function () {
+        thumb.classList.add("is-loaded");
+      });
+
+      image.addEventListener("error", function () {
+        thumb.classList.add("is-loaded");
+      });
+
+      if (!media) {
+        image.loading = imagePriority.loading;
+        image.decoding = "async";
+        image.width = cardImageSize.width;
+        image.height = cardImageSize.height;
+        image.sizes = CARD_IMAGE_SIZES;
+        image.setAttribute("fetchpriority", imagePriority.fetchpriority);
+        thumb.appendChild(image);
+      } else {
+        thumb.appendChild(picture);
+      }
+
+      setMainImage(selectedColor, selectedColor && selectedColor.name);
 
       const tag = document.createElement("span");
       tag.className = "product-tag";
       tag.textContent = product.typeLabel || "Producto";
 
-      thumb.appendChild(image);
       thumb.appendChild(tag);
 
       const body = document.createElement("div");
@@ -1279,27 +1474,28 @@
           const button = document.createElement("button");
           button.type = "button";
           button.className = "variant-chip" + (index === 0 ? " is-active" : "");
-          button.setAttribute("aria-label", "Ver color " + color.name);
+          button.setAttribute("aria-label", "Seleccionar color " + color.name);
+          button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
           button.title = color.name;
+          button.dataset.colorName = color.name;
+          button.dataset.colorIndex = String(index);
           button.style.backgroundColor = color.hex || "#efecf3";
-
-          const swatch = document.createElement("img");
-          swatch.loading = "lazy";
-          swatch.decoding = "async";
-          swatch.src = color.image || product.image || PLACEHOLDER;
-          swatch.alt = color.name;
-          swatch.onerror = function onSwatchError() {
-            swatch.onerror = null;
-            swatch.remove();
-            button.classList.add("variant-chip--color");
-          };
-
-          button.appendChild(swatch);
-          button.addEventListener("click", function () {
+          if (color.swatchImage) {
+            button.style.backgroundImage = "url('" + String(color.swatchImage).replace(/'/g, "%27") + "')";
+          }
+          button.classList.add("variant-chip--color");
+          button.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
             selectedColor = color;
-            setMainImage(color.image || defaultImageSrc, color.name);
-            variants.querySelectorAll(".variant-chip").forEach((chip) => chip.classList.remove("is-active"));
+            variants.querySelectorAll(".variant-chip").forEach((chip) => {
+              chip.classList.remove("is-active");
+              chip.setAttribute("aria-pressed", "false");
+            });
             button.classList.add("is-active");
+            button.setAttribute("aria-pressed", "true");
+            thumb.classList.remove("is-loaded");
+            setMainImage(color, color.name);
           });
 
           variants.appendChild(button);
@@ -1351,6 +1547,7 @@
     });
 
     renderSummary();
+    updateLoadMoreControls();
   }
 
   function matchFilters(product) {
@@ -1449,6 +1646,7 @@
   function applyFilters() {
     state.view = state.products.filter(matchFilters);
     sortProductsView();
+    state.visibleCount = getInitialVisibleProducts();
     renderGrid();
     renderActiveFilters();
     renderBreadcrumb();

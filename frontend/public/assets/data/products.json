@@ -15050,6 +15050,11 @@
   "type": "camperas",
   "name": "Chaleco polar con corderito hombre",
   "season": "invierno",
+  "image": "images/products/chaleco_polar_con_corderito_hombre_negro.png",
+  "images": [
+    "images/products/chaleco_polar_con_corderito_hombre_negro.png",
+    "images/products/chaleco_polar_con_corderito_hombre_verde.png"
+  ],
   "price": 16000,
   "priceByGroup": {
     "common": 16000,
@@ -15059,13 +15064,11 @@
   "colors": [
     {
       "name": "Negro",
-      "hex": "#000000",
-      "image": "images/products/chaleco_polar_con_corderito_hombre_invierno_negro.png"
+      "hex": "#000000"
     },
     {
       "name": "Verde",
-      "hex": "#008000",
-      "image": "images/products/chaleco_polar_con_corderito_hombre_invierno_verde.png"
+      "hex": "#008000"
     }
   ],
   "sizes": [
@@ -15076,13 +15079,25 @@
     { "size": "6", "status": "available" },
     { "size": "7", "status": "available" },
     { "size": "8", "status": "available" }
-  ]
+  ],
+  "imageMap": {
+    "Negro": "images/products/chaleco_polar_con_corderito_hombre_negro.png",
+    "Verde": "images/products/chaleco_polar_con_corderito_hombre_verde.png"
+  },
+  "thumbnailFallback": "images/thumbs/chaleco_polar_con_corderito_hombre_negro-thumb.jpg",
+  "thumbnail": "images/thumbs/chaleco_polar_con_corderito_hombre_negro-thumb.webp",
+  "thumbnailAvif": "images/thumbs/chaleco_polar_con_corderito_hombre_negro-thumb.avif"
 },
 {
   "section": "mujer",
   "type": "camperas",
   "name": "Chaleco polar con corderito oversize dama",
   "season": "invierno",
+  "image": "images/products/chaleco_polar_con_corderito_mujer_invierno_negro.png",
+  "images": [
+    "images/products/chaleco_polar_con_corderito_mujer_invierno_negro.png",
+    "images/products/chaleco_polar_con_corderito_mujer_invierno_verde.png"
+  ],
   "price": 16000,
   "priceByGroup": {
     "common": 16000,
@@ -15092,13 +15107,11 @@
   "colors": [
     {
       "name": "Negro",
-      "hex": "#000000",
-      "image": "images/products/chaleco_polar_con_corderito_mujer_invierno_negro.png"
+      "hex": "#000000"
     },
     {
       "name": "Verde",
-      "hex": "#008000",
-      "image": "images/products/chaleco_polar_con_corderito_mujer_invierno_verde.png"
+      "hex": "#008000"
     }
   ],
   "sizes": [
@@ -15109,7 +15122,14 @@
     { "size": "6", "status": "available" },
     { "size": "7", "status": "available" },
     { "size": "8", "status": "available" }
-  ]
+  ],
+  "imageMap": {
+    "Negro": "images/products/chaleco_polar_con_corderito_mujer_invierno_negro.png",
+    "Verde": "images/products/chaleco_polar_con_corderito_mujer_invierno_verde.png"
+  },
+  "thumbnailFallback": "images/thumbs/chaleco_polar_con_corderito_mujer_invierno_negro-thumb.jpg",
+  "thumbnail": "images/thumbs/chaleco_polar_con_corderito_mujer_invierno_negro-thumb.webp",
+  "thumbnailAvif": "images/thumbs/chaleco_polar_con_corderito_mujer_invierno_negro-thumb.avif"
 }
 
 ]

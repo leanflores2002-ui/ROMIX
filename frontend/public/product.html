@@ -3313,9 +3313,42 @@
         const fallbackEntries = opts.allColors
           ? colorEntries
           : selectedEntries;
+        function uniqueGallerySources(values) {
+          const result = [];
+          const localSeen = new Set();
+          function visit(value) {
+            if (Array.isArray(value)) {
+              value.forEach(visit);
+              return;
+            }
+            const next = String(value || '').trim();
+            if (!next || localSeen.has(next)) return;
+            localSeen.add(next);
+            result.push(next);
+          }
+          visit(values);
+          return result;
+        }
+        function buildVariantThumbSources(color, imageSrc, colorName, colorIndex) {
+          const explicitThumbs = [
+            color && (color.thumbAvif || color.thumbnailAvif),
+            color && (color.thumb || color.thumbnail),
+            color && (color.thumbFallback || color.thumbnailFallback)
+          ];
+          const derivedThumbs = [
+            imageSrc && typeof imageUtils.getAvifThumbPath === 'function' ? imageUtils.getAvifThumbPath(imageSrc) : '',
+            imageSrc && typeof imageUtils.getThumbPath === 'function' ? imageUtils.getThumbPath(imageSrc) : '',
+            imageSrc
+          ];
+          return uniqueGallerySources([
+            explicitThumbs,
+            derivedThumbs,
+            getSafeProductThumbSources(product, colorName, colorIndex)
+          ]);
+        }
         function push(label, sourceList, thumbSourceList, color) {
-          const sources = Array.isArray(sourceList) ? sourceList.filter(Boolean) : [String(sourceList || '').trim()].filter(Boolean);
-          const thumbSources = Array.isArray(thumbSourceList) ? thumbSourceList.filter(Boolean) : [String(thumbSourceList || '').trim()].filter(Boolean);
+          const sources = uniqueGallerySources(sourceList);
+          const thumbSources = uniqueGallerySources(thumbSourceList);
           const value = String(sources[0] || '').trim();
           if (!value || seen.has(value)) return;
           seen.add(value);
@@ -3342,10 +3375,13 @@
               : (Array.isArray(color && color.images) ? color.images : []);
             const list = explicitImages.length ? explicitImages : getSafeProductImageSources(product, colorName, colorIndex);
             list.forEach((src, imageIndex) => {
+              const imageSources = imageIndex === 0
+                ? uniqueGallerySources([src, getSafeProductImageSources(product, colorName, colorIndex)])
+                : [src];
               push(
                 colorName,
-                imageIndex === 0 ? getSafeProductImageSources(product, colorName, colorIndex) : [src],
-                imageIndex === 0 ? getSafeProductThumbSources(product, colorName, colorIndex) : [pickProductThumb(product, src), src],
+                imageSources,
+                buildVariantThumbSources(color, src, colorName, colorIndex),
                 color
               );
             });

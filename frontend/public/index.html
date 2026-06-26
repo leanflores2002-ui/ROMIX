@@ -1733,6 +1733,63 @@
       };
     }
 
+    function uniqueImageSources(values) {
+      const result = [];
+      const seen = new Set();
+      (Array.isArray(values) ? values : [values]).forEach((value) => {
+        const normalized = String(value || "").trim();
+        if (!normalized || seen.has(normalized)) return;
+        seen.add(normalized);
+        result.push(normalized);
+      });
+      return result;
+    }
+
+    function getVariantIndex(product, color, index) {
+      if (Number.isInteger(Number(index)) && Number(index) >= 0) return Number(index);
+      if (color && Number.isInteger(Number(color.index)) && Number(color.index) >= 0) return Number(color.index);
+      const colorName = String(color && (color.name || color.value) || "").trim();
+      if (!colorName || !Array.isArray(product && product.colors)) return 0;
+      const matchIndex = product.colors.findIndex((entry) => String(entry && entry.name || "").trim() === colorName);
+      return matchIndex >= 0 ? matchIndex : 0;
+    }
+
+    function getVariantColorName(color) {
+      return String(color && (color.name || color.value) || "").trim();
+    }
+
+    function getOriginalCardImageSources(product, color, index) {
+      const colorName = getVariantColorName(color);
+      const colorIndex = getVariantIndex(product, color, index);
+      const safeOriginals = typeof imageUtils.getSafeProductImageSources === "function"
+        ? imageUtils.getSafeProductImageSources(product, colorName, colorIndex)
+        : [];
+      return uniqueImageSources([
+        product && product.imageMap && colorName ? product.imageMap[colorName] : "",
+        Array.isArray(product && product.images) ? product.images[colorIndex] : "",
+        product && product.image,
+        safeOriginals
+      ]);
+    }
+
+    function getCardImageSources(product, color, index) {
+      return uniqueImageSources([
+        product && product.thumbnailAvif,
+        product && product.thumbnail,
+        product && product.thumbnailFallback,
+        getOriginalCardImageSources(product, color, index)
+      ]);
+    }
+
+    function getColorImageSources(product, color, index) {
+      return uniqueImageSources([
+        getOriginalCardImageSources(product, color, index),
+        product && product.thumbnailFallback,
+        product && product.thumbnail,
+        product && product.thumbnailAvif
+      ]);
+    }
+
     function formatPrice(price) {
       return "$" + Number(price || 0).toLocaleString("es-AR");
     }
@@ -1769,6 +1826,7 @@
         return {
           name: String(color && (color.name || color.value) || ("Color " + (index + 1))).trim(),
           hex: color && color.hex ? color.hex : "",
+          index: Number.isInteger(Number(color && color.index)) ? Number(color.index) : index,
           image: resolvedImage,
           thumb,
           swatchImage: thumb || resolvedImage
@@ -1896,7 +1954,6 @@
       source.forEach((product, index) => {
         const type = normalizeText(product && product.type);
         const href = buildProductHref(product, type);
-        const defaultThumbSet = resolveThumbSet(product);
         const stockInfo = getProductStockMeta(product);
         const variantsData = getProductVariants(product);
         const metaText = getProductMeta(product);
@@ -1909,10 +1966,10 @@
         thumbLink.href = href;
         const media = typeof imageUtils.createPicture === "function"
           ? imageUtils.createPicture({
-              src: defaultThumbSet.src,
-              fallbackSrc: defaultThumbSet.fallbackSrc,
-              webpSrc: defaultThumbSet.webpSrc,
-              avifSrc: defaultThumbSet.avifSrc,
+              src: "images/logo-romix.png",
+              fallbackSrc: "images/logo-romix.png",
+              webpSrc: "",
+              avifSrc: "",
               alt: product && product.name ? String(product.name) : "Producto",
               width: cardImageSize.width,
               height: cardImageSize.height,
@@ -1947,32 +2004,35 @@
           picture.insertBefore(sourceTag, picture.querySelector("img") || null);
         }
 
-        function setImg(src, colorName) {
-          const chosenSet = resolveThumbSet(product, src);
+        function setImg(color, colorName, colorIndex, sourceFactory) {
+          const sources = typeof sourceFactory === "function"
+            ? sourceFactory(product, color, colorIndex)
+            : getCardImageSources(product, color, colorIndex);
+          syncPictureSource("image/avif", "");
+          syncPictureSource("image/webp", "");
+          if (typeof imageUtils.applyImageWithFallback === "function") {
+            imageUtils.applyImageWithFallback(
+              mainImg,
+              sources,
+              colorName
+                ? String(product && product.name ? product.name : "Producto") + " - " + colorName
+                : String(product && product.name ? product.name : "Producto"),
+              {
+                placeholder: "images/logo-romix.png",
+                onBeforeSet: function () {
+                  syncPictureSource("image/avif", "");
+                  syncPictureSource("image/webp", "");
+                }
+              }
+            );
+            return;
+          }
           mainImg.onerror = function () {
             mainImg.onerror = null;
-            syncPictureSource("image/avif", "");
-            syncPictureSource("image/webp", "");
-            if (chosenSet.originalSrc && mainImg.src !== chosenSet.originalSrc) {
-              mainImg.src = chosenSet.originalSrc;
-              mainImg.alt = colorName
-                ? String(product && product.name ? product.name : "Producto") + " - " + colorName
-                : String(product && product.name ? product.name : "Producto");
-              thumbLink.classList.add("is-loaded");
-              return;
-            }
-            if (mainImg.src !== defaultThumbSet.fallbackSrc) {
-              mainImg.src = defaultThumbSet.fallbackSrc;
-              mainImg.alt = product && product.name ? String(product.name) : "Producto";
-              thumbLink.classList.add("is-loaded");
-              return;
-            }
             mainImg.src = "images/logo-romix.png";
             thumbLink.classList.add("is-loaded");
           };
-          syncPictureSource("image/avif", chosenSet.avifSrc);
-          syncPictureSource("image/webp", chosenSet.webpSrc);
-          mainImg.src = chosenSet.src;
+          mainImg.src = sources[0] || "images/logo-romix.png";
           mainImg.alt = colorName
             ? String(product && product.name ? product.name : "Producto") + " - " + colorName
             : String(product && product.name ? product.name : "Producto");
@@ -1998,7 +2058,7 @@
           thumbLink.appendChild(picture);
         }
 
-        setImg("", "");
+        setImg(null, "", 0, getCardImageSources);
 
         const body = document.createElement("div");
         body.className = "product-body";
@@ -2019,9 +2079,6 @@
             btn.dataset.colorIndex = String(index);
 
             btn.style.backgroundColor = variant.hex || "#efecf3";
-            if (variant.swatchImage) {
-              btn.style.backgroundImage = "url('" + String(variant.swatchImage).replace(/'/g, "%27") + "')";
-            }
             btn.classList.add("variant-chip--color");
 
             btn.addEventListener("click", function (event) {
@@ -2034,7 +2091,7 @@
               btn.classList.add("is-active");
               btn.setAttribute("aria-pressed", "true");
               thumbLink.classList.remove("is-loaded");
-              setImg(variant.thumb || variant.image, variant.name);
+              setImg(variant, variant.name, variant.index, getColorImageSources);
             });
 
             varWrap.appendChild(btn);
@@ -2048,7 +2105,7 @@
           }
 
           const initial = visible[0];
-          if (initial) setImg(initial.thumb || initial.image, initial.name);
+          if (initial) setImg(initial, initial.name, initial.index, getCardImageSources);
           body.appendChild(varWrap);
         }
 

@@ -9,8 +9,7 @@ body {
   gap: clamp(30px, 5vw, 68px);
 }
 
-.audience-section,
-#promoCarouselWrap {
+.audience-section {
   display: none !important;
 }
 

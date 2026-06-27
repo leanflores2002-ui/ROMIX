@@ -264,39 +264,6 @@
             ]
           }
         ]
-      },
-      {
-        key: "colecciones",
-        label: "Colecciones",
-        page: buildHref(catalogo, { temporada: "invierno" }),
-        promo: {
-          eyebrow: "Coleccion invierno",
-          title: "Rendimiento en frio",
-          cta: "Ver coleccion",
-          href: buildHref(catalogo, { temporada: "invierno", q_any: "termica,campera,buzo,polar" }),
-          image: "images/ESTILO_URBANO_INVERNAL.png",
-          alt: "Coleccion invierno ROMIX"
-        },
-        columns: [
-          {
-            title: "Temporada",
-            links: [
-              { label: "Invierno", href: buildHref(catalogo, { temporada: "invierno" }) },
-              { label: "Termicas", href: buildHref(catalogo, { q: "termica" }) },
-              { label: "Frizados", href: buildHref(catalogo, { q_any: "frizado,frizada" }) },
-              { label: "Polar y corderito", href: buildHref(catalogo, { q_any: "polar,corderito" }) }
-            ]
-          },
-          {
-            title: "Materiales",
-            links: [
-              { label: "Lycra", href: buildHref(catalogo, { q: "lycra" }) },
-              { label: "Algodon", href: buildHref(catalogo, { q: "algodon" }) },
-              { label: "Saplex", href: buildHref(catalogo, { q: "saplex" }) },
-              { label: "Dry fit", href: buildHref(catalogo, { q_any: "dry,dry fit" }) }
-            ]
-          }
-        ]
       }
     ];
   }

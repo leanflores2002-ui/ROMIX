@@ -313,62 +313,6 @@ body {
   box-shadow: 0 10px 26px rgba(17, 17, 17, 0.1);
 }
 
-.campaign-banner {
-  display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-  min-height: clamp(360px, 40vw, 520px);
-  overflow: hidden;
-  border-radius: 8px;
-  background: #111111;
-  color: #ffffff;
-}
-
-.campaign-banner__copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 18px;
-  padding: clamp(28px, 5vw, 64px);
-}
-
-.campaign-banner h2 {
-  font-family: "Outfit", sans-serif;
-  font-size: clamp(2rem, 4.8vw, 4.5rem);
-  line-height: 0.92;
-  font-weight: 900;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-
-.campaign-banner p {
-  max-width: 38ch;
-  color: rgba(255, 255, 255, 0.76);
-  font-size: clamp(0.98rem, 1.25vw, 1.12rem);
-  line-height: 1.55;
-}
-
-.campaign-banner__button {
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  padding: 0 20px;
-  border-radius: 999px;
-  background: #f72585;
-  color: #ffffff;
-  font-weight: 900;
-}
-
-.campaign-banner__media,
-.campaign-banner__media img {
-  width: 100%;
-  height: 100%;
-}
-
-.campaign-banner__media img {
-  object-fit: cover;
-}
-
 .why-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -566,15 +510,6 @@ header.romix-shared-header .header-favorites[aria-pressed="true"] {
 
   .products-arrow {
     display: none !important;
-  }
-
-  .campaign-banner {
-    grid-template-columns: 1fr;
-  }
-
-  .campaign-banner__media {
-    min-height: 230px;
-    order: -1;
   }
 
   .why-grid {

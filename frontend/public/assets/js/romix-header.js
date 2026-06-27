@@ -264,6 +264,39 @@
             ]
           }
         ]
+      },
+      {
+        key: "colecciones",
+        label: "Colecciones",
+        page: buildHref(catalogo, { temporada: "invierno" }),
+        promo: {
+          eyebrow: "Coleccion invierno",
+          title: "Rendimiento en frio",
+          cta: "Ver coleccion",
+          href: buildHref(catalogo, { temporada: "invierno", q_any: "termica,campera,buzo,polar" }),
+          image: "images/ESTILO_URBANO_INVERNAL.png",
+          alt: "Coleccion invierno ROMIX"
+        },
+        columns: [
+          {
+            title: "Temporada",
+            links: [
+              { label: "Invierno", href: buildHref(catalogo, { temporada: "invierno" }) },
+              { label: "Termicas", href: buildHref(catalogo, { q: "termica" }) },
+              { label: "Frizados", href: buildHref(catalogo, { q_any: "frizado,frizada" }) },
+              { label: "Polar y corderito", href: buildHref(catalogo, { q_any: "polar,corderito" }) }
+            ]
+          },
+          {
+            title: "Materiales",
+            links: [
+              { label: "Lycra", href: buildHref(catalogo, { q: "lycra" }) },
+              { label: "Algodon", href: buildHref(catalogo, { q: "algodon" }) },
+              { label: "Saplex", href: buildHref(catalogo, { q: "saplex" }) },
+              { label: "Dry fit", href: buildHref(catalogo, { q_any: "dry,dry fit" }) }
+            ]
+          }
+        ]
       }
     ];
   }
@@ -445,6 +478,15 @@
     if (badge) badge.textContent = String(qty);
   }
 
+  function bindHeaderFavorites() {
+    var button = document.querySelector(".header-favorites");
+    if (!button) return;
+    button.addEventListener("click", function () {
+      var active = button.getAttribute("aria-pressed") === "true";
+      button.setAttribute("aria-pressed", active ? "false" : "true");
+    });
+  }
+
   function bindSearchToggle(headerState) {
     var toggles = Array.prototype.slice.call(document.querySelectorAll("[data-search-toggle='true']"));
     var panel = document.getElementById("header-search");
@@ -506,7 +548,9 @@
     var items = Array.prototype.slice.call(nav.querySelectorAll(".mega-nav-item"));
     if (!items.length) return;
 
-    var mq = window.matchMedia("(min-width: 901px)");
+    var mq = window.matchMedia
+      ? window.matchMedia("(min-width: 901px)")
+      : { matches: true, addEventListener: null, addListener: null };
     var openKey = "";
     var closeTimer = null;
     var CLOSE_DELAY_MS = 180;
@@ -861,6 +905,7 @@
     bindMegaMenu(newHeader, headerState);
     bindMobileMenu(newHeader, headerState);
     bindMobileAutoHide(newHeader);
+    bindHeaderFavorites();
     updateCartBadge();
     window.addEventListener("storage", updateCartBadge);
     ensureSearchScript().then(function (autoloaded) {

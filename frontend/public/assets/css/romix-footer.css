@@ -30,7 +30,7 @@
 
 .footer-top {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) repeat(3, minmax(0, 0.78fr));
+  grid-template-columns: minmax(240px, 1.2fr) repeat(4, minmax(130px, 0.72fr));
   gap: 32px;
   align-items: start;
 }
@@ -197,6 +197,21 @@
 .footer-socials svg {
   width: 18px;
   height: 18px;
+}
+
+.footer-payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-payments span {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
 @media (max-width: 1024px) {

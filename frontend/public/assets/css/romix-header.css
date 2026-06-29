@@ -1391,3 +1391,390 @@ header.romix-shared-header .global-search button[type="submit"] {
     padding: 0 14px;
   }
 }
+
+/* Premium ROMIX header refresh */
+.site-header,
+header.romix-shared-header {
+  --header-pink: #f72585;
+  --header-pink-soft: #ffe3ef;
+  --header-ink: #151515;
+  --header-muted: #77747b;
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-bottom: 1px solid rgba(247, 37, 133, 0.18) !important;
+  box-shadow: 0 8px 24px rgba(17, 17, 17, 0.04) !important;
+  backdrop-filter: blur(14px);
+}
+
+.site-header.is-hidden,
+header.romix-shared-header.is-hidden {
+  box-shadow: none !important;
+}
+
+.site-header .container,
+header.romix-shared-header .container {
+  width: min(1280px, calc(100% - clamp(22px, 4vw, 64px))) !important;
+}
+
+.site-header .header-row,
+header.romix-shared-header .header-row {
+  min-height: 76px;
+  grid-template-columns: minmax(180px, 0.9fr) minmax(420px, 1.45fr) minmax(250px, 0.9fr) !important;
+  gap: clamp(18px, 2.4vw, 34px);
+}
+
+.site-header .brand,
+header.romix-shared-header .brand {
+  gap: 12px;
+  color: var(--header-ink) !important;
+  font-family: "Sora", "Outfit", sans-serif;
+  font-size: clamp(1.18rem, 1.5vw, 1.42rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.site-header .brand-logo-media,
+header.romix-shared-header .brand-logo-media {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #fff2f8 100%);
+  border: 1px solid rgba(247, 37, 133, 0.16);
+  box-shadow: 0 8px 18px rgba(247, 37, 133, 0.08);
+  overflow: hidden;
+}
+
+.site-header .brand img,
+header.romix-shared-header .brand img {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.site-header .brand-dot,
+header.romix-shared-header .brand-dot {
+  color: var(--header-pink) !important;
+}
+
+.site-header .main-nav,
+header.romix-shared-header .main-nav {
+  gap: clamp(16px, 2vw, 28px) !important;
+}
+
+.site-header .main-nav > li > a,
+header.romix-shared-header .main-nav > li > a,
+.site-header .main-nav .mega-trigger,
+header.romix-shared-header .main-nav .mega-trigger {
+  min-height: 38px;
+  padding: 0 2px !important;
+  color: #39363b !important;
+  font-family: "Outfit", "Manrope", sans-serif;
+  font-size: 0.78rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.site-header .main-nav > li > a::after,
+header.romix-shared-header .main-nav > li > a::after,
+.site-header .main-nav .mega-trigger::after,
+header.romix-shared-header .main-nav .mega-trigger::after {
+  bottom: 0;
+  height: 2px;
+  background: var(--header-pink) !important;
+}
+
+.site-header .main-nav > li > a:hover,
+.site-header .main-nav > li > a:focus-visible,
+.site-header .main-nav > li > a.active,
+.site-header .main-nav > li > a[aria-current="page"],
+.site-header .main-nav .mega-trigger:hover,
+.site-header .main-nav .mega-trigger:focus-visible,
+.site-header .main-nav .mega-trigger.active,
+header.romix-shared-header .main-nav > li > a:hover,
+header.romix-shared-header .main-nav > li > a:focus-visible,
+header.romix-shared-header .main-nav > li > a.active,
+header.romix-shared-header .main-nav > li > a[aria-current="page"],
+header.romix-shared-header .main-nav .mega-trigger:hover,
+header.romix-shared-header .main-nav .mega-trigger:focus-visible,
+header.romix-shared-header .main-nav .mega-trigger.active {
+  color: var(--header-pink) !important;
+}
+
+.site-header .mega-chevron,
+header.romix-shared-header .mega-chevron {
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+}
+
+.site-header .header-icons,
+header.romix-shared-header .header-icons {
+  justify-content: flex-end;
+  gap: 10px !important;
+}
+
+.site-header .header-account,
+header.romix-shared-header .header-account {
+  display: inline-flex !important;
+}
+
+.site-header .icon-btn,
+header.romix-shared-header .icon-btn {
+  width: 42px !important;
+  height: 42px !important;
+  border: 1px solid rgba(21, 21, 21, 0.1) !important;
+  background: #ffffff !important;
+  color: var(--header-ink) !important;
+  box-shadow: none !important;
+}
+
+.site-header .icon-btn:hover,
+header.romix-shared-header .icon-btn:hover {
+  color: var(--header-pink) !important;
+  border-color: rgba(247, 37, 133, 0.28) !important;
+  background: #fff7fb !important;
+  transform: translateY(-1px);
+  box-shadow: none !important;
+}
+
+.site-header .cart-pill,
+header.romix-shared-header .cart-pill {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding: 5px 44px 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(247, 37, 133, 0.2);
+  background: linear-gradient(180deg, #ffffff 0%, #fff5fa 100%);
+  color: var(--header-ink);
+  text-decoration: none;
+  box-shadow: 0 10px 22px rgba(247, 37, 133, 0.08);
+  transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.site-header .cart-pill:hover,
+header.romix-shared-header .cart-pill:hover {
+  transform: translateY(-1px);
+  border-color: rgba(247, 37, 133, 0.34);
+  background: #ffffff;
+}
+
+.site-header .cart-pill__icon,
+header.romix-shared-header .cart-pill__icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--header-pink);
+  color: #ffffff;
+  flex: 0 0 auto;
+}
+
+.site-header .cart-pill__icon svg,
+header.romix-shared-header .cart-pill__icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.site-header .cart-pill__text,
+header.romix-shared-header .cart-pill__text {
+  display: grid;
+  gap: 1px;
+  line-height: 1;
+}
+
+.site-header .cart-pill__text strong,
+header.romix-shared-header .cart-pill__text strong {
+  font-family: "Outfit", sans-serif;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.site-header .cart-pill__text small,
+header.romix-shared-header .cart-pill__text small {
+  color: var(--header-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.site-header .cart-pill .icon-badge,
+header.romix-shared-header .cart-pill .icon-badge {
+  top: 50%;
+  right: 11px;
+  width: 24px;
+  height: 24px;
+  transform: translateY(-50%);
+  background: var(--header-ink);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.site-header .mega-panel-shell,
+header.romix-shared-header .mega-panel-shell {
+  border-radius: 18px;
+  border: 1px solid rgba(247, 37, 133, 0.12);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 24px 60px rgba(17, 17, 17, 0.1);
+}
+
+.site-header .search-panel,
+header.romix-shared-header .search-panel {
+  background: rgba(255, 255, 255, 0.98);
+}
+
+@media (max-width: 1180px) and (min-width: 769px) {
+  .site-header .header-row,
+  header.romix-shared-header .header-row {
+    grid-template-columns: minmax(160px, 0.75fr) minmax(360px, 1.35fr) minmax(210px, 0.8fr) !important;
+    gap: 16px;
+  }
+
+  .site-header .main-nav,
+  header.romix-shared-header .main-nav {
+    gap: 16px !important;
+  }
+
+  .site-header .cart-pill__text,
+  header.romix-shared-header .cart-pill__text {
+    display: none;
+  }
+
+  .site-header .cart-pill,
+  header.romix-shared-header .cart-pill {
+    padding-right: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header,
+  header.romix-shared-header {
+    background: #ffffff !important;
+    border-bottom: 1px solid rgba(247, 37, 133, 0.18) !important;
+    box-shadow: 0 8px 22px rgba(17, 17, 17, 0.07) !important;
+  }
+
+  .site-header .container,
+  header.romix-shared-header .container {
+    width: min(1240px, calc(100% - 20px)) !important;
+  }
+
+  .site-header .header-row,
+  header.romix-shared-header .header-row {
+    min-height: 58px;
+    grid-template-columns: 76px minmax(0, 1fr) auto !important;
+    gap: 8px;
+    padding: 6px 0;
+  }
+
+  .site-header .header-actions-left,
+  header.romix-shared-header .header-actions-left {
+    gap: 8px;
+  }
+
+  .site-header .brand,
+  header.romix-shared-header .brand {
+    font-size: 1.02rem !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  .site-header .brand-dot,
+  header.romix-shared-header .brand-dot {
+    display: inline !important;
+  }
+
+  .site-header .brand-logo-media,
+  header.romix-shared-header .brand-logo-media,
+  .site-header .brand img,
+  header.romix-shared-header .brand img {
+    display: none !important;
+  }
+
+  .site-header .icon-btn,
+  header.romix-shared-header .icon-btn {
+    width: 38px !important;
+    height: 38px !important;
+    border: 1px solid rgba(21, 21, 21, 0.1) !important;
+    background: #ffffff !important;
+  }
+
+  .site-header .header-account,
+  header.romix-shared-header .header-account {
+    display: none !important;
+  }
+
+  .site-header .cart-pill,
+  header.romix-shared-header .cart-pill {
+    min-height: 38px;
+    padding: 0;
+    width: 42px;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .site-header .cart-pill__text,
+  header.romix-shared-header .cart-pill__text {
+    display: none;
+  }
+
+  .site-header .cart-pill__icon,
+  header.romix-shared-header .cart-pill__icon {
+    width: 38px;
+    height: 38px;
+    background: #fff3f8;
+    color: var(--header-pink);
+    border: 1px solid rgba(247, 37, 133, 0.16);
+  }
+
+  .site-header .cart-pill .icon-badge,
+  header.romix-shared-header .cart-pill .icon-badge {
+    top: 0;
+    right: -1px;
+    width: 17px;
+    height: 17px;
+    transform: none;
+    background: var(--header-pink);
+    font-size: 0.58rem;
+  }
+
+  .site-header .mobile-drawer-header,
+  header.romix-shared-header .mobile-drawer-header {
+    min-height: 70px;
+    background: #111111;
+    color: #ffffff;
+    border-bottom: 0;
+  }
+
+  .site-header .mobile-drawer-brand,
+  header.romix-shared-header .mobile-drawer-brand {
+    color: #ffffff;
+  }
+
+  .site-header .mobile-drawer-close,
+  header.romix-shared-header .mobile-drawer-close {
+    background: var(--header-pink) !important;
+    color: #ffffff !important;
+  }
+
+  .site-header .mega-nav,
+  header.romix-shared-header .mega-nav {
+    width: min(88vw, 370px);
+  }
+
+  .site-header .main-nav .mega-trigger,
+  header.romix-shared-header .main-nav .mega-trigger {
+    min-height: 60px;
+    padding: 18px 4px !important;
+    color: var(--header-ink) !important;
+    font-size: 0.94rem !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+  }
+}

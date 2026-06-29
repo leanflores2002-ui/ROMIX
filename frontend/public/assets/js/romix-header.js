@@ -81,7 +81,6 @@
             links: [
               { label: "Nuevos ingresos", href: buildHref(mujer, { q: "nuevo" }) },
               { label: "Mas vendidos", href: buildHref(mujer, { q: "mas vendido" }) },
-              { label: "Ofertas", href: buildHref(catalogo, { q: "oferta", seccion: "mujer" }) },
               { label: "Temporada invierno", href: buildHref(mujer, { temporada: "invierno" }) },
               { label: "Termicos", href: buildHref(mujer, { q: "termica" }) }
             ]
@@ -145,7 +144,6 @@
             links: [
               { label: "Nuevos ingresos", href: buildHref(hombre, { q: "nuevo" }) },
               { label: "Mas vendidos", href: buildHref(hombre, { q: "mas vendido" }) },
-              { label: "Ofertas", href: buildHref(catalogo, { q: "oferta", seccion: "hombre" }) },
               { label: "Abrigo", href: buildHref(hombre, { q_any: "campera,buzo,frizado,corderito,polar" }) },
               { label: "Termicos", href: buildHref(hombre, { q: "termica" }) }
             ]
@@ -258,7 +256,6 @@
             links: [
               { label: "Nuevos ingresos", href: buildHref(novedades, { q: "nuevo" }) },
               { label: "Productos destacados", href: novedades },
-              { label: "Ofertas", href: buildHref(catalogo, { q: "oferta" }) },
               { label: "Ultimas colecciones", href: buildHref(novedades, { q_any: "nuevo,coleccion" }) },
               { label: "Mas vendidos", href: buildHref(novedades, { q: "mas vendido" }) }
             ]
@@ -283,6 +280,8 @@
 
     try {
       var params = new URLSearchParams(window.location.search || "");
+      var query = normalizeText(params.get("q") || "");
+      if (query.indexOf("oferta") >= 0) return "";
       var rawSection = params.get("section")
         || params.get("seccion")
         || params.get("sections")
@@ -403,12 +402,15 @@
               '<path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
             '</svg>' +
           '</button>' +
-          '<a class="icon-btn" href="cart.html" aria-label="Carrito de compras">' +
+          '<a class="cart-pill" href="cart.html" aria-label="Carrito de compras">' +
+            '<span class="cart-pill__icon">' +
             '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
               '<path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
               '<circle cx="10" cy="19" r="1.4" fill="currentColor"></circle>' +
               '<circle cx="17" cy="19" r="1.4" fill="currentColor"></circle>' +
             '</svg>' +
+            '</span>' +
+            '<span class="cart-pill__text"><strong>Mi carrito</strong><small>Art&iacute;culos</small></span>' +
             '<span class="icon-badge" id="cart-count">0</span>' +
           '</a>' +
         '</div>' +
@@ -443,6 +445,15 @@
     var qty = getCartQty();
     var badge = document.getElementById("cart-count");
     if (badge) badge.textContent = String(qty);
+  }
+
+  function bindHeaderFavorites() {
+    var button = document.querySelector(".header-favorites");
+    if (!button) return;
+    button.addEventListener("click", function () {
+      var active = button.getAttribute("aria-pressed") === "true";
+      button.setAttribute("aria-pressed", active ? "false" : "true");
+    });
   }
 
   function bindSearchToggle(headerState) {
@@ -506,7 +517,9 @@
     var items = Array.prototype.slice.call(nav.querySelectorAll(".mega-nav-item"));
     if (!items.length) return;
 
-    var mq = window.matchMedia("(min-width: 901px)");
+    var mq = window.matchMedia
+      ? window.matchMedia("(min-width: 901px)")
+      : { matches: true, addEventListener: null, addListener: null };
     var openKey = "";
     var closeTimer = null;
     var CLOSE_DELAY_MS = 180;
@@ -861,6 +874,7 @@
     bindMegaMenu(newHeader, headerState);
     bindMobileMenu(newHeader, headerState);
     bindMobileAutoHide(newHeader);
+    bindHeaderFavorites();
     updateCartBadge();
     window.addEventListener("storage", updateCartBadge);
     ensureSearchScript().then(function (autoloaded) {

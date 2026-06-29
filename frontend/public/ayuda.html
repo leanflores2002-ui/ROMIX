@@ -300,51 +300,88 @@
       margin-top:4px;
     }
     .help-surface { padding:30px; }
+    .size-tabs {
+      display:grid;
+      gap:18px;
+    }
+    .size-tabs--nested {
+      gap:16px;
+    }
     .tabs {
-      display:inline-flex;
+      display:flex;
       flex-wrap:wrap;
       gap:10px;
       padding:6px;
-      border-radius:16px;
+      width:max-content;
+      max-width:100%;
+      border-radius:999px;
       background:#fff5f8;
       border:1px solid #f3d4df;
-      margin-bottom:22px;
       scrollbar-width:none;
     }
+    .tabs--secondary {
+      width:100%;
+      border-radius:18px;
+      background:#fff;
+      border-color:#f0d9e2;
+      box-shadow:inset 0 0 0 1px rgba(232, 62, 140, 0.04);
+    }
     .tab-button {
-      border:none;
+      border:1px solid transparent;
       background:transparent;
       color:#6c7380;
       padding:11px 18px;
-      border-radius:12px;
-      font-weight:700;
+      border-radius:999px;
+      font-weight:800;
+      letter-spacing:.01em;
       cursor:pointer;
-      transition:background .2s ease, color .2s ease, box-shadow .2s ease;
+      transition:background .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    .tab-button:hover {
+      color:#d92b7f;
+      background:#fffafd;
+    }
+    .tab-button:focus-visible {
+      outline:3px solid rgba(232, 62, 140, 0.18);
+      outline-offset:2px;
     }
     .tab-button.is-active {
       background:#fff;
       color:var(--primary);
+      border-color:#e83e8c;
       box-shadow:0 10px 18px rgba(232, 62, 140, 0.12);
     }
-    .size-panel[hidden] { display:none; }
-    .size-grid {
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-      gap:18px;
+    .tabs--secondary .tab-button {
+      flex:1 1 220px;
+      border-color:#f3d4df;
+      background:#fff;
+      color:#5b6270;
+    }
+    .tabs--secondary .tab-button.is-active {
+      background:#fff5f8;
+      color:#d92b7f;
+      border-color:#e83e8c;
+    }
+    .size-panel[hidden],
+    .size-item-panel[hidden] {
+      display:none;
     }
     .size-guide-block {
       display:grid;
-      gap:16px;
+      grid-template-columns:minmax(0, 1fr) minmax(340px, 1fr);
+      gap:18px;
+      align-items:start;
       border:1px solid #f0d9e2;
       border-radius:16px;
       background:#fff;
-      padding:20px;
+      padding:22px;
       box-shadow:0 12px 28px rgba(46, 26, 35, 0.04);
     }
     .size-guide-block h3 {
+      grid-column:1 / -1;
       margin:0;
       color:#212733;
-      font-size:1.08rem;
+      font-size:1.18rem;
     }
     .size-guide-table-wrap {
       overflow-x:auto;
@@ -387,7 +424,8 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:18px;
+      min-height:360px;
+      padding:12px;
       border-radius:16px;
       border:1px solid #f3d4df;
       background:linear-gradient(180deg, #fff9fb 0%, #ffffff 100%);
@@ -395,13 +433,14 @@
     .size-guide-visual img {
       width:100%;
       height:auto;
-      max-height:680px;
+      max-height:760px;
       object-fit:contain;
       display:block;
       border-radius:12px;
       background:#fff;
     }
     .size-guide-note {
+      grid-column:1 / -1;
       margin:0;
       color:#717784;
       font-size:.94rem;
@@ -557,6 +596,7 @@
       .payment-grid,
       .contact-layout,
       .size-grid { grid-template-columns:1fr; }
+      .size-guide-block { grid-template-columns:1fr; }
       .quick-links { grid-template-columns:repeat(3, minmax(0, 1fr)); }
     }
     @media (max-width: 768px) {
@@ -634,12 +674,18 @@
         scroll-snap-type:x proximity;
         -webkit-overflow-scrolling:touch;
       }
+      .tabs--secondary {
+        border-radius:16px;
+      }
       .tab-button {
         width:auto;
         flex:0 0 auto;
         min-width:max-content;
         padding:12px 16px;
         scroll-snap-align:start;
+      }
+      .tabs--secondary .tab-button {
+        flex:0 0 auto;
       }
       .size-guide-block {
         padding:16px;
@@ -656,7 +702,10 @@
         font-size:.88rem;
         white-space:nowrap;
       }
-      .size-guide-visual { padding:12px; }
+      .size-guide-visual {
+        min-height:280px;
+        padding:10px;
+      }
       .size-guide-note {
         padding:12px 14px;
         font-size:.9rem;
@@ -870,14 +919,20 @@
         </div>
       </div>
 
-      <div class="tabs" role="tablist" aria-label="Gu&iacute;a de talles por segmento">
-        <button class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="tab-mujer" id="tab-button-mujer" data-target="mujer">Mujer</button>
-        <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-hombre" id="tab-button-hombre" data-target="hombre">Hombre</button>
-        <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-ninos" id="tab-button-ninos" data-target="ninos">Ni&ntilde;os</button>
-      </div>
+      <div class="size-tabs" data-tabs data-tabs-default="mujer">
+        <div class="tabs tabs--primary" role="tablist" aria-label="Gu&iacute;a de talles por g&eacute;nero">
+          <button class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="tab-mujer" id="tab-button-mujer" data-tab-trigger="mujer">Mujer</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-hombre" id="tab-button-hombre" data-tab-trigger="hombre">Hombre</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-ninos" id="tab-button-ninos" data-tab-trigger="ninos">Ni&ntilde;os</button>
+        </div>
 
-      <div class="size-panel" id="tab-mujer" role="tabpanel" aria-labelledby="tab-button-mujer">
-        <div class="size-grid">
+        <div class="size-panel" id="tab-mujer" role="tabpanel" aria-labelledby="tab-button-mujer" data-tab-panel="mujer">
+          <div class="size-tabs size-tabs--nested" data-tabs data-tabs-default="pantalones">
+            <div class="tabs tabs--secondary" role="tablist" aria-label="Tipos de prenda para mujer">
+              <button class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="tab-mujer-pantalones" id="tab-button-mujer-pantalones" data-tab-trigger="pantalones">Pantalones y Calzas</button>
+              <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-mujer-superiores" id="tab-button-mujer-superiores" data-tab-trigger="superiores">Camperas, Buzos y Remeras</button>
+            </div>
+            <div class="size-item-panel" id="tab-mujer-pantalones" role="tabpanel" aria-labelledby="tab-button-mujer-pantalones" data-tab-panel="pantalones">
           <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
             <div class="size-guide-table-wrap">
@@ -903,6 +958,8 @@
             </div>
             <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
           </section>
+            </div>
+            <div class="size-item-panel" id="tab-mujer-superiores" role="tabpanel" aria-labelledby="tab-button-mujer-superiores" data-tab-panel="superiores" hidden>
           <section class="size-guide-block">
             <h3>Camperas, Buzos y Remeras</h3>
             <div class="size-guide-table-wrap">
@@ -928,11 +985,17 @@
             </div>
             <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
           </section>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="size-panel" id="tab-hombre" role="tabpanel" aria-labelledby="tab-button-hombre" hidden>
-        <div class="size-grid">
+        <div class="size-panel" id="tab-hombre" role="tabpanel" aria-labelledby="tab-button-hombre" data-tab-panel="hombre" hidden>
+          <div class="size-tabs size-tabs--nested" data-tabs data-tabs-default="pantalones">
+            <div class="tabs tabs--secondary" role="tablist" aria-label="Tipos de prenda para hombre">
+              <button class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="tab-hombre-pantalones" id="tab-button-hombre-pantalones" data-tab-trigger="pantalones">Pantalones y Calzas</button>
+              <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-hombre-superiores" id="tab-button-hombre-superiores" data-tab-trigger="superiores">Camperas, Buzos y Remeras</button>
+            </div>
+            <div class="size-item-panel" id="tab-hombre-pantalones" role="tabpanel" aria-labelledby="tab-button-hombre-pantalones" data-tab-panel="pantalones">
           <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
             <div class="size-guide-table-wrap">
@@ -958,6 +1021,8 @@
             </div>
             <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
           </section>
+            </div>
+            <div class="size-item-panel" id="tab-hombre-superiores" role="tabpanel" aria-labelledby="tab-button-hombre-superiores" data-tab-panel="superiores" hidden>
           <section class="size-guide-block">
             <h3>Camperas, Buzos y Remeras</h3>
             <div class="size-guide-table-wrap">
@@ -983,11 +1048,17 @@
             </div>
             <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
           </section>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="size-panel" id="tab-ninos" role="tabpanel" aria-labelledby="tab-button-ninos" hidden>
-        <div class="size-grid">
+        <div class="size-panel" id="tab-ninos" role="tabpanel" aria-labelledby="tab-button-ninos" data-tab-panel="ninos" hidden>
+          <div class="size-tabs size-tabs--nested" data-tabs data-tabs-default="pantalones">
+            <div class="tabs tabs--secondary" role="tablist" aria-label="Tipos de prenda para ni&ntilde;os">
+              <button class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="tab-ninos-pantalones" id="tab-button-ninos-pantalones" data-tab-trigger="pantalones">Pantalones y Calzas</button>
+              <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-ninos-superiores" id="tab-button-ninos-superiores" data-tab-trigger="superiores">Camperas, Buzos y Remeras</button>
+            </div>
+            <div class="size-item-panel" id="tab-ninos-pantalones" role="tabpanel" aria-labelledby="tab-button-ninos-pantalones" data-tab-panel="pantalones">
           <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
             <div class="size-guide-table-wrap">
@@ -1011,6 +1082,8 @@
             </div>
             <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
           </section>
+            </div>
+            <div class="size-item-panel" id="tab-ninos-superiores" role="tabpanel" aria-labelledby="tab-button-ninos-superiores" data-tab-panel="superiores" hidden>
           <section class="size-guide-block">
             <h3>Camperas, Buzos y Remeras</h3>
             <div class="size-guide-table-wrap">
@@ -1034,6 +1107,8 @@
             </div>
             <p class="size-guide-note">Las medidas son aproximadas y pueden variar seg&uacute;n el modelo.</p>
           </section>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1195,27 +1270,95 @@
     document.addEventListener('DOMContentLoaded', () => {
       if (window.romixCart) window.romixCart.updateBadge();
 
-      const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
-      const tabPanels = Array.from(document.querySelectorAll('.size-panel'));
       const searchForm = document.getElementById('help-search-form');
       const searchInput = document.getElementById('help-search-input');
       const searchFeedback = document.getElementById('help-search-feedback');
 
-      const activateTab = (target) => {
-        tabButtons.forEach((button) => {
-          const isActive = button.dataset.target === target;
+      const getTabParts = (group) => {
+        const tablist = Array.from(group.children).find((child) => child.getAttribute('role') === 'tablist');
+        const triggers = tablist ? Array.from(tablist.querySelectorAll('[data-tab-trigger]')) : [];
+        const panels = Array.from(group.children).filter((child) => child.hasAttribute('data-tab-panel'));
+
+        return { tablist, triggers, panels };
+      };
+
+      const getDefaultTabTarget = (group) => {
+        const { triggers } = getTabParts(group);
+        const activeTrigger = triggers.find((button) => button.classList.contains('is-active'));
+
+        return group.dataset.tabsDefault || activeTrigger?.dataset.tabTrigger || triggers[0]?.dataset.tabTrigger || '';
+      };
+
+      const activateTabs = (group, target, resetNested = false) => {
+        if (!group || !target) return;
+
+        const { triggers, panels } = getTabParts(group);
+
+        triggers.forEach((button) => {
+          const isActive = button.dataset.tabTrigger === target;
           button.classList.toggle('is-active', isActive);
           button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          button.tabIndex = isActive ? 0 : -1;
         });
 
-        tabPanels.forEach((panel) => {
-          panel.hidden = panel.id !== `tab-${target}`;
+        let activePanel = null;
+        panels.forEach((panel) => {
+          const isActive = panel.dataset.tabPanel === target;
+          panel.hidden = !isActive;
+          if (isActive) activePanel = panel;
+        });
+
+        if (activePanel && resetNested) {
+          activePanel.querySelectorAll('[data-tabs]').forEach((nestedGroup) => {
+            activateTabs(nestedGroup, getDefaultTabTarget(nestedGroup), false);
+          });
+        }
+      };
+
+      const initTabs = () => {
+        document.querySelectorAll('[data-tabs]').forEach((group) => {
+          const { tablist, triggers } = getTabParts(group);
+          const defaultTarget = getDefaultTabTarget(group);
+
+          triggers.forEach((button, index) => {
+            button.addEventListener('click', () => activateTabs(group, button.dataset.tabTrigger, true));
+            button.addEventListener('keydown', (event) => {
+              if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+
+              event.preventDefault();
+              let nextIndex = index;
+
+              if (event.key === 'ArrowRight') nextIndex = (index + 1) % triggers.length;
+              if (event.key === 'ArrowLeft') nextIndex = (index - 1 + triggers.length) % triggers.length;
+              if (event.key === 'Home') nextIndex = 0;
+              if (event.key === 'End') nextIndex = triggers.length - 1;
+
+              triggers[nextIndex].focus();
+              activateTabs(group, triggers[nextIndex].dataset.tabTrigger, true);
+            });
+          });
+
+          if (tablist) tablist.dataset.tabsReady = 'true';
+          activateTabs(group, defaultTarget, false);
         });
       };
 
-      tabButtons.forEach((button) => {
-        button.addEventListener('click', () => activateTab(button.dataset.target));
-      });
+      const activateTabPath = (item) => {
+        const panels = [];
+        let panel = item.closest('[data-tab-panel]');
+
+        while (panel) {
+          panels.unshift(panel);
+          const ownerGroup = panel.parentElement;
+          panel = ownerGroup?.parentElement?.closest('[data-tab-panel]') || null;
+        }
+
+        panels.forEach((currentPanel) => {
+          activateTabs(currentPanel.parentElement, currentPanel.dataset.tabPanel, false);
+        });
+      };
+
+      initTabs();
 
       if (searchForm && searchInput && searchFeedback) {
         const searchable = Array.from(document.querySelectorAll('main#main section[id], main#main details'));
@@ -1241,10 +1384,7 @@
             return;
           }
 
-          const parentPanel = match.closest('.size-panel');
-          if (parentPanel) {
-            activateTab(parentPanel.id.replace('tab-', ''));
-          }
+          activateTabPath(match);
 
           if (match.tagName === 'DETAILS') {
             match.open = true;

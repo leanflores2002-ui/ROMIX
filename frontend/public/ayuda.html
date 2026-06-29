@@ -368,7 +368,7 @@
     }
     .size-guide-block {
       display:grid;
-      grid-template-columns:minmax(0, 1.2fr) minmax(280px, .8fr);
+      grid-template-columns:minmax(0, 1fr) minmax(340px, 1fr);
       gap:18px;
       align-items:start;
       border:1px solid #f0d9e2;
@@ -424,7 +424,8 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:18px;
+      min-height:360px;
+      padding:12px;
       border-radius:16px;
       border:1px solid #f3d4df;
       background:linear-gradient(180deg, #fff9fb 0%, #ffffff 100%);
@@ -432,7 +433,7 @@
     .size-guide-visual img {
       width:100%;
       height:auto;
-      max-height:680px;
+      max-height:760px;
       object-fit:contain;
       display:block;
       border-radius:12px;
@@ -701,7 +702,10 @@
         font-size:.88rem;
         white-space:nowrap;
       }
-      .size-guide-visual { padding:12px; }
+      .size-guide-visual {
+        min-height:280px;
+        padding:10px;
+      }
       .size-guide-note {
         padding:12px 14px;
         font-size:.9rem;

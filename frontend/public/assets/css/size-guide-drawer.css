@@ -228,18 +228,18 @@ body.size-guide-drawer-open {
 
 .size-guide-drawer__measure-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(260px, 1.1fr);
-  align-items: stretch;
-  gap: 16px;
+  grid-template-columns: 1fr;
+  justify-items: center;
 }
 
 .size-guide-drawer__visual {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 330px;
+  width: 100%;
+  min-height: 390px;
   margin: 0;
-  padding: 16px;
+  padding: 18px;
   overflow: hidden;
   border: 1px solid #f1d8e4;
   border-radius: 20px;
@@ -249,7 +249,7 @@ body.size-guide-drawer-open {
 .size-guide-drawer__visual img {
   display: block;
   width: 100%;
-  max-height: 360px;
+  max-height: 430px;
   object-fit: contain;
 }
 
@@ -305,70 +305,6 @@ body.size-guide-drawer-open {
 
 .size-guide-drawer__table tbody tr:last-child td {
   border-bottom: none;
-}
-
-.size-guide-drawer__how {
-  display: grid;
-  align-content: center;
-  gap: 14px;
-  padding: 18px;
-  border: 1px solid #f1d8e4;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #ffffff 0%, #fffafd 100%);
-}
-
-.size-guide-drawer__how h4 {
-  margin: 0;
-  color: #18151b;
-  font-size: 1rem;
-  font-weight: 900;
-}
-
-.size-guide-drawer__measure {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.size-guide-drawer__measure-item {
-  display: grid;
-  grid-template-columns: 38px minmax(0, 1fr);
-  gap: 11px;
-  align-items: start;
-}
-
-.size-guide-drawer__measure-letter {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  background: #ffe7f1;
-  color: #f72585;
-  font-size: 1rem;
-  font-weight: 900;
-  box-shadow: inset 0 0 0 1px rgba(247, 37, 133, 0.14);
-}
-
-.size-guide-drawer__measure-copy {
-  display: grid;
-  gap: 4px;
-}
-
-.size-guide-drawer__measure-copy strong {
-  color: #1f1b22;
-  font-size: 0.92rem;
-  font-weight: 900;
-}
-
-.size-guide-drawer__measure-copy small {
-  color: #5f5660;
-  font-size: 0.86rem;
-  font-weight: 650;
-  line-height: 1.42;
 }
 
 .size-guide-drawer__note,
@@ -470,21 +406,13 @@ body.size-guide-drawer-open {
     gap: 9px;
   }
 
-  .size-guide-drawer__measure-grid {
-    grid-template-columns: 1fr;
-  }
-
   .size-guide-drawer__visual {
-    min-height: 260px;
-    padding: 10px;
+    min-height: 300px;
+    padding: 12px;
   }
 
   .size-guide-drawer__visual img {
-    max-height: 310px;
-  }
-
-  .size-guide-drawer__how {
-    padding: 16px;
+    max-height: 360px;
   }
 
   .size-guide-drawer__table {

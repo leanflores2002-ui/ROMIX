@@ -236,14 +236,6 @@
     return Object.assign({ key }, SIZE_GUIDES[key] || SIZE_GUIDES.general);
   }
 
-  function isUpperGuide(guide) {
-    return Boolean(guide && (guide.key || "").includes("parte-superior"));
-  }
-
-  function isLowerGuide(guide) {
-    return Boolean(guide && (guide.key || "").includes("parte-inferior"));
-  }
-
   function formatGuideSubtitle(guide) {
     return String((guide && guide.title) || "Guia orientativa").replace(" - ", " \u00b7 ");
   }
@@ -287,68 +279,6 @@
       '<figure class="size-guide-drawer__visual">' +
         '<img src="' + escapeHtml(guide.image) + '" alt="' + escapeHtml(guide.imageAlt || guide.title || "Guia de talles") + '" loading="lazy" decoding="async" />' +
       '</figure>';
-  }
-
-  function getMeasureItems(guide) {
-    if (isUpperGuide(guide)) {
-      return [
-        {
-          letter: "A",
-          title: "Busto / Pecho",
-          text: "Medi de axila a axila o alrededor de la parte mas ancha del pecho, dando toda la vuelta a la prenda, segun el criterio de la tabla."
-        },
-        {
-          letter: "B",
-          title: "Cintura",
-          text: "Medi alrededor de la parte mas angosta a la altura de la cintura, manteniendo la prenda extendida."
-        },
-        {
-          letter: "C",
-          title: "Largo total",
-          text: "Medi desde la parte superior del hombro hasta el ruedo inferior de la prenda."
-        }
-      ];
-    }
-
-    if (isLowerGuide(guide)) {
-      return [
-        {
-          letter: "A",
-          title: "Cintura",
-          text: "Medi alrededor de la cintura de la prenda, dando toda la vuelta, sobre la parte superior, sin estirar la tela."
-        },
-        {
-          letter: "B",
-          title: "Cadera",
-          text: "Medi alrededor de la parte mas ancha de la cadera de la prenda, dando toda la vuelta y manteniendola extendida sobre una superficie plana."
-        },
-        {
-          letter: "C",
-          title: "Largo total",
-          text: "Medi el largo completo de la prenda desde la parte superior de la cintura hasta el final de la botamanga."
-        }
-      ];
-    }
-
-    return (guide.measure || []).map((item, index) => ({
-      letter: String(index + 1),
-      title: "Medida",
-      text: item
-    }));
-  }
-
-  function renderMeasureBlocks(guide) {
-    const items = getMeasureItems(guide).map((item) => (
-      '<li class="size-guide-drawer__measure-item">' +
-        '<span class="size-guide-drawer__measure-letter" aria-hidden="true">' + escapeHtml(item.letter) + '</span>' +
-        '<span class="size-guide-drawer__measure-copy">' +
-          '<strong>' + escapeHtml(item.title) + '</strong>' +
-          '<small>' + escapeHtml(item.text) + '</small>' +
-        '</span>' +
-      '</li>'
-    )).join("");
-
-    return items ? `<ol class="size-guide-drawer__measure">${items}</ol>` : "";
   }
 
   function ensureDrawer() {
@@ -412,10 +342,6 @@
           '</div>' +
           '<div class="size-guide-drawer__measure-grid">' +
             renderGuideImage(guide) +
-            '<div class="size-guide-drawer__how">' +
-              '<h4>' + escapeHtml(formatGuideSubtitle(guide)) + '</h4>' +
-              renderMeasureBlocks(guide) +
-            '</div>' +
           '</div>' +
           renderTable(guide) +
           '<aside class="size-guide-drawer__note">' +

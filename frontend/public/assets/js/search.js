@@ -552,6 +552,7 @@
     state.panel.classList.toggle("is-open", open);
     state.panel.classList.toggle("romix-search-panel-open", open);
     document.body.classList.toggle("romix-search-open", open);
+    document.body.classList.toggle("header-search-open", open);
     document.querySelectorAll("[data-search-toggle='true']").forEach((toggle) => {
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });

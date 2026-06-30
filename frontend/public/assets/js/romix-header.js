@@ -518,7 +518,9 @@
     if (!toggles.length || !panel) return;
 
     function setOpen(open) {
+      headerState.searchOpen = !!open;
       panel.classList.toggle("is-open", open);
+      document.body.classList.toggle("header-search-open", !!open);
       toggles.forEach(function (toggle) {
         toggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
@@ -569,6 +571,7 @@
 
   function bindMegaMenu(header, headerState) {
     var nav = header.querySelector(".mega-nav");
+    var searchPanel = document.getElementById("header-search");
     if (!nav) return;
     var items = Array.prototype.slice.call(nav.querySelectorAll(".mega-nav-item"));
     if (!items.length) return;
@@ -582,6 +585,17 @@
 
     function isDesktop() {
       return mq.matches;
+    }
+
+    function isSearchOpen() {
+      return !!(
+        (searchPanel && (
+          searchPanel.classList.contains("is-open") ||
+          searchPanel.classList.contains("romix-search-panel-open")
+        )) ||
+        document.body.classList.contains("romix-search-open") ||
+        document.body.classList.contains("header-search-open")
+      );
     }
 
     function cancelScheduledClose() {
@@ -620,6 +634,10 @@
 
     function openMenu(key) {
       if (!key) return;
+      if (isSearchOpen()) {
+        closeMenu();
+        return;
+      }
       cancelScheduledClose();
       if (typeof headerState.closeSearch === "function") headerState.closeSearch();
       setOpenKey(key);
@@ -640,11 +658,13 @@
 
       item.addEventListener("mouseenter", function () {
         if (!isDesktop()) return;
+        if (isSearchOpen()) return;
         openMenu(key);
       });
 
       item.addEventListener("focusin", function () {
         if (!isDesktop()) return;
+        if (isSearchOpen()) return;
         openMenu(key);
       });
 
@@ -661,6 +681,12 @@
       }
 
       trigger.addEventListener("click", function (event) {
+        if (isDesktop() && isSearchOpen()) {
+          event.preventDefault();
+          event.stopPropagation();
+          closeMenu();
+          return;
+        }
         if (!isDesktop()) {
           event.preventDefault();
           if (openKey === key) {

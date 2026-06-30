@@ -236,6 +236,18 @@
     return Object.assign({ key }, SIZE_GUIDES[key] || SIZE_GUIDES.general);
   }
 
+  function isUpperGuide(guide) {
+    return Boolean(guide && (guide.key || "").includes("parte-superior"));
+  }
+
+  function isLowerGuide(guide) {
+    return Boolean(guide && (guide.key || "").includes("parte-inferior"));
+  }
+
+  function formatGuideSubtitle(guide) {
+    return String((guide && guide.title) || "Guia orientativa").replace(" - ", " \u00b7 ");
+  }
+
   function escapeHtml(value) {
     return String(value == null ? "" : value)
       .replace(/&/g, "&amp;")
@@ -250,7 +262,11 @@
       return '<div class="size-guide-empty">Guia orientativa. Las medidas pueden variar segun el modelo.</div>';
     }
 
-    const head = guide.columns.map((column) => `<th scope="col">${escapeHtml(column)}</th>`).join("");
+    const head = guide.columns.map((column, index) => {
+      const label = escapeHtml(column);
+      const unit = index > 0 ? '<small>cm</small>' : "";
+      return `<th scope="col"><span>${label}</span>${unit}</th>`;
+    }).join("");
     const rows = guide.rows.map((row) => (
       `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`
     )).join("");
@@ -273,9 +289,66 @@
       '</figure>';
   }
 
-  function renderMeasureList(guide) {
-    const items = (guide.measure || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
-    return items ? `<ul class="size-guide-drawer__measure">${items}</ul>` : "";
+  function getMeasureItems(guide) {
+    if (isUpperGuide(guide)) {
+      return [
+        {
+          letter: "A",
+          title: "Busto / Pecho",
+          text: "Medi de axila a axila o alrededor de la parte mas ancha del pecho, dando toda la vuelta a la prenda, segun el criterio de la tabla."
+        },
+        {
+          letter: "B",
+          title: "Cintura",
+          text: "Medi alrededor de la parte mas angosta a la altura de la cintura, manteniendo la prenda extendida."
+        },
+        {
+          letter: "C",
+          title: "Largo total",
+          text: "Medi desde la parte superior del hombro hasta el ruedo inferior de la prenda."
+        }
+      ];
+    }
+
+    if (isLowerGuide(guide)) {
+      return [
+        {
+          letter: "A",
+          title: "Cintura",
+          text: "Medi alrededor de la cintura de la prenda, dando toda la vuelta, sobre la parte superior, sin estirar la tela."
+        },
+        {
+          letter: "B",
+          title: "Cadera",
+          text: "Medi alrededor de la parte mas ancha de la cadera de la prenda, dando toda la vuelta y manteniendola extendida sobre una superficie plana."
+        },
+        {
+          letter: "C",
+          title: "Largo total",
+          text: "Medi el largo completo de la prenda desde la parte superior de la cintura hasta el final de la botamanga."
+        }
+      ];
+    }
+
+    return (guide.measure || []).map((item, index) => ({
+      letter: String(index + 1),
+      title: "Medida",
+      text: item
+    }));
+  }
+
+  function renderMeasureBlocks(guide) {
+    const items = getMeasureItems(guide).map((item) => (
+      '<li class="size-guide-drawer__measure-item">' +
+        '<span class="size-guide-drawer__measure-letter" aria-hidden="true">' + escapeHtml(item.letter) + '</span>' +
+        '<span class="size-guide-drawer__measure-copy">' +
+          '<strong>' + escapeHtml(item.title) + '</strong>' +
+          '<small>' + escapeHtml(item.text) + '</small>' +
+        '</span>' +
+      '</li>'
+    )).join("");
+
+    return items ? `<ol class="size-guide-drawer__measure">${items}</ol>` : "";
   }
 
   function ensureDrawer() {
@@ -328,18 +401,30 @@
     const body = root.querySelector("#size-guide-drawer-body");
 
     if (title) title.innerHTML = "Gu&iacute;a de talles";
-    if (subtitle) subtitle.textContent = guide.title;
+    if (subtitle) subtitle.textContent = formatGuideSubtitle(guide);
     if (body) {
       body.innerHTML = '' +
         `<section class="size-guide-drawer__card" data-guide-key="${escapeHtml(guide.key)}">` +
-          `<h3>${escapeHtml(guide.title)}</h3>` +
-          renderGuideImage(guide) +
-          renderTable(guide) +
-          '<div class="size-guide-drawer__how">' +
-            '<h4>Como medir</h4>' +
-            renderMeasureList(guide) +
+          '<div class="size-guide-drawer__intro">' +
+            '<span></span>' +
+            '<h3>C&Oacute;MO MEDIR</h3>' +
+            '<span></span>' +
           '</div>' +
-          '<p class="size-guide-drawer__note">Las medidas son aproximadas y pueden variar segun el modelo.</p>' +
+          '<div class="size-guide-drawer__measure-grid">' +
+            renderGuideImage(guide) +
+            '<div class="size-guide-drawer__how">' +
+              '<h4>' + escapeHtml(formatGuideSubtitle(guide)) + '</h4>' +
+              renderMeasureBlocks(guide) +
+            '</div>' +
+          '</div>' +
+          renderTable(guide) +
+          '<aside class="size-guide-drawer__note">' +
+            '<span class="size-guide-drawer__note-icon" aria-hidden="true">&#9825;</span>' +
+            '<span>' +
+              '<strong>Ten&eacute; en cuenta</strong>' +
+              '<small>Las medidas son aproximadas y pueden variar seg&uacute;n el modelo y la tela de cada prenda.</small>' +
+            '</span>' +
+          '</aside>' +
         '</section>';
     }
 

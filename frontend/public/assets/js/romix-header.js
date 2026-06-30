@@ -475,7 +475,7 @@
       '<div class="search-panel" id="header-search">' +
         '<div class="container">' +
           '<form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">' +
-            '<input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar producto" />' +
+            '<input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar productos" />' +
             '<button type="submit">Buscar</button>' +
           '</form>' +
         '</div>' +

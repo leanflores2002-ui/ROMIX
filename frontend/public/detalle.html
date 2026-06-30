@@ -73,10 +73,12 @@
   </style>
 
   <link rel="stylesheet" href="assets/css/responsive.css" />
+  <link rel="stylesheet" href="assets/css/size-guide-drawer.css" />
   <script src="assets/js/romix-image-utils.js"></script>
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/products-store.js"></script>
+  <script src="assets/js/size-guides.js"></script>
 
   <script>
     const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`\
@@ -194,6 +196,8 @@
               <div class="muted">${p.description || p.desc || p.subtitle || p.type || ''}</div>
             </div>
 
+            <div id="product-size-guide-slot" class="product-size-guide-slot"></div>
+
             <div class="section">
               <div style="font-weight:800;margin-bottom:6px;color:#1b1f24">Cantidad</div>
               <div class="qty-row">
@@ -222,6 +226,10 @@
           </div>
         </div>
       `;
+
+      if (window.romixSizeGuides && typeof window.romixSizeGuides.mountProductButton === 'function') {
+        window.romixSizeGuides.mountProductButton(p, document.getElementById('product-size-guide-slot'));
+      }
 
       const qty = document.getElementById('qty');
       const dec = document.getElementById('dec');

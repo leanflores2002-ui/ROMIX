@@ -899,6 +899,7 @@
   <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg">
   <link rel="stylesheet" href="assets/css/romix-header.css">
   <link rel="stylesheet" href="assets/css/romix-footer.css">
+  <link rel="stylesheet" href="assets/css/size-guide-drawer.css">
   <style>
     :root {
       --rose-50: #fff7fc;
@@ -2316,6 +2317,7 @@
   <script src="assets/js/slugify.js"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/products-store.js"></script>
+  <script src="assets/js/size-guides.js"></script>
   <script>
     let romixToastTimer;
 
@@ -4262,6 +4264,7 @@
                 <div class="size-options" id="size-options" role="group" aria-label="Seleccionar talle" aria-describedby="size-error"></div>
                 <p id="size-error" class="product-size-error" aria-live="polite" role="status" hidden></p>
               </div>
+              <div id="product-size-guide-slot" class="product-size-guide-slot"></div>
               <div class="selector quantity-row">
                 <div class="selector-label">Cantidad</div>
                 <div class="qty-control">
@@ -4333,6 +4336,9 @@
         let colorPickerApi = null;
         const zoomApi = setupZoomModal(detail, gallery);
         setupInlineZoom(detail);
+        if (window.romixSizeGuides && typeof window.romixSizeGuides.mountProductButton === 'function') {
+          window.romixSizeGuides.mountProductButton(product, detail.querySelector('#product-size-guide-slot'));
+        }
 
         const canonicalColor = (value) => {
           const raw = (value || '').toString().trim();

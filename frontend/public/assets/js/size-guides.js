@@ -4,6 +4,8 @@
       title: "Pantalones y Calzas - Mujer",
       group: "Parte inferior",
       genderLabel: "Mujer",
+      image: "images/guia-medidas-pantalon.png",
+      imageAlt: "Guia visual para medir pantalones y calzas.",
       columns: ["Talle", "A (Cintura)", "B (Cadera)", "C (Largo total)"],
       rows: [
         ["1", "74-78", "98-102", "109"],
@@ -25,6 +27,8 @@
       title: "Camperas, Buzos y Remeras - Mujer",
       group: "Parte superior",
       genderLabel: "Mujer",
+      image: "images/guia-medidas-superior.png",
+      imageAlt: "Guia visual para medir camperas, buzos y remeras.",
       columns: ["Talle", "A (Busto / Pecho)", "B (Cintura)", "C (Largo total)"],
       rows: [
         ["1", "92-96", "88-92", "61"],
@@ -46,6 +50,8 @@
       title: "Pantalones y Calzas - Hombre",
       group: "Parte inferior",
       genderLabel: "Hombre",
+      image: "images/guia-medidas-pantalon.png",
+      imageAlt: "Guia visual para medir pantalones y calzas.",
       columns: ["Talle", "A (Cintura)", "B (Cadera)", "C (Largo total)"],
       rows: [
         ["1", "74-78", "112-116", "104"],
@@ -67,6 +73,8 @@
       title: "Camperas, Buzos y Remeras - Hombre",
       group: "Parte superior",
       genderLabel: "Hombre",
+      image: "images/guia-medidas-superior.png",
+      imageAlt: "Guia visual para medir camperas, buzos y remeras.",
       columns: ["Talle", "A (Busto / Pecho)", "B (Cintura)", "C (Largo total)"],
       rows: [
         ["1", "104-108", "100-104", "66"],
@@ -88,6 +96,8 @@
       title: "Pantalones y Calzas - Ni\u00f1os",
       group: "Parte inferior",
       genderLabel: "Ni\u00f1os",
+      image: "images/guia-medidas-pantalon.png",
+      imageAlt: "Guia visual para medir pantalones y calzas.",
       columns: ["Talle", "A (Cintura)", "B (Cadera)", "C (Largo total)"],
       rows: [
         ["6", "54-56", "62-64", "70"],
@@ -107,6 +117,8 @@
       title: "Camperas, Buzos y Remeras - Ni\u00f1os",
       group: "Parte superior",
       genderLabel: "Ni\u00f1os",
+      image: "images/guia-medidas-superior.png",
+      imageAlt: "Guia visual para medir camperas, buzos y remeras.",
       columns: ["Talle", "A (Busto / Pecho)", "B (Cintura)", "C (Largo total)"],
       rows: [
         ["6", "62-64", "54-56", "45"],
@@ -126,6 +138,8 @@
       title: "Gu\u00eda orientativa de talles",
       group: "Orientativa",
       genderLabel: "ROMIX",
+      image: "images/guia-medidas-pantalon.png",
+      imageAlt: "Guia visual orientativa para medir prendas.",
       columns: [],
       rows: [],
       measure: [
@@ -160,14 +174,25 @@
   function getProductHaystack(product) {
     const fields = [
       product && product.name,
+      product && product.nombre,
+      product && product.title,
+      product && product.titulo,
       product && product.type,
+      product && product.tipo,
       product && product.typeKey,
+      product && product.tipoKey,
       product && product.typeLabel,
+      product && product.tipoLabel,
       product && product.category,
+      product && product.categoria,
       product && product.categoryKey,
+      product && product.categoriaKey,
       product && product.categoryLabel,
+      product && product.categoriaLabel,
       product && product.section,
+      product && product.seccion,
       product && product.sectionLabel,
+      product && product.seccionLabel,
       product && product.gender,
       product && product.genero,
       product && product.audience,
@@ -239,6 +264,15 @@
       '</div>';
   }
 
+  function renderGuideImage(guide) {
+    if (!guide || !guide.image) return "";
+
+    return '' +
+      '<figure class="size-guide-drawer__visual">' +
+        '<img src="' + escapeHtml(guide.image) + '" alt="' + escapeHtml(guide.imageAlt || guide.title || "Guia de talles") + '" loading="lazy" decoding="async" />' +
+      '</figure>';
+  }
+
   function renderMeasureList(guide) {
     const items = (guide.measure || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
     return items ? `<ul class="size-guide-drawer__measure">${items}</ul>` : "";
@@ -299,6 +333,7 @@
       body.innerHTML = '' +
         `<section class="size-guide-drawer__card" data-guide-key="${escapeHtml(guide.key)}">` +
           `<h3>${escapeHtml(guide.title)}</h3>` +
+          renderGuideImage(guide) +
           renderTable(guide) +
           '<div class="size-guide-drawer__how">' +
             '<h4>Como medir</h4>' +

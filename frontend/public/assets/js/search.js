@@ -26,6 +26,18 @@
     accesorios: "Accesorios"
   };
 
+  const POPULAR_SEARCHES = [
+    { label: "Mujer", href: "mujer.html" },
+    { label: "Hombre", href: "hombre.html" },
+    { label: "Ni\u00f1os", href: "ninos.html" },
+    { label: "Invierno", href: "catalogo.html?temporada=invierno" },
+    { label: "Calzas", href: "catalogo.html?tipo=calzas&q=calzas" },
+    { label: "Camperas", href: "catalogo.html?tipo=camperas&q=camperas" },
+    { label: "Buzos", href: "catalogo.html?tipo=buzos&q=buzos" },
+    { label: "Pantalones", href: "catalogo.html?tipo=pantalones&q=pantalones" },
+    { label: "T\u00e9rmicos", href: "catalogo.html?q=termica" }
+  ];
+
   function sanitizeProducts(list) {
     const seen = new Set();
     const out = [];
@@ -491,6 +503,23 @@
     });
   }
 
+  function renderPopularSearches() {
+    const state = SEARCH_STATE;
+    if (!state || !state.overlay) return;
+
+    const chips = POPULAR_SEARCHES.map((entry) => (
+      '<a class="romix-popular-search" href="' + escapeHtml(entry.href) + '">' +
+        escapeHtml(entry.label) +
+      '</a>'
+    )).join("");
+
+    state.overlay.innerHTML = '' +
+      '<section class="romix-search-popular" aria-label="B&uacute;squedas populares">' +
+        '<h3>B&uacute;squedas populares</h3>' +
+        '<div class="romix-search-popular__chips">' + chips + '</div>' +
+      '</section>';
+  }
+
   function showLoading() {
     const state = SEARCH_STATE;
     if (!state || !state.overlay) return;
@@ -503,11 +532,17 @@
     window.clearTimeout(state.timer);
     state.timer = window.setTimeout(() => {
       const query = state.input.value.trim();
+      updateClearButton();
+      state.form.classList.toggle("is-empty-search", !query);
+      state.form.classList.toggle("has-query-search", !!query);
+      if (!query) {
+        renderPopularSearches();
+        return;
+      }
       showLoading();
       ensureProducts().then((products) => {
         renderPanel(buildSearchModel(query, products));
       });
-      updateClearButton();
     }, 180);
   }
 
@@ -547,7 +582,7 @@
     if (!input) return;
     input.setAttribute("aria-label", "Buscar productos");
     input.setAttribute("autocomplete", "off");
-    input.setAttribute("placeholder", "Buscar calzas, camperas, pantalones...");
+    input.setAttribute("placeholder", "Encontr\u00e1 lo que buscas");
 
     const submit = form.querySelector('button[type="submit"]');
     if (submit) submit.classList.add("romix-search-submit");
@@ -579,6 +614,8 @@
     if (initialQuery && !String(input.value || "").trim()) {
       input.value = initialQuery;
     }
+    form.classList.toggle("is-empty-search", !input.value.trim());
+    form.classList.toggle("has-query-search", !!input.value.trim());
     updateClearButton();
 
     input.addEventListener("focus", () => setSearchOpen(true));
@@ -682,6 +719,14 @@
       .romix-search-cancel{padding:0 2px 0 14px;color:#111;font-size:.9rem;}
       .romix-search-clear:focus-visible,.romix-search-cancel:focus-visible,.romix-search-chip:focus-visible,.romix-search-category:focus-visible,.romix-search-product:focus-visible{outline:3px solid rgba(247,37,133,.24);outline-offset:3px;}
       .romix-search-overlay{position:static;z-index:2500;max-height:min(64vh,620px);overflow:auto;margin-top:44px;border:0;border-radius:0;background:#fff;box-shadow:none;padding:0;}
+      .romix-search-form.is-empty-search .romix-search-shell{width:min(900px,100%);margin:0 auto;}
+      .romix-search-form.is-empty-search .romix-search-overlay{max-height:none;overflow:visible;margin-top:54px;}
+      .romix-search-popular{display:grid;justify-items:center;gap:28px;text-align:center;}
+      .romix-search-popular h3{margin:0;color:#111;font-family:Outfit,Arial,sans-serif;font-size:1.05rem;font-weight:900;}
+      .romix-search-popular__chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 12px;max-width:980px;}
+      .romix-popular-search{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 20px;border-radius:999px;background:#111;color:#fff;text-decoration:none;font-size:.9rem;font-weight:900;line-height:1;transition:background-color .18s ease,transform .18s ease;}
+      .romix-popular-search:hover{background:#f72585;transform:translateY(-1px);}
+      .romix-popular-search:focus-visible{outline:3px solid rgba(247,37,133,.24);outline-offset:3px;}
       .romix-search-layout{display:grid;grid-template-columns:minmax(190px,240px) minmax(0,1fr);gap:40px;}
       .romix-search-side,.romix-search-results{min-width:0;}
       .romix-search-side{display:grid;align-content:start;gap:34px;padding-right:0;border-right:0;}
@@ -726,6 +771,11 @@
         .romix-search-form input[type="search"],.romix-search-form input[name="q"]{height:44px !important;padding-left:46px !important;font-size:.94rem !important;}
         .romix-search-cancel{padding:0 0 0 8px;}
         .romix-search-overlay{position:static;max-height:none;margin-top:28px;padding:0;border-radius:0;box-shadow:none;}
+        .romix-search-form.is-empty-search .romix-search-shell{width:100%;}
+        .romix-search-form.is-empty-search .romix-search-overlay{margin-top:34px;}
+        .romix-search-popular{gap:20px;}
+        .romix-search-popular__chips{justify-content:flex-start;width:100%;gap:9px;}
+        .romix-popular-search{min-height:38px;padding:0 16px;font-size:.84rem;}
         .romix-search-layout{grid-template-columns:1fr;gap:18px;}
         .romix-search-side{padding-right:0;border-right:0;}
         .romix-search-products{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px;}

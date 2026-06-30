@@ -69,59 +69,67 @@
         page: mujer,
         promo: {
           eyebrow: "Nueva coleccion",
-          title: "Tu mejor version",
-          cta: "Ver productos",
-          href: buildHref(mujer, { temporada: "invierno" }),
-          image: "images/products/campera_lycra_fucsia.png",
-          alt: "Campera deportiva ROMIX para mujer"
+          title: "Entrena tu mejor version",
+          description: "Tecnologia, confort y diseno para moverte con libertad.",
+          cta: "Ver coleccion",
+          href: buildHref(mujer, { q_any: "lycra,deportivo,nuevo" }),
+          image: "images/products/campera_lycra_estampado_1.png",
+          alt: "Campera deportiva estampada ROMIX para mujer"
+        },
+        viewAllLabel: "Ver todo mujer",
+        guideCard: {
+          title: "Guia de talles",
+          text: "Medidas claras para elegir mejor cada prenda.",
+          href: "ayuda.html#size-guide"
+        },
+        accessories: {
+          title: "Accesorios",
+          links: [
+            { label: "Cuellos", href: buildHref(mujer, { tipo: "accesorios", q: "cuello" }), icon: "circle" }
+          ]
         },
         columns: [
           {
             title: "Destacados",
             links: [
-              { label: "Nuevos ingresos", href: buildHref(mujer, { q: "nuevo" }) },
-              { label: "Mas vendidos", href: buildHref(mujer, { q: "mas vendido" }) },
-              { label: "Temporada invierno", href: buildHref(mujer, { temporada: "invierno" }) },
-              { label: "Termicos", href: buildHref(mujer, { q: "termica" }) }
+              { label: "Nuevos ingresos", href: buildHref(mujer, { q: "nuevo" }), badge: "NEW", icon: "spark" },
+              { label: "Mas vendidos", href: buildHref(mujer, { q: "mas vendido" }), badge: "HOT", icon: "trend" },
+              { label: "Temporada invierno", href: buildHref(mujer, { temporada: "invierno" }), icon: "snow" },
+              { label: "Termicos", href: buildHref(mujer, { q: "termica" }), icon: "heat" },
+              { label: "Looks deportivos", href: buildHref(mujer, { q_any: "lycra,saplex,deportivo,top,calza" }), icon: "move" }
             ]
           },
           {
             title: "Parte superior",
             links: [
-              { label: "Remeras", href: buildHref(mujer, { tipo: "remeras" }) },
-              { label: "Remeras manga larga", href: buildHref(mujer, { tipo: "remeras", q_any: "manga larga,remera" }) },
-              { label: "Tops", href: buildHref(mujer, { tipo: "tops" }) },
-              { label: "Buzos", href: buildHref(mujer, { tipo: "buzos" }) },
-              { label: "Camperas", href: buildHref(mujer, { tipo: "camperas" }) },
-              { label: "Camisetas termicas", href: buildHref(mujer, { tipo: "remeras", q: "termica" }) }
+              { label: "Remeras", href: buildHref(mujer, { tipo: "remeras" }), icon: "top" },
+              { label: "Remeras manga larga", href: buildHref(mujer, { tipo: "remeras", q_any: "manga larga,remera" }), icon: "top" },
+              { label: "Tops", href: buildHref(mujer, { tipo: "tops" }), icon: "top" },
+              { label: "Buzos", href: buildHref(mujer, { tipo: "buzos" }), icon: "top" },
+              { label: "Camperas", href: buildHref(mujer, { tipo: "camperas" }), icon: "jacket" },
+              { label: "Camisetas termicas", href: buildHref(mujer, { tipo: "remeras", q: "termica" }), icon: "heat" }
             ]
           },
           {
             title: "Parte inferior",
             links: [
-              { label: "Calzas", href: buildHref(mujer, { tipo: "calzas" }) },
-              { label: "Joggers", href: buildHref(mujer, { tipo: "pantalones", q: "jogger" }) },
-              { label: "Babuchas", href: buildHref(mujer, { tipo: "pantalones", q: "babucha" }) },
-              { label: "Rectos", href: buildHref(mujer, { tipo: "pantalones", q: "recto" }) },
-              { label: "Oxford", href: buildHref(mujer, { tipo: "calzas", q: "oxford" }) },
-              { label: "Palazos", href: buildHref(mujer, { q: "palazo" }) }
+              { label: "Calzas", href: buildHref(mujer, { tipo: "calzas" }), icon: "bottom" },
+              { label: "Joggers", href: buildHref(mujer, { tipo: "pantalones", q: "jogger" }), icon: "bottom" },
+              { label: "Babuchas", href: buildHref(mujer, { tipo: "pantalones", q: "babucha" }), icon: "bottom" },
+              { label: "Rectos", href: buildHref(mujer, { tipo: "pantalones", q: "recto" }), icon: "bottom" },
+              { label: "Oxford", href: buildHref(mujer, { tipo: "calzas", q: "oxford" }), icon: "bottom" },
+              { label: "Palazos", href: buildHref(mujer, { tipo: "palazos" }), icon: "bottom" }
             ]
           },
           {
             title: "Colecciones",
             links: [
-              { label: "Lycra", href: buildHref(mujer, { q: "lycra" }) },
-              { label: "Termica", href: buildHref(mujer, { q: "termica" }) },
-              { label: "Algodon", href: buildHref(mujer, { q: "algodon" }) },
-              { label: "Modal", href: buildHref(mujer, { q: "modal" }) },
-              { label: "Saplex", href: buildHref(mujer, { q: "saplex" }) },
-              { label: "Polar y corderito", href: buildHref(mujer, { q_any: "polar,corderito" }) }
-            ]
-          },
-          {
-            title: "Accesorios",
-            links: [
-              { label: "Cuellos", href: buildHref(mujer, { tipo: "accesorios", q: "cuello" }) }
+              { label: "Lycra", href: buildHref(mujer, { q: "lycra" }), icon: "fabric" },
+              { label: "Termica", href: buildHref(mujer, { q: "termica" }), icon: "heat" },
+              { label: "Algodon", href: buildHref(mujer, { q: "algodon" }), icon: "fabric" },
+              { label: "Modal", href: buildHref(mujer, { q: "modal" }), icon: "fabric" },
+              { label: "Saplex", href: buildHref(mujer, { q: "saplex" }), icon: "fabric" },
+              { label: "Polar y corderito", href: buildHref(mujer, { q_any: "polar,corderito" }), icon: "snow" }
             ]
           }
         ]
@@ -297,9 +305,19 @@
   function buildPanelColumns(columns) {
     return columns.map(function (column) {
       var links = (column.links || []).map(function (link) {
+        var badge = link.badge
+          ? '<span class="mega-link-badge">' + escapeHtml(link.badge) + '</span>'
+          : '';
+        var icon = link.icon
+          ? '<span class="mega-link-icon" data-icon="' + escapeHtml(link.icon) + '" aria-hidden="true"></span>'
+          : '<span class="mega-link-icon" aria-hidden="true"></span>';
         return '' +
           '<li>' +
-            '<a class="mega-panel-link" href="' + escapeHtml(link.href) + '" data-mega-link="true">' + escapeHtml(link.label) + '</a>' +
+            '<a class="mega-panel-link" href="' + escapeHtml(link.href) + '" data-mega-link="true">' +
+              icon +
+              '<span class="mega-link-label">' + escapeHtml(link.label) + '</span>' +
+              badge +
+            '</a>' +
           '</li>';
       }).join("");
 
@@ -311,9 +329,45 @@
     }).join("");
   }
 
+  function buildAccessories(accessories) {
+    if (!accessories || !Array.isArray(accessories.links) || !accessories.links.length) return "";
+
+    var links = accessories.links.map(function (link) {
+      return '' +
+        '<a class="mega-accessory-link" href="' + escapeHtml(link.href) + '" data-mega-link="true">' +
+          '<span class="mega-accessory-icon" data-icon="' + escapeHtml(link.icon || "circle") + '" aria-hidden="true"></span>' +
+          '<span>' + escapeHtml(link.label) + '</span>' +
+        '</a>';
+    }).join("");
+
+    return '' +
+      '<div class="mega-accessories" aria-label="' + escapeHtml(accessories.title || "Accesorios") + '">' +
+        '<span class="mega-accessories-title">' + escapeHtml(accessories.title || "Accesorios") + '</span>' +
+        '<div class="mega-accessories-row">' + links + '</div>' +
+      '</div>';
+  }
+
+  function buildGuideCard(card) {
+    if (!card || !card.href) return "";
+
+    return '' +
+      '<a class="mega-guide-card" href="' + escapeHtml(card.href) + '" data-mega-link="true">' +
+        '<span class="mega-guide-icon" aria-hidden="true"></span>' +
+        '<span class="mega-guide-copy">' +
+          '<strong>' + escapeHtml(card.title || "Guia de talles") + '</strong>' +
+          '<small>' + escapeHtml(card.text || "Consulta medidas y referencias.") + '</small>' +
+        '</span>' +
+      '</a>';
+  }
+
   function buildPanel(item) {
     var columns = buildPanelColumns(item.columns || []);
     var promo = item.promo || {};
+    var accessories = buildAccessories(item.accessories);
+    var guideCard = buildGuideCard(item.guideCard);
+    var bottom = accessories || guideCard
+      ? '<div class="mega-panel-bottom">' + accessories + guideCard + '</div>'
+      : '';
 
     return '' +
       '<div class="mega-panel" id="mega-panel-' + escapeHtml(item.key) + '" role="region" aria-labelledby="mega-trigger-' + escapeHtml(item.key) + '" aria-hidden="true">' +
@@ -321,7 +375,7 @@
           '<div class="mega-panel-top">' +
             '<div class="mega-panel-copy">' +
               '<span class="mega-panel-kicker">Explora ' + escapeHtml(item.label) + '</span>' +
-              '<a class="mega-panel-viewall" href="' + escapeHtml(item.page) + '" data-mega-link="true">Ver todo</a>' +
+              '<a class="mega-panel-viewall" href="' + escapeHtml(item.page) + '" data-mega-link="true">' + escapeHtml(item.viewAllLabel || "Ver todo") + '</a>' +
             '</div>' +
           '</div>' +
           '<div class="mega-panel-grid">' +
@@ -332,10 +386,12 @@
               '<span class="mega-promo-copy">' +
                 '<span class="mega-promo-eyebrow">' + escapeHtml(promo.eyebrow || "Nueva coleccion") + '</span>' +
                 '<strong class="mega-promo-title">' + escapeHtml(promo.title || item.label) + '</strong>' +
+                (promo.description ? '<span class="mega-promo-description">' + escapeHtml(promo.description) + '</span>' : '') +
                 '<span class="mega-promo-cta">' + escapeHtml(promo.cta || "Ver productos") + '</span>' +
               '</span>' +
             '</a>' +
           '</div>' +
+          bottom +
         '</div>' +
       '</div>';
   }
@@ -606,8 +662,11 @@
 
       trigger.addEventListener("click", function (event) {
         if (!isDesktop()) {
-          if (typeof headerState.closeMobileMenu === "function") {
-            headerState.closeMobileMenu();
+          event.preventDefault();
+          if (openKey === key) {
+            closeMenu();
+          } else {
+            openMenu(key);
           }
           return;
         }

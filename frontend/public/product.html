@@ -4,12 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ROMIX - Detalle</title>
+  <meta name="description" content="Compra productos ROMIX: indumentaria para mujer, hombre y ninos. Consulta talles, colores disponibles y precios." />
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /></noscript>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
   <style>
     :root {
@@ -934,6 +936,16 @@
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .site-header.romix-shared-header {
+      min-height: clamp(66px, 6.6vw, 74px);
     }
 
     .page-container {
@@ -966,6 +978,110 @@
       margin-top: 6px;
     }
 
+    .detail-panel.is-loading {
+      min-height: min(920px, calc(100vh - 120px));
+    }
+
+    .product-skeleton {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .product-skeleton__media,
+    .product-skeleton__line,
+    .product-skeleton__pill,
+    .product-skeleton__button {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(90deg, rgba(255,255,255,0.72) 0%, rgba(255,238,248,0.92) 45%, rgba(255,255,255,0.72) 100%);
+      background-size: 220% 100%;
+      animation: productSkeletonPulse 1.25s ease-in-out infinite;
+    }
+
+    .product-skeleton__media {
+      width: 100%;
+      min-height: 250px;
+      height: clamp(260px, 72vw, 420px);
+      aspect-ratio: 3 / 4;
+      border-radius: 24px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .product-skeleton__thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .product-skeleton__thumbs .product-skeleton__pill {
+      aspect-ratio: 1;
+      border-radius: 16px;
+    }
+
+    .product-skeleton__info {
+      display: grid;
+      gap: 16px;
+      min-height: 420px;
+    }
+
+    .product-skeleton__line {
+      height: 16px;
+      border-radius: 999px;
+    }
+
+    .product-skeleton__line--title {
+      width: min(100%, 520px);
+      height: 44px;
+      border-radius: 18px;
+    }
+
+    .product-skeleton__line--price {
+      width: 160px;
+      height: 38px;
+    }
+
+    .product-skeleton__line--short {
+      width: 46%;
+    }
+
+    .product-skeleton__line--medium {
+      width: 72%;
+    }
+
+    .product-skeleton__row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .product-skeleton__pill {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+    }
+
+    .product-skeleton__button {
+      flex: 1 1 180px;
+      min-height: 48px;
+      border-radius: 14px;
+    }
+
+    @keyframes productSkeletonPulse {
+      0% { background-position: 120% 0; }
+      100% { background-position: -120% 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .product-skeleton__media,
+      .product-skeleton__line,
+      .product-skeleton__pill,
+      .product-skeleton__button {
+        animation: none;
+      }
+    }
+
     .detail-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -994,6 +1110,7 @@
       box-shadow: var(--shadow-card);
       min-height: 250px;
       height: clamp(260px, 72vw, 420px);
+      aspect-ratio: 3 / 4;
     }
 
     .main-image:focus-visible {
@@ -1988,6 +2105,11 @@
         height: clamp(220px, 60vw, 320px);
       }
 
+      .product-skeleton__media {
+        min-height: 220px;
+        height: clamp(220px, 60vw, 320px);
+      }
+
       .zoom-modal {
         padding: 0;
       }
@@ -2038,6 +2160,11 @@
         height: clamp(180px, 50vw, 260px);
       }
 
+      .product-skeleton__media {
+        min-height: 180px;
+        height: clamp(180px, 50vw, 260px);
+      }
+
       .related-products__viewport {
         margin: 0;
       }
@@ -2057,7 +2184,7 @@
         font-size: clamp(2rem, 9vw, 2.6rem);
         line-height: 1.05;
         font-weight: 900;
-        letter-spacing: -0.02em;
+        letter-spacing: 0;
         color: #312a39;
       }
 
@@ -2150,12 +2277,45 @@
         align-items: flex-start;
       }
 
+      .detail-panel.is-loading {
+        min-height: 680px;
+      }
+
+      .product-skeleton {
+        grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+        gap: 30px;
+      }
+
+      .product-skeleton__gallery {
+        display: grid;
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 16px;
+        align-items: start;
+      }
+
+      .product-skeleton__thumbs {
+        order: -1;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .product-skeleton__thumbs .product-skeleton__pill {
+        width: 96px;
+        height: 88px;
+        aspect-ratio: auto;
+      }
+
       .gallery {
         flex-direction: row;
         gap: 16px;
       }
 
       .main-image {
+        min-height: 360px;
+        height: clamp(360px, 40vw, 520px);
+      }
+
+      .product-skeleton__media {
         min-height: 360px;
         height: clamp(360px, 40vw, 520px);
       }
@@ -2260,8 +2420,41 @@
 
   <main class="page-container">
     <a class="back-link" href="index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i> Volver al inicio</a>
-    <section id="product-detail" class="detail-panel" aria-live="polite">
-      <p class="status">Cargando producto...</p>
+    <section id="product-detail" class="detail-panel is-loading" aria-live="polite" aria-busy="true">
+      <div class="product-skeleton" role="status" aria-label="Cargando producto">
+        <div class="product-skeleton__gallery">
+          <div class="product-skeleton__media"></div>
+          <div class="product-skeleton__thumbs" aria-hidden="true">
+            <span class="product-skeleton__pill"></span>
+            <span class="product-skeleton__pill"></span>
+            <span class="product-skeleton__pill"></span>
+            <span class="product-skeleton__pill"></span>
+          </div>
+        </div>
+        <div class="product-skeleton__info" aria-hidden="true">
+          <span class="product-skeleton__line product-skeleton__line--title"></span>
+          <span class="product-skeleton__line product-skeleton__line--medium"></span>
+          <span class="product-skeleton__line product-skeleton__line--price"></span>
+          <span class="product-skeleton__line product-skeleton__line--short"></span>
+          <div class="product-skeleton__row">
+            <span class="product-skeleton__pill"></span>
+            <span class="product-skeleton__pill"></span>
+            <span class="product-skeleton__pill"></span>
+            <span class="product-skeleton__pill"></span>
+          </div>
+          <span class="product-skeleton__line product-skeleton__line--short"></span>
+          <div class="product-skeleton__row">
+            <span class="product-skeleton__pill"></span>
+            <span class="product-skeleton__pill"></span>
+            <span class="product-skeleton__pill"></span>
+            <span class="product-skeleton__pill"></span>
+          </div>
+          <div class="product-skeleton__row">
+            <span class="product-skeleton__button"></span>
+            <span class="product-skeleton__button"></span>
+          </div>
+        </div>
+      </div>
     </section>
     <section id="related-products-section" class="related-products">
       <div class="related-products__header">
@@ -2354,6 +2547,12 @@
       const PRODUCT_IMAGE_SIZES = '(max-width: 960px) calc(100vw - 28px), min(58vw, 720px)';
       const THUMB_IMAGE_SIZES = '(max-width: 960px) 76px, 96px';
       const RELATED_IMAGE_SIZES = '(max-width: 640px) 42vw, (max-width: 960px) 28vw, 220px';
+      const PRODUCT_WEBP_MISSING = new Set([
+        'chaleco_polar_con_corderito_hombre_invierno_negro.webp',
+        'chaleco_polar_con_corderito_hombre_invierno_verde.webp',
+        'chaleco_polar_con_corderito_mujer_invierno_negro.webp',
+        'chaleco_polar_con_corderito_mujer_invierno_verde.webp'
+      ]);
       const sanitizeList = typeof window.sanitizeList === 'function' ? window.sanitizeList : list => Array.isArray(list) ? list : [];
       let currentProduct = null;
       let currentQty = 1;
@@ -2379,11 +2578,16 @@
         const ext = typeof imageUtils.extension === 'function' ? imageUtils.extension(value) : '';
         if (!/^(png|jpg|jpeg|webp)$/i.test(ext)) return '';
         if (ext === 'webp') return value;
-        return typeof imageUtils.replaceExtension === 'function' ? imageUtils.replaceExtension(value, 'webp') : '';
+        const candidate = typeof imageUtils.replaceExtension === 'function' ? imageUtils.replaceExtension(value, 'webp') : '';
+        const fileName = typeof imageUtils.basename === 'function'
+          ? imageUtils.basename(candidate)
+          : candidate.split('/').pop();
+        return PRODUCT_WEBP_MISSING.has(fileName) ? '' : candidate;
       }
       function getSafeWebpSource(src) {
         const value = String(src || '').trim();
-        return /\.webp(?:$|\?)/i.test(value) ? value : '';
+        if (/\.webp(?:$|\?)/i.test(value)) return value;
+        return toWebpImage(value);
       }
       function getProductImageMap(product) {
         return typeof imageUtils.getProductLegacyImageMap === 'function'
@@ -2663,6 +2867,7 @@
           link.rel = 'preload';
           link.as = 'image';
           link.setAttribute('fetchpriority', 'high');
+          link.setAttribute('imagesizes', PRODUCT_IMAGE_SIZES);
           link.setAttribute('data-romix-product-preload', 'true');
           document.head.appendChild(link);
         }
@@ -2761,6 +2966,13 @@
           canonical.setAttribute('rel', 'canonical');
           canonical.setAttribute('href', shareUrl);
           if (!canonical.parentNode) document.head.appendChild(canonical);
+        } catch {}
+
+        try {
+          const description = document.querySelector('meta[name="description"]') || document.createElement('meta');
+          description.setAttribute('name', 'description');
+          description.setAttribute('content', `Compra ${String(product && product.name ? product.name : 'productos ROMIX')} en ROMIX. Consulta talles, colores disponibles y precio.`);
+          if (!description.parentNode) document.head.appendChild(description);
         } catch {}
 
         try {
@@ -3362,7 +3574,7 @@
             variantId: color && (color.variantId || color.variant_id || color.id || color.colorId) || '',
             src: value,
             sources,
-            webpSrc: getSafeWebpSource(value),
+            webpSrc: toWebpImage(value),
             thumbSrc: thumbSources[0] || pickProductThumb(product, value),
             thumbSources: thumbSources.length ? thumbSources : [value]
           });
@@ -4187,6 +4399,8 @@
         const detail = document.getElementById('product-detail');
         if (!detail) return;
         currentProduct = product;
+        detail.classList.remove('is-loading');
+        detail.setAttribute('aria-busy', 'false');
         let gallery = getGallery(product);
         ensureProductImagePreload(gallery[0] && (gallery[0].webpSrc || gallery[0].src));
         const preloadGallery = () => {
@@ -4208,14 +4422,14 @@
         const typeLabel = product.type || '';
         const badge = product.badge ? `<span class="meta-pill">${product.badge}</span>` : '';
         detail.innerHTML = `
-          <div class="mobile-product-name">
+          <div class="mobile-product-name" aria-hidden="true">
             <h1>${product.name || 'Producto'}</h1>
           </div>
           <div class="detail-grid">
             <div class="gallery">
               <div class="main-image" role="button" tabindex="0" aria-label="Abrir zoom de imagen" aria-haspopup="dialog">
                 <picture id="main-image-picture">
-                  ${gallery[0].webpSrc ? `<source srcset="${gallery[0].webpSrc}" type="image/webp" />` : ''}
+                  ${gallery[0].webpSrc ? `<source srcset="${gallery[0].webpSrc}" sizes="${PRODUCT_IMAGE_SIZES}" type="image/webp" />` : ''}
                   <img id="main-image" src="${gallery[0].src}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${PLACEHOLDER}';" />
                 </picture>
                 <button type="button" class="zoom-btn" id="zoom-open" aria-label="Acercar imagen" aria-haspopup="dialog">
@@ -4470,11 +4684,13 @@
           }
           if (current) {
             current.srcset = src;
+            current.sizes = PRODUCT_IMAGE_SIZES;
             return;
           }
           const sourceTag = document.createElement('source');
           sourceTag.type = type;
           sourceTag.srcset = src;
+          sourceTag.sizes = PRODUCT_IMAGE_SIZES;
           picture.insertBefore(sourceTag, picture.firstChild);
         }
 
@@ -5170,7 +5386,11 @@
 
       function showNotFound(){
         const detail = document.getElementById('product-detail');
-        if (detail) detail.innerHTML = '<p>No se encontró el producto.</p>';
+        if (detail) {
+          detail.classList.remove('is-loading');
+          detail.setAttribute('aria-busy', 'false');
+          detail.innerHTML = '<p>No se encontró el producto.</p>';
+        }
         document.getElementById('features-section')?.setAttribute('hidden', 'hidden');
         console.warn('[detalle] No se encontró el producto con', { idParam, slugParam, nameParam });
       }
@@ -5217,7 +5437,11 @@
         } catch (error) {
           console.error('[detalle] Error al cargar productos', error);
           const detail = document.getElementById('product-detail');
-          if (detail) detail.innerHTML = '<p>Error al cargar el producto. Intenta recargar la página.</p>';
+          if (detail) {
+            detail.classList.remove('is-loading');
+            detail.setAttribute('aria-busy', 'false');
+            detail.innerHTML = '<p>Error al cargar el producto. Intenta recargar la página.</p>';
+          }
         }
       }
 
@@ -5229,8 +5453,8 @@
     })();
   </script>
   <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
-  <script src="assets/js/romix-header.js"></script>
-  <script src="assets/js/romix-footer.js"></script>
+  <script src="assets/js/romix-header.js" defer></script>
+  <script src="assets/js/romix-footer.js" defer></script>
 </body>
 </html>
 

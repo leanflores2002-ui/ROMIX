@@ -309,6 +309,7 @@
 
     const drawer = root.querySelector(".size-guide-drawer");
     const backdrop = root.querySelector(".size-guide-drawer-backdrop");
+    drawer.inert = true;
 
     root.addEventListener("click", (event) => {
       const close = event.target && event.target.closest && event.target.closest("[data-size-guide-close]");
@@ -356,6 +357,7 @@
 
     lastFocus = document.activeElement;
     backdrop.hidden = false;
+    drawer.inert = false;
     drawer.setAttribute("aria-hidden", "false");
     root.classList.add("is-open");
     document.body.classList.add("size-guide-drawer-open");
@@ -367,6 +369,7 @@
     const { root, drawer, backdrop } = activeDrawer;
     root.classList.remove("is-open");
     drawer.setAttribute("aria-hidden", "true");
+    drawer.inert = true;
     document.body.classList.remove("size-guide-drawer-open");
     window.setTimeout(() => {
       if (!root.classList.contains("is-open")) backdrop.hidden = true;

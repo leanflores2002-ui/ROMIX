@@ -2369,8 +2369,9 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css">
 </head>
-<body>
+<body class="product-detail-page">
   <header class="site-header romix-shared-header">
   <div class="container header-row">
     <a class="brand" href="index.html" aria-label="ROMIX inicio">
@@ -2458,7 +2459,7 @@
     </section>
     <section id="related-products-section" class="related-products">
       <div class="related-products__header">
-        <h2 class="related-title">Nuestros clientes también vieron</h2>
+        <h2 class="related-title">Productos relacionados</h2>
       </div>
       <div class="related-products__track">
         <button id="related-prev" class="related-products__nav-btn related-products__nav--prev" type="button" aria-label="Ver productos anteriores" aria-controls="related-grid">
@@ -4311,27 +4312,22 @@
 
         return [
           {
-            title: 'Talle y ajuste',
-            content: buildAccordionList([
-              hasProductValue(fit) ? `<li><span class="product-accordion__label">Corte:</span> ${fit}</li>` : '',
-              hasProductValue(elasticity) ? `<li><span class="product-accordion__label">Elasticidad:</span> ${elasticity}</li>` : '',
-              '<li><span class="product-accordion__label">Recomendacion:</span> Elegi tu talle habitual</li>'
-            ])
-          },
-          {
-            title: 'Descripcion',
+            title: 'Descripción',
             content: `<p class="product-accordion__text">${getProductDescription(product)}</p>`
           },
           {
             title: 'Detalles',
-            content: buildAccordionList(
-              technicalEntries.map(entry => `<li><span class="product-accordion__label">${entry.label}:</span> ${entry.value}</li>`)
-            )
+            content: buildAccordionList([
+              hasProductValue(fit) ? `<li><span class="product-accordion__label">Corte:</span> ${fit}</li>` : '',
+              hasProductValue(elasticity) ? `<li><span class="product-accordion__label">Elasticidad:</span> ${elasticity}</li>` : '',
+              ...technicalEntries.map(entry => `<li><span class="product-accordion__label">${entry.label}:</span> ${entry.value}</li>`),
+              '<li><span class="product-accordion__label">Recomendación:</span> Elegí tu talle habitual</li>'
+            ])
           },
           {
             title: 'Cuidados',
             content: buildAccordionList([
-              '<li>Lavar con agua fria</li>',
+              '<li>Lavar con agua fría</li>',
               '<li>No usar lavandina</li>',
               '<li>No secar al sol directo</li>',
               '<li>Plancha suave si corresponde</li>',
@@ -4461,13 +4457,13 @@
             </div>
             <div class="info-panel">
               <div>
-                <div class="title-row">
-                  <h1>${product.name || 'Producto'}</h1>
-                  ${badge}
-                </div>
                 <div class="meta-pills">
                   ${sectionLabel ? `<span class="meta-pill">${sectionLabel}</span>` : ''}
                   ${typeLabel ? `<span class="meta-pill">${typeLabel}</span>` : ''}
+                </div>
+                <div class="title-row">
+                  <h1>${product.name || 'Producto'}</h1>
+                  ${badge}
                 </div>
               </div>
               <div class="price-area">
@@ -4498,8 +4494,8 @@
                 </div>
               </div>
               <div class="purchase-actions" id="purchase-actions">
-                <button id="btn-buy" class="btn primary" type="button">Comprar</button>
-                <button id="btn-add" class="btn outline" type="button">Agregar al carrito</button>
+                <button id="btn-add" class="btn primary" type="button">Agregar al carrito</button>
+                <button id="btn-buy" class="btn outline" type="button">Comprar</button>
               </div>
               <div class="share-panel" id="share-panel">
                 <div class="selector-label">Compartir producto</div>

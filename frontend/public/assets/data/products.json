@@ -2144,10 +2144,10 @@
     "name": "Capri lycra",
     "season": "verano",
     "image": "images/products/capri_lycra_negro.png",
-    "price": 8500,
+    "price": 9500,
     "priceByGroup": {
-      "common": 8500,
-      "special": 9000
+      "common": 9500,
+      "special": 10000
     },
     "specialSizes": [
       6,
@@ -2188,10 +2188,10 @@
     "name": "Capri algodon c/lycra",
     "season": "verano",
     "image": "images/products/capri_algodon_con_lycra_negro.png",
-    "price": 9000,
+    "price": 9500,
     "priceByGroup": {
-      "common": 9000,
-      "special": 9500
+      "common": 9500,
+      "special": 10000
     },
     "specialSizes": [
       6,
@@ -2237,10 +2237,10 @@
     "name": "Capri jaspeado saplex",
     "season": "verano",
     "image": "images/products/capri_jaspeado_saplex_gris_melange.png",
-    "price": 8700,
+    "price": 9500,
     "priceByGroup": {
-      "common": 8700,
-      "special": 9200
+      "common": 9500,
+      "special": 10000
     },
     "specialSizes": [
       6,
@@ -2291,10 +2291,10 @@
     "name": "Capri lycra combinado",
     "season": "verano",
     "image": "images/products/capri_lycra_combinado_estampado_1.png",
-    "price": 10000,
+    "price": 10500,
     "priceByGroup": {
-      "common": 10000,
-      "special": 10500
+      "common": 10500,
+      "special": 11000
     },
     "specialSizes": [
       6,
@@ -2478,9 +2478,9 @@
     "name": "Capri lycra estampado",
     "season": "verano",
     "image": "images/products/capri_lycra_estampado_1.png",
-    "price": 9800,
+    "price": 10500,
     "priceByGroup": {
-      "common": 9800
+      "common": 10500
     },
     "colors": [
       {
@@ -2945,11 +2945,11 @@
     "name": "Capri modal",
     "season": "verano",
     "image": "images/products/capri_modal_negro.png",
-    "price": 5800,
+    "price": 6000,
     "priceByGroup": {
-      "common": 5800,
-      "special": 6300,
-      "special2": 7100
+      "common": 6000,
+      "special": 6800,
+      "special2": 7600
     },
     "specialSizes": [
       6,
@@ -3114,11 +3114,11 @@
     "name": "Bermuda fibrana liso",
     "season": "verano",
     "image": "images/products/bermuda_fibrana_liso_negro.png",
-    "price": 5900,
+    "price": 6000,
     "priceByGroup": {
-      "common": 5900,
-      "special": 6700,
-      "special2": 7500
+      "common": 6000,
+      "special": 6800,
+      "special2": 7600
     },
     "specialSizes": [
       6,
@@ -3178,11 +3178,11 @@
     "name": "Bermuda fibrana estampado",
     "season": "verano",
     "image": "images/products/bermuda_fibrana_estampado_1.png",
-    "price": 5900,
+    "price": 6000,
     "priceByGroup": {
-      "common": 5900,
-      "special": 6700,
-      "special2": 7500
+      "common": 6000,
+      "special": 6800,
+      "special2": 7600
     },
     "specialSizes": [
       6,
@@ -3344,10 +3344,10 @@
     "name": "Short lycra tiro alto",
     "season": "verano",
     "image": "images/products/short_lycra_tiro_alto_negro.png",
-    "price": 7500,
+    "price": 8500,
     "priceByGroup": {
-      "common": 7500,
-      "special": 8000
+      "common": 8500,
+      "special": 9000
     },
     "specialSizes": [
       6,
@@ -3388,10 +3388,10 @@
     "name": "Short algodon c/lycra tiro alto",
     "season": "verano",
     "image": "images/products/short_algodon_lycra_tiro_alto_negro.png",
-    "price": 8000,
+    "price": 8500,
     "priceByGroup": {
-      "common": 8000,
-      "special": 8500
+      "common": 8500,
+      "special": 9000
     },
     "specialSizes": [
       6,
@@ -3437,10 +3437,10 @@
     "name": "Short jaspeado saplex tiro alto",
     "season": "verano",
     "image": "images/products/short_saplex_jaspeado_tiro_alto_gris_oscuro.png",
-    "price": 7700,
+    "price": 8500,
     "priceByGroup": {
-      "common": 7700,
-      "special": 8200
+      "common": 8500,
+      "special": 9000
     },
     "specialSizes": [
       6,
@@ -3690,10 +3690,10 @@
     "name": "Short modal",
     "season": "verano",
     "image": "images/products/short_modal_negro.png",
-    "price": 5200,
+    "price": 5500,
     "priceByGroup": {
-      "common": 5200,
-      "special": 5700
+      "common": 5500,
+      "special": 6300
     },
     "specialSizes": [
       6,
@@ -3810,10 +3810,10 @@
     "name": "Short lycra morley",
     "season": "verano",
     "image": "images/products/short_lycra_morley_negro.png",
-    "price": 8000,
+    "price": 8500,
     "priceByGroup": {
-      "common": 8000,
-      "special": 8500
+      "common": 8500,
+      "special": 9000
     },
     "specialSizes": [
       6,
@@ -3933,7 +3933,8 @@
     "image": "images/products/pollera_short_lycra_con_bolsillo_negro.png",
     "price": 11000,
     "priceByGroup": {
-      "common": 11000
+      "common": 11000,
+      "special": 11500
     },
     "colors": [
       {
@@ -3961,10 +3962,10 @@
     "name": "Ciclista lycra",
     "season": "verano",
     "image": "images/products/ciclista_lycra_negro.png",
-    "price": 8000,
+    "price": 9000,
     "priceByGroup": {
-      "common": 8000,
-      "special": 8500
+      "common": 9000,
+      "special": 9500
     },
     "specialSizes": [
       6,
@@ -4005,10 +4006,10 @@
     "name": "Ciclista algodon con lycra",
     "season": "verano",
     "image": "images/products/ciclista_algodon_lycra_negro.png",
-    "price": 8500,
+    "price": 9000,
     "priceByGroup": {
-      "common": 8500,
-      "special": 9000
+      "common": 9000,
+      "special": 9500
     },
     "specialSizes": [
       6,
@@ -4054,10 +4055,10 @@
     "name": "Ciclista jaspeado saplex",
     "season": "verano",
     "image": "images/products/ciclista_jaspeado_saplex_gris_melange.png",
-    "price": 8200,
+    "price": 9000,
     "priceByGroup": {
-      "common": 8200,
-      "special": 8700
+      "common": 9000,
+      "special": 9500
     },
     "specialSizes": [
       6,
@@ -4335,9 +4336,9 @@
     "name": "Ciclista lycra morley",
     "season": "verano",
     "image": "images/products/ciclista_lycra_morley_negro.png",
-    "price": 8500,
+    "price": 9000,
     "priceByGroup": {
-      "common": 8500
+      "common": 9000
     },
     "colors": [
       {
@@ -4533,10 +4534,10 @@
     "name": "Ciclista lycra arrugada",
     "season": "verano",
     "image": "images/products/ciclista_arrugado_anticelulitis_negro.png",
-    "price": 8000,
+    "price": 9000,
     "priceByGroup": {
-      "common": 8000,
-      "special": 8500
+      "common": 9000,
+      "special": 9500
     },
     "specialSizes": [
       6,
@@ -4577,10 +4578,10 @@
     "name": "Remera lycra dry deportiva dama",
     "season": "verano",
     "image": "images/products/remera_lycra_dry_dama_negro.png",
-    "price": 8700,
+    "price": 9000,
     "priceByGroup": {
-      "common": 8700,
-      "special": 9200
+      "common": 9000,
+      "special": 9500
     },
     "specialSizes": [
       6,
@@ -5001,10 +5002,10 @@
     "name": "Musculosa lycra dry fit dama",
     "season": "verano",
     "image": "images/products/musculosa_lycra_dry_fit_dama_negro.png",
-    "price": 8100,
+    "price": 8500,
     "priceByGroup": {
-      "common": 8100,
-      "special": 8700
+      "common": 8500,
+      "special": 9000
     },
     "specialSizes": [
       6,
@@ -5044,10 +5045,10 @@
     "name": "Musculosa lycra dry cuadrille dama",
     "season": "verano",
     "image": "images/products/musculosa_lycra_dry_cuadrille_dama_negro.png",
-    "price": 7800,
+    "price": 8000,
     "priceByGroup": {
-      "common": 7800,
-      "special": 8300
+      "common": 8000,
+      "special": 8500
     },
     "specialSizes": [
       6,
@@ -5092,10 +5093,10 @@
     "name": "Musculosa con tira modal",
     "season": "verano",
     "image": "images/products/musculosa_con_tira_modal_negro.png",
-    "price": 4200,
+    "price": 4500,
     "priceByGroup": {
-      "common": 4200,
-      "special": 4700
+      "common": 4500,
+      "special": 5000
     },
     "specialSizes": [
       6,
@@ -5151,10 +5152,10 @@
     "name": "Sudadera set dry fit dama",
     "season": "verano",
     "image": "images/products/sudadera_set_dry_fit_dama_negro.png",
-    "price": 4800,
+    "price": 5000,
     "priceByGroup": {
-      "common": 4800,
-      "special": 5300
+      "common": 5000,
+      "special": 5500
     },
     "specialSizes": [
       6,
@@ -6146,7 +6147,7 @@
     "price": 9500,
     "priceByGroup": {
       "common": 9500,
-      "special": 10100
+      "special": 10300
     },
     "specialSizes": [
       6,
@@ -6199,7 +6200,7 @@
     "price": 9500,
     "priceByGroup": {
       "common": 9500,
-      "special": 10100
+      "special": 10300
     },
     "specialSizes": [
       6,
@@ -6232,7 +6233,7 @@
     "price": 9500,
     "priceByGroup": {
       "common": 9500,
-      "special": 10100
+      "special": 10300
     },
     "specialSizes": [
       6,
@@ -6272,10 +6273,10 @@
     "name": "Remera deportivo dry hombre",
     "season": "verano",
     "image": "images/products/remera_deportivo_dry_hombre_negro.png",
-    "price": 9400,
+    "price": 9500,
     "priceByGroup": {
-      "common": 9400,
-      "special": 9900
+      "common": 9500,
+      "special": 10000
     },
     "specialSizes": [
       6,

@@ -42,7 +42,7 @@ function compactProduct(product) {
   const result = {};
 
   const preferredOrder = [
-    'section', 'type', 'name', 'season', 'featured', 'featuredBadge',
+    'section', 'type', 'name', 'season', 'visible', 'featured', 'featuredBadge',
     'image', 'price', 'priceByGroup', 'originalPrice', 'badge',
     'specialSizes', 'specialSizes2', 'superSpecialSizes'
   ];

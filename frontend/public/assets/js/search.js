@@ -4,9 +4,16 @@
   let SEARCH_STATE = null;
 
   const globalFixUtf8 = typeof window.fixUtf8 === "function" ? window.fixUtf8 : (value) => value;
-  const hideProduct = typeof window.romixShouldHideProduct === "function"
-    ? window.romixShouldHideProduct
-    : () => false;
+  function hideProduct(product) {
+    if (!product || typeof product !== "object") return true;
+    if (window.romixProductsStore && typeof window.romixProductsStore.isVisible === "function") {
+      return !window.romixProductsStore.isVisible(product);
+    }
+    if (typeof window.romixShouldHideProduct === "function") {
+      return window.romixShouldHideProduct(product);
+    }
+    return product.visible === false;
+  }
 
   const SECTION_LABELS = {
     mujer: "Mujer",
@@ -311,6 +318,7 @@
     const results = [];
     (Array.isArray(list) ? list : []).forEach((product) => {
       if (!product || !product.name) return;
+      if (hideProduct(product)) return;
       if (category && norm(product.section || "") !== category) return;
       const score = scoreProduct(product, queryNorm);
       if (score < 0) return;

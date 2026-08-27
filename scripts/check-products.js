@@ -4,6 +4,7 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.join(ROOT, 'frontend', 'public');
 const PRODUCTS_FILE = path.join(PUBLIC_DIR, 'assets', 'data', 'products.json');
+const ALLOWED_SEASONS = new Set(['verano', 'invierno', 'media-estacion']);
 
 function stripDiacritics(value) {
   try {
@@ -85,6 +86,15 @@ function main() {
         errors.push(`${label}: falta "${field}".`);
       }
     });
+
+    const season = stripDiacritics(String(product && product.season || '')).toLowerCase().trim();
+    if (season && !ALLOWED_SEASONS.has(season)) {
+      errors.push(`${label}: "season" debe ser verano, invierno o media-estacion.`);
+    }
+
+    if (product && Object.prototype.hasOwnProperty.call(product, 'visible') && typeof product.visible !== 'boolean') {
+      errors.push(`${label}: "visible" debe ser true o false.`);
+    }
 
     const nameKey = stripDiacritics(label).toLowerCase();
     if (names.has(nameKey)) {

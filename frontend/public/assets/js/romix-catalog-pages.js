@@ -35,7 +35,8 @@
 
   const SEASON_OPTIONS = [
     { key: "media-estacion", label: "Media Estacion" },
-    { key: "invierno", label: "Invierno" }
+    { key: "invierno", label: "Invierno" },
+    { key: "verano", label: "Verano" }
   ];
 
   const SORT_OPTIONS = [
@@ -316,6 +317,7 @@
   function normalizeSeasonFilterValue(value) {
     const key = normalizeText(value);
     if (!key) return "";
+    if (key.includes("verano")) return "verano";
     if (key.includes("invierno")) return "invierno";
     if (key.includes("media")) return "media-estacion";
     if (key.includes("estacion")) return "media-estacion";
@@ -903,7 +905,7 @@
     const response = await fetch(new URL(DATA_URL, window.location.href));
     const text = await response.text();
     const parsed = parseJsonText(text);
-    return Array.isArray(parsed) ? parsed : [];
+    return (Array.isArray(parsed) ? parsed : []).filter((product) => product && product.visible !== false);
   }
 
   function productsByScope(list, scope) {

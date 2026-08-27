@@ -2249,11 +2249,7 @@
       const source = Array.isArray(products) ? products : [];
       const featured = source.filter((item) => item && item.featured === true);
       if (featured.length) return featured;
-      const winter = source.filter((item) => {
-        const season = normalizeText(item && (item.seasonKey || item.season));
-        return season.includes("invierno");
-      });
-      return winter.length ? winter.slice(0, 20) : source.slice(0, 20);
+      return source.slice(0, 20);
     }
 
     function pickByTypes(products, types, usedKeys) {
@@ -2275,7 +2271,7 @@
       }
       const text = await response.text();
       const parsed = JSON.parse(String(text || "").replace(/^\uFEFF/, ""));
-      return Array.isArray(parsed) ? parsed : [];
+      return (Array.isArray(parsed) ? parsed : []).filter((product) => product && product.visible !== false);
     }
 
     function renderCategories() {

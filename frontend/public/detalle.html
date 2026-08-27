@@ -323,20 +323,12 @@
         : (Array.isArray(parsed) ? parsed : []);
     }
 
-    function normalizeSeasonKey(value) {
-      const raw = String(value || '').trim();
-      if (!raw) return '';
-      try {
-        return raw.normalize('NFD').replace(/\p{Diacritic}+/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
-      } catch {
-        return raw.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    function isHiddenProduct(product) {
+      if (!product || typeof product !== 'object') return true;
+      if (window.romixProductsStore && typeof window.romixProductsStore.isVisible === 'function') {
+        return !window.romixProductsStore.isVisible(product);
       }
-    }
-
-    function isBlockedSeasonProduct(product) {
-      if (!product || typeof product !== 'object') return false;
-      const season = normalizeSeasonKey(product.season || product.seasonKey);
-      return season.includes('verano');
+      return product.visible === false;
     }
 
     async function init(productsPromise){
@@ -355,7 +347,7 @@
       try{
         let list = preloadedProducts();
         if (!Array.isArray(list) || !list.length) list = await (productsPromise || fetchProductList());
-        const products = (Array.isArray(list) ? list : []).filter(p => !isBlockedSeasonProduct(p));
+        const products = (Array.isArray(list) ? list : []).filter(p => !isHiddenProduct(p));
 
         let product = null;
 
@@ -396,7 +388,7 @@
           product = products.find(x => String(x.name||'').toLowerCase().includes(nq));
         }
 
-        if (!product || isBlockedSeasonProduct(product)) {
+        if (!product || isHiddenProduct(product)) {
           const root = document.getElementById('root');
           if (root) root.innerHTML = '<p>No se encontró el producto.</p>';
           return;

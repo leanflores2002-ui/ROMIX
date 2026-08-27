@@ -7,7 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "node tests/pageTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js",
+    "test": "node tests/pageTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js",
+    "test:season-backend": "python tests/season_visibility_backend_tests.py",
     "check:products": "node scripts/check-products.js",
     "compact:products": "node scripts/compact-products.js --write",
     "compact:products:preview": "node scripts/compact-products.js",

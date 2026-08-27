@@ -132,29 +132,7 @@ def is_public_product(product: dict) -> bool:
     """La temporada describe al producto; `visible` decide si se publica."""
     if not isinstance(product, dict):
         return False
-
-    if "visible" in product:
-        value = product.get("visible")
-        if isinstance(value, bool):
-            return value
-        normalized = normalize_text(value)
-        return normalized not in {
-            "false", "0", "no", "hidden", "oculto", "inactive", "inactivo"
-        }
-
-    if product.get("hidden") is True or product.get("hide") is True or product.get("oculto") is True:
-        return False
-
-    if "active" in product and normalize_text(product.get("active")) in {"false", "0", "no"}:
-        return False
-
-    state = normalize_text(
-        product.get("visibility") or product.get("state") or product.get("publish")
-    )
-    if state in {"hidden", "oculto", "draft", "archived", "inactive", "inactivo"}:
-        return False
-
-    return True
+    return product.get("visible", True) is not False
 
 
 def variants_file() -> Path:
@@ -515,7 +493,15 @@ def validate_and_reserve(items: List[dict]) -> Tuple[List[dict], List[dict]]:
 
 @app.get("/api/variants")
 def list_variants():
-    return list(load_variants().values())
+    public_ids = {
+        str(product.get("id") or slugify(product.get("name", "")))
+        for product in load_products()
+    }
+    return [
+        variant
+        for variant in load_variants().values()
+        if str(variant.get("product_id") or "") in public_ids
+    ]
 
 
 @app.post("/api/orders")

@@ -3437,22 +3437,10 @@
 
       function isHiddenProduct(product) {
         if (!product || typeof product !== 'object') return true;
-
-        if (Object.prototype.hasOwnProperty.call(product, 'visible')) {
-          if (typeof product.visible === 'boolean') return !product.visible;
-          const value = String(product.visible ?? '').trim().toLowerCase();
-          return ['false', '0', 'no', 'hidden', 'oculto', 'inactive', 'inactivo'].includes(value);
+        if (window.romixProductsStore && typeof window.romixProductsStore.isVisible === 'function') {
+          return !window.romixProductsStore.isVisible(product);
         }
-
-        if (product.hidden === true || product.hide === true || product.oculto === true) return true;
-
-        if (Object.prototype.hasOwnProperty.call(product, 'active')) {
-          const active = String(product.active ?? '').trim().toLowerCase();
-          if (['false', '0', 'no'].includes(active)) return true;
-        }
-
-        const state = String(product.visibility || product.state || product.publish || '').trim().toLowerCase();
-        return ['hidden', 'oculto', 'draft', 'archived', 'inactive', 'inactivo'].includes(state);
+        return product.visible === false;
       }
 
       function statusToQty(status){

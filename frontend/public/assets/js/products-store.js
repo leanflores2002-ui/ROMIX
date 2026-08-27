@@ -1,5 +1,5 @@
 (() => {
-  const CACHE_KEY = 'romixProductsCacheV4';
+  const CACHE_KEY = 'romixProductsCacheV5';
   const CACHE_TTL_MS = 5 * 60 * 1000;
   const DATA_URL = 'assets/data/products.json';
 
@@ -165,26 +165,7 @@
 
   function isVisibleProduct(product) {
     if (!product || typeof product !== 'object') return false;
-
-    if (Object.prototype.hasOwnProperty.call(product, 'visible')) {
-      if (typeof product.visible === 'boolean') return product.visible;
-      const visible = normalizeText(product.visible);
-      return !['false', '0', 'no', 'hidden', 'oculto', 'inactive', 'inactivo'].includes(visible);
-    }
-
-    if (product.hidden === true || product.hide === true || product.oculto === true) return false;
-
-    if (Object.prototype.hasOwnProperty.call(product, 'active')) {
-      const active = normalizeText(product.active);
-      if (active === 'false' || active === '0' || active === 'no') return false;
-    }
-
-    const state = normalizeText(product.visibility || product.state || product.publish);
-    if (['hidden', 'oculto', 'draft', 'archived', 'inactive', 'inactivo'].includes(state)) {
-      return false;
-    }
-
-    return true;
+    return product.visible !== false;
   }
 
   function localShouldHideProduct(product) {
@@ -197,7 +178,9 @@
 
   function sanitizeList(list) {
     const source = Array.isArray(list) ? list : [];
-    const base = typeof window.sanitizeList === 'function' ? window.sanitizeList(source) : source;
+    const base = typeof window.sanitizeProduct === 'function'
+      ? source.map((item) => window.sanitizeProduct(item))
+      : source;
     return (Array.isArray(base) ? base : [])
       .map(normalizeProductShape)
       .filter((item) => !shouldHideProduct(item));

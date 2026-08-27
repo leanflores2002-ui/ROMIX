@@ -46,7 +46,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -95,7 +96,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -133,7 +135,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -181,7 +184,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -215,7 +219,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -263,7 +268,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -297,7 +303,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -327,7 +334,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -375,7 +383,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -423,7 +432,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -472,7 +482,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -522,7 +533,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -585,7 +597,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -643,7 +656,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -706,7 +720,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -765,7 +780,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -834,7 +850,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -888,7 +905,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -930,7 +948,8 @@
       "3",
       "4",
       "5"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -978,7 +997,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -1041,7 +1061,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -1100,7 +1121,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -1149,7 +1171,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -1213,7 +1236,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -1261,7 +1285,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "ninos",
@@ -1293,7 +1318,8 @@
       "12",
       "14",
       "16"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "ninos",
@@ -1340,7 +1366,8 @@
       "12",
       "14",
       "16"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -5332,10 +5359,10 @@
     "name": "Top lycra liso y jaspeado dama",
     "season": "media-estacion",
     "image": "images/products/top_lycra_liso_negro.png",
-    "price": 8000,
+    "price": 8500,
     "priceByGroup": {
-      "common": 8000,
-      "special": 8500
+      "common": 8500,
+      "special": 9000
     },
     "specialSizes": [
       6,
@@ -5371,10 +5398,10 @@
     "name": "Top lycra estampado dama",
     "season": "media-estacion",
     "image": "images/products/top_lycra_estampado_dama_estampado_1.png",
-    "price": 8500,
+    "price": 9000,
     "priceByGroup": {
-      "common": 8500,
-      "special": 9000
+      "common": 9000,
+      "special": 9500
     },
     "specialSizes": [
       6,
@@ -5545,10 +5572,10 @@
     "name": "Top lycra gofrada dama",
     "season": "media-estacion",
     "image": "images/products/top_lycra_gofrado_negro.png",
-    "price": 8300,
+    "price": 8500,
     "priceByGroup": {
-      "common": 8300,
-      "special": 8800
+      "common": 8500,
+      "special": 9000
     },
     "specialSizes": [
       6,
@@ -5599,9 +5626,9 @@
     "name": "Top lycra morley dama",
     "season": "media-estacion",
     "image": "images/products/top_lycra_morley_negro.png",
-    "price": 8300,
+    "price": 8500,
     "priceByGroup": {
-      "common": 8300
+      "common": 8500
     },
     "colors": [
       {
@@ -5689,10 +5716,10 @@
     "name": "Babucha lycra jogger jaspeado hombre",
     "season": "media-estacion",
     "image": "images/products/babucha_lycra_jogger_hombre_gris_melange_jaspeado.png",
-    "price": 15500,
+    "price": 16000,
     "priceByGroup": {
-      "common": 15500,
-      "special": 16300
+      "common": 16000,
+      "special": 16800
     },
     "specialSizes": [
       6,
@@ -5767,7 +5794,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -5775,10 +5803,10 @@
     "name": "Babucha lycra jogger hombre",
     "season": "media-estacion",
     "image": "images/products/babucha_lycra_jogger_hombre_negro.png",
-    "price": 15000,
+    "price": 16000,
     "priceByGroup": {
-      "common": 15000,
-      "special": 15800
+      "common": 16000,
+      "special": 16800
     },
     "specialSizes": [
       6,
@@ -5833,7 +5861,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -5931,7 +5960,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -5939,10 +5969,10 @@
     "name": "Campera jaspeado saplex hombre",
     "season": "media-estacion",
     "image": "images/products/campera_jaspeado_saplex_hombre_gris_oscuro_jaspeado.png",
-    "price": 18000,
+    "price": 19500,
     "priceByGroup": {
-      "common": 18000,
-      "special": 19000
+      "common": 19500,
+      "special": 20500
     },
     "specialSizes": [
       6,
@@ -5982,10 +6012,10 @@
     "name": "Campera lycra hombre",
     "season": "media-estacion",
     "image": "images/products/campera_jaspeado_saplex_hombre_negro.png",
-    "price": 17500,
+    "price": 19500,
     "priceByGroup": {
-      "common": 17500,
-      "special": 18500
+      "common": 19500,
+      "special": 20500
     },
     "specialSizes": [
       6,
@@ -6040,7 +6070,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -6083,7 +6114,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -6418,7 +6450,8 @@
     "price": 4500,
     "priceByGroup": {
       "common": 4500,
-      "special": 5000
+      "special": 5000,
+      "special2": 5000
     },
     "specialSizes": [
       12,
@@ -7206,7 +7239,8 @@
       "12",
       "14",
       "16"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "ninos",
@@ -7263,7 +7297,8 @@
       "12",
       "14",
       "16"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "ninos",
@@ -7310,7 +7345,8 @@
       "12",
       "14",
       "16"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "ninos",
@@ -7357,7 +7393,8 @@
       "12",
       "14",
       "16"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "ninos",
@@ -7404,7 +7441,8 @@
       "12",
       "14",
       "16"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -7462,7 +7500,7 @@
     "price": 7000,
     "priceByGroup": {
       "common": 7000,
-      "special": 7500,
+      "special": 7800,
       "special2": 8300
     },
     "specialSizes": [
@@ -7515,10 +7553,11 @@
     "name": "Calza algodon c/lycra chupin",
     "season": "media-estacion",
     "image": "images/products/Calza_algodon con lycra_chupin_negro.png",
-    "price": 11000,
+    "price": 12000,
     "priceByGroup": {
-      "common": 11000,
-      "special": 11500
+      "common": 12000,
+      "special": 12500,
+      "special2": 13300
     },
     "specialSizes": [
       6,
@@ -7564,10 +7603,10 @@
     "name": "Calza lycra recta",
     "season": "media-estacion",
     "image": "images/products/calza_lycra_recta_negro.png",
-    "price": 13000,
+    "price": 14000,
     "priceByGroup": {
-      "common": 13000,
-      "special": 13500
+      "common": 14000,
+      "special": 14500
     },
     "specialSizes": [
       6,
@@ -7597,10 +7636,10 @@
     "name": "Calza algodon c/lycra recta",
     "season": "media-estacion",
     "image": "images/products/Calza_algodon con lycra_recta_negro.png",
-    "price": 13000,
+    "price": 14000,
     "priceByGroup": {
-      "common": 13000,
-      "special": 13500
+      "common": 14000,
+      "special": 14500
     },
     "specialSizes": [
       6,
@@ -7710,10 +7749,10 @@
     "featured": true,
     "featuredBadge": "Nuevo",
     "image": "images/products/calza_arrugada_negro.png",
-    "price": 11000,
+    "price": 11500,
     "priceByGroup": {
-      "common": 11000,
-      "special": 11500
+      "common": 11500,
+      "special": 12000
     },
     "specialSizes": [
       6,
@@ -7754,11 +7793,11 @@
     "name": "Calza lycra chupin",
     "season": "media-estacion",
     "image": "images/products/calza_lycra_chupin_negra.png",
-    "price": 11000,
+    "price": 11500,
     "priceByGroup": {
-      "common": 11000,
-      "special": 11500,
-      "special2": 12300
+      "common": 11500,
+      "special": 12000,
+      "special2": 12800
     },
     "specialSizes": [
       6,
@@ -7805,10 +7844,10 @@
     "name": "Calza lycra combinada",
     "season": "media-estacion",
     "image": "images/products/calza_lycra_combinada_estampado_1.png",
-    "price": 12500,
+    "price": 13000,
     "priceByGroup": {
-      "common": 12500,
-      "special": 13000
+      "common": 13000,
+      "special": 13500
     },
     "specialSizes": [
       6,
@@ -8005,9 +8044,9 @@
     "name": "Calza lycra doble cintura",
     "season": "media-estacion",
     "image": "images/products/calza_lycra_doble_cintura_negro.png",
-    "price": 11500,
+    "price": 12000,
     "priceByGroup": {
-      "common": 11500
+      "common": 12000
     },
     "colors": [
       {
@@ -8072,9 +8111,9 @@
     "featured": true,
     "featuredBadge": "Más vendido",
     "image": "images/products/calza_lycra_estampado_1.png",
-    "price": 12500,
+    "price": 13000,
     "priceByGroup": {
-      "common": 12500
+      "common": 13000
     },
     "colors": [
       {
@@ -8253,7 +8292,8 @@
     "image": "images/products/calza_lycra_morley_negro.png",
     "price": 11500,
     "priceByGroup": {
-      "common": 11500
+      "common": 11500,
+      "special": 12000
     },
     "colors": [
       {
@@ -8301,10 +8341,10 @@
     "name": "Calza oxford",
     "season": "media-estacion",
     "image": "images/products/calza_oxfor_negro.png",
-    "price": 12500,
+    "price": 13500,
     "priceByGroup": {
-      "common": 12500,
-      "special": 13000
+      "common": 13500,
+      "special": 14000
     },
     "specialSizes": [
       6,
@@ -8335,9 +8375,9 @@
     "name": "Calza oxford jaspeado saplex",
     "season": "media-estacion",
     "image": "images/products/calza_oxfor_saplex_jaspeado_gris oscuro.png",
-    "price": 13000,
+    "price": 13500,
     "priceByGroup": {
-      "common": 13000,
+      "common": 13500,
       "special": 13500
     },
     "specialSizes": [
@@ -8496,10 +8536,10 @@
     "name": "Calza saplex jaspeado recta",
     "season": "media-estacion",
     "image": "images/products/calza_saplex_recta_jaspeado_gris oscuro.png",
-    "price": 13500,
+    "price": 14000,
     "priceByGroup": {
-      "common": 13500,
-      "special": 14000
+      "common": 14000,
+      "special": 14500
     },
     "specialSizes": [
       6,
@@ -8544,10 +8584,10 @@
     "name": "Campera jaspeado saplex dama",
     "season": "media-estacion",
     "image": "images/products/campera_jaspeado_saplex_dama_gris_melange.png",
-    "price": 17000,
+    "price": 19000,
     "priceByGroup": {
-      "common": 17000,
-      "special": 18000
+      "common": 19000,
+      "special": 20000
     },
     "specialSizes": [
       6,
@@ -8607,10 +8647,10 @@
     "name": "Campera lycra",
     "season": "media-estacion",
     "image": "images/products/campera_lycra_negro.png",
-    "price": 16500,
+    "price": 19000,
     "priceByGroup": {
-      "common": 16500,
-      "special": 17500
+      "common": 19000,
+      "special": 20000
     },
     "specialSizes": [
       6,
@@ -8867,7 +8907,8 @@
     "price": 10500,
     "priceByGroup": {
       "common": 10500,
-      "special": 11500
+      "special": 11500,
+      "special2": 12500
     },
     "specialSizes": [
       6,
@@ -8922,10 +8963,10 @@
     "name": "Campera rustico con lycra dama",
     "season": "media-estacion",
     "image": "images/products/campera_rustico_lycra_dama_negro.png",
-    "price": 17500,
+    "price": 18500,
     "priceByGroup": {
-      "common": 17500,
-      "special": 18500
+      "common": 18500,
+      "special": 19500
     },
     "specialSizes": [
       6
@@ -9117,7 +9158,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -9150,7 +9192,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -9213,7 +9256,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -9221,10 +9265,10 @@
     "name": "Pantalon jogger de lycra dama",
     "season": "media-estacion",
     "image": "images/products/pantalon_jogger_lycra_negro.png",
-    "price": 14000,
+    "price": 15000,
     "priceByGroup": {
-      "common": 14000,
-      "special": 14600
+      "common": 15000,
+      "special": 15800
     },
     "specialSizes": [
       6,
@@ -9255,10 +9299,10 @@
     "name": "Pantalon jogger de lycra jaspeado dama",
     "season": "media-estacion",
     "image": "images/products/pantalon_jogger_saplex_jaspeado_gris melange.png",
-    "price": 14500,
+    "price": 15000,
     "priceByGroup": {
-      "common": 14500,
-      "special": 15100
+      "common": 15000,
+      "special": 15800
     },
     "specialSizes": [
       6,
@@ -9317,7 +9361,7 @@
     "price": 13500,
     "priceByGroup": {
       "common": 13500,
-      "special": 14100
+      "special": 14300
     },
     "specialSizes": [
       6,
@@ -9381,7 +9425,7 @@
     "price": 7000,
     "priceByGroup": {
       "common": 7000,
-      "special": 7500,
+      "special": 7800,
       "special2": 8300
     },
     "specialSizes": [
@@ -9442,7 +9486,8 @@
     "price": 11000,
     "priceByGroup": {
       "common": 11000,
-      "special": 11600
+      "special": 11800,
+      "special2": 12300
     },
     "specialSizes": [
       6,
@@ -9485,7 +9530,7 @@
     "price": 15000,
     "priceByGroup": {
       "common": 15000,
-      "special": 15600
+      "special": 15800
     },
     "specialSizes": [
       6,
@@ -9638,7 +9683,8 @@
     ],
     "sizes": [
       "U"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -9686,7 +9732,8 @@
     ],
     "sizes": [
       "U"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -9733,7 +9780,8 @@
       "4",
       "6",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "hombre",
@@ -9775,7 +9823,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",
@@ -9817,6 +9866,7 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   }
 ]

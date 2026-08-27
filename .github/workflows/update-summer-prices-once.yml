@@ -1,0 +1,171 @@
+name: Update summer prices once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update-summer-prices-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update only summer product prices
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'frontend/public/assets/data/products.json';
+          const products = JSON.parse(fs.readFileSync(path, 'utf8').replace(/^\uFEFF/, ''));
+          const before = JSON.parse(JSON.stringify(products));
+
+          // Exact current products.json names. A user-facing row can map to more than one
+          // catalog record when liso/estampado are stored separately.
+          const prices = {
+            'Pantalon recto fibrana': { common: 7500, special: 8300 },
+            'Pantalon jogger fibrana liso': { common: 7500, special: 8300, special2: 9100 },
+            'Pantalon jogger fibrana estampado': { common: 7500, special: 8300, special2: 9100 },
+            'Palazo fibrana liso': { common: 7500, special: 8300 },
+            'Palazo fibrana estampado': { common: 7500, special: 8300 },
+            'Pantalon Recto CEY': { common: 7800, special: 8400 },
+            'Palazo CEY': { common: 7800, special: 8400 },
+
+            'Capri lycra': { common: 9500, special: 10000 },
+            'Capri algodon c/lycra': { common: 9500, special: 10000 },
+            'Capri jaspeado saplex': { common: 9500, special: 10000 },
+            'Capri lycra combinado': { common: 10500, special: 11000 },
+            'Capri lycra estampado': { common: 10500 },
+            'Capri modal': { common: 6000, special: 6800, special2: 7600 },
+            'Capri fibrana': { common: 7000, special: 7800, special2: 8600 },
+            'Capri fibrana estampado': { common: 7000, special: 7800, special2: 8600 },
+            'Capri CEY': { common: 7200, special: 8000, special2: 8800 },
+            'Capri algodon morley liviano': { common: 9000, special: 9500 },
+
+            'Ciclista lycra': { common: 9000, special: 9500 },
+            'Ciclista algodon con lycra': { common: 9000, special: 9500 },
+            'Ciclista jaspeado saplex': { common: 9000, special: 9500 },
+            'Ciclista lycra estampado': { common: 9500 },
+            'Ciclista lycra morley': { common: 9000 },
+            'Ciclista lycra combinado': { common: 9500, special: 10000 },
+            'Ciclista lycra arrugada': { common: 9000, special: 9500 },
+
+            'Bermuda fibrana liso': { common: 6000, special: 6800, special2: 7600 },
+            'Bermuda fibrana estampado': { common: 6000, special: 6800, special2: 7600 },
+            'Short lycra tiro alto': { common: 8500, special: 9000 },
+            'Short algodon c/lycra tiro alto': { common: 8500, special: 9000 },
+            'Short jaspeado saplex tiro alto': { common: 8500, special: 9000 },
+            'Short lycra estampado': { common: 9000 },
+            'Short modal': { common: 5500, special: 6300 },
+            'Short lycra morley': { common: 8500, special: 9000 },
+            'Short algodon morley': { common: 7000, special: 7500, special2: 8300 },
+
+            'Remera lycra dry deportiva dama': { common: 9000, special: 9500 },
+            'Remera Lycra Dama': { common: 7000 },
+            'Remera Lycra jaspeado Dama': { common: 7000, special: 7500 },
+            'Remera algodon Jaspeado Dama': { common: 8000, special: 8500 },
+            'Remera algodon jaspeado combinado dama': { common: 8000, special: 8500 },
+            'Remera viscosa morley corte princesa': { common: 4600, special: 5100 },
+            'Camisola fibrana dama': { common: 7000, special: 7800, special2: 8600 },
+            'Musculosa con tira modal': { common: 4500, special: 5000 },
+            'Musculosa viscosa morley': { common: 4600, special: 5100 },
+            'Musculosa lycra dry fit dama': { common: 8500, special: 9000 },
+            'Musculosa lycra dry cuadrille dama': { common: 8000, special: 8500 },
+            'Sudadera set dry fit dama': { common: 5000, special: 5500 },
+
+            'Pollera short morley lycra c/bolsillo': { common: 11500, special: 12000 },
+            'Pollera short lycra c/bolsillo': { common: 11000, special: 11500 },
+
+            'Ciclista lycra liso nena': { common: 3500, special: 4000 },
+            'Ciclista jaspeado saplex nena': { common: 3500, special: 4000 },
+            'Ciclista algodon con lycra nena': { common: 3500, special: 4000 },
+            'Top lycra liso y jaspeado nena': { common: 4000, special: 4500 },
+            'Top lycra estampado nena': { common: 4500, special: 5000 },
+            'Bermuda algodon rustico Niño': { common: 4000, special: 4500 },
+
+            'Remera deportivo dry hombre': { common: 9500, special: 10000 },
+            'Bermuda rustico hombre': { common: 9500, special: 10300 },
+            'Bermuda lycra hombre': { common: 9500, special: 10300 },
+            'Bermuda lycra jaspeado saplex hombre': { common: 9500, special: 10300 }
+          };
+
+          const found = new Set();
+          const changed = [];
+
+          for (const product of products) {
+            const target = prices[product.name];
+            if (!target) continue;
+
+            if (String(product.season || '').trim().toLowerCase() !== 'verano') {
+              throw new Error(`Refusing to update non-summer product: ${product.name} (${product.season})`);
+            }
+
+            found.add(product.name);
+            const old = {
+              price: product.price,
+              priceByGroup: JSON.parse(JSON.stringify(product.priceByGroup || {}))
+            };
+
+            product.price = target.common;
+            const nextGroups = { ...(product.priceByGroup || {}), common: target.common };
+            if (Object.prototype.hasOwnProperty.call(target, 'special')) nextGroups.special = target.special;
+            if (Object.prototype.hasOwnProperty.call(target, 'special2')) nextGroups.special2 = target.special2;
+            product.priceByGroup = nextGroups;
+
+            if (JSON.stringify(old) !== JSON.stringify({ price: product.price, priceByGroup: product.priceByGroup })) {
+              changed.push({ name: product.name, from: old, to: { price: product.price, priceByGroup: product.priceByGroup } });
+            }
+          }
+
+          const missing = Object.keys(prices).filter(name => !found.has(name));
+          if (missing.length) {
+            throw new Error(`Expected summer products not found: ${missing.join(', ')}`);
+          }
+
+          // Guardrail: nothing except price / priceByGroup may change.
+          function withoutPrices(list) {
+            return list.map(product => {
+              const clone = JSON.parse(JSON.stringify(product));
+              delete clone.price;
+              delete clone.priceByGroup;
+              return clone;
+            });
+          }
+          if (JSON.stringify(withoutPrices(before)) !== JSON.stringify(withoutPrices(products))) {
+            throw new Error('A non-price field changed; aborting.');
+          }
+
+          const changedIndexes = [];
+          products.forEach((product, index) => {
+            if (JSON.stringify(product) !== JSON.stringify(before[index])) changedIndexes.push(index);
+          });
+          for (const index of changedIndexes) {
+            if (String(products[index].season || '').trim().toLowerCase() !== 'verano') {
+              throw new Error(`Non-summer product changed: ${products[index].name}`);
+            }
+          }
+
+          fs.writeFileSync(path, JSON.stringify(products, null, 2) + '\n', 'utf8');
+          console.log(`Summer mappings verified: ${found.size}`);
+          console.log(`Products with an actual price change: ${changed.length}`);
+          changed.forEach(item => console.log(`- ${item.name}`));
+          NODE
+
+      - name: Validate products
+        run: npm run check:products
+
+      - name: Commit summer prices
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/update-summer-prices-once.yml
+          git add frontend/public/assets/data/products.json .github/workflows/update-summer-prices-once.yml
+          git commit -m "chore: update summer product prices"
+          git push

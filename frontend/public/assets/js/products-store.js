@@ -1,5 +1,5 @@
 (() => {
-  const CACHE_KEY = 'romixProductsCacheV2';
+  const CACHE_KEY = 'romixProductsCacheV3';
   const CACHE_TTL_MS = 5 * 60 * 1000;
   const DATA_URL = 'assets/data/products.json';
   const BLOCKED_SEASON_KEY = 'verano';
@@ -15,6 +15,140 @@
     } catch {
       return raw.toLowerCase();
     }
+  }
+
+  function fileToken(value) {
+    return normalizeText(value)
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '');
+  }
+
+  function cleanPath(value) {
+    return String(value || '').trim().split(/[?#]/)[0];
+  }
+
+  function deriveColorImage(product, colorName) {
+    if (!product || !product.imageBase) return '';
+    const base = String(product.imageBase || '').trim().replace(/^\/+|\/+$/g, '');
+    const color = fileToken(colorName);
+    if (!base || !color) return '';
+    const ext = String(product.imageExt || 'png').trim().replace(/^\./, '') || 'png';
+    const dir = String(product.imageDir || 'images/products').trim().replace(/^\/+|\/+$/g, '') || 'images/products';
+    return `${dir}/${base}_${color}.${ext}`;
+  }
+
+  function deriveThumbPath(imagePath) {
+    const src = cleanPath(imagePath);
+    if (!src || /^data:/i.test(src) || /^https?:\/\//i.test(src)) return '';
+    const inProducts = src.includes('images/products/')
+      ? src.replace('images/products/', 'images/thumbs/')
+      : src;
+    return inProducts.replace(/(\.[^./]+)$/i, '-thumb.webp');
+  }
+
+  function imageForColor(product, color, index) {
+    const source = color && typeof color === 'object' ? color : { name: color };
+    const directList = [
+      source.images,
+      source.imagenes,
+      source.gallery,
+      source.galeria,
+      source.photos,
+      source.fotos
+    ].find((value) => Array.isArray(value) && value.length);
+    if (directList && directList[0]) return cleanPath(directList[0]);
+
+    const direct = cleanPath(source.image || source.imagen);
+    if (direct) return direct;
+
+    const colorName = String(source.name || source.value || '').trim();
+    const imageMap = product && product.imageMap && typeof product.imageMap === 'object' && !Array.isArray(product.imageMap)
+      ? product.imageMap
+      : null;
+    if (imageMap && colorName) {
+      if (cleanPath(imageMap[colorName])) return cleanPath(imageMap[colorName]);
+      const target = normalizeText(colorName);
+      const key = Object.keys(imageMap).find((entry) => normalizeText(entry) === target);
+      if (key && cleanPath(imageMap[key])) return cleanPath(imageMap[key]);
+    }
+
+    const derived = deriveColorImage(product, colorName);
+    if (derived) return derived;
+
+    if (Array.isArray(product && product.images) && product.images[index]) {
+      return cleanPath(product.images[index]);
+    }
+
+    return cleanPath(product && product.image);
+  }
+
+  function normalizeSizes(sizes) {
+    return (Array.isArray(sizes) ? sizes : []).map((entry) => {
+      if (entry && typeof entry === 'object' && !Array.isArray(entry)) {
+        const size = String(entry.size ?? entry.value ?? '').trim();
+        if (!size) return null;
+        return Object.assign({}, entry, {
+          size,
+          status: String(entry.status || 'available').trim() || 'available'
+        });
+      }
+
+      const size = String(entry ?? '').trim();
+      return size ? { size, status: 'available' } : null;
+    }).filter(Boolean);
+  }
+
+  function normalizeProductShape(product) {
+    if (!product || typeof product !== 'object' || Array.isArray(product)) return product;
+
+    const normalized = Object.assign({}, product);
+    normalized.sizes = normalizeSizes(product.sizes);
+
+    const rawColors = Array.isArray(product.colors)
+      ? product.colors
+      : (product.colors && typeof product.colors === 'object' ? Object.values(product.colors) : []);
+
+    normalized.colors = rawColors.map((entry, index) => {
+      const color = entry && typeof entry === 'object'
+        ? Object.assign({}, entry)
+        : { name: String(entry || '').trim() };
+      const name = String(color.name || color.value || `Color ${index + 1}`).trim();
+      const image = imageForColor(product, color, index);
+      if (image && !color.image) color.image = image;
+      color.name = name;
+      return color;
+    });
+
+    const generatedMap = {};
+    const generatedImages = [];
+    normalized.colors.forEach((color, index) => {
+      const image = imageForColor(normalized, color, index);
+      if (!image) return;
+      generatedMap[color.name] = image;
+      if (!generatedImages.includes(image)) generatedImages.push(image);
+    });
+
+    if (!normalized.imageMap || typeof normalized.imageMap !== 'object' || Array.isArray(normalized.imageMap)) {
+      normalized.imageMap = generatedMap;
+    }
+
+    if (!Array.isArray(normalized.images) || !normalized.images.length) {
+      normalized.images = generatedImages;
+    }
+
+    if (!cleanPath(normalized.image)) {
+      normalized.image = generatedImages[0] || '';
+    }
+
+    if (!cleanPath(normalized.thumbnail) && normalized.image) {
+      normalized.thumbnail = deriveThumbPath(normalized.image);
+    }
+
+    if (!cleanPath(normalized.thumbnailFallback) && normalized.image) {
+      normalized.thumbnailFallback = normalized.image;
+    }
+
+    return normalized;
   }
 
   function seasonKey(product) {
@@ -65,7 +199,9 @@
   function sanitizeList(list) {
     const source = Array.isArray(list) ? list : [];
     const base = typeof window.sanitizeList === 'function' ? window.sanitizeList(source) : source;
-    return (Array.isArray(base) ? base : []).filter((item) => !shouldHideProduct(item));
+    return (Array.isArray(base) ? base : [])
+      .map(normalizeProductShape)
+      .filter((item) => !shouldHideProduct(item));
   }
 
   function parseJsonText(text) {
@@ -189,6 +325,7 @@
 
   window.romixProductsStore = {
     load,
+    normalizeProduct: normalizeProductShape,
     clear() {
       memoryCache = null;
       inFlight = null;

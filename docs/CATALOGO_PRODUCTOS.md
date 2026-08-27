@@ -89,3 +89,19 @@ npm run check:products
 ```
 
 El script revisa JSON válido, campos básicos, nombres duplicados, colores, talles, imágenes faltantes y avisa sobre imágenes de más de 1.5 MB.
+
+## Visibilidad de productos
+
+La temporada ya no decide si un producto se publica. Para controlar la publicacion usar:
+
+```json
+"visible": true
+```
+
+El producto aparece en la web. Para ocultarlo sin borrarlo:
+
+```json
+"visible": false
+```
+
+Si el campo `visible` no existe, el producto se considera visible por defecto para mantener compatibilidad con el catalogo anterior.

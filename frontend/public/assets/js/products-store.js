@@ -1,8 +1,7 @@
 (() => {
-  const CACHE_KEY = 'romixProductsCacheV3';
+  const CACHE_KEY = 'romixProductsCacheV4';
   const CACHE_TTL_MS = 5 * 60 * 1000;
   const DATA_URL = 'assets/data/products.json';
-  const BLOCKED_SEASON_KEY = 'verano';
 
   let memoryCache = null;
   let inFlight = null;
@@ -164,35 +163,35 @@
     return '';
   }
 
-  function localShouldHideProduct(product) {
+  function isVisibleProduct(product) {
     if (!product || typeof product !== 'object') return false;
 
-    if (product.hidden === true || product.hide === true || product.oculto === true) return true;
-
     if (Object.prototype.hasOwnProperty.call(product, 'visible')) {
+      if (typeof product.visible === 'boolean') return product.visible;
       const visible = normalizeText(product.visible);
-      if (visible === 'false' || visible === '0' || visible === 'no') return true;
+      return !['false', '0', 'no', 'hidden', 'oculto', 'inactive', 'inactivo'].includes(visible);
     }
+
+    if (product.hidden === true || product.hide === true || product.oculto === true) return false;
 
     if (Object.prototype.hasOwnProperty.call(product, 'active')) {
       const active = normalizeText(product.active);
-      if (active === 'false' || active === '0' || active === 'no') return true;
+      if (active === 'false' || active === '0' || active === 'no') return false;
     }
 
     const state = normalizeText(product.visibility || product.state || product.publish);
     if (['hidden', 'oculto', 'draft', 'archived', 'inactive', 'inactivo'].includes(state)) {
-      return true;
+      return false;
     }
 
-    return seasonKey(product) === BLOCKED_SEASON_KEY;
+    return true;
+  }
+
+  function localShouldHideProduct(product) {
+    return !isVisibleProduct(product);
   }
 
   function shouldHideProduct(product) {
-    if (typeof window.shouldHideProduct === 'function') {
-      try {
-        if (window.shouldHideProduct(product)) return true;
-      } catch {}
-    }
     return localShouldHideProduct(product);
   }
 
@@ -326,6 +325,7 @@
   window.romixProductsStore = {
     load,
     normalizeProduct: normalizeProductShape,
+    isVisible: isVisibleProduct,
     clear() {
       memoryCache = null;
       inFlight = null;

@@ -41,7 +41,6 @@ _products_cache: list[dict] | None = None
 _products_mtime: float | None = None
 _products_json_cache: str | None = None
 _products_lock = RLock()
-BLOCKED_SEASON_KEYS = {"verano"}
 
 # Variantes en memoria
 _variants: Dict[Tuple[str, str, str], dict] = {}
@@ -130,7 +129,32 @@ def season_key(product: dict) -> str:
 
 
 def is_public_product(product: dict) -> bool:
-    return season_key(product) not in BLOCKED_SEASON_KEYS
+    """La temporada describe al producto; `visible` decide si se publica."""
+    if not isinstance(product, dict):
+        return False
+
+    if "visible" in product:
+        value = product.get("visible")
+        if isinstance(value, bool):
+            return value
+        normalized = normalize_text(value)
+        return normalized not in {
+            "false", "0", "no", "hidden", "oculto", "inactive", "inactivo"
+        }
+
+    if product.get("hidden") is True or product.get("hide") is True or product.get("oculto") is True:
+        return False
+
+    if "active" in product and normalize_text(product.get("active")) in {"false", "0", "no"}:
+        return False
+
+    state = normalize_text(
+        product.get("visibility") or product.get("state") or product.get("publish")
+    )
+    if state in {"hidden", "oculto", "draft", "archived", "inactive", "inactivo"}:
+        return False
+
+    return True
 
 
 def variants_file() -> Path:

@@ -2065,7 +2065,7 @@
       const raw = await loadProducts();
       const normalized = raw
         .map(normalizeProduct)
-        .filter((item) => item && item.seasonKey !== "verano");
+        .filter(Boolean);
       state.products = productsByScope(normalized, state.scope);
       state.products.forEach((item, index) => {
         item.sortRank = index;

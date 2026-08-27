@@ -3421,7 +3421,7 @@
           const lower = nameParam.toLowerCase();
           product = list.find(item => String(item.name || '').toLowerCase() === lower);
         }
-        if (isBlockedSeasonProduct(product)) return null;
+        if (isHiddenProduct(product)) return null;
         return product;
       }
 
@@ -3435,10 +3435,24 @@
         }
       }
 
-      function isBlockedSeasonProduct(product) {
-        if (!product || typeof product !== 'object') return false;
-        const season = normalizeSeasonKey(product.season || product.seasonKey);
-        return season.includes('verano');
+      function isHiddenProduct(product) {
+        if (!product || typeof product !== 'object') return true;
+
+        if (Object.prototype.hasOwnProperty.call(product, 'visible')) {
+          if (typeof product.visible === 'boolean') return !product.visible;
+          const value = String(product.visible ?? '').trim().toLowerCase();
+          return ['false', '0', 'no', 'hidden', 'oculto', 'inactive', 'inactivo'].includes(value);
+        }
+
+        if (product.hidden === true || product.hide === true || product.oculto === true) return true;
+
+        if (Object.prototype.hasOwnProperty.call(product, 'active')) {
+          const active = String(product.active ?? '').trim().toLowerCase();
+          if (['false', '0', 'no'].includes(active)) return true;
+        }
+
+        const state = String(product.visibility || product.state || product.publish || '').trim().toLowerCase();
+        return ['hidden', 'oculto', 'draft', 'archived', 'inactive', 'inactivo'].includes(state);
       }
 
       function statusToQty(status){
@@ -5107,7 +5121,7 @@
 
       const relatedRaw = allProducts.filter(p => {
         if (!p) return false;
-        if (isBlockedSeasonProduct(p)) return false;
+        if (isHiddenProduct(p)) return false;
         if (currentProduct.id && p.id === currentProduct.id) return false;
 
         const sameSection = p.section && currentProduct.section &&
@@ -5228,7 +5242,7 @@
 
       const relatedRaw = allProducts.filter(p => {
         if (!p) return false;
-        if (isBlockedSeasonProduct(p)) return false;
+        if (isHiddenProduct(p)) return false;
         if (currentProduct.id && p.id === currentProduct.id) return false;
 
         const sameSection = p.section && currentProduct.section &&
@@ -5453,8 +5467,8 @@
         const serverProduct = parsePreloadedProduct();
         try {
           const list = await productsRequest;
-          const safeList = Array.isArray(list) ? list.filter(item => !isBlockedSeasonProduct(item)) : [];
-          const product = (serverProduct && !isBlockedSeasonProduct(serverProduct))
+          const safeList = Array.isArray(list) ? list.filter(item => !isHiddenProduct(item)) : [];
+          const product = (serverProduct && !isHiddenProduct(serverProduct))
             ? serverProduct
             : findProduct(safeList);
           if (!product) {

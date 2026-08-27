@@ -1,0 +1,214 @@
+name: Apply product visibility refactor
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-visibility-refactor.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refactor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Refactor visibility rules
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          def read(path):
+              return Path(path).read_text(encoding='utf-8')
+
+          def write(path, text):
+              Path(path).write_text(text, encoding='utf-8')
+
+          # 1) Product store: visibility is explicit and season no longer hides products.
+          path = 'frontend/public/assets/js/products-store.js'
+          text = read(path)
+          text = text.replace("const CACHE_KEY = 'romixProductsCacheV3';", "const CACHE_KEY = 'romixProductsCacheV4';")
+          text = text.replace("  const BLOCKED_SEASON_KEY = 'verano';\n", "")
+
+          old_block = re.compile(
+              r"  function localShouldHideProduct\(product\) \{.*?\n  \}\n\n"
+              r"  function shouldHideProduct\(product\) \{.*?\n  \}\n",
+              re.S,
+          )
+          new_block = """  function isVisibleProduct(product) {
+            if (!product || typeof product !== 'object') return false;
+
+            // Si `visible` existe, pasa a ser la regla principal.
+            if (Object.prototype.hasOwnProperty.call(product, 'visible')) {
+              if (typeof product.visible === 'boolean') return product.visible;
+              const visible = normalizeText(product.visible);
+              return !['false', '0', 'no', 'hidden', 'oculto', 'inactive', 'inactivo'].includes(visible);
+            }
+
+            // Compatibilidad con productos viejos.
+            if (product.hidden === true || product.hide === true || product.oculto === true) return false;
+
+            if (Object.prototype.hasOwnProperty.call(product, 'active')) {
+              const active = normalizeText(product.active);
+              if (active === 'false' || active === '0' || active === 'no') return false;
+            }
+
+            const state = normalizeText(product.visibility || product.state || product.publish);
+            if (['hidden', 'oculto', 'draft', 'archived', 'inactive', 'inactivo'].includes(state)) {
+              return false;
+            }
+
+            return true;
+          }
+
+          function localShouldHideProduct(product) {
+            return !isVisibleProduct(product);
+          }
+
+          function shouldHideProduct(product) {
+            return localShouldHideProduct(product);
+          }
+"""
+          text, count = old_block.subn(new_block, text, count=1)
+          if count != 1:
+              raise SystemExit('No se pudo actualizar la regla de visibilidad en products-store.js')
+
+          text = text.replace(
+              "    normalizeProduct: normalizeProductShape,\n",
+              "    normalizeProduct: normalizeProductShape,\n    isVisible: isVisibleProduct,\n",
+              1,
+          )
+          write(path, text)
+
+          # 2) Catálogo: temporada sigue siendo metadata/filtro, nunca condición de publicación.
+          path = 'frontend/public/assets/js/romix-catalog-pages.js'
+          text = read(path)
+          old = '''      const normalized = raw
+                .map(normalizeProduct)
+                .filter((item) => item && item.seasonKey !== "verano");'''
+          new = '''      const normalized = raw
+                .map(normalizeProduct)
+                .filter(Boolean);'''
+          if old not in text:
+              raise SystemExit('No se encontró el filtro estacional del catálogo')
+          text = text.replace(old, new, 1)
+          write(path, text)
+
+          # 3) Detalle: reutilizamos los lugares que antes bloqueaban por temporada,
+          #    pero ahora solo ocultan por `visible` o campos legacy.
+          path = 'frontend/public/product.html'
+          text = read(path)
+          old_func = re.compile(
+              r"      function isBlockedSeasonProduct\(product\) \{\n"
+              r"        if \(!product \|\| typeof product !== 'object'\) return false;\n"
+              r"        const season = normalizeSeasonKey\(product\.season \|\| product\.seasonKey\);\n"
+              r"        return season\.includes\('verano'\);\n"
+              r"      \}",
+          )
+          new_func = """      function isHiddenProduct(product) {
+                if (!product || typeof product !== 'object') return true;
+
+                if (Object.prototype.hasOwnProperty.call(product, 'visible')) {
+                  if (typeof product.visible === 'boolean') return !product.visible;
+                  const value = String(product.visible ?? '').trim().toLowerCase();
+                  return ['false', '0', 'no', 'hidden', 'oculto', 'inactive', 'inactivo'].includes(value);
+                }
+
+                if (product.hidden === true || product.hide === true || product.oculto === true) return true;
+
+                if (Object.prototype.hasOwnProperty.call(product, 'active')) {
+                  const active = String(product.active ?? '').trim().toLowerCase();
+                  if (['false', '0', 'no'].includes(active)) return true;
+                }
+
+                const state = String(product.visibility || product.state || product.publish || '').trim().toLowerCase();
+                return ['hidden', 'oculto', 'draft', 'archived', 'inactive', 'inactivo'].includes(state);
+              }"""
+          text, count = old_func.subn(new_func, text, count=1)
+          if count != 1:
+              raise SystemExit('No se pudo reemplazar el bloqueo estacional en product.html')
+          text = text.replace('isBlockedSeasonProduct', 'isHiddenProduct')
+          write(path, text)
+
+          # 4) Backend: misma regla de publicación que el frontend.
+          path = 'backend/app/main.py'
+          text = read(path)
+          text = text.replace('BLOCKED_SEASON_KEYS = {"verano"}\n', '')
+          old = '''def is_public_product(product: dict) -> bool:
+              return season_key(product) not in BLOCKED_SEASON_KEYS
+'''
+          new = '''def is_public_product(product: dict) -> bool:
+              """La temporada describe al producto; `visible` decide si se publica."""
+              if not isinstance(product, dict):
+                  return False
+
+              if "visible" in product:
+                  value = product.get("visible")
+                  if isinstance(value, bool):
+                      return value
+                  normalized = normalize_text(value)
+                  return normalized not in {
+                      "false", "0", "no", "hidden", "oculto", "inactive", "inactivo"
+                  }
+
+              # Compatibilidad con el esquema anterior.
+              if product.get("hidden") is True or product.get("hide") is True or product.get("oculto") is True:
+                  return False
+
+              if "active" in product and normalize_text(product.get("active")) in {"false", "0", "no"}:
+                  return False
+
+              state = normalize_text(
+                  product.get("visibility") or product.get("state") or product.get("publish")
+              )
+              if state in {"hidden", "oculto", "draft", "archived", "inactive", "inactivo"}:
+                  return False
+
+              return True
+'''
+          if old not in text:
+              raise SystemExit('No se encontró is_public_product en backend/app/main.py')
+          text = text.replace(old, new, 1)
+          write(path, text)
+
+          # Validaciones mínimas de sintaxis y de que los bloqueos estacionales desaparecieron.
+          catalog = read('frontend/public/assets/js/romix-catalog-pages.js')
+          detail = read('frontend/public/product.html')
+          backend = read('backend/app/main.py')
+          store = read('frontend/public/assets/js/products-store.js')
+
+          if 'seasonKey !== "verano"' in catalog:
+              raise SystemExit('El catálogo todavía contiene un bloqueo de verano')
+          if 'isBlockedSeasonProduct' in detail:
+              raise SystemExit('product.html todavía contiene el bloqueo estacional anterior')
+          if 'BLOCKED_SEASON_KEYS' in backend:
+              raise SystemExit('El backend todavía contiene BLOCKED_SEASON_KEYS')
+          if 'BLOCKED_SEASON_KEY' in store:
+              raise SystemExit('products-store.js todavía contiene BLOCKED_SEASON_KEY')
+          PY
+
+          node --check frontend/public/assets/js/products-store.js
+          node --check frontend/public/assets/js/romix-catalog-pages.js
+          python -m py_compile backend/app/main.py
+
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/public/assets/js/products-store.js \
+                  frontend/public/assets/js/romix-catalog-pages.js \
+                  frontend/public/product.html \
+                  backend/app/main.py
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "refactor: control product visibility explicitly"
+          git push

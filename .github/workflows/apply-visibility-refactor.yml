@@ -1,44 +1,184 @@
-name: Apply product visibility refactor
+name: Compact legacy products safely
 
 on:
   push:
     branches: [main]
     paths:
-      - 'scripts/apply-visibility-refactor.py'
       - '.github/workflows/apply-visibility-refactor.yml'
 
 permissions:
   contents: write
 
 jobs:
-  refactor:
+  compact:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Apply refactor
-        run: python scripts/apply-visibility-refactor.py
+      - name: Save catalog snapshot
+        run: cp frontend/public/assets/data/products.json /tmp/products-before.json
 
-      - name: Validate syntax
+      - name: Compact products
+        run: npm run compact:products
+
+      - name: Verify catalog continuity
+        shell: bash
         run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          const before = JSON.parse(fs.readFileSync('/tmp/products-before.json', 'utf8').replace(/^\uFEFF/, ''));
+          const after = JSON.parse(fs.readFileSync('frontend/public/assets/data/products.json', 'utf8').replace(/^\uFEFF/, ''));
+
+          function normalizeText(value) {
+            const raw = String(value || '').trim();
+            try {
+              return raw.normalize('NFD').replace(/\p{Diacritic}+/gu, '').toLowerCase();
+            } catch {
+              return raw.toLowerCase();
+            }
+          }
+
+          function effectiveColorImage(product, color, index) {
+            if (color && typeof color === 'object') {
+              const lists = [color.images, color.imagenes, color.gallery, color.galeria, color.photos, color.fotos];
+              const list = lists.find((entry) => Array.isArray(entry) && entry.length);
+              if (list && list[0]) return String(list[0]);
+              if (color.image || color.imagen) return String(color.image || color.imagen);
+            }
+            const name = String(color && typeof color === 'object' ? (color.name || color.value || '') : color || '').trim();
+            const map = product.imageMap && typeof product.imageMap === 'object' && !Array.isArray(product.imageMap)
+              ? product.imageMap
+              : null;
+            if (map && name) {
+              if (map[name]) return String(map[name]);
+              const target = normalizeText(name);
+              const key = Object.keys(map).find((entry) => normalizeText(entry) === target);
+              if (key && map[key]) return String(map[key]);
+            }
+            if (Array.isArray(product.images) && product.images[index]) return String(product.images[index]);
+            return String(product.image || '');
+          }
+
+          function cleanBase(product) {
+            const ignored = new Set([
+              'colors', 'sizes', 'images', 'imageMap',
+              'thumbnail', 'thumbnailFallback', 'thumbnailAvif',
+              'thumb', 'thumbFallback', 'thumbAvif'
+            ]);
+            const result = {};
+            Object.keys(product || {}).sort().forEach((key) => {
+              if (!ignored.has(key)) result[key] = product[key];
+            });
+            return result;
+          }
+
+          function colorSemantics(product) {
+            const colors = Array.isArray(product.colors)
+              ? product.colors
+              : (product.colors && typeof product.colors === 'object' ? Object.values(product.colors) : []);
+            return colors.map((entry, index) => {
+              const color = entry && typeof entry === 'object' ? entry : { name: String(entry || '') };
+              const ignored = new Set([
+                'image', 'imagen', 'images', 'imagenes', 'gallery', 'galeria', 'photos', 'fotos',
+                'thumbnail', 'thumbnailFallback', 'thumbnailAvif', 'thumb', 'thumbFallback', 'thumbAvif'
+              ]);
+              const meta = {};
+              Object.keys(color).sort().forEach((key) => {
+                if (!ignored.has(key)) meta[key] = color[key];
+              });
+              const explicitLists = [color.images, color.imagenes, color.gallery, color.galeria, color.photos, color.fotos];
+              const explicit = explicitLists.find((value) => Array.isArray(value) && value.length);
+              const images = explicit ? explicit.map(String) : [effectiveColorImage(product, color, index)].filter(Boolean);
+              return { meta, images };
+            });
+          }
+
+          function sizeSemantics(product) {
+            return (Array.isArray(product.sizes) ? product.sizes : []).map((entry) => {
+              if (entry && typeof entry === 'object' && !Array.isArray(entry)) {
+                const result = { ...entry };
+                result.size = String(entry.size ?? entry.value ?? '').trim();
+                result.status = String(entry.status || 'available').trim() || 'available';
+                delete result.value;
+                return result;
+              }
+              return { size: String(entry ?? '').trim(), status: 'available' };
+            });
+          }
+
+          function mainImageSet(product) {
+            const set = new Set();
+            const add = (value) => {
+              const next = String(value || '').trim();
+              if (next) set.add(next);
+            };
+            add(product.image);
+            if (Array.isArray(product.images)) product.images.forEach(add);
+            if (product.imageMap && typeof product.imageMap === 'object' && !Array.isArray(product.imageMap)) {
+              Object.values(product.imageMap).forEach(add);
+            }
+            const colors = Array.isArray(product.colors)
+              ? product.colors
+              : (product.colors && typeof product.colors === 'object' ? Object.values(product.colors) : []);
+            colors.forEach((color, index) => {
+              add(effectiveColorImage(product, color, index));
+              if (color && typeof color === 'object') {
+                [color.images, color.imagenes, color.gallery, color.galeria, color.photos, color.fotos]
+                  .filter(Array.isArray)
+                  .forEach((list) => list.forEach(add));
+              }
+            });
+            return [...set].sort();
+          }
+
+          function same(a, b) {
+            return JSON.stringify(a) === JSON.stringify(b);
+          }
+
+          if (!Array.isArray(before) || !Array.isArray(after)) throw new Error('El catalogo debe ser un array');
+          if (before.length !== after.length) throw new Error(`Cambio la cantidad de productos: ${before.length} -> ${after.length}`);
+
+          before.forEach((oldProduct, index) => {
+            const nextProduct = after[index];
+            const label = oldProduct.name || oldProduct.id || `producto ${index + 1}`;
+            if (!same(cleanBase(oldProduct), cleanBase(nextProduct))) {
+              throw new Error(`Cambio informacion base en: ${label}`);
+            }
+            if (!same(colorSemantics(oldProduct), colorSemantics(nextProduct))) {
+              throw new Error(`Cambio colores o fotos por color en: ${label}`);
+            }
+            if (!same(sizeSemantics(oldProduct), sizeSemantics(nextProduct))) {
+              throw new Error(`Cambio talles o estados en: ${label}`);
+            }
+            if (!same(mainImageSet(oldProduct), mainImageSet(nextProduct))) {
+              throw new Error(`Cambio el conjunto de imagenes principales en: ${label}`);
+            }
+          });
+
+          console.log(`Continuidad verificada para ${after.length} productos.`);
+          NODE
+
+      - name: Validate catalog and syntax
+        run: |
+          npm run check:products
           node --check frontend/public/assets/js/products-store.js
           node --check frontend/public/assets/js/romix-catalog-pages.js
           python -m py_compile backend/app/main.py
 
-      - name: Commit changes
+      - name: Commit compact catalog
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add frontend/public/assets/js/products-store.js \
-                  frontend/public/assets/js/romix-catalog-pages.js \
-                  frontend/public/product.html \
-                  backend/app/main.py \
-                  docs/CATALOGO_PRODUCTOS.md
+          rm -f .github/workflows/apply-visibility-refactor.yml
+          rm -f scripts/apply-visibility-refactor.py
+          git add -A
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "refactor: control product visibility explicitly"
+          git commit -m "refactor: compact legacy product catalog"
           git push

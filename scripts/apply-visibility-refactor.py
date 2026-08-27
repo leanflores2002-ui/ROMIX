@@ -1,6 +1,8 @@
 from pathlib import Path
 import re
 
+# One-time migration: season remains metadata; `visible` controls publication.
+
 
 def read(path: str) -> str:
     return Path(path).read_text(encoding="utf-8")
@@ -164,7 +166,6 @@ if "## Visibilidad de productos" not in text:
     write(path, text)
 
 
-# Sanity checks
 assert 'BLOCKED_SEASON_KEY' not in read('frontend/public/assets/js/products-store.js')
 assert 'seasonKey !== "verano"' not in read('frontend/public/assets/js/romix-catalog-pages.js')
 assert 'isBlockedSeasonProduct' not in read('frontend/public/product.html')

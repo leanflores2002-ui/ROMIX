@@ -1,0 +1,142 @@
+name: Update mega menu current catalog once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update-mega-menu-current-catalog-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-menu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update mega menu labels and links
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('frontend/public/assets/js/romix-header.js')
+          text = path.read_text(encoding='utf-8')
+
+          replacements = {
+              '{ label: "Temporada invierno", href: buildHref(mujer, { temporada: "invierno" }), icon: "snow" }':
+              '{ label: "Media estacion", href: buildHref(mujer, { temporada: "media-estacion" }), icon: "circle" }',
+
+              '{ label: "Termicos", href: buildHref(mujer, { q: "termica" }), icon: "heat" }':
+              '{ label: "Verano", href: buildHref(mujer, { temporada: "verano" }), icon: "spark" }',
+
+              '{ label: "Camisetas termicas", href: buildHref(mujer, { tipo: "remeras", q: "termica" }), icon: "heat" }':
+              '{ label: "Musculosas", href: buildHref(mujer, { q: "musculosa" }), icon: "top" }',
+
+              '{ label: "Termica", href: buildHref(mujer, { q: "termica" }), icon: "heat" }':
+              '{ label: "Morley", href: buildHref(mujer, { q: "morley" }), icon: "fabric" }',
+
+              '{ label: "Polar y corderito", href: buildHref(mujer, { q_any: "polar,corderito" }), icon: "snow" }':
+              '{ label: "Fibrana", href: buildHref(mujer, { q: "fibrana" }), icon: "fabric" }',
+
+              'title: "Listo para el frio",':
+              'title: "Movimiento para todos los dias",',
+
+              'href: buildHref(hombre, { temporada: "invierno" }),':
+              'href: buildHref(hombre, { temporada: "media-estacion" }),',
+
+              'image: "images/products/campera_algodon_frizado_hombre_azul_marino.png",':
+              'image: "images/products/campera_jaspeado_saplex_hombre_negro.png",',
+
+              '{ label: "Abrigo", href: buildHref(hombre, { q_any: "campera,buzo,frizado,corderito,polar" }) }':
+              '{ label: "Media estacion", href: buildHref(hombre, { temporada: "media-estacion" }) }',
+
+              '{ label: "Termicos", href: buildHref(hombre, { q: "termica" }) }':
+              '{ label: "Verano", href: buildHref(hombre, { temporada: "verano" }) }',
+
+              '{ label: "Camisetas termicas", href: buildHref(hombre, { tipo: "remeras", q: "termica" }) }':
+              '{ label: "Remeras Dry Fit", href: buildHref(hombre, { tipo: "remeras", q: "dry" }) }',
+
+              '{ label: "Termicos", href: buildHref(hombre, { tipo: "pantalones", q: "termica" }) }':
+              '{ label: "Bermudas", href: buildHref(hombre, { q: "bermuda" }) }',
+
+              '{ label: "Frizados", href: buildHref(hombre, { tipo: "pantalones", q: "frizado" }) }':
+              '{ label: "Rusticos", href: buildHref(hombre, { q: "rustico" }) }',
+
+              '{ label: "Frizado", href: buildHref(hombre, { q: "frizado" }) }':
+              '{ label: "Rustico", href: buildHref(hombre, { q: "rustico" }) }',
+
+              '{ label: "Termica", href: buildHref(hombre, { q: "termica" }) }':
+              '{ label: "Dry Fit", href: buildHref(hombre, { q: "dry" }) }',
+
+              '{ label: "Corderito", href: buildHref(hombre, { q: "corderito" }) }':
+              '{ label: "Jaspeado", href: buildHref(hombre, { q: "jaspeado" }) }',
+
+              'href: buildHref(ninos, { temporada: "invierno" }),':
+              'href: buildHref(ninos, { temporada: "media-estacion" }),',
+
+              'image: "images/products/campera_frizada_algodon_nino_azul_marino.png",':
+              'image: "images/products/remera_oversize_algodon_peinado_chico_azul.png",',
+
+              '{ label: "Camisetas termicas", href: buildHref(ninos, { tipo: "remeras", q_any: "nina,nena,termica" }) }':
+              '{ label: "Ciclistas", href: buildHref(ninos, { q: "ciclista" }) }',
+
+              '{ label: "Camperas", href: buildHref(ninos, { tipo: "camperas", q_any: "nina,nena" }) }':
+              '{ label: "Tops", href: buildHref(ninos, { q: "top" }) }',
+
+              '{ label: "Abrigo", href: buildHref(ninos, { q_any: "nina,nena,campera,frizada,termica" }) }':
+              '{ label: "Pantalones", href: buildHref(ninos, { tipo: "pantalones" }) }',
+
+              '{ label: "Camisetas termicas", href: buildHref(ninos, { tipo: "remeras", q_any: "nino,chico,termica" }) }':
+              '{ label: "Bermudas", href: buildHref(ninos, { q: "bermuda" }) }',
+
+              '{ label: "Camperas", href: buildHref(ninos, { tipo: "camperas", q_any: "nino,chico" }) }':
+              '{ label: "Calzas", href: buildHref(ninos, { tipo: "calzas" }) }',
+
+              '{ label: "Abrigo", href: buildHref(ninos, { q_any: "nino,chico,campera,frizada,termica" }) }':
+              '{ label: "Ciclistas", href: buildHref(ninos, { q: "ciclista" }) }',
+
+              '{ label: "Camperas", href: buildHref(ninos, { tipo: "camperas" }) }':
+              '{ label: "Bermudas", href: buildHref(ninos, { q: "bermuda" }) }',
+
+              '{ label: "Invierno", href: buildHref(ninos, { temporada: "invierno" }) }':
+              '{ label: "Media estacion", href: buildHref(ninos, { temporada: "media-estacion" }) }',
+
+              '{ label: "Termicos", href: buildHref(ninos, { q: "termica" }) }':
+              '{ label: "Verano", href: buildHref(ninos, { temporada: "verano" }) }',
+
+              '{ label: "Frizados", href: buildHref(ninos, { q: "frizada" }) }':
+              '{ label: "Lycra", href: buildHref(ninos, { q: "lycra" }) }'
+          }
+
+          missing = []
+          for old, new in replacements.items():
+              if old not in text:
+                  missing.append(old)
+                  continue
+              text = text.replace(old, new)
+
+          if missing:
+              raise SystemExit('Expected header entries not found:\n- ' + '\n- '.join(missing))
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Validate JavaScript syntax
+        run: node --check frontend/public/assets/js/romix-header.js
+
+      - name: Validate product catalog
+        run: npm run check:products
+
+      - name: Commit menu update
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/update-mega-menu-current-catalog-once.yml
+          git add frontend/public/assets/js/romix-header.js .github/workflows/update-mega-menu-current-catalog-once.yml
+          git commit -m "feat: align mega menu with visible catalog"
+          git push

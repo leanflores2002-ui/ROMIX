@@ -94,8 +94,8 @@
             links: [
               { label: "Nuevos ingresos", href: buildHref(mujer, { q: "nuevo" }), badge: "NEW", icon: "spark" },
               { label: "Mas vendidos", href: buildHref(mujer, { q: "mas vendido" }), badge: "HOT", icon: "trend" },
-              { label: "Temporada invierno", href: buildHref(mujer, { temporada: "invierno" }), icon: "snow" },
-              { label: "Termicos", href: buildHref(mujer, { q: "termica" }), icon: "heat" },
+              { label: "Media estacion", href: buildHref(mujer, { temporada: "media-estacion" }), icon: "circle" },
+              { label: "Verano", href: buildHref(mujer, { temporada: "verano" }), icon: "spark" },
               { label: "Looks deportivos", href: buildHref(mujer, { q_any: "lycra,saplex,deportivo,top,calza" }), icon: "move" }
             ]
           },
@@ -107,7 +107,7 @@
               { label: "Tops", href: buildHref(mujer, { tipo: "tops" }), icon: "top" },
               { label: "Buzos", href: buildHref(mujer, { tipo: "buzos" }), icon: "top" },
               { label: "Camperas", href: buildHref(mujer, { tipo: "camperas" }), icon: "jacket" },
-              { label: "Camisetas termicas", href: buildHref(mujer, { tipo: "remeras", q: "termica" }), icon: "heat" }
+              { label: "Musculosas", href: buildHref(mujer, { q: "musculosa" }), icon: "top" }
             ]
           },
           {
@@ -125,11 +125,11 @@
             title: "Colecciones",
             links: [
               { label: "Lycra", href: buildHref(mujer, { q: "lycra" }), icon: "fabric" },
-              { label: "Termica", href: buildHref(mujer, { q: "termica" }), icon: "heat" },
+              { label: "Morley", href: buildHref(mujer, { q: "morley" }), icon: "fabric" },
               { label: "Algodon", href: buildHref(mujer, { q: "algodon" }), icon: "fabric" },
               { label: "Modal", href: buildHref(mujer, { q: "modal" }), icon: "fabric" },
               { label: "Saplex", href: buildHref(mujer, { q: "saplex" }), icon: "fabric" },
-              { label: "Polar y corderito", href: buildHref(mujer, { q_any: "polar,corderito" }), icon: "snow" }
+              { label: "Fibrana", href: buildHref(mujer, { q: "fibrana" }), icon: "fabric" }
             ]
           }
         ]
@@ -140,10 +140,10 @@
         page: hombre,
         promo: {
           eyebrow: "Nueva coleccion",
-          title: "Listo para el frio",
+          title: "Movimiento para todos los dias",
           cta: "Ver productos",
-          href: buildHref(hombre, { temporada: "invierno" }),
-          image: "images/products/campera_algodon_frizado_hombre_azul_marino.png",
+          href: buildHref(hombre, { temporada: "media-estacion" }),
+          image: "images/products/campera_jaspeado_saplex_hombre_negro.png",
           alt: "Campera ROMIX para hombre"
         },
         columns: [
@@ -152,15 +152,15 @@
             links: [
               { label: "Nuevos ingresos", href: buildHref(hombre, { q: "nuevo" }) },
               { label: "Mas vendidos", href: buildHref(hombre, { q: "mas vendido" }) },
-              { label: "Abrigo", href: buildHref(hombre, { q_any: "campera,buzo,frizado,corderito,polar" }) },
-              { label: "Termicos", href: buildHref(hombre, { q: "termica" }) }
+              { label: "Media estacion", href: buildHref(hombre, { temporada: "media-estacion" }) },
+              { label: "Verano", href: buildHref(hombre, { temporada: "verano" }) }
             ]
           },
           {
             title: "Parte superior",
             links: [
               { label: "Remeras", href: buildHref(hombre, { tipo: "remeras" }) },
-              { label: "Camisetas termicas", href: buildHref(hombre, { tipo: "remeras", q: "termica" }) },
+              { label: "Remeras Dry Fit", href: buildHref(hombre, { tipo: "remeras", q: "dry" }) },
               { label: "Buzos", href: buildHref(hombre, { tipo: "buzos" }) },
               { label: "Camperas", href: buildHref(hombre, { tipo: "camperas" }) }
             ]
@@ -171,8 +171,8 @@
               { label: "Pantalones", href: buildHref(hombre, { tipo: "pantalones" }) },
               { label: "Babuchas", href: buildHref(hombre, { tipo: "pantalones", q: "babucha" }) },
               { label: "Joggers", href: buildHref(hombre, { tipo: "pantalones", q: "jogger" }) },
-              { label: "Termicos", href: buildHref(hombre, { tipo: "pantalones", q: "termica" }) },
-              { label: "Frizados", href: buildHref(hombre, { tipo: "pantalones", q: "frizado" }) }
+              { label: "Bermudas", href: buildHref(hombre, { q: "bermuda" }) },
+              { label: "Rusticos", href: buildHref(hombre, { q: "rustico" }) }
             ]
           },
           {
@@ -180,9 +180,9 @@
             links: [
               { label: "Algodon", href: buildHref(hombre, { q: "algodon" }) },
               { label: "Lycra", href: buildHref(hombre, { q: "lycra" }) },
-              { label: "Frizado", href: buildHref(hombre, { q: "frizado" }) },
-              { label: "Termica", href: buildHref(hombre, { q: "termica" }) },
-              { label: "Corderito", href: buildHref(hombre, { q: "corderito" }) }
+              { label: "Rustico", href: buildHref(hombre, { q: "rustico" }) },
+              { label: "Dry Fit", href: buildHref(hombre, { q: "dry" }) },
+              { label: "Jaspeado", href: buildHref(hombre, { q: "jaspeado" }) }
             ]
           },
           {
@@ -201,8 +201,8 @@
           eyebrow: "Nueva coleccion",
           title: "Movimiento para todo el dia",
           cta: "Ver productos",
-          href: buildHref(ninos, { temporada: "invierno" }),
-          image: "images/products/campera_frizada_algodon_nino_azul_marino.png",
+          href: buildHref(ninos, { temporada: "media-estacion" }),
+          image: "images/products/remera_oversize_algodon_peinado_chico_azul.png",
           alt: "Campera infantil ROMIX"
         },
         columns: [
@@ -211,9 +211,9 @@
             links: [
               { label: "Calzas", href: buildHref(ninos, { tipo: "calzas", q_any: "nina,nena" }) },
               { label: "Remeras", href: buildHref(ninos, { tipo: "remeras", q_any: "nina,nena" }) },
-              { label: "Camisetas termicas", href: buildHref(ninos, { tipo: "remeras", q_any: "nina,nena,termica" }) },
-              { label: "Camperas", href: buildHref(ninos, { tipo: "camperas", q_any: "nina,nena" }) },
-              { label: "Abrigo", href: buildHref(ninos, { q_any: "nina,nena,campera,frizada,termica" }) }
+              { label: "Ciclistas", href: buildHref(ninos, { q: "ciclista" }) },
+              { label: "Tops", href: buildHref(ninos, { q: "top" }) },
+              { label: "Pantalones", href: buildHref(ninos, { tipo: "pantalones" }) }
             ]
           },
           {
@@ -221,9 +221,9 @@
             links: [
               { label: "Pantalones", href: buildHref(ninos, { tipo: "pantalones", q_any: "nino,chico" }) },
               { label: "Remeras", href: buildHref(ninos, { tipo: "remeras", q_any: "nino,chico" }) },
-              { label: "Camisetas termicas", href: buildHref(ninos, { tipo: "remeras", q_any: "nino,chico,termica" }) },
-              { label: "Camperas", href: buildHref(ninos, { tipo: "camperas", q_any: "nino,chico" }) },
-              { label: "Abrigo", href: buildHref(ninos, { q_any: "nino,chico,campera,frizada,termica" }) }
+              { label: "Bermudas", href: buildHref(ninos, { q: "bermuda" }) },
+              { label: "Calzas", href: buildHref(ninos, { tipo: "calzas" }) },
+              { label: "Ciclistas", href: buildHref(ninos, { q: "ciclista" }) }
             ]
           },
           {
@@ -232,15 +232,15 @@
               { label: "Calzas", href: buildHref(ninos, { tipo: "calzas" }) },
               { label: "Pantalones", href: buildHref(ninos, { tipo: "pantalones" }) },
               { label: "Remeras", href: buildHref(ninos, { tipo: "remeras" }) },
-              { label: "Camperas", href: buildHref(ninos, { tipo: "camperas" }) }
+              { label: "Bermudas", href: buildHref(ninos, { q: "bermuda" }) }
             ]
           },
           {
             title: "Temporada",
             links: [
-              { label: "Invierno", href: buildHref(ninos, { temporada: "invierno" }) },
-              { label: "Termicos", href: buildHref(ninos, { q: "termica" }) },
-              { label: "Frizados", href: buildHref(ninos, { q: "frizada" }) },
+              { label: "Media estacion", href: buildHref(ninos, { temporada: "media-estacion" }) },
+              { label: "Verano", href: buildHref(ninos, { temporada: "verano" }) },
+              { label: "Lycra", href: buildHref(ninos, { q: "lycra" }) },
               { label: "Algodon", href: buildHref(ninos, { q: "algodon" }) }
             ]
           }

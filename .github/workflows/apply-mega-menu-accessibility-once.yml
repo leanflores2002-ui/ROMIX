@@ -1,0 +1,29 @@
+name: Apply mega menu accessibility once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-mega-menu-accessibility-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: python scripts/improve-mega-menu-accessibility.py
+      - run: node --check frontend/public/assets/js/romix-header.js
+      - run: npm run check:products
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/apply-mega-menu-accessibility-once.yml
+          rm -f scripts/improve-mega-menu-accessibility.py
+          git add frontend/public/assets/js/romix-header.js frontend/public/assets/css/romix-header.css .github/workflows/apply-mega-menu-accessibility-once.yml scripts/improve-mega-menu-accessibility.py
+          git commit -m "feat: improve mega menu clarity and accessibility"
+          git push

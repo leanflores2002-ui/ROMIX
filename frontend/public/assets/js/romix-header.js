@@ -68,11 +68,11 @@
         label: "Mujer",
         page: mujer,
         promo: {
-          eyebrow: "Nueva coleccion",
-          title: "Entrena tu mejor version",
-          description: "Tecnologia, confort y diseno para moverte con libertad.",
-          cta: "Ver coleccion",
-          href: buildHref(mujer, { q_any: "lycra,deportivo,nuevo" }),
+          eyebrow: "Producto destacado",
+          title: "Campera Lycra Estampada",
+          description: "Campera deportiva de lycra estampada para mujer. Comodidad y elasticidad para uso diario o entrenamiento.",
+          cta: "Ver campera",
+          href: buildHref(mujer, { q: "campera lycra estampado" }),
           image: "images/products/campera_lycra_estampado_1.png",
           alt: "Campera deportiva estampada ROMIX para mujer"
         },
@@ -81,12 +81,6 @@
           title: "Guia de talles",
           text: "Medidas claras para elegir mejor cada prenda.",
           href: "ayuda.html#size-guide"
-        },
-        accessories: {
-          title: "Accesorios",
-          links: [
-            { label: "Cuellos", href: buildHref(mujer, { tipo: "accesorios", q: "cuello" }), icon: "circle" }
-          ]
         },
         columns: [
           {
@@ -100,7 +94,7 @@
             ]
           },
           {
-            title: "Parte superior",
+            title: "Prendas superiores",
             links: [
               { label: "Remeras", href: buildHref(mujer, { tipo: "remeras" }), icon: "top" },
               { label: "Remeras manga larga", href: buildHref(mujer, { tipo: "remeras", q_any: "manga larga,remera" }), icon: "top" },
@@ -111,18 +105,18 @@
             ]
           },
           {
-            title: "Parte inferior",
+            title: "Prendas inferiores",
             links: [
               { label: "Calzas", href: buildHref(mujer, { tipo: "calzas" }), icon: "bottom" },
-              { label: "Joggers", href: buildHref(mujer, { tipo: "pantalones", q: "jogger" }), icon: "bottom" },
-              { label: "Babuchas", href: buildHref(mujer, { tipo: "pantalones", q: "babucha" }), icon: "bottom" },
-              { label: "Rectos", href: buildHref(mujer, { tipo: "pantalones", q: "recto" }), icon: "bottom" },
-              { label: "Oxford", href: buildHref(mujer, { tipo: "calzas", q: "oxford" }), icon: "bottom" },
-              { label: "Palazos", href: buildHref(mujer, { tipo: "palazos" }), icon: "bottom" }
+              { label: "Pantalones jogger", href: buildHref(mujer, { tipo: "pantalones", q: "jogger" }), icon: "bottom" },
+              { label: "Pantalones babucha", href: buildHref(mujer, { tipo: "pantalones", q: "babucha" }), icon: "bottom" },
+              { label: "Pantalones rectos", href: buildHref(mujer, { tipo: "pantalones", q: "recto" }), icon: "bottom" },
+              { label: "Calzas Oxford", href: buildHref(mujer, { tipo: "calzas", q: "oxford" }), icon: "bottom" },
+              { label: "Pantalones palazo", href: buildHref(mujer, { tipo: "palazos" }), icon: "bottom" }
             ]
           },
           {
-            title: "Colecciones",
+            title: "Telas y estilos",
             links: [
               { label: "Lycra", href: buildHref(mujer, { q: "lycra" }), icon: "fabric" },
               { label: "Morley", href: buildHref(mujer, { q: "morley" }), icon: "fabric" },
@@ -302,7 +296,7 @@
     }
   }
 
-  function buildPanelColumns(columns) {
+  function buildPanelColumns(columns, sectionLabel) {
     return columns.map(function (column) {
       var links = (column.links || []).map(function (link) {
         var badge = link.badge
@@ -313,7 +307,7 @@
           : '<span class="mega-link-icon" aria-hidden="true"></span>';
         return '' +
           '<li>' +
-            '<a class="mega-panel-link" href="' + escapeHtml(link.href) + '" data-mega-link="true">' +
+            '<a class="mega-panel-link" href="' + escapeHtml(link.href) + '" data-mega-link="true" aria-label="' + escapeHtml('Ver ' + link.label + (sectionLabel ? ' de ' + sectionLabel : '')) + '">' +
               icon +
               '<span class="mega-link-label">' + escapeHtml(link.label) + '</span>' +
               badge +
@@ -361,7 +355,7 @@
   }
 
   function buildPanel(item) {
-    var columns = buildPanelColumns(item.columns || []);
+    var columns = buildPanelColumns(item.columns || [], item.label);
     var promo = item.promo || {};
     var accessories = buildAccessories(item.accessories);
     var guideCard = buildGuideCard(item.guideCard);
@@ -380,7 +374,7 @@
           '</div>' +
           '<div class="mega-panel-grid">' +
             '<div class="mega-panel-columns">' + columns + '</div>' +
-            '<a class="mega-promo" href="' + escapeHtml(promo.href || item.page) + '" data-mega-link="true">' +
+            '<a class="mega-promo" href="' + escapeHtml(promo.href || item.page) + '" data-mega-link="true" aria-label="' + escapeHtml('Ver producto destacado: ' + (promo.title || item.label)) + '">' +
               '<img src="' + escapeHtml(promo.image && typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(promo.image) : (promo.image || "images/logo-romix.png")) + '" alt="' + escapeHtml(promo.alt || item.label) + '" loading="lazy" decoding="async" width="720" height="960" />' +
               '<span class="mega-promo-overlay"></span>' +
               '<span class="mega-promo-copy">' +

@@ -1,0 +1,83 @@
+name: Remove Instagram inspiration section once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/remove-instagram-inspiration-section-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  remove-section:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove Instagram inspiration block and video gallery script
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('frontend/public/index.html')
+          text = path.read_text(encoding='utf-8')
+          original = text
+
+          # Remove the complete Instagram inspiration section, including its four
+          # video cards and the nested video lightbox.
+          section_pattern = re.compile(
+              r'\n?<section class="inspiration-section" aria-labelledby="inspiration-title">.*?'
+              r'<div class="video-lightbox" data-video-lightbox aria-hidden="true">.*?'
+              r'</div>\s*</section>\s*',
+              re.S,
+          )
+          text, section_count = section_pattern.subn('\n', text, count=1)
+          if section_count != 1:
+              raise SystemExit(f'Expected to remove exactly 1 inspiration section, removed {section_count}')
+
+          # Remove the JS IIFE that only powers that deleted gallery/lightbox.
+          script_pattern = re.compile(
+              r'\n\s*\(function initVideoGallery\(\) \{.*?\n\s*\}\)\(\);',
+              re.S,
+          )
+          text, script_count = script_pattern.subn('', text, count=1)
+          if script_count != 1:
+              raise SystemExit(f'Expected to remove exactly 1 initVideoGallery script, removed {script_count}')
+
+          forbidden = [
+              'inspiration-section',
+              'data-video-gallery',
+              'data-video-lightbox',
+              'Video ROMIX 1',
+              'Video ROMIX 2',
+              'Video ROMIX 3',
+              'Video ROMIX 4',
+              'initVideoGallery',
+          ]
+          remaining = [token for token in forbidden if token in text]
+          if remaining:
+              raise SystemExit('Instagram/video gallery remnants remain: ' + ', '.join(remaining))
+
+          if text == original:
+              raise SystemExit('No changes were made')
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Validate catalog
+        run: npm run check:products
+
+      - name: Commit removal
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/remove-instagram-inspiration-section-once.yml
+          git add frontend/public/index.html .github/workflows/remove-instagram-inspiration-section-once.yml
+          git commit -m "feat: remove Instagram inspiration section"
+          git push

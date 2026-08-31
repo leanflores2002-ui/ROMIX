@@ -27,20 +27,31 @@ jobs:
           sleep 2
           curl --fail --silent http://localhost/cart.html >/dev/null
 
-      - name: Align mobile navigation breakpoint
+      - name: Apply compatibility-safe fixes
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          path = Path('frontend/public/assets/js/romix-header.js')
-          text = path.read_text(encoding='utf-8')
+
+          header = Path('frontend/public/assets/js/romix-header.js')
+          text = header.read_text(encoding='utf-8')
           old = 'return window.innerWidth <= 768;'
           new = 'return window.innerWidth <= 900;'
           if old in text:
               text = text.replace(old, new, 1)
           elif new not in text:
               raise SystemExit('Expected mobile navigation breakpoint was not found')
-          path.write_text(text, encoding='utf-8')
+          header.write_text(text, encoding='utf-8')
+
+          cart = Path('frontend/public/cart.html')
+          cart_text = cart.read_text(encoding='utf-8')
+          alias = '    window.orderCartWhatsApp = handleOrder;\n'
+          marker = '    function renderCart(){\n'
+          if alias not in cart_text:
+              if marker not in cart_text:
+                  raise SystemExit('Expected renderCart marker was not found')
+              cart_text = cart_text.replace(marker, alias + marker, 1)
+          cart.write_text(cart_text, encoding='utf-8')
           PY
 
       - name: JavaScript syntax checks
@@ -66,12 +77,12 @@ jobs:
             exit 1
           }
 
-      - name: Commit validated storefront fix
+      - name: Commit validated storefront fixes
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           rm -f .github/workflows/validate-romix-storefront-once.yml
-          git add frontend/public/assets/js/romix-header.js .github/workflows/validate-romix-storefront-once.yml
-          git commit -m "fix: align storefront mobile navigation breakpoint"
+          git add frontend/public/assets/js/romix-header.js frontend/public/cart.html .github/workflows/validate-romix-storefront-once.yml
+          git commit -m "fix: preserve cart compatibility and responsive navigation"
           git push

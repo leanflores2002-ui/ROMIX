@@ -1,10 +1,13 @@
 (() => {
-  const CACHE_KEY = 'romixProductsCacheV5';
-  const CACHE_TTL_MS = 5 * 60 * 1000;
+  const CACHE_VERSION = 6;
+  const CACHE_KEY = `romixProductsCacheV${CACHE_VERSION}`;
+  const LEGACY_CACHE_KEYS = ['romixProductsCacheV5'];
+  const CACHE_TTL_MS = 30 * 60 * 1000;
   const DATA_URL = 'assets/data/products.json';
 
   let memoryCache = null;
   let inFlight = null;
+  let loadStatus = { source: 'none', stale: false, errors: [] };
 
   function normalizeText(value) {
     const raw = value == null ? '' : String(value).trim();
@@ -88,12 +91,12 @@
         if (!size) return null;
         return Object.assign({}, entry, {
           size,
-          status: String(entry.status || 'available').trim() || 'available'
+          status: String(entry.status || 'unknown').trim() || 'unknown'
         });
       }
 
       const size = String(entry ?? '').trim();
-      return size ? { size, status: 'available' } : null;
+      return size ? { size, status: 'unknown' } : null;
     }).filter(Boolean);
   }
 
@@ -200,19 +203,25 @@
       const raw = sessionStorage.getItem(CACHE_KEY);
       if (!raw) return null;
       const parsed = JSON.parse(raw);
+      if (parsed.version !== CACHE_VERSION) return null;
       if (!parsed || !Array.isArray(parsed.list)) return null;
       if (typeof parsed.timestamp !== 'number') return null;
       if ((now() - parsed.timestamp) > CACHE_TTL_MS) return null;
-      return sanitizeList(parsed.list);
+      return {
+        list: sanitizeList(parsed.list),
+        source: String(parsed.source || 'cache')
+      };
     } catch {
       return null;
     }
   }
 
-  function writeSessionCache(list) {
+  function writeSessionCache(list, source) {
     try {
       sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+        version: CACHE_VERSION,
         timestamp: now(),
+        source: String(source || 'unknown'),
         list: Array.isArray(list) ? list : []
       }));
     } catch {}
@@ -239,61 +248,74 @@
   async function fetchProducts(options) {
     const opts = options || {};
     const dataUrl = new URL(opts.dataUrl || DATA_URL, location.href);
+    const errors = [];
 
     if (opts.useApi !== false) {
       try {
-        const apiRes = await fetch('/api/products');
-        if (apiRes.ok) {
-          const apiList = sanitizeList(await apiRes.json());
-          if (apiList.length) writeSessionCache(apiList);
-          return apiList;
-        }
+        const apiRes = await fetch('/api/products', { cache: 'no-cache' });
+        if (!apiRes.ok) throw new Error(`API products respondió ${apiRes.status}`);
+        const payload = await apiRes.json();
+        if (!Array.isArray(payload)) throw new Error('API products devolvió un formato inválido');
+        const apiList = sanitizeList(payload);
+        writeSessionCache(apiList, 'api');
+        loadStatus = { source: 'api', stale: false, errors: [] };
+        return apiList;
       } catch (error) {
-        console.warn('[products-store] API fallback omitido', error);
+        errors.push(error);
       }
     }
 
-    const response = await fetch(dataUrl);
-    if (!response.ok) {
-      throw new Error('No se pudo cargar products.json (' + response.status + ') desde ' + dataUrl.href);
-    }
-    const text = await response.text();
-    let parsed;
     try {
-      parsed = parseJsonText(text);
+      const response = await fetch(dataUrl, { cache: 'no-cache' });
+      if (!response.ok) {
+        throw new Error('No se pudo cargar products.json (' + response.status + ') desde ' + dataUrl.href);
+      }
+      const text = await response.text();
+      let parsed;
+      try {
+        parsed = parseJsonText(text);
+      } catch (error) {
+        console.error('[products-store] JSON inválido en ' + dataUrl.href, error);
+        throw error;
+      }
+      if (!Array.isArray(parsed)) throw new Error('products.json no contiene una lista');
+      const fileList = sanitizeList(parsed);
+      writeSessionCache(fileList, 'json');
+      loadStatus = { source: 'json', stale: false, errors: errors.map(String) };
+      return fileList;
     } catch (error) {
-      console.error('[products-store] JSON invalido en ' + dataUrl.href, error);
-      throw error;
+      errors.push(error);
     }
-    const fileList = sanitizeList(Array.isArray(parsed) ? parsed : []);
-    writeSessionCache(fileList);
-    return fileList;
+
+    const cached = readSessionCache();
+    if (cached) {
+      loadStatus = { source: cached.source, stale: true, errors: errors.map(String) };
+      console.warn('[products-store] Red no disponible; se usa el último catálogo validado.', errors[errors.length - 1]);
+      return cached.list;
+    }
+
+    const combined = new Error('No se pudo cargar el catálogo desde API, JSON ni caché.');
+    combined.causes = errors;
+    throw combined;
   }
 
   async function load(options) {
     const opts = options || {};
     const force = opts.force === true;
 
-    if (!force && memoryCache && memoryCache.length) return memoryCache;
-
-    const preloaded = fromPreloaded(opts);
-    if (!force && preloaded && preloaded.length) {
-      memoryCache = preloaded;
-      writeSessionCache(memoryCache);
-      return memoryCache;
-    }
-
-    if (!force) {
-      const sessionCached = readSessionCache();
-      if (sessionCached && sessionCached.length) {
-        memoryCache = sessionCached;
-        return memoryCache;
-      }
-    }
+    if (!force && memoryCache !== null) return memoryCache;
 
     if (!force && inFlight) return inFlight;
 
     inFlight = fetchProducts(opts)
+      .catch((error) => {
+        const preloaded = fromPreloaded(opts);
+        if (preloaded) {
+          loadStatus = { source: 'preloaded', stale: true, errors: [String(error)] };
+          return preloaded;
+        }
+        throw error;
+      })
       .then((list) => {
         memoryCache = sanitizeList(list);
         return memoryCache;
@@ -309,10 +331,17 @@
     load,
     normalizeProduct: normalizeProductShape,
     isVisible: isVisibleProduct,
+    getStatus() {
+      return Object.assign({}, loadStatus, { errors: loadStatus.errors.slice() });
+    },
     clear() {
       memoryCache = null;
       inFlight = null;
       try { sessionStorage.removeItem(CACHE_KEY); } catch {}
     }
   };
+
+  try {
+    LEGACY_CACHE_KEYS.forEach((key) => sessionStorage.removeItem(key));
+  } catch {}
 })();

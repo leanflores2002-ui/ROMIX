@@ -53,6 +53,7 @@
   ]);
 
   const STOCK_META = {
+    unknown: { label: "Consultar disponibilidad", css: "status-unknown" },
     available: { label: "Disponible", css: "status-available" },
     low: { label: "Por agotarse", css: "status-low" },
     out: { label: "Sin stock", css: "status-out" }
@@ -131,6 +132,7 @@
     sizeValues: [],
     visibleCount: window.innerWidth <= 768 ? 8 : 12
   };
+  let filterLastFocus = null;
 
   function isCompactVariantViewport() {
     return window.innerWidth <= 768;
@@ -696,10 +698,10 @@
 
   function normalizeStatus(rawStatus) {
     const key = normalizeText(rawStatus);
-    if (!key) return "available";
+    if (!key || key.includes("unknown") || key.includes("consult")) return "unknown";
     if (key.includes("sin") || key.includes("agot") || key.includes("out") || key.includes("unavail")) return "out";
     if (key.includes("low") || key.includes("poco") || key.includes("por")) return "low";
-    return "available";
+    return "unknown";
   }
 
   function getRawImageMap(product) {
@@ -754,9 +756,10 @@
   }
 
   function statusFromSizes(sizes) {
-    if (!Array.isArray(sizes) || !sizes.length) return "available";
+    if (!Array.isArray(sizes) || !sizes.length) return "unknown";
     let available = 0;
     let low = 0;
+    let unknown = 0;
 
     sizes.forEach((entry) => {
       const status = normalizeStatus(entry && entry.status);
@@ -765,8 +768,10 @@
         available += 1;
         low += 1;
       }
+      if (status === "unknown") unknown += 1;
     });
 
+    if (unknown > 0) return "unknown";
     if (available === 0) return "out";
     if (low > 0) return "low";
     return "available";
@@ -1525,7 +1530,7 @@
       price.textContent = formatPrice(product.price);
 
       const stock = document.createElement("p");
-      const stockInfo = STOCK_META[product.stockStatus] || STOCK_META.available;
+      const stockInfo = STOCK_META[product.stockStatus] || STOCK_META.unknown;
       stock.className = "stock-note " + stockInfo.css;
       stock.textContent = stockInfo.label;
 
@@ -1645,6 +1650,36 @@
     renderGrid();
     renderActiveFilters();
     renderBreadcrumb();
+    syncFilterUrl();
+  }
+
+  function syncFilterUrl() {
+    if (!window.history || typeof window.history.replaceState !== "function") return;
+    const params = new URLSearchParams(window.location.search || "");
+    const filterKeys = [
+      "categories", "categoria", "categorias", "category", "cat",
+      "types", "type", "tipos", "tipo", "seasons", "season", "temporada", "temp",
+      "sections", "section", "secciones", "seccion", "sizes", "size", "talles", "talle",
+      "edad", "edades", "audiencia", "audience", "colors", "color", "colores", "sort"
+    ];
+    filterKeys.forEach((key) => params.delete(key));
+    const mapping = {
+      categories: state.selected.categories,
+      types: state.selected.types,
+      seasons: state.selected.seasons,
+      sections: state.selected.sections,
+      sizes: state.selected.sizes,
+      audience: state.selected.audiences,
+      colors: state.selected.colors
+    };
+    Object.entries(mapping).forEach(([key, values]) => {
+      const list = Array.from(values || []).sort();
+      if (list.length) params.set(key, list.join(","));
+    });
+    if (state.sortBy !== "recommended") params.set("sort", state.sortBy);
+    const query = params.toString();
+    const nextUrl = window.location.pathname + (query ? "?" + query : "") + window.location.hash;
+    window.history.replaceState(window.history.state, "", nextUrl);
   }
 
   function onFilterChange(event) {
@@ -1960,11 +1995,36 @@
   }
 
   function closeSidebar() {
+    const sidebar = document.getElementById("filters-sidebar");
+    const overlay = document.getElementById("filters-overlay");
+    const wasOpen = document.body.classList.contains("filters-open");
     document.body.classList.remove("filters-open");
+    if (sidebar) {
+      sidebar.setAttribute("aria-hidden", "true");
+      sidebar.removeAttribute("aria-modal");
+      sidebar.removeAttribute("role");
+    }
+    if (overlay) overlay.setAttribute("aria-hidden", "true");
+    if (wasOpen && filterLastFocus && typeof filterLastFocus.focus === "function") {
+      requestAnimationFrame(() => filterLastFocus.focus());
+    }
   }
 
   function openSidebar() {
+    const sidebar = document.getElementById("filters-sidebar");
+    const overlay = document.getElementById("filters-overlay");
+    filterLastFocus = document.activeElement;
     document.body.classList.add("filters-open");
+    if (sidebar) {
+      sidebar.setAttribute("role", "dialog");
+      sidebar.setAttribute("aria-modal", "true");
+      sidebar.setAttribute("aria-hidden", "false");
+    }
+    if (overlay) overlay.setAttribute("aria-hidden", "false");
+    requestAnimationFrame(() => {
+      const close = document.getElementById("close-filters");
+      if (close) close.focus();
+    });
   }
 
   function wireUiEvents() {
@@ -2038,6 +2098,30 @@
     if (overlay) {
       overlay.addEventListener("click", closeSidebar);
     }
+
+    document.addEventListener("keydown", function (event) {
+      if (!document.body.classList.contains("filters-open")) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSidebar();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const sidebar = document.getElementById("filters-sidebar");
+      if (!sidebar) return;
+      const focusable = Array.from(sidebar.querySelectorAll('button:not([disabled]), input:not([disabled]), select:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'))
+        .filter((element) => !element.hidden && element.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
 
     window.addEventListener("resize", function () {
       if (window.innerWidth > 960) closeSidebar();

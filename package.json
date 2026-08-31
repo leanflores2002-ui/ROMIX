@@ -7,13 +7,14 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "node tests/pageTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js",
+    "test": "node tests/pageTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js && node tests/storefrontStabilityTests.js",
     "test:season-backend": "python tests/season_visibility_backend_tests.py",
     "check:products": "node scripts/check-products.js",
     "compact:products": "node scripts/compact-products.js --write",
     "compact:products:preview": "node scripts/compact-products.js",
     "sync:price-groups": "node scripts/addPriceByGroupPlaceholder.js",
-    "generate:share-pages": "node scripts/generate-share-pages.js"
+    "generate:share-pages": "node scripts/generate-share-pages.js",
+    "sync:shells": "node scripts/sync-storefront-shells.js"
   },
   "repository": {
     "type": "git",

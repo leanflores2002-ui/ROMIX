@@ -1,9 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- ROMIX:SHELL:CRITICAL:START -->
+const fs = require('node:fs');
+const path = require('node:path');
+
+const publicDir = path.join(__dirname, '..', 'frontend', 'public');
+const assetVersion = '11';
+const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap';
+const pages = [
+  'index.html',
+  'catalogo.html',
+  'mujer.html',
+  'hombre.html',
+  'ninos.html',
+  'novedades.html',
+  'product.html',
+  'cart.html',
+  'ayuda.html',
+  'detalle.html',
+  '404.html'
+];
+
+const criticalShellCss = `<!-- ROMIX:SHELL:CRITICAL:START -->
 <style data-romix-shell-critical>
   *,*::before,*::after{box-sizing:border-box}
   .romix-announcement{display:flex;align-items:center;justify-content:center;min-height:28px;padding:4px 12px;background:#fff0f6;color:#171317;font:700 10px/1.2 Arial,sans-serif;text-align:center}
@@ -40,39 +55,9 @@
     .site-footer[data-romix-shell="footer-v1"] .footer-top{grid-template-columns:1fr}
   }
 </style>
-<!-- ROMIX:SHELL:CRITICAL:END -->
-  <title>ROMIX - Catalogo</title>
-  <meta name="description" content="Explora todo el catalogo de ROMIX: ropa para mujer, hombre y ninos." />
-  <link rel="canonical" href="https://romi-damas.netlify.app/catalogo.html" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="ROMIX" />
-  <meta property="og:locale" content="es_AR" />
-  <meta property="og:title" content="ROMIX - Catalogo" />
-  <meta property="og:description" content="Explora todo el catalogo de ROMIX: ropa para mujer, hombre y ninos." />
-  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
-  <meta property="og:image:alt" content="Logo ROMIX" />
-  <meta property="og:url" content="https://romi-damas.netlify.app/catalogo.html" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ROMIX - Catalogo" />
-  <meta name="twitter:description" content="Explora todo el catalogo de ROMIX: ropa para mujer, hombre y ninos." />
-  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<noscript>
-</noscript>
-  <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/romix-catalog-pages.css?v=11" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=11" />
-  <link rel="stylesheet" href="assets/css/romix-footer.css?v=11" />
-  <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
-  <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=11" />
-</head>
-<body data-catalog-scope="catalogo">
-  <a class="skip-link" href="#main-content">Saltar al contenido</a>
-<!-- ROMIX:SHELL:HEADER:START -->
+<!-- ROMIX:SHELL:CRITICAL:END -->`;
+
+const header = `<!-- ROMIX:SHELL:HEADER:START -->
 <div class="romix-announcement" role="note">Env&iacute;os y retiro coordinado &middot; Consult&aacute; disponibilidad</div>
 <header class="site-header romix-shared-header" data-romix-shell="header-v1">
   <div class="container header-row">
@@ -114,86 +99,9 @@
     </div>
   </div>
 </header>
-<!-- ROMIX:SHELL:HEADER:END -->
+<!-- ROMIX:SHELL:HEADER:END -->`;
 
-  <div id="filters-overlay" class="filters-overlay" aria-hidden="true"></div>
-
-  <main id="main-content" class="catalog-page">
-    <h1 id="page-title" class="catalog-heading">Catalogo ROMIX</h1>
-    <noscript><p class="catalog-noscript" role="status">El catálogo interactivo necesita JavaScript. También podés consultar productos y disponibilidad por WhatsApp desde el pie de página.</p></noscript>
-
-    <div class="catalog-layout">
-      <aside id="filters-sidebar" class="filters-sidebar" aria-label="Filtros">
-        <div class="filters-head">
-          <div class="filters-title-wrap">
-            <h2 class="filters-title">FILTROS</h2>
-            <span class="filters-line" aria-hidden="true"></span>
-          </div>
-          <button id="close-filters" type="button" class="sidebar-close">
-            <span class="romix-emoji" aria-hidden="true">&#10005;</span>
-            Cerrar
-          </button>
-        </div>
-        <div class="filters-scroll">
-
-        <button id="clear-filters" type="button" class="filters-clear">
-          <span class="romix-emoji" aria-hidden="true">&#9003;</span>
-          Limpiar
-        </button>
-
-        <section class="filters-group" aria-labelledby="filters-category-title">
-          <h3 id="filters-category-title">CATEGORIA</h3>
-          <div id="category-options" class="filter-list"></div>
-        </section>
-
-        <section class="filters-group" aria-labelledby="filters-season-title">
-          <h3 id="filters-season-title">TEMPORADA</h3>
-          <div id="season-options" class="filter-list"></div>
-        </section>
-
-        <section class="filters-group" id="section-filter-group" aria-labelledby="filters-section-title">
-          <h3 id="filters-section-title">SECCION</h3>
-          <div id="section-options" class="filter-list"></div>
-        </section>
-
-        <section class="filters-group" id="size-filter-group" aria-labelledby="filters-size-title">
-          <h3 id="filters-size-title">TALLES</h3>
-          <p id="size-helper" class="filter-helper" hidden>Seleccioná una sección para ver los talles disponibles</p>
-          <div id="size-options" class="size-grid"></div>
-          <button id="size-more-btn" class="filter-more" type="button">Ver mas +</button>
-        </section>
-
-        <section class="filters-group" aria-labelledby="filters-colors-title">
-          <h3 id="filters-colors-title">Color</h3>
-          <div id="color-options" class="filter-list"></div>
-          <button id="color-more-btn" class="filter-more" type="button">+ Ver mas</button>
-        </section>
-        </div>
-      </aside>
-
-      <section class="products-wrap" aria-label="Listado de productos">
-        <div class="products-top">
-          <p id="products-summary" class="products-summary">Cargando catálogo...</p>
-          <button id="open-filters" type="button" class="filters-open-btn">
-            <span class="romix-emoji" aria-hidden="true">&#9776;</span>
-            Filtros
-          </button>
-        </div>
-
-        <section id="active-filters-bar" class="active-filters-bar is-empty" aria-label="Filtros activos" aria-live="polite" hidden>
-          <div class="active-filters-header">
-            <p id="active-filters-title" class="active-filters-title">Filtros activos (0)</p>
-            <button id="active-filters-clear" type="button" class="active-filters-clear" disabled>Limpiar</button>
-          </div>
-          <div id="active-filters-list" class="active-filters-list"></div>
-        </section>
-
-        <div id="product-grid" class="grid" aria-live="polite"></div>
-      </section>
-    </div>
-  </main>
-
-<!-- ROMIX:SHELL:FOOTER:START -->
+const footer = `<!-- ROMIX:SHELL:FOOTER:START -->
 <footer class="site-footer" data-romix-shell="footer-v1">
   <div class="footer-shell">
     <div class="footer-top">
@@ -227,15 +135,76 @@
     </div>
   </div>
 </footer>
-<!-- ROMIX:SHELL:FOOTER:END -->
+<!-- ROMIX:SHELL:FOOTER:END -->`;
 
-  <div id="catalog-toast" class="catalog-toast" aria-live="polite" role="status"></div>
+function replaceShell(html, startMarker, endMarker, replacement) {
+  const start = html.indexOf(startMarker);
+  const end = html.indexOf(endMarker);
+  if (start >= 0 && end >= start) {
+    return html.slice(0, start) + replacement + html.slice(end + endMarker.length);
+  }
+  return null;
+}
 
-  <script src="assets/js/romix-image-utils.js?v=11" defer></script>
-  <script src="assets/js/cart.js?v=11" defer></script>
-  <script src="assets/js/products-store.js?v=11" defer></script>
-  <script src="assets/js/romix-catalog-pages.js?v=11" defer></script>
-  <script src="assets/js/romix-header.js?v=11" defer></script>
-</body>
-</html>
+function syncHeader(html) {
+  const marked = replaceShell(html, '<!-- ROMIX:SHELL:HEADER:START -->', '<!-- ROMIX:SHELL:HEADER:END -->', header);
+  if (marked != null) return marked;
+  const headerPattern = /\s*<header\b[^>]*class=["'][^"']*romix-shared-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i;
+  if (!headerPattern.test(html)) throw new Error('No se encontr&oacute; header compartido');
+  return html.replace(headerPattern, '\n' + header);
+}
 
+function syncFooter(html) {
+  const marked = replaceShell(html, '<!-- ROMIX:SHELL:FOOTER:START -->', '<!-- ROMIX:SHELL:FOOTER:END -->', footer);
+  if (marked != null) return marked;
+  const footerPattern = /\s*<footer\b[^>]*>[\s\S]*?<\/footer>/i;
+  if (footerPattern.test(html)) return html.replace(footerPattern, '\n' + footer);
+  const mainEnd = html.lastIndexOf('</main>');
+  if (mainEnd < 0) throw new Error('No se encontr&oacute; </main> para insertar footer');
+  const insertAt = mainEnd + '</main>'.length;
+  return html.slice(0, insertAt) + '\n\n' + footer + html.slice(insertAt);
+}
+
+function versionLocalAssets(html) {
+  return html.replace(/(["'])(assets\/(?:css|js)\/[^"'?]+)(?:\?v=[^"']+)?\1/g, (_match, quote, assetPath) => {
+    return quote + assetPath + '?v=' + assetVersion + quote;
+  });
+}
+
+function syncCriticalShellCss(html) {
+  const marked = replaceShell(html, '<!-- ROMIX:SHELL:CRITICAL:START -->', '<!-- ROMIX:SHELL:CRITICAL:END -->', criticalShellCss);
+  if (marked != null) return marked;
+  const viewport = /<meta\s+name=["']viewport["'][^>]*>/i;
+  if (viewport.test(html)) return html.replace(viewport, (match) => match + '\n  ' + criticalShellCss);
+  return html.replace(/<head>/i, '<head>\n  ' + criticalShellCss);
+}
+
+function syncFonts(html, page) {
+  let next = html
+    .replace(/\s*<noscript>\s*<link[^>]+fonts\.googleapis\.com\/css2[^>]*>\s*<\/noscript>/gi, '')
+    .replace(/\s*<link[^>]+fonts\.googleapis\.com\/css2[^>]*>/gi, '');
+  const links = [
+    `  <link href="${coreFontHref}" rel="stylesheet" />`,
+    page === 'index.html'
+      ? '  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&display=swap" rel="stylesheet" />'
+      : ''
+  ].filter(Boolean).join('\n');
+  const firstLocalStylesheet = /\s*<link\s+rel=["']stylesheet["']\s+href=["']assets\/css\//i;
+  if (firstLocalStylesheet.test(next)) return next.replace(firstLocalStylesheet, '\n' + links + '\n  <link rel="stylesheet" href="assets/css/');
+  return next.replace(/<\/head>/i, links + '\n</head>');
+}
+
+for (const page of pages) {
+  const file = path.join(publicDir, page);
+  let html = fs.readFileSync(file, 'utf8');
+  html = syncHeader(html);
+  html = syncFooter(html);
+  html = syncCriticalShellCss(html);
+  html = syncFonts(html, page);
+  html = html.replace(/\s*<script\s+src=["']assets\/js\/romix-footer\.js(?:\?[^"']*)?["'][^>]*><\/script>/gi, '');
+  html = html.replace(/\s*<script\s+src=["']assets\/js\/romix-minimal-theme\.js(?:\?[^"']*)?["'][^>]*><\/script>/gi, '');
+  html = versionLocalAssets(html);
+  fs.writeFileSync(file, html, 'utf8');
+}
+
+console.log(`Storefront shells sincronizados en ${pages.length} p&aacute;ginas.`);

@@ -1,10 +1,4 @@
 (function () {
-  const BRAND_LOGO_PICTURE = '' +
-    '<picture class="brand-logo-media">' +
-      '<source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="(max-width: 640px) 88px, 120px" type="image/webp">' +
-      '<img src="images/logo-romix.png" alt="Logo ROMIX" width="752" height="829" decoding="async" />' +
-    '</picture>';
-
   var imageUtils = window.romixImageUtils || {};
 
   function normalizeText(value) {
@@ -390,92 +384,6 @@
       '</div>';
   }
 
-  function navLinks(activeKey) {
-    return MENU_CONFIG.map(function (item) {
-      var active = item.key === activeKey;
-      return '' +
-        '<li class="mega-nav-item' + (active ? ' is-active' : '') + '" data-menu-key="' + escapeHtml(item.key) + '">' +
-          '<a class="mega-trigger' + (active ? ' active' : '') + '" id="mega-trigger-' + escapeHtml(item.key) + '" href="' + escapeHtml(item.page) + '" aria-expanded="false" aria-controls="mega-panel-' + escapeHtml(item.key) + '"' + (active ? ' aria-current="page"' : '') + '>' +
-            '<span>' + escapeHtml(item.label) + '</span>' +
-            '<svg class="mega-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
-              '<path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
-            '</svg>' +
-          '</a>' +
-          buildPanel(item) +
-        '</li>';
-    }).join("");
-  }
-
-  function buildHeaderTemplate(activeKey) {
-    return '' +
-      '<div class="container header-row">' +
-        '<div class="header-actions-left" aria-label="Acciones principales">' +
-          '<button class="icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir menu" aria-controls="header-mobile-nav" aria-expanded="false">' +
-            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
-              '<path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-              '<path d="M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-              '<path d="M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-            '</svg>' +
-          '</button>' +
-          '<button class="icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">' +
-            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
-              '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>' +
-              '<path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-            '</svg>' +
-          '</button>' +
-        '</div>' +
-        '<a class="brand" href="index.html" aria-label="ROMIX inicio">' +
-          BRAND_LOGO_PICTURE +
-          'ROMIX<span class="brand-dot">.</span>' +
-        '</a>' +
-        '<nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">' +
-          '<div class="mobile-drawer-header">' +
-            '<a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio">' +
-              BRAND_LOGO_PICTURE +
-              '<span>ROMIX</span>' +
-            '</a>' +
-            '<button class="mobile-drawer-close" id="close-mobile-nav" type="button" aria-label="Cerrar menu">' +
-              '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
-                '<path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-                '<path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-              '</svg>' +
-            '</button>' +
-          '</div>' +
-          '<div class="main-nav-wrap">' +
-            '<ul class="main-nav">' + navLinks(activeKey) + '</ul>' +
-          '</div>' +
-        '</nav>' +
-        '<div class="header-icons" aria-label="Acciones rapidas">' +
-          '<button class="icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false">' +
-            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
-              '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>' +
-              '<path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-            '</svg>' +
-          '</button>' +
-          '<a class="cart-pill" href="cart.html" aria-label="Carrito de compras">' +
-            '<span class="cart-pill__icon">' +
-            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
-              '<path d="M3 5h2l2.2 10.2a1.2 1.2 0 0 0 1.2.9h8.8a1.2 1.2 0 0 0 1.2-.95L20 8H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
-              '<circle cx="10" cy="19" r="1.4" fill="currentColor"></circle>' +
-              '<circle cx="17" cy="19" r="1.4" fill="currentColor"></circle>' +
-            '</svg>' +
-            '</span>' +
-            '<span class="cart-pill__text"><strong>Mi carrito</strong><small>Art&iacute;culos</small></span>' +
-            '<span class="icon-badge" id="cart-count">0</span>' +
-          '</a>' +
-        '</div>' +
-      '</div>' +
-      '<button class="mobile-nav-scrim" id="mobile-nav-scrim" type="button" aria-label="Cerrar menu" hidden></button>' +
-      '<div class="search-panel" id="header-search">' +
-        '<div class="container">' +
-          '<form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">' +
-            '<input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar productos" />' +
-            '<button type="submit">Buscar</button>' +
-          '</form>' +
-        '</div>' +
-      '</div>';
-  }
-
   function getCartQty() {
     try {
       var raw = localStorage.getItem("romix_cart");
@@ -514,7 +422,9 @@
     function setOpen(open) {
       headerState.searchOpen = !!open;
       panel.classList.toggle("is-open", open);
+      panel.classList.toggle("romix-search-panel-open", open);
       document.body.classList.toggle("header-search-open", !!open);
+      document.body.classList.toggle("romix-search-open", !!open);
       toggles.forEach(function (toggle) {
         toggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
@@ -760,23 +670,26 @@
     var closeButton = document.getElementById("close-mobile-nav");
     if (!toggle || !nav || !scrim) return;
 
-    function isMobile() {
-      return window.innerWidth <= 900;
-    }
+    var mobileMedia = window.matchMedia
+      ? window.matchMedia("(max-width: 900px)")
+      : { matches: window.innerWidth <= 900, addEventListener: null, addListener: null };
+
+    function isMobile() { return mobileMedia.matches; }
 
     nav.setAttribute("aria-hidden", isMobile() ? "true" : "false");
 
-    function setOpen(open) {
+    function setOpen(open, options) {
       var active = !!(open && isMobile());
+      var wasOpen = document.body.classList.contains("mobile-nav-open");
       document.body.classList.toggle("mobile-nav-open", active);
       header.classList.toggle("mobile-nav-open", active);
       toggle.setAttribute("aria-expanded", active ? "true" : "false");
       scrim.hidden = !active;
       nav.setAttribute("aria-hidden", active ? "false" : "true");
       if (active && closeButton) {
-        window.setTimeout(function () {
-          closeButton.focus();
-        }, 30);
+        window.requestAnimationFrame(function () { closeButton.focus(); });
+      } else if (wasOpen && options && options.restoreFocus) {
+        window.requestAnimationFrame(function () { toggle.focus(); });
       }
     }
 
@@ -784,7 +697,7 @@
       if (typeof headerState.closeMega === "function") {
         headerState.closeMega();
       }
-      setOpen(false);
+      setOpen(false, { restoreFocus: true });
     }
 
     headerState.closeMobileMenu = closeMenu;
@@ -809,88 +722,31 @@
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") closeMenu();
-    });
-
-    window.addEventListener("resize", function () {
-      if (!isMobile()) closeMenu();
-    });
-  }
-
-  function bindMobileAutoHide(header) {
-    if (!header) return;
-    var lastY = window.scrollY || 0;
-    var ticking = false;
-    var direction = 0;
-    var travel = 0;
-    var hidden = false;
-    var lastToggleAt = 0;
-    var MIN_DELTA = 2;
-    var TOGGLE_COOLDOWN_MS = 180;
-
-    function update() {
-      ticking = false;
-      var currentY = Math.max(0, window.scrollY || 0);
-      var isMobile = window.innerWidth <= 960;
-      var HIDE_AFTER_DOWN = isMobile ? 28 : 54;
-      var SHOW_AFTER_UP = isMobile ? 44 : 32;
-      var FORCE_VISIBLE_TOP = isMobile ? 24 : 40;
-      var MIN_HIDE_Y = isMobile ? 88 : 126;
-      var searchPanel = document.getElementById("header-search");
-      var searchOpen = !!(searchPanel && searchPanel.classList.contains("is-open"));
-      var megaOpen = header.classList.contains("has-open-menu");
-      var filtersOpen = document.body && document.body.classList.contains("filters-open");
-      var mustStayVisible = searchOpen || megaOpen || filtersOpen || currentY < FORCE_VISIBLE_TOP;
-
-      if (mustStayVisible) {
-        hidden = false;
-        direction = 0;
-        travel = 0;
-        header.classList.remove("is-hidden");
-        lastY = currentY;
+      if (event.key === "Escape") {
+        closeMenu();
         return;
       }
-
-      var delta = currentY - lastY;
-      if (Math.abs(delta) < MIN_DELTA) {
-        lastY = currentY;
-        return;
+      if (event.key !== "Tab" || !document.body.classList.contains("mobile-nav-open")) return;
+      var focusable = Array.prototype.slice.call(nav.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+        .filter(function (node) { return !node.hidden && node.getAttribute("aria-hidden") !== "true"; });
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
+    });
 
-      var nextDirection = delta > 0 ? 1 : -1;
-      if (nextDirection !== direction) {
-        direction = nextDirection;
-        travel = 0;
-      }
-      travel += Math.abs(delta);
-
-      var now = performance.now ? performance.now() : Date.now();
-      var coolingDown = (now - lastToggleAt) < TOGGLE_COOLDOWN_MS;
-
-      if (!coolingDown && !hidden && direction > 0 && currentY > MIN_HIDE_Y && travel >= HIDE_AFTER_DOWN) {
-        hidden = true;
-        travel = 0;
-        lastToggleAt = now;
-        header.classList.add("is-hidden");
-      } else if (!coolingDown && hidden && (currentY < FORCE_VISIBLE_TOP || (direction < 0 && travel >= SHOW_AFTER_UP))) {
-        hidden = false;
-        travel = 0;
-        lastToggleAt = now;
-        header.classList.remove("is-hidden");
-      }
-
-      lastY = currentY;
+    function handleViewportChange() {
+      if (!isMobile()) setOpen(false);
+      nav.setAttribute("aria-hidden", isMobile() ? "true" : "false");
     }
-
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(update);
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", update);
-    update();
+    if (typeof mobileMedia.addEventListener === "function") mobileMedia.addEventListener("change", handleViewportChange);
+    else if (typeof mobileMedia.addListener === "function") mobileMedia.addListener(handleViewportChange);
   }
 
   function dispatchHeaderReady(detail) {
@@ -900,7 +756,7 @@
   function ensureSearchScript() {
     if (window.romixSearch) return Promise.resolve(false);
 
-    var existing = document.querySelector('script[src$="assets/js/search.js"], script[src*="/assets/js/search.js"]');
+    var existing = document.querySelector('script[src*="assets/js/search.js"]');
     if (existing) {
       if (window.romixSearch || existing.dataset.loaded === "1") return Promise.resolve(false);
       return new Promise(function (resolve) {
@@ -916,7 +772,7 @@
 
     return new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/js/search.js";
+      script.src = "assets/js/search.js?v=11";
       script.async = false;
       script.dataset.romixSearch = "1";
       script.addEventListener("load", function () {
@@ -933,33 +789,39 @@
   function init() {
     var current = getCurrentPage();
     var activeKey = getCurrentNavKey(current);
-    var oldHeader = document.querySelector("header.site-header, header.romix-shared-header, header");
+    var header = document.querySelector("header.site-header.romix-shared-header");
+    if (!header || header.dataset.romixHeaderEnhanced === "1") return;
+    header.dataset.romixHeaderEnhanced = "1";
     var headerState = {
       closeSearch: function () {},
       closeMega: function () {}
     };
 
-    var newHeader = document.createElement("header");
-    newHeader.className = "site-header romix-shared-header";
-    newHeader.innerHTML = buildHeaderTemplate(activeKey);
-
-    if (oldHeader && oldHeader.parentNode) {
-      oldHeader.replaceWith(newHeader);
-    } else if (document.body) {
-      document.body.insertAdjacentElement("afterbegin", newHeader);
-    }
+    MENU_CONFIG.forEach(function (item) {
+      var navItem = header.querySelector('[data-menu-key="' + item.key + '"]');
+      if (!navItem) return;
+      navItem.classList.add("mega-nav-item");
+      navItem.classList.toggle("is-active", item.key === activeKey);
+      var trigger = navItem.querySelector(".mega-trigger");
+      if (trigger) {
+        trigger.classList.toggle("active", item.key === activeKey);
+        if (item.key === activeKey) trigger.setAttribute("aria-current", "page");
+        else trigger.removeAttribute("aria-current");
+      }
+      if (!navItem.querySelector(".mega-panel")) navItem.insertAdjacentHTML("beforeend", buildPanel(item));
+    });
 
     bindSearchToggle(headerState);
-    bindMegaMenu(newHeader, headerState);
-    bindMobileMenu(newHeader, headerState);
-    bindMobileAutoHide(newHeader);
+    bindMegaMenu(header, headerState);
+    bindMobileMenu(header, headerState);
     bindHeaderFavorites();
     updateCartBadge();
     window.addEventListener("storage", updateCartBadge);
     ensureSearchScript().then(function (autoloaded) {
-      dispatchHeaderReady({ rebuilt: true, page: current, activeKey: activeKey, searchAutoloaded: !!autoloaded });
+      dispatchHeaderReady({ rebuilt: false, page: current, activeKey: activeKey, searchAutoloaded: !!autoloaded });
     });
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
+  else init();
 })();

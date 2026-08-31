@@ -18,6 +18,7 @@
     cartLink: null,
     checkoutLink: null,
   };
+  let lastSavePersisted = true;
 
   const normalize = (value) => {
     if (value == null) return '';
@@ -46,8 +47,9 @@
   const persist = (cart) => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+      return true;
     } catch {
-      /* ignore */
+      return false;
     }
   };
 
@@ -373,7 +375,14 @@
     const normalized = (Array.isArray(cart) ? cart : [])
       .map((item) => normalizeItem(item))
       .filter(Boolean);
-    persist(normalized);
+    const persisted = persist(normalized);
+    lastSavePersisted = persisted;
+    try {
+      window.dispatchEvent(new CustomEvent('romix:cart-changed', { detail: { cart: normalized, persisted } }));
+      if (!persisted) window.dispatchEvent(new CustomEvent('romix:cart-storage-error'));
+    } catch {
+      /* CustomEvent is optional in legacy browsers. */
+    }
     return normalized;
   };
 
@@ -416,7 +425,7 @@
 
     const saved = saveCart(cart);
     const persistedItem = saved.find((entry) => entry.key === addedItem.key) || addedItem;
-    notifyItemAdded(persistedItem);
+    if (lastSavePersisted) notifyItemAdded(persistedItem);
     return saved;
   };
 
@@ -494,6 +503,7 @@
     buildKey,
     buildWhatsAppMessage,
     updateBadge,
+    getStatus() { return { persisted: lastSavePersisted }; },
   };
 
   // Backwards-compatible helpers for existing inline code
@@ -505,4 +515,9 @@
     updateBadge();
     ensurePanel();
   });
+
+  window.addEventListener('storage', (event) => {
+    if (event && event.key === STORAGE_KEY) updateBadge();
+  });
+  window.addEventListener('romix:cart-changed', () => updateBadge());
 })();

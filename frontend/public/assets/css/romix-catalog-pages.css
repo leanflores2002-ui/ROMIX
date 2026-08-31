@@ -36,7 +36,7 @@ body {
     var(--romix-bg);
   min-height: 100vh;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: visible;
 }
 
 a {
@@ -52,7 +52,7 @@ a {
 .skip-link:focus {
   left: 10px;
   top: 10px;
-  z-index: 9999;
+  z-index: var(--romix-z-toast, 3000);
   background: #ffffff;
   color: #111111;
   border-radius: 8px;
@@ -829,6 +829,20 @@ a {
   color: var(--romix-danger);
 }
 
+.catalog-noscript {
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border: 1px solid #eadde4;
+  border-radius: 10px;
+  background: #fff8fb;
+  color: #4f4650;
+  line-height: 1.5;
+}
+
+.stock-note.status-unknown {
+  color: #6f6870;
+}
+
 .product-actions,
 .btn-card {
   display: none !important;
@@ -993,11 +1007,8 @@ a {
     bottom: 0;
     left: 0;
     width: min(86vw, 300px);
-    max-height: 100vh;
     max-height: 100dvh;
-    height: 100vh;
     height: 100dvh;
-    min-height: 100vh;
     min-height: 100dvh;
     border-radius: 0 18px 18px 0;
     border-left: 0;

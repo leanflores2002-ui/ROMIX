@@ -1161,15 +1161,8 @@
       mobileTrigger.innerHTML = triggerMarkup;
     }
 
-    if (breadcrumb && breadcrumb.parentNode === heading.parentNode) {
-      if (breadcrumb.nextSibling !== mobileTrigger) {
-        heading.parentNode.insertBefore(mobileTrigger, breadcrumb.nextSibling);
-      }
-      return;
-    }
-
-    if (heading.previousSibling !== mobileTrigger) {
-      heading.parentNode.insertBefore(mobileTrigger, heading);
+    if (heading.nextSibling !== mobileTrigger) {
+      heading.parentNode.insertBefore(mobileTrigger, heading.nextSibling);
     }
   }
 

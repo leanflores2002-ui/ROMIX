@@ -81,6 +81,7 @@
   <script src="assets/js/size-guides.js"></script>
 
   <script>
+    const imageUtils = window.romixImageUtils || {};
     const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`\
       <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700">\
         <rect width="100%" height="100%" fill="#f8f9fb"/>\
@@ -140,9 +141,9 @@
         link.as = 'image';
         link.setAttribute('fetchpriority', 'high');
         link.setAttribute('data-romix-detalle-preload', 'true');
-        document.head.appendChild(link);
       }
       link.href = href;
+      if (!link.isConnected) document.head.appendChild(link);
     }
 
     function render(p){
@@ -183,7 +184,7 @@
           </div>
           <div>
             <div style="margin-bottom:6px;">${badge}</div>
-            <div class="title">${p.name || 'Producto'}</div>
+            <h1 class="title">${p.name || 'Producto'}</h1>
             <div class="price">$${price.toLocaleString('es-AR')}</div>
 
             <div class="pill">

@@ -7,25 +7,32 @@
   <title>ROMIX - Página no encontrada</title>
   <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/romix-header.css" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css" />
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css" />
   <style>
-    .not-found-page { min-height: 100vh; display: grid; place-items: center; padding: 32px 16px; background: #fff; }
-    .not-found-card { width: min(100%, 560px); text-align: center; display: grid; justify-items: center; gap: 16px; }
-    .not-found-icon { font-size: clamp(3rem, 10vw, 5rem); line-height: 1; }
-    .not-found-card h1 { margin: 0; color: #242426; font-family: "Outfit", "Manrope", sans-serif; font-size: clamp(2rem, 7vw, 3.5rem); line-height: 1.05; letter-spacing: -.035em; }
-    .not-found-card p { margin: 0; max-width: 42ch; color: #66666b; }
-    .not-found-card a { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; padding: 0 20px; border-radius: 10px; background: #F22797; color: #fff; font-weight: 800; text-decoration: none; }
+    .not-found-page { min-height:clamp(420px,62vh,640px); display:grid; place-items:center; padding:48px 16px; background:#fff; }
+    .not-found-card { width:min(100%,560px); text-align:center; display:grid; justify-items:center; gap:16px; }
+    .not-found-icon { color:#F22797; font-family:"Outfit",sans-serif; font-size:clamp(3rem,10vw,5rem); font-weight:900; letter-spacing:-.06em; line-height:1; }
+    .not-found-card h1 { margin:0; color:#242426; font-family:"Outfit","Manrope",sans-serif; font-size:clamp(2rem,7vw,3.5rem); line-height:1.05; letter-spacing:-.035em; }
+    .not-found-card p { margin:0; max-width:42ch; color:#66666b; }
+    .not-found-card a { min-height:48px; display:inline-flex; align-items:center; justify-content:center; padding:0 20px; border-radius:10px; background:#F22797; color:#fff; font-weight:800; text-decoration:none; }
   </style>
 </head>
 <body>
+  <header class="site-header romix-shared-header"></header>
   <main class="not-found-page">
     <section class="not-found-card" aria-labelledby="not-found-title">
-      <span class="not-found-icon" aria-hidden="true">😕</span>
+      <span class="not-found-icon" aria-hidden="true">404</span>
       <h1 id="not-found-title">No encontramos esta página.</h1>
       <p>La dirección puede haber cambiado o ya no estar disponible.</p>
-      <a href="index.html"><span aria-hidden="true">🏠</span>&nbsp; Volver al inicio</a>
+      <a href="index.html">Volver al inicio</a>
     </section>
   </main>
+  <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/romix-header.js" defer></script>
+  <script src="assets/js/romix-footer.js" defer></script>
   <script src="assets/js/romix-minimal-theme.js" defer></script>
 </body>
 </html>

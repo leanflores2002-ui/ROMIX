@@ -2874,11 +2874,11 @@
           link.setAttribute('fetchpriority', 'high');
           link.setAttribute('imagesizes', PRODUCT_IMAGE_SIZES);
           link.setAttribute('data-romix-product-preload', 'true');
-          document.head.appendChild(link);
         }
         if (link.href !== href) {
           link.href = href;
         }
+        if (!link.isConnected) document.head.appendChild(link);
       }
 
       function firstProductImage(product) {
@@ -4486,18 +4486,20 @@
                 <p id="size-error" class="product-size-error" aria-live="polite" role="status" hidden></p>
               </div>
               <div id="product-size-guide-slot" class="product-size-guide-slot"></div>
-              <div class="selector quantity-row">
-                <div class="selector-label">Cantidad</div>
-                <div class="qty-control">
-                  <button type="button" id="quantity-minus" aria-label="Disminuir cantidad">-</button>
-                  <input id="quantity-input" type="number" min="1" value="1" inputmode="numeric" aria-label="Cantidad" />
-                  <button type="button" id="quantity-plus" aria-label="Aumentar cantidad">+</button>
+              <div class="product-buy-row">
+                <div class="selector quantity-row">
+                  <div class="selector-label">Cantidad</div>
+                  <div class="qty-control">
+                    <button type="button" id="quantity-minus" aria-label="Disminuir cantidad">-</button>
+                    <input id="quantity-input" type="number" min="1" value="1" inputmode="numeric" aria-label="Cantidad" />
+                    <button type="button" id="quantity-plus" aria-label="Aumentar cantidad">+</button>
+                  </div>
+                </div>
+                <div class="purchase-actions" id="purchase-actions">
+                  <button id="btn-add" class="btn primary" type="button">Agregar al carrito</button>
                 </div>
               </div>
-              <div class="purchase-actions" id="purchase-actions">
-                <button id="btn-add" class="btn primary" type="button">Agregar al carrito</button>
-                <button id="btn-buy" class="btn outline" type="button">Comprar</button>
-              </div>
+              <button id="btn-buy" class="btn outline product-buy-now" type="button">Comprar</button>
               <div class="share-panel" id="share-panel">
                 <div class="selector-label">Compartir producto</div>
                 <div class="share-actions">

@@ -46,6 +46,24 @@
     "fa-phone": "☎️"
   };
 
+  Object.assign(ICON_MAP, {
+    "fa-search-plus": "\u{1F50D}\uFE0E",
+    "fa-arrow-left": "\u2190",
+    "fa-arrow-right": "\u2192",
+    "fa-share-alt": "\u2197",
+    "fa-link": "\u{1F517}\uFE0E",
+    "fa-calendar-alt": "\u25A1",
+    "fa-clock": "\u25F7",
+    "fa-comment-dots": "\u25CF",
+    "fa-question-circle": "?",
+    "fa-store": "\u2302",
+    "fa-shopping-bag": "\u25A3",
+    "fa-tag": "\u25C7",
+    "fa-money-bill-wave": "\u00A4",
+    "fa-landmark": "\u25A4",
+    "fa-facebook-f": "f"
+  });
+
   function emojiForIcon(node) {
     var classList = Array.prototype.slice.call(node.classList || []);
     for (var i = 0; i < classList.length; i += 1) {
@@ -143,7 +161,7 @@
     var scope = root || document;
     Array.prototype.slice.call(scope.querySelectorAll("button, a")).forEach(function (node) {
       var label = String(node.getAttribute("aria-label") || node.textContent || "").toLowerCase();
-      if (!label || node.querySelector(".romix-emoji, .emoji-icon")) return;
+      if (!label || node.querySelector(".romix-emoji, .emoji-icon") || String(node.textContent || "").trim()) return;
 
       var emoji = "";
       if (label.indexOf("buscar") >= 0) emoji = "🔍";

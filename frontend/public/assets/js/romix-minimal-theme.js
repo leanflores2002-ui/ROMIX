@@ -40,7 +40,7 @@
     "fa-angle-left": "‹",
     "fa-angle-right": "›",
     "fa-instagram": "📷",
-    "fa-facebook": "f",
+    "fa-facebook": "👥",
     "fa-tiktok": "♪",
     "fa-whatsapp": "💬",
     "fa-phone": "☎️"
@@ -49,9 +49,7 @@
   function emojiForIcon(node) {
     var classList = Array.prototype.slice.call(node.classList || []);
     for (var i = 0; i < classList.length; i += 1) {
-      if (Object.prototype.hasOwnProperty.call(ICON_MAP, classList[i])) {
-        return ICON_MAP[classList[i]];
-      }
+      if (Object.prototype.hasOwnProperty.call(ICON_MAP, classList[i])) return ICON_MAP[classList[i]];
     }
     return "•";
   }
@@ -67,6 +65,60 @@
     });
   }
 
+  function inferSvgSymbol(svg) {
+    var control = svg.closest("button, a");
+    var label = String((control && control.getAttribute("aria-label")) || (control && control.textContent) || "").toLowerCase();
+    var className = String((control && control.className) || svg.className || "").toLowerCase();
+
+    if (label.indexOf("buscar") >= 0 || className.indexOf("search") >= 0) return "🔍";
+    if (label.indexOf("carrito") >= 0 || className.indexOf("cart") >= 0) return "🛒";
+    if (label.indexOf("favorit") >= 0 || className.indexOf("favorite") >= 0) return "❤️";
+    if (label.indexOf("cerrar") >= 0 || className.indexOf("close") >= 0) return "✕";
+    if (label.indexOf("menu") >= 0 || className.indexOf("menu") >= 0) return "☰";
+    if (label.indexOf("anterior") >= 0 || className.indexOf("prev") >= 0 || className.indexOf("left") >= 0) return "‹";
+    if (label.indexOf("siguiente") >= 0 || label.indexOf("mas productos") >= 0 || className.indexOf("next") >= 0 || className.indexOf("right") >= 0) return "›";
+    if (label.indexOf("instagram") >= 0) return "📷";
+    if (label.indexOf("facebook") >= 0) return "👥";
+    if (label.indexOf("tiktok") >= 0) return "♪";
+    if (label.indexOf("whatsapp") >= 0) return "💬";
+
+    if (svg.classList && svg.classList.contains("mega-chevron")) return "⌄";
+    return "";
+  }
+
+  function replaceInterfaceSvgs(root) {
+    var scope = root || document;
+    var selector = [
+      "header svg",
+      ".site-footer svg",
+      ".main-hero-carousel__arrow svg",
+      ".promo-arrow svg",
+      ".products-arrow svg",
+      ".section-link svg",
+      ".benefit-strip svg"
+    ].join(",");
+
+    Array.prototype.slice.call(scope.querySelectorAll(selector)).forEach(function (svg) {
+      if (svg.dataset && svg.dataset.romixEmojiDone === "1") return;
+      var symbol = inferSvgSymbol(svg);
+      var container = svg.closest(".benefit-item");
+      if (!symbol && container) {
+        var text = String(container.textContent || "").toLowerCase();
+        if (text.indexOf("cambio") >= 0) symbol = "↩️";
+        else if (text.indexOf("pago") >= 0) symbol = "🔒";
+        else if (text.indexOf("whatsapp") >= 0) symbol = "💬";
+        else if (text.indexOf("retiro") >= 0 || text.indexOf("compra") >= 0) symbol = "📦";
+      }
+      if (!symbol) return;
+
+      var span = document.createElement("span");
+      span.className = svg.classList && svg.classList.contains("mega-chevron") ? "mega-chevron romix-emoji" : "romix-emoji";
+      span.setAttribute("aria-hidden", "true");
+      span.textContent = symbol;
+      svg.replaceWith(span);
+    });
+  }
+
   function removeIconFontStylesheets() {
     Array.prototype.slice.call(document.querySelectorAll("link[href*='font-awesome'], link[href*='fontawesome']")).forEach(function (link) {
       link.remove();
@@ -77,7 +129,6 @@
     if (document.querySelector(".romix-announcement")) return;
     var header = document.querySelector("header.site-header, header.romix-shared-header");
     if (!header || !header.parentNode) return;
-
     var bar = document.createElement("div");
     bar.className = "romix-announcement";
     bar.setAttribute("role", "note");
@@ -87,11 +138,9 @@
 
   function decorateGenericControls(root) {
     var scope = root || document;
-
     Array.prototype.slice.call(scope.querySelectorAll("button, a")).forEach(function (node) {
       var label = String(node.getAttribute("aria-label") || node.textContent || "").toLowerCase();
-      if (!label) return;
-      if (node.querySelector(".romix-emoji, .emoji-icon")) return;
+      if (!label || node.querySelector(".romix-emoji, .emoji-icon")) return;
 
       var emoji = "";
       if (label.indexOf("buscar") >= 0) emoji = "🔍";
@@ -102,6 +151,8 @@
       else if (label.indexOf("cambio") >= 0 || label.indexOf("devol") >= 0) emoji = "↩️";
       else if (label.indexOf("pedido") >= 0) emoji = "📦";
       else if (label.indexOf("contact") >= 0 || label.indexOf("whatsapp") >= 0) emoji = "💬";
+      else if (label.indexOf("aumentar") >= 0) emoji = "➕";
+      else if (label.indexOf("disminuir") >= 0) emoji = "➖";
 
       if (!emoji) return;
       var span = document.createElement("span");
@@ -112,14 +163,19 @@
     });
   }
 
+  function refresh(root) {
+    replaceLegacyIcons(root || document);
+    replaceInterfaceSvgs(root || document);
+    decorateGenericControls(root || document);
+  }
+
   function observeDynamicContent() {
     if (!window.MutationObserver || !document.body) return;
     var observer = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
         Array.prototype.slice.call(mutation.addedNodes || []).forEach(function (node) {
           if (!node || node.nodeType !== 1) return;
-          replaceLegacyIcons(node);
-          decorateGenericControls(node);
+          refresh(node);
         });
       });
     });
@@ -128,15 +184,11 @@
 
   function init() {
     removeIconFontStylesheets();
-    replaceLegacyIcons(document);
-    decorateGenericControls(document);
+    refresh(document);
     ensureAnnouncement();
     observeDynamicContent();
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
-  } else {
-    init();
-  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
+  else init();
 })();

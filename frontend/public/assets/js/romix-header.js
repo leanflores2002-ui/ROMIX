@@ -761,7 +761,7 @@
     if (!toggle || !nav || !scrim) return;
 
     function isMobile() {
-      return window.innerWidth <= 768;
+      return window.innerWidth <= 900;
     }
 
     nav.setAttribute("aria-hidden", isMobile() ? "true" : "false");

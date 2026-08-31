@@ -17,18 +17,63 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Align mobile navigation breakpoint
+      - name: Install test dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Align mobile navigation breakpoint and finalize Unicode icons
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          path = Path('frontend/public/assets/js/romix-header.js')
-          text = path.read_text(encoding='utf-8')
-          old = 'return window.innerWidth <= 768;'
-          if old not in text:
-              raise SystemExit('Expected mobile breakpoint not found')
-          text = text.replace(old, 'return window.innerWidth <= 900;', 1)
-          path.write_text(text, encoding='utf-8')
+
+          header = Path('frontend/public/assets/js/romix-header.js')
+          header_text = header.read_text(encoding='utf-8')
+          old_breakpoint = 'return window.innerWidth <= 768;'
+          if old_breakpoint in header_text:
+              header_text = header_text.replace(old_breakpoint, 'return window.innerWidth <= 900;', 1)
+          elif 'return window.innerWidth <= 900;' not in header_text:
+              raise SystemExit('Expected mobile navigation breakpoint was not found')
+          header.write_text(header_text, encoding='utf-8')
+
+          helper = Path('frontend/public/assets/js/romix-minimal-theme.js')
+          helper_text = helper.read_text(encoding='utf-8')
+          old_icon_block = '''      icon.dataset.romixEmojiDone = "1";
+              icon.className = "romix-emoji";
+              icon.textContent = emojiForIcon(icon);'''
+          new_icon_block = '''      var emoji = emojiForIcon(icon);
+              icon.dataset.romixEmojiDone = "1";
+              icon.className = "romix-emoji";
+              icon.textContent = emoji;'''
+          if old_icon_block in helper_text:
+              helper_text = helper_text.replace(old_icon_block, new_icon_block, 1)
+          elif 'var emoji = emojiForIcon(icon);' not in helper_text:
+              raise SystemExit('Expected legacy icon conversion block was not found')
+
+          selector_old = '''      "header svg",
+              ".site-footer svg",'''
+          selector_new = '''      "header svg",
+              ".site-footer svg",
+              "button svg",
+              "a svg",'''
+          if selector_old in helper_text:
+              helper_text = helper_text.replace(selector_old, selector_new, 1)
+
+          zoom_old = '''    if (label.indexOf("carrito") >= 0 || className.indexOf("cart") >= 0) return "🛒";'''
+          zoom_new = '''    if (label.indexOf("carrito") >= 0 || className.indexOf("cart") >= 0) return "🛒";
+              if (label.indexOf("ampliar") >= 0 || label.indexOf("zoom") >= 0) return "🔍";
+              if (label.indexOf("guía de talles") >= 0 || label.indexOf("guia de talles") >= 0) return "📏";
+              if (label.indexOf("compartir") >= 0 || label.indexOf("copiar") >= 0) return "🔗";'''
+          if zoom_old in helper_text:
+              helper_text = helper_text.replace(zoom_old, zoom_new, 1)
+
+          accordion_old = '''    if (svg.classList && svg.classList.contains("mega-chevron")) return "⌄";'''
+          accordion_new = '''    if (svg.classList && svg.classList.contains("mega-chevron")) return "⌄";
+              if (className.indexOf("accordion") >= 0 || className.indexOf("chevron") >= 0) return "⌄";
+              if (className.indexOf("section-link") >= 0) return "›";'''
+          if accordion_old in helper_text:
+              helper_text = helper_text.replace(accordion_old, accordion_new, 1)
+
+          helper.write_text(helper_text, encoding='utf-8')
           PY
 
       - name: JavaScript syntax checks
@@ -54,12 +99,12 @@ jobs:
             exit 1
           }
 
-      - name: Commit validated breakpoint fix
+      - name: Commit validated storefront fixes
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           rm -f .github/workflows/validate-romix-storefront-once.yml
-          git add frontend/public/assets/js/romix-header.js .github/workflows/validate-romix-storefront-once.yml
-          git commit -m "fix: align storefront mobile navigation breakpoint"
+          git add frontend/public/assets/js/romix-header.js frontend/public/assets/js/romix-minimal-theme.js .github/workflows/validate-romix-storefront-once.yml
+          git commit -m "fix: validate responsive navigation and Unicode icons"
           git push

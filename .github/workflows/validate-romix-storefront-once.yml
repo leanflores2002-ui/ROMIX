@@ -1,0 +1,65 @@
+name: Validate ROMIX storefront once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/validate-romix-storefront-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  validate-storefront:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Align mobile navigation breakpoint
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('frontend/public/assets/js/romix-header.js')
+          text = path.read_text(encoding='utf-8')
+          old = 'return window.innerWidth <= 768;'
+          if old not in text:
+              raise SystemExit('Expected mobile breakpoint not found')
+          text = text.replace(old, 'return window.innerWidth <= 900;', 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: JavaScript syntax checks
+        run: |
+          node --check frontend/public/assets/js/romix-header.js
+          node --check frontend/public/assets/js/romix-minimal-theme.js
+          node --check frontend/public/assets/js/romix-footer.js
+          node --check frontend/public/assets/js/romix-catalog-pages.js
+          node --check frontend/public/assets/js/cart.js
+          node --check frontend/public/assets/js/products-store.js
+
+      - name: Product validation
+        run: npm run check:products
+
+      - name: Storefront tests and accessibility checks
+        run: npm test
+
+      - name: Verify protected product data was not changed by redesign
+        shell: bash
+        run: |
+          git diff --exit-code HEAD -- frontend/public/assets/data/products.json backend/data/product_variants.json || {
+            echo 'Protected catalog/stock data changed unexpectedly.'
+            exit 1
+          }
+
+      - name: Commit validated breakpoint fix
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/validate-romix-storefront-once.yml
+          git add frontend/public/assets/js/romix-header.js .github/workflows/validate-romix-storefront-once.yml
+          git commit -m "fix: align storefront mobile navigation breakpoint"
+          git push

@@ -3,84 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ROMIX - Redirigiendo</title>
   <meta name="robots" content="noindex" />
-  <meta http-equiv="refresh" content="0; url=index.html" />
+  <title>ROMIX - Página no encontrada</title>
   <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
+  <link rel="stylesheet" href="assets/css/romix-minimal-theme.css" />
   <style>
-    :root {
-      color-scheme: light;
-      --bg: #fff8fc;
-      --card: #ffffff;
-      --text: #312a36;
-      --muted: #7c7283;
-      --accent: #ef4ea1;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(680px 320px at 10% 0%, rgba(255, 213, 235, 0.72), transparent 60%),
-        radial-gradient(640px 320px at 100% 10%, rgba(242, 233, 255, 0.68), transparent 58%),
-        var(--bg);
-    }
-
-    .redirect-card {
-      width: min(100%, 420px);
-      padding: 28px 24px;
-      text-align: center;
-      border-radius: 22px;
-      background: var(--card);
-      box-shadow: 0 20px 48px rgba(49, 42, 54, 0.1);
-    }
-
-    .redirect-card img {
-      width: 88px;
-      height: 97px;
-      margin: 0 auto 16px;
-      display: block;
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: 1.4rem;
-      line-height: 1.15;
-    }
-
-    p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    a {
-      color: var(--accent);
-      font-weight: 700;
-    }
+    .not-found-page { min-height: 100vh; display: grid; place-items: center; padding: 32px 16px; background: #fff; }
+    .not-found-card { width: min(100%, 560px); text-align: center; display: grid; justify-items: center; gap: 16px; }
+    .not-found-icon { font-size: clamp(3rem, 10vw, 5rem); line-height: 1; }
+    .not-found-card h1 { margin: 0; color: #242426; font-family: "Outfit", "Manrope", sans-serif; font-size: clamp(2rem, 7vw, 3.5rem); line-height: 1.05; letter-spacing: -.035em; }
+    .not-found-card p { margin: 0; max-width: 42ch; color: #66666b; }
+    .not-found-card a { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; padding: 0 20px; border-radius: 10px; background: #F22797; color: #fff; font-weight: 800; text-decoration: none; }
   </style>
-  <script>
-    window.location.replace("index.html");
-  </script>
 </head>
 <body>
-  <main class="redirect-card">
-    <picture class="brand-logo-media">
-      <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="88px" type="image/webp" />
-      <img src="images/logo-romix.png" alt="ROMIX" width="752" height="829" decoding="async" />
-    </picture>
-    <h1>Redirigiendo a ROMIX</h1>
-    <p>Si no se abre automáticamente, seguí este enlace a <a href="index.html">inicio</a>.</p>
+  <main class="not-found-page">
+    <section class="not-found-card" aria-labelledby="not-found-title">
+      <span class="not-found-icon" aria-hidden="true">😕</span>
+      <h1 id="not-found-title">No encontramos esta página.</h1>
+      <p>La dirección puede haber cambiado o ya no estar disponible.</p>
+      <a href="index.html"><span aria-hidden="true">🏠</span>&nbsp; Volver al inicio</a>
+    </section>
   </main>
+  <script src="assets/js/romix-minimal-theme.js" defer></script>
 </body>
 </html>

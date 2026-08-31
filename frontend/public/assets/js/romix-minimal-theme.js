@@ -58,9 +58,10 @@
     var scope = root || document;
     Array.prototype.slice.call(scope.querySelectorAll("i.fas, i.far, i.fab, i.fa, i[class*='fa-']")).forEach(function (icon) {
       if (icon.dataset.romixEmojiDone === "1") return;
+      var emoji = emojiForIcon(icon);
       icon.dataset.romixEmojiDone = "1";
       icon.className = "romix-emoji";
-      icon.textContent = emojiForIcon(icon);
+      icon.textContent = emoji;
       icon.setAttribute("aria-hidden", "true");
     });
   }
@@ -68,11 +69,15 @@
   function inferSvgSymbol(svg) {
     var control = svg.closest("button, a");
     var label = String((control && control.getAttribute("aria-label")) || (control && control.textContent) || "").toLowerCase();
-    var className = String((control && control.className) || svg.className || "").toLowerCase();
+    var className = String((control && control.className) || "").toLowerCase();
+    var href = String((control && control.getAttribute("href")) || "").toLowerCase();
 
     if (label.indexOf("buscar") >= 0 || className.indexOf("search") >= 0) return "🔍";
     if (label.indexOf("carrito") >= 0 || className.indexOf("cart") >= 0) return "🛒";
     if (label.indexOf("favorit") >= 0 || className.indexOf("favorite") >= 0) return "❤️";
+    if (label.indexOf("ampliar") >= 0 || label.indexOf("zoom") >= 0) return "🔍";
+    if (label.indexOf("guía de talles") >= 0 || label.indexOf("guia de talles") >= 0) return "📏";
+    if (label.indexOf("compartir") >= 0 || label.indexOf("copiar") >= 0) return "🔗";
     if (label.indexOf("cerrar") >= 0 || className.indexOf("close") >= 0) return "✕";
     if (label.indexOf("menu") >= 0 || className.indexOf("menu") >= 0) return "☰";
     if (label.indexOf("anterior") >= 0 || className.indexOf("prev") >= 0 || className.indexOf("left") >= 0) return "‹";
@@ -80,9 +85,10 @@
     if (label.indexOf("instagram") >= 0) return "📷";
     if (label.indexOf("facebook") >= 0) return "👥";
     if (label.indexOf("tiktok") >= 0) return "♪";
-    if (label.indexOf("whatsapp") >= 0) return "💬";
-
+    if (label.indexOf("whatsapp") >= 0 || href.indexOf("wa.me") >= 0) return "💬";
     if (svg.classList && svg.classList.contains("mega-chevron")) return "⌄";
+    if (className.indexOf("accordion") >= 0 || className.indexOf("chevron") >= 0) return "⌄";
+    if (className.indexOf("section-link") >= 0) return "›";
     return "";
   }
 
@@ -91,15 +97,12 @@
     var selector = [
       "header svg",
       ".site-footer svg",
-      ".main-hero-carousel__arrow svg",
-      ".promo-arrow svg",
-      ".products-arrow svg",
-      ".section-link svg",
+      "button svg",
+      "a svg",
       ".benefit-strip svg"
     ].join(",");
 
     Array.prototype.slice.call(scope.querySelectorAll(selector)).forEach(function (svg) {
-      if (svg.dataset && svg.dataset.romixEmojiDone === "1") return;
       var symbol = inferSvgSymbol(svg);
       var container = svg.closest(".benefit-item");
       if (!symbol && container) {

@@ -20,6 +20,13 @@ jobs:
       - name: Install test dependencies
         run: npm ci --ignore-scripts
 
+      - name: Start local storefront server
+        shell: bash
+        run: |
+          sudo python3 -m http.server 80 --directory frontend/public >/tmp/romix-http.log 2>&1 &
+          sleep 2
+          curl --fail --silent http://localhost/cart.html >/dev/null
+
       - name: Align mobile navigation breakpoint
         shell: bash
         run: |

@@ -229,3 +229,100 @@
     align-items: flex-start;
   }
 }
+
+/* Quiet footer treatment for the redesigned storefront surfaces. */
+body:is(.product-detail-page, [data-catalog-scope]) .site-footer {
+  margin-top: 0;
+  border-top: 1px solid #e8e7ec;
+  color: #4f4c55;
+  background: #fff;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-shell {
+  width: min(100% - 48px, 1460px);
+  padding: 30px 0 22px;
+  gap: 22px;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-top {
+  grid-template-columns: minmax(240px, 1.4fr) repeat(3, minmax(130px, .7fr));
+  gap: 34px;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-brand {
+  gap: 12px;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-logo {
+  color: #19181f;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-logo-media {
+  display: none;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-logo-copy strong {
+  color: #19181f;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-logo-copy span {
+  color: #77747c;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-description,
+body:is(.product-detail-page, [data-catalog-scope]) .footer-contact,
+body:is(.product-detail-page, [data-catalog-scope]) .footer-column a,
+body:is(.product-detail-page, [data-catalog-scope]) .footer-bottom p {
+  color: #77747c;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-description {
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-contact-item,
+body:is(.product-detail-page, [data-catalog-scope]) .footer-column a {
+  font-size: .76rem;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-column {
+  gap: 11px;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-column h4 {
+  color: #19181f;
+  font-size: .76rem;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-column ul {
+  gap: 7px;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-column a:hover {
+  color: #f72585;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-bottom {
+  padding-top: 18px;
+  border-top-color: #e8e7ec;
+}
+
+body:is(.product-detail-page, [data-catalog-scope]) .footer-socials a {
+  width: 36px;
+  height: 36px;
+  border-color: #e8e7ec;
+  color: #545159;
+  background: #fafafa;
+}
+
+@media (max-width: 760px) {
+  body:is(.product-detail-page, [data-catalog-scope]) .footer-shell {
+    width: calc(100% - 28px);
+  }
+
+  body:is(.product-detail-page, [data-catalog-scope]) .footer-top {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

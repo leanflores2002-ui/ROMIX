@@ -12,7 +12,7 @@
   const PAGE_CONFIG = {
     mujer: { title: "Mujer", label: "Mujer" },
     hombre: { title: "Hombre", label: "Hombre" },
-    ninos: { title: "Ninos", label: "Ninos" },
+    ninos: { title: "Niños", label: "Niños" },
     novedades: { title: "Novedades", label: null },
     catalogo: { title: "Catalogo", label: null }
   };
@@ -20,7 +20,7 @@
   const SECTION_OPTIONS = [
     { key: "mujer", label: "Mujer" },
     { key: "hombre", label: "Hombre" },
-    { key: "ninos", label: "Nino" }
+    { key: "ninos", label: "Niños" }
   ];
 
   const CATEGORY_OPTIONS = [
@@ -34,7 +34,7 @@
   ];
 
   const SEASON_OPTIONS = [
-    { key: "media-estacion", label: "Media Estacion" },
+    { key: "media-estacion", label: "Media estación" },
     { key: "invierno", label: "Invierno" },
     { key: "verano", label: "Verano" }
   ];
@@ -701,6 +701,7 @@
     if (!key || key.includes("unknown") || key.includes("consult")) return "unknown";
     if (key.includes("sin") || key.includes("agot") || key.includes("out") || key.includes("unavail")) return "out";
     if (key.includes("low") || key.includes("poco") || key.includes("por")) return "low";
+    if (key.includes("available") || key.includes("disponible") || key.includes("stock")) return "available";
     return "unknown";
   }
 
@@ -723,7 +724,7 @@
     const fallback = String(fallbackSrc || "").trim()
       || (typeof imageUtils.fallbackRasterPath === "function" ? imageUtils.fallbackRasterPath(primary) : primary);
     const derivedWebp = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "webp") : primary;
-    const derivedAvif = typeof imageUtils.replaceExtension === "function" ? imageUtils.replaceExtension(primary, "avif") : "";
+    const derivedAvif = "";
     const webp = /\.webp$/i.test(primary) ? primary : (ext && ext !== "avif" ? derivedWebp : "");
     const modernAvif = /\.avif$/i.test(primary) ? primary : (avif || derivedAvif);
     const resolvedFallback = ext === "webp" || ext === "avif"
@@ -793,7 +794,7 @@
         image: fallbackImage,
         thumb: typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(fallbackImage) : fallbackImage,
         thumbFallback: fallbackImage,
-        thumbAvif: typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(fallbackImage) : "",
+        thumbAvif: "",
         swatchImage: typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(fallbackImage) : fallbackImage
       }];
     }
@@ -808,8 +809,7 @@
         || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : "");
       const thumbFallback = String(entry && entry.thumbFallback || "").trim()
         || resolvedImage;
-      const thumbAvif = String(entry && entry.thumbAvif || "").trim()
-        || (typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(resolvedImage) : "");
+      const thumbAvif = String(entry && entry.thumbAvif || "").trim();
       return Object.assign({}, entry, {
         key,
         name,
@@ -886,7 +886,7 @@
       thumbFallback: coverThumbFallback || coverThumb || coverImage,
       thumbnail: coverThumb || coverImage,
       thumbnailFallback: coverThumbFallback || coverThumb || coverImage,
-      thumbnailAvif: rawThumbnailAvif || (colors[0] && colors[0].thumbAvif) || (typeof imageUtils.getAvifThumbPath === "function" ? imageUtils.getAvifThumbPath(coverImage) : ""),
+      thumbnailAvif: rawThumbnailAvif || (colors[0] && colors[0].thumbAvif) || "",
       imageMap: rawImageMap,
       images: galleryImages,
       price: Number((raw && raw.price) || 0),
@@ -1456,11 +1456,13 @@
 
       setMainImage(selectedColor, selectedColor && selectedColor.name);
 
-      const tag = document.createElement("span");
-      tag.className = "product-tag";
-      tag.textContent = product.typeLabel || "Producto";
-
-      thumb.appendChild(tag);
+      const badgeLabel = product.badge || product.featuredBadge;
+      if (badgeLabel) {
+        const tag = document.createElement("span");
+        tag.className = "product-tag";
+        tag.textContent = badgeLabel;
+        thumb.appendChild(tag);
+      }
 
       const body = document.createElement("div");
       body.className = "product-body";
@@ -1978,9 +1980,9 @@
     const config = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
     const title = document.getElementById("page-title");
     if (title) {
-      if (state.scope === "catalogo") title.textContent = "Catalogo completo ROMIX";
+      if (state.scope === "catalogo") title.textContent = "Catálogo ROMIX";
       else if (state.scope === "novedades") title.textContent = "Novedades destacadas ROMIX";
-      else title.textContent = "Catalogo " + config.title + " ROMIX";
+      else title.textContent = "Catálogo " + config.title + " ROMIX";
     }
 
     document.querySelectorAll(".catalog-nav a[data-scope]").forEach((link) => {

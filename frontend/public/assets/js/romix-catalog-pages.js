@@ -1151,6 +1151,8 @@
     if (openBtn && openBtn.dataset.mobileReady !== "1") {
       openBtn.dataset.mobileReady = "1";
       openBtn.setAttribute("aria-label", "Filtrar y ordenar");
+      openBtn.setAttribute("aria-controls", "filters-sidebar");
+      openBtn.setAttribute("aria-expanded", "false");
       openBtn.innerHTML = triggerMarkup;
     }
 
@@ -1163,6 +1165,8 @@
       mobileTrigger.id = "catalog-mobile-filter-trigger";
       mobileTrigger.className = "catalog-mobile-filter-trigger";
       mobileTrigger.setAttribute("aria-label", "Filtrar y ordenar");
+      mobileTrigger.setAttribute("aria-controls", "filters-sidebar");
+      mobileTrigger.setAttribute("aria-expanded", "false");
       mobileTrigger.innerHTML = triggerMarkup;
     }
 
@@ -2001,6 +2005,9 @@
     const overlay = document.getElementById("filters-overlay");
     const wasOpen = document.body.classList.contains("filters-open");
     document.body.classList.remove("filters-open");
+    document.querySelectorAll("#open-filters, #catalog-mobile-filter-trigger").forEach((trigger) => {
+      trigger.setAttribute("aria-expanded", "false");
+    });
     if (sidebar) {
       sidebar.setAttribute("aria-hidden", "true");
       sidebar.removeAttribute("aria-modal");
@@ -2017,6 +2024,9 @@
     const overlay = document.getElementById("filters-overlay");
     filterLastFocus = document.activeElement;
     document.body.classList.add("filters-open");
+    document.querySelectorAll("#open-filters, #catalog-mobile-filter-trigger").forEach((trigger) => {
+      trigger.setAttribute("aria-expanded", "true");
+    });
     if (sidebar) {
       sidebar.setAttribute("role", "dialog");
       sidebar.setAttribute("aria-modal", "true");

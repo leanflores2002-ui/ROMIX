@@ -48,6 +48,7 @@ function loadScript(relativePath, additions = {}) {
 }
 
 function checkStaticShells() {
+  let canonicalFooter = null;
   pages.forEach((page) => {
     const html = fs.readFileSync(path.join(publicDir, page), 'utf8');
     const dom = new JSDOM(html);
@@ -55,12 +56,17 @@ function checkStaticShells() {
     assert(doc.querySelectorAll('.romix-announcement').length === 1, `${page}: announcement must exist in initial HTML`);
     assert(doc.querySelectorAll('header[data-romix-shell="header-v1"]').length === 1, `${page}: one initial header required`);
     assert(doc.querySelectorAll('footer[data-romix-shell="footer-v1"]').length === 1, `${page}: one initial footer required`);
+    const footerMarkup = doc.querySelector('footer[data-romix-shell="footer-v1"]').outerHTML;
+    if (canonicalFooter == null) canonicalFooter = footerMarkup;
+    else assert(footerMarkup === canonicalFooter, `${page}: footer markup drifted from the shared shell`);
     assert(html.includes('ROMIX:SHELL:HEADER:START'), `${page}: header sync marker missing`);
     assert(html.includes('ROMIX:SHELL:FOOTER:START'), `${page}: footer sync marker missing`);
     assert(!/romix-(?:minimal-theme|footer)\.js|include-header\.js/.test(html), `${page}: removed runtime shell script referenced`);
     assert(!/<i\s+class=["'][^"']*fa/i.test(html), `${page}: unstable Font Awesome placeholder remains`);
     assert(doc.querySelectorAll('title').length === 1, `${page}: exactly one title is required`);
     assert((doc.documentElement.getAttribute('lang') || '').toLowerCase().startsWith('es'), `${page}: Spanish lang is required`);
+    const stylesheetHrefs = Array.from(doc.querySelectorAll('link[rel="stylesheet"]')).map((link) => link.getAttribute('href') || '');
+    assert(/assets\/css\/romix-footer\.css/.test(stylesheetHrefs[stylesheetHrefs.length - 1] || ''), `${page}: shared footer CSS must be the final stylesheet`);
     const ids = Array.from(doc.querySelectorAll('[id]')).map((element) => element.id);
     assert(new Set(ids).size === ids.length, `${page}: duplicate IDs detected`);
 
@@ -97,8 +103,12 @@ function checkStaticShells() {
   assert(!fs.existsSync(path.join(publicDir, 'assets/js/romix-footer.js')), 'Runtime footer rebuilder must remain removed');
 
   const headerCss = read('frontend/public/assets/css/romix-header.css');
+  const footerCss = read('frontend/public/assets/css/romix-footer.css');
   const themeCss = read('frontend/public/assets/css/romix-minimal-theme.css');
   assert((headerCss.match(/!important/g) || []).length === 0, 'Header CSS should not restart the specificity war');
+  assert(footerCss.includes('#242426'), 'Footer CSS must preserve the shared charcoal background');
+  assert(!/(?:product-detail-page|catalog-page)[^{]*\.site-footer/.test(footerCss), 'Footer CSS must not contain page-specific variants');
+  assert(!themeCss.includes('.site-footer'), 'Theme CSS must not redefine the shared footer');
   assert((themeCss.match(/!important/g) || []).length === 0, 'Theme CSS should not restart the specificity war');
 }
 

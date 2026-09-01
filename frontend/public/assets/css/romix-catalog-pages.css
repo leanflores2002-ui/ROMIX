@@ -18,7 +18,6 @@
 html, body { margin: 0; max-width: 100%; }
 body[data-catalog-scope] {
   min-height: 100vh;
-  overflow-x: hidden;
   color: var(--catalog-ink);
   background: #fff;
   font-family: "Manrope", Arial, sans-serif;

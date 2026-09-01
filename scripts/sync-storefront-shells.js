@@ -58,7 +58,7 @@ const criticalShellCss = `<!-- ROMIX:SHELL:CRITICAL:START -->
 <!-- ROMIX:SHELL:CRITICAL:END -->`;
 
 const header = `<!-- ROMIX:SHELL:HEADER:START -->
-<div class="romix-announcement" role="note">Env&iacute;os y retiro coordinado &middot; Consult&aacute; disponibilidad</div>
+<div class="romix-announcement" role="note">ENV&Iacute;OS <strong>GRATIS</strong> EN COMPRAS SUPERIORES A $50.000</div>
 <header class="site-header romix-shared-header" data-romix-shell="header-v1">
   <div class="container header-row">
     <div class="header-actions-left" aria-label="Acciones principales">

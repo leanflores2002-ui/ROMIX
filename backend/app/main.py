@@ -9,7 +9,7 @@ from pathlib import Path
 from threading import RLock
 import threading
 from typing import Dict, List, Tuple
-from urllib.parse import urljoin
+from urllib.parse import quote, urljoin
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -33,8 +33,7 @@ DATA_FILE = Path(
 )
 VARIANTS_FILE = ROOT / "backend" / "data" / "product_variants.json"
 templates = Jinja2Templates(directory=str(PUBLIC_DIR))
-DEFAULT_SITE_URL = "https://romix-ropas.vercel.app"
-SITE_URL = str(os.environ.get("ROMIX_SITE_URL") or DEFAULT_SITE_URL).strip().rstrip("/")
+SITE_URL = str(os.environ.get("ROMIX_SITE_URL") or "").strip().rstrip("/")
 
 # Cache en memoria para evitar leer/parsing del JSON en cada request bajo carga
 _products_cache: list[dict] | None = None
@@ -219,9 +218,9 @@ def absolute_url(request: Request, value: str) -> str:
     if not raw:
         return ""
     if raw.startswith("http://") or raw.startswith("https://"):
-        return raw
+        return quote(raw, safe=":/?&=#%")
     base_url = SITE_URL or str(request.base_url).rstrip("/")
-    return urljoin(f"{base_url}/", raw.lstrip("/"))
+    return quote(urljoin(f"{base_url}/", raw.lstrip("/")), safe=":/?&=#%")
 
 
 def upsert_meta_tag(html_text: str, attr_name: str, attr_value: str, content: str) -> str:
@@ -272,11 +271,11 @@ def product_share_description(product: dict) -> str:
 def product_share_image(request: Request, product: dict) -> str:
     image = str(product.get("image") or "").strip()
 
-    if not image and isinstance(product.get("images"), dict):
-        image = next(
-            (str(src).strip() for src in product["images"].values() if str(src or "").strip()),
-            "",
-        )
+    images = product.get("images")
+    if not image and isinstance(images, dict):
+        image = next((str(src).strip() for src in images.values() if str(src or "").strip()), "")
+    if not image and isinstance(images, list):
+        image = next((str(src).strip() for src in images if str(src or "").strip()), "")
 
     if not image:
         image = "images/logo-romix-social-1200x630.png"
@@ -297,10 +296,15 @@ def inject_product_meta(
     safe_image = html_escape(image_url, quote=True)
     safe_url = html_escape(page_url, quote=True)
     rendered = html_text
+    rendered = upsert_meta_tag(rendered, "property", "og:type", "product")
+    rendered = upsert_meta_tag(rendered, "property", "og:site_name", "ROMIX")
     rendered = upsert_meta_tag(rendered, "property", "og:title", safe_title)
     rendered = upsert_meta_tag(rendered, "property", "og:description", safe_description)
     rendered = upsert_meta_tag(rendered, "property", "og:image", safe_image)
+    rendered = upsert_meta_tag(rendered, "property", "og:image:secure_url", safe_image)
+    rendered = upsert_meta_tag(rendered, "property", "og:image:alt", safe_title)
     rendered = upsert_meta_tag(rendered, "property", "og:url", safe_url)
+    rendered = upsert_meta_tag(rendered, "name", "twitter:card", "summary_large_image")
     rendered = upsert_meta_tag(rendered, "name", "twitter:title", safe_title)
     rendered = upsert_meta_tag(rendered, "name", "twitter:description", safe_description)
     rendered = upsert_meta_tag(rendered, "name", "twitter:image", safe_image)

@@ -48,6 +48,7 @@ function loadScript(relativePath, additions = {}) {
 }
 
 function checkStaticShells() {
+  let canonicalHeader = null;
   let canonicalFooter = null;
   pages.forEach((page) => {
     const html = fs.readFileSync(path.join(publicDir, page), 'utf8');
@@ -56,6 +57,19 @@ function checkStaticShells() {
     assert(doc.querySelectorAll('.romix-announcement').length === 1, `${page}: announcement must exist in initial HTML`);
     assert(doc.querySelectorAll('header[data-romix-shell="header-v1"]').length === 1, `${page}: one initial header required`);
     assert(doc.querySelectorAll('footer[data-romix-shell="footer-v1"]').length === 1, `${page}: one initial footer required`);
+    const announcement = doc.querySelector('.romix-announcement');
+    assert(announcement.textContent.replace(/\s+/g, ' ').trim() === 'ENV\u00cdOS GRATIS EN COMPRAS SUPERIORES A $50.000', `${page}: announcement copy drifted`);
+    assert(announcement.querySelector('strong')?.textContent.trim() === 'GRATIS', `${page}: GRATIS accent is missing`);
+    const headerMarkup = doc.querySelector('header[data-romix-shell="header-v1"]').outerHTML;
+    if (canonicalHeader == null) canonicalHeader = headerMarkup;
+    else assert(headerMarkup === canonicalHeader, `${page}: header/search markup drifted from the shared shell`);
+    assert(doc.querySelectorAll('#header-search').length === 1, `${page}: exactly one global search panel is required`);
+    assert(doc.querySelectorAll('#global-search-form').length === 1, `${page}: exactly one global search form is required`);
+    assert(doc.querySelectorAll('#global-search-form input[name="q"]').length === 1, `${page}: canonical q input is required`);
+    assert(doc.querySelectorAll('.romix-search-clear').length === 1, `${page}: exactly one clear control is required`);
+    assert(doc.querySelectorAll('.romix-search-cancel').length === 1, `${page}: exactly one cancel control is required`);
+    assert(doc.querySelector('#header-search[aria-hidden="true"]'), `${page}: closed search must be hidden to assistive technology`);
+    assert(doc.querySelector('.romix-search-overlay[aria-describedby="romix-search-status"]'), `${page}: search results need a polite status association`);
     const footerMarkup = doc.querySelector('footer[data-romix-shell="footer-v1"]').outerHTML;
     if (canonicalFooter == null) canonicalFooter = footerMarkup;
     else assert(footerMarkup === canonicalFooter, `${page}: footer markup drifted from the shared shell`);
@@ -106,9 +120,11 @@ function checkStaticShells() {
   const footerCss = read('frontend/public/assets/css/romix-footer.css');
   const themeCss = read('frontend/public/assets/css/romix-minimal-theme.css');
   assert((headerCss.match(/!important/g) || []).length === 0, 'Header CSS should not restart the specificity war');
+  assert((headerCss.match(/Global ROMIX predictive search: canonical component styles/g) || []).length === 1, 'Header CSS must have one canonical predictive-search section');
   assert(footerCss.includes('#242426'), 'Footer CSS must preserve the shared charcoal background');
   assert(!/(?:product-detail-page|catalog-page)[^{]*\.site-footer/.test(footerCss), 'Footer CSS must not contain page-specific variants');
   assert(!themeCss.includes('.site-footer'), 'Theme CSS must not redefine the shared footer');
+  assert(!themeCss.includes('.romix-search'), 'Theme CSS must not redefine the global predictive search');
   assert((themeCss.match(/!important/g) || []).length === 0, 'Theme CSS should not restart the specificity war');
 }
 

@@ -6,7 +6,6 @@ const PUBLIC_DIR = path.join(ROOT_DIR, "frontend", "public");
 const PRODUCTS_FILE = path.join(PUBLIC_DIR, "assets", "data", "products.json");
 const SHARE_DIR = path.join(PUBLIC_DIR, "share");
 const FALLBACK_IMAGE = "images/logo-romix-social-1200x630.png";
-const DEFAULT_SITE_URL = "https://romi-damas.netlify.app";
 
 function normalizeSiteUrl(raw) {
   const value = String(raw || "").trim();
@@ -14,13 +13,17 @@ function normalizeSiteUrl(raw) {
   return value.replace(/\/+$/, "");
 }
 
-const SITE_URL = normalizeSiteUrl(
-  process.env.ROMIX_SITE_URL
-    || process.env.SITE_URL
-    || process.env.URL
-    || process.env.DEPLOY_PRIME_URL
-    || DEFAULT_SITE_URL
-);
+function deploymentSiteUrl(env = process.env) {
+  const configured = env.ROMIX_SITE_URL
+    || env.URL
+    || env.SITE_URL
+    || env.VERCEL_PROJECT_PRODUCTION_URL
+    || env.VERCEL_URL
+    || env.DEPLOY_PRIME_URL
+    || "http://localhost:8000";
+  const value = /^https?:\/\//i.test(configured) ? configured : `https://${configured}`;
+  return normalizeSiteUrl(value);
+}
 
 function slugify(value) {
   const raw = String(value || "").trim();
@@ -68,19 +71,20 @@ function encodePathForMeta(value) {
   }
 }
 
-function absoluteUrl(value) {
+function absoluteUrl(value, siteUrl = deploymentSiteUrl()) {
   const clean = normalizePath(value);
   if (!clean) return "";
   if (/^https?:\/\//i.test(clean)) return clean;
   const rel = clean.replace(/^\/+/, "");
-  return `${SITE_URL}/${rel}`;
+  return `${siteUrl}/${rel}`;
 }
 
 function productImage(product) {
   const direct = encodePathForMeta(product && product.image);
   if (direct) return direct;
   if (product && product.images && typeof product.images === "object") {
-    const first = Object.values(product.images).find((entry) => String(entry || "").trim());
+    const entries = Array.isArray(product.images) ? product.images : Object.values(product.images);
+    const first = entries.find((entry) => String(entry || "").trim());
     if (first) return encodePathForMeta(first);
   }
   return encodePathForMeta(FALLBACK_IMAGE);
@@ -90,25 +94,20 @@ function productDescription(product) {
   const candidates = [
     product && product.description,
     product && product.desc,
-    product && product.subtitle,
-    product && product.type
+    product && product.subtitle
   ];
   const first = candidates.find((entry) => String(entry || "").trim());
-  const fallback = "Descubri indumentaria deportiva ROMIX para cada dia.";
-  if (!first) return fallback;
+  if (!first) {
+    const type = String((product && (product.type || product.category)) || "Producto").trim();
+    const section = String((product && (product.section || product.gender)) || "ROMIX").trim();
+    return `${type} para ${section}. Indumentaria deportiva y urbana ROMIX.`;
+  }
   return String(first).replace(/\s+/g, " ").trim().slice(0, 220);
-}
-
-function formatPrice(value) {
-  const num = Number(value || 0);
-  if (!Number.isFinite(num) || num <= 0) return "";
-  return `$${num.toLocaleString("es-AR")}`;
 }
 
 function productTitle(product) {
   const name = String((product && product.name) || "Producto ROMIX").trim();
-  const price = formatPrice(product && product.price);
-  return price ? `${name} - ${price}` : name;
+  return `${name} | ROMIX`;
 }
 
 function detailHref(product, slug) {
@@ -162,6 +161,19 @@ function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
+function buildSharePage(product, siteUrl = deploymentSiteUrl()) {
+  const slug = productSlug(product);
+  const sharePath = `/share/${slug}/`;
+  const detailPath = detailHref(product, slug);
+  const shareUrl = absoluteUrl(sharePath, siteUrl);
+  const detailUrl = absoluteUrl(detailPath, siteUrl);
+  const imageUrl = absoluteUrl(productImage(product), siteUrl);
+  const title = productTitle(product);
+  const description = productDescription(product);
+  const html = shareHtml({ title, description, imageUrl, shareUrl, detailUrl });
+  return { slug, shareUrl, detailUrl, imageUrl, title, description, html };
+}
+
 function main() {
   if (!fs.existsSync(PRODUCTS_FILE)) {
     throw new Error(`No se encontro ${PRODUCTS_FILE}`);
@@ -175,18 +187,10 @@ function main() {
   ensureDir(SHARE_DIR);
 
   let created = 0;
+  const siteUrl = deploymentSiteUrl();
 
   list.forEach((product) => {
-    const slug = productSlug(product);
-
-    const sharePath = `/share/${slug}/`;
-    const detailPath = detailHref(product, slug);
-    const shareUrl = absoluteUrl(sharePath);
-    const detailUrl = absoluteUrl(detailPath);
-    const imageUrl = absoluteUrl(productImage(product));
-    const title = productTitle(product);
-    const description = productDescription(product);
-    const html = shareHtml({ title, description, imageUrl, shareUrl, detailUrl });
+    const { slug, html } = buildSharePage(product, siteUrl);
 
     const outDir = path.join(SHARE_DIR, slug);
     ensureDir(outDir);
@@ -197,4 +201,15 @@ function main() {
   console.log(`Share pages generated: ${created}`);
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = {
+  absoluteUrl,
+  buildSharePage,
+  deploymentSiteUrl,
+  productDescription,
+  productImage,
+  productSlug,
+  productTitle,
+  shareHtml
+};

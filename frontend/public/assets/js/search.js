@@ -38,12 +38,12 @@
     { label: "Mujer", href: "mujer.html" },
     { label: "Hombre", href: "hombre.html" },
     { label: "Ni\u00f1os", href: "ninos.html" },
-    { label: "Invierno", href: "catalogo.html?temporada=invierno" },
     { label: "Calzas", href: "catalogo.html?tipo=calzas&q=calzas" },
+    { label: "Remeras", href: "catalogo.html?tipo=remeras&q=remeras" },
+    { label: "Pantalones", href: "catalogo.html?tipo=pantalones&q=pantalones" },
     { label: "Camperas", href: "catalogo.html?tipo=camperas&q=camperas" },
     { label: "Buzos", href: "catalogo.html?tipo=buzos&q=buzos" },
-    { label: "Pantalones", href: "catalogo.html?tipo=pantalones&q=pantalones" },
-    { label: "T\u00e9rmicos", href: "catalogo.html?q=termica" }
+    { label: "Tops", href: "catalogo.html?tipo=tops&q=tops" }
   ];
 
   function sanitizeProducts(list) {
@@ -342,10 +342,10 @@
     const results = qn ? searchProductsSync(products, term).slice(0, 24) : [];
     const defaultProducts = (Array.isArray(products) ? products : [])
       .filter((product) => product && product.name)
-      .slice(0, 4);
+      .slice(0, 5);
     return {
       query: term,
-      products: qn ? results.slice(0, 4) : defaultProducts,
+      products: qn ? results.slice(0, 5) : defaultProducts.slice(0, 5),
       suggestions: buildSuggestions(term, results, products),
       categories: buildCategories(term, results)
     };
@@ -463,7 +463,7 @@
           '<span>' + highlightMatch(entry.label, model.query) + '</span>' +
         '</button>'
       )).join("")
-      : '<p class="romix-search-muted">Prob&aacute; con calzas, camperas, pantalones o t&eacute;rmicos.</p>';
+      : '<p class="romix-search-muted">Prob&aacute; con calzas, remeras, pantalones o camperas.</p>';
 
     const categories = model.categories.length
       ? model.categories.map((entry) => (
@@ -477,7 +477,7 @@
       ? model.products.map(renderProductCard).join("")
       : '<div class="romix-search-empty">' +
           '<strong>No encontramos productos para tu b&uacute;squeda.</strong>' +
-          '<span>Prob&aacute; con calzas, camperas, pantalones o t&eacute;rmicos.</span>' +
+          '<span>Prob&aacute; con calzas, remeras, pantalones o camperas.</span>' +
         '</div>';
 
     state.overlay.innerHTML = '' +
@@ -510,6 +510,9 @@
         scheduleRender();
       });
     });
+    setStatus(model.products.length
+      ? model.products.length + (model.products.length === 1 ? " producto encontrado" : " productos encontrados")
+      : "No se encontraron productos");
   }
 
   function renderPopularSearches() {
@@ -527,12 +530,20 @@
         '<h3>B&uacute;squedas populares</h3>' +
         '<div class="romix-search-popular__chips">' + chips + '</div>' +
       '</section>';
+    setStatus("B\u00fasquedas populares disponibles");
+  }
+
+  function setStatus(message) {
+    const state = SEARCH_STATE;
+    if (!state || !state.status) return;
+    state.status.textContent = String(message || "");
   }
 
   function showLoading() {
     const state = SEARCH_STATE;
     if (!state || !state.overlay) return;
     state.overlay.innerHTML = '<div class="romix-search-loading">Buscando productos...</div>';
+    setStatus("");
   }
 
   function scheduleRender() {
@@ -552,27 +563,43 @@
       ensureProducts().then((products) => {
         renderPanel(buildSearchModel(query, products));
       });
-    }, 180);
+    }, 240);
   }
 
-  function setSearchOpen(open) {
+  function setSearchOpen(open, options) {
     const state = SEARCH_STATE;
     if (!state || !state.panel) return;
+    const opts = options || {};
+    if (open && opts.trigger) state.lastTrigger = opts.trigger;
     state.panel.classList.toggle("is-open", open);
     state.panel.classList.toggle("romix-search-panel-open", open);
+    state.panel.setAttribute("aria-hidden", open ? "false" : "true");
+    if (open && window.matchMedia && window.matchMedia("(max-width: 760px)").matches) {
+      state.panel.setAttribute("aria-modal", "true");
+    } else {
+      state.panel.removeAttribute("aria-modal");
+    }
     document.body.classList.toggle("romix-search-open", open);
     document.body.classList.toggle("header-search-open", open);
     document.querySelectorAll("[data-search-toggle='true']").forEach((toggle) => {
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
+    state.input.setAttribute("aria-expanded", open ? "true" : "false");
+    window.clearTimeout(state.focusTimer);
     if (open) {
       scheduleRender();
-      window.setTimeout(() => state.input && state.input.focus(), 20);
+      state.focusTimer = window.setTimeout(() => state.input && state.input.focus(), 20);
+    } else {
+      window.clearTimeout(state.timer);
+      state.focusTimer = null;
+      if (opts.restoreFocus !== false && state.lastTrigger && state.lastTrigger.isConnected) {
+        state.lastTrigger.focus();
+      }
     }
   }
 
-  function closeSearch() {
-    setSearchOpen(false);
+  function closeSearch(restoreFocus) {
+    setSearchOpen(false, { restoreFocus: restoreFocus !== false });
   }
 
   function updateClearButton() {
@@ -583,31 +610,35 @@
 
   function enhanceForm(form) {
     if (!form || form.dataset.predictiveSearchBound === "1") return;
+    const input = form.querySelector('input[name="q"]');
+    if (!input) return;
     form.dataset.predictiveSearchBound = "1";
     form.classList.add("romix-search-form");
     if (!form.getAttribute("action")) form.setAttribute("action", "catalogo.html");
     if (!form.getAttribute("method")) form.setAttribute("method", "get");
-
-    const input = form.querySelector('input[name="q"]');
-    if (!input) return;
     input.setAttribute("aria-label", "Buscar productos");
     input.setAttribute("autocomplete", "off");
-    input.setAttribute("placeholder", "Encontr\u00e1 lo que buscas");
+    input.setAttribute("placeholder", "Encontr\u00e1 lo que busc\u00e1s");
 
     const submit = form.querySelector('button[type="submit"]');
     if (submit) submit.classList.add("romix-search-submit");
 
     const panel = form.closest(".search-panel") || document.getElementById("header-search");
-    const shell = document.createElement("div");
-    shell.className = "romix-search-shell";
-    shell.innerHTML = '' +
-      '<span class="romix-search-icon" aria-hidden="true"></span>' +
-      '<button class="romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden>x</button>' +
-      '<button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>' +
-      '<div class="romix-search-overlay" role="region" aria-label="Resultados de b&uacute;squeda"></div>';
-
-    form.appendChild(shell);
-    shell.insertBefore(input, shell.querySelector(".romix-search-clear"));
+    let shell = form.querySelector(".romix-search-shell");
+    if (!shell) {
+      shell = document.createElement("div");
+      shell.className = "romix-search-shell";
+      shell.innerHTML = '' +
+        '<div class="romix-search-input-wrap">' +
+          '<span class="romix-search-icon" aria-hidden="true"></span>' +
+          '<button class="romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span aria-hidden="true">&times;</span></button>' +
+        '</div>' +
+        '<button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>' +
+        '<p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>' +
+        '<div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>';
+      form.appendChild(shell);
+      shell.querySelector(".romix-search-input-wrap").insertBefore(input, shell.querySelector(".romix-search-clear"));
+    }
     if (submit) submit.hidden = true;
 
     SEARCH_STATE = {
@@ -615,9 +646,12 @@
       input,
       panel,
       overlay: shell.querySelector(".romix-search-overlay"),
+      status: shell.querySelector(".romix-search-status"),
       clearButton: shell.querySelector(".romix-search-clear"),
       cancelButton: shell.querySelector(".romix-search-cancel"),
-      timer: null
+      timer: null,
+      focusTimer: null,
+      lastTrigger: null
     };
 
     const initialQuery = qs("q") || qs("search") || qs("query");
@@ -628,6 +662,20 @@
     form.classList.toggle("has-query-search", !!input.value.trim());
     updateClearButton();
 
+    document.querySelectorAll("[data-search-toggle='true']").forEach((toggle) => {
+      if (toggle.dataset.romixSearchToggleBound === "1") return;
+      toggle.dataset.romixSearchToggleBound = "1";
+      toggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        const willOpen = !panel.classList.contains("is-open");
+        if (willOpen && window.romixHeaderSearchBridge && typeof window.romixHeaderSearchBridge.beforeOpen === "function") {
+          window.romixHeaderSearchBridge.beforeOpen();
+        }
+        if (willOpen) setSearchOpen(true, { trigger: toggle });
+        else closeSearch(true);
+      });
+    });
+
     input.addEventListener("focus", () => setSearchOpen(true));
     input.addEventListener("input", scheduleRender);
     SEARCH_STATE.clearButton.addEventListener("click", () => {
@@ -636,7 +684,7 @@
       input.focus();
       scheduleRender();
     });
-    SEARCH_STATE.cancelButton.addEventListener("click", closeSearch);
+    SEARCH_STATE.cancelButton.addEventListener("click", () => closeSearch(true));
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -645,8 +693,32 @@
       location.href = buildCatalogUrl({ q: query });
     });
 
+    document.addEventListener("click", (event) => {
+      if (!panel || !panel.classList.contains("is-open")) return;
+      if (panel.contains(event.target) || event.target.closest("[data-search-toggle='true']")) return;
+      closeSearch(false);
+    });
+
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && panel && panel.classList.contains("is-open")) closeSearch();
+      if (!panel || !panel.classList.contains("is-open")) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSearch(true);
+        return;
+      }
+      if (event.key !== "Tab" || !window.matchMedia || !window.matchMedia("(max-width: 760px)").matches) return;
+      const focusable = Array.from(panel.querySelectorAll('a[href], button:not([hidden]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+        .filter((element) => !element.disabled && element.getAttribute("aria-hidden") !== "true");
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     });
 
     if ((panel && panel.classList.contains("is-open")) || document.activeElement === input) {
@@ -719,6 +791,7 @@
     search: searchProducts,
     searchInList: searchProductsSync,
     ensure: ensureProducts,
+    open: (trigger) => setSearchOpen(true, { trigger: trigger || null }),
     close: closeSearch
   };
 

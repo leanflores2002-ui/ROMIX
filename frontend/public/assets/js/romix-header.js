@@ -415,62 +415,22 @@
   }
 
   function bindSearchToggle(headerState) {
-    var toggles = Array.prototype.slice.call(document.querySelectorAll("[data-search-toggle='true']"));
     var panel = document.getElementById("header-search");
-    if (!toggles.length || !panel) return;
-
-    function setOpen(open) {
-      headerState.searchOpen = !!open;
-      panel.classList.toggle("is-open", open);
-      panel.classList.toggle("romix-search-panel-open", open);
-      document.body.classList.toggle("header-search-open", !!open);
-      document.body.classList.toggle("romix-search-open", !!open);
-      toggles.forEach(function (toggle) {
-        toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      });
-      if (open) {
-        var header = toggles[0].closest("header");
-        if (header) header.classList.remove("is-hidden");
-      }
-      if (open) {
-        var input = panel.querySelector('input[name="q"]');
-        if (input) input.focus();
-      }
-    }
-
+    if (!panel) return;
     headerState.closeSearch = function () {
-      setOpen(false);
-    };
-
-    toggles.forEach(function (toggle) {
-      toggle.addEventListener("click", function () {
-        var willOpen = !panel.classList.contains("is-open");
-        if (willOpen && typeof headerState.closeMega === "function") {
-          headerState.closeMega();
-        }
-        if (willOpen && typeof headerState.closeMobileMenu === "function") {
-          headerState.closeMobileMenu();
-        }
-        setOpen(willOpen);
-      });
-    });
-
-    document.addEventListener("click", function (event) {
-      if (!panel.classList.contains("is-open")) return;
-      var target = event.target;
-      if (panel.contains(target)) return;
-      var clickedToggle = toggles.some(function (toggle) {
-        return toggle.contains(target);
-      });
-      if (clickedToggle) return;
-      setOpen(false);
-    });
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && panel.classList.contains("is-open")) {
-        setOpen(false);
+      if (window.romixSearch && typeof window.romixSearch.close === "function") {
+        window.romixSearch.close();
+        return;
       }
-    });
+      panel.classList.remove("is-open", "romix-search-panel-open");
+      document.body.classList.remove("header-search-open", "romix-search-open");
+    };
+    window.romixHeaderSearchBridge = {
+      beforeOpen: function () {
+        if (typeof headerState.closeMega === "function") headerState.closeMega();
+        if (typeof headerState.closeMobileMenu === "function") headerState.closeMobileMenu();
+      }
+    };
   }
 
   function bindMegaMenu(header, headerState) {
@@ -772,7 +732,7 @@
 
     return new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/js/search.js?v=11";
+      script.src = "assets/js/search.js?v=13";
       script.async = false;
       script.dataset.romixSearch = "1";
       script.addEventListener("load", function () {

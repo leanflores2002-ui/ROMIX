@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const publicDir = path.join(__dirname, '..', 'frontend', 'public');
-const assetVersion = '12';
+const assetVersion = '13';
 const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap';
 const pages = [
   'index.html',
@@ -21,7 +21,8 @@ const pages = [
 const criticalShellCss = `<!-- ROMIX:SHELL:CRITICAL:START -->
 <style data-romix-shell-critical>
   *,*::before,*::after{box-sizing:border-box}
-  .romix-announcement{display:flex;align-items:center;justify-content:center;min-height:28px;padding:4px 12px;background:#fff0f6;color:#171317;font:700 10px/1.2 Arial,sans-serif;text-align:center}
+  .romix-announcement{display:flex;align-items:center;justify-content:center;min-height:29px;padding:4px 12px;background:#fff0f6;color:#242426;font:700 10px/1.2 Arial,sans-serif;text-align:center}
+  .romix-announcement strong{color:#f22797;font-weight:800}
   header[data-romix-shell="header-v1"]{position:relative;z-index:500;background:#fff;border-bottom:1px solid #ece8eb;color:#171317}
   header[data-romix-shell="header-v1"] .header-row{width:min(1400px,calc(100% - 40px));min-height:72px;margin:0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:28px}
   header[data-romix-shell="header-v1"] .brand{color:#242326;text-decoration:none;font:900 28px/1 Arial,sans-serif;white-space:nowrap}
@@ -36,7 +37,7 @@ const criticalShellCss = `<!-- ROMIX:SHELL:CRITICAL:START -->
   header[data-romix-shell="header-v1"] .cart-pill__text{display:grid;font:700 11px/1.1 Arial,sans-serif}
   header[data-romix-shell="header-v1"] .icon-badge{position:absolute;top:0;right:0;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#f72585;color:#fff;font:700 10px/18px Arial,sans-serif;text-align:center}
   header[data-romix-shell="header-v1"] .search-panel{max-height:0;overflow:hidden;background:#fff}
-  header[data-romix-shell="header-v1"] .search-panel.is-open{max-height:760px}
+  header[data-romix-shell="header-v1"] .search-panel.is-open{max-height:calc(100dvh - 105px)}
   .site-footer[data-romix-shell="footer-v1"]{background:#242426;color:#fff}
   .site-footer[data-romix-shell="footer-v1"] .footer-shell{width:min(1400px,calc(100% - 40px));margin:0 auto;padding:48px 0 24px}
   .site-footer[data-romix-shell="footer-v1"] .footer-top{display:grid;grid-template-columns:minmax(0,1.35fr) repeat(3,minmax(0,.72fr));gap:36px}
@@ -90,11 +91,19 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
     </div>
   </div>
   <button class="mobile-nav-scrim" id="mobile-nav-scrim" type="button" aria-label="Cerrar men&uacute;" hidden></button>
-  <div class="search-panel" id="header-search">
+  <div class="search-panel" id="header-search" role="dialog" aria-label="B&uacute;squeda de productos" aria-hidden="true">
     <div class="container">
       <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
-        <input type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar productos" />
-        <button type="submit">Buscar</button>
+        <div class="romix-search-shell">
+          <div class="romix-search-input-wrap">
+            <span class="romix-search-icon" aria-hidden="true"></span>
+            <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" aria-expanded="false" autocomplete="off" />
+            <button class="romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span aria-hidden="true">&times;</span></button>
+          </div>
+          <button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
+          <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
+          <div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>
+        </div>
       </form>
     </div>
   </div>

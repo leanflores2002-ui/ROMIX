@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "node tests/pageTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js && node tests/storefrontStabilityTests.js && node tests/sharePreviewTests.js",
+    "test": "node tests/pageTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js && node tests/recommendedOrderTests.js && node tests/storefrontStabilityTests.js && node tests/sharePreviewTests.js",
     "test:season-backend": "python tests/season_visibility_backend_tests.py",
     "test:share-backend": "python tests/product_share_backend_tests.py",
     "test:share": "node tests/sharePreviewTests.js",

@@ -370,6 +370,26 @@
     return String(raw || "").trim();
   }
 
+  function readInitialSortKey() {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      return "recommended";
+    }
+
+    const requested = normalizeText(params.get("sort") || params.get("order") || "recommended");
+    const aliases = {
+      recomendados: "recommended",
+      recomendado: "recommended",
+      recommended: "recommended",
+      "price-asc": "price-asc",
+      "price-desc": "price-desc"
+    };
+    const normalized = aliases[requested] || requested;
+    return SORT_OPTIONS.some((entry) => entry.key === normalized) ? normalized : "recommended";
+  }
+
   function readInitialSearchAnyTokens() {
     let params = null;
     try {
@@ -1246,6 +1266,11 @@
   }
 
   function sortProductsView() {
+    if (state.sortBy === "recommended" && typeof window.recommendedSort === "function") {
+      state.view = window.recommendedSort(state.view);
+      return;
+    }
+
     state.view.sort(function (a, b) {
       if (state.sortBy === "price-asc") {
         if (a.price !== b.price) return a.price - b.price;
@@ -1666,7 +1691,7 @@
       "categories", "categoria", "categorias", "category", "cat",
       "types", "type", "tipos", "tipo", "seasons", "season", "temporada", "temp",
       "sections", "section", "secciones", "seccion", "sizes", "size", "talles", "talle",
-      "edad", "edades", "audiencia", "audience", "colors", "color", "colores", "sort"
+      "edad", "edades", "audiencia", "audience", "colors", "color", "colores", "sort", "order"
     ];
     filterKeys.forEach((key) => params.delete(key));
     const mapping = {
@@ -2148,6 +2173,7 @@
   async function init() {
     const scope = document.body && document.body.dataset ? document.body.dataset.catalogScope : "catalogo";
     state.scope = PAGE_CONFIG[scope] ? scope : "catalogo";
+    state.sortBy = readInitialSortKey();
 
     initPageHeader();
     wireUiEvents();

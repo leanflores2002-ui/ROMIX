@@ -64,7 +64,7 @@
 </noscript>
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/romix-catalog-pages.css?v=13" />
+  <link rel="stylesheet" href="assets/css/romix-catalog-pages.css?v=14" />
   <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=13" />
@@ -143,6 +143,14 @@
           </button>
         </div>
         <div class="filters-scroll">
+        <section class="filters-group mobile-sort-group" aria-labelledby="mobile-sort-title">
+          <h3 id="mobile-sort-title" class="mobile-sort-title">ORDENAR</h3>
+          <select id="products-sort-mobile" class="products-sort-select mobile-sort-select" aria-label="Ordenar productos" data-sort-control="true">
+            <option value="recommended" selected>Recomendados</option>
+            <option value="price-asc">Menor a mayor precio</option>
+            <option value="price-desc">Mayor a menor precio</option>
+          </select>
+        </section>
 
         <button id="clear-filters" type="button" class="filters-clear">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.34-5.66L4 8.68" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 4v4.68h4.68" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -182,6 +190,14 @@
       <section class="products-wrap" aria-label="Listado de productos">
         <div class="products-top">
           <p id="products-summary" class="products-summary">Cargando catálogo...</p>
+          <label class="products-sort" for="products-sort">
+            <span class="products-sort-label">Ordenar por</span>
+            <select id="products-sort" class="products-sort-select" aria-label="Ordenar productos" data-sort-control="true">
+              <option value="recommended" selected>Recomendados</option>
+              <option value="price-asc">Menor a mayor precio</option>
+              <option value="price-desc">Mayor a menor precio</option>
+            </select>
+          </label>
           <button id="open-filters" type="button" class="filters-open-btn">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             Filtros
@@ -242,7 +258,8 @@
   <script src="assets/js/romix-image-utils.js?v=13" defer></script>
   <script src="assets/js/cart.js?v=13" defer></script>
   <script src="assets/js/products-store.js?v=13" defer></script>
-  <script src="assets/js/romix-catalog-pages.js?v=13" defer></script>
+  <script src="assets/js/catalog-relevance-order.js?v=14" defer></script>
+  <script src="assets/js/romix-catalog-pages.js?v=14" defer></script>
   <script src="assets/js/romix-header.js?v=13" defer></script>
 </body>
 </html>

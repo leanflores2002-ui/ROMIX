@@ -66,7 +66,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
-  <style>
+  <style media="not all" data-romix-legacy-home-styles>
     :root {
       --pink-strong: #ff3f8e;
       --pink-main: #ff5fa3;
@@ -1311,25 +1311,29 @@
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/romix-home-pro.css?v=13" />
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=13" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=1" />
-  <link rel="stylesheet" href="assets/css/romix-footer.css?v=13" />
+  <link rel="stylesheet" href="assets/css/romix-home-pro.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css?v=14" />
 </head>
-<body>
+<body class="romix-home-page">
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 <!-- ROMIX:SHELL:HEADER:START -->
-<div class="romix-announcement" role="note">ENV&Iacute;OS Y RETIROS COORDINADOS &middot; CONSULT&Aacute; DISPONIBILIDAD</div>
+<aside class="romix-announcement" aria-label="Informaci&oacute;n comercial">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 6.5h11v9h-11zM14.5 9h3.2l2.8 3v3.5h-6zM7.5 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM17.5 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span>ENV&Iacute;OS Y RETIROS COORDINADOS &middot; CONSULT&Aacute; DISPONIBILIDAD</span>
+</aside>
 <header class="site-header romix-shared-header" data-romix-shell="header-v1">
   <div class="container header-row">
     <div class="header-actions-left" aria-label="Acciones principales">
       <button class="icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       <button class="icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
     </div>
-    <a class="brand" href="index.html" aria-label="ROMIX inicio">ROMIX<span class="brand-dot">.</span></a>
+    <a class="brand" href="index.html" aria-label="ROMIX inicio">ROMI<span class="brand-x" aria-hidden="true">X</span></a>
     <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
       <div class="mobile-drawer-header">
-        <a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio"><span>ROMIX</span></a>
+        <a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio"><span>ROMI<span class="brand-x" aria-hidden="true">X</span></span></a>
         <button class="mobile-drawer-close" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       </div>
       <div class="main-nav-wrap">
@@ -1370,8 +1374,8 @@
 </header>
 <!-- ROMIX:SHELL:HEADER:END -->
 
-  <main class="home">
-    <section class="main-hero-carousel" aria-label="Banner principal">
+  <main class="home" id="main-content">
+    <section class="main-hero-carousel" aria-label="Destacados ROMIX">
       <div class="main-hero-carousel__viewport" id="mainImageCarousel">
         <div class="main-hero-carousel__track">
           <figure class="main-hero-carousel__slide is-active">
@@ -1380,15 +1384,13 @@
                 <source srcset="images/banners/banner-1.webp" type="image/webp" />
                 <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" loading="eager" decoding="async" fetchpriority="high" sizes="100vw" />
               </picture>
-              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
-              <span class="main-hero-carousel__content">
-                <span class="main-hero-carousel__title">
-                  <span class="main-hero-carousel__title-line">CONJUNTO</span>
-                  <span class="main-hero-carousel__title-line">SPORT</span>
-                </span>
-                <span class="main-hero-carousel__subtitle">Dise&ntilde;ado para entrenar con comodidad, confianza y estilo.</span>
-                <span class="main-hero-carousel__cta">Comprar ahora</span>
-              </span>
+              <div class="main-hero-carousel__content">
+                <span class="main-hero-carousel__eyebrow">MOVIMIENTO REAL</span>
+                <h1 class="main-hero-carousel__title">Rendimiento que inspira.<br /> <em>Estilo</em> que acompa&ntilde;a.</h1>
+                <span class="main-hero-carousel__subtitle">Indumentaria deportiva y urbana dise&ntilde;ada para moverte con comodidad sin perder tu estilo.</span>
+                <span class="main-hero-carousel__cta">Comprar ahora <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="main-hero-carousel__proof"><span class="main-hero-carousel__proof-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M16 19.5v-1.2c0-2-1.8-3.7-4-3.7s-4 1.7-4 3.7v1.2M12 11.2a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6ZM18.2 13.4a2.7 2.7 0 0 1 2.3 2.7v1.1M5.8 13.4a2.7 2.7 0 0 0-2.3 2.7v1.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>Personas que eligen ROMIX todos los d&iacute;as</span>
+              </div>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
@@ -1397,15 +1399,12 @@
                 <source srcset="images/banners/banner-2.webp" type="image/webp" />
                 <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
               </picture>
-              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
-              <span class="main-hero-carousel__content main-hero-carousel__content--winter">
-                <span class="main-hero-carousel__title">
-                  <span class="main-hero-carousel__title-line">COLECCI&Oacute;N</span>
-                  <span class="main-hero-carousel__title-line">INVIERNO</span>
-                </span>
+              <div class="main-hero-carousel__content main-hero-carousel__content--winter">
+                <span class="main-hero-carousel__eyebrow">ESTILO URBANO</span>
+                <h2 class="main-hero-carousel__title">Abrigo que se adapta a tu ritmo.</h2>
                 <span class="main-hero-carousel__subtitle">Abrigo, confort y estilo para acompa&ntilde;arte en los d&iacute;as m&aacute;s fr&iacute;os.</span>
-                <span class="main-hero-carousel__cta">Comprar ahora</span>
-              </span>
+                <span class="main-hero-carousel__cta">Ver colecci&oacute;n <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </div>
             </a>
           </figure>
           <figure class="main-hero-carousel__slide">
@@ -1414,15 +1413,12 @@
                 <source srcset="images/banners/banner-3.webp" type="image/webp" />
                 <img src="images/banners/banner-3.png" alt="Coleccion infantil ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
               </picture>
-              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
-              <span class="main-hero-carousel__content main-hero-carousel__content--kids">
-                <span class="main-hero-carousel__title">
-                  <span class="main-hero-carousel__title-line">COLECCI&Oacute;N</span>
-                  <span class="main-hero-carousel__title-line">KIDS</span>
-                </span>
+              <div class="main-hero-carousel__content main-hero-carousel__content--kids">
+                <span class="main-hero-carousel__eyebrow">MOVIMIENTO PARA TODOS</span>
+                <h2 class="main-hero-carousel__title">Comodidad para cada aventura.</h2>
                 <span class="main-hero-carousel__subtitle">Comodidad, abrigo y estilo para acompa&ntilde;ar cada momento de juego.</span>
-                <span class="main-hero-carousel__cta">Comprar ahora</span>
-              </span>
+                <span class="main-hero-carousel__cta">Ver Ni&ntilde;os <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </div>
             </a>
           </figure>
         </div>
@@ -1437,64 +1433,61 @@
             <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </button>
-        <div class="main-hero-carousel__dots" data-carousel-dots aria-label="Selector de imagenes"></div>
+        <div class="main-hero-carousel__dots" data-carousel-dots aria-label="Selector de im&aacute;genes"></div>
+        <span class="main-hero-carousel__side-note" aria-hidden="true">DEPORTE &middot; CIUDAD &middot; COMODIDAD &middot; TODOS LOS D&Iacute;AS</span>
       </div>
     </section>
 
     <section class="audience-section surface-section" aria-labelledby="quick-shop-title">
       <div class="section-head">
         <div class="audience-section__title-wrap">
-          <h2 id="quick-shop-title">&iquest;PARA QUI&Eacute;N EST&Aacute;S COMPRANDO?</h2>
-          <span class="audience-section__accent" aria-hidden="true"></span>
+          <h2 id="quick-shop-title">&iquest;Para qui&eacute;n est&aacute;s comprando?</h2>
         </div>
+        <a class="section-link" href="catalogo.html">Ver todo <span aria-hidden="true">&rarr;</span></a>
       </div>
       <div class="audience-grid">
         <a class="audience-card" href="catalogo.html?section=mujer" aria-label="Ir a la categor&iacute;a Mujer">
           <div class="audience-thumb">
             <picture>
               <source srcset="images/optimized/mujer-640.webp 640w, images/optimized/mujer-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/mujer.png" alt="Mujer" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/mujer.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span class="audience-label">MUJER</span>
+          <span class="audience-label">Mujer</span>
+          <span class="audience-arrow" aria-hidden="true">&rarr;</span>
         </a>
         <a class="audience-card" href="catalogo.html?section=hombre" aria-label="Ir a la categor&iacute;a Hombre">
           <div class="audience-thumb">
             <picture>
               <source srcset="images/optimized/hombre-640.webp 640w, images/optimized/hombre-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/hombre.png" alt="Hombre" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/hombre.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span class="audience-label">HOMBRE</span>
+          <span class="audience-label">Hombre</span>
+          <span class="audience-arrow" aria-hidden="true">&rarr;</span>
         </a>
-        <a class="audience-card" href="catalogo.html?audiencia=nina" aria-label="Ir a la categor&iacute;a Ni&ntilde;a">
+        <a class="audience-card" href="ninos.html" aria-label="Ir a la categor&iacute;a Ni&ntilde;os">
           <div class="audience-thumb">
             <picture>
               <source srcset="images/optimized/nina-640.webp 640w, images/optimized/nina-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/nina.png" alt="Ni&ntilde;a" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/nina.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span class="audience-label">NI&Ntilde;A</span>
-        </a>
-        <a class="audience-card" href="catalogo.html?audiencia=nino" aria-label="Ir a la categor&iacute;a Ni&ntilde;o">
-          <div class="audience-thumb">
-            <picture>
-              <source srcset="images/optimized/nino-640.webp 640w, images/optimized/nino-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/nino.png" alt="Ni&ntilde;o" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="audience-label">NI&Ntilde;O</span>
+          <span class="audience-label">Ni&ntilde;os</span>
+          <span class="audience-arrow" aria-hidden="true">&rarr;</span>
         </a>
         <a class="audience-card" href="catalogo.html" aria-label="Ir a ver todo el cat&aacute;logo">
           <div class="audience-thumb">
             <picture>
               <source srcset="images/optimized/ver-todo-640.webp 640w, images/optimized/ver-todo-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/ver-todo.png" alt="Ver todo" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/ver-todo.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span class="audience-label">VER TODO</span>
+          <span class="audience-label">Ver todo</span>
+          <span class="audience-arrow" aria-hidden="true">&rarr;</span>
         </a>
       </div>
+      <p class="audience-children-links">Busc&aacute; tambi&eacute;n por <a href="catalogo.html?audiencia=nina">Ni&ntilde;a</a> o <a href="catalogo.html?audiencia=nino">Ni&ntilde;o</a>.</p>
     </section>
 
     <section class="categories-section surface-section quick-category-section" aria-labelledby="category-title">
@@ -1511,7 +1504,7 @@
           <div class="category-thumb">
             <picture>
               <source srcset="images/optimized/calzas-640.webp 640w, images/optimized/calzas-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/calzas.png" alt="Calzas" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/calzas.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
           <span>Calzas</span>
@@ -1520,7 +1513,7 @@
           <div class="category-thumb">
             <picture>
               <source srcset="images/optimized/camperas-640.webp 640w, images/optimized/camperas-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/camperas.png" alt="Camperas" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/camperas.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
           <span>Camperas</span>
@@ -1529,7 +1522,7 @@
           <div class="category-thumb">
             <picture>
               <source srcset="images/optimized/remeras-640.webp 640w, images/optimized/remeras-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/remeras.png" alt="Remeras" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/remeras.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
           <span>Remeras</span>
@@ -1538,7 +1531,7 @@
           <div class="category-thumb">
             <picture>
               <source srcset="images/optimized/tops-640.webp 640w, images/optimized/tops-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/tops.png" alt="Tops" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/tops.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
           <span>Tops</span>
@@ -1547,7 +1540,7 @@
           <div class="category-thumb">
             <picture>
               <source srcset="images/optimized/buzos-640.webp 640w, images/optimized/buzos-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/buzos.png" alt="Buzos" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/buzos.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
           <span>Buzos</span>
@@ -1556,7 +1549,7 @@
           <div class="category-thumb">
             <picture>
               <source srcset="images/optimized/pantalones-640.webp 640w, images/optimized/pantalones-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/pantalones.png" alt="Pantalones" loading="lazy" decoding="async" width="1254" height="1254" />
+              <img src="images/pantalones.png" alt="" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
           <span>Pantalones</span>
@@ -1567,20 +1560,20 @@
     <!-- ── PROMO CAROUSEL ── -->
     <section class="benefit-strip" aria-label="Beneficios de compra">
       <div class="benefit-item">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h11a5 5 0 1 1-3.6 8.5M4 7l4-4M4 7l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>Cambios f&aacute;ciles</span>
+        <span class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h11a5 5 0 1 1-3.6 8.5M4 7l4-4M4 7l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="benefit-copy"><strong>Cambios f&aacute;ciles</strong><small>Coordinamos con vos</small></span>
       </div>
       <div class="benefit-item">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-2.8 8.2-7 10-4.2-1.8-7-5.4-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>Pago seguro</span>
+        <span class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-2.8 8.2-7 10-4.2-1.8-7-5.4-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="benefit-copy"><strong>Pago seguro</strong><small>Compra protegida</small></span>
       </div>
       <div class="benefit-item">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19l1.1-3A7 7 0 1 1 9 18.6L5 19Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 10h6M9 13h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <span>Atenci&oacute;n por WhatsApp</span>
+        <span class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19l1.1-3A7 7 0 1 1 9 18.6L5 19Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 10h6M9 13h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="benefit-copy"><strong>Atenci&oacute;n por WhatsApp</strong><small>Te asesoramos</small></span>
       </div>
       <div class="benefit-item">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h16v11H4V8Z" stroke="currentColor" stroke-width="1.8"/><path d="M8 8V5h8v3M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <span>Retiro/compra coordinada</span>
+        <span class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h16v11H4V8Z" stroke="currentColor" stroke-width="1.8"/><path d="M8 8V5h8v3M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="benefit-copy"><strong>Retiro coordinado</strong><small>Consult&aacute; disponibilidad</small></span>
       </div>
     </section>
 
@@ -1630,9 +1623,9 @@
     <div class="section-wrap" id="promoCarouselWrap">
       <div class="sec-head">
         <div class="sec-head__left">
-          <span class="sec-eyebrow">Destacados</span>
           <h2 class="sec-title">Colecciones de la temporada</h2>
         </div>
+        <a class="section-link" href="catalogo.html">Ver todas <span aria-hidden="true">&rarr;</span></a>
       </div>
       <div class="promo-carousel" id="promoCarousel">
         <div class="promo-track" id="promoTrack">
@@ -1643,6 +1636,8 @@
                 <source srcset="images/optimized/ESTILO_URBANO_INVERNAL-960.webp 960w, images/optimized/ESTILO_URBANO_INVERNAL-1440.webp 1440w" sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 960px) min(82vw, 760px), 760px" type="image/webp" />
                 <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Estilo Urbano Invernal ROMIX" loading="lazy" decoding="async" width="1708" height="921" />
               </picture>
+              <span class="promo-slide__overlay" aria-hidden="true"></span>
+              <span class="promo-slide__body"><strong class="promo-slide__title">Invierno urbano</strong><span class="promo-slide__desc">Abrigo y comodidad para tus d&iacute;as.</span><span class="promo-slide__cta">Ver colecci&oacute;n <span aria-hidden="true">&rarr;</span></span></span>
             </a>
           </article>
 
@@ -1652,6 +1647,8 @@
                 <source srcset="images/optimized/ROPA_DEPORTIVA-960.webp 960w, images/optimized/ROPA_DEPORTIVA-1440.webp 1440w" sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 960px) min(82vw, 760px), 760px" type="image/webp" />
                 <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" decoding="async" width="1708" height="921" />
               </picture>
+              <span class="promo-slide__overlay" aria-hidden="true"></span>
+              <span class="promo-slide__body"><strong class="promo-slide__title">Entrenamiento</strong><span class="promo-slide__desc">Rendimiento y libertad en cada movimiento.</span><span class="promo-slide__cta">Ver colecci&oacute;n <span aria-hidden="true">&rarr;</span></span></span>
             </a>
           </article>
 
@@ -1671,10 +1668,9 @@
     <section class="products-section" id="ofertas" aria-labelledby="ofertas-titulo">
       <div class="section-head">
         <div>
-          <span class="section-eyebrow">Nueva temporada</span>
-          <h2 id="ofertas-titulo">NUEVOS LANZAMIENTOS</h2>
+          <h2 id="ofertas-titulo">Nuevos lanzamientos</h2>
         </div>
-        <a class="section-link" href="novedades.html">Ver todo
+        <a class="section-link" href="novedades.html">Ver todos
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
@@ -1700,20 +1696,16 @@
     <section class="why-section" aria-labelledby="why-title">
       <div class="section-head">
         <div>
-          <span class="section-eyebrow">Confianza ROMIX</span>
-          <h2 id="why-title">&iquest;POR QU&Eacute; ELEGIR ROMIX?</h2>
+          <h2 id="why-title">&iquest;Por qu&eacute; elegir ROMIX?</h2>
         </div>
       </div>
       <div class="why-grid">
-        <div class="why-item"><span>01</span><strong>Calidad seleccionada</strong><p>Textiles pensados para uso real.</p></div>
-        <div class="why-item"><span>02</span><strong>Dise&ntilde;o funcional</strong><p>Cortes vers&aacute;tiles para moverte mejor.</p></div>
-        <div class="why-item"><span>03</span><strong>Prendas c&oacute;modas</strong><p>Calce suave para entrenar o salir.</p></div>
-        <div class="why-item"><span>04</span><strong>Atenci&oacute;n personalizada</strong><p>Te ayudamos a elegir por WhatsApp.</p></div>
+        <article class="why-item"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m12 3 2.1 2.1 3-.4.5 3 2.7 1.4-1.4 2.7.4 3-3 .5-2.1 2.1-2.1-2.1-3 .5-.5-3-2.7-1.4 1.4-2.7-.5-3 3-.4L12 3Z" stroke="currentColor" stroke-width="1.5"/><path d="m9.5 12 1.6 1.6 3.5-3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Calidad seleccionada</strong><p>Textiles pensados para el uso real.</p></article>
+        <article class="why-item"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2" stroke="currentColor" stroke-width="1.6"/><path d="m9.5 21 1-6-2-3 2-4h3l2.5 3.5 3 1.5M11 15l4 2 1 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Dise&ntilde;o funcional</strong><p>Cortes vers&aacute;tiles para moverte mejor.</p></article>
+        <article class="why-item"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 20S4.5 15.8 4.5 9.6A4.4 4.4 0 0 1 12 6.4a4.4 4.4 0 0 1 7.5 3.2C19.5 15.8 12 20 12 20Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Comodidad</strong><p>Calces suaves para entrenar o salir.</p></article>
+        <article class="why-item"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 19l1.1-3A7 7 0 1 1 9 18.6L5 19Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 10h6M9 13h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><strong>Atenci&oacute;n cercana</strong><p>Te ayudamos a elegir por WhatsApp.</p></article>
       </div>
     </section>
-
-</div>
-</section>
 
   </main>
 <!-- ROMIX:SHELL:FOOTER:START -->
@@ -1726,7 +1718,7 @@
             <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="88px" type="image/webp" />
             <img src="images/logo-romix.png" alt="ROMIX" width="752" height="829" loading="lazy" decoding="async" />
           </picture>
-          <span class="footer-logo-copy"><strong>ROMIX</strong><span>Sportswear &amp; Fashion</span></span>
+          <span class="footer-logo-copy"><strong>ROMI<span class="brand-x" aria-hidden="true">X</span></strong><span>Sportswear &amp; Fashion</span></span>
         </a>
         <p class="footer-description">Rendimiento que inspira. Estilo que te acompa&ntilde;a.<br />Ropa deportiva y urbana para cada versi&oacute;n de ti.</p>
         <div class="footer-contact" aria-label="Contacto ROMIX">
@@ -1735,9 +1727,9 @@
           <span class="footer-contact-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.2" stroke="currentColor" stroke-width="1.6"/></svg><span>CABA, Argentina</span></span>
         </div>
       </div>
-      <nav class="footer-column" aria-label="Comprar"><h4>Comprar</h4><ul><li><a href="mujer.html">Mujer</a></li><li><a href="hombre.html">Hombre</a></li><li><a href="ninos.html">Ni&ntilde;os</a></li><li><a href="novedades.html">Novedades</a></li><li><a href="index.html#ofertas">Ofertas</a></li></ul></nav>
-      <nav class="footer-column" aria-label="Categor&iacute;a"><h4>Categor&iacute;a</h4><ul><li><a href="catalogo.html?categories=calzas">Calzas</a></li><li><a href="catalogo.html?categories=remeras">Remeras</a></li><li><a href="catalogo.html?categories=pantalones">Pantalones</a></li><li><a href="catalogo.html?categories=camperas">Camperas</a></li><li><a href="catalogo.html?categories=tops">Tops</a></li><li><a href="catalogo.html?categories=buzos">Buzos</a></li></ul></nav>
-      <nav class="footer-column" aria-label="Ayuda"><h4>Ayuda</h4><ul><li><a href="ayuda.html#size-guide">Gu&iacute;a de talles</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="ayuda.html#payments">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li></ul></nav>
+      <nav class="footer-column" aria-label="Comprar"><h3>Comprar</h3><ul><li><a href="mujer.html">Mujer</a></li><li><a href="hombre.html">Hombre</a></li><li><a href="ninos.html">Ni&ntilde;os</a></li><li><a href="novedades.html">Novedades</a></li><li><a href="index.html#ofertas">Ofertas</a></li></ul></nav>
+      <nav class="footer-column" aria-label="Categor&iacute;a"><h3>Categor&iacute;a</h3><ul><li><a href="catalogo.html?categories=calzas">Calzas</a></li><li><a href="catalogo.html?categories=remeras">Remeras</a></li><li><a href="catalogo.html?categories=pantalones">Pantalones</a></li><li><a href="catalogo.html?categories=camperas">Camperas</a></li><li><a href="catalogo.html?categories=tops">Tops</a></li><li><a href="catalogo.html?categories=buzos">Buzos</a></li></ul></nav>
+      <nav class="footer-column" aria-label="Ayuda"><h3>Ayuda</h3><ul><li><a href="ayuda.html#size-guide">Gu&iacute;a de talles</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="ayuda.html#payments">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li></ul></nav>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
@@ -1748,15 +1740,18 @@
         <a href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.8 7l-4.2 1 1.1-4A8 8 0 1 1 20 11.7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.4 7.8c.4-.3.8-.1 1 .3l.8 1.7c.1.3.1.6-.2.8l-.7.7c.8 1.7 2 2.9 3.7 3.7l.7-.7c.2-.3.5-.3.8-.2l1.7.8c.4.2.6.6.3 1-1 1.4-2.4 1.7-4 .9-2.8-1.3-5-3.5-6.3-6.3-.8-1.7-.5-3.1.9-4Z" fill="currentColor"/></svg></a>
       </div>
     </div>
+  <a class="romix-whatsapp-fab" href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.8 7l-4.2 1 1.1-4A8 8 0 1 1 20 11.7Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.4 7.8c.4-.3.8-.1 1 .3l.8 1.7c.1.3.1.6-.2.8l-.7.7c.8 1.7 2 2.9 3.7 3.7l.7-.7c.2-.3.5-.3.8-.2l1.7.8c.4.2.6.6.3 1-1 1.4-2.4 1.7-4 .9-2.8-1.3-5-3.5-6.3-6.3-.8-1.7-.5-3.1.9-4Z" fill="currentColor"/></svg>
+  </a>
   </div>
 </footer>
 <!-- ROMIX:SHELL:FOOTER:END -->
 
-  <script src="assets/js/romix-image-utils.js?v=13"></script>
+  <script src="assets/js/romix-image-utils.js?v=14"></script>
   <script src="assets/js/romix-pricing.js?v=1"></script>
   <script src="assets/js/products-store.js?v=13"></script>
   <script src="assets/js/catalog-relevance-order.js?v=13"></script>
-  <script src="assets/js/romix-header.js?v=13"></script>
+  <script src="assets/js/romix-header.js?v=14"></script>
   <script>
     const imageUtils = window.romixImageUtils || {};
     const pricing = window.romixPricing || {};
@@ -2002,7 +1997,7 @@
               ${buildOptimizedPictureMarkup({
                 fallbackSrc: imagePath,
                 optimizedBase: category.optimizedBase,
-                alt: label,
+                alt: "",
                 widths: [640, 960],
                 sizes: HOME_SQUARE_IMAGE_SIZES,
                 width: squareImageSize.width,
@@ -2079,12 +2074,12 @@
             return;
           }
           if (current) {
-            current.srcset = src;
+            current.srcset = String(src).replace(/\s/g, "%20");
             return;
           }
           const sourceTag = document.createElement("source");
           sourceTag.type = type;
-          sourceTag.srcset = src;
+          sourceTag.srcset = String(src).replace(/\s/g, "%20");
           if (type === "image/avif") {
             picture.insertBefore(sourceTag, picture.firstChild);
             return;
@@ -2398,6 +2393,22 @@
       window.addEventListener("resize", syncButtons);
       refreshProductsCarousel = syncButtons;
       syncButtons();
+    })();
+
+    (function initHeaderScrollState() {
+      const header = document.querySelector("header.romix-shared-header");
+      if (!header) return;
+      let scheduled = false;
+      function sync() {
+        header.classList.toggle("is-scrolled", window.scrollY > 8);
+        scheduled = false;
+      }
+      window.addEventListener("scroll", function () {
+        if (scheduled) return;
+        scheduled = true;
+        window.requestAnimationFrame(sync);
+      }, { passive: true });
+      sync();
     })();
 
 

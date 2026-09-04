@@ -637,6 +637,8 @@
     function isMobile() { return mobileMedia.matches; }
 
     nav.setAttribute("aria-hidden", isMobile() ? "true" : "false");
+    if (isMobile()) nav.setAttribute("inert", "");
+    else nav.removeAttribute("inert");
 
     function setOpen(open, options) {
       var active = !!(open && isMobile());
@@ -646,6 +648,8 @@
       toggle.setAttribute("aria-expanded", active ? "true" : "false");
       scrim.hidden = !active;
       nav.setAttribute("aria-hidden", active ? "false" : "true");
+      if (active || !isMobile()) nav.removeAttribute("inert");
+      else nav.setAttribute("inert", "");
       if (active && closeButton) {
         window.requestAnimationFrame(function () { closeButton.focus(); });
       } else if (wasOpen && options && options.restoreFocus) {
@@ -704,6 +708,8 @@
     function handleViewportChange() {
       if (!isMobile()) setOpen(false);
       nav.setAttribute("aria-hidden", isMobile() ? "true" : "false");
+      if (isMobile()) nav.setAttribute("inert", "");
+      else nav.removeAttribute("inert");
     }
     if (typeof mobileMedia.addEventListener === "function") mobileMedia.addEventListener("change", handleViewportChange);
     else if (typeof mobileMedia.addListener === "function") mobileMedia.addListener(handleViewportChange);

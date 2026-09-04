@@ -137,7 +137,8 @@
   gap: 15px;
 }
 
-.site-footer[data-romix-shell="footer-v1"] .footer-column h4 {
+.site-footer[data-romix-shell="footer-v1"] .footer-column h4,
+.site-footer[data-romix-shell="footer-v1"] .footer-column h3 {
   margin: 0;
   color: #ffffff;
   font-family: "Outfit", "Manrope", sans-serif;

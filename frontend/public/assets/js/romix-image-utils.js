@@ -545,14 +545,14 @@
 
     if (avifSrc) {
       const avif = document.createElement("source");
-      avif.srcset = avifSrc;
+      avif.srcset = avifSrc.replace(/\s/g, "%20");
       avif.type = "image/avif";
       picture.appendChild(avif);
     }
 
     if (webpSrc && webpSrc !== imgSrc) {
       const webp = document.createElement("source");
-      webp.srcset = webpSrc;
+      webp.srcset = webpSrc.replace(/\s/g, "%20");
       webp.type = "image/webp";
       picture.appendChild(webp);
     }

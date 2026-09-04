@@ -1,0 +1,40 @@
+name: strix-security
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  STRIX_LLM: ${{ secrets.STRIX_LLM }}
+  LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check Strix credentials
+        id: creds
+        shell: bash
+        run: |
+          if [ -n "$STRIX_LLM" ] && [ -n "$LLM_API_KEY" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Strix scan skipped: configure STRIX_LLM and LLM_API_KEY repository secrets."
+          fi
+
+      - name: Install Strix
+        if: steps.creds.outputs.ready == 'true'
+        run: curl -sSL https://strix.ai/install | bash
+
+      - name: Run quick Strix assessment
+        if: steps.creds.outputs.ready == 'true'
+        run: strix -n --target ./ --scan-mode quick

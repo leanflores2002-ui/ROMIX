@@ -114,11 +114,13 @@
   <script src="assets/js/romix-image-utils.js?v=13"></script>
   <script src="assets/js/slugify.js?v=13"></script>
   <script src="assets/js/cart.js?v=13"></script>
+  <script src="assets/js/romix-pricing.js?v=1"></script>
   <script src="assets/js/products-store.js?v=13"></script>
   <script src="assets/js/size-guides.js?v=13"></script>
 
   <script>
     const imageUtils = window.romixImageUtils || {};
+    const pricing = window.romixPricing || {};
     const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`\
       <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700">\
         <rect width="100%" height="100%" fill="#f8f9fb"/>\
@@ -212,7 +214,7 @@
           <div>
             <div style="margin-bottom:6px;">${badge}</div>
             <h1 class="title">${p.name || 'Producto'}</h1>
-            <div class="price">$${price.toLocaleString('es-AR')}</div>
+            <div class="price" id="legacy-price-display"></div>
 
             <div class="pill">
               <span class="romix-emoji" aria-hidden="true">&#10003;</span>
@@ -254,6 +256,20 @@
           </div>
         </div>
       `;
+
+      const priceDisplay = document.getElementById('legacy-price-display');
+      if (priceDisplay) {
+        if (typeof pricing.renderInto === 'function') {
+          pricing.renderInto(priceDisplay, p, {
+            currentPrice: price,
+            currentClass: 'price',
+            showBeforeLabel: true,
+            variant: 'detail'
+          });
+        } else {
+          priceDisplay.textContent = '$' + price.toLocaleString('es-AR');
+        }
+      }
 
       if (window.romixSizeGuides && typeof window.romixSizeGuides.mountProductButton === 'function') {
         window.romixSizeGuides.mountProductButton(p, document.getElementById('product-size-guide-slot'));
@@ -443,6 +459,7 @@
   </script>
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=13" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=1" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=13" />
 </head>
 

@@ -4,6 +4,7 @@
   const COLOR_LIMIT = 8;
   const SIZE_BASE = ["1", "2", "3", "4", "5", "6"];
   const imageUtils = window.romixImageUtils || {};
+  const pricing = window.romixPricing || {};
   const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
     ? imageUtils.dimensions.productCard
     : { width: 720, height: 960 };
@@ -890,6 +891,12 @@
     const coverThumbFallback = rawThumbnailFallback
       || (colors[0] && colors[0].thumbFallback)
       || coverImage;
+    const saleInfo = typeof pricing.getSaleInfo === "function"
+      ? pricing.getSaleInfo(raw)
+      : {
+          currentPrice: Number((raw && (raw.price || raw.base_price || raw.basePrice)) || 0),
+          originalPrice: Number((raw && (raw.originalPrice || raw.compare_at_price || raw.compareAtPrice)) || 0)
+        };
 
     return {
       id: String((raw && raw.id) || (section + "-" + slugify(name))),
@@ -909,7 +916,8 @@
       thumbnailAvif: rawThumbnailAvif || (colors[0] && colors[0].thumbAvif) || "",
       imageMap: rawImageMap,
       images: galleryImages,
-      price: Number((raw && raw.price) || 0),
+      price: saleInfo.currentPrice,
+      originalPrice: saleInfo.originalPrice,
       badge: String((raw && raw.badge) || "").trim(),
       featuredBadge: String((raw && raw.featuredBadge) || "").trim(),
       seasonKey,
@@ -1555,10 +1563,18 @@
 
       const priceRow = document.createElement("div");
       priceRow.className = "price-row";
+      const priceDisplay = typeof pricing.createPriceDisplay === "function"
+        ? pricing.createPriceDisplay(product, {
+            currentClass: "product-price",
+            currentTag: "span"
+          })
+        : null;
 
-      const price = document.createElement("p");
-      price.className = "product-price";
-      price.textContent = formatPrice(product.price);
+      const price = priceDisplay || document.createElement("p");
+      if (!priceDisplay) {
+        price.className = "product-price";
+        price.textContent = formatPrice(product.price);
+      }
 
       const stock = document.createElement("p");
       const stockInfo = STOCK_META[product.stockStatus] || STOCK_META.unknown;

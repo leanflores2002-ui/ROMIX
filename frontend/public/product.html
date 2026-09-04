@@ -62,6 +62,7 @@
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=13">
   <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=13">
   <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=1" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=13" />
 </head>
 <body class="product-detail-page">
@@ -217,6 +218,7 @@
   <script src="assets/js/color-utils.js?v=13"></script>
   <script src="assets/js/slugify.js?v=13"></script>
   <script src="assets/js/cart.js?v=13"></script>
+  <script src="assets/js/romix-pricing.js?v=1"></script>
   <script src="assets/js/products-store.js?v=13"></script>
   <script src="assets/js/inventory.js?v=13"></script>
   <script src="assets/js/size-guides.js?v=13"></script>
@@ -247,6 +249,7 @@
       const DATA_URL = 'assets/data/products.json';
       const CART_KEY = 'cart';
       const imageUtils = window.romixImageUtils || {};
+      const pricing = window.romixPricing || {};
       const productImageSize = imageUtils.dimensions && imageUtils.dimensions.productFull
         ? imageUtils.dimensions.productFull
         : { width: 1200, height: 1600 };
@@ -1003,10 +1006,8 @@
       }
 
       function updatePriceForSize(product, sizeValue){
-        const priceEl = document.getElementById('product-price');
-        if (!priceEl) return;
         const newPrice = getPriceForSize(product, sizeValue);
-        priceEl.textContent = '$' + Number(newPrice || 0).toLocaleString('es-AR');
+        renderProductPrice(product, newPrice);
       }
 
       let lastPurchaseActionAt = -Infinity;
@@ -1076,6 +1077,22 @@
 
       function formatPrice(value){
         return `$${Number(value || 0).toLocaleString('es-AR')}`;
+      }
+
+      function renderProductPrice(product, currentPrice){
+        const priceArea = document.getElementById('product-price-display');
+        if (!priceArea) return;
+        if (typeof pricing.renderInto === 'function') {
+          pricing.renderInto(priceArea, product, {
+            currentPrice,
+            currentClass: 'current-price',
+            currentId: 'product-price',
+            showBeforeLabel: true,
+            variant: 'detail'
+          });
+          return;
+        }
+        priceArea.innerHTML = `<span id="product-price" class="current-price">${formatPrice(currentPrice)}</span>`;
       }
 
       function parsePreloadedList(){
@@ -2079,10 +2096,7 @@
                   ${badge}
                 </div>
               </div>
-              <div class="price-area">
-                <span id="product-price" class="current-price">${formatPrice(product.price)}</span>
-                ${product.originalPrice ? `<span class="original-price">${formatPrice(product.originalPrice)}</span>` : ''}
-              </div>
+              <div class="price-area" id="product-price-display"></div>
               <div class="stock-note" id="stock-note"></div>
               <div class="selector">
                 <div class="selector-label">Color: <span id="selectedColorName"></span></div>
@@ -2149,6 +2163,7 @@
             </div>
           </div>
           `;
+        renderProductPrice(product, getPriceForSize(product, ''));
         document.title = product.name ? `ROMIX - ${product.name}` : 'ROMIX - Detalle';
 
         const mainImage = detail.querySelector('#main-image');
@@ -2582,10 +2597,8 @@
         }
 
         function updatePriceForSize(product, sizeValue){
-          const priceEl = document.getElementById('product-price');
-          if (!priceEl) return;
           const newPrice = getPriceForSize(product, sizeValue);
-          priceEl.textContent = '$' + Number(newPrice || 0).toLocaleString('es-AR');
+          renderProductPrice(product, newPrice);
         }
 
         function setActiveColor(colorName, options = {}){
@@ -3005,9 +3018,18 @@
         const footer = document.createElement('div');
         footer.className = 'related-products__footer related-card__footer';
 
-        const price = document.createElement('strong');
-        price.className = 'related-products__price related-card__price';
-        price.textContent = '$' + Number(p.price || 0).toLocaleString('es-AR');
+        const priceDisplay = typeof pricing.createPriceDisplay === 'function'
+          ? pricing.createPriceDisplay(p, {
+              currentClass: 'related-products__price related-card__price',
+              currentTag: 'span',
+              variant: 'mini'
+            })
+          : null;
+        const price = priceDisplay || document.createElement('strong');
+        if (!priceDisplay) {
+          price.className = 'related-products__price related-card__price';
+          price.textContent = '$' + Number(p.price || 0).toLocaleString('es-AR');
+        }
 
         const stock = document.createElement('span');
         const stockMeta = getStockMeta(p);

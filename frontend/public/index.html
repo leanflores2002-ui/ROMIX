@@ -1314,6 +1314,7 @@
   <link rel="stylesheet" href="assets/css/romix-home-pro.css?v=13" />
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=13" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=1" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=13" />
 </head>
 <body>
@@ -1752,11 +1753,13 @@
 <!-- ROMIX:SHELL:FOOTER:END -->
 
   <script src="assets/js/romix-image-utils.js?v=13"></script>
+  <script src="assets/js/romix-pricing.js?v=1"></script>
   <script src="assets/js/products-store.js?v=13"></script>
   <script src="assets/js/catalog-relevance-order.js?v=13"></script>
   <script src="assets/js/romix-header.js?v=13"></script>
   <script>
     const imageUtils = window.romixImageUtils || {};
+    const pricing = window.romixPricing || {};
     const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
       ? imageUtils.dimensions.productCard
       : { width: 720, height: 960 };
@@ -2209,9 +2212,17 @@
 
         const priceRow = document.createElement("div");
         priceRow.className = "price-row";
-        const price = document.createElement("p");
-        price.className = "product-price";
-        price.textContent = formatPrice(product && product.price);
+        const priceDisplay = typeof pricing.createPriceDisplay === "function"
+          ? pricing.createPriceDisplay(product, {
+              currentClass: "product-price",
+              currentTag: "span"
+            })
+          : null;
+        const price = priceDisplay || document.createElement("p");
+        if (!priceDisplay) {
+          price.className = "product-price";
+          price.textContent = formatPrice(product && product.price);
+        }
         const stock = document.createElement("p");
         stock.className = "stock-note " + stockInfo.cssClass;
         stock.textContent = stockInfo.label;

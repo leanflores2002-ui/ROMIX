@@ -4,6 +4,7 @@
   const LEGACY_CACHE_KEYS = ['romixProductsCacheV5'];
   const CACHE_TTL_MS = 30 * 60 * 1000;
   const DATA_URL = 'assets/data/products.json';
+  const pricing = window.romixPricing || {};
 
   let memoryCache = null;
   let inFlight = null;
@@ -104,6 +105,12 @@
     if (!product || typeof product !== 'object' || Array.isArray(product)) return product;
 
     const normalized = Object.assign({}, product);
+    if (typeof pricing.getCurrentPrice === 'function') {
+      const currentPrice = pricing.getCurrentPrice(product);
+      const originalPrice = pricing.getOriginalPrice(product);
+      if (currentPrice > 0) normalized.price = currentPrice;
+      if (originalPrice > 0) normalized.originalPrice = originalPrice;
+    }
     normalized.sizes = normalizeSizes(product.sizes);
 
     const rawColors = Array.isArray(product.colors)

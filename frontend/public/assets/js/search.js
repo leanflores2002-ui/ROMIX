@@ -3,6 +3,7 @@
   let PRODUCTS = null;
   let SEARCH_STATE = null;
   let searchRunTimer = null;
+  const pricing = window.romixPricing || {};
 
   const globalFixUtf8 = typeof window.fixUtf8 === "function" ? window.fixUtf8 : (value) => value;
   function hideProduct(product) {
@@ -416,6 +417,16 @@
   function renderProductCard(product) {
     const href = buildDetailUrl(product);
     const image = getProductImage(product);
+    const priceMarkup = typeof pricing.createPriceDisplay === "function"
+      ? pricing.createPriceDisplay(product, {
+          rootTag: "span",
+          currentClass: "romix-search-product__price",
+          currentTag: "span",
+          variant: "mini"
+        }).outerHTML
+      : (formatPrice(product.price)
+          ? '<span class="romix-search-product__price">' + escapeHtml(formatPrice(product.price)) + '</span>'
+          : '');
     const colors = Array.isArray(product.colors) ? product.colors.slice(0, 4) : [];
     const colorDots = colors.length
       ? '<div class="romix-search-product__colors" aria-label="Colores disponibles">' +
@@ -434,7 +445,7 @@
         '<span class="romix-search-product__body">' +
           '<small>' + escapeHtml(sectionLabel(product.section)) + ' &middot; ' + escapeHtml(typeLabel(product.type || product.category)) + '</small>' +
           '<strong>' + escapeHtml(product.name) + '</strong>' +
-          (formatPrice(product.price) ? '<span class="romix-search-product__price">' + escapeHtml(formatPrice(product.price)) + '</span>' : '') +
+          priceMarkup +
         '</span>' +
       '</a>';
   }

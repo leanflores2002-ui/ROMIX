@@ -1,0 +1,18 @@
+{
+  "projectId": "prj_M0w3DNjknZtHROdmTwLWdWof1sG8",
+  "teamId": "team_tTxFOPyDq9CInhLC0goE8fFm",
+  "dryRun": true,
+  "status": "BLOCKED_NO_REMOTE_INVENTORY",
+  "reason": "Vercel connector returned Unknown tool for get_project and list_deployments. No deployment IDs or candidates are inferred.",
+  "deployments": [],
+  "candidateCount": null,
+  "policyProposal": {
+    "currentProduction": "KEEP",
+    "usefulRecentProductionCount": 3,
+    "activePreviews": "KEEP",
+    "unknownBranchStatus": "REVIEW",
+    "oldCanceledOrClosedBranchPreviews": "REVIEW before DELETE_CANDIDATE",
+    "oldProduction": "REVIEW; requires explicit user approval"
+  },
+  "executeDeletion": false
+}

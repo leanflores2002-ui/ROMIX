@@ -1,0 +1,1066 @@
+{
+  "top200HistoricalBlobs": [
+    {
+      "hash": "c4c77a4da50d1a5076a0fb693070c34fdd9beb85",
+      "size": 7159362,
+      "path": "frontend/public/videos/video4.mp4"
+    },
+    {
+      "hash": "17abfd27148b7f2fa6dffd6edcae128c2a34cd42",
+      "size": 4125272,
+      "path": "frontend/public/images/products/campera_premium_algodon_frizado_dama_negro.png"
+    },
+    {
+      "hash": "72ef3936a97836f5dec94977b06d5cc26e995295",
+      "size": 4079416,
+      "path": "frontend/public/videos/video3.mp4"
+    },
+    {
+      "hash": "64fc670783616b04e391dda58e0fab8deb014eef",
+      "size": 3880383,
+      "path": "frontend/public/videos/video1.mp4"
+    },
+    {
+      "hash": "530f4273933dfa73882593d08060cf93111b5ad9",
+      "size": 3306054,
+      "path": "frontend/public/images/products/babucha_frizado_algodon_premium_hombre_gris_melange.png"
+    },
+    {
+      "hash": "b57cfd532ebf2265ce915f085ac56030fe9a188d",
+      "size": 3160698,
+      "path": "frontend/public/images/products/campera_corderoy_con_corderito_hombre_gris_melange.png"
+    },
+    {
+      "hash": "01874a19166a47249fb9b61977d3b7f0ddfc4119",
+      "size": 3125032,
+      "path": "frontend/public/images/products/pantalon_jogger_termica_jaspeado_dama_violeta.png"
+    },
+    {
+      "hash": "ac748acc6bd6e1fdc6e89c50d09f60ee75f9814a",
+      "size": 2988047,
+      "path": "frontend/public/images/products/Calza_algodon con lycra_recta_gris oscuro.png"
+    },
+    {
+      "hash": "856048603fe6e8dde401a8513b82468cecc3ee21",
+      "size": 2948573,
+      "path": "frontend/public/images/products/babucha_frizado_algodon_premium_hombre_azul_marino.png"
+    },
+    {
+      "hash": "629a8081286347b0e910dba3cbac15a4d6c9df7f",
+      "size": 2894255,
+      "path": "frontend/public/images/products/remera_manga_larga_morley_viscosa_gris_melange.png"
+    },
+    {
+      "hash": "db3303ea0c17a91680e04fe172811a50305d7595",
+      "size": 2889530,
+      "path": "frontend/public/images/products/campera_termica_jaspeado_saplex_hombre_gris_melange.png"
+    },
+    {
+      "hash": "a4b2e46014ae53bab2323dc7557498a76b681e3b",
+      "size": 2867564,
+      "path": "frontend/public/images/products/campera_algodon_frizado_hombre_gris_melange.png"
+    },
+    {
+      "hash": "9092f46c0965474388903716b916b77c5d466eae",
+      "size": 2837954,
+      "path": "frontend/public/images/products/babucha_frizado_algodon_premium_hombre_gris_oscuro.png"
+    },
+    {
+      "hash": "32080c2043a154da0f71a761c425bbae7de2e007",
+      "size": 2818350,
+      "path": "frontend/public/images/calza_saplex_chupin_jaspeado_azul.png"
+    },
+    {
+      "hash": "971aab19831e4bcbf156444c147966d3cb57f0ca",
+      "size": 2817655,
+      "path": "frontend/public/images/products/campera_corderoy_con_corderito_hombre_verde.png"
+    },
+    {
+      "hash": "5f0fa398508dae3afc7ceecb1c6b24e301d3552f",
+      "size": 2802703,
+      "path": "frontend/public/images/products/calza_lycra_estampado_2.png"
+    },
+    {
+      "hash": "52a892690d4a4c9403c6438c51a8c9b27ee62ac2",
+      "size": 2791179,
+      "path": "frontend/public/images/banners/banner-1.png"
+    },
+    {
+      "hash": "7c7c6ada68bdcbd197eadc9575ae16dbb247d8a3",
+      "size": 2779376,
+      "path": "frontend/public/images/products/babucha_termica_jogger_hombre_gris_melange.png"
+    },
+    {
+      "hash": "729c8a06a13ea097327cc7aa25b908d6daf1a389",
+      "size": 2767823,
+      "path": "frontend/public/images/calza_con_piel_adentro_dama_bordo.png"
+    },
+    {
+      "hash": "47492b389c8ee3454543fcef9c7df8470a01b777",
+      "size": 2763708,
+      "path": "frontend/public/images/products/camiseta_termica_nino_violeta.png"
+    },
+    {
+      "hash": "5126f694a326316707b062229b7545d35122dcc3",
+      "size": 2747798,
+      "path": "frontend/public/images/products/campera_corderoy_con_corderito_hombre_negro.png"
+    },
+    {
+      "hash": "b2ba9f3d477624aa71efcc880d487230a5923b30",
+      "size": 2744651,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_gris_melange.png"
+    },
+    {
+      "hash": "97cbd71646d517b063ccc62ce2658e7e926dd3bb",
+      "size": 2744544,
+      "path": "frontend/public/images/products/calza_saplex_recta_jaspeado_azul.png"
+    },
+    {
+      "hash": "fca7e382700969fc11ce37d4245f00f8a7f7d9f1",
+      "size": 2738543,
+      "path": "frontend/public/images/products/calza_saplex_chupin_jaspeado_gris melange.png"
+    },
+    {
+      "hash": "4971ac76fa8a1c55e00c0f0f1fccda8b7fb52a07",
+      "size": 2724026,
+      "path": "frontend/public/images/products/campera_algodon_frizado_hombre_gris_oscuro.png"
+    },
+    {
+      "hash": "1253c1c4b0842b97e8c696086529350bf2264ea1",
+      "size": 2712424,
+      "path": "frontend/public/images/products/campera_corderoy_con_corderito_hombre_azul_marino.png"
+    },
+    {
+      "hash": "1b58d8bf5e8cf4d766678e30a12e662e6e18d858",
+      "size": 2710546,
+      "path": "frontend/public/images/remera_manga_larga_morley_viscosa_gris_oscuro.png"
+    },
+    {
+      "hash": "3bf12a876f3e10c33503737051d88f52083b3e29",
+      "size": 2707696,
+      "path": "frontend/public/images/products/remera_algodon_molino_hombre_celeste.png"
+    },
+    {
+      "hash": "109b74dff2beb931879af040cac4530d64e23042",
+      "size": 2702026,
+      "path": "frontend/public/images/products/top_lycra_jaspeado_gris melange.png"
+    },
+    {
+      "hash": "f7502dc5f245398271a7dec7fe03daddc49ed1ea",
+      "size": 2689379,
+      "path": "frontend/public/images/products/Campera_termica_jaspeado_saplex_dama_lila.png"
+    },
+    {
+      "hash": "1e0eeb9ecbf19c0a2f7217ce6a6b46dce5e20f75",
+      "size": 2686704,
+      "path": "frontend/public/images/products/ciclista_lycra_morley_lavanda.png"
+    },
+    {
+      "hash": "5c520e81a093ef610247d009eda1a225bdca6b88",
+      "size": 2685828,
+      "path": "frontend/public/images/products/calza_lycra_estampado_8.png"
+    },
+    {
+      "hash": "6c8ab094e67e34ddd8473450246f5f06efffdf2f",
+      "size": 2674769,
+      "path": "frontend/public/images/products/calza_saplex_recta_jaspeado_violeta.png"
+    },
+    {
+      "hash": "b7380991b6ab8201e107e5f26a6b4782189a1ce9",
+      "size": 2672449,
+      "path": "frontend/public/images/products/calza_lycra_estampado_3.png"
+    },
+    {
+      "hash": "3ea8efa4a41e92f0c1f3c235931f250f2e3f9792",
+      "size": 2669228,
+      "path": "frontend/public/images/products/camiseta_termica_nino_azul.png"
+    },
+    {
+      "hash": "996b11180630d8938a83227f8b9db7f34ff3e493",
+      "size": 2664303,
+      "path": "frontend/public/images/products/calza_saplex_recta_jaspeado_gris oscuro.png"
+    },
+    {
+      "hash": "01c2e47a2909f61cae10575ff0643e07d6230807",
+      "size": 2660597,
+      "path": "frontend/public/images/products/Campera_termica_jaspeado_saplex_dama_gris_melange.png"
+    },
+    {
+      "hash": "ce5397f68d862745ee28614f9804cb43f79741f1",
+      "size": 2658496,
+      "path": "frontend/public/images/products/remera_manga_larga_morley_viscosa_verde.png"
+    },
+    {
+      "hash": "db764cf50dcf9cef9290430301a249d33b980032",
+      "size": 2650884,
+      "path": "frontend/public/images/products/Calza_algodon con lycra_recta_gris melange.png"
+    },
+    {
+      "hash": "7aa81f3d5150aa0780d92ebba85138022464bc0b",
+      "size": 2650062,
+      "path": "frontend/public/images/products/campera_jaspeado_saplex_hombre_gris_melange_jaspeado.png"
+    },
+    {
+      "hash": "79fe992f793bcbfc9aa7d80553d1853b14697c0e",
+      "size": 2648396,
+      "path": "frontend/public/images/products/campera_termica_jaspeado_saplex_hombre_gris_oscuro.png"
+    },
+    {
+      "hash": "bf4443356a2564c0c507922987c92f7e9422fef8",
+      "size": 2647201,
+      "path": "frontend/public/images/products/pantalon_jogger_termica_jaspeado_dama_gris_melange.png"
+    },
+    {
+      "hash": "b8d1609ccb829be9f6bc148fe98fc609dd11b880",
+      "size": 2636319,
+      "path": "frontend/public/images/products/calza_saplex_chupin_jaspeado_rosa.png"
+    },
+    {
+      "hash": "b21afdba94525b8826f50fa90faaaf470aae2422",
+      "size": 2632021,
+      "path": "frontend/public/images/products/camiseta_termica_nino_gris.png"
+    },
+    {
+      "hash": "1464e4f65485ddbc687a7b42f08f124b69b27e1c",
+      "size": 2626379,
+      "path": "frontend/public/images/products/Campera_termica_jaspeado_saplex_dama_rosa.png"
+    },
+    {
+      "hash": "1721f0f2dcab5c27a1dae69726544206a2f5ddcf",
+      "size": 2619085,
+      "path": "frontend/public/images/products/pantalon_algodon_frizado_cierre_bolsillos_hombre_gris_melange.png"
+    },
+    {
+      "hash": "f9b15c016eb51016a4652decc30f6e8f0c45a685",
+      "size": 2606748,
+      "path": "frontend/public/images/products/campera_termica_jaspeado_saplex_hombre_azul.png"
+    },
+    {
+      "hash": "6d89af48507b9bb390cb3e43ba2adefe969e3a27",
+      "size": 2606013,
+      "path": "frontend/public/images/products/camiseta_termica_nino_blanco.png"
+    },
+    {
+      "hash": "b3b0ffb0c4851cdd72c9bd733c2922acae5d769a",
+      "size": 2600440,
+      "path": "frontend/public/images/products/calza_saplex_recta_jaspeado_gris melange.png"
+    },
+    {
+      "hash": "75e919fffdc79ee334b36172b4299beafd3980c3",
+      "size": 2597344,
+      "path": "frontend/public/images/calza_oxfor_saplex_jaspeado_gris melange.png"
+    },
+    {
+      "hash": "424ee08347b45e28c0c853d9d645ce3ff291184b",
+      "size": 2586854,
+      "path": "frontend/public/images/products/remera_manga_larga_morley_viscosa_mostaza.png"
+    },
+    {
+      "hash": "ae801d8ba7ef4f881aa0d1222b40f019a92085dd",
+      "size": 2582697,
+      "path": "frontend/public/images/products/chaleco_polar_con_corderito_hombre_invierno_verde.png"
+    },
+    {
+      "hash": "ea9e056820fb42d3b7903b846367bef9f797a43e",
+      "size": 2576934,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_sin_capucha_hombre_gris_melange.png"
+    },
+    {
+      "hash": "0f021f7b23ebbd1714d0ba46f649f2dcf76ebd5d",
+      "size": 2568961,
+      "path": "frontend/public/images/products/campera_corderoy_con_corderito_hombre_beige.png"
+    },
+    {
+      "hash": "5c756c70ec9fc0f9b597f5c2329e22e01953f770",
+      "size": 2567808,
+      "path": "frontend/public/images/products/babucha_frizado_algodon_premium_hombre_negro.png"
+    },
+    {
+      "hash": "d9aa2600c1b00a832d847b959ad5ca344bf988ac",
+      "size": 2555045,
+      "path": "frontend/public/images/products/babucha_termica_jogger_hombre_azul.png"
+    },
+    {
+      "hash": "b3abaa1a0125655e3a519e2616879739a8e04ff5",
+      "size": 2551511,
+      "path": "frontend/public/images/products/pantalon_jogger_saplex_jaspeado_lila.png"
+    },
+    {
+      "hash": "057554a856d91b8d8a5220f0621cd47e36514357",
+      "size": 2549320,
+      "path": "frontend/public/images/Calza_algodon con lycra_recta_gris melange.png"
+    },
+    {
+      "hash": "d0b307f71a4546eb873f0f5954e2e116daaa8333",
+      "size": 2549252,
+      "path": "frontend/public/images/products/camiseta_termica_nino_verde.png"
+    },
+    {
+      "hash": "85f8c390e2731a20d428ac43ccd2924951f72697",
+      "size": 2546912,
+      "path": "frontend/public/images/products/top_lycra_nena_violeta.png"
+    },
+    {
+      "hash": "53a86fba31ed6a925121d6c265507cd4e33bebc1",
+      "size": 2538576,
+      "path": "frontend/public/images/products/remera_manga_larga_morley_viscosa_rojo.png"
+    },
+    {
+      "hash": "72d445b32124b4c0efcd7aa25609d581b27c1b46",
+      "size": 2535470,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_hombre_gris_melange.png"
+    },
+    {
+      "hash": "5adc42c08a0af93ca83e3face2a260bd8830082b",
+      "size": 2533413,
+      "path": "frontend/public/images/products/pantalon_jogger_saplex_jaspeado_purpura.png"
+    },
+    {
+      "hash": "90a87bcfdd3245c63d9e7abd1b44f6a02729d3ed",
+      "size": 2533279,
+      "path": "frontend/public/images/products/pantalon_algodon_frizado_cierre_bolsillos_hombre_gris_oscuro.png"
+    },
+    {
+      "hash": "c60311de5da69158d2b88968823879d284ba4ed0",
+      "size": 2531643,
+      "path": "frontend/public/images/products/remera_algodon_molino_hombre_gris_melange.png"
+    },
+    {
+      "hash": "0e5c6dc614154b71806dcfe91de8debd4116a9b2",
+      "size": 2522762,
+      "path": "frontend/public/images/products/pantalon_algodon_frizado_premium_hombre_gris_oscuro.png"
+    },
+    {
+      "hash": "6f430aa62715c8fe64c0460f7260df232a080ae5",
+      "size": 2516873,
+      "path": "frontend/public/images/products/pantalon_algodon_rustico_recto_frizado_dama_gris_melange.png"
+    },
+    {
+      "hash": "9081a7b4de8641fd421464cbcaebcdee40ae8c93",
+      "size": 2515597,
+      "path": "frontend/public/images/banners/banner-3.png"
+    },
+    {
+      "hash": "2a1b56ed7788df7b3a0115c38d2729eee8390007",
+      "size": 2513955,
+      "path": "frontend/public/images/products/pantalon_jogger_saplex_jaspeado_gris melange.png"
+    },
+    {
+      "hash": "edc0db0e80588c52dba4c7d3caad3417ce835b4d",
+      "size": 2510126,
+      "path": "frontend/public/images/products/campera_frizada_algodon_nina_gris_melange.png"
+    },
+    {
+      "hash": "1b535c4f4314a442ce0474421b886f3d3dc091f2",
+      "size": 2509968,
+      "path": "frontend/public/images/products/campera_jaspeado_saplex_hombre_gris_oscuro_jaspeado.png"
+    },
+    {
+      "hash": "afae0cd1a4c974a34b6afdfac00f5f403b241aa6",
+      "size": 2507934,
+      "path": "frontend/public/images/products/maxibuzo_frisado_algodon_sin_capucha_gris_melange.png"
+    },
+    {
+      "hash": "3d52e53f102d8b5bc5a72dcda97cc11cddae035f",
+      "size": 2507418,
+      "path": "frontend/public/images/banners/banner-2.png"
+    },
+    {
+      "hash": "2a4b58543793658ff02c2f0f9a729999acc4af0c",
+      "size": 2500811,
+      "path": "frontend/public/images/products/Calza_algodon con lycra_chupin_gris melange.png"
+    },
+    {
+      "hash": "1d476adb7ed9319572f1844dad1293195cd467aa",
+      "size": 2499953,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_francia.png"
+    },
+    {
+      "hash": "5084c8e9c45c013e1bb847445b8f743c8d504623",
+      "size": 2497748,
+      "path": "frontend/public/images/products/calza_saplex_doble_cintura_gris melange.png"
+    },
+    {
+      "hash": "49ff4e11a1824aca91429ffb7ca981c63d18a812",
+      "size": 2494346,
+      "path": "frontend/public/images/products/top_lycra_nena_negra.png"
+    },
+    {
+      "hash": "2614bd66894ee7c3e7430c1947ae87b5c4b6ebea",
+      "size": 2492145,
+      "path": "frontend/public/images/products/camiseta_termica_dama_negro.png"
+    },
+    {
+      "hash": "5fccd1946740d02d589ccb84c8bb4011b683305e",
+      "size": 2486062,
+      "path": "frontend/public/images/remera_manga_larga_morley_viscosa_azul.png"
+    },
+    {
+      "hash": "168e0219dc28b7f85d0abd6fe22b6d63bf846df1",
+      "size": 2481256,
+      "path": "frontend/public/images/products/calza_saplex_chupin_jaspeado_gris oscuro.png"
+    },
+    {
+      "hash": "d41da7d79427c026dff8b75eb390431f36062b01",
+      "size": 2479083,
+      "path": "frontend/public/images/products/camisola_fibrana_dama_estampado_7.png"
+    },
+    {
+      "hash": "ebf4fa6438062c4285debd7e05071aba86a179a3",
+      "size": 2476796,
+      "path": "frontend/public/images/campera_jaspeado_saplex_dama_petroleo.png"
+    },
+    {
+      "hash": "6509f1699223dfe706c0a5bd66a88fcd421ca55c",
+      "size": 2476716,
+      "path": "frontend/public/images/products/camiseta_termica_nino_negro.png"
+    },
+    {
+      "hash": "adfff6ba986a4c1f49ec0208c1f158fde6ce33dc",
+      "size": 2473807,
+      "path": "frontend/public/images/products/campera_corderoy_con_corderito_hombre_rojo.png"
+    },
+    {
+      "hash": "d1082809bd4ec0be1a32c5c72766e34399e8e031",
+      "size": 2469150,
+      "path": "frontend/public/images/products/pantalon_jogger_termica_jaspeado_dama_azul_marino.png"
+    },
+    {
+      "hash": "22d1087f71d75eb33a9486a9fedfabf2665c52a0",
+      "size": 2464498,
+      "path": "frontend/public/images/products/Campera_termica_jaspeado_saplex_dama_azul.png"
+    },
+    {
+      "hash": "f57eb5f4805f76764cf411168a5e4e831bf916ac",
+      "size": 2458907,
+      "path": "frontend/public/images/products/remera_algodon_jaspeado_dama_lila.png"
+    },
+    {
+      "hash": "369c5d974b4aea06c3d526d0a259ff6e227e1b80",
+      "size": 2458547,
+      "path": "frontend/public/videos/video2.mp4"
+    },
+    {
+      "hash": "784ad6bf4f255d17d49d282db1641d4a549cd94c",
+      "size": 2449459,
+      "path": "frontend/public/images/products/Campera_termica_jaspeado_saplex_dama_gris_oscuro.png"
+    },
+    {
+      "hash": "2d3e20ae29d268fed62c8e9dbfa45e21b61f696e",
+      "size": 2448131,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_hombre_gris_oscuro.png"
+    },
+    {
+      "hash": "a43f43c04552bdfb08c0b9bc71ecd4c3ee0058bd",
+      "size": 2446825,
+      "path": "frontend/public/images/products/maxibuzo_frisado_algodon_sin_capucha_lila.png"
+    },
+    {
+      "hash": "2a8f9a93698c9abc25c06a2ae27aa4bf5bccaa34",
+      "size": 2443014,
+      "path": "frontend/public/images/products/babucha_termica_jogger_hombre_gris_oscuro.png"
+    },
+    {
+      "hash": "360ac704c7355cd371bb8a7e0f39dfc67742bf32",
+      "size": 2439648,
+      "path": "frontend/public/images/products/camisola_fibrana_dama_estampado_4.png"
+    },
+    {
+      "hash": "8fbb6ad057d38e52d7b13f1ab7183df73bf6c64d",
+      "size": 2434854,
+      "path": "frontend/public/images/products/pantalon_jogger_termica_jaspeado_dama_gris_oscuro.png"
+    },
+    {
+      "hash": "50a408c59362deeea37cc97fbf922dc18417405f",
+      "size": 2433035,
+      "path": "frontend/public/images/ROPA_DEPORTIVA.png"
+    },
+    {
+      "hash": "ec674706aa174d4e9890eaac3fa942e393881d5c",
+      "size": 2427259,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_verde.png"
+    },
+    {
+      "hash": "ca9be0b438494a209fa7eac67cd2e71a3c1558d1",
+      "size": 2425961,
+      "path": "frontend/public/images/banner/banner-1.png"
+    },
+    {
+      "hash": "73163189cfaee059550796b22c6e1d89286a46c9",
+      "size": 2425719,
+      "path": "frontend/public/images/products/campera_corderoy_con_corderito_hombre_chocolate.png"
+    },
+    {
+      "hash": "00b4077f0882a9e5ae0d4f87dba6c692aa6fe5d6",
+      "size": 2424395,
+      "path": "frontend/public/images/campera_polar_corto_corderito_verde_olivo.png"
+    },
+    {
+      "hash": "60fffcfdddb4083f40746f1032fce5c144a58953",
+      "size": 2418113,
+      "path": "frontend/public/images/products/maxibuzo_frisado_algodon_sin_capucha_verde.png"
+    },
+    {
+      "hash": "1f313c2e7234162b4412e89a32b3c366d1feb3ca",
+      "size": 2416621,
+      "path": "frontend/public/images/products/camiseta_termica_nina_gris.png"
+    },
+    {
+      "hash": "00dac0a0913c9edd0ed846ebe25d45c8dbd4f6bb",
+      "size": 2414959,
+      "path": "frontend/public/images/products/remera_lycra_dama_negro.png"
+    },
+    {
+      "hash": "04985f4c9fc2c83898af2337a9910272f0ff092c",
+      "size": 2414427,
+      "path": "frontend/public/images/products/top_lycra_liso_negro.png"
+    },
+    {
+      "hash": "54017224936927f754d5ea1a2653671feea4fac2",
+      "size": 2413105,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_rojo.png"
+    },
+    {
+      "hash": "0b36f6f70b67c174c13d934251f990551365706f",
+      "size": 2412679,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_gris_oscuro.png"
+    },
+    {
+      "hash": "ea871f6844def4610ffbed3e63ba58992bee5f33",
+      "size": 2410979,
+      "path": "frontend/public/images/products/Campera_termica_jaspeado_saplex_dama_petroleo.png"
+    },
+    {
+      "hash": "148864e56563b1836fbdef81a4c099d3fb7510df",
+      "size": 2406314,
+      "path": "frontend/public/images/products/campera_jaspeado_saplex_hombre_azul_jaspeado.png"
+    },
+    {
+      "hash": "7433679f8f69c760ccaf500d7c9dbc9e184d8bb9",
+      "size": 2404571,
+      "path": "frontend/public/images/products/campera_jaspeado_saplex_dama_petroleo.png"
+    },
+    {
+      "hash": "b28be315eec38316d226c550aed8b8fadac46cea",
+      "size": 2397957,
+      "path": "frontend/public/images/products/pantalon_algodon_frizado_premium_hombre_gris_melange.png"
+    },
+    {
+      "hash": "920146de46b656e8d89f7c4f6f9153e33479a1a2",
+      "size": 2395024,
+      "path": "frontend/public/images/products/remera_algodon_molino_hombre_gris_oscuro.png"
+    },
+    {
+      "hash": "317e7df66a487ae38305411b44a9fbe743d5c179",
+      "size": 2389116,
+      "path": "frontend/public/images/products/camisola_fibrana_dama_estampado_1.png"
+    },
+    {
+      "hash": "a816af3abd58ba4db721d6ba156b1a11105e467b",
+      "size": 2384917,
+      "path": "frontend/public/images/products/calza_saplex_chupin_jaspeado_azul.png"
+    },
+    {
+      "hash": "83521f6324f82d1cd01aa1a3ca7eed71c88f1df5",
+      "size": 2384288,
+      "path": "frontend/public/images/products/pantalon_recto_cey_gris_oscuro.png"
+    },
+    {
+      "hash": "3a69fcc35d159479d24a5fad1b6b858fecc711e5",
+      "size": 2384272,
+      "path": "frontend/public/images/products/top_lycra_nena_rosa.png"
+    },
+    {
+      "hash": "4c0960c998a82648069aca7a78f9f93ba5cc9224",
+      "size": 2383328,
+      "path": "frontend/public/images/products/top_lycra_morley_azul lavanda.png"
+    },
+    {
+      "hash": "e32f6768fdc11793eef722c3c9945ac5475a8bfc",
+      "size": 2383190,
+      "path": "frontend/public/images/products/campera_lycra_estampado_1.png"
+    },
+    {
+      "hash": "80fc6c69cfc3d885912bfc763ed3b82b3eedd5e0",
+      "size": 2382659,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_sin_capucha_hombre_verde.png"
+    },
+    {
+      "hash": "039f7b91281845eb8fbbe98854d076fc58d13c41",
+      "size": 2382243,
+      "path": "frontend/public/images/products/remera_manga_larga_morley_viscosa_negro.png"
+    },
+    {
+      "hash": "7c8beefcfb10ab1834ed3c08706311d2e5badd8d",
+      "size": 2380429,
+      "path": "frontend/public/images/products/campera_lycra_morley_azul_lavanda.png"
+    },
+    {
+      "hash": "463d64e18016424b0299285fcc4df05405a320ce",
+      "size": 2379445,
+      "path": "frontend/public/images/products/ciclista_lycra_morley_verde.png"
+    },
+    {
+      "hash": "64ebb8933e3dd73b83f2d24812e8bca700e0b1c7",
+      "size": 2378655,
+      "path": "frontend/public/images/products/short_algodon_lycra_tiro_alto_gris_oscuro.png"
+    },
+    {
+      "hash": "16502964a984cbbe3456107db7097fbb4e879d0f",
+      "size": 2373622,
+      "path": "frontend/public/images/products/babucha_lycra_jogger_hombre_gris_melange_jaspeado.png"
+    },
+    {
+      "hash": "23ac9927a7e4ef8abe5969b51c4771169a5891c9",
+      "size": 2372676,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_hombre_verde.png"
+    },
+    {
+      "hash": "1943d39d6ff65475a86c5fee7367a4c3a69c141e",
+      "size": 2361616,
+      "path": "frontend/public/images/products/campera_lycra_estampado_4.png"
+    },
+    {
+      "hash": "e1684ef03d07d34ef55dafebc754f1a5780c0c36",
+      "size": 2353306,
+      "path": "frontend/public/images/products/campera_lycra_estampado_6.png"
+    },
+    {
+      "hash": "3ea66fcb954ea209742670128457139a49835e6f",
+      "size": 2351860,
+      "path": "frontend/public/images/products/camisola_fibrana_dama_estampado_6.png"
+    },
+    {
+      "hash": "51fcbbcdb992cb4ce89269395d0c3a6e045adb6b",
+      "size": 2350527,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_azul_marino.png"
+    },
+    {
+      "hash": "d06e5a2ca946963cd1ac163d49c327569b1b3e5d",
+      "size": 2349234,
+      "path": "frontend/public/images/campera_jaspeado_saplex_dama_lila.png"
+    },
+    {
+      "hash": "0ef47d4da7a9a10870c30c9f5b17120519584eb6",
+      "size": 2340872,
+      "path": "frontend/public/images/products/campera_algodon_frizado_hombre_negro.png"
+    },
+    {
+      "hash": "33527e0b2e221d731f5b22d29bcc3e32fb5f849a",
+      "size": 2337392,
+      "path": "frontend/public/images/products/babucha_lycra_termica_jogger_hombre_negro.png"
+    },
+    {
+      "hash": "45a51a5c415ca4d7ee5bbbfebd186cc140f9eb83",
+      "size": 2330244,
+      "path": "frontend/public/images/products/calza_lycra_estampado_4.png"
+    },
+    {
+      "hash": "705e59a6afc7871b837b205d8c20b28f778a895e",
+      "size": 2329024,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_hombre_francia.png"
+    },
+    {
+      "hash": "6ddcf5ad03e7a717ed672891e11cade7066b3c4a",
+      "size": 2320348,
+      "path": "frontend/public/images/products/calza_saplex_chupin_jaspeado_violeta.png"
+    },
+    {
+      "hash": "5f86583238508e0edb17c8eb4b68731093e07bbb",
+      "size": 2318525,
+      "path": "frontend/public/images/products/calza_lycra_estampado_5.png"
+    },
+    {
+      "hash": "0ef50cd94d69528e163a688c7513806adaa6a16d",
+      "size": 2317976,
+      "path": "frontend/public/images/products/camisola_fibrana_dama_estampado_3.png"
+    },
+    {
+      "hash": "2647c356a4fa0f7a880cc04c3bfe65ed3f6735f8",
+      "size": 2317676,
+      "path": "frontend/public/images/products/ciclista_lycra_morley_fucsia.png"
+    },
+    {
+      "hash": "2d8e0a9e37d02aa26586587d6e89df8e81998108",
+      "size": 2316603,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_lila.png"
+    },
+    {
+      "hash": "f03d5920a55a22c24ceec787b1dccb821b685e07",
+      "size": 2314900,
+      "path": "frontend/public/images/products/campera_jaspeado_saplex_dama_gris_oscuro.png"
+    },
+    {
+      "hash": "bf23480847bc6c08b5e601be1c376426f3efffd5",
+      "size": 2312047,
+      "path": "frontend/public/images/campera_jaspeado_saplex_dama_gris_oscuro.png"
+    },
+    {
+      "hash": "762493548994f756439fd94e2224d6571809be0b",
+      "size": 2311918,
+      "path": "frontend/public/images/products/camiseta_termica_dama_gris.png"
+    },
+    {
+      "hash": "b5dbfdecf046e6fde023c121aa2fae4fae0e2651",
+      "size": 2309065,
+      "path": "frontend/public/images/products/ciclista_lycra_morley_negro.png"
+    },
+    {
+      "hash": "45f54ad0a8fc6e92d39f4c2aeb4312f7551be1e4",
+      "size": 2307379,
+      "path": "frontend/public/images/products/camiseta_termica_dama_verde.png"
+    },
+    {
+      "hash": "811e45bfbb46ba63b2c801ff8f9f9184224c70d7",
+      "size": 2305869,
+      "path": "frontend/public/images/products/Calza_algodon con lycra_recta_azul.png"
+    },
+    {
+      "hash": "5f3e28199cc21040ee21da83abf0a661a9dec8e2",
+      "size": 2305586,
+      "path": "frontend/public/images/products/campera_lycra_estampado_14.png"
+    },
+    {
+      "hash": "24e2c4de004f60d779c3dd95b6bf97abe2413968",
+      "size": 2303593,
+      "path": "frontend/public/images/products/campera_largo_polar_corderito_beige.png"
+    },
+    {
+      "hash": "a66ff1a4df1db6c19005b494f8ebd8c5776f3070",
+      "size": 2301899,
+      "path": "frontend/public/images/products/short_algodon_lycra_tiro_alto_gris_melange.png"
+    },
+    {
+      "hash": "4c522b939b2e47edb0ed1a7bb635b881b5ba4158",
+      "size": 2299592,
+      "path": "frontend/public/images/products/maxibuzo_frisado_algodon_sin_capucha_azul_marino.png"
+    },
+    {
+      "hash": "58ad52a602cc5400e85e5bc82074281508a11387",
+      "size": 2294342,
+      "path": "frontend/public/images/products/campera_lycra_morley_verde.png"
+    },
+    {
+      "hash": "16c7fef7922140bcc867106a28a992c5b41b9adf",
+      "size": 2293712,
+      "path": "frontend/public/images/products/pantalon_recto_cey_lila.png"
+    },
+    {
+      "hash": "65909cfaaae28f10f38564c4154ae01077b9e64c",
+      "size": 2291945,
+      "path": "frontend/public/images/products/Campera_termica_jaspeado_saplex_dama_violeta.png"
+    },
+    {
+      "hash": "c98e062bfe490704d22e98322b233667a08f30c0",
+      "size": 2291521,
+      "path": "frontend/public/images/products/calza_termica_jaspeada_saplex_chupin_dama_gris_oscuro.png"
+    },
+    {
+      "hash": "fbe9c4b3f9b5b8597d1e1c2e8c06f59be2b2b112",
+      "size": 2288760,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_hombre_rojo.png"
+    },
+    {
+      "hash": "c1c1fe3c79c8713f315362031f10d01a716b72f4",
+      "size": 2288289,
+      "path": "frontend/public/images/products/campera_termica_hombre_negro.png"
+    },
+    {
+      "hash": "8f9dbea0d5f517ab03cc224024cfa11d1e9380b6",
+      "size": 2287002,
+      "path": "frontend/public/images/products/calza_saplex_doble_cintura_azul.png"
+    },
+    {
+      "hash": "c1a46801757dd5affb6f75ded9a9181085dcb22d",
+      "size": 2283181,
+      "path": "frontend/public/images/campera_jaspeado_saplex_dama_azul.png"
+    },
+    {
+      "hash": "d962ecdf048fac3b64222c8bb8f1d8144b51a4fe",
+      "size": 2276629,
+      "path": "frontend/public/images/campera_jaspeado_saplex_hombre_negro.png"
+    },
+    {
+      "hash": "e803c6f6e5eee7b4ce8cac6efa3face9f557a37b",
+      "size": 2276261,
+      "path": "frontend/public/images/products/pantalon_recto_cey_camel.png"
+    },
+    {
+      "hash": "2eaa7c323ef50098fee074e7d9713b16f37b8fdf",
+      "size": 2274723,
+      "path": "frontend/public/images/products/campera_lycra_morley_fucsia.png"
+    },
+    {
+      "hash": "036e2b1fe9e53ee6d3fd69fcaa51e4ac810e67cd",
+      "size": 2271404,
+      "path": "frontend/public/images/products/campera_lycra_morley_gris.png"
+    },
+    {
+      "hash": "b37c0c0da1d3e8ffffa46c837b21987c4648db73",
+      "size": 2271172,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_sin_capucha_hombre_francia.png"
+    },
+    {
+      "hash": "78c50ffc950a37ff72fd7c9deab8a28b3dd031ec",
+      "size": 2266713,
+      "path": "frontend/public/images/products/calza_termica_jaspeada_saplex_chupin_dama_gris_melange.png"
+    },
+    {
+      "hash": "6b6fe8760efc7936ac728350648a50b7fbab7fcc",
+      "size": 2261710,
+      "path": "frontend/public/images/banners/banner-3.png"
+    },
+    {
+      "hash": "65807f3df9906aea79e4c027b7b439466f874982",
+      "size": 2261277,
+      "path": "frontend/public/images/products/calza_termica_jaspeada_saplex_chupin_dama_violeta.png"
+    },
+    {
+      "hash": "87da16729bef9b50413722f365a09c47e6fd714b",
+      "size": 2257846,
+      "path": "frontend/public/images/products/campera_lycra_estampado_8.png"
+    },
+    {
+      "hash": "a7336a541a8e6d1554b6e89f971f565a23e8543f",
+      "size": 2257187,
+      "path": "frontend/public/images/campera_rustico_hombre_gris_melange.png"
+    },
+    {
+      "hash": "153a05c08081e2c73d41bfddbaa4c5f137ef0d27",
+      "size": 2255117,
+      "path": "frontend/public/images/products/campera_lycra_estampado_9.png"
+    },
+    {
+      "hash": "96fad24d6b312d3249919efa65ae9f4fdbe5e3e5",
+      "size": 2255109,
+      "path": "frontend/public/images/ESTILO_URBANO_INVERNAL.png"
+    },
+    {
+      "hash": "d4e6d30e2f0b2316459571467bff55b4eb25d71f",
+      "size": 2251574,
+      "path": "frontend/public/images/products/campera_jaspeado_saplex_dama_azul.png"
+    },
+    {
+      "hash": "7583223730bbcd7cb6e886476aceb23f8ee98544",
+      "size": 2251143,
+      "path": "frontend/public/images/campera_rustico_hombre_gris_oscuro.png"
+    },
+    {
+      "hash": "d88224cc414c2d19e5e66310e8a7238f29146f11",
+      "size": 2246645,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_negro.png"
+    },
+    {
+      "hash": "f7b4ce6df7301f58905872b4135e84618ed758d4",
+      "size": 2246209,
+      "path": "frontend/public/images/campera_modal_gris.png"
+    },
+    {
+      "hash": "188456790282d41a467b14bb6d133e5751cd5224",
+      "size": 2246188,
+      "path": "frontend/public/images/products/pantalon_algodon_rustico_recto_frizado_dama_gris_oscuro.png"
+    },
+    {
+      "hash": "bcc7176af7ea05cd1ce79621c3b25af1b87ffd62",
+      "size": 2245768,
+      "path": "frontend/public/images/top_lycra_morley_fucsia.png"
+    },
+    {
+      "hash": "6b92d3f6532941218c15edd02502c6581c6a7cdb",
+      "size": 2239678,
+      "path": "frontend/public/images/remera_dry_fit_deportivo_hombre_gris.png"
+    },
+    {
+      "hash": "1c4704d184231e205b372c8da84e7a81d04ad702",
+      "size": 2238683,
+      "path": "frontend/public/images/campera_lycra_morley_azul_lavanda.png"
+    },
+    {
+      "hash": "ca31647d0dfade9b20d97606a11b91ebed544b88",
+      "size": 2238268,
+      "path": "frontend/public/images/products/campera_frizada_algodon_nino_gris_melange.png"
+    },
+    {
+      "hash": "0bf2c3dfd102b4665ae8e99f773cf429d8cacc5c",
+      "size": 2235956,
+      "path": "frontend/public/images/products/pantalon_algodon_rustico_recto_frizado_dama_azul_marino.png"
+    },
+    {
+      "hash": "8f41fb825cd08cc83a240ace0192d0054454f553",
+      "size": 2235459,
+      "path": "frontend/public/images/products/Calza_algodon con lycra_recta_negro.png"
+    },
+    {
+      "hash": "225940c5b301182a04331b241c4a408f4a91da8b",
+      "size": 2233338,
+      "path": "frontend/public/images/products/campera_largo_polar_corderito_verde.png"
+    },
+    {
+      "hash": "d696e1da337e820303533d2a659eec198b6e4336",
+      "size": 2232863,
+      "path": "frontend/public/images/banners/banner-1.png"
+    },
+    {
+      "hash": "044962e2f155a136ff5508fa941f879e4496ae17",
+      "size": 2230935,
+      "path": "frontend/public/images/products/pantalon_recto_cey_verde.png"
+    },
+    {
+      "hash": "0949fb4e1e8ade97750f5dd79b18d38a29780d4a",
+      "size": 2230291,
+      "path": "frontend/public/images/products/campera_frizada_algodon_nina_gris_oscuro.png"
+    },
+    {
+      "hash": "2234e10449ea882cf4849999116ce7ba18929339",
+      "size": 2224098,
+      "path": "frontend/public/images/products/camiseta_termica_nina_violeta.png"
+    },
+    {
+      "hash": "ec8d6a6c93e9811c6cf2fb5d04af95e1f2cb9ca6",
+      "size": 2223910,
+      "path": "frontend/public/images/products/maxibuzo_frizado_algodon_con_capucha_hombre_azul_marino.png"
+    },
+    {
+      "hash": "2ee71920f91466a05fa099b31a5ee6ddebfc1639",
+      "size": 2223063,
+      "path": "frontend/public/images/products/pantalon_algodon_rustico_recto_frizado_dama_negro.png"
+    },
+    {
+      "hash": "8f32993c7ea110088b7e22aa4eb3dccbfa33e707",
+      "size": 2220183,
+      "path": "frontend/public/images/products/maxibuzo_frisado_algodon_sin_capucha_francia.png"
+    },
+    {
+      "hash": "1379032bcc50297626c0f3ea081bf3d80499ad4c",
+      "size": 2218735,
+      "path": "frontend/public/images/products/top_lycra_nena_lila.png"
+    },
+    {
+      "hash": "08badb84a71691b581a2bcdcbb21e1214dcf5547",
+      "size": 2216828,
+      "path": "frontend/public/images/products/calza_lycra_estampado_10.png"
+    },
+    {
+      "hash": "44780a69cecf9a6de010fc1ece8dce091242b049",
+      "size": 2214396,
+      "path": "frontend/public/images/products/camiseta_termica_hombre_negro.png"
+    },
+    {
+      "hash": "7dd0dde176dd25cbc8870c3a8b01769c56d847f4",
+      "size": 2211944,
+      "path": "frontend/public/images/products/pantalon_algodon_frizado_premium_hombre_marron.png"
+    },
+    {
+      "hash": "051b3e6562e2ffac9c5b50f3c3627cfa5add1e0c",
+      "size": 2211729,
+      "path": "frontend/public/images/products/remera_deportivo_dry_hombre_azul.png"
+    },
+    {
+      "hash": "9a55ce41cfffcf33e143de17aebdffa5eaa9d5f7",
+      "size": 2209047,
+      "path": "frontend/public/images/top_lycra_jaspeado_gris melange.png"
+    },
+    {
+      "hash": "7a40ef5f8461bb9c48780f1caf0e30776a0da9cc",
+      "size": 2208624,
+      "path": "frontend/public/images/products/top_lycra_morley_verde.png"
+    },
+    {
+      "hash": "ab4cdb27e1ede3a813d00d984689b5e9cb44864f",
+      "size": 2206430,
+      "path": "frontend/public/images/products/musculosa_con_tira_modal_verde.png"
+    },
+    {
+      "hash": "3a44f4609a104c3d7b49d74fd2ae71001142dd91",
+      "size": 2205343,
+      "path": "frontend/public/images/products/camiseta_termica_nina_azul.png"
+    },
+    {
+      "hash": "2bb460bce2d02959d60337c94ae6067ea5dbb262",
+      "size": 2205180,
+      "path": "frontend/public/images/products/calza_gofrada_lycra_verde.png"
+    },
+    {
+      "hash": "a94cbcff5512b1f3c0756ea73c4100e80771434a",
+      "size": 2204036,
+      "path": "frontend/public/images/products/camisola_fibrana_dama_estampado_2.png"
+    },
+    {
+      "hash": "32075c486f76753246ba9d083bd9e24d2adcde77",
+      "size": 2202481,
+      "path": "frontend/public/images/products/top_lycra_morley_gris.png"
+    },
+    {
+      "hash": "8d0ba1277dcfdfda39fbe755934c3a8852bf9fb3",
+      "size": 2199245,
+      "path": "frontend/public/images/products/campera_premium_algodon_frizado_dama_lila.png"
+    },
+    {
+      "hash": "b9f732310511e680d95a55c79497ebcf9a4eef3a",
+      "size": 2190383,
+      "path": "frontend/public/images/products/top_lycra_morley_fucsia.png"
+    }
+  ],
+  "recentMainCommits": [
+    "6dd636b1bec90d2fb9faf561c18d4661d4605d20|2026-09-04|leanflores2002-ui|feat: add sale discount badges and savings display",
+    "53a1ba4eb77a797de10a21d5638346244f05a1f9|2026-09-03|leanflores2002-ui|Improve ROMIX mega menus with responsive premium layout",
+    "4fe555020643b1604cd6ffe58c23d6d4ac54a2ca|2026-09-03|leanflores2002-ui|feat: unify recommended product ordering across catalogs",
+    "7e58880ad5b67c2779c8c784eeca6d7c809404ec|2026-09-01|leanflores2002-ui|chore: update global shipping announcement",
+    "f40a27302ae216142357abf1bca002ad4d4c55f1|2026-09-01|leanflores2002-ui|fix: unify search sharing previews and announcement bar",
+    "1ff9bb995d5b8dcc4ce520994c2841d980c3be03|2026-09-01|leanflores2002-ui|Revert \"Update sync-storefront-shells.js\"",
+    "7ae806deaa17ea1ea9d17e02113a5cf4240532ab|2026-09-01|leanflores2002-ui|Update sync-storefront-shells.js",
+    "1fe421391dccb3a1e34396f3ec9b8eea4dd5139f|2026-09-01|leanflores2002-ui|fix: stabilize storefront mobile ux and shared footer",
+    "f5c9d31e4ee050cbb4baee21d014a578dc712125|2026-08-31|leanflores2002-ui|feat: redesign product and catalog interfaces",
+    "c215d92d8daaf23341d467e641cc74a2dfc97004|2026-08-31|leanflores2002-ui|chore: stabilize storefront and clean legacy UI",
+    "3760aa92051c352145b6c961b40d7480543d955d|2026-08-31|leanflores2002-ui|Product Detail Redesign ROMIX",
+    "e5b0ddc174649746eea66aafa38c697984aa9539|2026-08-31|github-actions[bot]|fix: preserve cart contract and responsive navigation",
+    "5388e86f478ab65eb12c80512bc47b03bc8ac267|2026-08-31|leanflores2002-ui|chore: speed up final storefront validation",
+    "5a17f16889c4224687d1603f291db90de0435a2a|2026-08-31|leanflores2002-ui|chore: simplify final storefront validation",
+    "196cb34d0db30ced05ff645097a78a3dc0f0c8c9|2026-08-31|leanflores2002-ui|chore: add temporary storefront finalizer",
+    "d5e2eb4be487791755efdef44b4672dd1e2a112b|2026-08-31|leanflores2002-ui|chore: validate WhatsApp cart contract",
+    "dca27ccf774d4496f402c1652674c2d0f346d49a|2026-08-31|leanflores2002-ui|chore: validate cart compatibility and responsive navigation",
+    "bdf6b34f0b0163512bd0a4a49d1af04b6d689f2e|2026-08-31|leanflores2002-ui|chore: run storefront tests with local server",
+    "824f070f630812148387fab91b48209c64e2b79e|2026-08-31|leanflores2002-ui|chore: simplify storefront validation",
+    "1b9dbd76df0b66c95bfae8ab1b24ccdda6f6944f|2026-08-31|leanflores2002-ui|fix: finalize Unicode storefront icon conversion",
+    "d24b8e34b677cae8fa654fd9701fe56db2eb2fcf|2026-08-31|leanflores2002-ui|chore: fix storefront validation setup",
+    "cf2990c68f095ba9405516fe314ed32616cb60e0|2026-08-31|leanflores2002-ui|chore: prepare storefront validation and mobile nav fix",
+    "fbbcca7b9220ec52b7b69b4f083edee71cfb2338|2026-08-31|github-actions[bot]|feat: apply minimal accessible storefront theme",
+    "7a2350f84809d9e364fb88c84b487aeb53cd1163|2026-08-31|leanflores2002-ui|chore: prepare ROMIX storefront redesign rollout",
+    "ffb7a261d73ccae9473cea0d33eb59ee0f3e3f0a|2026-08-31|leanflores2002-ui|feat: enforce Unicode UI icons in storefront",
+    "e02189ec29e0997c831939ec7cb89976e24a7cb1|2026-08-31|leanflores2002-ui|feat: add ROMIX minimal storefront helpers",
+    "45e36083ec7e95b23bd0f3c24fe71a93b4c7ae64|2026-08-31|leanflores2002-ui|feat: add ROMIX minimal storefront theme",
+    "7d7d90093bdfd5c84d4af2069e1d13cb71aa4bdf|2026-08-29|github-actions[bot]|feat: remove Instagram inspiration section",
+    "29ba0242ba9cb5c9ec46c2e4d40c8e5962a83b6a|2026-08-29|leanflores2002-ui|chore: prepare removal of Instagram inspiration section",
+    "2847024c3df74fda109aa5f37decd2bce8d7ea43|2026-08-28|github-actions[bot]|feat: improve mega menu clarity and accessibility",
+    "a0b5a523388ec4f68493be2ed26a5080853284b9|2026-08-28|leanflores2002-ui|chore: apply accessible mega menu improvements",
+    "e313e9f9808eb978fb6563d44350b2374cf667c3|2026-08-28|leanflores2002-ui|chore: add mega menu accessibility updater",
+    "a88a895d64a1686d6492a2f0f10ec7c9815d578a|2026-08-28|leanflores2002-ui|chore: remove failed accessibility workflow",
+    "f5f7af302e0b1388417272b6c45f8d5fa88fd16d|2026-08-28|leanflores2002-ui|chore: prepare accessible mega menu improvements",
+    "cf5c517d97a72a00d699ad76f547c0b8e4d3a702|2026-08-28|github-actions[bot]|feat: align mega menu with visible catalog",
+    "239b07fe5194c1277f9f081417803becd144f9ed|2026-08-28|leanflores2002-ui|chore: prepare current catalog mega menu",
+    "499170e3a500b2cf80c2979126dacc374a1e19dd|2026-08-28|leanflores2002-ui|chore: remove failed mega menu workflow",
+    "9fd0cf3c9659f4b06d16e4b399dd71ceae55a61c|2026-08-28|leanflores2002-ui|chore: prepare catalog-aware mega menu",
+    "110f922f562edf4d7faa62710cca29ce652bf442|2026-08-27|leanflores2002-ui|feat: redesign product detail interface",
+    "72e7e8e3185f55115f07bbcec45301e755e6c546|2026-08-27|github-actions[bot]|chore: hide winter and update media-season prices",
+    "c872d0d84b405386d94ae5350262f02b5659965c|2026-08-27|leanflores2002-ui|chore: prepare media-season prices and winter visibility",
+    "6df6c96e509f644fa6de2352a3cd99a5f45f7481|2026-08-27|github-actions[bot]|chore: update summer product prices",
+    "858bc7628f40ea6cea906bd63490a8aee9a2dd04|2026-08-27|leanflores2002-ui|chore: prepare summer price update",
+    "85479243ef9cb86a700699ee4572c214feb6ae3b|2026-08-27|leanflores2002-ui|fix: allow summer products and unify visibility rules",
+    "3ad03a393ab2171a5f9f30a29832e84af471f0b0|2026-08-27|github-actions[bot]|refactor: compact legacy product catalog",
+    "2a4ffaeb415a1a445ef1d63d00996175512d1875|2026-08-27|leanflores2002-ui|chore: compact legacy products safely",
+    "085f450776f7a3763a9a19b95cc5ac8e4c830697|2026-08-27|github-actions[bot]|refactor: control product visibility explicitly",
+    "a4dd478e4069268d2710b8fe2e2caa4016b4a939|2026-08-27|leanflores2002-ui|chore: trigger visibility migration",
+    "6d5882b722ee5ce9f6c49eb1d2ed1afb33c64075|2026-08-27|leanflores2002-ui|fix: run visibility migration workflow",
+    "c6bd9ce3dc02f74655b2a5ec41bb4c7139ba4ac2|2026-08-27|leanflores2002-ui|chore: add visibility migration script",
+    "4def25f9fd3ca7e12c8da978391aa83c3e5f67cc|2026-08-27|leanflores2002-ui|chore: apply product visibility refactor",
+    "d10273bdcc9d696b2b2e401417ed5963603f9c79|2026-08-27|leanflores2002-ui|chore: add catalog compaction commands",
+    "d03aa220e8edbcc1741b45ab8e9188b68bfef381|2026-08-27|leanflores2002-ui|chore: add safe product catalog compactor",
+    "dfed0ac10a1ac8746b5a63a8bf395087a6bdbdde|2026-08-27|leanflores2002-ui|chore: remove generated dependencies and temp catalog copy",
+    "792bca891e8fa3a12f0514b3a92152e36ac897ce|2026-08-27|leanflores2002-ui|chore: add product validation command",
+    "d7515f6fa714435d522ab636e752582f29f99886|2026-08-27|leanflores2002-ui|docs: document simplified product format",
+    "67253215409f393dc2c49b45c3557e3e4263117a|2026-08-27|leanflores2002-ui|test: add product catalog validator",
+    "5079f93e353f663bcd87f8427c77927ec55e658b|2026-08-27|leanflores2002-ui|chore: ignore dependencies and generated assets",
+    "b8c05bd6d7093d6344e4f90f7387cdecab60238d|2026-08-27|leanflores2002-ui|refactor: simplify product catalog normalization"
+  ],
+  "note": "Git history is separate from Deployment Storage; commits do not prove deployments or a CI loop. No history rewritten."
+}

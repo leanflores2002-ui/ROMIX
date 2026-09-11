@@ -1,0 +1,836 @@
+[
+  {
+    "route": "/",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": {
+      "title": "ROMIX - Indumentaria Deportiva & Urbana",
+      "textLength": 2967,
+      "overflow": false,
+      "brokenVisibleImages": [],
+      "productLink": "product.html?id=calza-lycra-morley-dama&slug=calza-lycra-morley-dama&name=Calza%20lycra%20morley%20dama"
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 24
+      }
+    ]
+  },
+  {
+    "route": "/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": {
+      "title": "ROMIX - Indumentaria Deportiva & Urbana",
+      "textLength": 2967,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 24
+      }
+    ]
+  },
+  {
+    "route": "/catalogo.html",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": {
+      "title": "ROMIX - Catálogo",
+      "textLength": 2578,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "route": "/mujer.html",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": {
+      "title": "ROMIX - Mujer",
+      "textLength": 2582,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 9
+      }
+    ]
+  },
+  {
+    "route": "/hombre.html",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": {
+      "title": "ROMIX - Hombre",
+      "textLength": 2591,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 9
+      }
+    ]
+  },
+  {
+    "route": "/ninos.html",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": {
+      "title": "ROMIX - Niños",
+      "textLength": 2589,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 9
+      }
+    ]
+  },
+  {
+    "route": "/novedades.html",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": {
+      "title": "ROMIX - Novedades",
+      "textLength": 2577,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 9
+      }
+    ]
+  },
+  {
+    "route": "/product.html",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": {
+      "title": "ROMIX - Detalle",
+      "textLength": 1539,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      },
+      {
+        "url": "http://127.0.0.1:8765/api/variants",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "route": "/cart.html",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": {
+      "title": "ROMIX - Mi Carrito",
+      "textLength": 1649,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/variants",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 2
+      }
+    ]
+  },
+  {
+    "route": "/",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "state": {
+      "title": "ROMIX - Indumentaria Deportiva & Urbana",
+      "textLength": 2964,
+      "overflow": false,
+      "brokenVisibleImages": [],
+      "productLink": "product.html?id=calza-lycra-morley-dama&slug=calza-lycra-morley-dama&name=Calza%20lycra%20morley%20dama"
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 24
+      }
+    ]
+  },
+  {
+    "route": "/index.html",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "state": {
+      "title": "ROMIX - Indumentaria Deportiva & Urbana",
+      "textLength": 2964,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 24
+      }
+    ]
+  },
+  {
+    "route": "/catalogo.html",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "state": {
+      "title": "ROMIX - Catálogo",
+      "textLength": 2596,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "route": "/mujer.html",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "state": {
+      "title": "ROMIX - Mujer",
+      "textLength": 2607,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 9
+      }
+    ]
+  },
+  {
+    "route": "/hombre.html",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "state": {
+      "title": "ROMIX - Hombre",
+      "textLength": 2616,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 9
+      }
+    ]
+  },
+  {
+    "route": "/ninos.html",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "state": {
+      "title": "ROMIX - Niños",
+      "textLength": 2621,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 9
+      }
+    ]
+  },
+  {
+    "route": "/novedades.html",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "state": {
+      "title": "ROMIX - Novedades",
+      "textLength": 2670,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 9
+      }
+    ]
+  },
+  {
+    "route": "/product.html",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "state": {
+      "title": "ROMIX - Detalle",
+      "textLength": 1539,
+      "overflow": true,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      },
+      {
+        "url": "http://127.0.0.1:8765/api/variants",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "route": "/cart.html",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "state": {
+      "title": "ROMIX - Mi Carrito",
+      "textLength": 1649,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/variants",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "aria-hidden-focus",
+        "impact": "serious",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 2
+      }
+    ]
+  },
+  {
+    "route": "/",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "state": {
+      "title": "ROMIX - Indumentaria Deportiva & Urbana",
+      "textLength": 2302,
+      "overflow": false,
+      "brokenVisibleImages": [],
+      "productLink": "product.html?id=calza-lycra-morley-dama&slug=calza-lycra-morley-dama&name=Calza%20lycra%20morley%20dama"
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 30
+      }
+    ]
+  },
+  {
+    "route": "/index.html",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "state": {
+      "title": "ROMIX - Indumentaria Deportiva & Urbana",
+      "textLength": 2302,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 30
+      }
+    ]
+  },
+  {
+    "route": "/catalogo.html",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "state": {
+      "title": "ROMIX - Catálogo",
+      "textLength": 1887,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 3
+      }
+    ]
+  },
+  {
+    "route": "/mujer.html",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "state": {
+      "title": "ROMIX - Mujer",
+      "textLength": 1872,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 16
+      }
+    ]
+  },
+  {
+    "route": "/hombre.html",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "state": {
+      "title": "ROMIX - Hombre",
+      "textLength": 1895,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 18
+      }
+    ]
+  },
+  {
+    "route": "/ninos.html",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "state": {
+      "title": "ROMIX - Niños",
+      "textLength": 1854,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      },
+      {
+        "url": "http://127.0.0.1:8765/images/thumbs/top_lycra_nena_violeta-thumb.webp",
+        "status": 404
+      },
+      {
+        "url": "http://127.0.0.1:8765/images/thumbs/top_lycra_nena_rosa-thumb.webp",
+        "status": 404
+      },
+      {
+        "url": "http://127.0.0.1:8765/images/thumbs/top_lycra_nena_lila-thumb.webp",
+        "status": 404
+      },
+      {
+        "url": "http://127.0.0.1:8765/images/thumbs/top_lycra_nena_negra-thumb.webp",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 16
+      }
+    ]
+  },
+  {
+    "route": "/novedades.html",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "state": {
+      "title": "ROMIX - Novedades",
+      "textLength": 1851,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 15
+      }
+    ]
+  },
+  {
+    "route": "/product.html",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "state": {
+      "title": "ROMIX - Detalle",
+      "textLength": 565,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/products",
+        "status": 404
+      },
+      {
+        "url": "http://127.0.0.1:8765/api/variants",
+        "status": 404
+      }
+    ],
+    "accessibility": []
+  },
+  {
+    "route": "/cart.html",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "state": {
+      "title": "ROMIX - Mi Carrito",
+      "textLength": 675,
+      "overflow": false,
+      "brokenVisibleImages": []
+    },
+    "errors": [],
+    "failed": [
+      {
+        "url": "http://127.0.0.1:8765/api/variants",
+        "status": 404
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "count": 2
+      }
+    ]
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "beforeChecks": 27,
+  "afterChecks": 27,
+  "regressions": [],
+  "scope": "Local static server. Existing API 404s and existing axe findings remain baseline limitations."
+}

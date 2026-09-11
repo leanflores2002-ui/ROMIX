@@ -1,0 +1,158 @@
+[
+  {
+    "width": 390,
+    "checks": {
+      "menu": true,
+      "search": true,
+      "colors": true,
+      "cart": true,
+      "cartPage": true
+    },
+    "title": "Calza lycra morley dama",
+    "colorCount": 6,
+    "colorSelections": [
+      {
+        "name": "Negro",
+        "image": {
+          "src": "http://127.0.0.1:8765/images/products/calza_lycra_morley_negro.webp",
+          "loaded": true
+        }
+      },
+      {
+        "name": "Fucsia",
+        "image": {
+          "src": "http://127.0.0.1:8765/images/products/calza_lycra_morley_fucsia.webp",
+          "loaded": true
+        }
+      },
+      {
+        "name": "Verde",
+        "image": {
+          "src": "http://127.0.0.1:8765/images/products/calza_lycra_morley_verde.webp",
+          "loaded": true
+        }
+      }
+    ],
+    "cart": [
+      {
+        "key": "calza-lycra-morley-dama|verde|1",
+        "productId": "calza-lycra-morley-dama",
+        "name": "Calza lycra morley dama",
+        "type": "calzas",
+        "price": 11500,
+        "image": "images/products/calza_lycra_morley_verde.png",
+        "color": "Verde",
+        "colorName": "Verde",
+        "size": "1",
+        "talle": "1",
+        "qty": 1,
+        "quantity": 1,
+        "subtotal": 11500
+      }
+    ]
+  },
+  {
+    "width": 768,
+    "checks": {
+      "menu": true,
+      "search": true,
+      "colors": true,
+      "cart": true,
+      "cartPage": true
+    },
+    "title": "Calza lycra morley dama",
+    "colorCount": 6,
+    "colorSelections": [
+      {
+        "name": "Negro",
+        "image": {
+          "src": "http://127.0.0.1:8765/images/products/calza_lycra_morley_negro.webp",
+          "loaded": true
+        }
+      },
+      {
+        "name": "Fucsia",
+        "image": {
+          "src": "http://127.0.0.1:8765/images/products/calza_lycra_morley_fucsia.webp",
+          "loaded": true
+        }
+      },
+      {
+        "name": "Verde",
+        "image": {
+          "src": "http://127.0.0.1:8765/images/products/calza_lycra_morley_verde.webp",
+          "loaded": true
+        }
+      }
+    ],
+    "cart": [
+      {
+        "key": "calza-lycra-morley-dama|verde|1",
+        "productId": "calza-lycra-morley-dama",
+        "name": "Calza lycra morley dama",
+        "type": "calzas",
+        "price": 11500,
+        "image": "images/products/calza_lycra_morley_verde.png",
+        "color": "Verde",
+        "colorName": "Verde",
+        "size": "1",
+        "talle": "1",
+        "qty": 1,
+        "quantity": 1,
+        "subtotal": 11500
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "checks": {
+      "menu": true,
+      "search": true,
+      "colors": true,
+      "cart": true,
+      "cartPage": true
+    },
+    "title": "Calza lycra morley dama",
+    "colorCount": 6,
+    "colorSelections": [
+      {
+        "name": "Negro",
+        "image": {
+          "src": "http://127.0.0.1:8765/images/products/calza_lycra_morley_negro.webp",
+          "loaded": true
+        }
+      },
+      {
+        "name": "Fucsia",
+        "image": {
+          "src": "http://127.0.0.1:8765/images/products/calza_lycra_morley_fucsia.webp",
+          "loaded": true
+        }
+      },
+      {
+        "name": "Verde",
+        "image": {
+          "src": "http://127.0.0.1:8765/images/products/calza_lycra_morley_verde.webp",
+          "loaded": true
+        }
+      }
+    ],
+    "cart": [
+      {
+        "key": "calza-lycra-morley-dama|verde|1",
+        "productId": "calza-lycra-morley-dama",
+        "name": "Calza lycra morley dama",
+        "type": "calzas",
+        "price": 11500,
+        "image": "images/products/calza_lycra_morley_verde.png",
+        "color": "Verde",
+        "colorName": "Verde",
+        "size": "1",
+        "talle": "1",
+        "qty": 1,
+        "quantity": 1,
+        "subtotal": 11500
+      }
+    ]
+  }
+]

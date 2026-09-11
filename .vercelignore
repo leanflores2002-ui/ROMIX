@@ -18,6 +18,8 @@ storage-git-history.json
 storage-quality-*.png
 storage-interactions-*.json
 storage-product-*.png
+storage-verification.json
+storage-video-quality.json
 storage-browser-*.json
 storage-browser-*.log
 storage-before-*.png

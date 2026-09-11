@@ -1,5 +1,19 @@
 # Dependencias
 node_modules/
+.storage-tools/
+media-*.log
+.vercel/
+.cache/
+coverage/
+playwright-report/
+test-results/
+*.log
+/dist/
+/build/
+storage-before-*.png
+storage-after-*.png
+storage-product-*.png
+storage-quality-*.png
 
 # Python
 __pycache__/

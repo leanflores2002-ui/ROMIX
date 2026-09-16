@@ -1,8 +1,15 @@
-const fs = require("fs");
+﻿const fs = require("fs");
 const path = require("path");
-const sharp = require("sharp");
+// Default to a dry run. Additional formats must be requested deliberately.
+const WRITE = process.argv.includes("--write");
+const MISSING_ONLY = process.argv.includes("--missing-only");
+const INCLUDE_AVIF = process.argv.includes("--avif");
+const INCLUDE_MOBILE = process.argv.includes("--mobile");
+let sharp;
 
-const ROOT = process.cwd();
+const ROOT = path.resolve(__dirname, '..');
+const PUBLIC = path.join(ROOT, 'frontend', 'public');
+const {localFile} = require('./social-images');
 const PRODUCTS_DIR = path.join(ROOT, "frontend", "public", "images", "products");
 const THUMBS_DIR = path.join(ROOT, "frontend", "public", "images", "thumbs");
 const MOBILE_DIR = path.join(ROOT, "frontend", "public", "images", "mobile");
@@ -17,6 +24,7 @@ async function ensureDir(dirPath) {
 async function* walkFiles(dirPath) {
   const entries = await fs.promises.readdir(dirPath, { withFileTypes: true });
   for (const entry of entries) {
+    if (entry.isSymbolicLink()) throw new Error('Linked media are not allowed');
     const fullPath = path.join(dirPath, entry.name);
     if (entry.isDirectory()) {
       yield* walkFiles(fullPath);
@@ -37,6 +45,7 @@ function buildOutputPath(baseDir, relativeInput, suffix, extension) {
 }
 
 async function isUpToDate(inputPath, outputPath) {
+  if (MISSING_ONLY && fs.existsSync(outputPath)) return true;
   try {
     const [inputStat, outputStat] = await Promise.all([
       fs.promises.stat(inputPath),
@@ -49,7 +58,11 @@ async function isUpToDate(inputPath, outputPath) {
 }
 
 async function generateVariant(inputPath, outputPath, transformer) {
+  localFile(path.relative(PUBLIC, inputPath).split(path.sep).join('/'));
+  localFile(path.relative(PUBLIC, outputPath).split(path.sep).join('/'));
   if (await isUpToDate(inputPath, outputPath)) return false;
+  if (!WRITE) return true;
+  if (!sharp) sharp = require("sharp");
   await ensureDir(path.dirname(outputPath));
   const image = sharp(inputPath, { animated: false }).rotate();
   await transformer(image).toFile(outputPath);
@@ -64,7 +77,17 @@ async function main() {
   let processed = 0;
   let generated = 0;
 
-  for await (const inputPath of walkFiles(PRODUCTS_DIR)) {
+  // A PNG and WebP with the same stem are one source, not two jobs that
+  // repeatedly overwrite the same thumbnail with a recompressed derivative.
+  const inputs = new Map();
+  const priority = { ".png": 0, ".jpg": 1, ".jpeg": 2, ".webp": 3 };
+  for await (const file of walkFiles(PRODUCTS_DIR)) {
+    const parsed = path.parse(file);
+    const key = path.join(parsed.dir, parsed.name).toLowerCase();
+    const previous = inputs.get(key);
+    if (!previous || priority[parsed.ext.toLowerCase()] < priority[path.extname(previous).toLowerCase()]) inputs.set(key, file);
+  }
+  for (const inputPath of inputs.values()) {
     processed += 1;
     const relativeInput = relativeFromProducts(inputPath);
     const thumbWebpPath = buildOutputPath(THUMBS_DIR, relativeInput, "-thumb", ".webp");
@@ -74,15 +97,15 @@ async function main() {
     if (await generateVariant(inputPath, thumbWebpPath, (image) => image.resize({ width: THUMB_WIDTH, withoutEnlargement: true }).webp({ quality: 74, effort: 6 }))) {
       generated += 1;
     }
-    if (await generateVariant(inputPath, thumbAvifPath, (image) => image.resize({ width: THUMB_WIDTH, withoutEnlargement: true }).avif({ quality: 58, effort: 6 }))) {
+    if (INCLUDE_AVIF && await generateVariant(inputPath, thumbAvifPath, (image) => image.resize({ width: THUMB_WIDTH, withoutEnlargement: true }).avif({ quality: 58, effort: 6 }))) {
       generated += 1;
     }
-    if (await generateVariant(inputPath, mobileWebpPath, (image) => image.resize({ width: MOBILE_WIDTH, withoutEnlargement: true }).webp({ quality: 76, effort: 6 }))) {
+    if (INCLUDE_MOBILE && await generateVariant(inputPath, mobileWebpPath, (image) => image.resize({ width: MOBILE_WIDTH, withoutEnlargement: true }).webp({ quality: 76, effort: 6 }))) {
       generated += 1;
     }
   }
 
-  console.log(`generate-images: procesados=${processed} generados=${generated}`);
+  console.log(`generate-images: dryRun=${!WRITE} fuentes=${processed} ${WRITE ? 'generados' : 'planificados'}=${generated}`);
 }
 
 main().catch((error) => {

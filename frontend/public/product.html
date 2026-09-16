@@ -217,6 +217,7 @@
   <script src="assets/js/romix-image-utils.js?v=13"></script>
   <script src="assets/js/color-utils.js?v=13"></script>
   <script src="assets/js/slugify.js?v=13"></script>
+  <script src="assets/js/share-versions.js"></script>
   <script src="assets/js/cart.js?v=13"></script>
   <script src="assets/js/romix-pricing.js?v=1"></script>
   <script src="assets/js/products-store.js?v=13"></script>
@@ -594,7 +595,10 @@
       function buildShareUrl(product) {
         const slug = buildShareSlug(product);
         if (slug) {
-          return new URL(`share/${encodeURIComponent(slug)}/`, location.origin + '/').href;
+          const url = new URL(`share/${encodeURIComponent(slug)}/`, location.origin + '/');
+          const version = window.ROMIX_SHARE_VERSIONS && window.ROMIX_SHARE_VERSIONS[slug];
+          if (version) url.searchParams.set('v', version);
+          return url.href;
         }
         return new URL(buildHref(product, false), location.origin + '/').href;
       }

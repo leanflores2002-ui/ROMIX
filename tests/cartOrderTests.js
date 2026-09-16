@@ -34,10 +34,11 @@ async function prepareCartDom(cartItems) {
     if (dom.window.document.readyState === 'complete') {
       resolve();
     } else {
-      dom.window.document.addEventListener('DOMContentLoaded', () => resolve());
+      dom.window.addEventListener('load', () => resolve(), {once:true});
     }
   });
 
+  await new Promise(resolve => setImmediate(resolve));
   return { dom, events };
 }
 

@@ -6,7 +6,15 @@ const previous = process.env.VERCEL_GIT_PREVIOUS_SHA;
 const current = process.env.VERCEL_GIT_COMMIT_SHA;
 if (![previous,current].every(s=>/^[a-f0-9]{40}$/i.test(s||''))) process.exit(1);
 try {
-  const files = execFileSync('git',['diff','--name-only','-z',previous,current],{encoding:'utf8'}).split('\0').filter(Boolean);
+  // Never resolve an executable through an inherited, potentially writable PATH.
+  const gitBinary = process.platform === 'win32'
+    ? String.raw`C:\Program Files\Git\cmd\git.exe` : '/usr/bin/git';
+  const safePath = process.platform === 'win32' ? String.raw`C:\Windows\System32` : '/usr/bin:/bin';
+  const files = execFileSync(gitBinary,['diff','--no-ext-diff','--no-textconv','--name-only','-z',previous,current],{
+    encoding:'utf8', cwd:require('node:path').resolve(__dirname,'..'),
+    env:{PATH:safePath,GIT_CONFIG_NOSYSTEM:'1'}, timeout:10000, maxBuffer:1024*1024,
+    shell:false
+  }).split('\0').filter(Boolean);
   const documentationOnly = files.length > 0 && files.every(f => /^(docs\/|tests\/|storage-audit-(before|after)\.(json|txt)$)/.test(f));
   console.log(documentationOnly ? 'Only docs/tests/audit reports changed; skip.' : 'Runtime or unknown changes; build.');
   process.exit(documentationOnly ? 0 : 1);

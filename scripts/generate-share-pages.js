@@ -11,7 +11,12 @@ const FALLBACK_IMAGE = "images/logo-romix-social-1200x630.png";
 function normalizeSiteUrl(raw) {
   const value = String(raw || "").trim();
   if (!value) return "";
-  return value.replace(/\/+$/, "");
+  const url = new URL(value);
+  const local = ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname);
+  if ((url.protocol !== 'https:' && !(local && url.protocol === 'http:')) || url.username || url.password || url.pathname !== '/' || url.search || url.hash) {
+    throw new Error('Expected a deployment origin');
+  }
+  return url.origin;
 }
 
 function deploymentSiteUrl(env = process.env) {
@@ -122,7 +127,14 @@ function detailHref(product, slug) {
   return `/product.html?id=${pid}&slug=${safeSlug}&name=${name}`;
 }
 
+function scriptString(value) {
+  return JSON.stringify(value).replaceAll('<', String.raw`\u003c`).replaceAll('>', String.raw`\u003e`)
+    .replaceAll('&', String.raw`\u0026`).replaceAll('\u2028', String.raw`\u2028`).replaceAll('\u2029', String.raw`\u2029`);
+}
+
 function shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, alt }) {
+  const detail = new URL(detailUrl);
+  if (detail.origin !== new URL(shareUrl).origin || detail.pathname !== '/product.html' || detail.username || detail.password || !['http:', 'https:'].includes(detail.protocol)) throw new Error('Invalid product redirect');
   const safeTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description);
   const safeImage = escapeHtml(imageUrl);
@@ -143,9 +155,9 @@ function shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, 
   <meta property="og:description" content="${safeDescription}" />
   <meta property="og:image" content="${safeImage}" />
   <meta property="og:image:secure_url" content="${safeImage}" />
-  <meta property="og:image:type" content="${social.type}" />
-  <meta property="og:image:width" content="${social.width}" />
-  <meta property="og:image:height" content="${social.height}" />
+  <meta property="og:image:type" content="${escapeHtml(social.type)}" />
+  <meta property="og:image:width" content="${escapeHtml(social.width)}" />
+  <meta property="og:image:height" content="${escapeHtml(social.height)}" />
   <meta property="og:image:alt" content="${escapeHtml(alt)}" />
   <meta property="og:url" content="${safeShare}" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -155,7 +167,7 @@ function shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, 
   <meta name="twitter:image:alt" content="${escapeHtml(alt)}" />
   <meta name="twitter:url" content="${safeShare}" />
   <link rel="canonical" href="${safeShare}" />
-  <script>window.location.replace(${JSON.stringify(detailUrl).replace(/</g, '\\u003c')});</script>
+  <script>window.location.replace(${scriptString(detailUrl)});</script>
 </head>
 <body>
   <p>Redirigiendo al producto...</p>
@@ -169,7 +181,8 @@ function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
-function buildSharePage(product, siteUrl = deploymentSiteUrl(), social) {
+function buildSharePage(product, siteUrl, social) {
+  siteUrl = normalizeSiteUrl(siteUrl || deploymentSiteUrl());
   if (!social) throw new Error('Verified social image metadata is required');
   const slug = productSlug(product);
   const sharePath = `/share/${slug}/`;

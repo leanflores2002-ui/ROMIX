@@ -7,11 +7,12 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "node tests/pageTests.js && node tests/salePricingTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js && node tests/recommendedOrderTests.js && node tests/storefrontStabilityTests.js && node tests/sharePreviewTests.js && node tests/mediaStorageTests.js",
+    "test": "node tests/pageTests.js && node tests/salePricingTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js && node tests/recommendedOrderTests.js && node tests/storefrontStabilityTests.js && node tests/sharePreviewTests.js && node tests/mediaStorageTests.js && node tests/shareSecurityTests.js",
     "test:season-backend": "python tests/season_visibility_backend_tests.py",
     "test:share-backend": "python tests/product_share_backend_tests.py",
     "test:share": "node tests/sharePreviewTests.js",
     "test:media": "node tests/mediaStorageTests.js",
+    "test:security": "node tests/shareSecurityTests.js",
     "audit:storage": "node scripts/measure-storage.js",
     "storage:migration:dry-run": "node scripts/catalog-media.js",
     "check:products": "node scripts/check-products.js",

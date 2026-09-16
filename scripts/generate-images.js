@@ -7,7 +7,9 @@ const INCLUDE_AVIF = process.argv.includes("--avif");
 const INCLUDE_MOBILE = process.argv.includes("--mobile");
 let sharp;
 
-const ROOT = process.cwd();
+const ROOT = path.resolve(__dirname, '..');
+const PUBLIC = path.join(ROOT, 'frontend', 'public');
+const {localFile} = require('./social-images');
 const PRODUCTS_DIR = path.join(ROOT, "frontend", "public", "images", "products");
 const THUMBS_DIR = path.join(ROOT, "frontend", "public", "images", "thumbs");
 const MOBILE_DIR = path.join(ROOT, "frontend", "public", "images", "mobile");
@@ -22,6 +24,7 @@ async function ensureDir(dirPath) {
 async function* walkFiles(dirPath) {
   const entries = await fs.promises.readdir(dirPath, { withFileTypes: true });
   for (const entry of entries) {
+    if (entry.isSymbolicLink()) throw new Error('Linked media are not allowed');
     const fullPath = path.join(dirPath, entry.name);
     if (entry.isDirectory()) {
       yield* walkFiles(fullPath);
@@ -55,6 +58,8 @@ async function isUpToDate(inputPath, outputPath) {
 }
 
 async function generateVariant(inputPath, outputPath, transformer) {
+  localFile(path.relative(PUBLIC, inputPath).split(path.sep).join('/'));
+  localFile(path.relative(PUBLIC, outputPath).split(path.sep).join('/'));
   if (await isUpToDate(inputPath, outputPath)) return false;
   if (!WRITE) return true;
   if (!sharp) sharp = require("sharp");

@@ -2,6 +2,7 @@
 const path = require("path");
 // Default to a dry run. Additional formats must be requested deliberately.
 const WRITE = process.argv.includes("--write");
+const MISSING_ONLY = process.argv.includes("--missing-only");
 const INCLUDE_AVIF = process.argv.includes("--avif");
 const INCLUDE_MOBILE = process.argv.includes("--mobile");
 let sharp;
@@ -41,6 +42,7 @@ function buildOutputPath(baseDir, relativeInput, suffix, extension) {
 }
 
 async function isUpToDate(inputPath, outputPath) {
+  if (MISSING_ONLY && fs.existsSync(outputPath)) return true;
   try {
     const [inputStat, outputStat] = await Promise.all([
       fs.promises.stat(inputPath),

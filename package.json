@@ -7,10 +7,13 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "node tests/pageTests.js && node tests/salePricingTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js && node tests/recommendedOrderTests.js && node tests/storefrontStabilityTests.js && node tests/sharePreviewTests.js",
+    "test": "node tests/pageTests.js && node tests/salePricingTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js && node tests/recommendedOrderTests.js && node tests/storefrontStabilityTests.js && node tests/sharePreviewTests.js && node tests/mediaStorageTests.js",
     "test:season-backend": "python tests/season_visibility_backend_tests.py",
     "test:share-backend": "python tests/product_share_backend_tests.py",
     "test:share": "node tests/sharePreviewTests.js",
+    "test:media": "node tests/mediaStorageTests.js",
+    "audit:storage": "node scripts/measure-storage.js",
+    "storage:migration:dry-run": "node scripts/catalog-media.js",
     "check:products": "node scripts/check-products.js",
     "compact:products": "node scripts/compact-products.js --write",
     "compact:products:preview": "node scripts/compact-products.js",
@@ -32,6 +35,7 @@
   "homepage": "https://github.com/Leandro18122022/web#readme",
   "devDependencies": {
     "axe-core": "^4.11.0",
-    "jsdom": "^27.3.0"
+    "jsdom": "^27.3.0",
+    "sharp": "^0.35.4"
   }
 }

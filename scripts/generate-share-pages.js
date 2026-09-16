@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const {prepareSocialImage, hash} = require('./social-images');
 
 const ROOT_DIR = path.resolve(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "frontend", "public");
@@ -14,7 +15,7 @@ function normalizeSiteUrl(raw) {
 }
 
 function deploymentSiteUrl(env = process.env) {
-  const configured = env.ROMIX_SITE_URL
+  const configured = (env.VERCEL_ENV === 'preview' && env.VERCEL_URL) || env.ROMIX_SITE_URL
     || env.URL
     || env.SITE_URL
     || env.VERCEL_PROJECT_PRODUCTION_URL
@@ -65,7 +66,11 @@ function encodePathForMeta(value) {
   const clean = normalizePath(value);
   if (!clean) return "";
   try {
-    return encodeURI(clean);
+    if (/^https?:\/\//i.test(clean)) return new URL(clean).href;
+    return clean.split('/').map(segment => {
+      try { segment = decodeURIComponent(segment); } catch { /* literal percent */ }
+      return encodeURIComponent(segment);
+    }).join('/');
   } catch {
     return clean;
   }
@@ -117,7 +122,7 @@ function detailHref(product, slug) {
   return `/product.html?id=${pid}&slug=${safeSlug}&name=${name}`;
 }
 
-function shareHtml({ title, description, imageUrl, shareUrl, detailUrl }) {
+function shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, alt }) {
   const safeTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description);
   const safeImage = escapeHtml(imageUrl);
@@ -138,16 +143,19 @@ function shareHtml({ title, description, imageUrl, shareUrl, detailUrl }) {
   <meta property="og:description" content="${safeDescription}" />
   <meta property="og:image" content="${safeImage}" />
   <meta property="og:image:secure_url" content="${safeImage}" />
-  <meta property="og:image:alt" content="${safeTitle}" />
+  <meta property="og:image:type" content="${social.type}" />
+  <meta property="og:image:width" content="${social.width}" />
+  <meta property="og:image:height" content="${social.height}" />
+  <meta property="og:image:alt" content="${escapeHtml(alt)}" />
   <meta property="og:url" content="${safeShare}" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${safeTitle}" />
   <meta name="twitter:description" content="${safeDescription}" />
   <meta name="twitter:image" content="${safeImage}" />
+  <meta name="twitter:image:alt" content="${escapeHtml(alt)}" />
   <meta name="twitter:url" content="${safeShare}" />
   <link rel="canonical" href="${safeShare}" />
-  <meta http-equiv="refresh" content="0;url=${safeDetail}" />
-  <script>window.location.replace(${JSON.stringify(detailUrl)});</script>
+  <script>window.location.replace(${JSON.stringify(detailUrl).replace(/</g, '\\u003c')});</script>
 </head>
 <body>
   <p>Redirigiendo al producto...</p>
@@ -161,20 +169,24 @@ function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
-function buildSharePage(product, siteUrl = deploymentSiteUrl()) {
+function buildSharePage(product, siteUrl = deploymentSiteUrl(), social) {
+  if (!social) throw new Error('Verified social image metadata is required');
   const slug = productSlug(product);
   const sharePath = `/share/${slug}/`;
   const detailPath = detailHref(product, slug);
   const shareUrl = absoluteUrl(sharePath, siteUrl);
   const detailUrl = absoluteUrl(detailPath, siteUrl);
-  const imageUrl = absoluteUrl(productImage(product), siteUrl);
+  const image = new URL(absoluteUrl(encodePathForMeta(social.image), siteUrl));
+  image.searchParams.set('v', social.imageHash.slice(0,16));
+  const imageUrl = image.href;
   const title = productTitle(product);
   const description = productDescription(product);
-  const html = shareHtml({ title, description, imageUrl, shareUrl, detailUrl });
-  return { slug, shareUrl, detailUrl, imageUrl, title, description, html };
+  const version = hash(JSON.stringify({id:product.id,title,description,imageHash:social.imageHash,source:social.source,updatedAt:product.updated_at || '',schema:1})).slice(0,16);
+  const html = shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, alt:product.name });
+  return { slug, shareUrl, detailUrl, imageUrl, title, description, html, version, social };
 }
 
-function main() {
+async function main() {
   if (!fs.existsSync(PRODUCTS_FILE)) {
     throw new Error(`No se encontro ${PRODUCTS_FILE}`);
   }
@@ -189,21 +201,37 @@ function main() {
   let created = 0;
   const siteUrl = deploymentSiteUrl();
 
-  list.forEach((product) => {
-    const { slug, html } = buildSharePage(product, siteUrl);
+  const versions = {};
+  const manifest = {};
+  for (const product of list) {
+    const slug = productSlug(product);
+    if (manifest[slug]) throw new Error(`Duplicate share slug: ${slug}`);
+    const social = await prepareSocialImage(product,slug);
+    const { html, version } = buildSharePage(product, siteUrl, social);
+    versions[slug] = version;
+    manifest[slug] = {productId:product.id,version,...social};
 
     const outDir = path.join(SHARE_DIR, slug);
     ensureDir(outDir);
     fs.writeFileSync(path.join(outDir, "index.html"), html, "utf8");
     created += 1;
-  });
+  }
+  // Remove only obsolete generated JPEGs, never catalog originals.
+  const previews = path.join(PUBLIC_DIR,'share-previews');
+  const used = new Set(Object.values(manifest).filter(m=>m.dedicated).map(m=>path.basename(m.image)));
+  if (fs.existsSync(previews)) for (const entry of fs.readdirSync(previews)) {
+    if (/^[a-z0-9-]+\.jpg$/.test(entry) && !used.has(entry)) fs.unlinkSync(path.join(previews,entry));
+  }
+  fs.writeFileSync(path.join(PUBLIC_DIR,'assets/data/share-manifest.json'),JSON.stringify(manifest));
+  fs.writeFileSync(path.join(PUBLIC_DIR,'assets/js/share-versions.js'),`window.ROMIX_SHARE_VERSIONS=${JSON.stringify(versions)};\n`);
 
   console.log(`Share pages generated: ${created}`);
 }
 
-if (require.main === module) main();
+if (require.main === module) main().catch(error=>{console.error(error);process.exitCode=1;});
 
 module.exports = {
+  main,
   absoluteUrl,
   buildSharePage,
   deploymentSiteUrl,

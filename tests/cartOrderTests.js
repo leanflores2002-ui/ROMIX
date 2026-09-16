@@ -1,13 +1,24 @@
 const fs = require('fs');
 const path = require('path');
-const { JSDOM } = require('jsdom');
+const { JSDOM, ResourceLoader } = require('jsdom');
+// Load the real storefront assets without requiring a server on privileged port 80.
+class StorefrontResources extends ResourceLoader {
+  fetch(url) {
+    const parsed = new URL(url);
+    if (parsed.origin !== 'http://localhost') return null;
+    const publicDir = path.resolve(__dirname,'../frontend/public');
+    const file = path.resolve(publicDir,'.'+decodeURIComponent(parsed.pathname));
+    if (!file.startsWith(publicDir+path.sep) || !fs.existsSync(file)) return null;
+    return Promise.resolve(fs.readFileSync(file));
+  }
+}
 
 async function prepareCartDom(cartItems) {
   const html = fs.readFileSync(path.join(__dirname, '..', 'frontend', 'public', 'cart.html'), 'utf8');
   const events = [];
   const dom = new JSDOM(html, {
     runScripts: 'dangerously',
-    resources: 'usable',
+    resources: new StorefrontResources(),
     url: 'http://localhost/',
     beforeParse(window) {
       window.localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -75,6 +86,7 @@ function assert(condition, message) {
   assert(message.includes('Total: $25900.00'), 'Total must be included');
   assert(!message.includes('Talle: U'), 'Fallback size marker should not leak into the message');
 
+  dom.window.close();
   console.log('cartOrderTests: passed');
 })().catch(err => {
   console.error('cartOrderTests: failed');

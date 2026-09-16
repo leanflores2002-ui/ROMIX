@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM } = require('jsdom');
+const sharp = require('sharp');
+const {prepareSocialImage,localFile,hash,LIMIT} = require('../scripts/social-images');
 const {
   buildSharePage,
   productDescription,
@@ -29,13 +31,16 @@ function visibleProductFor(products, section) {
   return products.find((product) => product && product.visible !== false && product.section === section);
 }
 
-function checkGeneratedPreview(product, section) {
+async function checkGeneratedPreview(product, section) {
   assert(product, `Missing visible ${section} product fixture`);
-  const page = buildSharePage(product, siteUrl);
+  const social = await prepareSocialImage(product, productSlug(product));
+  const page = buildSharePage(product, siteUrl, social);
   const dom = new JSDOM(page.html);
   const document = dom.window.document;
   const expectedUrl = `${siteUrl}/share/${productSlug(product)}/`;
-  const expectedImage = new URL(productImage(product).replace(/^\/+/, ''), `${siteUrl}/`).href;
+  const image = new URL(social.image.replace(/^\/+/, ''), `${siteUrl}/`);
+  image.searchParams.set('v',social.imageHash.slice(0,16));
+  const expectedImage = image.href;
 
   assert(meta(document, 'meta[property="og:type"]') === 'product', `${section}: og:type must be product`);
   assert(meta(document, 'meta[property="og:site_name"]') === 'ROMIX', `${section}: site name missing`);
@@ -48,6 +53,29 @@ function checkGeneratedPreview(product, section) {
   assert(meta(document, 'meta[name="twitter:card"]') === 'summary_large_image', `${section}: Twitter card missing`);
   assert(meta(document, 'meta[name="twitter:title"]') === `${product.name} | ROMIX`, `${section}: Twitter title mismatch`);
   assert(meta(document, 'meta[name="twitter:image"]') === expectedImage, `${section}: Twitter image mismatch`);
+  assert(social.source === product.image, `${section}: source must be this product's primary`);
+  const bytes = fs.readFileSync(localFile(social.image));
+  const actual = await sharp(bytes).metadata();
+  assert(actual.format === 'png' ? social.image.endsWith('.png') : /\.jpe?g$/i.test(social.image), `${section}: extension must agree with real format and served MIME`);
+  assert(bytes.length > 0 && bytes.length <= LIMIT, `${section}: social image budget`);
+  assert(hash(fs.readFileSync(localFile(product.image))) === social.sourceHash, `${section}: source hash`);
+  assert(hash(bytes) === social.imageHash, `${section}: output hash`);
+  assert(meta(document,'meta[property="og:image:type"]') === `image/${actual.format}`, `${section}: actual MIME`);
+  assert(+meta(document,'meta[property="og:image:width"]') === actual.width, `${section}: actual width`);
+  assert(+meta(document,'meta[property="og:image:height"]') === actual.height, `${section}: actual height`);
+  assert(meta(document,'meta[property="og:image:alt"]') === product.name, `${section}: image alt`);
+  assert(meta(document,'meta[name="twitter:image:alt"]') === product.name, `${section}: twitter alt`);
+  assert(meta(document,'meta[property="og:image:secure_url"]') === expectedImage, `${section}: secure URL`);
+  assert(!/placeholder|logo-romix|data:image|base64/i.test(page.html), `${section}: placeholder/embedded image`);
+  assert(!document.querySelector('meta[http-equiv="refresh"]'), `${section}: crawler must retain static metadata`);
+  for (const a of document.querySelectorAll('a[href]')) {
+    const url = new URL(a.href);
+    assert(url.pathname === '/product.html' && url.searchParams.get('id') === String(product.id || productSlug(product)), `${section}: detail link mismatch`);
+    assert(fs.existsSync(path.join(publicDir,url.pathname)), `${section}: broken detail href`);
+  }
+  assert(page.version === buildSharePage(product,siteUrl,social).version, 'Version must be deterministic');
+  assert(page.version !== buildSharePage(product,siteUrl,{...social,imageHash:'changed'}).version, 'Image replacement must change version');
+  assert(page.version !== buildSharePage({...product,description:'updated copy'},siteUrl,social).version, 'Copy change must change version');
   dom.window.close();
 }
 
@@ -70,8 +98,19 @@ function checkCanonicalConfiguration() {
   assert(backend.includes('ROMIX_SITE_URL'), 'Backend must honor ROMIX_SITE_URL');
 }
 
-const products = JSON.parse(read('frontend/public/assets/data/products.json').replace(/^\uFEFF/, ''));
-['mujer', 'hombre', 'ninos'].forEach((section) => checkGeneratedPreview(visibleProductFor(products, section), section));
-checkSingleClientShareUrl();
-checkCanonicalConfiguration();
-console.log('sharePreviewTests: passed');
+async function main() {
+  await require('../scripts/generate-share-pages').main();
+  const products = JSON.parse(read('frontend/public/assets/data/products.json').replace(/^\uFEFF/, ''));
+  for (const product of products) {
+    await checkGeneratedPreview(product,product.name);
+    const file = path.join(publicDir,'share',productSlug(product),'index.html');
+    assert(fs.existsSync(file) && fs.statSync(file).size < 16000, 'Generated static share HTML missing or oversized');
+  }
+  const encoded = productImage({image:'images/products/niño azul (1) #%.png'});
+  assert(decodeURIComponent(encoded) === 'images/products/niño azul (1) #%.png', 'Special character encoding must round trip');
+  assert(!encoded.includes(' ') && !encoded.includes('#'), 'Special characters must be encoded');
+  checkSingleClientShareUrl();
+  checkCanonicalConfiguration();
+  console.log(`sharePreviewTests: passed (${products.length} real primary images)`);
+}
+main().catch(error=>{console.error(error);process.exitCode=1;});

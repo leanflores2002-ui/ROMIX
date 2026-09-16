@@ -27,7 +27,9 @@ async function prepareSocialImage(product, slug) {
     input = fs.readFileSync(localFile(source));
   }
   const metadata = await sharp(input).metadata();
-  const reusable = ['jpeg','png'].includes(metadata.format) && input.length <= LIMIT
+  const extension = path.extname(source.split(/[?#]/)[0]).toLowerCase();
+  const extensionMatches = metadata.format === 'png' ? extension === '.png' : ['.jpg','.jpeg'].includes(extension);
+  const reusable = extensionMatches && ['jpeg','png'].includes(metadata.format) && input.length <= LIMIT
     && metadata.width >= 200 && metadata.height >= 200 && (!metadata.orientation || metadata.orientation === 1);
   let image = source, output = input, width = metadata.width, height = metadata.height;
   let type = metadata.format === 'jpeg' ? 'image/jpeg' : 'image/png';

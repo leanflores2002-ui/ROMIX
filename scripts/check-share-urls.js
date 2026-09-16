@@ -7,7 +7,7 @@ const products=require('../frontend/public/assets/data/products.json');
 const {deploymentOrigin,download}=require('./share-http');
 const base=deploymentOrigin(process.argv[2]);
 const baseline=process.argv.includes('--baseline');
-async function main(){
+function chosenProducts(){
   const chosen=new Map();
   const add=p=>{if(p) chosen.set(productSlug(p),p);};
   add(products.find(p=>productSlug(p)==='calza-algodon-c-lycra-chupin'));
@@ -17,6 +17,10 @@ async function main(){
     if(chosen.size>=10) break;
     add(p);
   }
+  return chosen;
+}
+async function main(){
+  const chosen=chosenProducts();
   const results=[];
   for(const [slug,p] of chosen){
     const url=`${base.replace(/\/$/,'')}/share/${slug}/`;

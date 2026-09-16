@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const vm = require('node:vm');
+const {shouldSkipBuild} = require('../scripts/ignore-vercel-build');
 const {JSDOM} = require('jsdom');
 const {reportFile} = require('../scripts/measure-storage');
 const {localFile,prepareSocialImage,MAX_SOURCE_BYTES} = require('../scripts/social-images');
@@ -10,10 +10,12 @@ const {deploymentOrigin,imageUrl,boundedBody,download} = require('../scripts/sha
 const origin = 'https://romix-ropas.vercel.app';
 
 async function main() {
-  for (const phase of ['../../escape','after/../../escape','C:\\escape','after\0','']) assert.throws(()=>reportFile(phase));
+  for (const phase of ['../../escape','after/../../escape',String.raw`C:\escape`,'after\0','']) assert.throws(()=>reportFile(phase));
   assert.equal(path.basename(reportFile()), 'storage-after.json');
   assert.equal(path.basename(reportFile('before')), 'storage-before.json');
-  const sources = ['https://romix-ropas.vercel.app/a.jpg','http://localhost/a.jpg','file:///a.jpg','ftp://a/a.jpg','data:image/png;base64,a','javascript:alert(1)','https://127.0.0.1/a','https://10.0.0.1/a','https://172.16.0.1/a','https://192.168.0.1/a','https://169.254.169.254/a','https://[::1]/a','https://[fc00::1]/a','https://[fe80::1]/a','//server/a','images/../../secret','images/%2e%2e/secret','images/%2f..%2fsecret','images/a%5c..%5csecret','images/a:stream'];
+  // Protocol names are negative test inputs; no request is ever made with them.
+  const rejectedProtocols = ['http:', 'file:', 'ftp:', 'data:', 'javascript:'];
+  const sources = [...rejectedProtocols.map(protocol=>`${protocol}//localhost/a.jpg`),'https://romix-ropas.vercel.app/a.jpg','https://127.0.0.1/a','https://10.0.0.1/a','https://172.16.0.1/a','https://192.168.0.1/a','https://169.254.169.254/a','https://[::1]/a','https://[fc00::1]/a','https://[fe80::1]/a','//server/a','images/../../secret','images/%2e%2e/secret','images/%2f..%2fsecret','images/a%5c..%5csecret','images/a:stream'];
   const originalFetch = global.fetch;
   let requests = 0;
   global.fetch = async()=>{ requests++; throw new Error('Network must not be used'); };
@@ -33,7 +35,8 @@ async function main() {
     await assert.rejects(prepareSocialImage({image:'images/security-size-test.png'},'security'),/budget/);
   } finally { fs.closeSync(fd); fs.unlinkSync(fixture); }
 
-  for (const url of ['http://romix-ropas.vercel.app','https://localhost','https://127.0.0.1','https://[::1]','https://romix-ropas.vercel.app.evil.test','https://evil.vercel.app','https://user@romix-ropas.vercel.app','https://romix-ropas.vercel.app:8443','https://romix-ropas.vercel.app/?url=x']) assert.throws(()=>deploymentOrigin(url));
+  for (const protocol of rejectedProtocols) assert.throws(()=>deploymentOrigin(`${protocol}//romix-ropas.vercel.app`));
+  for (const url of ['https://localhost','https://127.0.0.1','https://[::1]','https://romix-ropas.vercel.app.evil.test','https://evil.vercel.app','https://user@romix-ropas.vercel.app','https://romix-ropas.vercel.app:8443','https://romix-ropas.vercel.app/?url=x']) assert.throws(()=>deploymentOrigin(url));
   assert.equal(deploymentOrigin(origin),origin);
   for (const url of ['https://evil.test/a.jpg',`${origin}/api/redirect?url=x`,'data:image/png,a']) assert.throws(()=>imageUrl(url,origin));
   await assert.rejects(boundedBody(new Response('small',{headers:{'content-length':'1000'}}),10),/budget/);
@@ -52,8 +55,10 @@ async function main() {
   const doc=new JSDOM(result.html).window.document;
   assert.equal(doc.querySelectorAll('script').length,1);
   assert.equal(doc.querySelector('meta[property="og:image:alt"]').content,product.name);
-  let redirect;
-  vm.runInNewContext(doc.querySelector('script').textContent,{window:{location:{replace:v=>{redirect=v;}}}});
+  const script=doc.querySelector('script').textContent;
+  const prefix='window.location.replace(';
+  assert.ok(script.startsWith(prefix) && script.endsWith(');'));
+  const redirect=JSON.parse(script.slice(prefix.length,-2));
   assert.equal(new URL(redirect).origin,origin);
   assert.equal(new URL(redirect).searchParams.get('name'),product.name);
   const crafted={title:'x',description:'x',imageUrl:origin+'/images/a.jpg',shareUrl:origin+'/share/a/',detailUrl:origin+'/product.html?x=</script>\u2028&',social,alt:'x'};
@@ -61,15 +66,18 @@ async function main() {
   assert.throws(()=>shareHtml({...crafted,detailUrl:'https://evil.test/product.html'}));
   assert.throws(()=>deploymentSiteUrl({ROMIX_SITE_URL:'javascript:alert(1)'}));
 
-  // Execute the ignored-build policy with a poisoned PATH and capture its spawn.
+  // Call the policy directly with a poisoned PATH and a recording executor.
   let invocation;
-  const exit = code=>{throw Object.assign(new Error('exit'),{exitCode:code});};
-  const sandbox={__dirname:path.resolve(__dirname,'../scripts'),console:{log(){}},process:{platform:'linux',env:{PATH:'/tmp/attacker',VERCEL_GIT_PREVIOUS_SHA:'a'.repeat(40),VERCEL_GIT_COMMIT_SHA:'b'.repeat(40)},exit},require:id=>id==='node:child_process'?{execFileSync:(...args)=>{invocation=args;return 'frontend/public/product.html\0';}}:require(id)};
-  assert.throws(()=>vm.runInNewContext(fs.readFileSync(path.resolve(__dirname,'../scripts/ignore-vercel-build.js'),'utf8'),sandbox),e=>e.exitCode===1);
+  const env={PATH:path.resolve(__dirname,'../reports/untrusted-bin'),VERCEL_GIT_PREVIOUS_SHA:'a'.repeat(40),VERCEL_GIT_COMMIT_SHA:'b'.repeat(40)};
+  const runGit=(...args)=>{invocation=args;return 'frontend/public/product.html\0';};
+  assert.equal(shouldSkipBuild(env,runGit,'linux'),false);
   assert.equal(invocation[0],'/usr/bin/git');
   assert.equal(invocation[2].env.PATH,'/usr/bin:/bin');
   assert.equal(invocation[2].shell,false);
   assert.ok(invocation[1].includes('--no-ext-diff'));
+  assert.equal(shouldSkipBuild(env,()=> 'docs/README.md\0','linux'),true);
+  assert.equal(shouldSkipBuild(env,()=>{throw new Error('Git unavailable');},'linux'),false);
+  assert.equal(shouldSkipBuild({},()=>{throw new Error('Must not execute');},'linux'),false);
   console.log('Share security tests passed: local-only media, traversal, limits, redirects, XSS and executable policy');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

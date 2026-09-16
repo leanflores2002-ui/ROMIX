@@ -41,7 +41,8 @@ async function download(url, origin, kind, baseline = false) {
     await response.body?.cancel();
     throw new Error(`Inaccessible or unexpected content: ${target} (${response.status})`);
   }
-  const bytes = await boundedBody(response, kind === 'image' ? (baseline ? 10485760 : 400000) : 65536);
+  const imageLimit = baseline ? 10485760 : 400000;
+  const bytes = await boundedBody(response, kind === 'image' ? imageLimit : 65536);
   return {bytes, type, status:response.status};
 }
 module.exports = {deploymentOrigin, imageUrl, boundedBody, download};

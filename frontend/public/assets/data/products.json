@@ -1375,10 +1375,10 @@
     "name": "Pantalon jogger fibrana liso",
     "season": "verano",
     "image": "images/products/pantalon_jogger_fibrana_negro.png",
-    "price": 7500,
+    "price": 8500,
     "priceByGroup": {
-      "common": 7500,
-      "special": 8300,
+      "common": 8500,
+      "special": 9300,
       "special2": 9100
     },
     "specialSizes": [
@@ -1428,6 +1428,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -1445,10 +1446,10 @@
     "name": "Pantalon jogger fibrana estampado",
     "season": "verano",
     "image": "images/products/pantalon_jogger_fibrana_estampado_1.png",
-    "price": 7500,
+    "price": 8500,
     "priceByGroup": {
-      "common": 7500,
-      "special": 8300,
+      "common": 8500,
+      "special": 9300,
       "special2": 9100
     },
     "specialSizes": [
@@ -1535,6 +1536,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -1638,10 +1640,10 @@
     "name": "Pantalon recto fibrana",
     "season": "verano",
     "image": "images/products/pantalon_recto_fibrana_estampado_1.png",
-    "price": 7500,
+    "price": 8500,
     "priceByGroup": {
-      "common": 7500,
-      "special": 8300
+      "common": 8500,
+      "special": 9300
     },
     "specialSizes": [
       6,
@@ -1877,10 +1879,10 @@
     "name": "Palazo fibrana liso",
     "season": "verano",
     "image": "images/products/palazo_fibrana_liso_negro.png",
-    "price": 7500,
+    "price": 8500,
     "priceByGroup": {
-      "common": 7500,
-      "special": 8300
+      "common": 8500,
+      "special": 9300
     },
     "specialSizes": [
       6,
@@ -1920,6 +1922,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -1935,10 +1938,10 @@
     "name": "Palazo fibrana estampado",
     "season": "verano",
     "image": "images/products/palazo_fibrana_estampado_1.png",
-    "price": 7500,
+    "price": 8500,
     "priceByGroup": {
-      "common": 7500,
-      "special": 8300
+      "common": 8500,
+      "special": 9300
     },
     "specialSizes": [
       6,
@@ -2014,6 +2017,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -2108,10 +2112,10 @@
     "name": "Palazo CEY",
     "season": "verano",
     "image": "images/products/palazo_cey_negro.png",
-    "price": 7800,
+    "price": 8500,
     "priceByGroup": {
-      "common": 7800,
-      "special": 8400
+      "common": 8500,
+      "special": 9300
     },
     "specialSizes": [
       6,
@@ -2156,6 +2160,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -2723,6 +2728,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -2848,6 +2854,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -3125,6 +3132,8 @@
       }
     ],
     "sizes": [
+      "1",
+      "2",
       "3",
       "4",
       "5",
@@ -3189,6 +3198,8 @@
       }
     ],
     "sizes": [
+      "1",
+      "2",
       "3",
       "4",
       "5",
@@ -3283,6 +3294,8 @@
       }
     ],
     "sizes": [
+      "1",
+      "2",
       "3",
       "4",
       "5",
@@ -3949,7 +3962,9 @@
       "3",
       "4",
       "5",
-      "6"
+      "6",
+      "7",
+      "8"
     ]
   },
   {
@@ -3980,7 +3995,15 @@
       "2",
       "3",
       "4",
-      "5"
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "specialSizes": [
+      6,
+      7,
+      8
     ]
   },
   {
@@ -4663,6 +4686,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -4690,6 +4714,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -4725,6 +4750,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -4778,6 +4804,8 @@
       }
     ],
     "sizes": [
+      "1",
+      "2",
       "3",
       "4",
       "5",
@@ -4840,6 +4868,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -4893,6 +4922,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -4956,6 +4986,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -5014,6 +5045,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -5057,6 +5089,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -5105,6 +5138,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -5212,6 +5246,8 @@
       }
     ],
     "sizes": [
+      "1",
+      "2",
       "3",
       "4",
       "5",
@@ -5226,11 +5262,11 @@
     "name": "Camisola fibrana dama",
     "season": "verano",
     "image": "images/products/camisola_fibrana_dama_estampado_1.png",
-    "price": 7000,
+    "price": 8000,
     "priceByGroup": {
-      "common": 7000,
-      "special": 7800,
-      "special2": 8600
+      "common": 8000,
+      "special": 8800,
+      "special2": 9600
     },
     "specialSizes": [
       6,
@@ -5744,6 +5780,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -5821,6 +5858,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -5997,6 +6035,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -6030,6 +6069,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -6161,6 +6201,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -6214,6 +6255,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -6247,6 +6289,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -6290,6 +6333,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -6348,6 +6392,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -6476,7 +6521,11 @@
       "10",
       "12",
       "14",
-      "16"
+      "16",
+      "18"
+    ],
+    "superSpecialSizes": [
+      18
     ]
   },
   {
@@ -6546,7 +6595,9 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
+      "3",
       "4",
       "5"
     ]
@@ -6587,10 +6638,12 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
       "5",
+      "6",
       "7",
       "8"
     ]
@@ -6785,6 +6838,7 @@
       }
     ],
     "sizes": [
+      "4",
       "6",
       "8",
       "10",
@@ -6827,6 +6881,7 @@
       }
     ],
     "sizes": [
+      "4",
       "6",
       "8",
       "10",
@@ -6889,6 +6944,7 @@
       }
     ],
     "sizes": [
+      "4",
       "6",
       "8",
       "10",
@@ -7108,6 +7164,7 @@
       }
     ],
     "sizes": [
+      "4",
       "6",
       "8",
       "10",
@@ -7594,7 +7651,13 @@
       "5",
       "6",
       "7",
-      "8"
+      "8",
+      "9",
+      "10"
+    ],
+    "superSpecialSizes": [
+      9,
+      10
     ]
   },
   {
@@ -7621,6 +7684,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -7669,6 +7733,8 @@
       }
     ],
     "sizes": [
+      "1",
+      "2",
       "3",
       "4",
       "5",
@@ -8332,7 +8398,15 @@
       "2",
       "3",
       "4",
-      "5"
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "specialSizes": [
+      6,
+      7,
+      8
     ]
   },
   {
@@ -8378,7 +8452,7 @@
     "price": 13500,
     "priceByGroup": {
       "common": 13500,
-      "special": 13500
+      "special": 14000
     },
     "specialSizes": [
       6,
@@ -8467,6 +8541,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -8569,6 +8644,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -8632,6 +8708,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -8705,6 +8782,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -8722,10 +8800,10 @@
     "featured": true,
     "featuredBadge": "Más vendido",
     "image": "images/products/campera_lycra_estampado_1.png",
-    "price": 19500,
+    "price": 24000,
     "priceByGroup": {
-      "common": 19500,
-      "special": 20500
+      "common": 24000,
+      "special": 25000
     },
     "specialSizes": [
       6,
@@ -8831,6 +8909,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -8889,6 +8968,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -8948,13 +9028,20 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
       "5",
       "6",
       "7",
-      "8"
+      "8",
+      "9",
+      "10"
+    ],
+    "superSpecialSizes": [
+      9,
+      10
     ]
   },
   {
@@ -8969,7 +9056,9 @@
       "special": 19500
     },
     "specialSizes": [
-      6
+      6,
+      7,
+      8
     ],
     "colors": [
       {
@@ -9029,11 +9118,14 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
       "5",
-      "6"
+      "6",
+      "7",
+      "8"
     ]
   },
   {
@@ -9512,13 +9604,20 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
       "5",
       "6",
       "7",
-      "8"
+      "8",
+      "9",
+      "10"
+    ],
+    "superSpecialSizes": [
+      9,
+      10
     ]
   },
   {
@@ -9565,6 +9664,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",
@@ -9580,10 +9680,10 @@
     "name": "Pantalon Recto CEY",
     "season": "verano",
     "image": "images/products/pantalon_recto_cey_negro.png",
-    "price": 7800,
+    "price": 8500,
     "priceByGroup": {
-      "common": 7800,
-      "special": 8400
+      "common": 8500,
+      "special": 9300
     },
     "specialSizes": [
       6,
@@ -9628,6 +9728,7 @@
       }
     ],
     "sizes": [
+      "1",
       "2",
       "3",
       "4",

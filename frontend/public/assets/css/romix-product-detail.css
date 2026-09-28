@@ -405,6 +405,8 @@
   .product-accordion__item { border-right: 0; border-bottom: 1px solid var(--product-line); }
   .product-accordion__item:last-child { border-bottom: 0; }
   .related-products__card { flex-basis: calc((100% - 14px) / 2); }
+  .related-products__nav-btn { display: none; }
+  .related-products__list { overflow-x: auto; }
 }
 
 @media (max-width: 640px) {

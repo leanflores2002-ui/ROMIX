@@ -67,7 +67,7 @@
           description: "Campera deportiva de lycra estampada para mujer. Comodidad y elasticidad para uso diario o entrenamiento.",
           cta: "Ver campera",
           href: buildHref(mujer, { q: "campera lycra estampado" }),
-          image: "images/products/campera_lycra_estampado_1.png",
+          image: "images/products/campera_lycra_estampado_1.webp",
           alt: "Campera deportiva estampada ROMIX para mujer"
         },
         viewAllLabel: "Ver todo mujer",
@@ -131,7 +131,7 @@
           title: "Movimiento para todos los dias",
           cta: "Ver productos",
           href: buildHref(hombre, { temporada: "media-estacion" }),
-          image: "images/products/campera_jaspeado_saplex_hombre_negro.png",
+          image: "images/products/campera_jaspeado_saplex_hombre_negro.webp",
           alt: "Campera ROMIX para hombre"
         },
         columns: [
@@ -190,7 +190,7 @@
           title: "Movimiento para todo el dia",
           cta: "Ver productos",
           href: buildHref(ninos, { temporada: "media-estacion" }),
-          image: "images/products/remera_oversize_algodon_peinado_chico_azul.png",
+          image: "images/products/remera_oversize_algodon_peinado_chico_azul.webp",
           alt: "Campera infantil ROMIX"
         },
         columns: [
@@ -243,7 +243,7 @@
           title: "Lo nuevo de ROMIX",
           cta: "Ver productos",
           href: novedades,
-          image: "images/products/campera_oversize_algodon_rustico_azul.png",
+          image: "images/products/campera_oversize_algodon_rustico_azul.webp",
           alt: "Nueva coleccion ROMIX"
         },
         columns: [

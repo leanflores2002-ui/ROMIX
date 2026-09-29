@@ -92,6 +92,17 @@ function without(product, fields) {
   return copy;
 }
 
+function normalizeMedia(value) {
+  if (typeof value === 'string') {
+    return value.replace(/(images\/products\/[^?#]+)\.webp(?=[?#]|$)/gi, '$1.png');
+  }
+  if (Array.isArray(value)) return value.map(normalizeMedia);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, normalizeMedia(child)]));
+  }
+  return value;
+}
+
 function sizeValue(entry) {
   return entry && typeof entry === 'object' ? String(entry.size ?? entry.value ?? '').trim() : String(entry ?? '').trim();
 }
@@ -114,7 +125,8 @@ products.forEach((product, index) => {
       .map((field) => field === 'groups' ? 'priceByGroup' : field === 'add' ? 'sizes' : field)
       .concat(change.specialSizes ? ['specialSizes'] : [], change.superSpecialSizes ? ['superSpecialSizes'] : [])
     : [];
-  assert(hash(without(product, mutableFields)) === base.immutableHash, `Campo no autorizado modificado en ${product.name}`);
+  const normalizedProduct = normalizeMedia(without(product, mutableFields));
+  assert(hash(normalizedProduct) === base.immutableHash, `Campo no autorizado modificado en ${product.name}`);
   if (!change) return;
   seen.add(product.name);
 

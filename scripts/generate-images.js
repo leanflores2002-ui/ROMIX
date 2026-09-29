@@ -1,114 +1,13 @@
-﻿const fs = require("fs");
-const path = require("path");
-// Default to a dry run. Additional formats must be requested deliberately.
-const WRITE = process.argv.includes("--write");
-const MISSING_ONLY = process.argv.includes("--missing-only");
-const INCLUDE_AVIF = process.argv.includes("--avif");
-const INCLUDE_MOBILE = process.argv.includes("--mobile");
-let sharp;
+// Deprecated compatibility entry point.
+// Product media is now optimized in-place as canonical WebP files.
+const { main } = require('./optimize-product-images');
 
-const ROOT = path.resolve(__dirname, '..');
-const PUBLIC = path.join(ROOT, 'frontend', 'public');
-const {localFile} = require('./social-images');
-const PRODUCTS_DIR = path.join(ROOT, "frontend", "public", "images", "products");
-const THUMBS_DIR = path.join(ROOT, "frontend", "public", "images", "thumbs");
-const MOBILE_DIR = path.join(ROOT, "frontend", "public", "images", "mobile");
-const VALID_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp"]);
-const THUMB_WIDTH = 720;
-const MOBILE_WIDTH = 960;
-
-async function ensureDir(dirPath) {
-  await fs.promises.mkdir(dirPath, { recursive: true });
+if (require.main === module) {
+  console.warn('generate-images.js está obsoleto; use npm run optimize:products');
+  main().catch((error) => {
+    console.error(`generate-images: ${error.message}`);
+    process.exitCode = 1;
+  });
 }
 
-async function* walkFiles(dirPath) {
-  const entries = await fs.promises.readdir(dirPath, { withFileTypes: true });
-  for (const entry of entries) {
-    if (entry.isSymbolicLink()) throw new Error('Linked media are not allowed');
-    const fullPath = path.join(dirPath, entry.name);
-    if (entry.isDirectory()) {
-      yield* walkFiles(fullPath);
-      continue;
-    }
-    if (!VALID_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) continue;
-    yield fullPath;
-  }
-}
-
-function relativeFromProducts(filePath) {
-  return path.relative(PRODUCTS_DIR, filePath);
-}
-
-function buildOutputPath(baseDir, relativeInput, suffix, extension) {
-  const parsed = path.parse(relativeInput);
-  return path.join(baseDir, parsed.dir, parsed.name + suffix + extension);
-}
-
-async function isUpToDate(inputPath, outputPath) {
-  if (MISSING_ONLY && fs.existsSync(outputPath)) return true;
-  try {
-    const [inputStat, outputStat] = await Promise.all([
-      fs.promises.stat(inputPath),
-      fs.promises.stat(outputPath)
-    ]);
-    return outputStat.mtimeMs >= inputStat.mtimeMs;
-  } catch {
-    return false;
-  }
-}
-
-async function generateVariant(inputPath, outputPath, transformer) {
-  localFile(path.relative(PUBLIC, inputPath).split(path.sep).join('/'));
-  localFile(path.relative(PUBLIC, outputPath).split(path.sep).join('/'));
-  if (await isUpToDate(inputPath, outputPath)) return false;
-  if (!WRITE) return true;
-  if (!sharp) sharp = require("sharp");
-  await ensureDir(path.dirname(outputPath));
-  const image = sharp(inputPath, { animated: false }).rotate();
-  await transformer(image).toFile(outputPath);
-  return true;
-}
-
-async function main() {
-  if (!fs.existsSync(PRODUCTS_DIR)) {
-    throw new Error("No existe el directorio de origen: " + PRODUCTS_DIR);
-  }
-
-  let processed = 0;
-  let generated = 0;
-
-  // A PNG and WebP with the same stem are one source, not two jobs that
-  // repeatedly overwrite the same thumbnail with a recompressed derivative.
-  const inputs = new Map();
-  const priority = { ".png": 0, ".jpg": 1, ".jpeg": 2, ".webp": 3 };
-  for await (const file of walkFiles(PRODUCTS_DIR)) {
-    const parsed = path.parse(file);
-    const key = path.join(parsed.dir, parsed.name).toLowerCase();
-    const previous = inputs.get(key);
-    if (!previous || priority[parsed.ext.toLowerCase()] < priority[path.extname(previous).toLowerCase()]) inputs.set(key, file);
-  }
-  for (const inputPath of inputs.values()) {
-    processed += 1;
-    const relativeInput = relativeFromProducts(inputPath);
-    const thumbWebpPath = buildOutputPath(THUMBS_DIR, relativeInput, "-thumb", ".webp");
-    const thumbAvifPath = buildOutputPath(THUMBS_DIR, relativeInput, "-thumb", ".avif");
-    const mobileWebpPath = buildOutputPath(MOBILE_DIR, relativeInput, "-mobile", ".webp");
-
-    if (await generateVariant(inputPath, thumbWebpPath, (image) => image.resize({ width: THUMB_WIDTH, withoutEnlargement: true }).webp({ quality: 74, effort: 6 }))) {
-      generated += 1;
-    }
-    if (INCLUDE_AVIF && await generateVariant(inputPath, thumbAvifPath, (image) => image.resize({ width: THUMB_WIDTH, withoutEnlargement: true }).avif({ quality: 58, effort: 6 }))) {
-      generated += 1;
-    }
-    if (INCLUDE_MOBILE && await generateVariant(inputPath, mobileWebpPath, (image) => image.resize({ width: MOBILE_WIDTH, withoutEnlargement: true }).webp({ quality: 76, effort: 6 }))) {
-      generated += 1;
-    }
-  }
-
-  console.log(`generate-images: dryRun=${!WRITE} fuentes=${processed} ${WRITE ? 'generados' : 'planificados'}=${generated}`);
-}
-
-main().catch((error) => {
-  console.error("generate-images: error", error);
-  process.exitCode = 1;
-});
+module.exports = { main };

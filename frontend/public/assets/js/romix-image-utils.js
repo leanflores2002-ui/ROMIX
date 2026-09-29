@@ -71,47 +71,17 @@
 
   function getThumbPath(imagePath) {
     const normalized = cleanPath(imagePath);
-    if (!normalized) return "";
-    if (/^data:/i.test(normalized)) return normalized;
-    if (normalized.includes(THUMBS_DIR)) {
-      return hasThumbSuffix(normalized)
-        ? replaceExtension(normalized, "webp")
-        : appendSuffixBeforeExtension(normalized, "-thumb", "webp");
-    }
-    if (normalized.includes(PRODUCTS_DIR)) {
-      return appendSuffixBeforeExtension(normalized.replace(PRODUCTS_DIR, THUMBS_DIR), "-thumb", "webp");
-    }
-    return appendSuffixBeforeExtension(normalized, "-thumb", "webp");
+    // Product cards use the canonical image. Legacy explicit thumbnails remain
+    // valid, but this helper must never invent a path to a derived file.
+    return normalized;
   }
 
   function getAvifThumbPath(imagePath) {
-    const normalized = cleanPath(imagePath);
-    if (!normalized) return "";
-    if (/^data:/i.test(normalized)) return normalized;
-    if (normalized.includes(THUMBS_DIR)) {
-      return hasThumbSuffix(normalized)
-        ? replaceExtension(normalized, "avif")
-        : appendSuffixBeforeExtension(normalized, "-thumb", "avif");
-    }
-    if (normalized.includes(PRODUCTS_DIR)) {
-      return appendSuffixBeforeExtension(normalized.replace(PRODUCTS_DIR, THUMBS_DIR), "-thumb", "avif");
-    }
-    return appendSuffixBeforeExtension(normalized, "-thumb", "avif");
+    return cleanPath(imagePath);
   }
 
   function getMobileImagePath(imagePath) {
-    const normalized = cleanPath(imagePath);
-    if (!normalized) return "";
-    if (/^data:/i.test(normalized)) return normalized;
-    if (normalized.includes(MOBILE_DIR)) {
-      return hasMobileSuffix(normalized)
-        ? replaceExtension(normalized, "webp")
-        : appendSuffixBeforeExtension(normalized, "-mobile", "webp");
-    }
-    if (normalized.includes(PRODUCTS_DIR)) {
-      return appendSuffixBeforeExtension(normalized.replace(PRODUCTS_DIR, MOBILE_DIR), "-mobile", "webp");
-    }
-    return appendSuffixBeforeExtension(normalized, "-mobile", "webp");
+    return cleanPath(imagePath);
   }
 
   function toThumbPath(value) {
@@ -340,9 +310,8 @@
       ? explicitThumb
       : "";
     const fallbackSrc = explicitFallback || mainImage;
-    const derivedThumb = mainImage ? getThumbPath(mainImage) : "";
     const productThumb = cleanPath(product && (product.thumbnail || product.thumb));
-    const primarySrc = thumbFallback || derivedThumb || fallbackSrc || mainImage || productThumb;
+    const primarySrc = thumbFallback || fallbackSrc || mainImage || productThumb;
     const explicitWebp = explicitThumbExt === "webp" ? explicitThumb : "";
     const explicitAvifSrc = extension(explicitAvif) === "avif" ? explicitAvif : "";
 

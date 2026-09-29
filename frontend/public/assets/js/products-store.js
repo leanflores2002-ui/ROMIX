@@ -1,7 +1,7 @@
 (() => {
-  const CACHE_VERSION = 6;
+  const CACHE_VERSION = 7;
   const CACHE_KEY = `romixProductsCacheV${CACHE_VERSION}`;
-  const LEGACY_CACHE_KEYS = ['romixProductsCacheV5'];
+  const LEGACY_CACHE_KEYS = ['romixProductsCacheV5', 'romixProductsCacheV6'];
   const CACHE_TTL_MS = 30 * 60 * 1000;
   const DATA_URL = 'assets/data/products.json';
   const pricing = window.romixPricing || {};
@@ -35,18 +35,9 @@
     const base = String(product.imageBase || '').trim().replace(/^\/+|\/+$/g, '');
     const color = fileToken(colorName);
     if (!base || !color) return '';
-    const ext = String(product.imageExt || 'png').trim().replace(/^\./, '') || 'png';
+    const ext = String(product.imageExt || 'webp').trim().replace(/^\./, '') || 'webp';
     const dir = String(product.imageDir || 'images/products').trim().replace(/^\/+|\/+$/g, '') || 'images/products';
     return `${dir}/${base}_${color}.${ext}`;
-  }
-
-  function deriveThumbPath(imagePath) {
-    const src = cleanPath(imagePath);
-    if (!src || /^data:/i.test(src) || /^https?:\/\//i.test(src)) return '';
-    const inProducts = src.includes('images/products/')
-      ? src.replace('images/products/', 'images/thumbs/')
-      : src;
-    return inProducts.replace(/(\.[^./]+)$/i, '-thumb.webp');
   }
 
   function imageForColor(product, color, index) {
@@ -150,7 +141,7 @@
     }
 
     if (!cleanPath(normalized.thumbnail) && normalized.image) {
-      normalized.thumbnail = deriveThumbPath(normalized.image);
+      normalized.thumbnail = normalized.image;
     }
 
     if (!cleanPath(normalized.thumbnailFallback) && normalized.image) {

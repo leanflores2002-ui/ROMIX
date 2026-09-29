@@ -2568,18 +2568,6 @@
         "hex": "#004643",
         "swatch": "images/products/capri_lycra_estampado_9.png",
         "image": "images/products/capri_lycra_estampado_9.png"
-      },
-      {
-        "name": "Estampado 10",
-        "hex": "#C1121F",
-        "swatch": "images/products/capri_lycra_estampado_10.png",
-        "image": "images/products/capri_lycra_estampado_10.png"
-      },
-      {
-        "name": "Estampado 11",
-        "hex": "#4B4B4B",
-        "swatch": "images/products/capri_lycra_estampado_11.png",
-        "image": "images/products/capri_lycra_estampado_11.png"
       }
     ],
     "sizes": [
@@ -2652,20 +2640,6 @@
         "swatch": "images/products/capri_lycra_estampado_9.png",
         "image": "images/products/capri_lycra_estampado_9.png",
         "variantId": "estampado-9"
-      },
-      {
-        "name": "Estampado 10",
-        "hex": "#C1121F",
-        "swatch": "images/products/capri_lycra_estampado_10.png",
-        "image": "images/products/capri_lycra_estampado_10.png",
-        "variantId": "estampado-10"
-      },
-      {
-        "name": "Estampado 11",
-        "hex": "#4B4B4B",
-        "swatch": "images/products/capri_lycra_estampado_11.png",
-        "image": "images/products/capri_lycra_estampado_11.png",
-        "variantId": "estampado-11"
       }
     ]
   },

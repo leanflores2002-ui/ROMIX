@@ -5243,11 +5243,11 @@
     "name": "Camisola fibrana dama",
     "season": "verano",
     "image": "images/products/camisola_fibrana_dama_estampado_1.webp",
-    "price": 8000,
+    "price": 9000,
     "priceByGroup": {
-      "common": 8000,
-      "special": 8800,
-      "special2": 9600
+      "common": 9000,
+      "special": 9800,
+      "special2": 10600
     },
     "specialSizes": [
       6,
@@ -8857,36 +8857,6 @@
         "hex": "#888888",
         "swatch": "images/products/campera_lycra_estampado_10.webp",
         "image": "images/products/campera_lycra_estampado_10.webp"
-      },
-      {
-        "name": "Estampado 11",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_11.webp",
-        "image": "images/products/campera_lycra_estampado_11.webp"
-      },
-      {
-        "name": "Estampado 12",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_12.webp",
-        "image": "images/products/campera_lycra_estampado_12.webp"
-      },
-      {
-        "name": "Estampado 13",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_13.webp",
-        "image": "images/products/campera_lycra_estampado_13.webp"
-      },
-      {
-        "name": "Estampado 14",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_14.webp",
-        "image": "images/products/campera_lycra_estampado_14.webp"
-      },
-      {
-        "name": "Estampado 15",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_15.webp",
-        "image": "images/products/campera_lycra_estampado_15.webp"
       }
     ],
     "sizes": [

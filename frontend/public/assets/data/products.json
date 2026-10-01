@@ -3017,12 +3017,17 @@
     "price": 9000,
     "priceByGroup": {
       "common": 9000,
-      "special": 9500
+      "special": 9800,
+      "special2": 10600
     },
     "specialSizes": [
       6,
       7,
       8
+    ],
+    "specialSizes2": [
+      9,
+      10
     ],
     "colors": [
       {
@@ -3059,7 +3064,9 @@
       "5",
       "6",
       "7",
-      "8"
+      "8",
+      "9",
+      "10"
     ]
   },
   {

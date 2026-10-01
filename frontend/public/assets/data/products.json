@@ -5243,11 +5243,11 @@
     "name": "Camisola fibrana dama",
     "season": "verano",
     "image": "images/products/camisola_fibrana_dama_estampado_1.webp",
-    "price": 9000,
+    "price": 8000,
     "priceByGroup": {
-      "common": 9000,
-      "special": 9800,
-      "special2": 10600
+      "common": 8000,
+      "special": 8800,
+      "special2": 9600
     },
     "specialSizes": [
       6,

@@ -151,13 +151,13 @@ async function checkProductsStore() {
   assert(emptyContext.window.romixProductsStore.getStatus().source === 'api', 'Empty API response must remain authoritative');
 
   const cachedPayload = JSON.stringify({
-    version: 6,
+    version: 7,
     timestamp: Date.now(),
     source: 'json',
     list: [{ id: 'cached', name: 'Producto cacheado', sizes: ['M'] }]
   });
   const offlineContext = loadScript('frontend/public/assets/js/products-store.js', {
-    sessionStorage: storage({ romixProductsCacheV6: cachedPayload }),
+    sessionStorage: storage({ romixProductsCacheV7: cachedPayload }),
     fetch: async () => { throw new Error('offline'); }
   });
   const cached = await offlineContext.window.romixProductsStore.load({ force: true });

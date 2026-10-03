@@ -214,6 +214,17 @@
       object-position: 62% 36%;
     }
 
+    .main-hero-carousel--offers .main-hero-carousel__viewport,
+    .main-hero-carousel--offers .main-hero-carousel__track {
+      height: auto;
+      aspect-ratio: 1900 / 635;
+    }
+
+    .main-hero-carousel__slide--offers img {
+      object-fit: contain;
+      object-position: center;
+    }
+
     .main-hero-carousel__overlay {
       position: absolute;
       inset: 0;
@@ -1379,6 +1390,11 @@
               </span>
             </a>
           </figure>
+          <figure class="main-hero-carousel__slide main-hero-carousel__slide--offers">
+            <a class="main-hero-carousel__slide-link" href="catalogo.html?q=oferta" aria-label="Ver todos los productos en oferta">
+              <img src="images/banners/banner-ofertas.webp" alt="Liquidaci&oacute;n final de temporada ROMIX - productos seleccionados en oferta" width="1900" height="635" loading="lazy" decoding="async" sizes="100vw" />
+            </a>
+          </figure>
         </div>
 
         <button class="main-hero-carousel__arrow main-hero-carousel__arrow--prev" type="button" data-carousel-prev aria-label="Imagen anterior">
@@ -2207,6 +2223,7 @@
       const carousel = document.getElementById("mainImageCarousel");
       if (!carousel) return;
 
+      const heroSection = carousel.closest(".main-hero-carousel");
       const slides = Array.from(carousel.querySelectorAll(".main-hero-carousel__slide"));
       const dotsWrap = carousel.querySelector("[data-carousel-dots]");
       const prevBtn = carousel.querySelector("[data-carousel-prev]");
@@ -2226,6 +2243,9 @@
         slides.forEach((slide, index) => {
           slide.classList.toggle("is-active", index === current);
         });
+        if (heroSection) {
+          heroSection.classList.toggle("main-hero-carousel--offers", slides[current].classList.contains("main-hero-carousel__slide--offers"));
+        }
         dots.forEach((dot, index) => {
           dot.classList.toggle("is-active", index === current);
         });

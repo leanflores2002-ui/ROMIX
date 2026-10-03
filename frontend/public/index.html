@@ -62,7 +62,6 @@
   <meta name="twitter:url" content="https://romi-damas.netlify.app/" />
   <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
-  <link rel="preload" as="image" href="images/banners/banner-1.webp" type="image/webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
@@ -169,6 +168,10 @@
       height: var(--hero-height);
     }
 
+    .main-hero-carousel.is-static .main-hero-carousel__viewport {
+      touch-action: auto;
+    }
+
     .main-hero-carousel__slide {
       display: none;
       position: relative;
@@ -207,15 +210,7 @@
       object-position: center;
     }
 
-    .main-hero-carousel__slide:nth-child(1) img {
-      object-position: 58% 34%;
-    }
-
-    .main-hero-carousel__slide:nth-child(2) img {
-      object-position: 60% 34%;
-    }
-
-    .main-hero-carousel__slide:nth-child(3) img {
+    .main-hero-carousel__slide--kids img {
       object-position: 62% 36%;
     }
 
@@ -1002,15 +997,7 @@
         touch-action: pan-y;
       }
 
-      .main-hero-carousel__slide:nth-child(1) img {
-        object-position: 66% center;
-      }
-
-      .main-hero-carousel__slide:nth-child(2) img {
-        object-position: 66% center;
-      }
-
-      .main-hero-carousel__slide:nth-child(3) img {
+      .main-hero-carousel__slide--kids img {
         object-position: 58% center;
       }
 
@@ -1232,6 +1219,7 @@
       max-width: 100%;
     }
     .promo-track { position: relative; width: 100%; height: 100%; }
+    .promo-carousel.is-static { touch-action: auto; }
     .promo-slide {
       display: none;
       position: relative;
@@ -1374,41 +1362,7 @@
     <section class="main-hero-carousel" aria-label="Banner principal">
       <div class="main-hero-carousel__viewport" id="mainImageCarousel">
         <div class="main-hero-carousel__track">
-          <figure class="main-hero-carousel__slide is-active">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?q_any=estampado,combinado" aria-label="Ver conjuntos estampados y combinados">
-              <picture>
-                <source srcset="images/banners/banner-1.webp" type="image/webp" />
-                <img src="images/banners/banner-1.png" alt="Coleccion ROMIX para invierno" width="1900" height="1267" loading="eager" decoding="async" fetchpriority="high" sizes="100vw" />
-              </picture>
-              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
-              <span class="main-hero-carousel__content">
-                <span class="main-hero-carousel__title">
-                  <span class="main-hero-carousel__title-line">CONJUNTO</span>
-                  <span class="main-hero-carousel__title-line">SPORT</span>
-                </span>
-                <span class="main-hero-carousel__subtitle">Dise&ntilde;ado para entrenar con comodidad, confianza y estilo.</span>
-                <span class="main-hero-carousel__cta">Comprar ahora</span>
-              </span>
-            </a>
-          </figure>
-          <figure class="main-hero-carousel__slide">
-            <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=hombre,mujer&q_any=frizado,corderito,polar" aria-label="Ver abrigo para hombre y mujer">
-              <picture>
-                <source srcset="images/banners/banner-2.webp" type="image/webp" />
-                <img src="images/banners/banner-2.png" alt="Abrigo termico ROMIX" width="1900" height="1267" loading="lazy" decoding="async" sizes="100vw" />
-              </picture>
-              <span class="main-hero-carousel__overlay" aria-hidden="true"></span>
-              <span class="main-hero-carousel__content main-hero-carousel__content--winter">
-                <span class="main-hero-carousel__title">
-                  <span class="main-hero-carousel__title-line">COLECCI&Oacute;N</span>
-                  <span class="main-hero-carousel__title-line">INVIERNO</span>
-                </span>
-                <span class="main-hero-carousel__subtitle">Abrigo, confort y estilo para acompa&ntilde;arte en los d&iacute;as m&aacute;s fr&iacute;os.</span>
-                <span class="main-hero-carousel__cta">Comprar ahora</span>
-              </span>
-            </a>
-          </figure>
-          <figure class="main-hero-carousel__slide">
+          <figure class="main-hero-carousel__slide main-hero-carousel__slide--kids is-active">
             <a class="main-hero-carousel__slide-link" href="catalogo.html?sections=ninos&q_any=termica,campera,buzo" aria-label="Ver coleccion de ninos">
               <picture>
                 <source srcset="images/banners/banner-3.webp" type="image/webp" />
@@ -1636,15 +1590,6 @@
       </div>
       <div class="promo-carousel" id="promoCarousel">
         <div class="promo-track" id="promoTrack">
-
-          <article class="promo-slide">
-            <a class="promo-slide__link" href="catalogo.html?temporada=invierno&q_any=campera,buzo,polar,corderito" aria-label="Ver colecci&oacute;n invierno ROMIX">
-              <picture>
-                <source srcset="images/optimized/ESTILO_URBANO_INVERNAL-960.webp 960w, images/optimized/ESTILO_URBANO_INVERNAL-1440.webp 1440w" sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 960px) min(82vw, 760px), 760px" type="image/webp" />
-                <img src="images/ESTILO_URBANO_INVERNAL.png" alt="Estilo Urbano Invernal ROMIX" loading="lazy" decoding="async" width="1708" height="921" />
-              </picture>
-            </a>
-          </article>
 
           <article class="promo-slide">
             <a class="promo-slide__link" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" aria-label="Ver l&iacute;nea deportiva ROMIX">
@@ -2268,6 +2213,7 @@
       const nextBtn = carousel.querySelector("[data-carousel-next]");
       if (!slides.length || !dotsWrap) return;
 
+      const isStatic = slides.length === 1;
       const autoplayMs = 6500;
       const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       let current = 0;
@@ -2303,28 +2249,37 @@
         timer = setInterval(() => goTo(current + 1), autoplayMs);
       }
 
-      slides.forEach((_, index) => {
-        const dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "main-hero-carousel__dot" + (index === 0 ? " is-active" : "");
-        dot.setAttribute("aria-label", "Ir a la imagen " + (index + 1));
-        dot.addEventListener("click", () => {
-          goTo(index);
-          startAutoplay();
+      if (isStatic) {
+        carousel.classList.add("is-static");
+        [prevBtn, nextBtn, dotsWrap].forEach((control) => {
+          if (!control) return;
+          control.hidden = true;
+          control.setAttribute("aria-hidden", "true");
         });
-        dotsWrap.appendChild(dot);
-      });
+      } else {
+        slides.forEach((_, index) => {
+          const dot = document.createElement("button");
+          dot.type = "button";
+          dot.className = "main-hero-carousel__dot" + (index === 0 ? " is-active" : "");
+          dot.setAttribute("aria-label", "Ir a la imagen " + (index + 1));
+          dot.addEventListener("click", () => {
+            goTo(index);
+            startAutoplay();
+          });
+          dotsWrap.appendChild(dot);
+        });
+      }
 
       dots = Array.from(dotsWrap.querySelectorAll(".main-hero-carousel__dot"));
 
-      if (prevBtn) {
+      if (prevBtn && !isStatic) {
         prevBtn.addEventListener("click", () => {
           goTo(current - 1);
           startAutoplay();
         });
       }
 
-      if (nextBtn) {
+      if (nextBtn && !isStatic) {
         nextBtn.addEventListener("click", () => {
           goTo(current + 1);
           startAutoplay();
@@ -2336,23 +2291,25 @@
         else startAutoplay();
       });
 
-      carousel.addEventListener("touchstart", (event) => {
-        const touch = event.changedTouches && event.changedTouches[0];
-        if (!touch) return;
-        touchStartX = touch.clientX;
-        touchStartY = touch.clientY;
-      }, { passive: true });
+      if (!isStatic) {
+        carousel.addEventListener("touchstart", (event) => {
+          const touch = event.changedTouches && event.changedTouches[0];
+          if (!touch) return;
+          touchStartX = touch.clientX;
+          touchStartY = touch.clientY;
+        }, { passive: true });
 
-      carousel.addEventListener("touchend", (event) => {
-        const touch = event.changedTouches && event.changedTouches[0];
-        if (!touch) return;
-        const deltaX = touch.clientX - touchStartX;
-        const deltaY = touch.clientY - touchStartY;
-        if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
-        if (deltaX < 0) goTo(current + 1);
-        else goTo(current - 1);
-        startAutoplay();
-      }, { passive: true });
+        carousel.addEventListener("touchend", (event) => {
+          const touch = event.changedTouches && event.changedTouches[0];
+          if (!touch) return;
+          const deltaX = touch.clientX - touchStartX;
+          const deltaY = touch.clientY - touchStartY;
+          if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+          if (deltaX < 0) goTo(current + 1);
+          else goTo(current - 1);
+          startAutoplay();
+        }, { passive: true });
+      }
 
       render();
       startAutoplay();
@@ -2414,6 +2371,7 @@
       const autoplayMs = 5000;
       const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       let touchStartX = 0, touchStartY = 0;
+      const isStatic = slides.length === 1;
 
       function render(){
         slides.forEach((s,i) => s.classList.toggle("is-active", i === current));
@@ -2423,34 +2381,45 @@
       function stop(){ if(timer){ clearInterval(timer); timer = null; } }
       function start(){ stop(); if(reduceMotion || slides.length < 2) return; timer = setInterval(() => goTo(current + 1), autoplayMs); }
 
-      slides.forEach((_,i) => {
-        const d = document.createElement("button");
-        d.type = "button";
-        d.className = "promo-dot" + (i === 0 ? " is-active" : "");
-        d.setAttribute("aria-label", "Banner " + (i + 1));
-        d.addEventListener("click", () => { goTo(i); start(); });
-        dotsWrap.appendChild(d);
-      });
+      if (isStatic) {
+        wrap.classList.add("is-static");
+        [prevBtn, nextBtn, dotsWrap].forEach((control) => {
+          if (!control) return;
+          control.hidden = true;
+          control.setAttribute("aria-hidden", "true");
+        });
+      } else {
+        slides.forEach((_,i) => {
+          const d = document.createElement("button");
+          d.type = "button";
+          d.className = "promo-dot" + (i === 0 ? " is-active" : "");
+          d.setAttribute("aria-label", "Banner " + (i + 1));
+          d.addEventListener("click", () => { goTo(i); start(); });
+          dotsWrap.appendChild(d);
+        });
+      }
       dots = Array.from(dotsWrap.querySelectorAll(".promo-dot"));
-      if(prevBtn) prevBtn.addEventListener("click", () => { goTo(current - 1); start(); });
-      if(nextBtn) nextBtn.addEventListener("click", () => { goTo(current + 1); start(); });
+      if(prevBtn && !isStatic) prevBtn.addEventListener("click", () => { goTo(current - 1); start(); });
+      if(nextBtn && !isStatic) nextBtn.addEventListener("click", () => { goTo(current + 1); start(); });
       document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
-      wrap.addEventListener("touchstart", (event) => {
-        const touch = event.changedTouches && event.changedTouches[0];
-        if (!touch) return;
-        touchStartX = touch.clientX;
-        touchStartY = touch.clientY;
-      }, { passive: true });
-      wrap.addEventListener("touchend", (event) => {
-        const touch = event.changedTouches && event.changedTouches[0];
-        if (!touch) return;
-        const deltaX = touch.clientX - touchStartX;
-        const deltaY = touch.clientY - touchStartY;
-        if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
-        if (deltaX < 0) goTo(current + 1);
-        else goTo(current - 1);
-        start();
-      }, { passive: true });
+      if (!isStatic) {
+        wrap.addEventListener("touchstart", (event) => {
+          const touch = event.changedTouches && event.changedTouches[0];
+          if (!touch) return;
+          touchStartX = touch.clientX;
+          touchStartY = touch.clientY;
+        }, { passive: true });
+        wrap.addEventListener("touchend", (event) => {
+          const touch = event.changedTouches && event.changedTouches[0];
+          if (!touch) return;
+          const deltaX = touch.clientX - touchStartX;
+          const deltaY = touch.clientY - touchStartY;
+          if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+          if (deltaX < 0) goTo(current + 1);
+          else goTo(current - 1);
+          start();
+        }, { passive: true });
+      }
       render(); start();
     })();
 

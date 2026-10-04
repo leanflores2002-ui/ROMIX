@@ -220,6 +220,7 @@ body[data-catalog-scope] select { font: inherit; }
 .stock-note.status-low { color: var(--catalog-warning); }
 .stock-note.status-out { color: var(--catalog-danger); }
 .stock-note.status-unknown::before { display: none; }
+.catalog-cta { width: 100%; margin-top: 8px; }
 .product-actions, .btn-card { display: none; }
 
 .empty-state, .catalog-noscript {

@@ -427,6 +427,7 @@
       align-items: center;
       justify-content: center;
     }
+    .cart-right .remove svg { width: 18px; height: 18px; }
 
     .cart-summary-col {
       min-width: 0;
@@ -811,7 +812,7 @@
           <div class="romix-search-input-wrap">
             <span class="romix-search-icon" aria-hidden="true"></span>
             <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" aria-expanded="false" autocomplete="off" />
-            <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span aria-hidden="true">&times;</span></button>
+            <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
           </div>
           <button class="romix-btn romix-btn--ghost romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
           <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -1213,7 +1214,7 @@
                 <button type="button" class="romix-icon-btn inc" aria-label="Aumentar">+</button>
               </div>
               <div class="subtotal">$${subtotal.toLocaleString('es-AR')}</div>
-              <button type="button" class="romix-btn romix-btn--danger remove" aria-label="Eliminar"><span class="romix-emoji" aria-hidden="true">&#9003;</span></button>
+              <button type="button" class="romix-btn romix-btn--danger remove" aria-label="Eliminar"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7h14M10 4h4l1 3H9l1-3ZM8 10v7m4-7v7m4-7v7M6 7l1 13h10l1-13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             </div>`;
           el.querySelector('.dec').addEventListener('click', ()=>handleQty(key, qty - 1));
           el.querySelector('.inc').addEventListener('click', ()=>handleQty(key, qty + 1));

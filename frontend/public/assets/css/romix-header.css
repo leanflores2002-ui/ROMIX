@@ -496,8 +496,8 @@ header.romix-shared-header .mobile-nav-scrim {
 
 .site-header .icon-btn,
 header.romix-shared-header .icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid rgba(255, 63, 134, 0.4);
   background: #fff;
@@ -1333,8 +1333,8 @@ header.romix-shared-header .global-search button[type="submit"] {
 
   .site-header .mobile-drawer-close,
   header.romix-shared-header .mobile-drawer-close {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: 0;
     border-radius: 999px;
     background: #f3f3f3;
@@ -2840,8 +2840,8 @@ header.romix-shared-header .global-search.romix-search-form .romix-search-clear 
   position: absolute;
   top: 50%;
   right: 5px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 6px;
   color: #5d555c;
   font-size: 1.4rem;
@@ -3276,8 +3276,8 @@ header.romix-shared-header .global-search.romix-search-form .romix-search-result
   .site-header .global-search.romix-search-form .romix-search-clear,
   header.romix-shared-header .global-search.romix-search-form .romix-search-clear {
     right: 3px;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
 
   .site-header .global-search.romix-search-form .romix-search-cancel,

@@ -78,7 +78,7 @@
           <div class="product-stock-note state-${st}">${label}</div>
           <div class="product-actions">
             <a href="#" class="btn btn-details romix-btn romix-btn--secondary">Detalles</a>
-            <button class="btn btn-primary romix-btn romix-btn--primary" type="button">Agregar</button>
+            <button class="btn btn-primary romix-btn romix-btn--primary" type="button">Agregar al carrito</button>
           </div>
         </div>
       </div>`;

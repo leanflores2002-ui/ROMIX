@@ -1622,6 +1622,12 @@
       body.appendChild(meta);
       body.appendChild(priceRow);
 
+      const detailsLink = document.createElement("a");
+      detailsLink.className = "catalog-cta romix-btn romix-btn--secondary romix-btn--sm";
+      detailsLink.href = productDetailUrl;
+      detailsLink.textContent = "Detalles";
+      body.appendChild(detailsLink);
+
       card.appendChild(thumb);
       card.appendChild(body);
       grid.appendChild(card);
@@ -1716,7 +1722,7 @@
       remove.dataset.group = item.group;
       remove.dataset.value = item.value;
       remove.setAttribute("aria-label", "Quitar filtro " + item.label);
-      remove.textContent = "X";
+      remove.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
 
       chip.appendChild(text);
       chip.appendChild(remove);

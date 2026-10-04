@@ -296,7 +296,7 @@
               '<h2 id="size-guide-drawer-title">Gu&iacute;a de talles</h2>' +
               '<p id="size-guide-drawer-subtitle"></p>' +
             '</div>' +
-            '<button type="button" class="size-guide-drawer__x" data-size-guide-close aria-label="Cerrar gu&iacute;a de talles">x</button>' +
+            '<button type="button" class="size-guide-drawer__x" data-size-guide-close aria-label="Cerrar gu&iacute;a de talles"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
           '</header>' +
           '<div class="size-guide-drawer__body" id="size-guide-drawer-body"></div>' +
           '<footer class="size-guide-drawer__footer">' +

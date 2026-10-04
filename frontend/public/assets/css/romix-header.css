@@ -3881,3 +3881,21 @@ header.romix-shared-header .mega-guide-card:focus-visible {
     transition: none;
   }
 }
+
+/* Shared icon controls keep the header structure while using ROMIX dimensions. */
+.site-header .romix-icon-btn,
+header.romix-shared-header .romix-icon-btn {
+  width: var(--romix-control-md);
+  min-width: var(--romix-control-md);
+  height: var(--romix-control-md);
+  min-height: var(--romix-control-md);
+  padding: 0;
+  border-radius: var(--romix-radius);
+  color: var(--romix-ink);
+  background: transparent;
+}
+.site-header .romix-icon-btn:hover,
+header.romix-shared-header .romix-icon-btn:hover {
+  color: var(--romix-pink-hover);
+  background: var(--romix-pink-bg);
+}

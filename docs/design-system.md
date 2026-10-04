@@ -10,13 +10,16 @@ Usar los nombres `--romix-*` en estilos nuevos:
 
 - Marca: `--romix-pink` (`#F22797`), `--romix-pink-hover` (`#D91D83`),
   `--romix-pink-soft` (`#F291C7`) y `--romix-pink-bg` (`#FFF0F6`).
-- Texto y superficies: `--romix-ink`, `--romix-text-muted`,
+- Texto y superficies: `--romix-ink`, `--romix-muted` (alias:
+  `--romix-text-muted`),
   `--romix-white`, `--romix-surface` (`#F2F2F2`) y
   `--romix-surface-soft` (`#FAFAFA`).
 - Estado: `--romix-success`, `--romix-warning` y `--romix-danger`.
 - Forma: `--romix-radius-sm`, `--romix-radius` y `--romix-radius-lg`.
-- Controles: `--romix-control-height` (44px) y
-  `--romix-control-height-lg` (50px).
+- Controles: `--romix-control-sm` (40px), `--romix-control-md` (44px),
+  `--romix-control-lg` (50px), con aliases `--romix-control-height` y
+  `--romix-control-height-lg`.
+- Movimiento: `--romix-transition` (180ms ease) y alias `--romix-ease`.
 - Ritmo: `--romix-space-1` a `--romix-space-8`.
 - Foco y elevación: `--romix-focus-ring`, `--romix-shadow-xs`,
   `--romix-shadow` y `--romix-shadow-hover`.
@@ -32,7 +35,10 @@ Para componentes nuevos:
 ```
 
 Variantes disponibles: `romix-btn--primary`, `romix-btn--secondary`,
-`romix-btn--ghost` y `romix-btn--danger`. Todos conservan foco visible,
+`romix-btn--outline`, `romix-btn--ghost`, `romix-btn--dark`,
+`romix-btn--danger`, `romix-btn--pill` y los tamaños `romix-btn--sm`,
+`romix-btn--md` y `romix-btn--lg`. Los iconos independientes usan
+`romix-icon-btn`. Todos conservan foco visible,
 altura táctil mínima de 44px y estados hover/disabled coherentes.
 
 Las clases históricas (`.btn`, `.cta`, `.filters-open-btn`, `.product-buy-now`,

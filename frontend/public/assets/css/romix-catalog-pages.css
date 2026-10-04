@@ -159,6 +159,14 @@ body[data-catalog-scope] select { font: inherit; }
 }
 .active-filter-chip-text { font-size: .72rem; font-weight: 650; }
 .active-filter-chip-remove { display: grid; place-items: center; width: 26px; height: 26px; border: 0; border-radius: 7px; color: #5d5960; background: transparent; cursor: pointer; }
+.active-filter-chip-remove.romix-icon-btn {
+  width: var(--romix-control-md);
+  min-width: var(--romix-control-md);
+  height: var(--romix-control-md);
+  min-height: var(--romix-control-md);
+  padding: 0;
+  border-radius: var(--romix-radius);
+}
 
 .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
 .product-card {

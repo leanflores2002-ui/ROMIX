@@ -321,6 +321,44 @@
 .related-products__nav--next { right: -16px; }
 .related-products__nav-btn:disabled { display: none; }
 
+/* ROMIX button-system alignment for product controls. Keep product hooks intact. */
+.thumb-nav.romix-icon-btn {
+  min-height: var(--romix-control-md);
+  height: var(--romix-control-md);
+  border-radius: var(--romix-radius);
+}
+.related-products__nav-btn.romix-icon-btn {
+  width: var(--romix-control-md);
+  height: var(--romix-control-md);
+  min-width: var(--romix-control-md);
+  min-height: var(--romix-control-md);
+  border-radius: var(--romix-radius);
+}
+.share-btn.romix-btn--outline {
+  min-height: var(--romix-control-md);
+  border-radius: var(--romix-radius);
+  color: var(--romix-ink);
+  background: transparent;
+  border-color: var(--romix-ink);
+}
+.share-btn.romix-btn--outline:hover,
+.share-btn.romix-btn--outline:focus-visible {
+  color: var(--romix-pink);
+  background: var(--romix-pink-bg);
+  border-color: var(--romix-pink);
+}
+.product-buy-now.romix-btn--secondary {
+  color: var(--romix-ink);
+  background: var(--romix-white);
+  border-color: var(--romix-border-strong);
+}
+.product-buy-now.romix-btn--secondary:hover,
+.product-buy-now.romix-btn--secondary:focus-visible {
+  color: var(--romix-pink);
+  background: var(--romix-pink-bg);
+  border-color: var(--romix-pink-soft);
+}
+
 .zoom-modal {
   position: fixed; inset: 0; z-index: 3000; display: none;
   width: 100%; height: 100vh; height: 100dvh;

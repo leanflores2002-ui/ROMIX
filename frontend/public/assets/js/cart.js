@@ -241,7 +241,7 @@
     panel.setAttribute('aria-live', 'polite');
     panel.setAttribute('aria-atomic', 'true');
     panel.innerHTML = `
-      <button type="button" class="romix-cart-added-panel__close" aria-label="Cerrar">x</button>
+      <button type="button" class="romix-icon-btn romix-cart-added-panel__close" aria-label="Cerrar">x</button>
       <div class="romix-cart-added-panel__header">
         <span class="romix-cart-added-panel__icon" aria-hidden="true">&#10003;</span>
         <p class="romix-cart-added-panel__status">Agregado a la bolsa de compra</p>
@@ -256,8 +256,8 @@
         </div>
       </div>
       <div class="romix-cart-added-panel__actions">
-        <a class="romix-cart-added-panel__btn romix-cart-added-panel__btn--secondary" href="cart.html">Ver carrito</a>
-        <a class="romix-cart-added-panel__btn romix-cart-added-panel__btn--primary" href="cart.html#order-btn">Comprar</a>
+        <a class="romix-btn romix-btn--secondary romix-cart-added-panel__btn romix-cart-added-panel__btn--secondary" href="cart.html">Ver carrito</a>
+        <a class="romix-btn romix-btn--primary romix-cart-added-panel__btn romix-cart-added-panel__btn--primary" href="cart.html#order-btn">Comprar</a>
       </div>
     `;
     document.body.appendChild(panel);

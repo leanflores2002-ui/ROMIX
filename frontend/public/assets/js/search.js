@@ -632,7 +632,7 @@
     input.setAttribute("placeholder", "Encontr\u00e1 lo que busc\u00e1s");
 
     const submit = form.querySelector('button[type="submit"]');
-    if (submit) submit.classList.add("romix-search-submit");
+    if (submit) submit.classList.add("romix-search-submit", "romix-btn", "romix-btn--primary");
 
     const panel = form.closest(".search-panel") || document.getElementById("header-search");
     let shell = form.querySelector(".romix-search-shell");

@@ -64,13 +64,14 @@
 </noscript>
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/romix-catalog-pages.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=3" />
+  <link rel="stylesheet" href="assets/css/romix-catalog-pages.css?v=16" />
   <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
-  <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=13" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
-  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=1" />
-  <link rel="stylesheet" href="assets/css/romix-footer.css?v=13" />
+  <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=16" />
+  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=2" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css?v=14" />
 </head>
 <body data-catalog-scope="mujer">
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -79,14 +80,14 @@
 <header class="site-header romix-shared-header" data-romix-shell="header-v1">
   <div class="container header-row">
     <div class="header-actions-left" aria-label="Acciones principales">
-      <button class="icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-      <button class="icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
     </div>
     <a class="brand" href="index.html" aria-label="ROMIX inicio">ROMIX<span class="brand-dot">.</span></a>
     <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
       <div class="mobile-drawer-header">
         <a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio"><span>ROMIX</span></a>
-        <button class="mobile-drawer-close" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <button class="mobile-drawer-close romix-icon-btn" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       </div>
       <div class="main-nav-wrap">
         <ul class="main-nav">
@@ -98,7 +99,7 @@
       </div>
     </nav>
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
-      <button class="icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       <a class="cart-pill" href="cart.html" aria-label="Carrito de compras">
         <span class="cart-pill__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h2l1.4 9.2a2 2 0 0 0 2 1.7h7.9a2 2 0 0 0 2-1.6L21 8H7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1.2" fill="currentColor"/><circle cx="18" cy="19" r="1.2" fill="currentColor"/></svg></span>
         <span class="cart-pill__text"><strong>Carrito</strong></span>
@@ -114,9 +115,9 @@
           <div class="romix-search-input-wrap">
             <span class="romix-search-icon" aria-hidden="true"></span>
             <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" aria-expanded="false" autocomplete="off" />
-            <button class="romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span aria-hidden="true">&times;</span></button>
+            <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span aria-hidden="true">&times;</span></button>
           </div>
-          <button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
+          <button class="romix-btn romix-btn--ghost romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
           <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
           <div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>
         </div>
@@ -139,7 +140,7 @@
             <h2 class="filters-title">FILTROS</h2>
             <span class="filters-line" aria-hidden="true"></span>
           </div>
-          <button id="close-filters" type="button" class="sidebar-close">
+          <button id="close-filters" type="button" class="sidebar-close romix-icon-btn">
             <span class="romix-emoji" aria-hidden="true">&#10005;</span>
             Cerrar
           </button>
@@ -154,7 +155,7 @@
           </select>
         </section>
 
-        <button id="clear-filters" type="button" class="filters-clear">
+        <button id="clear-filters" type="button" class="filters-clear romix-btn romix-btn--ghost">
           <span class="romix-emoji" aria-hidden="true">&#9003;</span>
           Limpiar
         </button>
@@ -172,13 +173,13 @@
         <section class="filters-group" aria-labelledby="filters-size-title">
           <h3 id="filters-size-title">TALLES</h3>
           <div id="size-options" class="size-grid"></div>
-          <button id="size-more-btn" class="filter-more" type="button">Ver mas +</button>
+          <button id="size-more-btn" class="filter-more romix-btn romix-btn--ghost" type="button">Ver mas +</button>
         </section>
 
         <section class="filters-group" aria-labelledby="filters-colors-title">
           <h3 id="filters-colors-title">Color</h3>
           <div id="color-options" class="filter-list"></div>
-          <button id="color-more-btn" class="filter-more" type="button">+ Ver mas</button>
+          <button id="color-more-btn" class="filter-more romix-btn romix-btn--ghost" type="button">+ Ver mas</button>
         </section>
         </div>
       </aside>
@@ -194,7 +195,7 @@
               <option value="price-desc">Mayor a menor precio</option>
             </select>
           </label>
-          <button id="open-filters" type="button" class="filters-open-btn">
+          <button id="open-filters" type="button" class="filters-open-btn romix-btn romix-btn--outline">
             <span class="romix-emoji" aria-hidden="true">&#9776;</span>
             Filtros
           </button>
@@ -203,7 +204,7 @@
         <section id="active-filters-bar" class="active-filters-bar is-empty" aria-label="Filtros activos" aria-live="polite" hidden>
           <div class="active-filters-header">
             <p id="active-filters-title" class="active-filters-title">Filtros activos (0)</p>
-            <button id="active-filters-clear" type="button" class="active-filters-clear" disabled>Limpiar</button>
+            <button id="active-filters-clear" type="button" class="active-filters-clear romix-btn romix-btn--ghost" disabled>Limpiar</button>
           </div>
           <div id="active-filters-list" class="active-filters-list"></div>
         </section>

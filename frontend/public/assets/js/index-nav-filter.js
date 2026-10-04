@@ -71,9 +71,8 @@
     document.querySelectorAll('.section-title').forEach(function(title){
       if (title.querySelector('.show-all')) return;
       var btn = document.createElement('button');
-      btn.className = 'show-all';
+      btn.className = 'show-all romix-btn romix-btn--ghost romix-btn--sm';
       btn.textContent = 'Mostrar todo';
-      btn.style.cssText = 'margin-left:10px;border:1px solid #e9ecef;background:#fff;padding:6px 10px;border-radius:8px;cursor:pointer;font-weight:600;';
       btn.addEventListener('click', function(e){ e.preventDefault(); showAll(); });
       title.appendChild(btn);
     });

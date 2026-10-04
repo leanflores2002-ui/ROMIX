@@ -1103,7 +1103,7 @@
       const button = document.createElement("button");
       button.id = "catalog-load-more-btn";
       button.type = "button";
-      button.className = "catalog-load-more-btn";
+      button.className = "catalog-load-more-btn romix-btn romix-btn--secondary romix-btn--lg";
       button.addEventListener("click", function () {
         state.visibleCount = Math.min(state.visibleCount + getLoadMoreStep(), state.view.length);
         renderGrid();
@@ -1191,7 +1191,7 @@
       mobileTrigger = document.createElement("button");
       mobileTrigger.type = "button";
       mobileTrigger.id = "catalog-mobile-filter-trigger";
-      mobileTrigger.className = "catalog-mobile-filter-trigger";
+      mobileTrigger.className = "catalog-mobile-filter-trigger romix-btn romix-btn--outline";
       mobileTrigger.setAttribute("aria-label", "Filtrar y ordenar");
       mobileTrigger.setAttribute("aria-controls", "filters-sidebar");
       mobileTrigger.setAttribute("aria-expanded", "false");
@@ -1678,7 +1678,7 @@
 
       const remove = document.createElement("button");
       remove.type = "button";
-      remove.className = "active-filter-chip-remove";
+      remove.className = "active-filter-chip-remove romix-icon-btn";
       remove.dataset.group = item.group;
       remove.dataset.value = item.value;
       remove.setAttribute("aria-label", "Quitar filtro " + item.label);

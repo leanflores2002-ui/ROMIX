@@ -1,17 +1,18 @@
 /* ROMIX catalog: sole visual layer for catalog and category listing pages. */
 :root {
-  --catalog-pink: #f72585;
-  --catalog-pink-dark: #d91469;
-  --catalog-pink-soft: #fff1f7;
-  --catalog-ink: #19181f;
-  --catalog-muted: #6f6d76;
-  --catalog-line: #e8e7ec;
-  --catalog-soft: #fafafa;
-  --catalog-success: #16a05d;
-  --catalog-warning: #c66c12;
-  --catalog-danger: #bb3a48;
-  --catalog-radius: 14px;
-  --catalog-shadow: 0 8px 24px rgba(25, 24, 31, 0.055);
+  /* Page aliases keep existing catalog selectors and scripts intact. */
+  --catalog-pink: var(--romix-pink);
+  --catalog-pink-dark: var(--romix-pink-hover);
+  --catalog-pink-soft: var(--romix-pink-bg);
+  --catalog-ink: var(--romix-ink);
+  --catalog-muted: var(--romix-text-muted);
+  --catalog-line: var(--romix-border);
+  --catalog-soft: var(--romix-surface-soft);
+  --catalog-success: var(--romix-success);
+  --catalog-warning: var(--romix-warning);
+  --catalog-danger: var(--romix-danger);
+  --catalog-radius: var(--romix-radius-lg);
+  --catalog-shadow: var(--romix-shadow);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -158,6 +159,14 @@ body[data-catalog-scope] select { font: inherit; }
 }
 .active-filter-chip-text { font-size: .72rem; font-weight: 650; }
 .active-filter-chip-remove { display: grid; place-items: center; width: 26px; height: 26px; border: 0; border-radius: 7px; color: #5d5960; background: transparent; cursor: pointer; }
+.active-filter-chip-remove.romix-icon-btn {
+  width: var(--romix-control-md);
+  min-width: var(--romix-control-md);
+  height: var(--romix-control-md);
+  min-height: var(--romix-control-md);
+  padding: 0;
+  border-radius: var(--romix-radius);
+}
 
 .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
 .product-card {

@@ -4,41 +4,13 @@
  */
 :root {
   color-scheme: light;
-  --pink-primary: #F22797;
-  --pink-soft: #F291C7;
-  --ink: #242426;
-  --surface: #FFFFFF;
-  --surface-soft: #F2F2F2;
-  --muted: #A6A6A6;
-  --romix-success: #178653;
-  --romix-danger: #B4233A;
-  --romix-border: rgba(36, 36, 38, .12);
-  --romix-border-strong: rgba(36, 36, 38, .22);
-  --romix-focus: #242426;
-  --romix-shadow-xs: 0 2px 8px rgba(36, 36, 38, .035);
-  --romix-shadow: 0 6px 20px rgba(36, 36, 38, .055);
-  --romix-shadow-hover: 0 8px 24px rgba(36, 36, 38, .07);
-  --romix-radius-sm: 8px;
-  --romix-radius: 10px;
-  --romix-radius-lg: 14px;
-  --romix-max: 1400px;
-  --romix-space-1: 4px;
-  --romix-space-2: 8px;
-  --romix-space-3: 12px;
-  --romix-space-4: 16px;
-  --romix-space-5: 24px;
-  --romix-space-6: 32px;
-  --romix-space-7: 48px;
-  --romix-space-8: 64px;
-  --romix-ease: 180ms ease;
-  --romix-z-content: 1;
-  --romix-z-sticky: 100;
-  --romix-z-header: 500;
-  --romix-z-dropdown: 600;
-  --romix-z-overlay: 900;
-  --romix-z-drawer: 1000;
-  --romix-z-modal: 2000;
-  --romix-z-toast: 3000;
+  /* Legacy names remain available; canonical values live in romix-design-system.css. */
+  --pink-primary: var(--romix-pink);
+  --pink-soft: var(--romix-pink-soft);
+  --ink: var(--romix-ink);
+  --surface: var(--romix-white);
+  --surface-soft: var(--romix-surface-soft);
+  --muted: var(--romix-text-muted);
 }
 
 html {
@@ -121,7 +93,7 @@ a { color: inherit; }
   color: #fff;
   box-shadow: none;
 }
-:where(.btn-primary, .btn.primary, .cta, .help-button):hover { background: #D91D83; border-color: #D91D83; transform: translateY(-1px); }
+:where(.btn-primary, .btn.primary, .cta, .help-button):hover { background: var(--romix-pink-hover); border-color: var(--romix-pink-hover); transform: translateY(-1px); }
 
 :where(.btn-outline, .btn.outline, .btn-secondary) {
   border: 1px solid var(--romix-border-strong);

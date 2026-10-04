@@ -70,6 +70,7 @@
   // Floating button
   const fab = document.createElement('button');
   fab.id = 'romix-support-fab';
+  fab.className = 'romix-icon-btn';
   fab.type = 'button';
   fab.setAttribute('aria-label', 'Abrir ayuda ROMIX');
   fab.setAttribute('aria-expanded', 'false');
@@ -103,7 +104,7 @@
   title.id = 'romix-support-title';
   title.textContent = CONFIG.title;
   const closeBtn = document.createElement('button');
-  closeBtn.className = 'romix-close';
+  closeBtn.className = 'romix-icon-btn romix-close';
   closeBtn.type = 'button';
   closeBtn.setAttribute('aria-label', 'Cerrar ayuda');
   closeBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6 6 18M6 6l12 12" stroke="#6c757d" stroke-width="2" stroke-linecap="round"/></svg>';
@@ -115,16 +116,16 @@
   const tabs = document.createElement('div');
   tabs.className = 'romix-tabs';
   const tabContacts = document.createElement('button');
-  tabContacts.type = 'button'; tabContacts.className = 'romix-tab active'; tabContacts.textContent = 'Contactos';
+  tabContacts.type = 'button'; tabContacts.className = 'romix-btn romix-btn--ghost romix-tab active'; tabContacts.textContent = 'Contactos';
   const tabFaq = document.createElement('button');
-  tabFaq.type = 'button'; tabFaq.className = 'romix-tab'; tabFaq.textContent = 'FAQ interactivo';
+  tabFaq.type = 'button'; tabFaq.className = 'romix-btn romix-btn--ghost romix-tab'; tabFaq.textContent = 'FAQ interactivo';
   tabs.append(tabContacts, tabFaq);
 
   const contactsWrap = document.createElement('div');
   contactsWrap.className = 'romix-group romix-contacts';
 
   const waLink = document.createElement('a');
-  waLink.className = 'romix-action whatsapp';
+  waLink.className = 'romix-btn romix-btn--primary romix-action whatsapp';
   waLink.target = '_blank';
   waLink.rel = 'noopener noreferrer';
   const waMsg = encodeURIComponent(CONFIG.defaultMessage);
@@ -135,7 +136,7 @@
   waLink.setAttribute('aria-label', 'Chatear con ROMIX por WhatsApp');
 
   const mailLink = document.createElement('a');
-  mailLink.className = 'romix-action email';
+  mailLink.className = 'romix-btn romix-btn--secondary romix-action email';
   mailLink.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent('Ayuda con mi pedido ROMIX')}`;
   mailLink.innerHTML = `
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm0 0 8 7 8-7" stroke="#1b1f24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>

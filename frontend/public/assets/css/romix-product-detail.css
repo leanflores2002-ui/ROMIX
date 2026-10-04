@@ -1,13 +1,14 @@
 /* ROMIX product detail: sole visual layer for product.html. */
 .product-detail-page {
-  --product-pink: #f72585;
-  --product-pink-dark: #d91469;
-  --product-pink-soft: #fff1f7;
-  --product-ink: #19181f;
-  --product-muted: #6f6d76;
-  --product-line: #e8e7ec;
-  --product-soft: #fafafa;
-  --product-success: #16a05d;
+  /* Product aliases map legacy selectors to the shared design tokens. */
+  --product-pink: var(--romix-pink);
+  --product-pink-dark: var(--romix-pink-hover);
+  --product-pink-soft: var(--romix-pink-bg);
+  --product-ink: var(--romix-ink);
+  --product-muted: var(--romix-text-muted);
+  --product-line: var(--romix-border);
+  --product-soft: var(--romix-surface-soft);
+  --product-success: var(--romix-success);
   margin: 0;
   max-width: 100%;
   color: var(--product-ink);
@@ -319,6 +320,44 @@
 .related-products__nav--prev { left: -16px; }
 .related-products__nav--next { right: -16px; }
 .related-products__nav-btn:disabled { display: none; }
+
+/* ROMIX button-system alignment for product controls. Keep product hooks intact. */
+.thumb-nav.romix-icon-btn {
+  min-height: var(--romix-control-md);
+  height: var(--romix-control-md);
+  border-radius: var(--romix-radius);
+}
+.related-products__nav-btn.romix-icon-btn {
+  width: var(--romix-control-md);
+  height: var(--romix-control-md);
+  min-width: var(--romix-control-md);
+  min-height: var(--romix-control-md);
+  border-radius: var(--romix-radius);
+}
+.share-btn.romix-btn--outline {
+  min-height: var(--romix-control-md);
+  border-radius: var(--romix-radius);
+  color: var(--romix-ink);
+  background: transparent;
+  border-color: var(--romix-ink);
+}
+.share-btn.romix-btn--outline:hover,
+.share-btn.romix-btn--outline:focus-visible {
+  color: var(--romix-pink);
+  background: var(--romix-pink-bg);
+  border-color: var(--romix-pink);
+}
+.product-buy-now.romix-btn--secondary {
+  color: var(--romix-ink);
+  background: var(--romix-white);
+  border-color: var(--romix-border-strong);
+}
+.product-buy-now.romix-btn--secondary:hover,
+.product-buy-now.romix-btn--secondary:focus-visible {
+  color: var(--romix-pink);
+  background: var(--romix-pink-bg);
+  border-color: var(--romix-pink-soft);
+}
 
 .zoom-modal {
   position: fixed; inset: 0; z-index: 3000; display: none;

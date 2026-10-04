@@ -22,7 +22,9 @@
     "compact:products:preview": "node scripts/compact-products.js",
     "sync:price-groups": "node scripts/addPriceByGroupPlaceholder.js",
     "generate:share-pages": "node scripts/generate-share-pages.js",
-    "sync:shells": "node scripts/sync-storefront-shells.js"
+    "sync:shells": "node scripts/sync-storefront-shells.js",
+    "build:ts": "tsc -p tsconfig.json",
+    "check:ts": "tsc -p tsconfig.json --noEmit"
   },
   "repository": {
     "type": "git",
@@ -39,6 +41,7 @@
   "devDependencies": {
     "axe-core": "^4.11.0",
     "jsdom": "^27.3.0",
-    "sharp": "^0.35.4"
+    "sharp": "^0.35.4",
+    "typescript": "^7.0.2"
   }
 }

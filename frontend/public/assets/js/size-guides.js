@@ -399,7 +399,7 @@
     if (!container) return null;
     const guide = getSizeGuideForProduct(product || {});
     container.innerHTML = '' +
-      '<button type="button" class="product-size-guide-trigger" aria-haspopup="dialog">' +
+      '<button type="button" class="romix-btn romix-btn--ghost romix-btn--lg product-size-guide-trigger" aria-haspopup="dialog">' +
         '<span class="product-size-guide-trigger__icon" aria-hidden="true"></span>' +
         '<span class="product-size-guide-trigger__copy">' +
           '<strong>Gu&iacute;a de talles</strong>' +

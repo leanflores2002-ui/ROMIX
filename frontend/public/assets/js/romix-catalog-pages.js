@@ -15,7 +15,7 @@
     hombre: { title: "Hombre", label: "Hombre" },
     ninos: { title: "Niños", label: "Niños" },
     novedades: { title: "Novedades", label: null },
-    catalogo: { title: "Catalogo", label: null }
+    catalogo: { title: "Catálogo", label: null }
   };
 
   const SECTION_OPTIONS = [
@@ -101,6 +101,7 @@
 
   const state = {
     scope: "catalogo",
+    catalogView: { mode: "catalogo", sectionKeys: [] },
     products: [],
     view: [],
     compactVariantViewport: window.innerWidth <= 768,
@@ -332,6 +333,38 @@
     const key = normalizeSection(value);
     if (key === "mujer" || key === "hombre" || key === "ninos") return key;
     return "";
+  }
+
+  function resolveCatalogView() {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      params = new URLSearchParams();
+    }
+
+    const requestedView = normalizeText(params.get("view") || "");
+    if (requestedView === "novedades") {
+      return { mode: "novedades", scope: "novedades", sectionKeys: [] };
+    }
+
+    const requestedSections = readInitialSectionFilterKeys();
+    if (requestedSections.length === 1) {
+      return { mode: "section", scope: requestedSections[0], sectionKeys: requestedSections };
+    }
+    if (requestedSections.length > 1) {
+      return { mode: "catalogo", scope: "catalogo", sectionKeys: requestedSections };
+    }
+
+    const legacyScope = document.body && document.body.dataset
+      ? normalizeText(document.body.dataset.catalogScope || "")
+      : "";
+    const scope = PAGE_CONFIG[legacyScope] ? legacyScope : "catalogo";
+    return {
+      mode: scope === "novedades" ? "novedades" : (scope === "catalogo" ? "catalogo" : "section"),
+      scope,
+      sectionKeys: scope === "catalogo" || scope === "novedades" ? [] : [scope]
+    };
   }
 
   function normalizeAudienceFilterValue(value) {
@@ -601,7 +634,8 @@
 
     if (state.scope === "catalogo" && requestedSections.length) {
       const availableSections = new Set(SECTION_OPTIONS.map((option) => option.key));
-      requestedSections.forEach((key) => {
+      const sectionKeys = state.catalogView.sectionKeys.length ? state.catalogView.sectionKeys : requestedSections;
+      sectionKeys.forEach((key) => {
         if (availableSections.has(key)) state.selected.sections.add(key);
       });
     }
@@ -1723,6 +1757,16 @@
       const list = Array.from(values || []).sort();
       if (list.length) params.set(key, list.join(","));
     });
+
+    ["sections", "section", "secciones", "seccion"].forEach((key) => params.delete(key));
+    if (state.catalogView.mode === "novedades") {
+      params.set("view", "novedades");
+    } else if (state.catalogView.mode === "section") {
+      params.set("sections", state.scope);
+    } else if (state.selected.sections.size) {
+      params.set("sections", Array.from(state.selected.sections).sort().join(","));
+    }
+
     if (state.sortBy !== "recommended") params.set("sort", state.sortBy);
     const query = params.toString();
     const nextUrl = window.location.pathname + (query ? "?" + query : "") + window.location.hash;
@@ -1893,7 +1937,14 @@
   function renderSectionFilters() {
     const container = document.getElementById("section-options");
     const group = document.getElementById("section-filter-group");
-    if (!container || !group || state.scope !== "catalogo") return;
+    if (!container || !group) return;
+
+    const showSectionFilter = state.scope === "catalogo";
+    group.hidden = !showSectionFilter;
+    if (!showSectionFilter) {
+      container.innerHTML = "";
+      return;
+    }
 
     container.innerHTML = "";
     state.optionLabels.sections.clear();
@@ -2025,10 +2076,9 @@
     const config = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
     const title = document.getElementById("page-title");
     if (title) {
-      if (state.scope === "catalogo") title.textContent = "Catálogo ROMIX";
-      else if (state.scope === "novedades") title.textContent = "Novedades destacadas ROMIX";
-      else title.textContent = "Catálogo " + config.title + " ROMIX";
+      title.textContent = state.scope === "catalogo" ? "Catálogo ROMIX" : config.title;
     }
+    document.title = "ROMIX - " + (state.scope === "catalogo" ? "Catálogo" : config.title);
 
     document.querySelectorAll(".catalog-nav a[data-scope]").forEach((link) => {
       const active = link.dataset.scope === state.scope;
@@ -2187,8 +2237,8 @@
   }
 
   async function init() {
-    const scope = document.body && document.body.dataset ? document.body.dataset.catalogScope : "catalogo";
-    state.scope = PAGE_CONFIG[scope] ? scope : "catalogo";
+    state.catalogView = resolveCatalogView();
+    state.scope = state.catalogView.scope;
     state.sortBy = readInitialSortKey();
 
     initPageHeader();

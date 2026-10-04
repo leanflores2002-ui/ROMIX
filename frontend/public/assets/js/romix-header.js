@@ -50,10 +50,10 @@
   }
 
   function buildMenuConfig() {
-    var mujer = "mujer.html";
-    var hombre = "hombre.html";
-    var ninos = "ninos.html";
-    var novedades = "novedades.html";
+    var mujer = "catalogo.html?sections=mujer";
+    var hombre = "catalogo.html?sections=hombre";
+    var ninos = "catalogo.html?sections=ninos";
+    var novedades = "catalogo.html?view=novedades";
     var catalogo = "catalogo.html";
 
     return [

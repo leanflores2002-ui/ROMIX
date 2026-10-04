@@ -36,9 +36,9 @@
   };
 
   const POPULAR_SEARCHES = [
-    { label: "Mujer", href: "mujer.html" },
-    { label: "Hombre", href: "hombre.html" },
-    { label: "Ni\u00f1os", href: "ninos.html" },
+    { label: "Mujer", href: "catalogo.html?sections=mujer" },
+    { label: "Hombre", href: "catalogo.html?sections=hombre" },
+    { label: "Ni\u00f1os", href: "catalogo.html?sections=ninos" },
     { label: "Calzas", href: "catalogo.html?tipo=calzas&q=calzas" },
     { label: "Remeras", href: "catalogo.html?tipo=remeras&q=remeras" },
     { label: "Pantalones", href: "catalogo.html?tipo=pantalones&q=pantalones" },

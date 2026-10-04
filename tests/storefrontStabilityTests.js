@@ -6,8 +6,7 @@ const { JSDOM } = require('jsdom');
 const root = path.join(__dirname, '..');
 const publicDir = path.join(root, 'frontend', 'public');
 const pages = [
-  'index.html', 'catalogo.html', 'mujer.html', 'hombre.html', 'ninos.html',
-  'novedades.html', 'product.html', 'detalle.html', 'cart.html', 'ayuda.html', '404.html'
+  'index.html', 'catalogo.html', 'product.html', 'cart.html', 'ayuda.html', '404.html'
 ];
 
 function assert(condition, message) {
@@ -121,7 +120,7 @@ function checkStaticShells() {
   const themeCss = read('frontend/public/assets/css/romix-minimal-theme.css');
   assert((headerCss.match(/!important/g) || []).length === 0, 'Header CSS should not restart the specificity war');
   assert((headerCss.match(/Global ROMIX predictive search: canonical component styles/g) || []).length === 1, 'Header CSS must have one canonical predictive-search section');
-  assert(footerCss.includes('#242426'), 'Footer CSS must preserve the shared charcoal background');
+  assert(footerCss.includes('--romix-footer-bg: var(--romix-ink)'), 'Footer CSS must preserve the shared charcoal background token');
   assert(!/(?:product-detail-page|catalog-page)[^{]*\.site-footer/.test(footerCss), 'Footer CSS must not contain page-specific variants');
   assert(!themeCss.includes('.site-footer'), 'Theme CSS must not redefine the shared footer');
   assert(!themeCss.includes('.romix-search'), 'Theme CSS must not redefine the global predictive search');

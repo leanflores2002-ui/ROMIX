@@ -226,6 +226,18 @@
       object-position: center;
     }
 
+    .main-hero-carousel--lycra .main-hero-carousel__viewport,
+    .main-hero-carousel--lycra .main-hero-carousel__track {
+      height: auto;
+      aspect-ratio: 1900 / 653;
+    }
+
+    .main-hero-carousel__slide--lycra img {
+      object-fit: contain;
+      object-position: center;
+      background: #111111;
+    }
+
     .main-hero-carousel__overlay {
       position: absolute;
       inset: 0;
@@ -1388,6 +1400,11 @@
               <img src="images/banners/banner-ofertas.webp" alt="Liquidaci&oacute;n final de temporada ROMIX - productos seleccionados en oferta" width="1900" height="635" loading="lazy" decoding="async" sizes="100vw" />
             </a>
           </figure>
+          <figure class="main-hero-carousel__slide main-hero-carousel__slide--lycra">
+            <a class="main-hero-carousel__slide-link" href="catalogo.html?q=lycra" aria-label="Ver todos los productos de lycra">
+              <img src="images/banners/banner-lycra.webp" alt="Outlet ROMIX - productos de lycra" width="1900" height="653" loading="lazy" decoding="async" sizes="100vw" />
+            </a>
+          </figure>
         </div>
 
         <button class="main-hero-carousel__arrow main-hero-carousel__arrow--prev" type="button" data-carousel-prev aria-label="Imagen anterior">
@@ -2238,6 +2255,7 @@
         });
         if (heroSection) {
           heroSection.classList.toggle("main-hero-carousel--offers", slides[current].classList.contains("main-hero-carousel__slide--offers"));
+          heroSection.classList.toggle("main-hero-carousel--lycra", slides[current].classList.contains("main-hero-carousel__slide--lycra"));
         }
         dots.forEach((dot, index) => {
           dot.classList.toggle("is-active", index === current);

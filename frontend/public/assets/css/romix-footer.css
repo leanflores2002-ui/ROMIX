@@ -305,3 +305,46 @@
     transition: none;
   }
 }
+
+/* Shared light footer palette for the storefront. */
+/* The shared ink token remains #242426 for compatibility with storefront stability checks. */
+.site-footer[data-romix-shell="footer-v1"] {
+  --romix-footer-bg: var(--romix-white);
+  --romix-footer-text: var(--romix-ink);
+  --romix-footer-muted: var(--romix-muted);
+  --romix-footer-subtle: var(--romix-muted);
+  --romix-footer-line: var(--romix-border);
+  border-top: 1px solid var(--romix-border);
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  background: var(--romix-white);
+  color: var(--romix-ink);
+}
+
+.site-footer[data-romix-shell="footer-v1"] .footer-logo-copy strong,
+.site-footer[data-romix-shell="footer-v1"] .footer-column h4 { color: var(--romix-ink); }
+
+.site-footer[data-romix-shell="footer-v1"] .footer-contact-item--link:hover,
+.site-footer[data-romix-shell="footer-v1"] .footer-contact-item--link:focus-visible,
+.site-footer[data-romix-shell="footer-v1"] .footer-column a:hover,
+.site-footer[data-romix-shell="footer-v1"] .footer-column a:focus-visible { color: var(--romix-pink); }
+
+.site-footer[data-romix-shell="footer-v1"] .footer-socials a {
+  border-color: var(--romix-border-strong);
+  background: var(--romix-white);
+  color: var(--romix-muted);
+}
+
+.site-footer[data-romix-shell="footer-v1"] .footer-socials a:hover,
+.site-footer[data-romix-shell="footer-v1"] .footer-socials a:focus-visible {
+  border-color: var(--romix-pink);
+  background: var(--romix-pink-bg);
+  color: var(--romix-pink);
+}
+
+.site-footer[data-romix-shell="footer-v1"] a:focus-visible {
+  outline: 2px solid var(--romix-ink);
+  outline-offset: 3px;
+  box-shadow: var(--romix-focus-ring);
+}

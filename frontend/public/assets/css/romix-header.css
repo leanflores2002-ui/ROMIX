@@ -33,6 +33,42 @@ header.romix-shared-header.is-hidden {
   }
 }
 
+/* Final shared-token pass: keep the legacy header hooks, unify brand states. */
+.site-header .brand-dot,
+header.romix-shared-header .brand-dot,
+.site-header .main-nav > li > a:hover,
+.site-header .main-nav > li > a:focus-visible,
+header.romix-shared-header .main-nav > li > a:hover,
+header.romix-shared-header .main-nav > li > a:focus-visible,
+.site-header .mega-panel-link:hover,
+header.romix-shared-header .mega-panel-link:hover {
+  color: var(--romix-pink);
+}
+
+.site-header .icon-btn:hover,
+.site-header .icon-btn:focus-visible,
+header.romix-shared-header .icon-btn:hover,
+header.romix-shared-header .icon-btn:focus-visible,
+.site-header .cart-pill:hover,
+header.romix-shared-header .cart-pill:hover {
+  color: var(--romix-pink-hover);
+  border-color: var(--romix-pink);
+  background: var(--romix-pink-bg);
+}
+
+.site-header .icon-badge,
+header.romix-shared-header .icon-badge,
+.site-header .global-search button[type="submit"],
+header.romix-shared-header .global-search button[type="submit"] {
+  background: var(--romix-pink);
+}
+
+:where(.site-header, header.romix-shared-header) :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--romix-pink);
+  outline-offset: 2px;
+  box-shadow: var(--romix-focus-ring);
+}
+
 .site-header .container,
 header.romix-shared-header .container {
   width: min(1200px, calc(100% - clamp(20px, 4vw, 56px)));
@@ -1394,10 +1430,10 @@ header.romix-shared-header .global-search button[type="submit"] {
 /* Premium ROMIX header refresh */
 .site-header,
 header.romix-shared-header {
-  --header-pink: #f72585;
-  --header-pink-soft: #ffe3ef;
-  --header-ink: #151515;
-  --header-muted: #77747b;
+  --header-pink: var(--romix-pink);
+  --header-pink-soft: var(--romix-pink-bg);
+  --header-ink: var(--romix-ink);
+  --header-muted: var(--romix-text-muted);
   background: rgba(255, 255, 255, 0.98);
   border-bottom: 1px solid rgba(247, 37, 133, 0.18);
   box-shadow: 0 8px 24px rgba(17, 17, 17, 0.04);

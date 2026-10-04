@@ -77,8 +77,8 @@
           <div class="product-price">${price}</div>
           <div class="product-stock-note state-${st}">${label}</div>
           <div class="product-actions">
-            <a href="#" class="btn btn-details">Detalles</a>
-            <button class="btn btn-primary" type="button">Agregar</button>
+            <a href="#" class="btn btn-details romix-btn romix-btn--secondary">Detalles</a>
+            <button class="btn btn-primary romix-btn romix-btn--primary" type="button">Agregar</button>
           </div>
         </div>
       </div>`;

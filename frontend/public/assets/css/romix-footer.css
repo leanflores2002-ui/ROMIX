@@ -1,11 +1,11 @@
 .site-footer[data-romix-shell="footer-v1"] {
   --romix-footer-max: 1400px;
-  --romix-footer-bg: #242426;
-  --romix-footer-text: #ffffff;
+  --romix-footer-bg: var(--romix-ink);
+  --romix-footer-text: var(--romix-white);
   --romix-footer-muted: rgba(255, 255, 255, 0.68);
   --romix-footer-subtle: rgba(255, 255, 255, 0.54);
   --romix-footer-line: rgba(255, 255, 255, 0.13);
-  --romix-footer-accent: #f72585;
+  --romix-footer-accent: var(--romix-pink);
   margin-top: clamp(32px, 4vw, 56px);
   border: 0;
   background: var(--romix-footer-bg);

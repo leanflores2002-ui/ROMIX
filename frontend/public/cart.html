@@ -113,6 +113,7 @@
     .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=1" />
   <link rel="stylesheet" href="assets/css/responsive.css?v=13">
   <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
   <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
@@ -764,10 +765,10 @@
       }
     }
   </style>
-  <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=13" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
-  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=1" />
-  <link rel="stylesheet" href="assets/css/romix-footer.css?v=13" />
+  <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=15" />
+  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=2" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css?v=14" />
 </head>
 <body>
 <!-- ROMIX:SHELL:HEADER:START -->
@@ -842,8 +843,8 @@
                 <button id="cart-clear-btn" type="button" class="link-danger">Vaciar carrito</button>
               </div>
               <div class="cart-actions-row">
-                <a class="btn btn-outline" href="index.html">Continuar comprando</a>
-                <button class="btn btn-primary" type="button" id="order-btn"><span class="romix-emoji" aria-hidden="true">&#9635;</span> Enviar pedido</button>
+                <a class="btn btn-outline romix-btn romix-btn--secondary" href="index.html">Continuar comprando</a>
+                <button class="btn btn-primary romix-btn romix-btn--primary" type="button" id="order-btn"><span class="romix-emoji" aria-hidden="true">&#9635;</span> Enviar pedido</button>
               </div>
             </div>
           </aside>
@@ -1024,7 +1025,7 @@
               <p class="post-order-state__subtitle">${POST_ORDER_SUBTITLE}</p>
             </div>
           </div>
-          <a class="btn btn-outline post-order-state__action" href="index.html">${POST_ORDER_BUTTON_LABEL}</a>
+          <a class="btn btn-outline romix-btn romix-btn--secondary post-order-state__action" href="index.html">${POST_ORDER_BUTTON_LABEL}</a>
         </div>`;
     }
 

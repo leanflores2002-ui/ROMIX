@@ -2987,12 +2987,17 @@
     "price": 9000,
     "priceByGroup": {
       "common": 9000,
-      "special": 9500
+      "special": 9800,
+      "special2": 10600
     },
     "specialSizes": [
       6,
       7,
       8
+    ],
+    "specialSizes2": [
+      9,
+      10
     ],
     "colors": [
       {
@@ -3029,7 +3034,9 @@
       "5",
       "6",
       "7",
-      "8"
+      "8",
+      "9",
+      "10"
     ]
   },
   {
@@ -8820,36 +8827,6 @@
         "hex": "#888888",
         "swatch": "images/products/campera_lycra_estampado_10.webp",
         "image": "images/products/campera_lycra_estampado_10.webp"
-      },
-      {
-        "name": "Estampado 11",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_11.webp",
-        "image": "images/products/campera_lycra_estampado_11.webp"
-      },
-      {
-        "name": "Estampado 12",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_12.webp",
-        "image": "images/products/campera_lycra_estampado_12.webp"
-      },
-      {
-        "name": "Estampado 13",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_13.webp",
-        "image": "images/products/campera_lycra_estampado_13.webp"
-      },
-      {
-        "name": "Estampado 14",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_14.webp",
-        "image": "images/products/campera_lycra_estampado_14.webp"
-      },
-      {
-        "name": "Estampado 15",
-        "hex": "#888888",
-        "swatch": "images/products/campera_lycra_estampado_15.webp",
-        "image": "images/products/campera_lycra_estampado_15.webp"
       }
     ],
     "sizes": [

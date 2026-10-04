@@ -215,6 +215,12 @@
       object-position: center;
     }
 
+    .main-hero-carousel--kids .main-hero-carousel__viewport,
+    .main-hero-carousel--kids .main-hero-carousel__track {
+      height: auto;
+      aspect-ratio: 2139 / 735;
+    }
+
     .main-hero-carousel--offers .main-hero-carousel__viewport,
     .main-hero-carousel--offers .main-hero-carousel__track {
       height: auto;
@@ -2254,6 +2260,7 @@
           slide.classList.toggle("is-active", index === current);
         });
         if (heroSection) {
+          heroSection.classList.toggle("main-hero-carousel--kids", slides[current].classList.contains("main-hero-carousel__slide--kids"));
           heroSection.classList.toggle("main-hero-carousel--offers", slides[current].classList.contains("main-hero-carousel__slide--offers"));
           heroSection.classList.toggle("main-hero-carousel--lycra", slides[current].classList.contains("main-hero-carousel__slide--lycra"));
         }

@@ -2210,51 +2210,7 @@
         cta.innerHTML = window.romixIcon("Eye", { size: "sm" }) + "<span>Detalles</span>";
         body.appendChild(cta);
 
-        const favorite = document.createElement("button");
-        favorite.type = "button";
-        favorite.className = "product-favorite romix-icon-btn romix-icon-btn--soft";
-        favorite.setAttribute("aria-label", "Guardar en favoritos");
-        favorite.setAttribute("aria-pressed", "false");
-        favorite.innerHTML = window.romixIcon("Heart", { size: "md" });
-        favorite.addEventListener("click", function () {
-          const active = favorite.getAttribute("aria-pressed") === "true";
-          favorite.setAttribute("aria-pressed", active ? "false" : "true");
-          favorite.classList.toggle("is-active", !active);
-        });
-
-        const cart = document.createElement("button");
-        cart.type = "button";
-        cart.className = "product-cart romix-icon-btn romix-icon-btn--primary";
-        cart.setAttribute("aria-label", "Agregar " + (product && product.name ? product.name : "producto") + " al carrito");
-        cart.innerHTML = window.romixIcon("ShoppingCart", { size: "md" });
-        cart.addEventListener("click", function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          const sizes = Array.isArray(product && product.sizes) ? product.sizes : [];
-          const availableSize = sizes.find((entry) => entry && entry.status !== "out");
-          if (window.romixCart && typeof window.romixCart.addToCart === "function") {
-            window.romixCart.addToCart({
-              productId: product.id,
-              id: product.id,
-              name: product.name,
-              type: product.type,
-              price: product.price,
-              image: selectedVariant ? selectedVariant.image : product.image,
-              color: selectedVariant ? selectedVariant.name : "Unico",
-              colorName: selectedVariant ? selectedVariant.name : "Unico",
-              size: availableSize ? availableSize.value : "U",
-              talle: availableSize ? availableSize.value : "U",
-              qty: 1
-            });
-            if (typeof window.romixCart.updateBadge === "function") window.romixCart.updateBadge("#cart-count");
-            cart.classList.add("is-added");
-            setTimeout(() => cart.classList.remove("is-added"), 900);
-          }
-        });
-
         card.appendChild(thumbLink);
-        card.appendChild(favorite);
-        card.appendChild(cart);
         card.appendChild(body);
         row.appendChild(card);
       });

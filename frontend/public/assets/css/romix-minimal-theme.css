@@ -472,7 +472,6 @@ header.romix-shared-header .mega-accessories { border-radius: var(--romix-radius
 .stock-note.is-available,
 .stock-note.available,
 .stock-note.success { color: var(--romix-success); }
-.product-favorite { min-width: 44px; width: 44px; height: 44px; border-radius: var(--romix-radius); box-shadow: none; }
 
 .why-grid { border: 0; gap: 1px; background: rgba(36,36,38,.08); }
 .why-item { background: #fff; border-radius: 0; }
@@ -500,26 +499,8 @@ header.romix-shared-header .mega-accessories { border-radius: var(--romix-radius
 }
 .editorial-card:hover .editorial-card__arrow { color: var(--romix-pink); border-color: var(--romix-pink-soft); transform: translateY(-1px); }
 .promo-slide__cta { position: absolute; right: 24px; bottom: 24px; z-index: 2; gap: 8px; }
-.product-cart {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  z-index: 3;
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  border-radius: 50%;
-  box-shadow: 0 8px 18px rgba(36, 36, 38, .14);
-}
-.product-cart.is-added { transform: scale(.96); background: var(--romix-success); border-color: var(--romix-success); }
-.product-favorite.is-active { color: var(--romix-pink); background: var(--romix-pink-bg); }
-.catalog-favorite,
-.catalog-cart { position: absolute; z-index: 3; border-radius: 50%; }
-.catalog-favorite { top: 10px; right: 10px; }
-.catalog-cart { right: 10px; bottom: 74px; width: 44px; height: 44px; min-width: 44px; box-shadow: 0 8px 18px rgba(36,36,38,.14); }
-.catalog-cart.is-added { background: var(--romix-success); border-color: var(--romix-success); }
 .catalog-cta { gap: 8px; }
-.product-cta { gap: 8px; width: fit-content; }
+.product-cta { gap: 8px; width: 100%; min-height: 42px; }
 .why-item__icon {
   display: inline-grid;
   width: 60px;
@@ -534,7 +515,6 @@ header.romix-shared-header .mega-accessories { border-radius: var(--romix-radius
 @media (max-width: 760px) {
   .promo-slide__cta { right: 16px; bottom: 16px; min-height: 44px; }
   .editorial-card__arrow { top: 12px; right: 12px; }
-  .product-cart { right: 8px; bottom: 8px; }
 }
 
 /* ---------- Catalog + category pages ---------- */
@@ -644,7 +624,7 @@ header.romix-shared-header .mega-accessories { border-radius: var(--romix-radius
   font-size: 10px;
   box-shadow: none;
 }
-.product-variants { gap: 7px; margin-bottom: 8px; }
+.product-variants { gap: 7px; margin-bottom: 8px; max-width: 100%; }
 .variant-chip {
   width: 24px;
   height: 24px;

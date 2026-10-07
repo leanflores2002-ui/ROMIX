@@ -4050,3 +4050,114 @@ header.romix-shared-header .romix-icon-btn:hover {
   color: var(--romix-pink-hover);
   background: var(--romix-pink-bg);
 }
+
+/* Mobile header: symmetric columns keep the logo centered while preserving two 44px actions. */
+@media (max-width: 768px) {
+  .site-header .header-row,
+  header.romix-shared-header .header-row {
+    width: calc(100% - 16px);
+    height: 60px;
+    min-height: 60px;
+    grid-template-columns: 96px minmax(0, 1fr) 96px;
+    grid-template-areas: "left brand actions";
+    gap: 12px;
+    padding: 0;
+  }
+
+  .site-header .header-actions-left,
+  header.romix-shared-header .header-actions-left {
+    grid-area: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .site-header .brand,
+  header.romix-shared-header .brand {
+    grid-area: brand;
+    justify-self: center;
+    white-space: nowrap;
+  }
+
+  .site-header .header-icons,
+  header.romix-shared-header .header-icons {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    min-width: 96px;
+  }
+
+  .site-header .header-actions-left .icon-btn,
+  header.romix-shared-header .header-actions-left .icon-btn,
+  .site-header .header-icons .icon-btn,
+  header.romix-shared-header .header-icons .icon-btn,
+  .site-header .header-icons .cart-pill,
+  header.romix-shared-header .header-icons .cart-pill {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--romix-radius);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .site-header .header-actions-left .icon-btn:hover,
+  .site-header .header-actions-left .icon-btn:focus-visible,
+  header.romix-shared-header .header-actions-left .icon-btn:hover,
+  header.romix-shared-header .header-actions-left .icon-btn:focus-visible,
+  .site-header .header-icons .icon-btn:hover,
+  .site-header .header-icons .icon-btn:focus-visible,
+  header.romix-shared-header .header-icons .icon-btn:hover,
+  header.romix-shared-header .header-icons .icon-btn:focus-visible,
+  .site-header .header-icons .cart-pill:hover,
+  .site-header .header-icons .cart-pill:focus-visible,
+  header.romix-shared-header .header-icons .cart-pill:hover,
+  header.romix-shared-header .header-icons .cart-pill:focus-visible {
+    background: var(--romix-pink-bg);
+    color: var(--romix-pink);
+    outline: none;
+  }
+
+  .site-header .header-actions-left svg,
+  header.romix-shared-header .header-actions-left svg,
+  .site-header .header-icons svg,
+  header.romix-shared-header .header-icons svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .site-header .header-icons .cart-pill__text,
+  header.romix-shared-header .header-icons .cart-pill__text {
+    display: none;
+  }
+
+  .site-header .header-icons .cart-pill__icon,
+  header.romix-shared-header .header-icons .cart-pill__icon {
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: currentColor;
+  }
+
+  .site-header .header-icons .cart-pill .icon-badge,
+  header.romix-shared-header .header-icons .cart-pill .icon-badge {
+    top: -2px;
+    right: -2px;
+    width: 17px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 10px;
+    line-height: 17px;
+    transform: none;
+  }
+}

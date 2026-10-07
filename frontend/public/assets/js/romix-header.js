@@ -291,14 +291,24 @@
   }
 
   function buildPanelColumns(columns, sectionLabel) {
+    var iconMap = {
+      top: "Shirt",
+      jacket: "ShoppingBag",
+      bottom: "Shirt",
+      spark: "Sparkles",
+      trend: "Tag",
+      snow: "Sparkles",
+      heat: "Zap",
+      fabric: "Shirt",
+      move: "ArrowRight"
+    };
     return columns.map(function (column) {
       var links = (column.links || []).map(function (link) {
         var badge = link.badge
           ? '<span class="mega-link-badge">' + escapeHtml(link.badge) + '</span>'
           : '';
-        var icon = link.icon
-          ? '<span class="mega-link-icon" data-icon="' + escapeHtml(link.icon) + '" aria-hidden="true"></span>'
-          : '<span class="mega-link-icon" aria-hidden="true"></span>';
+        var iconName = iconMap[String(link.icon || "").toLowerCase()] || "Shirt";
+        var icon = '<span class="mega-link-icon" aria-hidden="true">' + window.romixIcon(iconName, { size: "sm" }) + '</span>';
         return '' +
           '<li>' +
             '<a class="mega-panel-link" href="' + escapeHtml(link.href) + '" data-mega-link="true" aria-label="' + escapeHtml('Ver ' + link.label + (sectionLabel ? ' de ' + sectionLabel : '')) + '">' +
@@ -323,7 +333,7 @@
     var links = accessories.links.map(function (link) {
       return '' +
         '<a class="mega-accessory-link" href="' + escapeHtml(link.href) + '" data-mega-link="true">' +
-          '<span class="mega-accessory-icon" data-icon="' + escapeHtml(link.icon || "circle") + '" aria-hidden="true"></span>' +
+          '<span class="mega-accessory-icon" aria-hidden="true">' + window.romixIcon("Tag", { size: "sm" }) + '</span>' +
           '<span>' + escapeHtml(link.label) + '</span>' +
         '</a>';
     }).join("");

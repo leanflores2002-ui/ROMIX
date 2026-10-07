@@ -33,6 +33,12 @@
   --romix-control-lg: 50px;
   --romix-control-height: var(--romix-control-md);
   --romix-control-height-lg: var(--romix-control-lg);
+  --romix-icon-xs: 16px;
+  --romix-icon-sm: 18px;
+  --romix-icon-md: 20px;
+  --romix-icon-lg: 24px;
+  --romix-icon-xl: 28px;
+  --romix-icon-benefit: 32px;
   --romix-max: 1400px;
   --romix-space-1: 4px;
   --romix-space-2: 8px;
@@ -175,6 +181,33 @@ romix-toast.romix-toast.romix-toast--error { background: var(--romix-danger); }
   cursor: pointer;
   transition: background-color var(--romix-ease), border-color var(--romix-ease), color var(--romix-ease), transform var(--romix-ease);
 }
+.romix-icon {
+  display: inline-block;
+  width: var(--romix-icon-md);
+  height: var(--romix-icon-md);
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+.romix-icon--xs { width: var(--romix-icon-xs); height: var(--romix-icon-xs); }
+.romix-icon--sm { width: var(--romix-icon-sm); height: var(--romix-icon-sm); }
+.romix-icon--lg { width: var(--romix-icon-lg); height: var(--romix-icon-lg); }
+.romix-icon--xl { width: var(--romix-icon-xl); height: var(--romix-icon-xl); }
+.romix-icon--benefit { width: var(--romix-icon-benefit); height: var(--romix-icon-benefit); }
+.romix-icon[data-romix-icon-size="xs"] { width: var(--romix-icon-xs); height: var(--romix-icon-xs); }
+.romix-icon[data-romix-icon-size="sm"] { width: var(--romix-icon-sm); height: var(--romix-icon-sm); }
+.romix-icon[data-romix-icon-size="lg"] { width: var(--romix-icon-lg); height: var(--romix-icon-lg); }
+.romix-icon[data-romix-icon-size="xl"] { width: var(--romix-icon-xl); height: var(--romix-icon-xl); }
+.romix-icon[data-romix-icon-size="benefit"] { width: var(--romix-icon-benefit); height: var(--romix-icon-benefit); }
+.romix-icon-btn--primary {
+  color: var(--romix-white);
+  background: var(--romix-pink);
+  border-color: var(--romix-pink);
+}
+.romix-icon-btn--primary:hover { color: var(--romix-white); background: var(--romix-pink-hover); border-color: var(--romix-pink-hover); }
+.romix-icon-btn--soft { color: var(--romix-pink); background: var(--romix-pink-bg); border-color: var(--romix-pink-bg); }
+.romix-icon-btn--soft:hover { color: var(--romix-pink-hover); background: var(--romix-pink-soft); border-color: var(--romix-pink-soft); }
+.romix-icon-btn--lg { width: var(--romix-control-lg); height: var(--romix-control-lg); min-width: var(--romix-control-lg); }
+.romix-icon-btn--sm { width: var(--romix-control-sm); height: var(--romix-control-sm); min-width: var(--romix-control-sm); }
 .romix-icon-btn:hover { color: var(--romix-pink-hover); background: var(--romix-pink-bg); transform: translateY(-1px); }
 .romix-icon-btn:active:not(:disabled):not([aria-disabled="true"]) { color: var(--romix-pink); transform: translateY(0); }
 .romix-icon-btn svg { width: 20px; height: 20px; }
@@ -186,6 +219,23 @@ romix-toast.romix-toast.romix-toast--error { background: var(--romix-danger); }
   opacity: .72;
   cursor: not-allowed;
   transform: none;
+}
+
+.romix-btn svg,
+.romix-btn .romix-icon,
+.romix-icon-btn svg,
+.romix-icon-btn .romix-icon { flex-shrink: 0; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .romix-control {

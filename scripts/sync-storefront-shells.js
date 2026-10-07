@@ -58,14 +58,14 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
 <header class="site-header romix-shared-header" data-romix-shell="header-v1">
   <div class="container header-row">
     <div class="header-actions-left" aria-label="Acciones principales">
-      <button class="icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-      <button class="icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
+      <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
     </div>
     <a class="brand" href="index.html" aria-label="ROMIX inicio">ROMIX<span class="brand-dot">.</span></a>
     <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
       <div class="mobile-drawer-header">
         <a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio"><span>ROMIX</span></a>
-        <button class="mobile-drawer-close" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <button class="mobile-drawer-close romix-icon-btn" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><span data-romix-icon="X" data-romix-icon-size="md"></span></button>
       </div>
       <div class="main-nav-wrap">
         <ul class="main-nav">
@@ -77,9 +77,9 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
       </div>
     </nav>
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
-      <button class="icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
       <a class="cart-pill" href="cart.html" aria-label="Carrito de compras">
-        <span class="cart-pill__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h2l1.4 9.2a2 2 0 0 0 2 1.7h7.9a2 2 0 0 0 2-1.6L21 8H7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1.2" fill="currentColor"/><circle cx="18" cy="19" r="1.2" fill="currentColor"/></svg></span>
+        <span class="cart-pill__icon" aria-hidden="true"><span data-romix-icon="ShoppingCart" data-romix-icon-size="md"></span></span>
         <span class="cart-pill__text"><strong>Carrito</strong></span>
         <span class="icon-badge" id="cart-count">0</span>
       </a>
@@ -93,7 +93,7 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
           <div class="romix-search-input-wrap">
             <span class="romix-search-icon" aria-hidden="true"></span>
             <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" aria-expanded="false" autocomplete="off" />
-            <button class="romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span aria-hidden="true">&times;</span></button>
+            <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span data-romix-icon="X" data-romix-icon-size="sm"></span></button>
           </div>
           <button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
           <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -103,6 +103,7 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
     </div>
   </div>
 </header>
+<script src="assets/js/romix-icons.js?v=14"></script>
 <!-- ROMIX:SHELL:HEADER:END -->`;
 
 const footer = `<!-- ROMIX:SHELL:FOOTER:START -->
@@ -119,9 +120,9 @@ const footer = `<!-- ROMIX:SHELL:FOOTER:START -->
         </a>
         <p class="footer-description">Rendimiento que inspira. Estilo que te acompa&ntilde;a.<br />Ropa deportiva y urbana para cada versi&oacute;n de ti.</p>
         <div class="footer-contact" aria-label="Contacto ROMIX">
-          <a class="footer-contact-item footer-contact-item--link" href="https://wa.me/5491154272065" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.2 3.8 9.8 7l-1.5 1.8c1 2.1 2.7 3.8 4.9 4.9l1.8-1.5 3.2 2.6c.3.2.4.6.2 1-1 2-2.4 3.1-4.2 2.9C8.7 18 4 13.3 3.3 7.8 3.1 6 4.2 4.6 6.2 3.6c.4-.2.8-.1 1 .2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>+54 9 11 5427-2065</span></a>
+          <a class="footer-contact-item footer-contact-item--link" href="https://wa.me/5491154272065" target="_blank" rel="noopener"><span data-romix-icon="MessageCircle" data-romix-icon-size="sm"></span><span>+54 9 11 5427-2065</span></a>
           <span class="footer-contact-divider" aria-hidden="true"></span>
-          <span class="footer-contact-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.2" stroke="currentColor" stroke-width="1.6"/></svg><span>CABA, Argentina</span></span>
+          <span class="footer-contact-item"><span data-romix-icon="MapPin" data-romix-icon-size="sm"></span><span>CABA, Argentina</span></span>
         </div>
       </div>
       <nav class="footer-column" aria-label="Comprar"><h4>Comprar</h4><ul><li><a href="catalogo.html?sections=mujer">Mujer</a></li><li><a href="catalogo.html?sections=hombre">Hombre</a></li><li><a href="catalogo.html?sections=ninos">Ni&ntilde;os</a></li><li><a href="catalogo.html?view=novedades">Novedades</a></li><li><a href="catalogo.html?q=oferta">Ofertas</a></li></ul></nav>
@@ -131,7 +132,7 @@ const footer = `<!-- ROMIX:SHELL:FOOTER:START -->
     <div class="footer-bottom">
       <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
       <div class="footer-socials" aria-label="Redes sociales">
-        <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.7"/><circle cx="17.3" cy="6.8" r="1" fill="currentColor"/></svg></a>
+        <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><span data-romix-icon="Instagram" data-romix-icon-size="sm"></span></a>
         <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V10H8.3v3h2.6v8h2.9Z"/></svg></a>
         <a href="https://www.tiktok.com/@romix_tienda?_r=1&amp;_t=ZS-97FOkImZhLN" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.3 3c.4 2.2 1.7 3.6 3.7 3.8v3.1c-1.4 0-2.7-.4-3.7-1.1v6.1a6.1 6.1 0 1 1-5.3-6V12a3 3 0 1 0 2.2 2.9V3h3.1Z"/></svg></a>
         <a href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.8 7l-4.2 1 1.1-4A8 8 0 1 1 20 11.7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.4 7.8c.4-.3.8-.1 1 .3l.8 1.7c.1.3.1.6-.2.8l-.7.7c.8 1.7 2 2.9 3.7 3.7l.7-.7c.2-.3.5-.3.8-.2l1.7.8c.4.2.6.6.3 1-1 1.4-2.4 1.7-4 .9-2.8-1.3-5-3.5-6.3-6.3-.8-1.7-.5-3.1.9-4Z" fill="currentColor"/></svg></a>

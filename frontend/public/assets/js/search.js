@@ -642,7 +642,7 @@
       shell.innerHTML = '' +
         '<div class="romix-search-input-wrap">' +
           '<span class="romix-search-icon" aria-hidden="true"></span>' +
-          '<button class="romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>' +
+          '<button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden>' + window.romixIcon("X", { size: "sm" }) + '</button>' +
         '</div>' +
         '<button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>' +
         '<p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>' +

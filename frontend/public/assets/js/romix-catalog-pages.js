@@ -1196,18 +1196,10 @@
     if (!openBtn && !heading) return;
 
     const triggerMarkup =
-      '<span class="filters-open-btn-icon" aria-hidden="true">' +
-        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none">' +
-          '<path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-          '<path d="M7 12H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-          '<path d="M10 17H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>' +
-        '</svg>' +
-      '</span>' +
+      '<span class="filters-open-btn-icon" aria-hidden="true">' + window.romixIcon("SlidersHorizontal", { size: "sm" }) + '</span>' +
       '<span class="filters-open-btn-text">Filtrar y ordenar</span>' +
       '<span class="filters-open-btn-chevron" aria-hidden="true">' +
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none">' +
-          '<path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
-        '</svg>' +
+        window.romixIcon("ChevronDown", { size: "sm" }) +
       '</span>';
 
     if (openBtn && openBtn.dataset.mobileReady !== "1") {
@@ -1550,6 +1542,10 @@
           button.setAttribute("aria-label", "Seleccionar color " + color.name);
           button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
           button.title = color.name;
+          const srLabel = document.createElement("span");
+          srLabel.className = "sr-only";
+          srLabel.textContent = "Color " + color.name;
+          button.appendChild(srLabel);
           button.dataset.colorName = color.name;
           button.dataset.colorIndex = String(index);
           button.style.backgroundColor = color.hex || "#efecf3";
@@ -1623,12 +1619,39 @@
       body.appendChild(priceRow);
 
       const detailsLink = document.createElement("a");
-      detailsLink.className = "catalog-cta romix-btn romix-btn--secondary romix-btn--sm";
+      detailsLink.className = "catalog-cta romix-btn romix-btn--outline romix-btn--sm";
       detailsLink.href = productDetailUrl;
-      detailsLink.textContent = "Detalles";
+      detailsLink.innerHTML = window.romixIcon("Eye", { size: "sm" }) + "<span>Detalles</span>";
       body.appendChild(detailsLink);
 
+      const favorite = document.createElement("button");
+      favorite.type = "button";
+      favorite.className = "catalog-favorite romix-icon-btn romix-icon-btn--soft";
+      favorite.setAttribute("aria-label", "Guardar " + product.name + " en favoritos");
+      favorite.setAttribute("aria-pressed", "false");
+      favorite.innerHTML = window.romixIcon("Heart", { size: "md" });
+      favorite.addEventListener("click", function () {
+        const active = favorite.getAttribute("aria-pressed") === "true";
+        favorite.setAttribute("aria-pressed", active ? "false" : "true");
+        favorite.classList.toggle("is-active", !active);
+      });
+
+      const cart = document.createElement("button");
+      cart.type = "button";
+      cart.className = "catalog-cart romix-icon-btn romix-icon-btn--primary";
+      cart.setAttribute("aria-label", "Agregar " + product.name + " al carrito");
+      cart.innerHTML = window.romixIcon("ShoppingCart", { size: "md" });
+      cart.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        addToCart(product, selectedColor);
+        cart.classList.add("is-added");
+        setTimeout(() => cart.classList.remove("is-added"), 900);
+      });
+
       card.appendChild(thumb);
+      card.appendChild(favorite);
+      card.appendChild(cart);
       card.appendChild(body);
       grid.appendChild(card);
     });
@@ -1722,7 +1745,7 @@
       remove.dataset.group = item.group;
       remove.dataset.value = item.value;
       remove.setAttribute("aria-label", "Quitar filtro " + item.label);
-      remove.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+      remove.innerHTML = window.romixIcon("X", { size: "sm" });
 
       chip.appendChild(text);
       chip.appendChild(remove);

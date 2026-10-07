@@ -1314,11 +1314,11 @@
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=3" />
-  <link rel="stylesheet" href="assets/css/romix-home-pro.css?v=13" />
+  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-home-pro.css?v=14" />
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=14" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=16" />
-  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=2" />
+  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=14" />
 </head>
 <body>
@@ -1327,14 +1327,14 @@
 <header class="site-header romix-shared-header" data-romix-shell="header-v1">
   <div class="container header-row">
     <div class="header-actions-left" aria-label="Acciones principales">
-      <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-      <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
+      <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
     </div>
     <a class="brand" href="index.html" aria-label="ROMIX inicio">ROMIX<span class="brand-dot">.</span></a>
     <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
       <div class="mobile-drawer-header">
         <a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio"><span>ROMIX</span></a>
-        <button class="mobile-drawer-close romix-icon-btn" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <button class="mobile-drawer-close romix-icon-btn" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><span data-romix-icon="X" data-romix-icon-size="md"></span></button>
       </div>
       <div class="main-nav-wrap">
         <ul class="main-nav">
@@ -1346,9 +1346,9 @@
       </div>
     </nav>
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
-      <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
       <a class="cart-pill" href="cart.html" aria-label="Carrito de compras">
-        <span class="cart-pill__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h2l1.4 9.2a2 2 0 0 0 2 1.7h7.9a2 2 0 0 0 2-1.6L21 8H7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1.2" fill="currentColor"/><circle cx="18" cy="19" r="1.2" fill="currentColor"/></svg></span>
+        <span class="cart-pill__icon" aria-hidden="true"><span data-romix-icon="ShoppingCart" data-romix-icon-size="md"></span></span>
         <span class="cart-pill__text"><strong>Carrito</strong></span>
         <span class="icon-badge" id="cart-count">0</span>
       </a>
@@ -1362,9 +1362,9 @@
           <div class="romix-search-input-wrap">
             <span class="romix-search-icon" aria-hidden="true"></span>
             <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" aria-expanded="false" autocomplete="off" />
-            <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+            <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span data-romix-icon="X" data-romix-icon-size="sm"></span></button>
           </div>
-          <button class="romix-btn romix-btn--ghost romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
+          <button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
           <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
           <div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>
         </div>
@@ -1372,6 +1372,7 @@
     </div>
   </div>
 </header>
+<script src="assets/js/romix-icons.js?v=14"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
 
   <main class="home">
@@ -1545,19 +1546,19 @@
     <!-- ── PROMO CAROUSEL ── -->
     <section class="benefit-strip" aria-label="Beneficios de compra">
       <div class="benefit-item">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h11a5 5 0 1 1-3.6 8.5M4 7l4-4M4 7l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-romix-icon="RotateCcw" data-romix-icon-size="benefit"></span>
         <span>Cambios f&aacute;ciles</span>
       </div>
       <div class="benefit-item">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-2.8 8.2-7 10-4.2-1.8-7-5.4-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-romix-icon="CreditCard" data-romix-icon-size="benefit"></span>
         <span>Pago seguro</span>
       </div>
       <div class="benefit-item">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19l1.1-3A7 7 0 1 1 9 18.6L5 19Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 10h6M9 13h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span data-romix-icon="MessageCircle" data-romix-icon-size="benefit"></span>
         <span>Atenci&oacute;n por WhatsApp</span>
       </div>
       <div class="benefit-item">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h16v11H4V8Z" stroke="currentColor" stroke-width="1.8"/><path d="M8 8V5h8v3M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span data-romix-icon="MapPin" data-romix-icon-size="benefit"></span>
         <span>Retiro/compra coordinada</span>
       </div>
     </section>
@@ -1576,7 +1577,7 @@
             <img src="images/mujer.png" alt="Indumentaria ROMIX para mujer" loading="lazy" decoding="async" width="1254" height="1254" />
           </picture>
           <span class="editorial-card__shade" aria-hidden="true"></span>
-          <span class="editorial-card__copy"><strong>Mujer</strong><span>Ver todo &rarr;</span></span>
+          <span class="editorial-card__arrow" aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="md"></span></span><span class="editorial-card__copy"><strong>Mujer</strong><span>Ver todo</span></span>
         </a>
         <a class="editorial-card" href="catalogo.html?sections=hombre">
           <picture>
@@ -1584,7 +1585,7 @@
             <img src="images/hombre.png" alt="Indumentaria ROMIX para hombre" loading="lazy" decoding="async" width="1254" height="1254" />
           </picture>
           <span class="editorial-card__shade" aria-hidden="true"></span>
-          <span class="editorial-card__copy"><strong>Hombre</strong><span>Ver todo &rarr;</span></span>
+          <span class="editorial-card__arrow" aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="md"></span></span><span class="editorial-card__copy"><strong>Hombre</strong><span>Ver todo</span></span>
         </a>
         <a class="editorial-card" href="catalogo.html?sections=ninos">
           <picture>
@@ -1592,7 +1593,7 @@
             <img src="images/nina.png" alt="Indumentaria ROMIX para ni&ntilde;os" loading="lazy" decoding="async" width="1254" height="1254" />
           </picture>
           <span class="editorial-card__shade" aria-hidden="true"></span>
-          <span class="editorial-card__copy"><strong>Ni&ntilde;os</strong><span>Ver todo &rarr;</span></span>
+          <span class="editorial-card__arrow" aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="md"></span></span><span class="editorial-card__copy"><strong>Ni&ntilde;os</strong><span>Ver todo</span></span>
         </a>
         <a class="editorial-card" href="catalogo.html">
           <picture>
@@ -1600,7 +1601,7 @@
             <img src="images/ver-todo.png" alt="Cat&aacute;logo completo ROMIX" loading="lazy" decoding="async" width="1254" height="1254" />
           </picture>
           <span class="editorial-card__shade" aria-hidden="true"></span>
-          <span class="editorial-card__copy"><strong>Ver todo</strong><span>Ver todo &rarr;</span></span>
+          <span class="editorial-card__arrow" aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="md"></span></span><span class="editorial-card__copy"><strong>Ver todo</strong><span>Ver todo</span></span>
         </a>
       </div>
     </section>
@@ -1621,6 +1622,7 @@
                 <source srcset="images/optimized/ROPA_DEPORTIVA-960.webp 960w, images/optimized/ROPA_DEPORTIVA-1440.webp 1440w" sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 960px) min(82vw, 760px), 760px" type="image/webp" />
                 <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" decoding="async" width="1708" height="921" />
               </picture>
+              <span class="promo-slide__cta romix-btn romix-btn--secondary romix-btn--pill">Ver colecci&oacute;n <span aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></span></span>
             </a>
           </article>
 
@@ -1674,10 +1676,10 @@
         </div>
       </div>
       <div class="why-grid">
-        <div class="why-item"><span>01</span><strong>Calidad seleccionada</strong><p>Textiles pensados para uso real.</p></div>
-        <div class="why-item"><span>02</span><strong>Dise&ntilde;o funcional</strong><p>Cortes vers&aacute;tiles para moverte mejor.</p></div>
-        <div class="why-item"><span>03</span><strong>Prendas c&oacute;modas</strong><p>Calce suave para entrenar o salir.</p></div>
-        <div class="why-item"><span>04</span><strong>Atenci&oacute;n personalizada</strong><p>Te ayudamos a elegir por WhatsApp.</p></div>
+        <div class="why-item"><span class="why-item__icon" aria-hidden="true"><span data-romix-icon="Gem" data-romix-icon-size="lg"></span></span><strong>Calidad seleccionada</strong><p>Textiles pensados para uso real.</p></div>
+        <div class="why-item"><span class="why-item__icon" aria-hidden="true"><span data-romix-icon="Sparkles" data-romix-icon-size="lg"></span></span><strong>Dise&ntilde;o funcional</strong><p>Cortes vers&aacute;tiles para moverte mejor.</p></div>
+        <div class="why-item"><span class="why-item__icon" aria-hidden="true"><span data-romix-icon="Heart" data-romix-icon-size="lg"></span></span><strong>Prendas c&oacute;modas</strong><p>Calce suave para entrenar o salir.</p></div>
+        <div class="why-item"><span class="why-item__icon" aria-hidden="true"><span data-romix-icon="MessageCircle" data-romix-icon-size="lg"></span></span><strong>Atenci&oacute;n personalizada</strong><p>Te ayudamos a elegir por WhatsApp.</p></div>
       </div>
     </section>
 
@@ -1699,9 +1701,9 @@
         </a>
         <p class="footer-description">Rendimiento que inspira. Estilo que te acompa&ntilde;a.<br />Ropa deportiva y urbana para cada versi&oacute;n de ti.</p>
         <div class="footer-contact" aria-label="Contacto ROMIX">
-          <a class="footer-contact-item footer-contact-item--link" href="https://wa.me/5491154272065" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.2 3.8 9.8 7l-1.5 1.8c1 2.1 2.7 3.8 4.9 4.9l1.8-1.5 3.2 2.6c.3.2.4.6.2 1-1 2-2.4 3.1-4.2 2.9C8.7 18 4 13.3 3.3 7.8 3.1 6 4.2 4.6 6.2 3.6c.4-.2.8-.1 1 .2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>+54 9 11 5427-2065</span></a>
+          <a class="footer-contact-item footer-contact-item--link" href="https://wa.me/5491154272065" target="_blank" rel="noopener"><span data-romix-icon="MessageCircle" data-romix-icon-size="sm"></span><span>+54 9 11 5427-2065</span></a>
           <span class="footer-contact-divider" aria-hidden="true"></span>
-          <span class="footer-contact-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.2" stroke="currentColor" stroke-width="1.6"/></svg><span>CABA, Argentina</span></span>
+          <span class="footer-contact-item"><span data-romix-icon="MapPin" data-romix-icon-size="sm"></span><span>CABA, Argentina</span></span>
         </div>
       </div>
       <nav class="footer-column" aria-label="Comprar"><h4>Comprar</h4><ul><li><a href="catalogo.html?sections=mujer">Mujer</a></li><li><a href="catalogo.html?sections=hombre">Hombre</a></li><li><a href="catalogo.html?sections=ninos">Ni&ntilde;os</a></li><li><a href="catalogo.html?view=novedades">Novedades</a></li><li><a href="catalogo.html?q=oferta">Ofertas</a></li></ul></nav>
@@ -1711,7 +1713,7 @@
     <div class="footer-bottom">
       <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
       <div class="footer-socials" aria-label="Redes sociales">
-        <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.7"/><circle cx="17.3" cy="6.8" r="1" fill="currentColor"/></svg></a>
+        <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><span data-romix-icon="Instagram" data-romix-icon-size="sm"></span></a>
         <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V10H8.3v3h2.6v8h2.9Z"/></svg></a>
         <a href="https://www.tiktok.com/@romix_tienda?_r=1&amp;_t=ZS-97FOkImZhLN" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.3 3c.4 2.2 1.7 3.6 3.7 3.8v3.1c-1.4 0-2.7-.4-3.7-1.1v6.1a6.1 6.1 0 1 1-5.3-6V12a3 3 0 1 0 2.2 2.9V3h3.1Z"/></svg></a>
         <a href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.8 7l-4.2 1 1.1-4A8 8 0 1 1 20 11.7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.4 7.8c.4-.3.8-.1 1 .3l.8 1.7c.1.3.1.6-.2.8l-.7.7c.8 1.7 2 2.9 3.7 3.7l.7-.7c.2-.3.5-.3.8-.2l1.7.8c.4.2.6.6.3 1-1 1.4-2.4 1.7-4 .9-2.8-1.3-5-3.5-6.3-6.3-.8-1.7-.5-3.1.9-4Z" fill="currentColor"/></svg></a>
@@ -1721,11 +1723,11 @@
 </footer>
 <!-- ROMIX:SHELL:FOOTER:END -->
 
-  <script src="assets/js/romix-image-utils.js?v=13"></script>
-  <script src="assets/js/romix-pricing.js?v=1"></script>
-  <script src="assets/js/products-store.js?v=13"></script>
-  <script src="assets/js/catalog-relevance-order.js?v=13"></script>
-  <script src="assets/js/romix-header.js?v=13"></script>
+  <script src="assets/js/romix-image-utils.js?v=14"></script>
+  <script src="assets/js/romix-pricing.js?v=14"></script>
+  <script src="assets/js/products-store.js?v=14"></script>
+  <script src="assets/js/catalog-relevance-order.js?v=14"></script>
+  <script src="assets/js/romix-header.js?v=14"></script>
   <script>
     const imageUtils = window.romixImageUtils || {};
     const pricing = window.romixPricing || {};
@@ -1739,12 +1741,12 @@
     const HOME_SQUARE_IMAGE_SIZES = "(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px";
 
     const HOME_CATEGORIES = [
-      { label: "Calzas", query: "calzas", imagePath: "images/calzas.png", optimizedBase: "calzas" },
-      { label: "Camperas", query: "camperas", imagePath: "images/camperas.png", optimizedBase: "camperas" },
-      { label: "Remeras", query: "remeras", imagePath: "images/remeras.png", optimizedBase: "remeras" },
-      { label: "Tops", query: "tops", imagePath: "images/tops.png", optimizedBase: "tops" },
-      { label: "Buzos", query: "buzos", imagePath: "images/buzos.png", optimizedBase: "buzos" },
-      { label: "Pantalones", query: "pantalones", imagePath: "images/pantalones.png", optimizedBase: "pantalones" },
+      { label: "Calzas", query: "calzas", icon: "Shirt", imagePath: "images/calzas.png", optimizedBase: "calzas" },
+      { label: "Camperas", query: "camperas", icon: "ShoppingBag", imagePath: "images/camperas.png", optimizedBase: "camperas" },
+      { label: "Remeras", query: "remeras", icon: "Shirt", imagePath: "images/remeras.png", optimizedBase: "remeras" },
+      { label: "Tops", query: "tops", icon: "Sparkles", imagePath: "images/tops.png", optimizedBase: "tops" },
+      { label: "Buzos", query: "buzos", icon: "Shirt", imagePath: "images/buzos.png", optimizedBase: "buzos" },
+      { label: "Pantalones", query: "pantalones", icon: "Shirt", imagePath: "images/pantalones.png", optimizedBase: "pantalones" },
     ];
 
     let refreshProductsCarousel = null;
@@ -1978,7 +1980,7 @@
                 height: squareImageSize.height
               })}
             </div>
-            <span>${label}</span>
+          <span class="category-label">${window.romixIcon(category.icon || "Shirt", { size: "sm" })}${label}</span>
           </a>
         `;
       }).join("");
@@ -2009,6 +2011,7 @@
         const defaultThumbSet = resolveThumbSet(product);
         const stockInfo = getProductStockMeta(product);
         const variantsData = getProductVariants(product);
+        let selectedVariant = variantsData[0] || null;
         const metaText = getProductMeta(product);
 
         const card = document.createElement("article");
@@ -2129,6 +2132,7 @@
             btn.setAttribute("aria-label", "Seleccionar color " + variant.name);
             btn.setAttribute("aria-pressed", index === 0 ? "true" : "false");
             btn.title = variant.name;
+            btn.innerHTML = '<span class="sr-only">Color ' + safeText(variant.name) + '</span>';
             btn.dataset.colorName = variant.name;
             btn.dataset.colorIndex = String(index);
 
@@ -2147,6 +2151,7 @@
               });
               btn.classList.add("is-active");
               btn.setAttribute("aria-pressed", "true");
+              selectedVariant = variant;
               thumbLink.classList.remove("is-loaded");
               setImg(variant.thumb || variant.image, variant.name);
             });
@@ -2200,24 +2205,56 @@
         body.appendChild(priceRow);
 
         const cta = document.createElement("a");
-        cta.className = "product-cta";
+        cta.className = "product-cta romix-btn romix-btn--outline romix-btn--sm";
         cta.href = href;
-        cta.textContent = "Detalles";
+        cta.innerHTML = window.romixIcon("Eye", { size: "sm" }) + "<span>Detalles</span>";
         body.appendChild(cta);
 
         const favorite = document.createElement("button");
         favorite.type = "button";
-        favorite.className = "product-favorite";
+        favorite.className = "product-favorite romix-icon-btn romix-icon-btn--soft";
         favorite.setAttribute("aria-label", "Guardar en favoritos");
         favorite.setAttribute("aria-pressed", "false");
-        favorite.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20.5S4.5 16.2 4.5 9.8C4.5 6.9 6.6 5 9.1 5c1.4 0 2.4.6 2.9 1.5C12.6 5.6 13.6 5 14.9 5c2.5 0 4.6 1.9 4.6 4.8 0 6.4-7.5 10.7-7.5 10.7Z" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        favorite.innerHTML = window.romixIcon("Heart", { size: "md" });
         favorite.addEventListener("click", function () {
           const active = favorite.getAttribute("aria-pressed") === "true";
           favorite.setAttribute("aria-pressed", active ? "false" : "true");
+          favorite.classList.toggle("is-active", !active);
+        });
+
+        const cart = document.createElement("button");
+        cart.type = "button";
+        cart.className = "product-cart romix-icon-btn romix-icon-btn--primary";
+        cart.setAttribute("aria-label", "Agregar " + (product && product.name ? product.name : "producto") + " al carrito");
+        cart.innerHTML = window.romixIcon("ShoppingCart", { size: "md" });
+        cart.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          const sizes = Array.isArray(product && product.sizes) ? product.sizes : [];
+          const availableSize = sizes.find((entry) => entry && entry.status !== "out");
+          if (window.romixCart && typeof window.romixCart.addToCart === "function") {
+            window.romixCart.addToCart({
+              productId: product.id,
+              id: product.id,
+              name: product.name,
+              type: product.type,
+              price: product.price,
+              image: selectedVariant ? selectedVariant.image : product.image,
+              color: selectedVariant ? selectedVariant.name : "Unico",
+              colorName: selectedVariant ? selectedVariant.name : "Unico",
+              size: availableSize ? availableSize.value : "U",
+              talle: availableSize ? availableSize.value : "U",
+              qty: 1
+            });
+            if (typeof window.romixCart.updateBadge === "function") window.romixCart.updateBadge("#cart-count");
+            cart.classList.add("is-added");
+            setTimeout(() => cart.classList.remove("is-added"), 900);
+          }
         });
 
         card.appendChild(thumbLink);
         card.appendChild(favorite);
+        card.appendChild(cart);
         card.appendChild(body);
         row.appendChild(card);
       });
@@ -2292,6 +2329,7 @@
           dot.type = "button";
           dot.className = "main-hero-carousel__dot" + (index === 0 ? " is-active" : "");
           dot.setAttribute("aria-label", "Ir a la imagen " + (index + 1));
+          dot.innerHTML = '<span class="sr-only">Imagen ' + (index + 1) + '</span>';
           dot.addEventListener("click", () => {
             goTo(index);
             startAutoplay();
@@ -2487,6 +2525,6 @@
     })();
   </script>
   <romix-toast></romix-toast>
-  <script type="module" src="assets/js/ts/main.js"></script>
+  <script type="module" src="assets/js/ts/main.js?v=14"></script>
 </body>
 </html>

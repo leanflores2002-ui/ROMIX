@@ -245,9 +245,9 @@
     panel.setAttribute('aria-live', 'polite');
     panel.setAttribute('aria-atomic', 'true');
     panel.innerHTML = `
-      <button type="button" class="romix-icon-btn romix-cart-added-panel__close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button type="button" class="romix-icon-btn romix-cart-added-panel__close" aria-label="Cerrar">${window.romixIcon("X", { size: "sm" })}</button>
       <div class="romix-cart-added-panel__header">
-        <span class="romix-cart-added-panel__icon" aria-hidden="true">&#10003;</span>
+        <span class="romix-cart-added-panel__icon" aria-hidden="true">${window.romixIcon("Check", { size: "md" })}</span>
         <p class="romix-cart-added-panel__status">Agregado a la bolsa de compra</p>
       </div>
       <div class="romix-cart-added-panel__content">

@@ -1942,6 +1942,16 @@ header.romix-shared-header .mega-link-icon[data-icon="move"]::before {
   inset: 7px;
 }
 
+/* Mega-navigation icons are rendered by the local Lucide ROMIX registry. */
+.site-header .mega-link-icon::before,
+header.romix-shared-header .mega-link-icon::before,
+.site-header .mega-accessory-icon::before,
+header.romix-shared-header .mega-accessory-icon::before { display: none; }
+.site-header .mega-link-icon,
+header.romix-shared-header .mega-link-icon,
+.site-header .mega-accessory-icon,
+header.romix-shared-header .mega-accessory-icon { display: inline-grid; place-items: center; color: var(--romix-pink); }
+
 .site-header .mega-link-label,
 header.romix-shared-header .mega-link-label {
   min-width: 0;

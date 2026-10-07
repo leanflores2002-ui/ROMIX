@@ -494,3 +494,8 @@
   .main-image img, .thumbs img, .product-accordion__content, .related-products__card, .romix-toast { transition: none; }
   .product-skeleton__media, .product-skeleton__line, .product-skeleton__pill, .product-skeleton__button { animation: none; }
 }
+
+.product-accordion__faq { display: grid; gap: 12px; }
+.product-accordion__faq-intro { display: block; }
+.product-accordion__faq a { display: inline-flex; align-items: center; gap: 7px; width: fit-content; }
+.product-accordion__faq a .romix-icon { flex: 0 0 auto; }

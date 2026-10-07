@@ -124,6 +124,14 @@ body[data-catalog-scope] select { font: inherit; }
 .size-chip input:checked + label { border-color: var(--catalog-pink); color: var(--catalog-pink-dark); background: var(--catalog-pink-soft); }
 .filters-group.is-collapsed .size-grid { display: none; }
 .filter-helper { margin: 0 0 10px; color: var(--catalog-muted); font-size: .74rem; line-height: 1.45; }
+.filter-heading-icon { display: inline-flex; margin-right: 6px; color: var(--catalog-pink); vertical-align: middle; }
+.filter-price-range { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: end; gap: 6px; }
+.filter-price-range label { display: grid; gap: 5px; min-width: 0; color: var(--catalog-muted); font-size: .66rem; line-height: 1.2; }
+.filter-price-range input { width: 100%; min-height: 38px; min-width: 0; padding: 0 8px; border: 1px solid var(--catalog-line); border-radius: 8px; color: var(--catalog-ink); background: #fff; font: inherit; font-size: .72rem; }
+.filter-price-range input:focus-visible { outline: 2px solid var(--catalog-ink); outline-offset: 2px; }
+.filter-price-range__dash { padding-bottom: 11px; color: var(--catalog-muted); }
+.filter-price-range .romix-btn { grid-column: 1 / -1; justify-self: start; min-height: 36px; }
+#sale-filter-group .filter-option, #availability-filter-group .filter-option { min-height: 40px; }
 .filter-more {
   min-height: 40px; margin: 6px 0 -8px; padding: 0; border: 0;
   color: var(--catalog-pink-dark); background: transparent;

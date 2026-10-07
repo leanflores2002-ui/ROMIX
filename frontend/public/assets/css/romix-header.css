@@ -1538,6 +1538,128 @@ header.romix-shared-header .main-nav .mega-trigger.active {
   color: var(--header-pink);
 }
 
+/* Shared header utilities: quiet controls and a compact desktop menu. */
+.site-header .header-icons,
+header.romix-shared-header .header-icons {
+  gap: 4px;
+}
+.site-header .header-icons .icon-btn,
+header.romix-shared-header .header-icons .icon-btn,
+.site-header .header-icons .cart-pill,
+header.romix-shared-header .header-icons .cart-pill {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--romix-radius);
+  background: transparent;
+  color: var(--romix-ink);
+  box-shadow: none;
+  transform: none;
+}
+.site-header .header-icons .icon-btn:hover,
+header.romix-shared-header .header-icons .icon-btn:hover,
+.site-header .header-icons .cart-pill:hover,
+header.romix-shared-header .header-icons .cart-pill:hover {
+  border-color: transparent;
+  background: var(--romix-pink-bg);
+  color: var(--romix-pink);
+  box-shadow: none;
+  transform: none;
+}
+.site-header .header-icons .cart-pill__icon,
+header.romix-shared-header .header-icons .cart-pill__icon {
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: currentColor;
+}
+.site-header .header-icons .cart-pill .icon-badge,
+header.romix-shared-header .header-icons .cart-pill .icon-badge {
+  top: 4px;
+  right: 3px;
+  width: auto;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  transform: none;
+  border-radius: 999px;
+  background: var(--romix-pink);
+  color: #fff;
+  font-size: .58rem;
+  line-height: 16px;
+}
+.header-utility-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: max(20px, calc((100vw - 1400px) / 2));
+  z-index: 620;
+  width: 224px;
+  padding: 8px;
+  border: 1px solid var(--romix-border);
+  border-radius: var(--romix-radius);
+  background: #fff;
+  box-shadow: var(--romix-shadow-lg);
+}
+.header-utility-panel[hidden] { display: none !important; }
+.header-utility-panel__inner { display: grid; gap: 5px; }
+.header-utility-panel__title {
+  margin: 4px 10px 5px;
+  color: var(--romix-text-muted);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.header-utility-panel nav { display: grid; gap: 2px; }
+.header-utility-panel a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 10px;
+  border-radius: var(--romix-radius-sm);
+  color: var(--romix-ink);
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.header-utility-panel a:hover,
+.header-utility-panel a:focus-visible {
+  background: var(--romix-pink-bg);
+  color: var(--romix-pink);
+  outline: none;
+}
+.header-utility-panel a .romix-icon { color: currentColor; }
+
+@media (min-width: 901px) {
+  .site-header .header-search-mobile,
+  header.romix-shared-header .header-search-mobile { display: none; }
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { display: inline-flex; }
+}
+
+@media (max-width: 900px) {
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { display: none; }
+  .site-header .header-icons,
+  header.romix-shared-header .header-icons { gap: 0; }
+  .site-header .header-icons .icon-btn,
+  header.romix-shared-header .header-icons .icon-btn,
+  .site-header .header-icons .cart-pill,
+  header.romix-shared-header .header-icons .cart-pill {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+  .header-utility-panel { display: none !important; }
+}
+
 .site-header .mega-chevron,
 header.romix-shared-header .mega-chevron {
   width: 12px;
@@ -3890,6 +4012,25 @@ header.romix-shared-header .mega-guide-card:focus-visible {
   header.romix-shared-header .mega-panel-link {
     transition: none;
   }
+}
+
+/* Final responsive visibility rules for the shared action set. */
+@media (min-width: 901px) {
+  .site-header .header-search-mobile,
+  header.romix-shared-header .header-search-mobile { display: none !important; }
+  .site-header .header-search-desktop,
+  header.romix-shared-header .header-search-desktop,
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { display: inline-flex !important; }
+}
+
+@media (max-width: 900px) {
+  .site-header .header-search-desktop,
+  header.romix-shared-header .header-search-desktop,
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { display: none !important; }
+  .site-header .header-search-mobile,
+  header.romix-shared-header .header-search-mobile { display: inline-flex !important; }
 }
 
 /* Shared icon controls keep the header structure while using ROMIX dimensions. */

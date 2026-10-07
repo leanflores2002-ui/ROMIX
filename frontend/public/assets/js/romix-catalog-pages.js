@@ -5,6 +5,9 @@
   const SIZE_BASE = ["1", "2", "3", "4", "5", "6"];
   const imageUtils = window.romixImageUtils || {};
   const pricing = window.romixPricing || {};
+  const iconMarkup = (name, options) => typeof window.romixIcon === "function"
+    ? window.romixIcon(name, options)
+    : "";
   const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
     ? imageUtils.dimensions.productCard
     : { width: 720, height: 960 };
@@ -118,7 +121,9 @@
       categories: new Set(),
       types: new Set(),
       seasons: new Set(),
-      sizes: new Set()
+      sizes: new Set(),
+      sale: new Set(),
+      stock: new Set()
     },
     optionLabels: {
       audiences: new Map(),
@@ -131,6 +136,8 @@
     },
     showAllColors: false,
     showAllSizes: false,
+    priceMin: "",
+    priceMax: "",
     sizeValues: [],
     visibleCount: window.innerWidth <= 768 ? 8 : 12
   };
@@ -219,6 +226,7 @@
   function getActiveFilters() {
     const result = [];
     Object.keys(state.selected).forEach((group) => {
+      if (group === "sale" || group === "stock") return;
       state.selected[group].forEach((value) => {
         result.push({
           group,
@@ -227,6 +235,18 @@
         });
       });
     });
+    if (state.priceMin !== "") {
+      result.push({ group: "price_min", value: state.priceMin, label: "Precio desde " + formatPrice(state.priceMin) });
+    }
+    if (state.priceMax !== "") {
+      result.push({ group: "price_max", value: state.priceMax, label: "Precio hasta " + formatPrice(state.priceMax) });
+    }
+    if (state.selected.sale.has("1")) {
+      result.push({ group: "sale", value: "1", label: "Ofertas" });
+    }
+    if (state.selected.stock.has("available")) {
+      result.push({ group: "stock", value: "available", label: "Con stock" });
+    }
     return result;
   }
 
@@ -422,6 +442,28 @@
     };
     const normalized = aliases[requested] || requested;
     return SORT_OPTIONS.some((entry) => entry.key === normalized) ? normalized : "recommended";
+  }
+
+  function readInitialPriceValue(key) {
+    let params = null;
+    try {
+      params = new URLSearchParams(window.location.search || "");
+    } catch (_error) {
+      return "";
+    }
+    const raw = params.get(key);
+    if (raw == null || String(raw).trim() === "") return "";
+    const value = Number(raw);
+    return Number.isFinite(value) && value >= 0 ? String(value) : "";
+  }
+
+  function hasInitialQueryFlag(key, expected) {
+    try {
+      const value = normalizeText(new URLSearchParams(window.location.search || "").get(key) || "");
+      return value === normalizeText(expected);
+    } catch (_error) {
+      return false;
+    }
   }
 
   function readInitialSearchAnyTokens() {
@@ -625,6 +667,13 @@
     const requestedTypes = readInitialTypeFilterKeys();
     const requestedSeasons = readInitialSeasonFilterKeys();
     const requestedSizes = readInitialSizeFilterKeys();
+    const requestedSale = hasInitialQueryFlag("sale", "1") || normalizeText(readInitialSearchQuery()) === "oferta";
+    const requestedStock = hasInitialQueryFlag("stock", "available");
+    state.priceMin = readInitialPriceValue("price_min");
+    state.priceMax = readInitialPriceValue("price_max");
+
+    if (requestedSale) state.selected.sale.add("1");
+    if (requestedStock) state.selected.stock.add("available");
 
     if (requestedAudiences.length) {
       const audienceKey = requestedAudiences[0];
@@ -688,9 +737,10 @@
 
   function applyInitialSearchFromQuery() {
     const searchQuery = readInitialSearchQuery();
-    state.searchQueryRaw = searchQuery;
-    state.searchQueryNorm = normalizeText(searchQuery);
-    state.searchTokens = tokenizeSearch(searchQuery);
+    const isOfferQuery = normalizeText(searchQuery) === "oferta";
+    state.searchQueryRaw = isOfferQuery ? "" : searchQuery;
+    state.searchQueryNorm = isOfferQuery ? "" : normalizeText(searchQuery);
+    state.searchTokens = isOfferQuery ? [] : tokenizeSearch(searchQuery);
     state.searchAnyTokens = readInitialSearchAnyTokens();
     state.searchExcludeTokens = readInitialSearchExcludeTokens();
   }
@@ -959,8 +1009,40 @@
       colors,
       filterColorKeys: filterColorKeys.length ? filterColorKeys : ["otros"],
       sizes,
+      stockByColor: raw && raw.stockByColor && typeof raw.stockByColor === "object" ? raw.stockByColor : null,
+      inventory: raw && raw.inventory && typeof raw.inventory === "object" ? raw.inventory : null,
       stockStatus: baseStock || statusFromSizes(sizes)
     };
+  }
+
+  function isProductOffer(product) {
+    if (!product) return false;
+    const badge = normalizeText(product.badge || product.featuredBadge || "");
+    return badge === "oferta" || badge.includes("oferta") || (Number(product.originalPrice) > Number(product.price));
+  }
+
+  function hasAvailableInventory(value) {
+    if (typeof value === "number") return value > 0;
+    if (typeof value === "string") {
+      const normalized = normalizeText(value);
+      if (normalized === "available" || normalized === "disponible" || normalized === "low" || normalized === "bajo") return true;
+      if (normalized === "out" || normalized === "sin stock" || normalized === "agotado") return false;
+      const amount = Number(value);
+      return Number.isFinite(amount) && amount > 0;
+    }
+    if (!value || typeof value !== "object") return false;
+    if (value.status && (normalizeStatus(value.status) === "available" || normalizeStatus(value.status) === "low")) return true;
+    return Object.values(value).some((entry) => hasAvailableInventory(entry));
+  }
+
+  function isProductAvailable(product) {
+    if (!product) return false;
+    if (product.stockStatus === "available" || product.stockStatus === "low") return true;
+    if (Array.isArray(product.sizes) && product.sizes.some((entry) => {
+      const status = normalizeStatus(entry && entry.status);
+      return status === "available" || status === "low";
+    })) return true;
+    return hasAvailableInventory(product.stockByColor) || hasAvailableInventory(product.inventory);
   }
 
   async function loadProducts() {
@@ -1196,10 +1278,10 @@
     if (!openBtn && !heading) return;
 
     const triggerMarkup =
-      '<span class="filters-open-btn-icon" aria-hidden="true">' + window.romixIcon("SlidersHorizontal", { size: "sm" }) + '</span>' +
+      '<span class="filters-open-btn-icon" aria-hidden="true">' + iconMarkup("SlidersHorizontal", { size: "sm" }) + '</span>' +
       '<span class="filters-open-btn-text">Filtrar y ordenar</span>' +
       '<span class="filters-open-btn-chevron" aria-hidden="true">' +
-        window.romixIcon("ChevronDown", { size: "sm" }) +
+        iconMarkup("ChevronDown", { size: "sm" }) +
       '</span>';
 
     if (openBtn && openBtn.dataset.mobileReady !== "1") {
@@ -1621,7 +1703,7 @@
       const detailsLink = document.createElement("a");
       detailsLink.className = "catalog-cta romix-btn romix-btn--outline romix-btn--sm";
       detailsLink.href = productDetailUrl;
-      detailsLink.innerHTML = window.romixIcon("Eye", { size: "sm" }) + "<span>Detalles</span>";
+      detailsLink.innerHTML = iconMarkup("Eye", { size: "sm" }) + "<span>Detalles</span>";
       body.appendChild(detailsLink);
 
       card.appendChild(thumb);
@@ -1671,6 +1753,12 @@
       if (!hasSize) return false;
     }
 
+    const price = Number(product.price);
+    if (state.priceMin !== "" && (!Number.isFinite(price) || price < Number(state.priceMin))) return false;
+    if (state.priceMax !== "" && (!Number.isFinite(price) || price > Number(state.priceMax))) return false;
+    if (state.selected.sale.has("1") && !isProductOffer(product)) return false;
+    if (state.selected.stock.has("available") && !isProductAvailable(product)) return false;
+
     if (!matchesSearchQuery(product)) return false;
 
     return true;
@@ -1718,7 +1806,7 @@
       remove.dataset.group = item.group;
       remove.dataset.value = item.value;
       remove.setAttribute("aria-label", "Quitar filtro " + item.label);
-      remove.innerHTML = window.romixIcon("X", { size: "sm" });
+      remove.innerHTML = iconMarkup("X", { size: "sm" });
 
       chip.appendChild(text);
       chip.appendChild(remove);
@@ -1743,7 +1831,8 @@
       "categories", "categoria", "categorias", "category", "cat",
       "types", "type", "tipos", "tipo", "seasons", "season", "temporada", "temp",
       "sections", "section", "secciones", "seccion", "sizes", "size", "talles", "talle",
-      "edad", "edades", "audiencia", "audience", "colors", "color", "colores", "sort", "order"
+      "edad", "edades", "audiencia", "audience", "colors", "color", "colores", "sort", "order",
+      "price_min", "price_max", "sale", "stock"
     ];
     filterKeys.forEach((key) => params.delete(key));
     const mapping = {
@@ -1770,6 +1859,11 @@
     }
 
     if (state.sortBy !== "recommended") params.set("sort", state.sortBy);
+    if (state.priceMin !== "") params.set("price_min", state.priceMin);
+    if (state.priceMax !== "") params.set("price_max", state.priceMax);
+    if (state.selected.sale.has("1")) params.set("sale", "1");
+    if (state.selected.stock.has("available")) params.set("stock", "available");
+    if (!state.selected.sale.has("1") && normalizeText(params.get("q") || "") === "oferta") params.delete("q");
     const query = params.toString();
     const nextUrl = window.location.pathname + (query ? "?" + query : "") + window.location.hash;
     window.history.replaceState(window.history.state, "", nextUrl);
@@ -1802,14 +1896,29 @@
   function resetFilters() {
     Object.keys(state.selected).forEach((key) => state.selected[key].clear());
     state.showAllSizes = false;
+    state.priceMin = "";
+    state.priceMax = "";
     document.querySelectorAll(".filters-sidebar input[data-group]").forEach((input) => {
       input.checked = false;
     });
+    renderPriceFilters();
     renderSizeFilters();
     applyFilters();
   }
 
   function removeActiveFilter(group, value) {
+    if (group === "price_min") {
+      state.priceMin = "";
+      renderPriceFilters();
+      applyFilters();
+      return;
+    }
+    if (group === "price_max") {
+      state.priceMax = "";
+      renderPriceFilters();
+      applyFilters();
+      return;
+    }
     if (!group || !state.selected[group]) return;
     const safeValue = String(value || "");
     state.selected[group].delete(safeValue);
@@ -1879,6 +1988,19 @@
     });
 
     toggleExtraOptions("colors", state.showAllColors);
+  }
+
+  function renderPriceFilters() {
+    const minInput = document.getElementById("price-min");
+    const maxInput = document.getElementById("price-max");
+    const error = document.getElementById("price-filter-error");
+    if (minInput) minInput.value = state.priceMin;
+    if (maxInput) maxInput.value = state.priceMax;
+    const saleInput = document.querySelector('.filters-sidebar input[data-group="sale"]');
+    const stockInput = document.querySelector('.filters-sidebar input[data-group="stock"]');
+    if (saleInput) saleInput.checked = state.selected.sale.has("1");
+    if (stockInput) stockInput.checked = state.selected.stock.has("available");
+    if (error) error.hidden = true;
   }
 
   function renderCategoryFilters() {
@@ -2154,6 +2276,35 @@
     const clearBtn = document.getElementById("clear-filters");
     if (clearBtn) clearBtn.addEventListener("click", resetFilters);
 
+    const applyPrice = document.getElementById("apply-price-filter");
+    const minPriceInput = document.getElementById("price-min");
+    const maxPriceInput = document.getElementById("price-max");
+    const commitPriceFilter = function () {
+      const minRaw = String(minPriceInput && minPriceInput.value || "").trim();
+      const maxRaw = String(maxPriceInput && maxPriceInput.value || "").trim();
+      const min = minRaw === "" ? "" : Number(minRaw);
+      const max = maxRaw === "" ? "" : Number(maxRaw);
+      const error = document.getElementById("price-filter-error");
+      if ((min !== "" && (!Number.isFinite(min) || min < 0)) || (max !== "" && (!Number.isFinite(max) || max < 0)) || (min !== "" && max !== "" && min > max)) {
+        if (error) error.hidden = false;
+        return;
+      }
+      state.priceMin = min === "" ? "" : String(min);
+      state.priceMax = max === "" ? "" : String(max);
+      if (error) error.hidden = true;
+      applyFilters();
+    };
+    if (applyPrice) applyPrice.addEventListener("click", commitPriceFilter);
+    [minPriceInput, maxPriceInput].forEach((input) => {
+      if (!input) return;
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          commitPriceFilter();
+        }
+      });
+    });
+
     const activeFiltersClearBtn = document.getElementById("active-filters-clear");
     if (activeFiltersClearBtn) activeFiltersClearBtn.addEventListener("click", resetFilters);
 
@@ -2259,12 +2410,13 @@
       applyInitialSearchFromQuery();
       applyInitialFiltersFromQuery();
 
-      renderColorFilters();
-      renderSectionFilters();
-      renderCategoryFilters();
-      renderSeasonFilters();
-      renderSizeFilters();
-      applyFilters();
+    renderColorFilters();
+    renderSectionFilters();
+    renderCategoryFilters();
+    renderSeasonFilters();
+    renderSizeFilters();
+    renderPriceFilters();
+    applyFilters();
     } catch (error) {
       const grid = document.getElementById("product-grid");
       if (grid) {

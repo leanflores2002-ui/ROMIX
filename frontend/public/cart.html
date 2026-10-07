@@ -16,11 +16,12 @@
   header[data-romix-shell="header-v1"] .mega-nav,header[data-romix-shell="header-v1"] .main-nav-wrap{min-width:0}
   header[data-romix-shell="header-v1"] .main-nav{display:flex;align-items:center;justify-content:center;gap:34px;margin:0;padding:0;list-style:none}
   header[data-romix-shell="header-v1"] .main-nav a{display:flex;align-items:center;min-height:44px;color:#171317;text-decoration:none;font:700 14px/1 Arial,sans-serif}
-  header[data-romix-shell="header-v1"] .header-icons{display:flex;align-items:center;justify-content:flex-end;gap:8px}
-  header[data-romix-shell="header-v1"] .icon-btn,header[data-romix-shell="header-v1"] .cart-pill{min-width:44px;min-height:44px;border:0;background:transparent;color:#171317;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
-  header[data-romix-shell="header-v1"] .cart-pill{position:relative;gap:8px}
-  header[data-romix-shell="header-v1"] .cart-pill__text{display:grid;font:700 11px/1.1 Arial,sans-serif}
-  header[data-romix-shell="header-v1"] .icon-badge{position:absolute;top:0;right:0;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#f72585;color:#fff;font:700 10px/18px Arial,sans-serif;text-align:center}
+  header[data-romix-shell="header-v1"] .header-icons{display:flex;align-items:center;justify-content:flex-end;gap:4px}
+  header[data-romix-shell="header-v1"] .icon-btn,header[data-romix-shell="header-v1"] .cart-pill{min-width:44px;min-height:44px;border:1px solid transparent;border-radius:8px;background:transparent;color:#171317;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;position:relative}
+  header[data-romix-shell="header-v1"] .icon-btn:hover,header[data-romix-shell="header-v1"] .cart-pill:hover{background:#fff0f6;color:#f72585}
+  header[data-romix-shell="header-v1"] .cart-pill__text{display:none}
+  header[data-romix-shell="header-v1"] .cart-pill__icon{display:inline-flex;align-items:center;justify-content:center}
+  header[data-romix-shell="header-v1"] .icon-badge{position:absolute;top:3px;right:2px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#f72585;color:#fff;font:700 9px/16px Arial,sans-serif;text-align:center}
   header[data-romix-shell="header-v1"] .search-panel{max-height:0;overflow:hidden;background:#fff}
   header[data-romix-shell="header-v1"] .search-panel.is-open{max-height:calc(100dvh - 105px)}
   .site-footer[data-romix-shell="footer-v1"]{background:#242426;color:#fff}
@@ -33,7 +34,7 @@
     header[data-romix-shell="header-v1"] .header-actions-left{grid-area:left;display:flex;gap:4px}
     header[data-romix-shell="header-v1"] .brand{grid-area:brand;justify-self:center;font-size:20px}
     header[data-romix-shell="header-v1"] .header-icons{grid-area:actions}
-    header[data-romix-shell="header-v1"] .header-search-desktop,header[data-romix-shell="header-v1"] .cart-pill__text{display:none}
+    header[data-romix-shell="header-v1"] .header-search-desktop,header[data-romix-shell="header-v1"] .header-utility-menu{display:none}
     header[data-romix-shell="header-v1"] .mega-nav{position:fixed;inset:0 auto 0 0;width:min(88vw,360px);height:100dvh;padding:0 18px 24px;background:#fff;transform:translateX(-105%);overflow-y:auto}
     body.mobile-nav-open header[data-romix-shell="header-v1"] .mega-nav{transform:translateX(0)}
     header[data-romix-shell="header-v1"] .main-nav{display:grid;align-items:stretch;gap:2px}
@@ -778,7 +779,6 @@
   <div class="container header-row">
     <div class="header-actions-left" aria-label="Acciones principales">
       <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
-      <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
     </div>
     <a class="brand" href="index.html" aria-label="ROMIX inicio">ROMIX<span class="brand-dot">.</span></a>
     <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
@@ -792,16 +792,31 @@
           <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="catalogo.html?sections=hombre" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span></a></li>
           <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="catalogo.html?sections=ninos" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span></a></li>
           <li data-menu-key="novedades"><a class="mega-trigger" id="mega-trigger-novedades" href="catalogo.html?view=novedades" aria-expanded="false" aria-controls="mega-panel-novedades"><span>Novedades</span></a></li>
+          <li data-menu-key="ofertas"><a class="mega-trigger" id="mega-trigger-ofertas" href="catalogo.html?q=oferta"><span>Ofertas</span></a></li>
         </ul>
       </div>
     </nav>
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
       <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
+      <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
       <a class="cart-pill" href="cart.html" aria-label="Carrito de compras">
         <span class="cart-pill__icon" aria-hidden="true"><span data-romix-icon="ShoppingCart" data-romix-icon-size="md"></span></span>
         <span class="cart-pill__text"><strong>Carrito</strong></span>
         <span class="icon-badge" id="cart-count">0</span>
       </a>
+      <button class="icon-btn romix-icon-btn header-utility-menu" id="toggle-utility-menu" type="button" aria-label="Abrir menú de utilidades" aria-controls="header-utility-panel" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
+    </div>
+  </div>
+  <div class="header-utility-panel" id="header-utility-panel" role="dialog" aria-label="Men&uacute; de utilidades" aria-hidden="true" hidden>
+    <div class="header-utility-panel__inner">
+      <p class="header-utility-panel__title">ROMIX</p>
+      <nav aria-label="Utilidades">
+        <a href="catalogo.html"><span data-romix-icon="ShoppingBag" data-romix-icon-size="sm" aria-hidden="true"></span><span>Cat&aacute;logo</span></a>
+        <a href="catalogo.html?q=oferta"><span data-romix-icon="Tag" data-romix-icon-size="sm" aria-hidden="true"></span><span>Ofertas</span></a>
+        <a href="ayuda.html#size-guide"><span data-romix-icon="Ruler" data-romix-icon-size="sm" aria-hidden="true"></span><span>Gu&iacute;a de talles</span></a>
+        <a href="ayuda.html#faq"><span data-romix-icon="CircleHelp" data-romix-icon-size="sm" aria-hidden="true"></span><span>Ayuda</span></a>
+        <a href="ayuda.html#contact"><span data-romix-icon="MessageCircle" data-romix-icon-size="sm" aria-hidden="true"></span><span>Contacto</span></a>
+      </nav>
     </div>
   </div>
   <button class="mobile-nav-scrim" id="mobile-nav-scrim" type="button" aria-label="Cerrar men&uacute;" hidden></button>

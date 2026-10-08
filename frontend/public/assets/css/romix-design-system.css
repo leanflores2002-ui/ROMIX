@@ -23,6 +23,20 @@
   --romix-warning: #C66C12;
   --romix-danger: #B4233A;
 
+  /* Typography scale: Outfit for headings, Manrope for body and UI. */
+  --romix-font-heading: "Outfit", system-ui, sans-serif;
+  --romix-font-body: "Manrope", system-ui, sans-serif;
+  --romix-text-xs: 12px;
+  --romix-text-sm: 14px;
+  --romix-text-base: 16px;
+  --romix-text-lg: 18px;
+  --romix-text-xl: 20px;
+  --romix-heading-sm: clamp(22px, 2vw, 28px);
+  --romix-heading-md: clamp(28px, 3vw, 40px);
+  --romix-heading-lg: clamp(36px, 5vw, 64px);
+  --romix-leading-body: 1.6;
+  --romix-leading-tight: 1.08;
+
   /* Layout, shape and motion */
   --romix-radius-sm: 8px;
   --romix-radius: 10px;
@@ -48,6 +62,8 @@
   --romix-space-6: 32px;
   --romix-space-7: 48px;
   --romix-space-8: 64px;
+  --romix-space-9: 80px;
+  --romix-space-10: 96px;
   --romix-transition: 180ms ease;
   --romix-ease: var(--romix-transition);
   --romix-focus-ring: 0 0 0 3px rgba(242, 39, 151, .22);
@@ -85,7 +101,7 @@
   padding: 0 var(--romix-space-4);
   border: 1px solid transparent;
   border-radius: var(--romix-radius);
-  font: 700 0.875rem/1 "Manrope", system-ui, sans-serif;
+  font: 700 var(--romix-text-sm)/1 var(--romix-font-body);
   text-decoration: none;
   cursor: pointer;
   user-select: none;
@@ -153,7 +169,7 @@ romix-toast.romix-toast.romix-toast--error { background: var(--romix-danger); }
   romix-toast.romix-toast { transition: none; transform: none; }
 }
 .romix-btn--pill { border-radius: var(--romix-pill); }
-.romix-btn--sm { min-height: var(--romix-control-sm); padding-inline: var(--romix-space-3); font-size: .8125rem; }
+.romix-btn--sm { min-height: var(--romix-control-sm); padding-inline: var(--romix-space-3); font-size: var(--romix-text-sm); }
 .romix-btn--md { min-height: var(--romix-control-md); }
 .romix-btn--lg { min-height: var(--romix-control-lg); padding-inline: var(--romix-space-5); }
 .romix-btn:where(:disabled, [aria-disabled="true"]),
@@ -263,4 +279,30 @@ romix-toast.romix-toast.romix-toast--error { background: var(--romix-danger); }
 
 @media (prefers-reduced-motion: reduce) {
   .romix-btn, .romix-icon-btn, .romix-control { transition-duration: 0.01ms; }
+}
+
+/* Shared type and container baseline. Page styles may refine this by scope. */
+html { font-size: 16px; }
+body {
+  color: var(--romix-ink);
+  font-family: var(--romix-font-body);
+  font-size: var(--romix-text-base);
+  line-height: var(--romix-leading-body);
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--romix-font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: var(--romix-leading-tight);
+}
+.romix-container {
+  width: min(var(--romix-max), calc(100% - 48px));
+  margin-inline: auto;
+}
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  .romix-container { width: calc(100% - 32px); }
+}
+@media (max-width: 380px) {
+  .romix-container { width: calc(100% - 24px); }
 }

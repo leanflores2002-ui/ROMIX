@@ -3,7 +3,7 @@ const path = require('node:path');
 
 const publicDir = path.join(__dirname, '..', 'frontend', 'public');
 const assetVersion = '14';
-const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap';
+const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap';
 const pages = [
   'index.html',
   'catalogo.html',
@@ -207,12 +207,7 @@ function syncFonts(html, page) {
   let next = html
     .replace(/\s*<noscript>\s*<link[^>]+fonts\.googleapis\.com\/css2[^>]*>\s*<\/noscript>/gi, '')
     .replace(/\s*<link[^>]+fonts\.googleapis\.com\/css2[^>]*>/gi, '');
-  const links = [
-    `  <link href="${coreFontHref}" rel="stylesheet" />`,
-    page === 'index.html'
-      ? '  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&display=swap" rel="stylesheet" />'
-      : ''
-  ].filter(Boolean).join('\n');
+  const links = `  <link href="${coreFontHref}" rel="stylesheet" />`;
   const firstLocalStylesheet = /\s*<link\s+rel=["']stylesheet["']\s+href=["']assets\/css\//i;
   if (firstLocalStylesheet.test(next)) return next.replace(firstLocalStylesheet, '\n' + links + '\n  <link rel="stylesheet" href="assets/css/');
   return next.replace(/<\/head>/i, links + '\n</head>');

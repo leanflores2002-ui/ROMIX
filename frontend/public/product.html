@@ -2098,9 +2098,6 @@
         const primaryImageSrc = primaryImage.webpSrc || primaryImage.src || PLACEHOLDER;
         const primaryImageFallback = primaryImage.src || PLACEHOLDER;
         detail.innerHTML = `
-          <div class="mobile-product-name" aria-hidden="true">
-            <h1>${product.name || 'Producto'}</h1>
-          </div>
           <div class="detail-grid">
             <div class="gallery">
               <div class="main-image" role="button" tabindex="0" aria-label="Abrir zoom de imagen" aria-haspopup="dialog">
@@ -2124,6 +2121,9 @@
                   ${window.romixIcon("ChevronRight", { size: "md" })}
                 </button>
               </div>
+            </div>
+            <div class="mobile-product-name">
+              <h1>${product.name || 'Producto'}</h1>
             </div>
             <div class="info-panel">
               <div>

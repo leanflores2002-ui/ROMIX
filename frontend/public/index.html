@@ -748,8 +748,7 @@
       padding: 14px;
     }
 
-    .product-variant-thumbs,
-    .product-color-swatches {
+    .product-variant-thumbs {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
@@ -789,28 +788,7 @@
       transform: translateY(-1px);
     }
 
-    .product-color-swatch {
-      width: 22px;
-      height: 22px;
-      padding: 0;
-      border: 2px solid #fff;
-      border-radius: 50%;
-      outline: 1px solid #c9c5cc;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: outline-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
-    }
-
-    .product-color-swatch.is-active,
-    .product-color-swatch:hover,
-    .product-color-swatch:focus-visible {
-      outline: 2px solid var(--pink-strong);
-      box-shadow: 0 0 0 3px rgba(242, 39, 151, 0.16);
-      transform: translateY(-1px);
-    }
-
-    .product-variant-more,
-    .product-color-more {
+    .product-variant-more {
       display: inline-grid;
       place-items: center;
       min-width: 28px;
@@ -826,7 +804,6 @@
 
     @media (max-width: 640px) {
       .product-variant-thumb { width: 28px; height: 34px; }
-      .product-color-swatch { width: 20px; height: 20px; }
     }
 
     .product-name {
@@ -1793,12 +1770,6 @@
       : { width: 1254, height: 1254 };
     const HOME_CARD_IMAGE_SIZES = "(max-width: 640px) min(62vw, 240px), (max-width: 960px) min(34vw, 240px), 240px";
     const HOME_SQUARE_IMAGE_SIZES = "(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px";
-    const MULTICOLOR_SWATCH = "conic-gradient(from 20deg, #ef476f, #ffd166, #06d6a0, #118ab2, #8338ec, #ef476f)";
-
-    function isMulticolorVariant(value) {
-      return /(estampad[oa]|print|floread[oa]|multicolor)/i.test(normalizeText(value));
-    }
-
     const HOME_CATEGORIES = [
       { label: "Calzas", query: "calzas", icon: "Shirt", imagePath: "images/calzas.png", optimizedBase: "calzas" },
       { label: "Camperas", query: "camperas", icon: "ShoppingBag", imagePath: "images/camperas.png", optimizedBase: "camperas" },
@@ -2069,7 +2040,6 @@
         const defaultThumbSet = resolveThumbSet(product);
         const stockInfo = getProductStockMeta(product);
         const variantsData = getProductVariants(product);
-        let selectedVariant = variantsData[0] || null;
         const metaText = getProductMeta(product);
 
         const card = document.createElement("article");
@@ -2210,7 +2180,6 @@
           const visible = variantsData.slice(0, variantLimit);
 
           function activateVariant(index, variant) {
-            selectedVariant = variant;
             variantControls.forEach((control) => {
               const active = Number(control.dataset.variantIndex) === index;
               control.classList.toggle("is-active", active);
@@ -2256,39 +2225,6 @@
             thumbs.appendChild(more);
           }
           body.appendChild(thumbs);
-
-          const swatches = document.createElement("div");
-          swatches.className = "product-color-swatches";
-          swatches.setAttribute("aria-label", "Colores de variantes");
-          visible.forEach((variant, index) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "product-color-swatch variant-chip" + (index === 0 ? " is-active" : "");
-            button.setAttribute("aria-label", "Seleccionar color " + variant.name);
-            button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
-            button.title = variant.name;
-            button.innerHTML = '<span class="sr-only">Color ' + safeText(variant.name) + '</span>';
-            button.dataset.colorName = variant.name;
-            button.dataset.variantIndex = String(index);
-            button.style.background = isMulticolorVariant(variant.name)
-              ? MULTICOLOR_SWATCH
-              : (variant.hex || "#efecf3");
-            button.addEventListener("click", function (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              activateVariant(index, variant);
-            });
-            swatches.appendChild(button);
-            variantControls.push(button);
-          });
-          if (variantsData.length > visible.length) {
-            const more = document.createElement("span");
-            more.className = "product-color-more variant-more";
-            more.textContent = "+" + (variantsData.length - visible.length);
-            more.setAttribute("aria-label", "Hay " + (variantsData.length - visible.length) + " colores adicionales");
-            swatches.appendChild(more);
-          }
-          body.appendChild(swatches);
 
           const initial = visible[0];
           if (initial) setImg(initial, initial.name);

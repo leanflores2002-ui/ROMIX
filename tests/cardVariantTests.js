@@ -24,13 +24,15 @@ async function main() {
   const imageUtilsSource = readPublic('assets/js/romix-image-utils.js');
 
   assert(catalogSource.includes('colorOption && colorOption.image'), 'Catálogo debe priorizar color.image');
-  assert(catalogSource.includes('product-variant-thumbs') && catalogSource.includes('product-color-swatches'), 'Catálogo debe renderizar miniaturas y swatches separados');
+  assert(catalogSource.includes('product-variant-thumbs'), 'Catálogo debe renderizar miniaturas');
+  assert(!catalogSource.includes('product-color-swatches') && !catalogSource.includes('product-color-swatch'), 'Catálogo no debe renderizar swatches en las cards');
   assert(catalogSource.includes('let variantRequestId = 0'), 'Catálogo debe tener token por card');
   assert(catalogSource.includes('image.currentSrc || image.src'), 'Catálogo debe considerar currentSrc');
   assert(!catalogSource.includes('thumb.classList.remove("is-loaded")'), 'Catálogo no debe ocultar la foto anterior');
   assert(!catalogSource.includes('swatchImage'), 'Catálogo no debe usar fotos como swatches');
   assert(homeSource.includes('setImg(variant, variant.name)'), 'Home debe pasar la variante completa al selector');
-  assert(homeSource.includes('product-variant-thumbs') && homeSource.includes('product-color-swatches'), 'Home debe renderizar miniaturas y swatches separados');
+  assert(homeSource.includes('product-variant-thumbs'), 'Home debe renderizar miniaturas');
+  assert(!homeSource.includes('product-color-swatches') && !homeSource.includes('product-color-swatch'), 'Home no debe renderizar swatches en las cards');
   assert(!homeSource.includes('thumbLink.classList.remove("is-loaded")'), 'Home no debe ocultar la foto anterior');
   assert(!homeSource.includes('variant.swatchImage'), 'Home no debe usar fotos como swatches');
   assert(catalogCss.includes('.product-thumb img { object-fit: contain; object-position: center; opacity: 1;'), 'Catálogo debe mantener la imagen visible');
@@ -115,34 +117,25 @@ async function main() {
   const card = window.document.querySelector('.product-card');
   assert(card, 'Debe renderizarse una card de prueba');
   const image = card.querySelector('.product-thumb img');
-  const buttons = Array.from(card.querySelectorAll('.variant-chip'));
-  const byName = (name) => buttons.find((button) => button.title === name);
   assert(card.querySelectorAll('.product-variant-thumb').length === 4, 'La card debe mostrar cuatro miniaturas visibles');
   assert(card.querySelector('.product-variant-more').textContent.trim() === '+2', 'Las miniaturas deben mostrar overflow +n');
-  assert(card.querySelectorAll('.product-color-swatch').length === 4, 'La card debe mostrar cuatro swatches visibles');
-  assert(card.querySelector('.product-color-more').textContent.trim() === '+2', 'Los swatches deben conservar overflow +n');
-  assert(!/url\(/i.test(byName('Negro').style.backgroundImage), 'Un swatch normal no debe usar una foto');
-  assert(byName('Negro').style.background.includes('rgb') || byName('Negro').style.background.includes('#000'), 'Un swatch normal debe usar color.hex');
-  assert(byName('Estampado 1').style.background.includes('conic-gradient'), 'Un estampado debe usar swatch multicolor');
+  assert(card.querySelectorAll('.product-variant-thumbs').length === 1, 'La card debe mostrar una sola fila de variantes');
+  assert(!card.querySelector('.product-color-swatches'), 'La card no debe mostrar una fila de swatches');
+  assert(!card.querySelector('.product-color-swatch'), 'La card no debe mostrar círculos de color');
 
   card.querySelector('.product-variant-thumb[data-variant-index="2"]').click();
   await wait(window, 20);
   assert(image.src.endsWith('/images/products/azul.webp'), 'Click en miniatura debe cambiar la imagen principal');
-  assert(card.querySelector('.product-color-swatch[data-variant-index="2"]').classList.contains('is-active'), 'Miniatura debe activar su swatch');
+  assert(card.querySelector('.product-variant-thumb[data-variant-index="2"]').classList.contains('is-active'), 'La miniatura seleccionada debe quedar activa');
 
-  byName('Gris oscuro').click();
-  await wait(window, 40);
-  assert(card.querySelector('.product-variant-thumb[data-variant-index="1"]').classList.contains('is-active'), 'Swatch debe activar su miniatura');
-  assert(image.src.endsWith('/images/products/gris-oscuro.webp'), 'Click en swatch debe cambiar la imagen principal');
-
-  byName('Gris oscuro').click();
-  byName('Azul').click();
+  card.querySelector('.product-variant-thumb[data-variant-index="1"]').click();
+  card.querySelector('.product-variant-thumb[data-variant-index="2"]').click();
   await wait(window, 20);
   assert(image.src.endsWith('/images/products/azul.webp'), 'El último click debe ganar la carrera de precarga');
   assert(card.querySelector('.product-thumb').classList.contains('is-loaded'), 'La card debe conservar is-loaded tras cambiar variante');
   assert(card.querySelectorAll('.product-thumb picture source').length === 0, 'No debe quedar un source anterior en picture');
 
-  byName('Azul').click();
+  card.querySelector('.product-variant-thumb[data-variant-index="2"]').click();
   assert(card.querySelector('.product-thumb').classList.contains('is-loaded'), 'Repetir la misma variante no debe ocultar la imagen');
   assert(image.src.endsWith('/images/products/azul.webp'), 'Repetir la variante debe conservar su imagen');
 

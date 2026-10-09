@@ -1438,7 +1438,6 @@
     const grid = document.getElementById("product-grid");
     if (!grid) return;
     const allowVariantPreview = state.scope === "catalogo" || state.scope === "mujer" || state.scope === "hombre" || state.scope === "ninos" || state.scope === "novedades";
-    const variantPreviewLimit = isCompactVariantViewport() ? 3 : 4;
     grid.innerHTML = "";
 
     if (!state.view.length) {
@@ -1616,7 +1615,6 @@
 
       if (allowVariantPreview && Array.isArray(product.colors) && product.colors.length > 0) {
         const variantControls = [];
-        const visibleColors = product.colors.slice(0, Math.max(4, variantPreviewLimit));
         const visibleThumbs = product.colors.slice(0, 4);
 
         function activateVariant(index, color) {
@@ -1668,45 +1666,6 @@
           thumbs.appendChild(more);
         }
         body.appendChild(thumbs);
-
-        const swatches = document.createElement("div");
-        swatches.className = "product-color-swatches";
-        swatches.setAttribute("aria-label", "Colores de variantes");
-
-        visibleColors.forEach((color, index) => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "product-color-swatch variant-chip" + (index === 0 ? " is-active" : "");
-          button.setAttribute("aria-label", "Seleccionar color " + color.name);
-          button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
-          button.title = color.name;
-          const srLabel = document.createElement("span");
-          srLabel.className = "sr-only";
-          srLabel.textContent = "Color " + color.name;
-          button.appendChild(srLabel);
-          button.dataset.colorName = color.name;
-          button.dataset.colorIndex = String(index);
-          button.dataset.variantIndex = String(index);
-          button.style.background = normalizeColorToFilterKey(color.name) === "multicolor"
-            ? MULTICOLOR_SWATCH
-            : (color.hex || "#efecf3");
-          button.addEventListener("click", function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            activateVariant(index, color);
-          });
-          swatches.appendChild(button);
-          variantControls.push(button);
-        });
-
-        if (product.colors.length > visibleColors.length) {
-          const more = document.createElement("span");
-          more.className = "product-color-more variant-more";
-          more.textContent = "+" + (product.colors.length - visibleColors.length);
-          more.setAttribute("aria-label", "Hay " + (product.colors.length - visibleColors.length) + " colores adicionales");
-          swatches.appendChild(more);
-        }
-        body.appendChild(swatches);
       }
 
       const name = document.createElement("p");

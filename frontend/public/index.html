@@ -717,7 +717,7 @@
       object-fit: cover;
       object-position: center top;
       transition: opacity 0.28s ease, transform 0.3s ease;
-      opacity: 0;
+      opacity: 1;
       position: relative;
       z-index: 0;
     }
@@ -1738,7 +1738,7 @@
 </footer>
 <!-- ROMIX:SHELL:FOOTER:END -->
 
-  <script src="assets/js/romix-image-utils.js?v=14"></script>
+  <script src="assets/js/romix-image-utils.js?v=15"></script>
   <script src="assets/js/romix-pricing.js?v=14"></script>
   <script src="assets/js/products-store.js?v=14"></script>
   <script src="assets/js/catalog-relevance-order.js?v=14"></script>
@@ -1754,6 +1754,11 @@
       : { width: 1254, height: 1254 };
     const HOME_CARD_IMAGE_SIZES = "(max-width: 640px) min(62vw, 240px), (max-width: 960px) min(34vw, 240px), 240px";
     const HOME_SQUARE_IMAGE_SIZES = "(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px";
+    const MULTICOLOR_SWATCH = "conic-gradient(from 20deg, #ef476f, #ffd166, #06d6a0, #118ab2, #8338ec, #ef476f)";
+
+    function isMulticolorVariant(value) {
+      return /(estampad[oa]|print|floread[oa]|multicolor)/i.test(normalizeText(value));
+    }
 
     const HOME_CATEGORIES = [
       { label: "Calzas", query: "calzas", icon: "Shirt", imagePath: "images/calzas.png", optimizedBase: "calzas" },
@@ -1897,8 +1902,7 @@
           name: String(color && (color.name || color.value) || ("Color " + (index + 1))).trim(),
           hex: color && color.hex ? color.hex : "",
           image: resolvedImage,
-          thumb,
-          swatchImage: thumb || resolvedImage
+          thumb
         };
       });
     }
@@ -2079,35 +2083,62 @@
           picture.insertBefore(sourceTag, picture.querySelector("img") || null);
         }
 
-        function setImg(src, colorName) {
-          const chosenSet = resolveThumbSet(product, src);
-          mainImg.onerror = function () {
-            mainImg.onerror = null;
-            syncPictureSource("image/avif", "");
-            syncPictureSource("image/webp", "");
-            if (chosenSet.originalSrc && mainImg.src !== chosenSet.originalSrc) {
-              mainImg.src = chosenSet.originalSrc;
-              mainImg.alt = colorName
-                ? String(product && product.name ? product.name : "Producto") + " - " + colorName
-                : String(product && product.name ? product.name : "Producto");
-              thumbLink.classList.add("is-loaded");
-              return;
-            }
-            if (mainImg.src !== defaultThumbSet.fallbackSrc) {
-              mainImg.src = defaultThumbSet.fallbackSrc;
-              mainImg.alt = product && product.name ? String(product.name) : "Producto";
-              thumbLink.classList.add("is-loaded");
-              return;
-            }
-            mainImg.src = "images/logo-romix.png";
+        let variantRequestId = 0;
+
+        function preloadHomeImage(src) {
+          if (typeof imageUtils.loadImageResource === "function") {
+            return imageUtils.loadImageResource(src);
+          }
+          return Promise.resolve(!!String(src || "").trim());
+        }
+
+        function homeImageCandidates(variant, chosenSet, previousVisibleSrc, allowLastResort) {
+          const variantImage = variant && typeof variant === "object" ? variant.image : variant;
+          const variantThumb = variant && typeof variant === "object" ? (variant.thumb || variant.thumbnail) : "";
+          const values = [
+            variantImage,
+            variantThumb,
+            chosenSet && chosenSet.src,
+            chosenSet && chosenSet.fallbackSrc,
+            product && product.image,
+            previousVisibleSrc,
+            defaultThumbSet && defaultThumbSet.fallbackSrc
+          ];
+          if (allowLastResort) values.push("images/logo-romix.png");
+          const seen = new Set();
+          return values.map((value) => String(value || "").trim()).filter((value) => {
+            if (!value || seen.has(value)) return false;
+            seen.add(value);
+            return true;
+          });
+        }
+
+        async function setImg(variant, colorName) {
+          const requestId = ++variantRequestId;
+          const preferredImage = variant && typeof variant === "object" ? variant.image : variant;
+          const chosenSet = resolveThumbSet(product, preferredImage);
+          const hasVisibleImage = thumbLink.classList.contains("is-loaded");
+          const previousVisibleSrc = hasVisibleImage ? String(mainImg.currentSrc || mainImg.src || "").trim() : "";
+          const candidates = homeImageCandidates(variant, chosenSet, previousVisibleSrc, !hasVisibleImage);
+
+          for (const candidate of candidates) {
+            const loaded = await preloadHomeImage(candidate);
+            if (requestId !== variantRequestId) return;
+            if (!loaded) continue;
+
+            const appliedSet = candidate === chosenSet.src
+              ? chosenSet
+              : { src: candidate, fallbackSrc: candidate, webpSrc: "", avifSrc: "" };
+            syncPictureSource("image/avif", appliedSet.avifSrc);
+            syncPictureSource("image/webp", appliedSet.webpSrc);
+            mainImg.src = appliedSet.src || candidate;
+            mainImg.alt = colorName
+              ? String(product && product.name ? product.name : "Producto") + " - " + colorName
+              : String(product && product.name ? product.name : "Producto");
             thumbLink.classList.add("is-loaded");
-          };
-          syncPictureSource("image/avif", chosenSet.avifSrc);
-          syncPictureSource("image/webp", chosenSet.webpSrc);
-          mainImg.src = chosenSet.src;
-          mainImg.alt = colorName
-            ? String(product && product.name ? product.name : "Producto") + " - " + colorName
-            : String(product && product.name ? product.name : "Producto");
+            return;
+          }
+          // If every candidate fails, keep the already visible image.
         }
 
         mainImg.addEventListener("load", function () {
@@ -2151,10 +2182,9 @@
             btn.dataset.colorName = variant.name;
             btn.dataset.colorIndex = String(index);
 
-            btn.style.backgroundColor = variant.hex || "#efecf3";
-            if (variant.swatchImage) {
-              btn.style.backgroundImage = "url('" + String(variant.swatchImage).replace(/'/g, "%27") + "')";
-            }
+            btn.style.background = isMulticolorVariant(variant.name)
+              ? MULTICOLOR_SWATCH
+              : (variant.hex || "#efecf3");
             btn.classList.add("variant-chip--color");
 
             btn.addEventListener("click", function (event) {
@@ -2167,8 +2197,7 @@
               btn.classList.add("is-active");
               btn.setAttribute("aria-pressed", "true");
               selectedVariant = variant;
-              thumbLink.classList.remove("is-loaded");
-              setImg(variant.thumb || variant.image, variant.name);
+              setImg(variant, variant.name);
             });
 
             varWrap.appendChild(btn);
@@ -2182,7 +2211,7 @@
           }
 
           const initial = visible[0];
-          if (initial) setImg(initial.thumb || initial.image, initial.name);
+          if (initial) setImg(initial, initial.name);
           body.appendChild(varWrap);
         }
 

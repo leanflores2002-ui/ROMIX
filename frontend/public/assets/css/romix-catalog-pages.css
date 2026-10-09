@@ -196,7 +196,7 @@ body[data-catalog-scope] select { font: inherit; }
   border-bottom: 1px solid var(--catalog-line); background: var(--romix-surface-soft);
 }
 .product-thumb picture, .product-thumb img { display: block; width: 100%; height: 100%; }
-.product-thumb img { object-fit: contain; object-position: center; opacity: 0; transition: opacity 180ms ease, transform 240ms ease; }
+.product-thumb img { object-fit: contain; object-position: center; opacity: 1; transition: opacity 180ms ease, transform 240ms ease; }
 .product-thumb.is-loaded img { opacity: 1; }
 @media (hover: hover) { .product-card:hover .product-thumb img { transform: scale(1.018); } }
 .product-tag {

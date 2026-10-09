@@ -867,8 +867,7 @@
         image: fallbackImage,
         thumb: typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(fallbackImage) : fallbackImage,
         thumbFallback: fallbackImage,
-        thumbAvif: "",
-        swatchImage: typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(fallbackImage) : fallbackImage
+        thumbAvif: ""
       }];
     }
 
@@ -890,8 +889,7 @@
         image: resolvedImage,
         thumb,
         thumbFallback,
-        thumbAvif,
-        swatchImage: thumb || resolvedImage
+        thumbAvif
       });
     });
   }
@@ -1530,33 +1528,57 @@
         picture.insertBefore(source, imgTag || null);
       }
 
-      function setMainImage(colorOption, colorName) {
-        const nextSet = resolveThumbSet(product, colorOption);
-        image.onerror = function onImageError() {
-          image.onerror = null;
-          syncPictureSource("image/avif", "");
-          syncPictureSource("image/webp", "");
-          if (nextSet.originalSrc && image.src !== nextSet.originalSrc) {
-            image.src = nextSet.originalSrc;
-            image.alt = colorName ? (product.name + " - " + colorName) : product.name;
-            thumb.classList.add("is-loaded");
-            return;
-          }
-          if (image.src !== defaultThumbSet.fallbackSrc) {
-            image.src = defaultThumbSet.fallbackSrc;
-            image.alt = product.name;
-            thumb.classList.add("is-loaded");
-            return;
-          }
-          image.src = PLACEHOLDER;
-          image.alt = product.name;
-          thumb.classList.add("is-loaded");
-        };
+      let variantRequestId = 0;
 
-        syncPictureSource("image/avif", nextSet.avifSrc);
-        syncPictureSource("image/webp", nextSet.webpSrc);
-        image.src = nextSet.src;
-        image.alt = colorName ? (product.name + " - " + colorName) : product.name;
+      function preloadCardImage(src) {
+        if (typeof imageUtils.loadImageResource === "function") {
+          return imageUtils.loadImageResource(src);
+        }
+        return Promise.resolve(!!String(src || "").trim());
+      }
+
+      function cardImageCandidates(colorOption, nextSet, previousVisibleSrc, allowPlaceholder) {
+        const values = [
+          colorOption && colorOption.image,
+          colorOption && (colorOption.thumb || colorOption.thumbnail),
+          nextSet && nextSet.src,
+          nextSet && nextSet.fallbackSrc,
+          product && product.image,
+          previousVisibleSrc,
+          defaultThumbSet && defaultThumbSet.fallbackSrc
+        ];
+        if (allowPlaceholder) values.push(PLACEHOLDER);
+        const seen = new Set();
+        return values.map((value) => String(value || "").trim()).filter((value) => {
+          if (!value || seen.has(value)) return false;
+          seen.add(value);
+          return true;
+        });
+      }
+
+      async function setMainImage(colorOption, colorName) {
+        const requestId = ++variantRequestId;
+        const nextSet = resolveThumbSet(product, colorOption);
+        const hasVisibleImage = thumb.classList.contains("is-loaded");
+        const previousVisibleSrc = hasVisibleImage ? String(image.currentSrc || image.src || "").trim() : "";
+        const candidates = cardImageCandidates(colorOption, nextSet, previousVisibleSrc, !hasVisibleImage);
+
+        for (const candidate of candidates) {
+          const loaded = await preloadCardImage(candidate);
+          if (requestId !== variantRequestId) return;
+          if (!loaded) continue;
+
+          const appliedSet = candidate === nextSet.src
+            ? nextSet
+            : thumbSetFromSources(candidate, candidate, "");
+          syncPictureSource("image/avif", appliedSet.avifSrc);
+          syncPictureSource("image/webp", appliedSet.webpSrc);
+          image.src = appliedSet.src || candidate;
+          image.alt = colorName ? (product.name + " - " + colorName) : product.name;
+          thumb.classList.add("is-loaded");
+          return;
+        }
+        // A failed variant must leave the already visible image untouched.
       }
 
       image.addEventListener("load", function () {
@@ -1613,9 +1635,6 @@
           button.style.background = normalizeColorToFilterKey(color.name) === "multicolor"
             ? MULTICOLOR_SWATCH
             : (color.hex || "#efecf3");
-          if (color.swatchImage) {
-            button.style.backgroundImage = "url('" + String(color.swatchImage).replace(/'/g, "%27") + "')";
-          }
           button.classList.add("variant-chip--color");
           button.addEventListener("click", function (event) {
             event.preventDefault();
@@ -1627,7 +1646,6 @@
             });
             button.classList.add("is-active");
             button.setAttribute("aria-pressed", "true");
-            thumb.classList.remove("is-loaded");
             setMainImage(color, color.name);
           });
 

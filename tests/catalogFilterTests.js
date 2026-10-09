@@ -57,6 +57,10 @@ async function main() {
   assert(!js.includes('requestedStock'), 'No debe quedar lectura del filtro stock');
   assert(!js.includes('return "otros"'), 'No debe existir fallback de color Otros');
   assert(!js.includes('key: "otros"'), 'No debe existir opción de color Otros');
+  assert(js.includes('function compareFilterValues'), 'Los valores de filtros deben tener un comparator explícito');
+  assert(js.includes('Array.from(values || []).sort(compareFilterValues)'), 'Los filtros deben ordenarse con compareFilterValues');
+  assert(js.includes('Array.from(state.selected.sections).sort(compareFilterValues)'), 'Las secciones deben ordenarse con compareFilterValues');
+  assert(JSON.stringify(['10', '2', '1'].sort((a, b) => String(a).localeCompare(String(b), 'es', { numeric: true }))) === JSON.stringify(['1', '2', '10']), 'El orden numérico de valores de filtro debe conservarse');
   assert(!css.includes('availability-filter-group'), 'No debe quedar CSS de disponibilidad');
 
   const window = await renderCatalog('http://localhost/catalogo.html?stock=available');

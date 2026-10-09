@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const publicDir = path.join(__dirname, '..', 'frontend', 'public');
-const assetVersion = '14';
+const assetVersion = '16';
 const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap';
 const pages = [
   'index.html',
@@ -73,13 +73,18 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
       </div>
       <div class="main-nav-wrap">
         <ul class="main-nav">
-          <li data-menu-key="mujer"><a class="mega-trigger" id="mega-trigger-mujer" href="catalogo.html?sections=mujer" aria-expanded="false" aria-controls="mega-panel-mujer"><span>Mujer</span></a></li>
-          <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="catalogo.html?sections=hombre" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span></a></li>
-          <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="catalogo.html?sections=ninos" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span></a></li>
-          <li data-menu-key="novedades"><a class="mega-trigger" id="mega-trigger-novedades" href="catalogo.html?view=novedades" aria-expanded="false" aria-controls="mega-panel-novedades"><span>Novedades</span></a></li>
-          <li data-menu-key="ofertas"><a class="mega-trigger" id="mega-trigger-ofertas" href="catalogo.html?q=oferta"><span>Ofertas</span></a></li>
+          <li data-menu-key="mujer"><a class="mega-trigger" id="mega-trigger-mujer" href="catalogo.html?sections=mujer" aria-expanded="false" aria-controls="mega-panel-mujer"><span>Mujer</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="catalogo.html?sections=hombre" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="catalogo.html?sections=ninos" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="novedades"><a class="mega-trigger" id="mega-trigger-novedades" href="catalogo.html?view=novedades" aria-expanded="false" aria-controls="mega-panel-novedades"><span>Novedades</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="ofertas"><a class="mega-trigger" id="mega-trigger-ofertas" href="catalogo.html?q=oferta"><span>Ofertas</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
         </ul>
       </div>
+      <nav class="mobile-drawer-links" aria-label="Atajos">
+        <a href="catalogo.html" data-mega-link="true">Cat&aacute;logo completo<span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a>
+        <a href="ayuda.html#faq" data-mega-link="true">Ayuda<span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a>
+        <a href="ayuda.html#size-guide" data-mega-link="true">Gu&iacute;a de talles<span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a>
+      </nav>
     </nav>
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
       <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>

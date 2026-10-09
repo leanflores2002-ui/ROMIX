@@ -171,6 +171,10 @@
     return stripAccents(value).toLowerCase().trim();
   }
 
+  function compareFilterValues(a, b) {
+    return String(a).localeCompare(String(b), "es", { numeric: true, sensitivity: "base" });
+  }
+
   function normalizeColorToFilterKey(value) {
     const key = normalizeText(value).replace(/\s+/g, " ");
     if (!key) return "";
@@ -1848,7 +1852,7 @@
       colors: state.selected.colors
     };
     Object.entries(mapping).forEach(([key, values]) => {
-      const list = Array.from(values || []).sort();
+      const list = Array.from(values || []).sort(compareFilterValues);
       if (list.length) params.set(key, list.join(","));
     });
 
@@ -1858,7 +1862,7 @@
     } else if (state.catalogView.mode === "section") {
       params.set("sections", state.scope);
     } else if (state.selected.sections.size) {
-      params.set("sections", Array.from(state.selected.sections).sort().join(","));
+      params.set("sections", Array.from(state.selected.sections).sort(compareFilterValues).join(","));
     }
 
     if (state.sortBy !== "recommended") params.set("sort", state.sortBy);

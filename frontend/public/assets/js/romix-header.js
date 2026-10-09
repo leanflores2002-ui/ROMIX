@@ -29,8 +29,53 @@
       .replace(/'/g, "&#39;");
   }
 
+  function createArrowIcon() {
+    var arrow = document.createElement("span");
+    arrow.className = "mobile-nav-arrow";
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.setAttribute("data-romix-icon", "ArrowRight");
+    arrow.setAttribute("data-romix-icon-size", "sm");
+    return arrow;
+  }
+
+  function ensureMobileDrawerLinks(header) {
+    var nav = header.querySelector(".mega-nav");
+    var mainNav = header.querySelector(".main-nav");
+    if (!nav || !mainNav) return;
+
+    mainNav.querySelectorAll(".mega-trigger").forEach(function (trigger) {
+      if (!trigger.querySelector(".mobile-nav-arrow")) trigger.appendChild(createArrowIcon());
+    });
+
+    if (nav.querySelector(".mobile-drawer-links")) return;
+
+    var shortcuts = [
+      { label: "Catálogo completo", href: "catalogo.html" },
+      { label: "Ayuda", href: "ayuda.html#faq" },
+      { label: "Guía de talles", href: "ayuda.html#size-guide" }
+    ];
+    var shortcutNav = document.createElement("nav");
+    shortcutNav.className = "mobile-drawer-links";
+    shortcutNav.setAttribute("aria-label", "Atajos");
+    shortcuts.forEach(function (shortcut) {
+      var link = document.createElement("a");
+      link.href = shortcut.href;
+      link.dataset.megaLink = "true";
+      link.appendChild(document.createTextNode(shortcut.label));
+      link.appendChild(createArrowIcon());
+      shortcutNav.appendChild(link);
+    });
+    nav.appendChild(shortcutNav);
+  }
+
   function buildHref(page, params) {
-    var search = new URLSearchParams();
+    var rawPage = String(page || "");
+    var hashIndex = rawPage.indexOf("#");
+    var hash = hashIndex >= 0 ? rawPage.slice(hashIndex) : "";
+    var pageWithoutHash = hashIndex >= 0 ? rawPage.slice(0, hashIndex) : rawPage;
+    var queryIndex = pageWithoutHash.indexOf("?");
+    var basePage = queryIndex >= 0 ? pageWithoutHash.slice(0, queryIndex) : pageWithoutHash;
+    var search = new URLSearchParams(queryIndex >= 0 ? pageWithoutHash.slice(queryIndex + 1) : "");
     Object.keys(params || {}).forEach(function (key) {
       var value = params[key];
       if (value == null) return;
@@ -46,7 +91,7 @@
       search.set(key, text);
     });
     var query = search.toString();
-    return page + (query ? "?" + query : "");
+    return basePage + (query ? "?" + query : "") + hash;
   }
 
   function buildMenuConfig() {
@@ -63,62 +108,53 @@
         label: "Mujer",
         page: mujer,
         promo: {
-          eyebrow: "Producto destacado",
-          title: "Campera Lycra Estampada",
-          description: "Campera deportiva de lycra estampada para mujer. Comodidad y elasticidad para uso diario o entrenamiento.",
-          cta: "Ver campera",
+          eyebrow: "Mujer",
+          title: "Campera estampada",
+          cta: "Ver producto",
           href: buildHref(mujer, { q: "campera lycra estampado" }),
           image: "images/products/campera_lycra_estampado_1.webp",
           alt: "Campera deportiva estampada ROMIX para mujer"
         },
         viewAllLabel: "Ver todo mujer",
-        guideCard: {
-          title: "Guia de talles",
-          text: "Medidas claras para elegir mejor cada prenda.",
-          href: "ayuda.html#size-guide"
-        },
         columns: [
-          {
-            title: "Destacados",
-            links: [
-              { label: "Nuevos ingresos", href: buildHref(mujer, { q: "nuevo" }), badge: "NEW", icon: "spark" },
-              { label: "Mas vendidos", href: buildHref(mujer, { q: "mas vendido" }), badge: "HOT", icon: "trend" },
-              { label: "Media estacion", href: buildHref(mujer, { temporada: "media-estacion" }), icon: "circle" },
-              { label: "Verano", href: buildHref(mujer, { temporada: "verano" }), icon: "spark" },
-              { label: "Looks deportivos", href: buildHref(mujer, { q_any: "lycra,saplex,deportivo,top,calza" }), icon: "move" }
-            ]
-          },
           {
             title: "Prendas superiores",
             links: [
-              { label: "Remeras", href: buildHref(mujer, { tipo: "remeras" }), icon: "top" },
-              { label: "Remeras manga larga", href: buildHref(mujer, { tipo: "remeras", q_any: "manga larga,remera" }), icon: "top" },
-              { label: "Tops", href: buildHref(mujer, { tipo: "tops" }), icon: "top" },
-              { label: "Buzos", href: buildHref(mujer, { tipo: "buzos" }), icon: "top" },
-              { label: "Camperas", href: buildHref(mujer, { tipo: "camperas" }), icon: "jacket" },
-              { label: "Musculosas", href: buildHref(mujer, { q: "musculosa" }), icon: "top" }
+              { label: "Remeras", href: buildHref(mujer, { tipo: "remeras" }) },
+              { label: "Musculosas", href: buildHref(mujer, { tipo: "musculosas" }) },
+              { label: "Tops", href: buildHref(mujer, { tipo: "tops" }) },
+              { label: "Buzos", href: buildHref(mujer, { tipo: "buzos" }) },
+              { label: "Sudaderas", href: buildHref(mujer, { tipo: "sudaderas" }) },
+              { label: "Camperas", href: buildHref(mujer, { tipo: "camperas" }) }
             ]
           },
           {
             title: "Prendas inferiores",
             links: [
-              { label: "Calzas", href: buildHref(mujer, { tipo: "calzas" }), icon: "bottom" },
-              { label: "Pantalones jogger", href: buildHref(mujer, { tipo: "pantalones", q: "jogger" }), icon: "bottom" },
-              { label: "Pantalones babucha", href: buildHref(mujer, { tipo: "pantalones", q: "babucha" }), icon: "bottom" },
-              { label: "Pantalones rectos", href: buildHref(mujer, { tipo: "pantalones", q: "recto" }), icon: "bottom" },
-              { label: "Calzas Oxford", href: buildHref(mujer, { tipo: "calzas", q: "oxford" }), icon: "bottom" },
-              { label: "Pantalones palazo", href: buildHref(mujer, { tipo: "palazos" }), icon: "bottom" }
+              { label: "Pantalones", href: buildHref(mujer, { tipo: "pantalones" }) },
+              { label: "Palazos", href: buildHref(mujer, { tipo: "palazos" }) },
+              { label: "Calzas", href: buildHref(mujer, { tipo: "calzas" }) },
+              { label: "Capri", href: buildHref(mujer, { tipo: "capri" }) },
+              { label: "Ciclistas", href: buildHref(mujer, { tipo: "ciclistas" }) },
+              { label: "Polleras", href: buildHref(mujer, { tipo: "polleras" }) }
             ]
           },
           {
-            title: "Telas y estilos",
+            title: "Más categorías",
             links: [
-              { label: "Lycra", href: buildHref(mujer, { q: "lycra" }), icon: "fabric" },
-              { label: "Morley", href: buildHref(mujer, { q: "morley" }), icon: "fabric" },
-              { label: "Algodon", href: buildHref(mujer, { q: "algodon" }), icon: "fabric" },
-              { label: "Modal", href: buildHref(mujer, { q: "modal" }), icon: "fabric" },
-              { label: "Saplex", href: buildHref(mujer, { q: "saplex" }), icon: "fabric" },
-              { label: "Fibrana", href: buildHref(mujer, { q: "fibrana" }), icon: "fabric" }
+              { label: "Bermudas", href: buildHref(mujer, { tipo: "bermudas" }) },
+              { label: "Shorts", href: buildHref(mujer, { tipo: "shorts" }) },
+              { label: "Invierno", href: buildHref(mujer, { temporada: "invierno" }) },
+              { label: "Media estación", href: buildHref(mujer, { temporada: "media-estacion" }) },
+              { label: "Verano", href: buildHref(mujer, { temporada: "verano" }) }
+            ]
+          },
+          {
+            title: "ROMIX Mujer",
+            links: [
+              { label: "Ver todo", href: mujer },
+              { label: "Novedades", href: novedades },
+              { label: "Ofertas", href: ofertas }
             ]
           }
         ]
@@ -128,56 +164,35 @@
         label: "Hombre",
         page: hombre,
         promo: {
-          eyebrow: "Nueva coleccion",
-          title: "Movimiento para todos los dias",
+          eyebrow: "Hombre",
+          title: "Prendas para todos los días",
           cta: "Ver productos",
-          href: buildHref(hombre, { temporada: "media-estacion" }),
+          href: hombre,
           image: "images/products/campera_jaspeado_saplex_hombre_negro.webp",
           alt: "Campera ROMIX para hombre"
         },
         columns: [
           {
-            title: "Destacados",
-            links: [
-              { label: "Nuevos ingresos", href: buildHref(hombre, { q: "nuevo" }) },
-              { label: "Mas vendidos", href: buildHref(hombre, { q: "mas vendido" }) },
-              { label: "Media estacion", href: buildHref(hombre, { temporada: "media-estacion" }) },
-              { label: "Verano", href: buildHref(hombre, { temporada: "verano" }) }
-            ]
-          },
-          {
-            title: "Parte superior",
+            title: "Prendas superiores",
             links: [
               { label: "Remeras", href: buildHref(hombre, { tipo: "remeras" }) },
-              { label: "Remeras Dry Fit", href: buildHref(hombre, { tipo: "remeras", q: "dry" }) },
               { label: "Buzos", href: buildHref(hombre, { tipo: "buzos" }) },
               { label: "Camperas", href: buildHref(hombre, { tipo: "camperas" }) }
             ]
           },
           {
-            title: "Parte inferior",
+            title: "Prendas inferiores",
             links: [
               { label: "Pantalones", href: buildHref(hombre, { tipo: "pantalones" }) },
-              { label: "Babuchas", href: buildHref(hombre, { tipo: "pantalones", q: "babucha" }) },
-              { label: "Joggers", href: buildHref(hombre, { tipo: "pantalones", q: "jogger" }) },
-              { label: "Bermudas", href: buildHref(hombre, { q: "bermuda" }) },
-              { label: "Rusticos", href: buildHref(hombre, { q: "rustico" }) }
+              { label: "Bermudas", href: buildHref(hombre, { tipo: "bermudas" }) }
             ]
           },
           {
-            title: "Colecciones",
+            title: "Temporada",
             links: [
-              { label: "Algodon", href: buildHref(hombre, { q: "algodon" }) },
-              { label: "Lycra", href: buildHref(hombre, { q: "lycra" }) },
-              { label: "Rustico", href: buildHref(hombre, { q: "rustico" }) },
-              { label: "Dry Fit", href: buildHref(hombre, { q: "dry" }) },
-              { label: "Jaspeado", href: buildHref(hombre, { q: "jaspeado" }) }
-            ]
-          },
-          {
-            title: "Accesorios",
-            links: [
-              { label: "Cuellos", href: buildHref(hombre, { tipo: "accesorios", q: "cuello" }) }
+              { label: "Invierno", href: buildHref(hombre, { temporada: "invierno" }) },
+              { label: "Media estación", href: buildHref(hombre, { temporada: "media-estacion" }) },
+              { label: "Verano", href: buildHref(hombre, { temporada: "verano" }) }
             ]
           }
         ]
@@ -187,50 +202,37 @@
         label: "Niños",
         page: ninos,
         promo: {
-          eyebrow: "Nueva coleccion",
-          title: "Movimiento para todo el dia",
+          eyebrow: "Niños",
+          title: "Ropa para moverse",
           cta: "Ver productos",
-          href: buildHref(ninos, { temporada: "media-estacion" }),
+          href: ninos,
           image: "images/products/remera_oversize_algodon_peinado_chico_azul.webp",
           alt: "Campera infantil ROMIX"
         },
         columns: [
           {
-            title: "Niñas",
+            title: "Prendas superiores",
             links: [
-              { label: "Calzas", href: buildHref(ninos, { tipo: "calzas", q_any: "nina,nena" }) },
-              { label: "Remeras", href: buildHref(ninos, { tipo: "remeras", q_any: "nina,nena" }) },
-              { label: "Ciclistas", href: buildHref(ninos, { q: "ciclista" }) },
-              { label: "Tops", href: buildHref(ninos, { q: "top" }) },
-              { label: "Pantalones", href: buildHref(ninos, { tipo: "pantalones" }) }
-            ]
-          },
-          {
-            title: "Niños",
-            links: [
-              { label: "Pantalones", href: buildHref(ninos, { tipo: "pantalones", q_any: "nino,chico" }) },
-              { label: "Remeras", href: buildHref(ninos, { tipo: "remeras", q_any: "nino,chico" }) },
-              { label: "Bermudas", href: buildHref(ninos, { q: "bermuda" }) },
-              { label: "Calzas", href: buildHref(ninos, { tipo: "calzas" }) },
-              { label: "Ciclistas", href: buildHref(ninos, { q: "ciclista" }) }
-            ]
-          },
-          {
-            title: "Categorias",
-            links: [
-              { label: "Calzas", href: buildHref(ninos, { tipo: "calzas" }) },
-              { label: "Pantalones", href: buildHref(ninos, { tipo: "pantalones" }) },
               { label: "Remeras", href: buildHref(ninos, { tipo: "remeras" }) },
-              { label: "Bermudas", href: buildHref(ninos, { q: "bermuda" }) }
+              { label: "Tops", href: buildHref(ninos, { tipo: "tops" }) }
+            ]
+          },
+          {
+            title: "Prendas inferiores",
+            links: [
+              { label: "Calzas", href: buildHref(ninos, { tipo: "calzas" }) },
+              { label: "Ciclistas", href: buildHref(ninos, { tipo: "ciclistas" }) },
+              { label: "Pantalones", href: buildHref(ninos, { tipo: "pantalones" }) },
+              { label: "Bermudas", href: buildHref(ninos, { tipo: "bermudas" }) },
+              { label: "Shorts", href: buildHref(ninos, { tipo: "shorts" }) }
             ]
           },
           {
             title: "Temporada",
             links: [
-              { label: "Media estacion", href: buildHref(ninos, { temporada: "media-estacion" }) },
-              { label: "Verano", href: buildHref(ninos, { temporada: "verano" }) },
-              { label: "Lycra", href: buildHref(ninos, { q: "lycra" }) },
-              { label: "Algodon", href: buildHref(ninos, { q: "algodon" }) }
+              { label: "Invierno", href: buildHref(ninos, { temporada: "invierno" }) },
+              { label: "Media estación", href: buildHref(ninos, { temporada: "media-estacion" }) },
+              { label: "Verano", href: buildHref(ninos, { temporada: "verano" }) }
             ]
           }
         ]
@@ -240,7 +242,7 @@
         label: "Novedades",
         page: novedades,
         promo: {
-          eyebrow: "Nueva coleccion",
+          eyebrow: "Novedades",
           title: "Lo nuevo de ROMIX",
           cta: "Ver productos",
           href: novedades,
@@ -249,12 +251,27 @@
         },
         columns: [
           {
-            title: "Novedades",
+            title: "Por sección",
             links: [
-              { label: "Nuevos ingresos", href: buildHref(novedades, { q: "nuevo" }) },
-              { label: "Productos destacados", href: novedades },
-              { label: "Ultimas colecciones", href: buildHref(novedades, { q_any: "nuevo,coleccion" }) },
-              { label: "Mas vendidos", href: buildHref(novedades, { q: "mas vendido" }) }
+              { label: "Mujer", href: mujer },
+              { label: "Hombre", href: hombre },
+              { label: "Niños", href: ninos }
+            ]
+          },
+          {
+            title: "Por temporada",
+            links: [
+              { label: "Invierno", href: buildHref(novedades, { temporada: "invierno" }) },
+              { label: "Media estación", href: buildHref(novedades, { temporada: "media-estacion" }) },
+              { label: "Verano", href: buildHref(novedades, { temporada: "verano" }) }
+            ]
+          },
+          {
+            title: "Catálogo",
+            links: [
+              { label: "Novedades", href: novedades },
+              { label: "Ofertas", href: ofertas },
+              { label: "Todos los productos", href: catalogo }
             ]
           }
         ]
@@ -298,30 +315,12 @@
   }
 
   function buildPanelColumns(columns, sectionLabel) {
-    var iconMap = {
-      top: "Shirt",
-      jacket: "ShoppingBag",
-      bottom: "Shirt",
-      spark: "Sparkles",
-      trend: "Tag",
-      snow: "Sparkles",
-      heat: "Zap",
-      fabric: "Shirt",
-      move: "ArrowRight"
-    };
     return columns.map(function (column) {
       var links = (column.links || []).map(function (link) {
-        var badge = link.badge
-          ? '<span class="mega-link-badge">' + escapeHtml(link.badge) + '</span>'
-          : '';
-        var iconName = iconMap[String(link.icon || "").toLowerCase()] || "Shirt";
-        var icon = '<span class="mega-link-icon" aria-hidden="true">' + window.romixIcon(iconName, { size: "sm" }) + '</span>';
         return '' +
           '<li>' +
             '<a class="mega-panel-link" href="' + escapeHtml(link.href) + '" data-mega-link="true" aria-label="' + escapeHtml('Ver ' + link.label + (sectionLabel ? ' de ' + sectionLabel : '')) + '">' +
-              icon +
-              '<span class="mega-link-label">' + escapeHtml(link.label) + '</span>' +
-              badge +
+              escapeHtml(link.label) +
             '</a>' +
           '</li>';
       }).join("");
@@ -334,55 +333,13 @@
     }).join("");
   }
 
-  function buildAccessories(accessories) {
-    if (!accessories || !Array.isArray(accessories.links) || !accessories.links.length) return "";
-
-    var links = accessories.links.map(function (link) {
-      return '' +
-        '<a class="mega-accessory-link" href="' + escapeHtml(link.href) + '" data-mega-link="true">' +
-          '<span class="mega-accessory-icon" aria-hidden="true">' + window.romixIcon("Tag", { size: "sm" }) + '</span>' +
-          '<span>' + escapeHtml(link.label) + '</span>' +
-        '</a>';
-    }).join("");
-
-    return '' +
-      '<div class="mega-accessories" aria-label="' + escapeHtml(accessories.title || "Accesorios") + '">' +
-        '<span class="mega-accessories-title">' + escapeHtml(accessories.title || "Accesorios") + '</span>' +
-        '<div class="mega-accessories-row">' + links + '</div>' +
-      '</div>';
-  }
-
-  function buildGuideCard(card) {
-    if (!card || !card.href) return "";
-
-    return '' +
-      '<a class="mega-guide-card" href="' + escapeHtml(card.href) + '" data-mega-link="true">' +
-        '<span class="mega-guide-icon" aria-hidden="true"></span>' +
-        '<span class="mega-guide-copy">' +
-          '<strong>' + escapeHtml(card.title || "Guia de talles") + '</strong>' +
-          '<small>' + escapeHtml(card.text || "Consulta medidas y referencias.") + '</small>' +
-        '</span>' +
-      '</a>';
-  }
-
   function buildPanel(item) {
     var columns = buildPanelColumns(item.columns || [], item.label);
     var promo = item.promo || {};
-    var accessories = buildAccessories(item.accessories);
-    var guideCard = buildGuideCard(item.guideCard);
-    var bottom = accessories || guideCard
-      ? '<div class="mega-panel-bottom">' + accessories + guideCard + '</div>'
-      : '';
 
     return '' +
       '<div class="mega-panel" id="mega-panel-' + escapeHtml(item.key) + '" role="region" aria-labelledby="mega-trigger-' + escapeHtml(item.key) + '" aria-hidden="true">' +
         '<div class="mega-panel-shell">' +
-          '<div class="mega-panel-top">' +
-            '<div class="mega-panel-copy">' +
-              '<span class="mega-panel-kicker">Explora ' + escapeHtml(item.label) + '</span>' +
-              '<a class="mega-panel-viewall" href="' + escapeHtml(item.page) + '" data-mega-link="true">' + escapeHtml(item.viewAllLabel || "Ver todo") + '</a>' +
-            '</div>' +
-          '</div>' +
           '<div class="mega-panel-grid">' +
             '<div class="mega-panel-columns">' + columns + '</div>' +
             '<a class="mega-promo" href="' + escapeHtml(promo.href || item.page) + '" data-mega-link="true" aria-label="' + escapeHtml('Ver producto destacado: ' + (promo.title || item.label)) + '">' +
@@ -396,7 +353,9 @@
               '</span>' +
             '</a>' +
           '</div>' +
-          bottom +
+          '<div class="mega-panel-bottom">' +
+            '<a class="mega-panel-viewall" href="' + escapeHtml(item.page) + '" data-mega-link="true">' + escapeHtml(item.viewAllLabel || "Ver todo") + '</a>' +
+          '</div>' +
         '</div>' +
       '</div>';
   }
@@ -516,8 +475,10 @@
       ? window.matchMedia("(min-width: 901px)")
       : { matches: true, addEventListener: null, addListener: null };
     var openKey = "";
+    var openTimer = null;
     var closeTimer = null;
-    var CLOSE_DELAY_MS = 180;
+    var OPEN_DELAY_MS = 50;
+    var CLOSE_DELAY_MS = 80;
 
     function isDesktop() {
       return mq.matches;
@@ -538,6 +499,25 @@
       if (!closeTimer) return;
       window.clearTimeout(closeTimer);
       closeTimer = null;
+    }
+
+    function cancelScheduledOpen() {
+      if (!openTimer) return;
+      window.clearTimeout(openTimer);
+      openTimer = null;
+    }
+
+    function scheduleOpen(key) {
+      if (!isDesktop()) {
+        openMenu(key);
+        return;
+      }
+      cancelScheduledOpen();
+      cancelScheduledClose();
+      openTimer = window.setTimeout(function () {
+        openTimer = null;
+        openMenu(key);
+      }, OPEN_DELAY_MS);
     }
 
     function scheduleClose() {
@@ -568,8 +548,24 @@
       });
     }
 
+    function syncTriggerSemantics() {
+      items.forEach(function (item) {
+        var trigger = item.querySelector(".mega-trigger");
+        var panel = item.querySelector(".mega-panel");
+        if (!trigger) return;
+        if (isDesktop()) {
+          trigger.setAttribute("aria-expanded", item.classList.contains("is-open") ? "true" : "false");
+          if (panel) trigger.setAttribute("aria-controls", panel.id);
+          return;
+        }
+        trigger.removeAttribute("aria-expanded");
+        trigger.removeAttribute("aria-controls");
+      });
+    }
+
     function openMenu(key) {
       if (!key) return;
+      cancelScheduledOpen();
       if (isSearchOpen()) {
         closeMenu();
         return;
@@ -581,6 +577,7 @@
     }
 
     function closeMenu() {
+      cancelScheduledOpen();
       cancelScheduledClose();
       setOpenKey("");
     }
@@ -596,23 +593,25 @@
       item.addEventListener("mouseenter", function () {
         if (!isDesktop()) return;
         if (isSearchOpen()) return;
-        openMenu(key);
+        scheduleOpen(key);
       });
 
       item.addEventListener("focusin", function () {
         if (!isDesktop()) return;
         if (isSearchOpen()) return;
-        openMenu(key);
+        scheduleOpen(key);
       });
 
       item.addEventListener("mouseleave", function () {
         if (!isDesktop()) return;
+        cancelScheduledOpen();
         scheduleClose();
       });
 
       if (panel) {
         panel.addEventListener("mouseenter", function () {
           if (!isDesktop()) return;
+          scheduleOpen(key);
           cancelScheduledClose();
         });
       }
@@ -625,12 +624,6 @@
           return;
         }
         if (!isDesktop()) {
-          event.preventDefault();
-          if (openKey === key) {
-            closeMenu();
-          } else {
-            openMenu(key);
-          }
           return;
         }
         if (openKey === key) {
@@ -642,6 +635,7 @@
       });
 
       trigger.addEventListener("auxclick", function (event) {
+        if (!isDesktop()) return;
         if (event.button !== 1) return;
         if (openKey === key) {
           return;
@@ -687,7 +681,10 @@
 
     function handleViewportChange() {
       closeMenu();
+      syncTriggerSemantics();
     }
+
+    syncTriggerSemantics();
 
     if (typeof mq.addEventListener === "function") {
       mq.addEventListener("change", handleViewportChange);
@@ -749,7 +746,7 @@
     nav.addEventListener("click", function (event) {
       var target = event.target;
       if (!target || typeof target.closest !== "function") return;
-      var directLink = target.closest("[data-mega-link='true']");
+      var directLink = target.closest("a[href]");
       if (directLink) {
         closeMenu();
       }
@@ -848,6 +845,8 @@
       }
     });
 
+    ensureMobileDrawerLinks(header);
+
     bindSearchToggle(headerState);
     bindMegaMenu(header, headerState);
     bindMobileMenu(header, headerState);
@@ -855,9 +854,14 @@
     bindHeaderFavorites();
     updateCartBadge();
     window.addEventListener("storage", updateCartBadge);
-    ensureSearchScript().then(function (autoloaded) {
-      dispatchHeaderReady({ rebuilt: false, page: current, activeKey: activeKey, searchAutoloaded: !!autoloaded });
-    });
+    ensureSearchScript()
+      .then(function (autoloaded) {
+        dispatchHeaderReady({ rebuilt: false, page: current, activeKey: activeKey, searchAutoloaded: !!autoloaded });
+      })
+      .catch(function (error) {
+        console.error("No se pudo cargar el buscador del header", error);
+        dispatchHeaderReady({ rebuilt: false, page: current, activeKey: activeKey, searchAutoloaded: false, searchError: true });
+      });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });

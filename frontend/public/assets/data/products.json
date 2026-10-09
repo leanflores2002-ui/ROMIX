@@ -6482,7 +6482,7 @@
   {
     "section": "hombre",
     "type": "remeras",
-    "name": "Remera algodon molino hombre",
+    "name": "Remera algodon moline hombre",
     "season": "verano",
     "image": "images/products/remera_algodon_molino_hombre_gris_oscuro.webp",
     "price": 4500,
@@ -6490,7 +6490,7 @@
       "common": 4500,
       "special": 5000
     },
-    "originalPrice": 11000,
+    "originalPrice": 10000,
     "badge": "oferta",
     "specialSizes": [
       6,

@@ -124,7 +124,7 @@ function testRealCatalogs(api) {
 }
 
 function testInitialMarkupAndIntegration() {
-  const pages = ['catalogo.html', 'mujer.html', 'hombre.html', 'ninos.html', 'novedades.html'];
+  const pages = ['catalogo.html'];
   pages.forEach((page) => {
     const dom = new JSDOM(readPublic(page));
     const document = dom.window.document;

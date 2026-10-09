@@ -3,18 +3,13 @@ const path = require('node:path');
 
 const publicDir = path.join(__dirname, '..', 'frontend', 'public');
 const assetVersion = '14';
-const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap';
+const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap';
 const pages = [
   'index.html',
   'catalogo.html',
-  'mujer.html',
-  'hombre.html',
-  'ninos.html',
-  'novedades.html',
   'product.html',
   'cart.html',
   'ayuda.html',
-  'detalle.html',
   '404.html'
 ];
 
@@ -31,11 +26,12 @@ const criticalShellCss = `<!-- ROMIX:SHELL:CRITICAL:START -->
   header[data-romix-shell="header-v1"] .mega-nav,header[data-romix-shell="header-v1"] .main-nav-wrap{min-width:0}
   header[data-romix-shell="header-v1"] .main-nav{display:flex;align-items:center;justify-content:center;gap:34px;margin:0;padding:0;list-style:none}
   header[data-romix-shell="header-v1"] .main-nav a{display:flex;align-items:center;min-height:44px;color:#171317;text-decoration:none;font:700 14px/1 Arial,sans-serif}
-  header[data-romix-shell="header-v1"] .header-icons{display:flex;align-items:center;justify-content:flex-end;gap:8px}
-  header[data-romix-shell="header-v1"] .icon-btn,header[data-romix-shell="header-v1"] .cart-pill{min-width:44px;min-height:44px;border:0;background:transparent;color:#171317;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
-  header[data-romix-shell="header-v1"] .cart-pill{position:relative;gap:8px}
-  header[data-romix-shell="header-v1"] .cart-pill__text{display:grid;font:700 11px/1.1 Arial,sans-serif}
-  header[data-romix-shell="header-v1"] .icon-badge{position:absolute;top:0;right:0;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#f72585;color:#fff;font:700 10px/18px Arial,sans-serif;text-align:center}
+  header[data-romix-shell="header-v1"] .header-icons{display:flex;align-items:center;justify-content:flex-end;gap:4px}
+  header[data-romix-shell="header-v1"] .icon-btn,header[data-romix-shell="header-v1"] .cart-pill{min-width:44px;min-height:44px;border:1px solid transparent;border-radius:8px;background:transparent;color:#171317;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;position:relative}
+  header[data-romix-shell="header-v1"] .icon-btn:hover,header[data-romix-shell="header-v1"] .cart-pill:hover{background:#fff0f6;color:#f72585}
+  header[data-romix-shell="header-v1"] .cart-pill__text{display:none}
+  header[data-romix-shell="header-v1"] .cart-pill__icon{display:inline-flex;align-items:center;justify-content:center}
+  header[data-romix-shell="header-v1"] .icon-badge{position:absolute;top:3px;right:2px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#f72585;color:#fff;font:700 9px/16px Arial,sans-serif;text-align:center}
   header[data-romix-shell="header-v1"] .search-panel{max-height:0;overflow:hidden;background:#fff}
   header[data-romix-shell="header-v1"] .search-panel.is-open{max-height:calc(100dvh - 105px)}
   .site-footer[data-romix-shell="footer-v1"]{background:#242426;color:#fff}
@@ -44,11 +40,15 @@ const criticalShellCss = `<!-- ROMIX:SHELL:CRITICAL:START -->
   .site-footer[data-romix-shell="footer-v1"] .footer-logo-media img{width:64px;height:64px;object-fit:contain}
   .site-footer[data-romix-shell="footer-v1"] a{color:inherit}
   @media(max-width:900px){
-    header[data-romix-shell="header-v1"] .header-row{width:calc(100% - 16px);min-height:60px;grid-template-columns:92px minmax(0,1fr) 44px;grid-template-areas:"left brand actions";gap:8px}
-    header[data-romix-shell="header-v1"] .header-actions-left{grid-area:left;display:flex;gap:4px}
-    header[data-romix-shell="header-v1"] .brand{grid-area:brand;justify-self:center;font-size:20px}
-    header[data-romix-shell="header-v1"] .header-icons{grid-area:actions}
-    header[data-romix-shell="header-v1"] .header-search-desktop,header[data-romix-shell="header-v1"] .cart-pill__text{display:none}
+    header[data-romix-shell="header-v1"] .header-row{width:calc(100% - 16px);height:60px;min-height:60px;grid-template-columns:96px minmax(0,1fr) 96px;grid-template-areas:"left brand actions";gap:12px;padding:0}
+    header[data-romix-shell="header-v1"] .header-actions-left{grid-area:left;display:flex;align-items:center;justify-content:flex-start;gap:0}
+    header[data-romix-shell="header-v1"] .brand{grid-area:brand;justify-self:center;font-size:20px;white-space:nowrap}
+    header[data-romix-shell="header-v1"] .header-icons{grid-area:actions;display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:96px}
+    header[data-romix-shell="header-v1"] .header-search-desktop,header[data-romix-shell="header-v1"] .header-utility-menu{display:none}
+    header[data-romix-shell="header-v1"] .icon-btn,header[data-romix-shell="header-v1"] .cart-pill{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border:0;border-radius:8px;background:transparent;box-shadow:none}
+    header[data-romix-shell="header-v1"] .cart-pill__text{display:none}
+    header[data-romix-shell="header-v1"] .cart-pill__icon{width:auto;height:auto;border:0;border-radius:0;background:transparent;color:currentColor}
+    header[data-romix-shell="header-v1"] .cart-pill .icon-badge{top:-2px;right:-2px;width:17px;height:17px;min-width:17px;padding:0;border-radius:50%;font-size:10px;line-height:17px}
     header[data-romix-shell="header-v1"] .mega-nav{position:fixed;inset:0 auto 0 0;width:min(88vw,360px);height:100dvh;padding:0 18px 24px;background:#fff;transform:translateX(-105%);overflow-y:auto}
     body.mobile-nav-open header[data-romix-shell="header-v1"] .mega-nav{transform:translateX(0)}
     header[data-romix-shell="header-v1"] .main-nav{display:grid;align-items:stretch;gap:2px}
@@ -63,31 +63,45 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
 <header class="site-header romix-shared-header" data-romix-shell="header-v1">
   <div class="container header-row">
     <div class="header-actions-left" aria-label="Acciones principales">
-      <button class="icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-      <button class="icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
     </div>
     <a class="brand" href="index.html" aria-label="ROMIX inicio">ROMIX<span class="brand-dot">.</span></a>
     <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
       <div class="mobile-drawer-header">
         <a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio"><span>ROMIX</span></a>
-        <button class="mobile-drawer-close" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <button class="mobile-drawer-close romix-icon-btn" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><span data-romix-icon="X" data-romix-icon-size="md"></span></button>
       </div>
       <div class="main-nav-wrap">
         <ul class="main-nav">
-          <li data-menu-key="mujer"><a class="mega-trigger" id="mega-trigger-mujer" href="mujer.html" aria-expanded="false" aria-controls="mega-panel-mujer"><span>Mujer</span></a></li>
-          <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="hombre.html" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span></a></li>
-          <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="ninos.html" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span></a></li>
-          <li data-menu-key="novedades"><a class="mega-trigger" id="mega-trigger-novedades" href="novedades.html" aria-expanded="false" aria-controls="mega-panel-novedades"><span>Novedades</span></a></li>
+          <li data-menu-key="mujer"><a class="mega-trigger" id="mega-trigger-mujer" href="catalogo.html?sections=mujer" aria-expanded="false" aria-controls="mega-panel-mujer"><span>Mujer</span></a></li>
+          <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="catalogo.html?sections=hombre" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span></a></li>
+          <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="catalogo.html?sections=ninos" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span></a></li>
+          <li data-menu-key="novedades"><a class="mega-trigger" id="mega-trigger-novedades" href="catalogo.html?view=novedades" aria-expanded="false" aria-controls="mega-panel-novedades"><span>Novedades</span></a></li>
+          <li data-menu-key="ofertas"><a class="mega-trigger" id="mega-trigger-ofertas" href="catalogo.html?q=oferta"><span>Ofertas</span></a></li>
         </ul>
       </div>
     </nav>
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
-      <button class="icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
+      <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
       <a class="cart-pill" href="cart.html" aria-label="Carrito de compras">
-        <span class="cart-pill__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h2l1.4 9.2a2 2 0 0 0 2 1.7h7.9a2 2 0 0 0 2-1.6L21 8H7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1.2" fill="currentColor"/><circle cx="18" cy="19" r="1.2" fill="currentColor"/></svg></span>
+        <span class="cart-pill__icon" aria-hidden="true"><span data-romix-icon="ShoppingCart" data-romix-icon-size="md"></span></span>
         <span class="cart-pill__text"><strong>Carrito</strong></span>
         <span class="icon-badge" id="cart-count">0</span>
       </a>
+      <button class="icon-btn romix-icon-btn header-utility-menu" id="toggle-utility-menu" type="button" aria-label="Abrir menú de utilidades" aria-controls="header-utility-panel" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
+    </div>
+  </div>
+  <div class="header-utility-panel" id="header-utility-panel" role="dialog" aria-label="Men&uacute; de utilidades" aria-hidden="true" hidden>
+    <div class="header-utility-panel__inner">
+      <p class="header-utility-panel__title">ROMIX</p>
+      <nav aria-label="Utilidades">
+        <a href="catalogo.html"><span data-romix-icon="ShoppingBag" data-romix-icon-size="sm" aria-hidden="true"></span><span>Cat&aacute;logo</span></a>
+        <a href="catalogo.html?q=oferta"><span data-romix-icon="Tag" data-romix-icon-size="sm" aria-hidden="true"></span><span>Ofertas</span></a>
+        <a href="ayuda.html#size-guide"><span data-romix-icon="Ruler" data-romix-icon-size="sm" aria-hidden="true"></span><span>Gu&iacute;a de talles</span></a>
+        <a href="ayuda.html#faq"><span data-romix-icon="CircleHelp" data-romix-icon-size="sm" aria-hidden="true"></span><span>Ayuda</span></a>
+        <a href="ayuda.html#contact"><span data-romix-icon="MessageCircle" data-romix-icon-size="sm" aria-hidden="true"></span><span>Contacto</span></a>
+      </nav>
     </div>
   </div>
   <button class="mobile-nav-scrim" id="mobile-nav-scrim" type="button" aria-label="Cerrar men&uacute;" hidden></button>
@@ -98,7 +112,7 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
           <div class="romix-search-input-wrap">
             <span class="romix-search-icon" aria-hidden="true"></span>
             <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" aria-expanded="false" autocomplete="off" />
-            <button class="romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span aria-hidden="true">&times;</span></button>
+            <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span data-romix-icon="X" data-romix-icon-size="sm"></span></button>
           </div>
           <button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
           <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -108,6 +122,7 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
     </div>
   </div>
 </header>
+<script src="assets/js/romix-icons.js?v=14"></script>
 <!-- ROMIX:SHELL:HEADER:END -->`;
 
 const footer = `<!-- ROMIX:SHELL:FOOTER:START -->
@@ -124,19 +139,19 @@ const footer = `<!-- ROMIX:SHELL:FOOTER:START -->
         </a>
         <p class="footer-description">Rendimiento que inspira. Estilo que te acompa&ntilde;a.<br />Ropa deportiva y urbana para cada versi&oacute;n de ti.</p>
         <div class="footer-contact" aria-label="Contacto ROMIX">
-          <a class="footer-contact-item footer-contact-item--link" href="https://wa.me/5491154272065" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.2 3.8 9.8 7l-1.5 1.8c1 2.1 2.7 3.8 4.9 4.9l1.8-1.5 3.2 2.6c.3.2.4.6.2 1-1 2-2.4 3.1-4.2 2.9C8.7 18 4 13.3 3.3 7.8 3.1 6 4.2 4.6 6.2 3.6c.4-.2.8-.1 1 .2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>+54 9 11 5427-2065</span></a>
+          <a class="footer-contact-item footer-contact-item--link" href="https://wa.me/5491154272065" target="_blank" rel="noopener"><span data-romix-icon="MessageCircle" data-romix-icon-size="sm"></span><span>+54 9 11 5427-2065</span></a>
           <span class="footer-contact-divider" aria-hidden="true"></span>
-          <span class="footer-contact-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.2" stroke="currentColor" stroke-width="1.6"/></svg><span>CABA, Argentina</span></span>
+          <span class="footer-contact-item"><span data-romix-icon="MapPin" data-romix-icon-size="sm"></span><span>CABA, Argentina</span></span>
         </div>
       </div>
-      <nav class="footer-column" aria-label="Comprar"><h4>Comprar</h4><ul><li><a href="mujer.html">Mujer</a></li><li><a href="hombre.html">Hombre</a></li><li><a href="ninos.html">Ni&ntilde;os</a></li><li><a href="novedades.html">Novedades</a></li><li><a href="index.html#ofertas">Ofertas</a></li></ul></nav>
+      <nav class="footer-column" aria-label="Comprar"><h4>Comprar</h4><ul><li><a href="catalogo.html?sections=mujer">Mujer</a></li><li><a href="catalogo.html?sections=hombre">Hombre</a></li><li><a href="catalogo.html?sections=ninos">Ni&ntilde;os</a></li><li><a href="catalogo.html?view=novedades">Novedades</a></li><li><a href="catalogo.html?q=oferta">Ofertas</a></li></ul></nav>
       <nav class="footer-column" aria-label="Categor&iacute;a"><h4>Categor&iacute;a</h4><ul><li><a href="catalogo.html?categories=calzas">Calzas</a></li><li><a href="catalogo.html?categories=remeras">Remeras</a></li><li><a href="catalogo.html?categories=pantalones">Pantalones</a></li><li><a href="catalogo.html?categories=camperas">Camperas</a></li><li><a href="catalogo.html?categories=tops">Tops</a></li><li><a href="catalogo.html?categories=buzos">Buzos</a></li></ul></nav>
       <nav class="footer-column" aria-label="Ayuda"><h4>Ayuda</h4><ul><li><a href="ayuda.html#size-guide">Gu&iacute;a de talles</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="ayuda.html#payments">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li></ul></nav>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
       <div class="footer-socials" aria-label="Redes sociales">
-        <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.7"/><circle cx="17.3" cy="6.8" r="1" fill="currentColor"/></svg></a>
+        <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><span data-romix-icon="Instagram" data-romix-icon-size="sm"></span></a>
         <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V10H8.3v3h2.6v8h2.9Z"/></svg></a>
         <a href="https://www.tiktok.com/@romix_tienda?_r=1&amp;_t=ZS-97FOkImZhLN" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.3 3c.4 2.2 1.7 3.6 3.7 3.8v3.1c-1.4 0-2.7-.4-3.7-1.1v6.1a6.1 6.1 0 1 1-5.3-6V12a3 3 0 1 0 2.2 2.9V3h3.1Z"/></svg></a>
         <a href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.8 7l-4.2 1 1.1-4A8 8 0 1 1 20 11.7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.4 7.8c.4-.3.8-.1 1 .3l.8 1.7c.1.3.1.6-.2.8l-.7.7c.8 1.7 2 2.9 3.7 3.7l.7-.7c.2-.3.5-.3.8-.2l1.7.8c.4.2.6.6.3 1-1 1.4-2.4 1.7-4 .9-2.8-1.3-5-3.5-6.3-6.3-.8-1.7-.5-3.1.9-4Z" fill="currentColor"/></svg></a>
@@ -192,12 +207,7 @@ function syncFonts(html, page) {
   let next = html
     .replace(/\s*<noscript>\s*<link[^>]+fonts\.googleapis\.com\/css2[^>]*>\s*<\/noscript>/gi, '')
     .replace(/\s*<link[^>]+fonts\.googleapis\.com\/css2[^>]*>/gi, '');
-  const links = [
-    `  <link href="${coreFontHref}" rel="stylesheet" />`,
-    page === 'index.html'
-      ? '  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&display=swap" rel="stylesheet" />'
-      : ''
-  ].filter(Boolean).join('\n');
+  const links = `  <link href="${coreFontHref}" rel="stylesheet" />`;
   const firstLocalStylesheet = /\s*<link\s+rel=["']stylesheet["']\s+href=["']assets\/css\//i;
   if (firstLocalStylesheet.test(next)) return next.replace(firstLocalStylesheet, '\n' + links + '\n  <link rel="stylesheet" href="assets/css/');
   return next.replace(/<\/head>/i, links + '\n</head>');

@@ -134,7 +134,6 @@ async function testCatalogAndSeasonFilter() {
 
 function testDetailAndRelatedGuards() {
   const productSource = readPublic('product.html');
-  const legacyDetailSource = readPublic('detalle.html');
   const indexSource = readPublic('index.html');
   const catalogSource = readPublic('assets/js/romix-catalog-pages.js');
 
@@ -144,10 +143,6 @@ function testDetailAndRelatedGuards() {
     'Productos relacionados deben excluir visible false');
   assert(productSource.includes('return product.visible === false;'),
     'Detalle principal debe usar visible como unica regla local');
-  assert(legacyDetailSource.includes('.filter(p => !isHiddenProduct(p))'),
-    'Detalle legacy debe filtrar con la regla de visible');
-  assert(!legacyDetailSource.includes('isBlockedSeasonProduct'),
-    'Detalle legacy no debe conservar bloqueos por temporada');
   assert(!indexSource.includes('season.includes("invierno")'),
     'La portada no debe elegir publicaciones por temporada');
   assert(catalogSource.includes('{ key: "verano", label: "Verano" }'),

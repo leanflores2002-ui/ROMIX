@@ -28,7 +28,7 @@
 .site-footer[data-romix-shell="footer-v1"] .footer-shell {
   width: min(var(--romix-footer-max), calc(100% - 48px));
   margin: 0 auto;
-  padding: 52px 0 24px;
+  padding: var(--romix-space-7) 0 var(--romix-space-4);
   display: grid;
   gap: 36px;
 }
@@ -141,7 +141,7 @@
   margin: 0;
   color: #ffffff;
   font-family: "Outfit", "Manrope", sans-serif;
-  font-size: 0.82rem;
+  font-size: var(--romix-text-sm);
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1.3;

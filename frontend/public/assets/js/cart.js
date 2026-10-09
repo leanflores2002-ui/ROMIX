@@ -125,13 +125,17 @@
         right: 10px;
         border: 0;
         background: transparent;
-        width: 28px;
-        height: 28px;
+        width: 44px;
+        height: 44px;
         border-radius: 50%;
         font-size: 20px;
         line-height: 1;
         color: #5f5f5f;
         cursor: pointer;
+      }
+      .romix-cart-added-panel__close svg {
+        width: 20px;
+        height: 20px;
       }
       .romix-cart-added-panel__close:hover {
         background: #f2f2f2;
@@ -241,9 +245,9 @@
     panel.setAttribute('aria-live', 'polite');
     panel.setAttribute('aria-atomic', 'true');
     panel.innerHTML = `
-      <button type="button" class="romix-icon-btn romix-cart-added-panel__close" aria-label="Cerrar">x</button>
+      <button type="button" class="romix-icon-btn romix-cart-added-panel__close" aria-label="Cerrar">${window.romixIcon("X", { size: "sm" })}</button>
       <div class="romix-cart-added-panel__header">
-        <span class="romix-cart-added-panel__icon" aria-hidden="true">&#10003;</span>
+        <span class="romix-cart-added-panel__icon" aria-hidden="true">${window.romixIcon("Check", { size: "md" })}</span>
         <p class="romix-cart-added-panel__status">Agregado a la bolsa de compra</p>
       </div>
       <div class="romix-cart-added-panel__content">

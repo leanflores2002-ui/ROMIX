@@ -302,25 +302,25 @@
       : findProductColor(product, color);
     const mainImage = getColorImage(colorEntry || color, product) || getProductMainImage(product);
     const hasColorEntry = !!colorEntry;
+    const explicitColorImage = cleanPath(colorEntry && colorEntry.image);
     const explicitThumb = cleanPath((colorEntry && (colorEntry.thumb || colorEntry.thumbnail)) || (!hasColorEntry && product && (product.thumbnail || product.thumb)));
     const explicitFallback = cleanPath((colorEntry && (colorEntry.thumbFallback || colorEntry.thumbnailFallback)) || (!hasColorEntry && product && (product.thumbnailFallback || product.thumbFallback)));
     const explicitAvif = cleanPath((colorEntry && (colorEntry.thumbAvif || colorEntry.thumbnailAvif)) || (!hasColorEntry && product && product.thumbnailAvif));
     const explicitThumbExt = extension(explicitThumb);
-    const thumbFallback = explicitThumb && explicitThumbExt && explicitThumbExt !== "avif"
-      ? explicitThumb
-      : "";
-    const fallbackSrc = explicitFallback || mainImage;
+    const thumbFallback = explicitThumb && explicitThumbExt && explicitThumbExt !== "avif" ? explicitThumb : "";
     const productThumb = cleanPath(product && (product.thumbnail || product.thumb));
-    const primarySrc = thumbFallback || fallbackSrc || mainImage || productThumb;
+    const fallbackSrc = explicitColorImage || thumbFallback || explicitFallback || mainImage || productThumb;
+    const primarySrc = explicitColorImage || fallbackSrc || mainImage || productThumb;
     const explicitWebp = explicitThumbExt === "webp" ? explicitThumb : "";
     const explicitAvifSrc = extension(explicitAvif) === "avif" ? explicitAvif : "";
 
     return {
       src: primarySrc || fallbackSrc || mainImage,
       fallbackSrc: fallbackSrc || mainImage,
-      webpSrc: explicitWebp,
-      avifSrc: explicitAvifSrc,
-      originalSrc: mainImage
+      webpSrc: explicitColorImage ? "" : explicitWebp,
+      avifSrc: explicitColorImage ? "" : explicitAvifSrc,
+      originalSrc: explicitColorImage || mainImage,
+      sources: uniqueSources([explicitColorImage, thumbFallback, explicitFallback, mainImage, productThumb])
     };
   }
 
@@ -489,6 +489,43 @@
     return img;
   }
 
+  function loadImageResource(src) {
+    const normalized = cleanPath(src);
+    if (!normalized || typeof Image !== "function") return Promise.resolve(false);
+
+    return new Promise(function (resolve) {
+      const probe = new Image();
+      let settled = false;
+      const finish = function (success) {
+        if (settled) return;
+        settled = true;
+        probe.onload = null;
+        probe.onerror = null;
+        resolve(!!success);
+      };
+
+      probe.onload = function () { finish(true); };
+      probe.onerror = function () { finish(false); };
+      try {
+        probe.src = normalized;
+      } catch (_error) {
+        finish(false);
+        return;
+      }
+
+      if (probe.complete && probe.naturalWidth > 0) finish(true);
+      if (typeof probe.decode === "function") {
+        Promise.resolve(probe.decode()).then(function () {
+          finish(true);
+        }).catch(function () {
+          if (probe.complete) finish(probe.naturalWidth > 0);
+        });
+      } else if (probe.complete) {
+        finish(probe.naturalWidth > 0);
+      }
+    });
+  }
+
   function applyImageAttributes(img, options) {
     if (!img || !options) return img;
     if (options.alt != null) img.alt = String(options.alt);
@@ -557,6 +594,7 @@
     getSafeProductImage,
     getSafeProductThumbSources,
     getSafeProductThumb,
+    loadImageResource,
     applyImageWithFallback,
     createPicture,
     dimensions: {

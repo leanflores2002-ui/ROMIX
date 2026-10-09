@@ -23,6 +23,20 @@
   --romix-warning: #C66C12;
   --romix-danger: #B4233A;
 
+  /* Typography scale: Outfit for headings, Manrope for body and UI. */
+  --romix-font-heading: "Outfit", system-ui, sans-serif;
+  --romix-font-body: "Manrope", system-ui, sans-serif;
+  --romix-text-xs: 12px;
+  --romix-text-sm: 14px;
+  --romix-text-base: 16px;
+  --romix-text-lg: 18px;
+  --romix-text-xl: 20px;
+  --romix-heading-sm: clamp(22px, 2vw, 28px);
+  --romix-heading-md: clamp(28px, 3vw, 40px);
+  --romix-heading-lg: clamp(36px, 5vw, 64px);
+  --romix-leading-body: 1.6;
+  --romix-leading-tight: 1.08;
+
   /* Layout, shape and motion */
   --romix-radius-sm: 8px;
   --romix-radius: 10px;
@@ -33,6 +47,12 @@
   --romix-control-lg: 50px;
   --romix-control-height: var(--romix-control-md);
   --romix-control-height-lg: var(--romix-control-lg);
+  --romix-icon-xs: 16px;
+  --romix-icon-sm: 18px;
+  --romix-icon-md: 20px;
+  --romix-icon-lg: 24px;
+  --romix-icon-xl: 28px;
+  --romix-icon-benefit: 32px;
   --romix-max: 1400px;
   --romix-space-1: 4px;
   --romix-space-2: 8px;
@@ -42,6 +62,8 @@
   --romix-space-6: 32px;
   --romix-space-7: 48px;
   --romix-space-8: 64px;
+  --romix-space-9: 80px;
+  --romix-space-10: 96px;
   --romix-transition: 180ms ease;
   --romix-ease: var(--romix-transition);
   --romix-focus-ring: 0 0 0 3px rgba(242, 39, 151, .22);
@@ -79,7 +101,7 @@
   padding: 0 var(--romix-space-4);
   border: 1px solid transparent;
   border-radius: var(--romix-radius);
-  font: 700 0.875rem/1 "Manrope", system-ui, sans-serif;
+  font: 700 var(--romix-text-sm)/1 var(--romix-font-body);
   text-decoration: none;
   cursor: pointer;
   user-select: none;
@@ -101,8 +123,53 @@
 .romix-btn--dark:hover { color: var(--romix-white); background: #39383B; border-color: #39383B; }
 .romix-btn--danger { color: var(--romix-danger); background: var(--romix-white); border-color: rgba(180, 35, 58, .35); }
 .romix-btn--danger:hover { color: var(--romix-white); background: var(--romix-danger); border-color: var(--romix-danger); }
+
+romix-toast.romix-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1200;
+  max-width: min(420px, calc(100vw - 48px));
+  padding: 12px 16px;
+  border: 0;
+  border-radius: var(--romix-radius);
+  background: var(--romix-ink);
+  color: var(--romix-white);
+  font: inherit;
+  box-shadow: 0 8px 24px rgba(36, 36, 38, .18);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+romix-toast.romix-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+romix-toast.romix-toast[hidden] {
+  display: block;
+  visibility: hidden;
+}
+
+romix-toast.romix-toast.romix-toast--success { background: var(--romix-success); }
+romix-toast.romix-toast.romix-toast--error { background: var(--romix-danger); }
+
+@media (max-width: 600px) {
+  romix-toast.romix-toast {
+    left: 16px;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  romix-toast.romix-toast { transition: none; transform: none; }
+}
 .romix-btn--pill { border-radius: var(--romix-pill); }
-.romix-btn--sm { min-height: var(--romix-control-sm); padding-inline: var(--romix-space-3); font-size: .8125rem; }
+.romix-btn--sm { min-height: var(--romix-control-sm); padding-inline: var(--romix-space-3); font-size: var(--romix-text-sm); }
 .romix-btn--md { min-height: var(--romix-control-md); }
 .romix-btn--lg { min-height: var(--romix-control-lg); padding-inline: var(--romix-space-5); }
 .romix-btn:where(:disabled, [aria-disabled="true"]),
@@ -130,6 +197,33 @@
   cursor: pointer;
   transition: background-color var(--romix-ease), border-color var(--romix-ease), color var(--romix-ease), transform var(--romix-ease);
 }
+.romix-icon {
+  display: inline-block;
+  width: var(--romix-icon-md);
+  height: var(--romix-icon-md);
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+.romix-icon--xs { width: var(--romix-icon-xs); height: var(--romix-icon-xs); }
+.romix-icon--sm { width: var(--romix-icon-sm); height: var(--romix-icon-sm); }
+.romix-icon--lg { width: var(--romix-icon-lg); height: var(--romix-icon-lg); }
+.romix-icon--xl { width: var(--romix-icon-xl); height: var(--romix-icon-xl); }
+.romix-icon--benefit { width: var(--romix-icon-benefit); height: var(--romix-icon-benefit); }
+.romix-icon[data-romix-icon-size="xs"] { width: var(--romix-icon-xs); height: var(--romix-icon-xs); }
+.romix-icon[data-romix-icon-size="sm"] { width: var(--romix-icon-sm); height: var(--romix-icon-sm); }
+.romix-icon[data-romix-icon-size="lg"] { width: var(--romix-icon-lg); height: var(--romix-icon-lg); }
+.romix-icon[data-romix-icon-size="xl"] { width: var(--romix-icon-xl); height: var(--romix-icon-xl); }
+.romix-icon[data-romix-icon-size="benefit"] { width: var(--romix-icon-benefit); height: var(--romix-icon-benefit); }
+.romix-icon-btn--primary {
+  color: var(--romix-white);
+  background: var(--romix-pink);
+  border-color: var(--romix-pink);
+}
+.romix-icon-btn--primary:hover { color: var(--romix-white); background: var(--romix-pink-hover); border-color: var(--romix-pink-hover); }
+.romix-icon-btn--soft { color: var(--romix-pink); background: var(--romix-pink-bg); border-color: var(--romix-pink-bg); }
+.romix-icon-btn--soft:hover { color: var(--romix-pink-hover); background: var(--romix-pink-soft); border-color: var(--romix-pink-soft); }
+.romix-icon-btn--lg { width: var(--romix-control-lg); height: var(--romix-control-lg); min-width: var(--romix-control-lg); }
+.romix-icon-btn--sm { width: var(--romix-control-sm); height: var(--romix-control-sm); min-width: var(--romix-control-sm); }
 .romix-icon-btn:hover { color: var(--romix-pink-hover); background: var(--romix-pink-bg); transform: translateY(-1px); }
 .romix-icon-btn:active:not(:disabled):not([aria-disabled="true"]) { color: var(--romix-pink); transform: translateY(0); }
 .romix-icon-btn svg { width: 20px; height: 20px; }
@@ -141,6 +235,23 @@
   opacity: .72;
   cursor: not-allowed;
   transform: none;
+}
+
+.romix-btn svg,
+.romix-btn .romix-icon,
+.romix-icon-btn svg,
+.romix-icon-btn .romix-icon { flex-shrink: 0; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .romix-control {
@@ -168,4 +279,30 @@
 
 @media (prefers-reduced-motion: reduce) {
   .romix-btn, .romix-icon-btn, .romix-control { transition-duration: 0.01ms; }
+}
+
+/* Shared type and container baseline. Page styles may refine this by scope. */
+html { font-size: 16px; }
+body {
+  color: var(--romix-ink);
+  font-family: var(--romix-font-body);
+  font-size: var(--romix-text-base);
+  line-height: var(--romix-leading-body);
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--romix-font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: var(--romix-leading-tight);
+}
+.romix-container {
+  width: min(var(--romix-max), calc(100% - 48px));
+  margin-inline: auto;
+}
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  .romix-container { width: calc(100% - 32px); }
+}
+@media (max-width: 380px) {
+  .romix-container { width: calc(100% - 24px); }
 }

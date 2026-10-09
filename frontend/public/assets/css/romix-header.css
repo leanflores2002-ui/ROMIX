@@ -96,7 +96,7 @@ header.romix-shared-header .logo {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: "Sora", sans-serif;
+  font-family: var(--romix-font-heading);
   font-weight: 800;
   font-size: clamp(1.3rem, 1.85vw, 1.58rem);
   letter-spacing: 0.02em;
@@ -117,7 +117,7 @@ header.romix-shared-header .logo .logo-mark {
 
 .site-header .brand-dot,
 header.romix-shared-header .brand-dot {
-  color: #ff3f86;
+  color: var(--romix-pink);
 }
 
 .site-header .header-actions-left,
@@ -205,7 +205,7 @@ header.romix-shared-header .nav-secondary a::after {
   width: 100%;
   height: 3px;
   border-radius: 999px;
-  background: #ff3f86;
+  background: var(--romix-pink);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.2s ease;
@@ -233,7 +233,7 @@ header.romix-shared-header .nav-secondary a:hover,
 header.romix-shared-header .nav-secondary a:focus-visible,
 header.romix-shared-header .nav-secondary a.active,
 header.romix-shared-header .nav-secondary a[aria-current="page"] {
-  color: #ff3f86;
+  color: var(--romix-pink);
   background: transparent;
 }
 
@@ -269,7 +269,7 @@ header.romix-shared-header .main-nav .mega-trigger:focus-visible {
 
 .site-header .mega-nav-item.is-open > .mega-trigger,
 header.romix-shared-header .mega-nav-item.is-open > .mega-trigger {
-  color: #ff3f86;
+  color: var(--romix-pink);
 }
 
 .site-header .mega-chevron,
@@ -331,7 +331,7 @@ header.romix-shared-header .mega-panel-kicker {
 
 .site-header .mega-panel-viewall,
 header.romix-shared-header .mega-panel-viewall {
-  color: #ff3f86;
+  color: var(--romix-pink);
   font-weight: 800;
   text-decoration: none;
 }
@@ -393,7 +393,7 @@ header.romix-shared-header .mega-panel-link {
 .site-header .mega-panel-link:focus-visible,
 header.romix-shared-header .mega-panel-link:hover,
 header.romix-shared-header .mega-panel-link:focus-visible {
-  color: #ff3f86;
+  color: var(--romix-pink);
   transform: translateX(2px);
 }
 
@@ -448,7 +448,7 @@ header.romix-shared-header .mega-promo-eyebrow {
 
 .site-header .mega-promo-title,
 header.romix-shared-header .mega-promo-title {
-  font-family: "Sora", sans-serif;
+  font-family: var(--romix-font-heading);
   font-size: clamp(1.2rem, 1.9vw, 1.52rem);
   line-height: 1.08;
 }
@@ -461,7 +461,7 @@ header.romix-shared-header .mega-promo-cta {
   min-height: 38px;
   padding: 0 16px;
   border-radius: 999px;
-  background: linear-gradient(120deg, #ff3f86 0%, #ff6fa5 100%);
+  background: linear-gradient(120deg, var(--romix-pink) 0%, var(--romix-pink-soft) 100%);
   color: #fff;
   font-size: 0.86rem;
   font-weight: 800;
@@ -496,12 +496,12 @@ header.romix-shared-header .mobile-nav-scrim {
 
 .site-header .icon-btn,
 header.romix-shared-header .icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid rgba(255, 63, 134, 0.4);
   background: #fff;
-  color: #ff3f86;
+  color: var(--romix-pink);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -601,7 +601,7 @@ header.romix-shared-header .global-search input {
 .site-header .global-search input:focus,
 header.romix-shared-header .global-search input[type="search"]:focus,
 header.romix-shared-header .global-search input:focus {
-  border-color: #ff3f86;
+  border-color: var(--romix-pink);
   box-shadow: 0 0 0 4px rgba(255, 63, 134, 0.12);
 }
 
@@ -611,7 +611,7 @@ header.romix-shared-header .global-search button[type="submit"] {
   height: 44px;
   padding: 0 18px;
   border-radius: 0 999px 999px 0;
-  background: linear-gradient(120deg, #ff3f86 0%, #ff6fa5 100%);
+  background: linear-gradient(120deg, var(--romix-pink) 0%, var(--romix-pink-soft) 100%);
   color: #fff;
   font-weight: 800;
   cursor: pointer;
@@ -1316,7 +1316,7 @@ header.romix-shared-header .global-search button[type="submit"] {
     gap: 10px;
     color: #1f1f1f;
     text-decoration: none;
-    font-family: "Sora", sans-serif;
+    font-family: var(--romix-font-heading);
     font-size: 1rem;
     font-weight: 800;
     letter-spacing: 0.03em;
@@ -1333,8 +1333,8 @@ header.romix-shared-header .global-search button[type="submit"] {
 
   .site-header .mobile-drawer-close,
   header.romix-shared-header .mobile-drawer-close {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: 0;
     border-radius: 999px;
     background: #f3f3f3;
@@ -1461,7 +1461,7 @@ header.romix-shared-header .header-row {
 header.romix-shared-header .brand {
   gap: 12px;
   color: var(--header-ink);
-  font-family: "Sora", "Outfit", sans-serif;
+  font-family: var(--romix-font-heading);
   font-size: clamp(1.18rem, 1.5vw, 1.42rem);
   font-weight: 900;
   letter-spacing: 0.04em;
@@ -1536,6 +1536,128 @@ header.romix-shared-header .main-nav .mega-trigger:hover,
 header.romix-shared-header .main-nav .mega-trigger:focus-visible,
 header.romix-shared-header .main-nav .mega-trigger.active {
   color: var(--header-pink);
+}
+
+/* Shared header utilities: quiet controls and a compact desktop menu. */
+.site-header .header-icons,
+header.romix-shared-header .header-icons {
+  gap: 4px;
+}
+.site-header .header-icons .icon-btn,
+header.romix-shared-header .header-icons .icon-btn,
+.site-header .header-icons .cart-pill,
+header.romix-shared-header .header-icons .cart-pill {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--romix-radius);
+  background: transparent;
+  color: var(--romix-ink);
+  box-shadow: none;
+  transform: none;
+}
+.site-header .header-icons .icon-btn:hover,
+header.romix-shared-header .header-icons .icon-btn:hover,
+.site-header .header-icons .cart-pill:hover,
+header.romix-shared-header .header-icons .cart-pill:hover {
+  border-color: transparent;
+  background: var(--romix-pink-bg);
+  color: var(--romix-pink);
+  box-shadow: none;
+  transform: none;
+}
+.site-header .header-icons .cart-pill__icon,
+header.romix-shared-header .header-icons .cart-pill__icon {
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: currentColor;
+}
+.site-header .header-icons .cart-pill .icon-badge,
+header.romix-shared-header .header-icons .cart-pill .icon-badge {
+  top: 4px;
+  right: 3px;
+  width: auto;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  transform: none;
+  border-radius: 999px;
+  background: var(--romix-pink);
+  color: #fff;
+  font-size: .58rem;
+  line-height: 16px;
+}
+.header-utility-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: max(20px, calc((100vw - 1400px) / 2));
+  z-index: 620;
+  width: 224px;
+  padding: 8px;
+  border: 1px solid var(--romix-border);
+  border-radius: var(--romix-radius);
+  background: #fff;
+  box-shadow: var(--romix-shadow-lg);
+}
+.header-utility-panel[hidden] { display: none !important; }
+.header-utility-panel__inner { display: grid; gap: 5px; }
+.header-utility-panel__title {
+  margin: 4px 10px 5px;
+  color: var(--romix-text-muted);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.header-utility-panel nav { display: grid; gap: 2px; }
+.header-utility-panel a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 10px;
+  border-radius: var(--romix-radius-sm);
+  color: var(--romix-ink);
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.header-utility-panel a:hover,
+.header-utility-panel a:focus-visible {
+  background: var(--romix-pink-bg);
+  color: var(--romix-pink);
+  outline: none;
+}
+.header-utility-panel a .romix-icon { color: currentColor; }
+
+@media (min-width: 901px) {
+  .site-header .header-search-mobile,
+  header.romix-shared-header .header-search-mobile { display: none; }
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { display: inline-flex; }
+}
+
+@media (max-width: 900px) {
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { display: none; }
+  .site-header .header-icons,
+  header.romix-shared-header .header-icons { gap: 0; }
+  .site-header .header-icons .icon-btn,
+  header.romix-shared-header .header-icons .icon-btn,
+  .site-header .header-icons .cart-pill,
+  header.romix-shared-header .header-icons .cart-pill {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+  .header-utility-panel { display: none !important; }
 }
 
 .site-header .mega-chevron,
@@ -1880,7 +2002,7 @@ header.romix-shared-header .mega-panel-link {
 header.romix-shared-header .mega-panel-link:hover,
 header.romix-shared-header .mega-panel-link:focus-visible {
   background: #fff3f8;
-  color: #f72585;
+  color: var(--romix-pink);
   transform: translateX(0);
 }
 
@@ -1901,7 +2023,7 @@ header.romix-shared-header .mega-link-icon::before {
   position: absolute;
   inset: 8px;
   border-radius: 999px;
-  background: #f72585;
+  background: var(--romix-pink);
 }
 
 .site-header .mega-link-icon[data-icon="top"]::before,
@@ -1941,6 +2063,16 @@ header.romix-shared-header .mega-link-icon[data-icon="fabric"]::before,
 header.romix-shared-header .mega-link-icon[data-icon="move"]::before {
   inset: 7px;
 }
+
+/* Mega-navigation icons are rendered by the local Lucide ROMIX registry. */
+.site-header .mega-link-icon::before,
+header.romix-shared-header .mega-link-icon::before,
+.site-header .mega-accessory-icon::before,
+header.romix-shared-header .mega-accessory-icon::before { display: none; }
+.site-header .mega-link-icon,
+header.romix-shared-header .mega-link-icon,
+.site-header .mega-accessory-icon,
+header.romix-shared-header .mega-accessory-icon { display: inline-grid; place-items: center; color: var(--romix-pink); }
 
 .site-header .mega-link-label,
 header.romix-shared-header .mega-link-label {
@@ -2024,7 +2156,7 @@ header.romix-shared-header .mega-guide-icon {
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background: #f72585;
+  background: var(--romix-pink);
   flex: 0 0 auto;
 }
 
@@ -2276,7 +2408,7 @@ header.romix-shared-header .mega-panel-viewall { min-height:44px; display:inline
 }
 
 .romix-announcement strong {
-  color: #f72585;
+  color: var(--romix-pink);
   font-weight: 800;
 }
 
@@ -2304,13 +2436,13 @@ header.romix-shared-header.is-hidden {
 
 .site-header .container,
 header.romix-shared-header .container {
-  width: min(100% - 48px, 1460px);
+  width: min(var(--romix-max), calc(100% - 48px));
   margin: 0 auto;
 }
 
 .site-header .header-row,
 header.romix-shared-header .header-row {
-  min-height: 76px;
+  min-height: 72px;
   display: grid;
   grid-template-columns: minmax(150px, .8fr) minmax(420px, 1.6fr) minmax(150px, .8fr);
   align-items: center;
@@ -2360,7 +2492,7 @@ header.romix-shared-header .main-nav .mega-trigger {
   color: #29272d;
   background: transparent;
   font-family: "Manrope", Arial, sans-serif;
-  font-size: .84rem;
+  font-size: var(--romix-text-sm);
   font-weight: 650;
   letter-spacing: 0;
   text-transform: none;
@@ -2373,7 +2505,7 @@ header.romix-shared-header .main-nav .mega-trigger::after {
   bottom: -16px;
   height: 2px;
   border-radius: 0;
-  background: #f72585;
+  background: var(--romix-pink);
 }
 
 .site-header .main-nav > li > a:hover,
@@ -2384,7 +2516,7 @@ header.romix-shared-header .main-nav > li > a:hover,
 header.romix-shared-header .main-nav > li > a:focus-visible,
 header.romix-shared-header .main-nav > li > a.active,
 header.romix-shared-header .main-nav > li > a[aria-current="page"] {
-  color: #f72585;
+  color: var(--romix-pink);
 }
 
 .site-header .header-icons,
@@ -2427,7 +2559,7 @@ header.romix-shared-header .cart-pill {
 header.romix-shared-header .icon-btn:hover,
 .site-header .cart-pill:hover,
 header.romix-shared-header .cart-pill:hover {
-  color: #f72585;
+  color: var(--romix-pink);
   background: #fff5fa;
   box-shadow: none;
   transform: none;
@@ -2483,7 +2615,7 @@ header.romix-shared-header .cart-pill .icon-badge {
   padding: 0;
   border-radius: 50%;
   color: #fff;
-  background: #f72585;
+  background: var(--romix-pink);
   box-shadow: none;
   font-size: .58rem;
   transform: none;
@@ -2512,7 +2644,7 @@ header.romix-shared-header .global-search input {
 .site-header .global-search button[type="submit"],
 header.romix-shared-header .global-search button[type="submit"] {
   border-radius: 0 10px 10px 0;
-  background: #f72585;
+  background: var(--romix-pink);
   box-shadow: none;
 }
 
@@ -2840,8 +2972,8 @@ header.romix-shared-header .global-search.romix-search-form .romix-search-clear 
   position: absolute;
   top: 50%;
   right: 5px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 6px;
   color: #5d555c;
   font-size: 1.4rem;
@@ -3276,8 +3408,8 @@ header.romix-shared-header .global-search.romix-search-form .romix-search-result
   .site-header .global-search.romix-search-form .romix-search-clear,
   header.romix-shared-header .global-search.romix-search-form .romix-search-clear {
     right: 3px;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
 
   .site-header .global-search.romix-search-form .romix-search-cancel,
@@ -3882,6 +4014,25 @@ header.romix-shared-header .mega-guide-card:focus-visible {
   }
 }
 
+/* Final responsive visibility rules for the shared action set. */
+@media (min-width: 901px) {
+  .site-header .header-search-mobile,
+  header.romix-shared-header .header-search-mobile { display: none !important; }
+  .site-header .header-search-desktop,
+  header.romix-shared-header .header-search-desktop,
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { display: inline-flex !important; }
+}
+
+@media (max-width: 900px) {
+  .site-header .header-search-desktop,
+  header.romix-shared-header .header-search-desktop,
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { display: none !important; }
+  .site-header .header-search-mobile,
+  header.romix-shared-header .header-search-mobile { display: inline-flex !important; }
+}
+
 /* Shared icon controls keep the header structure while using ROMIX dimensions. */
 .site-header .romix-icon-btn,
 header.romix-shared-header .romix-icon-btn {
@@ -3898,4 +4049,115 @@ header.romix-shared-header .romix-icon-btn {
 header.romix-shared-header .romix-icon-btn:hover {
   color: var(--romix-pink-hover);
   background: var(--romix-pink-bg);
+}
+
+/* Mobile header: symmetric columns keep the logo centered while preserving two 44px actions. */
+@media (max-width: 768px) {
+  .site-header .header-row,
+  header.romix-shared-header .header-row {
+    width: calc(100% - 16px);
+    height: 60px;
+    min-height: 60px;
+    grid-template-columns: 96px minmax(0, 1fr) 96px;
+    grid-template-areas: "left brand actions";
+    gap: 12px;
+    padding: 0;
+  }
+
+  .site-header .header-actions-left,
+  header.romix-shared-header .header-actions-left {
+    grid-area: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .site-header .brand,
+  header.romix-shared-header .brand {
+    grid-area: brand;
+    justify-self: center;
+    white-space: nowrap;
+  }
+
+  .site-header .header-icons,
+  header.romix-shared-header .header-icons {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    min-width: 96px;
+  }
+
+  .site-header .header-actions-left .icon-btn,
+  header.romix-shared-header .header-actions-left .icon-btn,
+  .site-header .header-icons .icon-btn,
+  header.romix-shared-header .header-icons .icon-btn,
+  .site-header .header-icons .cart-pill,
+  header.romix-shared-header .header-icons .cart-pill {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--romix-radius);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .site-header .header-actions-left .icon-btn:hover,
+  .site-header .header-actions-left .icon-btn:focus-visible,
+  header.romix-shared-header .header-actions-left .icon-btn:hover,
+  header.romix-shared-header .header-actions-left .icon-btn:focus-visible,
+  .site-header .header-icons .icon-btn:hover,
+  .site-header .header-icons .icon-btn:focus-visible,
+  header.romix-shared-header .header-icons .icon-btn:hover,
+  header.romix-shared-header .header-icons .icon-btn:focus-visible,
+  .site-header .header-icons .cart-pill:hover,
+  .site-header .header-icons .cart-pill:focus-visible,
+  header.romix-shared-header .header-icons .cart-pill:hover,
+  header.romix-shared-header .header-icons .cart-pill:focus-visible {
+    background: var(--romix-pink-bg);
+    color: var(--romix-pink);
+    outline: none;
+  }
+
+  .site-header .header-actions-left svg,
+  header.romix-shared-header .header-actions-left svg,
+  .site-header .header-icons svg,
+  header.romix-shared-header .header-icons svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .site-header .header-icons .cart-pill__text,
+  header.romix-shared-header .header-icons .cart-pill__text {
+    display: none;
+  }
+
+  .site-header .header-icons .cart-pill__icon,
+  header.romix-shared-header .header-icons .cart-pill__icon {
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: currentColor;
+  }
+
+  .site-header .header-icons .cart-pill .icon-badge,
+  header.romix-shared-header .header-icons .cart-pill .icon-badge {
+    top: -2px;
+    right: -2px;
+    width: 17px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 10px;
+    line-height: 17px;
+    transform: none;
+  }
 }

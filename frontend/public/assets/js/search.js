@@ -36,9 +36,9 @@
   };
 
   const POPULAR_SEARCHES = [
-    { label: "Mujer", href: "mujer.html" },
-    { label: "Hombre", href: "hombre.html" },
-    { label: "Ni\u00f1os", href: "ninos.html" },
+    { label: "Mujer", href: "catalogo.html?sections=mujer" },
+    { label: "Hombre", href: "catalogo.html?sections=hombre" },
+    { label: "Ni\u00f1os", href: "catalogo.html?sections=ninos" },
     { label: "Calzas", href: "catalogo.html?tipo=calzas&q=calzas" },
     { label: "Remeras", href: "catalogo.html?tipo=remeras&q=remeras" },
     { label: "Pantalones", href: "catalogo.html?tipo=pantalones&q=pantalones" },
@@ -642,7 +642,7 @@
       shell.innerHTML = '' +
         '<div class="romix-search-input-wrap">' +
           '<span class="romix-search-icon" aria-hidden="true"></span>' +
-          '<button class="romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span aria-hidden="true">&times;</span></button>' +
+          '<button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden>' + window.romixIcon("X", { size: "sm" }) + '</button>' +
         '</div>' +
         '<button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>' +
         '<p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>' +

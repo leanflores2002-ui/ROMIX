@@ -55,6 +55,16 @@ function loadImageUtils() {
     'La miniatura de un color seleccionado debe reutilizar la imagen canónica del color'
   );
 
+  const explicitColorImage = 'images/products/chaleco_verde_canonico.webp';
+  const explicitColorThumb = 'images/thumbs/chaleco_verde_canonico.webp';
+  const explicitColorSet = utils.getProductThumbSet({
+    image: 'images/products/chaleco_default.webp',
+    thumbnail: 'images/thumbs/chaleco_default.webp',
+    colors: [{ name: 'Verde', image: explicitColorImage, thumb: explicitColorThumb }]
+  }, { name: 'Verde', image: explicitColorImage, thumb: explicitColorThumb });
+  assert(explicitColorSet.originalSrc === explicitColorImage, 'originalSrc debe priorizar color.image');
+  assert(explicitColorSet.src === explicitColorImage, 'src debe priorizar color.image sobre color.thumb');
+
   const productWithColorGalleries = {
     image: 'images/products/chaleco_negro_1.webp',
     colors: [

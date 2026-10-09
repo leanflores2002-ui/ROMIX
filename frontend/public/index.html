@@ -748,46 +748,85 @@
       padding: 14px;
     }
 
-    .product-variants {
+    .product-variant-thumbs,
+    .product-color-swatches {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 5px;
+      min-height: 22px;
     }
 
-    .variant-chip {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 2px solid #ddd;
-      background-color: #ffffff;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+    .product-variant-thumbs {
+      min-height: 40px;
+    }
+
+    .product-variant-thumb {
+      width: 32px;
+      height: 40px;
+      padding: 0;
+      border: 1px solid #ddd7df;
+      border-radius: 10px;
+      background: #fff;
+      overflow: hidden;
       cursor: pointer;
       flex-shrink: 0;
-      overflow: hidden;
-      transition: border-color 0.15s ease, transform 0.15s ease;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
     }
 
-    .variant-chip img {
+    .product-variant-thumb img {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 50%;
     }
 
-    .variant-chip.is-active {
+    .product-variant-thumb.is-active,
+    .product-variant-thumb:hover,
+    .product-variant-thumb:focus-visible {
       border-color: var(--pink-strong);
+      box-shadow: 0 0 0 2px rgba(242, 39, 151, 0.16);
+      transform: translateY(-1px);
     }
 
-    .variant-chip:hover {
-      transform: scale(1.12);
+    .product-color-swatch {
+      width: 22px;
+      height: 22px;
+      padding: 0;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      outline: 1px solid #c9c5cc;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: outline-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
     }
 
-    .variant-more {
+    .product-color-swatch.is-active,
+    .product-color-swatch:hover,
+    .product-color-swatch:focus-visible {
+      outline: 2px solid var(--pink-strong);
+      box-shadow: 0 0 0 3px rgba(242, 39, 151, 0.16);
+      transform: translateY(-1px);
+    }
+
+    .product-variant-more,
+    .product-color-more {
+      display: inline-grid;
+      place-items: center;
+      min-width: 28px;
+      min-height: 28px;
+      padding: 0 5px;
+      border: 1px solid #ddd7df;
+      border-radius: 8px;
+      color: var(--text-muted);
+      background: #fff;
       font-size: 0.72rem;
       font-weight: 800;
-      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px) {
+      .product-variant-thumb { width: 28px; height: 34px; }
+      .product-color-swatch { width: 20px; height: 20px; }
     }
 
     .product-name {
@@ -2019,7 +2058,7 @@
         return;
       }
 
-      const variantLimit = window.innerWidth <= 640 ? 3 : 4;
+      const variantLimit = 4;
       const homeProductLimit = window.innerWidth <= 768 ? 8 : 12;
       row.innerHTML = "";
       source = source.slice(0, homeProductLimit);
@@ -2167,52 +2206,92 @@
         body.className = "product-body";
 
         if (variantsData.length) {
-          const varWrap = document.createElement("div");
-          varWrap.className = "product-variants";
+          const variantControls = [];
           const visible = variantsData.slice(0, variantLimit);
 
+          function activateVariant(index, variant) {
+            selectedVariant = variant;
+            variantControls.forEach((control) => {
+              const active = Number(control.dataset.variantIndex) === index;
+              control.classList.toggle("is-active", active);
+              control.setAttribute("aria-pressed", active ? "true" : "false");
+            });
+            setImg(variant, variant.name);
+          }
+
+          const thumbs = document.createElement("div");
+          thumbs.className = "product-variant-thumbs";
+          thumbs.setAttribute("aria-label", "Miniaturas de variantes");
           visible.forEach((variant, index) => {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "variant-chip" + (index === 0 ? " is-active" : "");
-            btn.setAttribute("aria-label", "Seleccionar color " + variant.name);
-            btn.setAttribute("aria-pressed", index === 0 ? "true" : "false");
-            btn.title = variant.name;
-            btn.innerHTML = '<span class="sr-only">Color ' + safeText(variant.name) + '</span>';
-            btn.dataset.colorName = variant.name;
-            btn.dataset.colorIndex = String(index);
-
-            btn.style.background = isMulticolorVariant(variant.name)
-              ? MULTICOLOR_SWATCH
-              : (variant.hex || "#efecf3");
-            btn.classList.add("variant-chip--color");
-
-            btn.addEventListener("click", function (event) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "product-variant-thumb" + (index === 0 ? " is-active" : "");
+            button.setAttribute("aria-label", "Ver variante " + variant.name);
+            button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
+            button.title = "Ver variante " + variant.name;
+            button.dataset.variantIndex = String(index);
+            const preview = document.createElement("img");
+            preview.src = String(variant.thumb || variant.image || "").trim();
+            preview.alt = "Variante " + variant.name;
+            preview.loading = "lazy";
+            preview.decoding = "async";
+            preview.addEventListener("error", function () {
+              const fallback = String(variant.image || "").trim();
+              if (fallback && preview.src !== fallback) preview.src = fallback;
+            });
+            button.appendChild(preview);
+            button.addEventListener("click", function (event) {
               event.preventDefault();
               event.stopPropagation();
-              varWrap.querySelectorAll(".variant-chip").forEach((chip) => {
-                chip.classList.remove("is-active");
-                chip.setAttribute("aria-pressed", "false");
-              });
-              btn.classList.add("is-active");
-              btn.setAttribute("aria-pressed", "true");
-              selectedVariant = variant;
-              setImg(variant, variant.name);
+              activateVariant(index, variant);
             });
-
-            varWrap.appendChild(btn);
+            thumbs.appendChild(button);
+            variantControls.push(button);
           });
-
           if (variantsData.length > visible.length) {
             const more = document.createElement("span");
-            more.className = "variant-more";
+            more.className = "product-variant-more variant-more";
             more.textContent = "+" + (variantsData.length - visible.length);
-            varWrap.appendChild(more);
+            more.setAttribute("aria-label", "Hay " + (variantsData.length - visible.length) + " variantes adicionales");
+            thumbs.appendChild(more);
           }
+          body.appendChild(thumbs);
+
+          const swatches = document.createElement("div");
+          swatches.className = "product-color-swatches";
+          swatches.setAttribute("aria-label", "Colores de variantes");
+          visible.forEach((variant, index) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "product-color-swatch variant-chip" + (index === 0 ? " is-active" : "");
+            button.setAttribute("aria-label", "Seleccionar color " + variant.name);
+            button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
+            button.title = variant.name;
+            button.innerHTML = '<span class="sr-only">Color ' + safeText(variant.name) + '</span>';
+            button.dataset.colorName = variant.name;
+            button.dataset.variantIndex = String(index);
+            button.style.background = isMulticolorVariant(variant.name)
+              ? MULTICOLOR_SWATCH
+              : (variant.hex || "#efecf3");
+            button.addEventListener("click", function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              activateVariant(index, variant);
+            });
+            swatches.appendChild(button);
+            variantControls.push(button);
+          });
+          if (variantsData.length > visible.length) {
+            const more = document.createElement("span");
+            more.className = "product-color-more variant-more";
+            more.textContent = "+" + (variantsData.length - visible.length);
+            more.setAttribute("aria-label", "Hay " + (variantsData.length - visible.length) + " colores adicionales");
+            swatches.appendChild(more);
+          }
+          body.appendChild(swatches);
 
           const initial = visible[0];
           if (initial) setImg(initial, initial.name);
-          body.appendChild(varWrap);
         }
 
         const nameEl = document.createElement("a");

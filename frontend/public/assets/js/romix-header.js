@@ -509,6 +509,21 @@
       });
     }
 
+    function syncTriggerSemantics() {
+      items.forEach(function (item) {
+        var trigger = item.querySelector(".mega-trigger");
+        var panel = item.querySelector(".mega-panel");
+        if (!trigger) return;
+        if (isDesktop()) {
+          trigger.setAttribute("aria-expanded", item.classList.contains("is-open") ? "true" : "false");
+          if (panel) trigger.setAttribute("aria-controls", panel.id);
+          return;
+        }
+        trigger.removeAttribute("aria-expanded");
+        trigger.removeAttribute("aria-controls");
+      });
+    }
+
     function openMenu(key) {
       if (!key) return;
       cancelScheduledOpen();
@@ -570,12 +585,6 @@
           return;
         }
         if (!isDesktop()) {
-          event.preventDefault();
-          if (openKey === key) {
-            closeMenu();
-          } else {
-            openMenu(key);
-          }
           return;
         }
         if (openKey === key) {
@@ -587,6 +596,7 @@
       });
 
       trigger.addEventListener("auxclick", function (event) {
+        if (!isDesktop()) return;
         if (event.button !== 1) return;
         if (openKey === key) {
           return;
@@ -632,7 +642,10 @@
 
     function handleViewportChange() {
       closeMenu();
+      syncTriggerSemantics();
     }
+
+    syncTriggerSemantics();
 
     if (typeof mq.addEventListener === "function") {
       mq.addEventListener("change", handleViewportChange);

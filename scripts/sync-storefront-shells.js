@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const publicDir = path.join(__dirname, '..', 'frontend', 'public');
-const assetVersion = '14';
+const assetVersion = '15';
 const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap';
 const pages = [
   'index.html',

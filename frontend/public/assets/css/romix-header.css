@@ -3325,93 +3325,33 @@ header.romix-shared-header .global-search.romix-search-form .romix-search-result
 
 @media (max-width: 900px) {
   .site-header .mega-panel,
-  header.romix-shared-header .mega-panel {
-    display: block;
-    position: static;
-    width: 100%;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: none;
-    transition: max-height 180ms ease;
-  }
-
-  .site-header .mega-nav-item.is-open > .mega-panel,
-  header.romix-shared-header .mega-nav-item.is-open > .mega-panel {
-    max-height: 1600px;
-  }
-
+  header.romix-shared-header .mega-panel,
   .site-header .mega-panel-shell,
   header.romix-shared-header .mega-panel-shell {
-    display: block;
-    max-height: none;
-    opacity: 1;
-    visibility: visible;
-    overflow: visible;
-    margin: 0;
-    padding: 0 0 12px;
-    border: 0;
-    border-radius: 0;
-    background: #fff;
-    box-shadow: none;
-  }
-
-  .site-header .mega-panel-grid,
-  header.romix-shared-header .mega-panel-grid {
-    display: block;
-  }
-
-  .site-header .mega-panel-columns,
-  header.romix-shared-header .mega-panel-columns {
-    display: block;
-  }
-
-  .site-header .mega-panel-column,
-  header.romix-shared-header .mega-panel-column {
-    padding: 13px 0;
-    border-top: 1px solid #f2f2f2;
-  }
-
-  .site-header .mega-panel-column:first-child,
-  header.romix-shared-header .mega-panel-column:first-child {
-    border-top: 0;
-  }
-
-  .site-header .mega-panel-title,
-  header.romix-shared-header .mega-panel-title {
-    margin: 0 0 6px;
-    font-size: 12px;
-    font-weight: 800;
-  }
-
-  .site-header .mega-panel-link,
-  header.romix-shared-header .mega-panel-link {
-    display: inline-flex;
-    padding: 5px 0;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.35;
-  }
-
-  .site-header .main-nav .mega-panel .mega-promo,
-  header.romix-shared-header .main-nav .mega-panel .mega-promo {
     display: none;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 
-  .site-header .mega-panel-bottom,
-  header.romix-shared-header .mega-panel-bottom {
+  .site-header .main-nav .mega-trigger,
+  header.romix-shared-header .main-nav .mega-trigger {
+    min-height: 52px;
     display: flex;
-    min-height: 44px;
-    margin-top: 0;
-    border-top: 1px solid #f2f2f2;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 4px;
   }
 
-  .site-header .main-nav .mega-panel .mega-panel-viewall,
-  header.romix-shared-header .main-nav .mega-panel .mega-panel-viewall {
-    font-size: 13px;
-    color: #f22797;
+  header.site-header.romix-shared-header .main-nav > li > .mega-trigger {
+    height: 52px;
+    min-height: 52px;
+  }
+
+  .site-header .main-nav .mega-chevron,
+  header.romix-shared-header .main-nav .mega-chevron {
+    display: none;
   }
 }
 

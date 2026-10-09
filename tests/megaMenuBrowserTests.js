@@ -5,6 +5,7 @@ const { chromium } = require('playwright');
 
 const BASE_URL = process.env.ROMIX_TEST_URL || 'http://127.0.0.1:4173/index.html';
 const SCREENSHOT_DIR = process.env.ROMIX_SCREENSHOTS || '';
+const PRODUCTS_JSON = fs.readFileSync(path.join(__dirname, '..', 'frontend', 'public', 'assets', 'data', 'products.json'), 'utf8');
 if (SCREENSHOT_DIR) fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
 
 async function wait(ms) {
@@ -68,35 +69,87 @@ async function testDesktop(page, width, height) {
   assert.equal(await page.locator('#header-utility-panel').getAttribute('aria-hidden'), 'false');
 }
 
-async function testMobile(page) {
-  await page.setViewportSize({ width: 390, height: 844 });
+async function testMobileNavigation(page, width, height) {
+  await page.setViewportSize({ width, height });
   await page.goto(BASE_URL, { waitUntil: 'networkidle' });
   await page.waitForSelector('header.site-header.romix-shared-header');
 
-  assert.equal(await page.locator('.mega-promo').first().isVisible(), false, 'Desktop promo should be hidden in mobile drawer');
+  const mobileKeys = ['mujer', 'hombre', 'ninos', 'novedades', 'ofertas'];
+  assert.equal(await page.locator('.mega-panel').first().evaluate((node) => getComputedStyle(node).display), 'none', 'Mega panels should stay hidden on mobile');
+  assert.equal(await page.locator('.mega-chevron').count(), 0, 'Mobile category rows should not show chevrons');
+  for (const key of mobileKeys) {
+    assert.equal(await page.locator(`#mega-trigger-${key}`).getAttribute('aria-expanded'), null, `${key} should not expose accordion semantics on mobile`);
+    assert.equal(await page.locator(`#mega-trigger-${key}`).getAttribute('aria-controls'), null, `${key} should not control a mobile panel`);
+    const rowBox = await page.locator(`#mega-trigger-${key}`).boundingBox();
+    assert.ok(rowBox && rowBox.height >= 52, `${key} should have a 52px mobile touch row (got ${rowBox ? rowBox.height : 'none'}px)`);
+  }
+
   await page.locator('#toggle-mobile-nav').click();
   await wait(80);
   assert.equal(await page.locator('body').evaluate((node) => node.classList.contains('mobile-nav-open')), true);
-  await page.locator('#mega-trigger-mujer').click();
-  await wait(80);
-  assert.equal(await isOpen(page, 'mujer'), true, 'Mobile Mujer accordion should still open');
-  if (SCREENSHOT_DIR) {
+
+  if (SCREENSHOT_DIR && width === 390) {
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'romix-mega-mobile.png') });
   }
-  assert.equal(await page.locator('.mega-promo').first().isVisible(), false, 'Mobile accordion should not show promo media');
+
+  const destinations = {
+    mujer: 'catalogo.html?sections=mujer',
+    hombre: 'catalogo.html?sections=hombre',
+    ninos: 'catalogo.html?sections=ninos',
+    novedades: 'catalogo.html?view=novedades',
+    ofertas: 'catalogo.html?q=oferta'
+  };
+  for (const [key, href] of Object.entries(destinations)) {
+    await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+    await page.locator('#toggle-mobile-nav').click();
+    await wait(50);
+    assert.equal(await page.locator(`#mega-trigger-${key}`).getAttribute('href'), href, `${key} should keep its native href`);
+    await page.evaluate(() => {
+      sessionStorage.removeItem('romix-mobile-default-prevented');
+      document.addEventListener('click', (event) => {
+        const link = event.target && event.target.closest ? event.target.closest('.mega-trigger') : null;
+        if (link) sessionStorage.setItem('romix-mobile-default-prevented', String(event.defaultPrevented));
+      });
+    });
+    await page.locator(`#mega-trigger-${key}`).click();
+    await page.waitForLoadState('domcontentloaded');
+    await wait(50);
+    const destinationUrl = new URL(page.url());
+    const expectedUrl = new URL(href, BASE_URL);
+    assert.equal(destinationUrl.pathname, expectedUrl.pathname, `${key} should navigate to its native path`);
+    for (const [name, value] of expectedUrl.searchParams) {
+      assert.equal(destinationUrl.searchParams.get(name), value, `${key} should preserve its ${name} query parameter`);
+    }
+    assert.equal(await page.evaluate(() => sessionStorage.getItem('romix-mobile-default-prevented')), 'false', `${key} should not be default-prevented on mobile`);
+    await page.goBack({ waitUntil: 'domcontentloaded' });
+    assert.equal(page.url(), new URL(BASE_URL).href, `${key} should return to the home page with Back`);
+  }
+
   assert.ok(await page.locator('body').evaluate((node) => node.scrollWidth <= window.innerWidth), 'Mobile page should not overflow horizontally');
 }
 
 (async () => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
+  await page.route('**/api/products**', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: PRODUCTS_JSON
+  }));
   const errors = [];
+  const consoleErrors = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') consoleErrors.push(message.text());
+  });
   await testDesktop(page, 1366, 768);
   await testDesktop(page, 1440, 900);
   await testDesktop(page, 1920, 1080);
-  await testMobile(page);
+  await testMobileNavigation(page, 360, 800);
+  await testMobileNavigation(page, 390, 844);
+  await testMobileNavigation(page, 430, 932);
   assert.deepEqual(errors, [], `Browser page errors: ${errors.join('; ')}`);
+  assert.deepEqual(consoleErrors, [], `Browser console errors: ${consoleErrors.join('; ')}`);
   await browser.close();
   console.log('megaMenuBrowserTests: ok');
 })().catch((error) => {

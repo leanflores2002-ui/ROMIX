@@ -66,7 +66,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=14" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=14">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=17">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=18">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=14" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=14" />
@@ -235,7 +235,7 @@
 </footer>
 <!-- ROMIX:SHELL:FOOTER:END -->
 
-  <script src="assets/js/romix-image-utils.js?v=14"></script>
+  <script src="assets/js/romix-image-utils.js?v=15"></script>
   <script src="assets/js/color-utils.js?v=14"></script>
   <script src="assets/js/slugify.js?v=14"></script>
   <script src="assets/js/share-versions.js?v=14"></script>
@@ -1466,11 +1466,9 @@
         let pinchStartScale = 1;
         let lastActive = null;
         let isOpen = false;
-        let hoverZoomActive = false;
         let lockedScrollY = 0;
         let bodyLockSnapshot = null;
         let inertedSiblings = [];
-        const allowHoverZoom = window.matchMedia('(min-width: 901px) and (hover: hover) and (pointer: fine)').matches;
 
         function getFocusable(){
           const nodes = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -1507,7 +1505,6 @@
           scale = 1;
           translateX = 0;
           translateY = 0;
-          hoverZoomActive = false;
           dragging = false;
           touchDragging = false;
           touchMoved = false;
@@ -1559,13 +1556,26 @@
           root.style.scrollBehavior = previousScrollBehavior;
         }
 
-        function syncImage(){
+        let imageRequestId = 0;
+
+        async function syncImage(){
+          const requestId = ++imageRequestId;
           total = items.length || 1;
           if (currentIndex >= total) currentIndex = Math.max(0, total - 1);
           const src = items[currentIndex] || mainImage.src;
+          reset();
+          stage.classList.add('is-loading');
+          zoomImage.style.opacity = '0.35';
           zoomImage.src = src;
           zoomImage.alt = mainImage.alt || 'Producto ampliado';
-          reset();
+          try {
+            if (typeof zoomImage.decode === 'function') await zoomImage.decode();
+          } catch {
+            // La imagen puede continuar cargando aunque decode no esté disponible.
+          }
+          if (requestId !== imageRequestId) return;
+          stage.classList.remove('is-loading');
+          zoomImage.style.opacity = '1';
           counterEl.textContent = (currentIndex + 1) + ' / ' + total;
           prevBtn.disabled = currentIndex <= 0;
           nextBtn.disabled = currentIndex >= total - 1;
@@ -1574,7 +1584,7 @@
         function open(trigger){
           if (isOpen) return;
           lastActive = trigger || document.activeElement || openBtn;
-          const src = mainImage.src;
+          const src = mainImage.currentSrc || mainImage.src;
           const idx = items.indexOf(src);
           currentIndex = idx >= 0 ? idx : 0;
           syncImage();
@@ -1592,7 +1602,6 @@
           modal.setAttribute('aria-hidden', 'true');
           dragging = false;
           touchDragging = false;
-          hoverZoomActive = false;
           stage.classList.remove('dragging');
           reset();
           unlockBackground();
@@ -1626,7 +1635,7 @@
         }
 
         function clampScale(value){
-          return Math.max(1, Math.min(4, value));
+          return Math.max(1, Math.min(2, value));
         }
 
         prevBtn.style.display = total > 1 ? 'block' : 'none';
@@ -1652,7 +1661,7 @@
 
         stage.addEventListener('mousedown', (evt) => {
           if (!isOpen) return;
-          if (scale <= 1 || hoverZoomActive) return;
+          if (scale <= 1) return;
           evt.preventDefault();
           dragging = true;
           dragMoved = false;
@@ -1678,28 +1687,6 @@
           stage.classList.remove('dragging');
         });
 
-        modal.addEventListener('wheel', (evt) => {
-          if (!isOpen) return;
-          evt.preventDefault();
-          const rect = stage.getBoundingClientRect();
-          if (rect.width && rect.height) {
-            const x = Math.max(0, Math.min(evt.clientX - rect.left, rect.width));
-            const y = Math.max(0, Math.min(evt.clientY - rect.top, rect.height));
-            const px = (x / rect.width) * 100;
-            const py = (y / rect.height) * 100;
-            zoomImage.style.transformOrigin = px + '% ' + py + '%';
-          }
-          const delta = evt.deltaY < 0 ? 0.2 : -0.2;
-          scale = clampScale(scale + delta);
-          hoverZoomActive = false;
-          if (scale <= 1) {
-            translateX = 0;
-            translateY = 0;
-          }
-          applyTransform();
-          updateZoomState();
-        }, { passive: false });
-
         stage.addEventListener('click', (evt) => {
           if (!isOpen || dragging) return;
           if (touchMoved) {
@@ -1710,62 +1697,11 @@
             dragMoved = false;
             return;
           }
-          if (allowHoverZoom) {
-            hoverZoomActive = !hoverZoomActive;
-            if (hoverZoomActive) {
-              const rect = stage.getBoundingClientRect();
-              if (rect.width && rect.height) {
-                const x = Math.max(0, Math.min(evt.clientX - rect.left, rect.width));
-                const y = Math.max(0, Math.min(evt.clientY - rect.top, rect.height));
-                const px = (x / rect.width) * 100;
-                const py = (y / rect.height) * 100;
-                zoomImage.style.transformOrigin = px + '% ' + py + '%';
-              }
-              scale = clampScale(1.85);
-              translateX = 0;
-              translateY = 0;
-            } else {
-              reset();
-              return;
-            }
-            applyTransform();
-            updateZoomState();
-            return;
-          }
-          hoverZoomActive = !hoverZoomActive;
-          if (hoverZoomActive) {
-            scale = clampScale(2.2);
-            translateX = 0;
-            translateY = 0;
-          } else {
-            scale = 1;
-            translateX = 0;
-            translateY = 0;
-            zoomImage.style.transformOrigin = '50% 50%';
-          }
-          applyTransform();
-          updateZoomState();
-        });
-
-        stage.addEventListener('mousemove', (evt) => {
-          if (!allowHoverZoom) return;
-          if (!isOpen || dragging) return;
-          if (!hoverZoomActive || scale <= 1) return;
-          const rect = stage.getBoundingClientRect();
-          if (!rect.width || !rect.height) return;
-          const x = Math.max(0, Math.min(evt.clientX - rect.left, rect.width));
-          const y = Math.max(0, Math.min(evt.clientY - rect.top, rect.height));
-          const px = (x / rect.width) * 100;
-          const py = (y / rect.height) * 100;
-          zoomImage.style.transformOrigin = px + '% ' + py + '%';
+          scale = scale > 1 ? 1 : 2;
           translateX = 0;
           translateY = 0;
           applyTransform();
-        });
-
-        stage.addEventListener('mouseleave', () => {
-          if (!allowHoverZoom || !isOpen || !hoverZoomActive) return;
-          reset();
+          updateZoomState();
         });
 
         function distance(touchA, touchB){
@@ -1802,7 +1738,6 @@
             const nextDistance = distance(evt.touches[0], evt.touches[1]);
             if (nextDistance > 0) {
               scale = clampScale(pinchStartScale * (nextDistance / pinchStartDistance));
-              hoverZoomActive = false;
               applyTransform();
               updateZoomState();
               touchMoved = true;
@@ -1855,29 +1790,6 @@
             if (currentIndex < total - 1) { currentIndex += 1; syncImage(); }
             return;
           }
-          if (key === '+' || key === '=') {
-            evt.preventDefault();
-            scale = clampScale(scale + 0.5);
-            applyTransform();
-            updateZoomState();
-            return;
-          }
-          if (key === '-' || key === '_') {
-            evt.preventDefault();
-            scale = clampScale(scale - 0.5);
-            if (scale <= 1) {
-              translateX = 0;
-              translateY = 0;
-            }
-            applyTransform();
-            updateZoomState();
-            return;
-          }
-          if (key === '0') {
-            evt.preventDefault();
-            reset();
-            return;
-          }
           if (key === 'Tab') {
             const focusable = getFocusable();
             if (!focusable.length) return;
@@ -1903,40 +1815,6 @@
         if (window.visualViewport) window.visualViewport.addEventListener('resize', resetForViewportChange);
 
         return { setGallery, reset, close };
-      }
-
-      function setupInlineZoom(detail){
-        if (!detail) return;
-        const wrap = detail.querySelector('.main-image');
-        const mainImage = detail.querySelector('#main-image');
-        if (!wrap || !mainImage) return;
-        const canUseInlineZoom = () => window.matchMedia('(min-width: 961px) and (hover: hover) and (pointer: fine)').matches;
-
-        function setActive(active){
-          wrap.classList.toggle('is-zoomed', Boolean(active) && canUseInlineZoom());
-        }
-
-        function move(evt){
-          const rect = wrap.getBoundingClientRect();
-          if (!rect.width || !rect.height) return;
-          const clientX = evt.clientX ?? (evt.touches && evt.touches[0] && evt.touches[0].clientX);
-          const clientY = evt.clientY ?? (evt.touches && evt.touches[0] && evt.touches[0].clientY);
-          if (clientX == null || clientY == null) return;
-          const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-          const y = Math.max(0, Math.min(clientY - rect.top, rect.height));
-          const px = (x / rect.width) * 100;
-          const py = (y / rect.height) * 100;
-          wrap.style.setProperty('--zoom-x', px + '%');
-          wrap.style.setProperty('--zoom-y', py + '%');
-        }
-
-        wrap.addEventListener('mouseenter', () => setActive(true));
-        wrap.addEventListener('mousemove', move);
-        wrap.addEventListener('mouseleave', () => setActive(false));
-        wrap.addEventListener('touchstart', () => setActive(false), { passive: true });
-        window.addEventListener('resize', () => {
-          if (!canUseInlineZoom()) setActive(false);
-        });
       }
 
       function hasProductValue(value){
@@ -2184,13 +2062,13 @@
               <div class="thumbs-panel" aria-label="Galería de miniaturas" ${gallery.length > 1 ? '' : 'hidden'}>
 
                 <button type="button" class="romix-icon-btn thumb-nav prev" id="thumbs-prev" aria-label="Ver miniaturas anteriores">
-                  ${window.romixIcon("ChevronLeft", { size: "md" })}
+                  ${window.romixIcon("ChevronDown", { size: "md" })}
                 </button>
                 <div class="thumbs" id="gallery-thumbs" role="listbox" aria-label="Miniaturas del producto">
                   ${gallery.map((image, index) => `<img src="${image.thumbSrc || image.src}" alt="${image.label || product.name}" data-index="${index}" data-color="${image.label || ''}" data-color-key="${image.colorKey || ''}" data-full="${image.src}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" sizes="${THUMB_IMAGE_SIZES}" ${index === 0 ? 'class="active"' : ''} role="option" tabindex="0" aria-label="Ver imagen ${index + 1} de ${gallery.length}" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`).join('')}
                 </div>
                 <button type="button" class="romix-icon-btn thumb-nav next" id="thumbs-next" aria-label="Ver miniaturas siguientes">
-                  ${window.romixIcon("ChevronRight", { size: "md" })}
+                  ${window.romixIcon("ChevronDown", { size: "md" })}
                 </button>
               </div>
             </div>
@@ -2264,7 +2142,7 @@
           </div>
           <div class="zoom-modal" id="zoom-modal" role="dialog" aria-modal="true" aria-label="Vista ampliada del producto" aria-describedby="zoom-help" aria-hidden="true">
             <div class="zoom-panel" tabindex="-1">
-              <p class="sr-only" id="zoom-help">Hace click sobre la imagen para acercar o alejar. Usa las flechas para cambiar de imagen. Usa mas y menos para acercar o alejar. Presiona Escape para cerrar.</p>
+              <p class="sr-only" id="zoom-help">Hace click sobre la imagen para acercar o alejar. Usa las flechas para cambiar de imagen. Presiona Escape para cerrar.</p>
               <div class="zoom-counter" id="zoom-counter" aria-live="polite">1 / 1</div>
               <button type="button" class="zoom-close romix-icon-btn" id="zoom-close" aria-label="Cerrar">${window.romixIcon("X", { size: "md" })}</button>
               <button type="button" class="zoom-nav prev romix-icon-btn" id="zoom-prev" aria-label="Anterior">${window.romixIcon("ChevronLeft", { size: "md" })}</button>
@@ -2296,7 +2174,6 @@
         const btnBuy = detail.querySelector('#btn-buy');
         let colorPickerApi = null;
         const zoomApi = setupZoomModal(detail, gallery);
-        setupInlineZoom(detail);
         if (window.romixSizeGuides && typeof window.romixSizeGuides.mountProductButton === 'function') {
           window.romixSizeGuides.mountProductButton(product, detail.querySelector('#product-size-guide-slot'));
         }
@@ -2376,7 +2253,7 @@
         }
 
         function getThumbAxis() {
-          const isMobile = window.matchMedia('(max-width: 960px)').matches;
+          const isMobile = window.matchMedia('(max-width: 900px)').matches;
           return isMobile ? 'x' : 'y';
         }
 
@@ -2715,6 +2592,7 @@
 
         function setActiveColor(colorName, options = {}){
           const opts = options || {};
+          if (zoomApi && typeof zoomApi.setGallery === 'function') zoomApi.setGallery(gallery);
           selectVariant(findGalleryIndexForColor(colorName), {
             skipPickerSync: !!opts.skipPickerSync,
             skipLabelUpdate: !!opts.skipLabelUpdate

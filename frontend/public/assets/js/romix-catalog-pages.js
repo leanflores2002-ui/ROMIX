@@ -63,20 +63,12 @@
     out: { label: "Sin stock", css: "status-out" }
   };
 
-  const COLOR_DEFINITIONS = [
-    { key: "multicolor", label: "Multicolor", hex: "#f7c948", aliases: ["multicolor", "estampado", "estampada", "print", "floreado"] },
-    { key: "negro", label: "Negro", hex: "#000000", aliases: ["negro", "black", "hex", "name"] },
-    { key: "blanco", label: "Blanco", hex: "#ffffff", aliases: ["blanco", "white"] },
-    { key: "azul", label: "Azul", hex: "#007bff", aliases: ["azul", "azul jaspeado", "azul oscuro", "azul marino", "francia"] },
-    { key: "rosa", label: "Rosa", hex: "#ff69b4", aliases: ["rosa", "fucsia"] },
-    { key: "verde", label: "Verde", hex: "#28a745", aliases: ["verde", "verde jaspeado"] },
-    { key: "rojo", label: "Rojo", hex: "#dc3545", aliases: ["rojo", "rojo jaspeado"] },
-    { key: "morado", label: "Violeta", hex: "#6f42c1", aliases: ["violeta", "morado", "purpura"] },
-    { key: "naranja", label: "Naranja", hex: "#fd7e14", aliases: ["naranja"] },
-    { key: "amarillo", label: "Amarillo", hex: "#ffc107", aliases: ["amarillo"] },
-    { key: "marron", label: "Marron", hex: "#795548", aliases: ["marron", "chocolate", "caqui"] },
-    { key: "gris", label: "Gris", hex: "#adb5bd", aliases: ["gris", "gris jaspeado", "gris oscuro", "gris medio"] },
-    { key: "otros", label: "Otros", hex: "#b9b2b8", aliases: [] }
+  const MULTICOLOR_PATTERN = /(estampad[oa]|print|floread[oa]|multicolor)/i;
+  const MULTICOLOR_SWATCH = "conic-gradient(from 20deg, #ef476f, #ffd166, #06d6a0, #118ab2, #8338ec, #ef476f)";
+  const COLOR_FILTER_ORDER = [
+    "negro", "blanco", "gris-oscuro", "gris", "gris-melange", "azul-marino", "azul", "celeste",
+    "verde", "rojo", "bordo", "rosa", "fucsia", "lila", "violeta", "beige", "arena", "camel",
+    "tostado", "naranja", "mostaza", "multicolor"
   ];
 
   const RAW_COLOR_FALLBACK_HEX = {
@@ -122,8 +114,7 @@
       types: new Set(),
       seasons: new Set(),
       sizes: new Set(),
-      sale: new Set(),
-      stock: new Set()
+      sale: new Set()
     },
     optionLabels: {
       audiences: new Map(),
@@ -180,29 +171,11 @@
     return stripAccents(value).toLowerCase().trim();
   }
 
-  function resolveColorDefinitionByKey(key) {
-    return COLOR_DEFINITIONS.find((entry) => entry.key === key) || COLOR_DEFINITIONS[COLOR_DEFINITIONS.length - 1];
-  }
-
   function normalizeColorToFilterKey(value) {
-    const key = normalizeText(value);
-    if (!key) return "otros";
-
-    if (key.includes("estamp") || key.includes("print") || key.includes("floread") || key.includes("multicolor")) {
-      return "multicolor";
-    }
-
-    for (const definition of COLOR_DEFINITIONS) {
-      if (!Array.isArray(definition.aliases) || !definition.aliases.length) continue;
-      const match = definition.aliases.some((alias) => {
-        const aliasKey = normalizeText(alias);
-        if (!aliasKey) return false;
-        return key === aliasKey || key.includes(aliasKey);
-      });
-      if (match) return definition.key;
-    }
-
-    return "otros";
+    const key = normalizeText(value).replace(/\s+/g, " ");
+    if (!key) return "";
+    if (MULTICOLOR_PATTERN.test(key)) return "multicolor";
+    return key.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   }
 
   function setOptionLabel(group, value, label) {
@@ -226,7 +199,7 @@
   function getActiveFilters() {
     const result = [];
     Object.keys(state.selected).forEach((group) => {
-      if (group === "sale" || group === "stock") return;
+      if (group === "sale") return;
       state.selected[group].forEach((value) => {
         result.push({
           group,
@@ -243,9 +216,6 @@
     }
     if (state.selected.sale.has("1")) {
       result.push({ group: "sale", value: "1", label: "Ofertas" });
-    }
-    if (state.selected.stock.has("available")) {
-      result.push({ group: "stock", value: "available", label: "Con stock" });
     }
     return result;
   }
@@ -668,12 +638,10 @@
     const requestedSeasons = readInitialSeasonFilterKeys();
     const requestedSizes = readInitialSizeFilterKeys();
     const requestedSale = hasInitialQueryFlag("sale", "1") || normalizeText(readInitialSearchQuery()) === "oferta";
-    const requestedStock = hasInitialQueryFlag("stock", "available");
     state.priceMin = readInitialPriceValue("price_min");
     state.priceMax = readInitialPriceValue("price_max");
 
     if (requestedSale) state.selected.sale.add("1");
-    if (requestedStock) state.selected.stock.add("available");
 
     if (requestedAudiences.length) {
       const audienceKey = requestedAudiences[0];
@@ -1007,7 +975,7 @@
       seasonKey,
       featured: !!(raw && raw.featured === true),
       colors,
-      filterColorKeys: filterColorKeys.length ? filterColorKeys : ["otros"],
+      filterColorKeys,
       sizes,
       stockByColor: raw && raw.stockByColor && typeof raw.stockByColor === "object" ? raw.stockByColor : null,
       inventory: raw && raw.inventory && typeof raw.inventory === "object" ? raw.inventory : null,
@@ -1021,34 +989,10 @@
     return badge === "oferta" || badge.includes("oferta") || (Number(product.originalPrice) > Number(product.price));
   }
 
-  function hasAvailableInventory(value) {
-    if (typeof value === "number") return value > 0;
-    if (typeof value === "string") {
-      const normalized = normalizeText(value);
-      if (normalized === "available" || normalized === "disponible" || normalized === "low" || normalized === "bajo") return true;
-      if (normalized === "out" || normalized === "sin stock" || normalized === "agotado") return false;
-      const amount = Number(value);
-      return Number.isFinite(amount) && amount > 0;
-    }
-    if (!value || typeof value !== "object") return false;
-    if (value.status && (normalizeStatus(value.status) === "available" || normalizeStatus(value.status) === "low")) return true;
-    return Object.values(value).some((entry) => hasAvailableInventory(entry));
-  }
-
-  function isProductAvailable(product) {
-    if (!product) return false;
-    if (product.stockStatus === "available" || product.stockStatus === "low") return true;
-    if (Array.isArray(product.sizes) && product.sizes.some((entry) => {
-      const status = normalizeStatus(entry && entry.status);
-      return status === "available" || status === "low";
-    })) return true;
-    return hasAvailableInventory(product.stockByColor) || hasAvailableInventory(product.inventory);
-  }
-
   async function loadProducts() {
     if (window.romixProductsStore && typeof window.romixProductsStore.load === "function") {
       const data = await window.romixProductsStore.load();
-      return Array.isArray(data) ? data : [];
+      return Array.isArray(data) ? data.filter((product) => product && product.visible !== false) : [];
     }
 
     const response = await fetch(new URL(DATA_URL, window.location.href));
@@ -1077,24 +1021,60 @@
   function collectColorOptions(list) {
     const map = new Map();
     list.forEach((product) => {
-      const keys = Array.isArray(product.filterColorKeys) ? product.filterColorKeys : [];
-      keys.forEach((key) => {
-        const definition = resolveColorDefinitionByKey(key);
-        if (!map.has(definition.key)) {
-          map.set(definition.key, {
-            key: definition.key,
-            name: definition.label,
-            hex: definition.hex,
-            count: 0
+      const colors = Array.isArray(product && product.colors) ? product.colors : [];
+      colors.forEach((color) => {
+        const name = String(color && (color.name || color.value) || "").trim();
+        const key = normalizeColorToFilterKey(name);
+        if (!key) return;
+
+        if (!map.has(key)) {
+          map.set(key, {
+            key,
+            count: 0,
+            names: new Map(),
+            hexes: new Map()
           });
         }
-        map.get(definition.key).count += 1;
+
+        const option = map.get(key);
+        option.count += 1;
+        option.names.set(name, (option.names.get(name) || 0) + 1);
+        const hex = String(color && color.hex || "").trim();
+        if (hex) option.hexes.set(hex, (option.hexes.get(hex) || 0) + 1);
       });
     });
 
-    return Array.from(map.values()).sort((a, b) => {
+    return Array.from(map.values()).map((option) => {
+      const displayName = option.key === "multicolor"
+        ? "Multicolor"
+        : Array.from(option.names.entries()).sort((a, b) => {
+            if (b[1] !== a[1]) return b[1] - a[1];
+            return a[0].localeCompare(b[0], "es", { sensitivity: "base" });
+          })[0][0];
+      const hex = Array.from(option.hexes.entries()).sort((a, b) => {
+        if (b[1] !== a[1]) return b[1] - a[1];
+        return a[0].localeCompare(b[0]);
+      })[0];
+      const swatch = option.key === "multicolor"
+        ? MULTICOLOR_SWATCH
+        : (hex ? hex[0] : (RAW_COLOR_FALLBACK_HEX[normalizeText(displayName)] || "#d9d4da"));
+      return {
+        key: option.key,
+        name: displayName,
+        hex: hex ? hex[0] : "",
+        swatch,
+        count: option.count
+      };
+    }).sort((a, b) => {
+      const aOrder = COLOR_FILTER_ORDER.indexOf(a.key);
+      const bOrder = COLOR_FILTER_ORDER.indexOf(b.key);
+      if (aOrder !== bOrder) {
+        if (aOrder === -1) return 1;
+        if (bOrder === -1) return -1;
+        return aOrder - bOrder;
+      }
       if (b.count !== a.count) return b.count - a.count;
-      return a.name.localeCompare(b.name, "es", { sensitivity: "base" });
+      return a.name.localeCompare(b.name, "es", { sensitivity: "base" }) || a.key.localeCompare(b.key);
     });
   }
 
@@ -1243,7 +1223,7 @@
     controls.wrap.hidden = remaining <= 0;
     controls.button.hidden = remaining <= 0;
     const step = getLoadMoreStep();
-    controls.button.textContent = remaining > step ? "Ver " + step + " mas" : "Ver mas";
+    controls.button.textContent = remaining > step ? "Ver " + step + " más" : "Ver más";
   }
 
   function buildSortSelect(id, extraClassName) {
@@ -1630,7 +1610,9 @@
           button.appendChild(srLabel);
           button.dataset.colorName = color.name;
           button.dataset.colorIndex = String(index);
-          button.style.backgroundColor = color.hex || "#efecf3";
+          button.style.background = normalizeColorToFilterKey(color.name) === "multicolor"
+            ? MULTICOLOR_SWATCH
+            : (color.hex || "#efecf3");
           if (color.swatchImage) {
             button.style.backgroundImage = "url('" + String(color.swatchImage).replace(/'/g, "%27") + "')";
           }
@@ -1757,8 +1739,6 @@
     if (state.priceMin !== "" && (!Number.isFinite(price) || price < Number(state.priceMin))) return false;
     if (state.priceMax !== "" && (!Number.isFinite(price) || price > Number(state.priceMax))) return false;
     if (state.selected.sale.has("1") && !isProductOffer(product)) return false;
-    if (state.selected.stock.has("available") && !isProductAvailable(product)) return false;
-
     if (!matchesSearchQuery(product)) return false;
 
     return true;
@@ -1862,7 +1842,6 @@
     if (state.priceMin !== "") params.set("price_min", state.priceMin);
     if (state.priceMax !== "") params.set("price_max", state.priceMax);
     if (state.selected.sale.has("1")) params.set("sale", "1");
-    if (state.selected.stock.has("available")) params.set("stock", "available");
     if (!state.selected.sale.has("1") && normalizeText(params.get("q") || "") === "oferta") params.delete("q");
     const query = params.toString();
     const nextUrl = window.location.pathname + (query ? "?" + query : "") + window.location.hash;
@@ -1952,7 +1931,7 @@
     button.classList.toggle("is-hidden", !hasMore);
     if (!hasMore) return;
 
-    button.textContent = showAll ? "Ver menos" : "+ Ver mas";
+    button.textContent = showAll ? "Ver menos" : "Ver más";
   }
 
   function renderColorFilters() {
@@ -1972,13 +1951,17 @@
       input.dataset.group = "colors";
       input.value = option.key;
       input.checked = state.selected.colors.has(option.key);
+      input.setAttribute("aria-label", "Filtrar por " + option.name);
 
       const dot = document.createElement("span");
       dot.className = "color-dot";
-      dot.style.background = option.hex;
+      dot.style.background = option.swatch;
+      dot.setAttribute("aria-hidden", "true");
 
       const text = document.createElement("span");
       text.textContent = option.name;
+      label.title = option.name;
+      label.setAttribute("aria-label", option.name);
       setOptionLabel("colors", option.key, option.name);
 
       label.appendChild(input);
@@ -1997,9 +1980,7 @@
     if (minInput) minInput.value = state.priceMin;
     if (maxInput) maxInput.value = state.priceMax;
     const saleInput = document.querySelector('.filters-sidebar input[data-group="sale"]');
-    const stockInput = document.querySelector('.filters-sidebar input[data-group="stock"]');
     if (saleInput) saleInput.checked = state.selected.sale.has("1");
-    if (stockInput) stockInput.checked = state.selected.stock.has("available");
     if (error) error.hidden = true;
   }
 

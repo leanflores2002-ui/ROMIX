@@ -98,21 +98,22 @@ body[data-catalog-scope] select { font: inherit; }
 .filter-option input { width: 16px; height: 16px; margin: 0; accent-color: var(--catalog-pink); cursor: pointer; }
 .filter-option:focus-within { color: var(--catalog-pink-dark); }
 
-#color-options { display: flex; flex-wrap: wrap; gap: 10px; padding: 2px 3px; }
-#color-options .filter-option { width: 28px; min-height: 28px; }
+#color-options { display: flex; flex-wrap: wrap; gap: 10px; padding: 3px; }
+#color-options .filter-option { width: 30px; min-height: 30px; }
 #color-options .filter-option input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
 #color-options .filter-option > span:last-child {
   position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden;
   clip: rect(0, 0, 0, 0); white-space: nowrap;
 }
 .color-dot {
-  width: 26px; height: 26px; border: 2px solid #fff; border-radius: 50%;
-  outline: 1px solid #dedce2; box-shadow: 0 0 0 3px transparent;
-  transition: box-shadow 150ms ease, outline-color 150ms ease;
+  width: 28px; height: 28px; flex: 0 0 28px; border: 2px solid #fff; border-radius: 50%;
+  outline: 1px solid #c9c5cc; box-shadow: 0 0 0 2px transparent;
+  transition: box-shadow 150ms ease, outline-color 150ms ease, background-color 150ms ease;
 }
 #color-options .filter-option:has(input:checked) .color-dot {
-  outline-color: var(--catalog-pink); box-shadow: 0 0 0 3px rgba(247, 37, 133, .15);
+  outline: 2px solid var(--catalog-pink); box-shadow: 0 0 0 4px rgba(247, 37, 133, .2);
 }
+#color-options .filter-option:focus-within .color-dot { outline-color: var(--catalog-ink); }
 
 .size-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
 .size-chip { min-width: 0; }
@@ -133,7 +134,7 @@ body[data-catalog-scope] select { font: inherit; }
 .filter-price-range input:focus-visible { outline: 2px solid var(--catalog-ink); outline-offset: 2px; }
 .filter-price-range__dash { padding-bottom: 11px; color: var(--catalog-muted); }
 .filter-price-range .romix-btn { grid-column: 1 / -1; justify-self: start; min-height: 36px; }
-#sale-filter-group .filter-option, #availability-filter-group .filter-option { min-height: 40px; }
+#sale-filter-group .filter-option { min-height: 40px; }
 .filter-more {
   min-height: 40px; margin: 6px 0 -8px; padding: 0; border: 0;
   color: var(--catalog-pink-dark); background: transparent;

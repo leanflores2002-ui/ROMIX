@@ -66,7 +66,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=14" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=14">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=14">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=16">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=14" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=14" />
@@ -136,7 +136,7 @@
     </div>
   </div>
 </header>
-<script src="assets/js/romix-icons.js?v=14"></script>
+<script src="assets/js/romix-icons.js?v=15"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
 
   <main class="page-container">
@@ -269,6 +269,7 @@
     (function(){
       const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360"><rect width="100%" height="100%" fill="#f8f9fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="20">Imagen no disponible</text></svg>`);
       const DATA_URL = 'assets/data/products.json';
+      const localStaticPreview = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
       const CART_KEY = 'cart';
       const imageUtils = window.romixImageUtils || {};
       const pricing = window.romixPricing || {};
@@ -649,16 +650,16 @@
         const waBtn = document.getElementById('btn-share-whatsapp');
         const copyBtn = document.getElementById('btn-share-copy');
         const shareInput = document.getElementById('share-link-input');
-        if (!nativeBtn || !waBtn || !copyBtn || !shareInput) return;
+        if (!nativeBtn || !copyBtn || !shareInput) return;
 
         const shareUrl = buildShareUrl(product);
         const shareText = buildShareText(product, shareUrl);
         shareInput.value = shareUrl;
-        waBtn.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+        if (waBtn) waBtn.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
 
         nativeBtn.onclick = async () => {
           if (!navigator.share) {
-            showToast('Tu navegador no soporta compartir directo.', 'error');
+            copyBtn.click();
             return;
           }
           try {
@@ -689,11 +690,8 @@
           }
         };
 
-        if (!navigator.share) {
-          nativeBtn.setAttribute('hidden', 'hidden');
-        } else {
-          nativeBtn.removeAttribute('hidden');
-        }
+        nativeBtn.removeAttribute('hidden');
+        nativeBtn.setAttribute('aria-label', navigator.share ? 'Compartir producto' : 'Copiar link del producto');
 
       }
 
@@ -1148,7 +1146,8 @@
         if (window.romixProductsStore && typeof window.romixProductsStore.load === 'function') {
           return window.romixProductsStore.load({
             preloadedScriptId: 'preloaded-products',
-            dataUrl: DATA_URL
+            dataUrl: DATA_URL,
+            useApi: !localStaticPreview
           });
         }
         const response = await fetch(new URL(DATA_URL, location.href));
@@ -1961,20 +1960,16 @@
       }
 
       function buildProductAccordionItems(product){
-        const items = [];
-        if (hasProductValue(product.description)) {
-          items.push({
-            title: 'Descripción',
-            content: `<p class="product-accordion__text">${String(product.description).trim()}</p>`
-          });
-        }
-
+        const featureItems = Array.isArray(product.features)
+          ? product.features.filter(hasProductValue).map(value => `<li>${String(value).trim()}</li>`).join('')
+          : '';
+        const description = hasProductValue(product.description)
+          ? `<p class="product-accordion__text">${String(product.description).trim()}</p>`
+          : '<p class="product-accordion__text">Consultá los detalles del producto con nuestro equipo.</p>';
+        const descriptionContent = `<div class="product-description-layout"><div>${description}</div>${featureItems ? `<ul class="product-description-features">${featureItems}</ul>` : ''}</div>`;
         const details = [
           hasProductValue(product.type) ? `<li><span class="product-accordion__label">Tipo:</span> ${product.type}</li>` : '',
           hasProductValue(product.season) ? `<li><span class="product-accordion__label">Temporada:</span> ${String(product.season).replace(/-/g, ' ')}</li>` : '',
-          ...(Array.isArray(product.features)
-            ? product.features.filter(hasProductValue).map(value => `<li>${String(value).trim()}</li>`)
-            : []),
           ...(product.specs && typeof product.specs === 'object'
             ? Object.entries(product.specs)
               .filter(([key, value]) => hasProductValue(key) && hasProductValue(value))
@@ -1982,17 +1977,22 @@
             : [])
         ];
         const detailsContent = buildAccordionList(details);
-        if (detailsContent) items.push({ title: 'Detalles', content: detailsContent });
-
-        items.push({
-          title: 'Envíos y Cambios',
+        return [
+          { title: 'Descripción', content: descriptionContent },
+          { title: 'Detalles', content: detailsContent || '<p class="product-accordion__text">Información del producto disponible en la ficha.</p>' },
+          {
+            title: 'Guía de talles',
+            content: `<div class="product-accordion__size-guide"><p class="product-accordion__text">¿Necesitás ayuda para elegir tu talle?</p><button type="button" class="product-size-guide-tab-trigger">${window.romixIcon("Ruler", { size: "sm" })}<span>Abrir guía de talles</span></button></div>`
+          },
+          {
+            title: 'Envíos y cambios',
           content: '<p class="product-accordion__text product-accordion__links"><a href="ayuda.html#returns">Ver política de cambios</a><a href="ayuda.html#contact">Consultar entrega</a></p>'
-        });
-        items.push({
-          title: 'Preguntas frecuentes',
-          content: `<p class="product-accordion__text product-accordion__links product-accordion__faq"><span class="product-accordion__faq-intro">Â¿TenÃ©s dudas sobre talles, cambios o formas de pago?</span><a href="ayuda.html#faq">${window.romixIcon("CircleHelp", { size: "sm" })}<span>Ver preguntas frecuentes</span>${window.romixIcon("ArrowRight", { size: "sm" })}</a></p>`
-        });
-        return items;
+          },
+          {
+            title: 'Preguntas frecuentes',
+            content: `<p class="product-accordion__text product-accordion__links product-accordion__faq"><span class="product-accordion__faq-intro">¿Tenés dudas sobre talles, cambios o formas de pago?</span><a href="ayuda.html#faq">${window.romixIcon("CircleHelp", { size: "sm" })}<span>Ver preguntas frecuentes</span>${window.romixIcon("ArrowRight", { size: "sm" })}</a></p>`
+          }
+        ];
       }
 
       function setAccordionItemState(item, isOpen){
@@ -2032,6 +2032,11 @@
 
           button.addEventListener('click', () => {
             const isOpen = item.classList.contains('is-open');
+            if (!isOpen) {
+              items.forEach(other => {
+                if (other !== item) setAccordionItemState(other, false);
+              });
+            }
             setAccordionItemState(item, !isOpen);
           });
 
@@ -2148,8 +2153,8 @@
                 <p id="size-error" class="product-size-error" aria-live="polite" role="status" hidden></p>
               </div>
               <div id="product-size-guide-slot" class="product-size-guide-slot"></div>
-              <div class="product-buy-row">
-                <div class="selector quantity-row">
+              <div class="product-buy-section">
+                <div class="quantity-row">
                   <div class="selector-label">Cantidad</div>
                   <div class="qty-control">
                     <button type="button" class="romix-icon-btn" id="quantity-minus" aria-label="Disminuir cantidad">${window.romixIcon("Minus", { size: "sm" })}</button>
@@ -2159,31 +2164,34 @@
                 </div>
                 <div class="purchase-actions" id="purchase-actions">
                   <button id="btn-add" class="btn primary romix-btn romix-btn--primary romix-btn--lg" type="button">${window.romixIcon("ShoppingCart", { size: "md" })}<span>Agregar al carrito</span></button>
+                  <button id="btn-buy" class="btn outline romix-btn romix-btn--secondary romix-btn--lg product-buy-now" type="button">${window.romixIcon("ShoppingBag", { size: "md" })}<span>Comprar ahora</span></button>
                 </div>
               </div>
-              <button id="btn-buy" class="btn outline romix-btn romix-btn--secondary romix-btn--lg product-buy-now" type="button">${window.romixIcon("ShoppingBag", { size: "md" })}<span>Comprar ahora</span></button>
               <div class="share-panel" id="share-panel">
-                <div class="selector-label">Compartir producto</div>
                 <div class="share-actions">
                   <button type="button" class="share-btn romix-btn romix-btn--outline" id="btn-share-native">
-                    ${window.romixIcon("Share2", { size: "sm" })}
-                    Compartir
+                    ${window.romixIcon("Share2", { size: "sm" })}<span>Compartir</span>
                   </button>
-                  <a class="share-btn romix-btn romix-btn--outline share-btn--wa" id="btn-share-whatsapp" target="_blank" rel="noopener">
-                    ${window.romixIcon("MessageCircle", { size: "sm" })}
-                    WhatsApp
+                  <a class="share-btn romix-btn romix-btn--outline" id="btn-contact" href="ayuda.html#contact">
+                    ${window.romixIcon("MessageCircle", { size: "sm" })}<span>Consultar</span>
                   </a>
-                  <button type="button" class="share-btn romix-btn romix-btn--outline" id="btn-share-copy">
-                    ${window.romixIcon("Share2", { size: "sm" })}
-                    Copiar link
-                  </button>
                 </div>
-                <input id="share-link-input" type="text" readonly aria-label="Link para compartir" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
+                <a id="btn-share-whatsapp" href="#" hidden aria-hidden="true" tabindex="-1">WhatsApp</a>
+                <button type="button" id="btn-share-copy" hidden aria-hidden="true">Copiar link</button>
+                <input id="share-link-input" type="text" readonly aria-label="Link para compartir" tabindex="-1" />
               </div>
             </div>
             <div class="detail-extras">
+              <section class="benefit-strip" aria-label="Beneficios de compra">
+                <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("RotateCcw", { size: "md" })}</span><div><strong>Cambios fáciles</strong><span>Consultá condiciones</span></div></div>
+                <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("CreditCard", { size: "md" })}</span><div><strong>Pago seguro</strong><span>Medios de pago disponibles</span></div></div>
+                <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("Truck", { size: "md" })}</span><div><strong>Envíos y retiros coordinados</strong><span>Consultá disponibilidad</span></div></div>
+                <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("MessageCircle", { size: "md" })}</span><div><strong>Atención por WhatsApp</strong><span>Te ayudamos a elegir</span></div></div>
+              </section>
               <section id="features-section" class="features-panel" hidden>
+                <div id="product-tabs" class="product-tabs" role="tablist" aria-label="Información del producto"></div>
                 <div id="product-accordion" class="product-accordion" aria-live="polite"></div>
+                <div id="product-tab-panels" class="product-tab-panels"></div>
               </section>
             </div>
           </div>
@@ -2735,7 +2743,9 @@
       function renderFeatures(product){
         const section = document.getElementById('features-section');
         const accordion = document.getElementById('product-accordion');
-        if (!section || !accordion) return;
+        const tabs = document.getElementById('product-tabs');
+        const panels = document.getElementById('product-tab-panels');
+        if (!section || !accordion || !tabs || !panels) return;
 
         const items = buildProductAccordionItems(product);
         if (!items.length) {
@@ -2744,30 +2754,43 @@
         }
 
         const baseId = buildAccordionIdBase(product);
+        tabs.innerHTML = items.map((item, index) => {
+          const triggerId = `${baseId}-accordion-trigger-${index}-tab`;
+          return `<button type="button" class="product-tab" id="${triggerId}" role="tab" aria-selected="${index === 0 ? 'true' : 'false'}" aria-controls="${baseId}-accordion-panel-${index}-tab" data-tab-index="${index}"><span>${item.title}</span></button>`;
+        }).join('');
+        panels.innerHTML = items.map((item, index) => `<div class="product-tab-panel" id="${baseId}-accordion-panel-${index}-tab" role="tabpanel" aria-labelledby="${baseId}-accordion-trigger-${index}-tab" data-panel-index="${index}">${item.content}</div>`).join('');
         accordion.innerHTML = items.map((item, index) => {
           const triggerId = `${baseId}-accordion-trigger-${index}`;
           const panelId = `${baseId}-accordion-panel-${index}`;
           return `
           <article class="product-accordion__item">
-            <button
-              type="button"
-              class="product-accordion__button"
-              id="${triggerId}"
-              aria-expanded="false"
-              aria-controls="${panelId}">
+            <button type="button" class="product-accordion__button" id="${triggerId}" aria-expanded="false" aria-controls="${panelId}">
               <span class="product-accordion__title">${item.title}</span>
               <span class="product-accordion__icon" aria-hidden="true">${window.romixIcon("ChevronDown", { size: "sm" })}</span>
             </button>
-            <div
-              class="product-accordion__content"
-              id="${panelId}"
-              role="region"
-              aria-labelledby="${triggerId}"
-              aria-hidden="true">
+            <div class="product-accordion__content" id="${panelId}" role="region" aria-labelledby="${triggerId}" aria-hidden="true">
               <div class="product-accordion__content-inner">${item.content}</div>
             </div>
           </article>`;
         }).join('');
+
+        const setActiveTab = (index) => {
+          tabs.querySelectorAll('[role="tab"]').forEach((tab, tabIndex) => {
+            const active = tabIndex === index;
+            tab.classList.toggle('is-active', active);
+            tab.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          panels.querySelectorAll('.product-tab-panel').forEach((panel, panelIndex) => {
+            panel.hidden = panelIndex !== index;
+          });
+        };
+        tabs.querySelectorAll('[role="tab"]').forEach(tab => {
+          tab.addEventListener('click', () => setActiveTab(Number(tab.dataset.tabIndex) || 0));
+        });
+        document.querySelectorAll('#product-tab-panels .product-size-guide-tab-trigger, #product-accordion .product-size-guide-tab-trigger').forEach(button => {
+          button.addEventListener('click', () => window.romixSizeGuides?.open?.(product));
+        });
+        setActiveTab(0);
 
         section.hidden = false;
         setupProductAccordion(section);
@@ -3136,7 +3159,7 @@
       }
 
       const productsRequest = loadProducts();
-      const inventoryRequest = window.romixInventory && typeof window.romixInventory.syncFromApi === 'function'
+      const inventoryRequest = !localStaticPreview && window.romixInventory && typeof window.romixInventory.syncFromApi === 'function'
         ? window.romixInventory.syncFromApi()
         : Promise.resolve({ ok: false });
 

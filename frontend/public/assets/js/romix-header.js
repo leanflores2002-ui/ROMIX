@@ -29,6 +29,45 @@
       .replace(/'/g, "&#39;");
   }
 
+  function createArrowIcon() {
+    var arrow = document.createElement("span");
+    arrow.className = "mobile-nav-arrow";
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.setAttribute("data-romix-icon", "ArrowRight");
+    arrow.setAttribute("data-romix-icon-size", "sm");
+    return arrow;
+  }
+
+  function ensureMobileDrawerLinks(header) {
+    var nav = header.querySelector(".mega-nav");
+    var mainNav = header.querySelector(".main-nav");
+    if (!nav || !mainNav) return;
+
+    mainNav.querySelectorAll(".mega-trigger").forEach(function (trigger) {
+      if (!trigger.querySelector(".mobile-nav-arrow")) trigger.appendChild(createArrowIcon());
+    });
+
+    if (nav.querySelector(".mobile-drawer-links")) return;
+
+    var shortcuts = [
+      { label: "Catálogo completo", href: "catalogo.html" },
+      { label: "Ayuda", href: "ayuda.html#faq" },
+      { label: "Guía de talles", href: "ayuda.html#size-guide" }
+    ];
+    var shortcutNav = document.createElement("nav");
+    shortcutNav.className = "mobile-drawer-links";
+    shortcutNav.setAttribute("aria-label", "Atajos");
+    shortcuts.forEach(function (shortcut) {
+      var link = document.createElement("a");
+      link.href = shortcut.href;
+      link.dataset.megaLink = "true";
+      link.appendChild(document.createTextNode(shortcut.label));
+      link.appendChild(createArrowIcon());
+      shortcutNav.appendChild(link);
+    });
+    nav.appendChild(shortcutNav);
+  }
+
   function buildHref(page, params) {
     var rawPage = String(page || "");
     var hashIndex = rawPage.indexOf("#");
@@ -707,7 +746,7 @@
     nav.addEventListener("click", function (event) {
       var target = event.target;
       if (!target || typeof target.closest !== "function") return;
-      var directLink = target.closest("[data-mega-link='true']");
+      var directLink = target.closest("a[href]");
       if (directLink) {
         closeMenu();
       }
@@ -806,6 +845,8 @@
       }
     });
 
+    ensureMobileDrawerLinks(header);
+
     bindSearchToggle(headerState);
     bindMegaMenu(header, headerState);
     bindMobileMenu(header, headerState);
@@ -813,9 +854,14 @@
     bindHeaderFavorites();
     updateCartBadge();
     window.addEventListener("storage", updateCartBadge);
-    ensureSearchScript().then(function (autoloaded) {
-      dispatchHeaderReady({ rebuilt: false, page: current, activeKey: activeKey, searchAutoloaded: !!autoloaded });
-    });
+    ensureSearchScript()
+      .then(function (autoloaded) {
+        dispatchHeaderReady({ rebuilt: false, page: current, activeKey: activeKey, searchAutoloaded: !!autoloaded });
+      })
+      .catch(function (error) {
+        console.error("No se pudo cargar el buscador del header", error);
+        dispatchHeaderReady({ rebuilt: false, page: current, activeKey: activeKey, searchAutoloaded: false, searchError: true });
+      });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });

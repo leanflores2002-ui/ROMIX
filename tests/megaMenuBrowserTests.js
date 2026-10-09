@@ -76,16 +76,28 @@ async function testMobileNavigation(page, width, height) {
 
   const mobileKeys = ['mujer', 'hombre', 'ninos', 'novedades', 'ofertas'];
   assert.equal(await page.locator('.mega-panel').first().evaluate((node) => getComputedStyle(node).display), 'none', 'Mega panels should stay hidden on mobile');
+  assert.equal(await page.locator('.mega-panel-columns:visible, .mega-panel-column:visible, .mega-panel-list:visible, .mega-promo:visible, .mega-panel-bottom:visible').count(), 0, 'Mobile mega-menu content should stay hidden');
   assert.equal(await page.locator('.mega-chevron').count(), 0, 'Mobile category rows should not show chevrons');
+  assert.equal(await page.locator('.mobile-nav-arrow').count(), 8, 'Mobile drawer should show ArrowRight on every direct link');
   for (const key of mobileKeys) {
     assert.equal(await page.locator(`#mega-trigger-${key}`).getAttribute('aria-expanded'), null, `${key} should not expose accordion semantics on mobile`);
     assert.equal(await page.locator(`#mega-trigger-${key}`).getAttribute('aria-controls'), null, `${key} should not control a mobile panel`);
     const rowBox = await page.locator(`#mega-trigger-${key}`).boundingBox();
-    assert.ok(rowBox && rowBox.height >= 52, `${key} should have a 52px mobile touch row (got ${rowBox ? rowBox.height : 'none'}px)`);
+    assert.ok(rowBox && rowBox.height >= 54, `${key} should have a 54px mobile touch row (got ${rowBox ? rowBox.height : 'none'}px)`);
+  }
+
+  const shortcuts = {
+    'Catálogo completo': 'catalogo.html',
+    Ayuda: 'ayuda.html#faq',
+    'Guía de talles': 'ayuda.html#size-guide'
+  };
+  for (const [label, href] of Object.entries(shortcuts)) {
+    const shortcut = page.locator('.mobile-drawer-links a', { hasText: label });
+    assert.equal(await shortcut.getAttribute('href'), href, `${label} should keep its direct href`);
   }
 
   await page.locator('#toggle-mobile-nav').click();
-  await wait(80);
+  await wait(260);
   assert.equal(await page.locator('body').evaluate((node) => node.classList.contains('mobile-nav-open')), true);
 
   if (SCREENSHOT_DIR && width === 390) {
@@ -148,6 +160,7 @@ async function testMobileNavigation(page, width, height) {
   await testMobileNavigation(page, 360, 800);
   await testMobileNavigation(page, 390, 844);
   await testMobileNavigation(page, 430, 932);
+  await testMobileNavigation(page, 768, 1024);
   assert.deepEqual(errors, [], `Browser page errors: ${errors.join('; ')}`);
   assert.deepEqual(consoleErrors, [], `Browser console errors: ${consoleErrors.join('; ')}`);
   await browser.close();

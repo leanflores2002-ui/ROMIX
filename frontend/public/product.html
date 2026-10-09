@@ -66,7 +66,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=14" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=14">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=16">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=17">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=14" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=14" />
@@ -1959,13 +1959,80 @@
           .replace(/^-+|-+$/g, '') || 'product';
       }
 
+      function normalizeProductCopy(value){
+        try {
+          return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        } catch {
+          return String(value || '').toLowerCase();
+        }
+      }
+
+      function buildProductDescription(product){
+        if (hasProductValue(product?.description)) return String(product.description).trim();
+
+        const name = String(product?.name || 'Prenda ROMIX').trim();
+        const haystack = normalizeProductCopy([
+          name,
+          product?.type,
+          product?.section,
+          product?.season,
+          ...(Array.isArray(product?.features) ? product.features : []),
+          ...(product?.specs && typeof product.specs === 'object' ? Object.values(product.specs) : [])
+        ].join(' '));
+        const isKids = /nino|nina|kids|infantil/.test(haystack);
+
+        if (isKids) {
+          return `${name} es una prenda cómoda y práctica para acompañar el movimiento y las actividades de todos los días. Su diseño se integra fácilmente a los conjuntos de la línea ROMIX.`;
+        }
+        if (/calza/.test(haystack)) {
+          const base = `${name} es una opción cómoda y versátil para acompañarte en el día a día. Su diseño se adapta fácilmente a looks deportivos y urbanos y combina con distintas prendas ROMIX.`;
+          return /lycra/.test(haystack)
+            ? `${base} La presencia de lycra aporta elasticidad y libertad de movimiento.`
+            : base;
+        }
+        if (/algodon/.test(haystack)) {
+          return `${name} es una prenda de algodón pensada para el uso cotidiano, con una sensación suave y un diseño fácil de combinar. Una propuesta versátil para acompañarte en distintos momentos del día.`;
+        }
+        if (/buzo/.test(haystack)) {
+          return `${name} es un buzo versátil para sumar una capa cómoda a tus conjuntos diarios. Ideal para combinar con pantalones, calzas o prendas deportivas ROMIX.`;
+        }
+        if (/campera/.test(haystack)) {
+          return `${name} es una campera pensada para completar looks deportivos y urbanos, con un diseño práctico y fácil de combinar. Una capa versátil para acompañarte durante el día.`;
+        }
+        if (/remera|camiseta|top|musculosa/.test(haystack)) {
+          return `${name} es una prenda versátil para acompañar tus actividades y el uso cotidiano, con un diseño simple que permite combinarla fácilmente. Una base cómoda para distintos looks ROMIX.`;
+        }
+        if (/pantalon|jogger|babucha|short|bermuda/.test(haystack)) {
+          return `${name} está pensado para acompañarte con comodidad en tus actividades y en el uso cotidiano. Su diseño versátil se integra fácilmente a conjuntos deportivos y urbanos.`;
+        }
+        return `${name} es una prenda versátil pensada para acompañarte en tus actividades y el uso cotidiano. Su diseño se integra fácilmente a distintas combinaciones deportivas o urbanas.`;
+      }
+
+      function buildProductFeatureFallbacks(product){
+        if (Array.isArray(product?.features)) {
+          const realFeatures = product.features.filter(hasProductValue).map(value => String(value).trim());
+          if (realFeatures.length) return realFeatures.slice(0, 4);
+        }
+
+        const haystack = normalizeProductCopy([
+          product?.name,
+          product?.type,
+          product?.section,
+          ...(product?.specs && typeof product.specs === 'object' ? Object.values(product.specs) : [])
+        ].join(' '));
+        const fallbacks = [];
+        if (/lycra/.test(haystack)) fallbacks.push('Elasticidad y libertad de movimiento');
+        if (/algodon/.test(haystack)) fallbacks.push('Sensación suave');
+        if (/jogger|rustico|pantalon|babucha/.test(haystack)) fallbacks.push('Pensado para uso diario');
+        if (/calza/.test(haystack)) fallbacks.push('Diseño versátil');
+        return fallbacks.slice(0, 4);
+      }
+
       function buildProductAccordionItems(product){
-        const featureItems = Array.isArray(product.features)
-          ? product.features.filter(hasProductValue).map(value => `<li>${String(value).trim()}</li>`).join('')
-          : '';
-        const description = hasProductValue(product.description)
-          ? `<p class="product-accordion__text">${String(product.description).trim()}</p>`
-          : '<p class="product-accordion__text">Consultá los detalles del producto con nuestro equipo.</p>';
+        const featureItems = buildProductFeatureFallbacks(product)
+          .map(value => `<li>${value}</li>`)
+          .join('');
+        const description = `<p class="product-accordion__text">${buildProductDescription(product)}</p>`;
         const descriptionContent = `<div class="product-description-layout"><div>${description}</div>${featureItems ? `<ul class="product-description-features">${featureItems}</ul>` : ''}</div>`;
         const details = [
           hasProductValue(product.type) ? `<li><span class="product-accordion__label">Tipo:</span> ${product.type}</li>` : '',
@@ -2796,93 +2863,6 @@
         setupProductAccordion(section);
       }
 
-    function renderRelated(list, product){
-      // deprecated placeholder (legacy)
-    }
-
-    function renderRelatedProducts(allProducts, currentProduct) {
-      const section = document.getElementById('related-products-section');
-      const container = document.getElementById('related-grid');
-      if (!container || !Array.isArray(allProducts) || !currentProduct) return;
-
-      const relatedRaw = allProducts.filter(p => {
-        if (!p) return false;
-        if (isHiddenProduct(p)) return false;
-        if (currentProduct.id && p.id === currentProduct.id) return false;
-
-        const sameSection = p.section && currentProduct.section &&
-          String(p.section).toLowerCase() === String(currentProduct.section).toLowerCase();
-
-        const sameType = p.type && currentProduct.type &&
-          String(p.type).toLowerCase() === String(currentProduct.type).toLowerCase();
-
-        return sameSection || sameType;
-      });
-
-      if (!relatedRaw.length) {
-        if (section) section.hidden = true;
-        container.innerHTML = '<p style="color:#6c757d;font-size:.9rem;">No hay recomendaciones disponibles.</p>';
-        return;
-      }
-
-      const related = relatedRaw
-        .slice()
-        .sort(() => Math.random() - 0.5)
-        .slice(0, window.innerWidth <= 768 ? 6 : 8);
-
-      if (section) section.hidden = false;
-      container.innerHTML = '';
-
-      related.forEach(p => {
-        const card = document.createElement('article');
-        card.className = 'related-card';
-        card.setAttribute('aria-label', p.name || 'Producto relacionado');
-
-        const pid = p.id || p.slug || p.name || '';
-        card.addEventListener('click', () => {
-          const href = typeof buildHref === 'function' ? buildHref(p) : null;
-          if (href) {
-            window.location.href = href;
-          } else {
-            console.warn('[detalle][relacionados] producto sin id/slug válido, no navego', p);
-          }
-        });
-
-        const thumb = document.createElement('div');
-        thumb.className = 'related-card-thumb';
-
-        const img = document.createElement('img');
-        img.src = pickProductThumb(p, (typeof imageUtils.getProductMainImage === 'function' ? imageUtils.getProductMainImage(p) : '') || getProductImageList(p)[0] || '');
-        img.alt = p.name || '';
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        img.width = thumbImageSize.width;
-        img.height = thumbImageSize.height;
-        thumb.appendChild(img);
-
-        const name = document.createElement('div');
-        name.className = 'related-card-name';
-        name.textContent = p.name || 'Producto';
-
-        const price = document.createElement('div');
-        price.className = 'related-card-price';
-        price.textContent = '$' + Number(p.price || 0).toLocaleString('es-AR');
-
-        const meta = document.createElement('div');
-        meta.className = 'related-card-meta';
-        const typeText = p.type ? String(p.type) : '';
-        const sectionText = p.section ? String(p.section) : '';
-        meta.textContent = [sectionText, typeText].filter(Boolean).join(' | ');
-
-        card.appendChild(thumb);
-        card.appendChild(name);
-        card.appendChild(price);
-        card.appendChild(meta);
-
-        container.appendChild(card);
-      });
-    }
-
     function setupRelatedProductsCarousel(section, listEl, prevBtn, nextBtn) {
       if (!section || !listEl || !prevBtn || !nextBtn) return;
 
@@ -3000,22 +2980,22 @@
         }
 
         const card = document.createElement('a');
-        card.className = 'related-products__card related-card';
+        card.className = 'related-products__card';
         card.setAttribute('aria-label', p.name || 'Producto relacionado');
         card.href = href;
 
         const imageWrap = document.createElement('div');
-        imageWrap.className = 'related-products__image-wrap related-card__image-wrap';
+        imageWrap.className = 'related-products__image-wrap';
 
         const badgeLabel = getBadgeLabel(p);
         const badge = badgeLabel ? document.createElement('span') : null;
         if (badge) {
-          badge.className = 'related-products__badge related-card__badge';
+          badge.className = 'related-products__badge';
           badge.textContent = badgeLabel;
         }
 
         const img = document.createElement('img');
-        img.className = 'related-products__image related-card__image';
+        img.className = 'related-products__image';
         img.src = pickProductThumb(p, (typeof imageUtils.getProductMainImage === 'function' ? imageUtils.getProductMainImage(p) : '') || getProductImageList(p)[0] || PLACEHOLDER);
         img.alt = p.name || '';
         img.loading = 'lazy';
@@ -3031,17 +3011,17 @@
         imageWrap.appendChild(img);
 
         const content = document.createElement('div');
-        content.className = 'related-products__content related-card__body';
+        content.className = 'related-products__content';
 
         const thumbs = document.createElement('div');
-        thumbs.className = 'related-products__thumbs related-card__thumbs';
+        thumbs.className = 'related-products__thumbs';
         const variantThumbs = getVariantThumbs(p);
         if (!variantThumbs.length || variantThumbs.length <= 1) {
           thumbs.hidden = true;
         } else {
           variantThumbs.slice(0, 3).forEach((variant) => {
             const thumb = document.createElement('span');
-            thumb.className = 'related-products__thumb related-card__thumb';
+            thumb.className = 'related-products__thumb';
             const thumbImg = document.createElement('img');
             thumbImg.src = variant.src || PLACEHOLDER;
             thumbImg.alt = variant.alt || p.name || 'Variante';
@@ -3059,39 +3039,39 @@
           });
           if (variantThumbs.length > 3) {
             const more = document.createElement('span');
-            more.className = 'related-products__more related-card__more';
+            more.className = 'related-products__more';
             more.textContent = '+' + (variantThumbs.length - 3);
             thumbs.appendChild(more);
           }
         }
 
         const name = document.createElement('div');
-        name.className = 'related-products__name related-card__title';
+        name.className = 'related-products__name';
         name.textContent = p.name || 'Producto';
 
         const meta = document.createElement('div');
-        meta.className = 'related-products__meta related-card__meta';
+        meta.className = 'related-products__meta';
         meta.textContent = getMetaLabel(p);
 
         const footer = document.createElement('div');
-        footer.className = 'related-products__footer related-card__footer';
+        footer.className = 'related-products__footer';
 
         const priceDisplay = typeof pricing.createPriceDisplay === 'function'
           ? pricing.createPriceDisplay(p, {
-              currentClass: 'related-products__price related-card__price',
+              currentClass: 'related-products__price',
               currentTag: 'span',
               variant: 'mini'
             })
           : null;
         const price = priceDisplay || document.createElement('strong');
         if (!priceDisplay) {
-          price.className = 'related-products__price related-card__price';
+          price.className = 'related-products__price';
           price.textContent = '$' + Number(p.price || 0).toLocaleString('es-AR');
         }
 
         const stock = document.createElement('span');
         const stockMeta = getStockMeta(p);
-        stock.className = 'related-products__stock related-card__stock ' + stockMeta.css;
+        stock.className = 'related-products__stock ' + stockMeta.css;
         stock.textContent = stockMeta.label;
 
         content.appendChild(thumbs);

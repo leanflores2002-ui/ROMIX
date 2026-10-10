@@ -513,26 +513,88 @@ main.help-page > .help-hero::after,
 @media (max-width: 768px) {
   main.help-page > .help-hero {
     height: auto;
-    min-height: 480px;
+    min-height: 0;
     padding-top: 24px;
-    padding-bottom: 24px;
-    background-position: 60% top;
-    background-size: auto 340px;
+    padding-bottom: 230px;
+    background-position: 68% bottom;
+    background-size: auto 230px;
   }
 
   .help-hero .hero-copy {
-    width: min(100%, 290px);
+    width: 100%;
+    max-width: 620px;
     height: auto;
     align-content: start;
   }
+
+  .help-hero h1 {
+    max-width: 100%;
+    font-size: clamp(2rem, 7vw, 3rem);
+    line-height: 1.05;
+  }
+
+  .help-hero p {
+    max-width: 42ch;
+    font-size: .96rem;
+    line-height: 1.5;
+  }
+
+  .hero-search {
+    width: 100%;
+    max-width: 650px;
+  }
+
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  .hero-meta li { min-height: 44px; }
 }
 
 @media (max-width: 460px) {
   main.help-page > .help-hero {
-    min-height: 500px;
-    background-position: 60% top;
-    background-size: auto 310px;
+    padding-top: 22px;
+    padding-bottom: 170px;
+    background-position: 68% bottom;
+    background-size: auto 170px;
   }
 
-  .help-hero .hero-copy { width: min(100%, 270px); }
+  .help-hero .hero-copy { width: 100%; }
+
+  .help-hero h1 {
+    font-size: clamp(2rem, 8.8vw, 2.45rem);
+    line-height: 1.05;
+  }
+
+  .help-hero p {
+    max-width: 34ch;
+    font-size: .94rem;
+  }
+
+  .hero-search {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .hero-search button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .hero-meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .hero-meta li {
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px;
+    font-size: .8rem;
+    line-height: 1.25;
+  }
+
+  .hero-meta li:nth-child(3) { grid-column: 1 / -1; }
 }

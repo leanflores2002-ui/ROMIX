@@ -10,8 +10,8 @@
   .romix-announcement strong{color:#f22797;font-weight:800}
   header[data-romix-shell="header-v1"]{position:relative;z-index:500;background:#fff;border-bottom:1px solid #ece8eb;color:#171317}
   header[data-romix-shell="header-v1"] .header-row{width:min(1400px,calc(100% - 40px));min-height:72px;margin:0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:28px}
-  header[data-romix-shell="header-v1"] .brand{color:#242326;text-decoration:none;font:900 28px/1 Arial,sans-serif;white-space:nowrap}
-  header[data-romix-shell="header-v1"] .brand-dot{color:#f72585}
+  header[data-romix-shell="header-v1"] .brand{display:inline-flex;align-items:center;min-width:0;color:#242326;text-decoration:none;white-space:nowrap}
+  header[data-romix-shell="header-v1"] .site-logo--header{display:block;width:clamp(132px,12vw,184px);height:auto;max-height:52px;object-fit:contain}
   header[data-romix-shell="header-v1"] .header-actions-left,header[data-romix-shell="header-v1"] .mobile-drawer-header{display:none}
   header[data-romix-shell="header-v1"] .mega-nav,header[data-romix-shell="header-v1"] .main-nav-wrap{min-width:0}
   header[data-romix-shell="header-v1"] .main-nav{display:flex;align-items:center;justify-content:center;gap:34px;margin:0;padding:0;list-style:none}
@@ -27,12 +27,13 @@
   .site-footer[data-romix-shell="footer-v1"]{background:#242426;color:#fff}
   .site-footer[data-romix-shell="footer-v1"] .footer-shell{width:min(1400px,calc(100% - 40px));margin:0 auto;padding:48px 0 24px}
   .site-footer[data-romix-shell="footer-v1"] .footer-top{display:grid;grid-template-columns:minmax(0,1.35fr) repeat(3,minmax(0,.72fr));gap:36px}
-  .site-footer[data-romix-shell="footer-v1"] .footer-logo-media img{width:64px;height:64px;object-fit:contain}
+  .site-footer[data-romix-shell="footer-v1"] .site-logo--footer{display:block;width:clamp(158px,14vw,212px);height:auto;max-height:70px;object-fit:contain}
   .site-footer[data-romix-shell="footer-v1"] a{color:inherit}
   @media(max-width:900px){
     header[data-romix-shell="header-v1"] .header-row{width:calc(100% - 16px);height:60px;min-height:60px;grid-template-columns:96px minmax(0,1fr) 96px;grid-template-areas:"left brand actions";gap:12px;padding:0}
     header[data-romix-shell="header-v1"] .header-actions-left{grid-area:left;display:flex;align-items:center;justify-content:flex-start;gap:0}
-    header[data-romix-shell="header-v1"] .brand{grid-area:brand;justify-self:center;font-size:20px;white-space:nowrap}
+    header[data-romix-shell="header-v1"] .brand{grid-area:brand;justify-self:center}
+    header[data-romix-shell="header-v1"] .site-logo--header{width:clamp(112px,30vw,156px);max-height:42px}
     header[data-romix-shell="header-v1"] .header-icons{grid-area:actions;display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:96px}
     header[data-romix-shell="header-v1"] .header-search-desktop,header[data-romix-shell="header-v1"] .header-utility-menu{display:none}
     header[data-romix-shell="header-v1"] .icon-btn,header[data-romix-shell="header-v1"] .cart-pill{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border:0;border-radius:8px;background:transparent;box-shadow:none}
@@ -43,6 +44,7 @@
     body.mobile-nav-open header[data-romix-shell="header-v1"] .mega-nav{transform:translateX(0)}
     header[data-romix-shell="header-v1"] .main-nav{display:grid;align-items:stretch;gap:2px}
     header[data-romix-shell="header-v1"] .mobile-drawer-header{display:flex;align-items:center;justify-content:space-between;min-height:68px}
+    header[data-romix-shell="header-v1"] .site-logo--mobile{display:block;width:148px;height:auto;max-height:42px;object-fit:contain}
     .site-footer[data-romix-shell="footer-v1"] .footer-top{grid-template-columns:1fr}
   }
 </style>
@@ -55,7 +57,7 @@
   <meta property="og:locale" content="es_AR" />
   <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
   <meta property="og:description" content="Descubr&iacute; calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada d&iacute;a." />
-  <meta property="og:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
+  <meta property="og:image" content="https://romi-damas.netlify.app/images/branding/romix-logo-social.webp" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Logo ROMIX" />
@@ -63,10 +65,10 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana" />
   <meta name="twitter:description" content="Descubr&iacute; calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada d&iacute;a." />
-  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/logo-romix-social-20260502.jpg" />
+  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/branding/romix-logo-social.webp" />
   <meta name="twitter:url" content="https://romi-damas.netlify.app/" />
-  <link rel="icon" href="images/logo-romix-icon-64.png" type="image/png" sizes="64x64" />
-  <link rel="apple-touch-icon" href="images/logo-romix-icon-180.png" />
+  <link rel="icon" href="images/branding/romix-logo-icon.webp" type="image/webp" sizes="180x180" />
+  <link rel="apple-touch-icon" href="images/branding/romix-logo-icon.webp" sizes="180x180" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
@@ -1331,12 +1333,12 @@
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=14" />
-  <link rel="stylesheet" href="assets/css/romix-home-pro.css?v=14" />
-  <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=14" />
-  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=14" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=14" />
-  <link rel="stylesheet" href="assets/css/romix-footer.css?v=14" />
+  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=17" />
+  <link rel="stylesheet" href="assets/css/romix-home-pro.css?v=17" />
+  <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=17" />
+  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=17" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=17" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css?v=17" />
 </head>
 <body>
 <!-- ROMIX:SHELL:HEADER:START -->
@@ -1346,10 +1348,10 @@
     <div class="header-actions-left" aria-label="Acciones principales">
       <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
     </div>
-    <a class="brand" href="index.html" aria-label="ROMIX inicio">ROMIX<span class="brand-dot">.</span></a>
+    <a class="brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><img class="site-logo site-logo--header" src="images/branding/romix-logo.webp" alt="ROMIX" width="2172" height="724" decoding="async" /></a>
     <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
       <div class="mobile-drawer-header">
-        <a class="mobile-drawer-brand" href="index.html" aria-label="ROMIX inicio"><span>ROMIX</span></a>
+        <a class="mobile-drawer-brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><img class="site-logo site-logo--mobile" src="images/branding/romix-logo.webp" alt="ROMIX" width="2172" height="724" decoding="async" /></a>
         <button class="mobile-drawer-close romix-icon-btn" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><span data-romix-icon="X" data-romix-icon-size="md"></span></button>
       </div>
       <div class="main-nav-wrap">
@@ -1403,7 +1405,7 @@
     </div>
   </div>
 </header>
-<script src="assets/js/romix-icons.js?v=14"></script>
+<script src="assets/js/romix-icons.js?v=17"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
 
   <main class="home">
@@ -1723,12 +1725,9 @@
   <div class="footer-shell">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="index.html" class="footer-logo" aria-label="ROMIX inicio">
-          <picture class="footer-logo-media">
-            <source srcset="images/optimized/logo-romix-240.webp 240w, images/optimized/logo-romix-480.webp 480w" sizes="88px" type="image/webp" />
-            <img src="images/logo-romix.png" alt="ROMIX" width="752" height="829" loading="lazy" decoding="async" />
-          </picture>
-          <span class="footer-logo-copy"><strong>ROMIX</strong><span>Sportswear &amp; Fashion</span></span>
+        <a href="index.html" class="footer-logo site-logo-link" aria-label="ROMIX inicio">
+          <img class="site-logo site-logo--footer" src="images/branding/romix-logo.webp" alt="ROMIX" width="2172" height="724" loading="lazy" decoding="async" />
+          <span class="footer-logo-copy"><span>Sportswear &amp; Fashion</span></span>
         </a>
         <p class="footer-description">Rendimiento que inspira. Estilo que te acompa&ntilde;a.<br />Ropa deportiva y urbana para cada versi&oacute;n de ti.</p>
         <div class="footer-contact" aria-label="Contacto ROMIX">
@@ -1754,11 +1753,11 @@
 </footer>
 <!-- ROMIX:SHELL:FOOTER:END -->
 
-  <script src="assets/js/romix-image-utils.js?v=15"></script>
-  <script src="assets/js/romix-pricing.js?v=14"></script>
-  <script src="assets/js/products-store.js?v=14"></script>
-  <script src="assets/js/catalog-relevance-order.js?v=14"></script>
-  <script src="assets/js/romix-header.js?v=14"></script>
+  <script src="assets/js/romix-image-utils.js?v=17"></script>
+  <script src="assets/js/romix-pricing.js?v=17"></script>
+  <script src="assets/js/products-store.js?v=17"></script>
+  <script src="assets/js/catalog-relevance-order.js?v=17"></script>
+  <script src="assets/js/romix-header.js?v=17"></script>
   <script>
     const imageUtils = window.romixImageUtils || {};
     const pricing = window.romixPricing || {};
@@ -1801,7 +1800,7 @@
 
     function buildOptimizedPictureMarkup(config) {
       const options = config || {};
-      const fallbackSrc = safeText(options.fallbackSrc || "images/logo-romix.png");
+      const fallbackSrc = safeText(options.fallbackSrc || "images/branding/romix-logo.webp");
       const alt = safeText(options.alt || "");
       const optimizedBase = safeText(options.optimizedBase || "");
       const widths = Array.isArray(options.widths) ? options.widths.filter(Boolean) : [];
@@ -1837,7 +1836,7 @@
       const resolved = typeof imageUtils.getProductMainImage === "function"
         ? imageUtils.getProductMainImage(product)
         : "";
-      return resolved || fallback || "images/logo-romix.png";
+      return resolved || fallback || "images/branding/romix-logo.webp";
     }
 
     function pickThumbImage(product, fallback) {
@@ -1857,15 +1856,15 @@
         const resolved = imageUtils.getProductThumbSet(product, colorEntry);
         if (resolved) {
           return {
-            src: resolved.src || resolved.originalSrc || "images/logo-romix.png",
-            fallbackSrc: resolved.fallbackSrc || resolved.src || resolved.originalSrc || "images/logo-romix.png",
+            src: resolved.src || resolved.originalSrc || "images/branding/romix-logo.webp",
+            fallbackSrc: resolved.fallbackSrc || resolved.src || resolved.originalSrc || "images/branding/romix-logo.webp",
             webpSrc: resolved.webpSrc || "",
             avifSrc: resolved.avifSrc || "",
-            originalSrc: resolved.originalSrc || resolved.src || "images/logo-romix.png"
+            originalSrc: resolved.originalSrc || resolved.src || "images/branding/romix-logo.webp"
           };
         }
       }
-      const mainImage = String(preferredImage || pickImage(product, "images/logo-romix.png") || "").trim();
+      const mainImage = String(preferredImage || pickImage(product, "images/branding/romix-logo.webp") || "").trim();
       return {
         src: mainImage,
         fallbackSrc: mainImage,
@@ -1905,9 +1904,9 @@
         const resolvedImage = (typeof imageUtils.getColorImage === "function"
           ? imageUtils.getColorImage(color, product)
           : String(color && color.image || "").trim())
-          || pickImage(product, "images/logo-romix.png");
+          || pickImage(product, "images/branding/romix-logo.webp");
         const thumb = String(color && color.thumb || "").trim()
-          || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : pickThumbImage(product, "images/logo-romix.png"));
+          || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : pickThumbImage(product, "images/branding/romix-logo.webp"));
         return {
           name: String(color && (color.name || color.value) || ("Color " + (index + 1))).trim(),
           hex: color && color.hex ? color.hex : "",
@@ -2113,7 +2112,7 @@
             previousVisibleSrc,
             defaultThumbSet && defaultThumbSet.fallbackSrc
           ];
-          if (allowLastResort) values.push("images/logo-romix.png");
+          if (allowLastResort) values.push("images/branding/romix-logo.webp");
           const seen = new Set();
           return values.map((value) => String(value || "").trim()).filter((value) => {
             if (!value || seen.has(value)) return false;
@@ -2540,6 +2539,6 @@
     })();
   </script>
   <romix-toast></romix-toast>
-  <script type="module" src="assets/js/ts/main.js?v=14"></script>
+  <script type="module" src="assets/js/ts/main.js?v=17"></script>
 </body>
 </html>

@@ -601,6 +601,203 @@
       color:#4f5660;
       font-weight:600;
     }
+    #contact.help-surface {
+      padding:30px 32px;
+    }
+    #contact .contact-layout {
+      grid-template-columns:minmax(0, .9fr) minmax(0, 1.1fr);
+      gap:20px;
+      align-items:stretch;
+    }
+    #contact .contact-info-card,
+    #contact .local-visit-card {
+      min-width:0;
+      padding:24px;
+      border:1px solid var(--romix-border);
+      border-radius:16px;
+      background:#fff;
+    }
+    #contact .contact-info-card {
+      display:flex;
+      flex-direction:column;
+    }
+    #contact .contact-info-card h3,
+    #contact .local-visit-card h3 {
+      margin:0;
+      color:var(--romix-ink);
+      font-family:"Outfit", "Manrope", sans-serif;
+      font-size:clamp(1.25rem, 2vw, 1.5rem);
+      line-height:1.15;
+    }
+    #contact .contact-info-card > p,
+    #contact .local-visit-card > p {
+      margin:8px 0 0;
+      color:var(--romix-muted);
+      font-size:.95rem;
+      line-height:1.6;
+    }
+    #contact .contact-listing {
+      display:grid;
+      gap:0;
+      margin:20px 0 0;
+    }
+    #contact .contact-channel {
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      padding:14px 0;
+      border-top:1px solid var(--romix-border);
+      color:var(--romix-ink);
+      text-decoration:none;
+    }
+    #contact .contact-channel:first-child { border-top:0; padding-top:0; }
+    #contact .contact-channel__icon {
+      flex:0 0 44px;
+      width:44px;
+      height:44px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      background:var(--romix-pink-bg);
+      color:var(--romix-pink);
+    }
+    #contact .contact-channel__icon svg,
+    #contact .local-store-info__icon svg,
+    #contact .local-store-actions svg,
+    #contact .social-links svg {
+      width:20px;
+      height:20px;
+    }
+    #contact .contact-channel__copy {
+      min-width:0;
+      display:grid;
+      gap:3px;
+      line-height:1.45;
+    }
+    #contact .contact-channel__label {
+      color:var(--romix-ink);
+      font-size:.96rem;
+      font-weight:700;
+    }
+    #contact .contact-channel__value {
+      color:var(--romix-muted);
+      font-size:.9rem;
+    }
+    #contact .contact-channel:hover .contact-channel__value,
+    #contact .contact-channel:focus-visible .contact-channel__value { color:var(--romix-pink); }
+    #contact .contact-social {
+      margin-top:auto;
+      padding-top:20px;
+    }
+    #contact .contact-social h4 {
+      margin:0;
+      color:var(--romix-ink);
+      font-family:"Outfit", "Manrope", sans-serif;
+      font-size:1rem;
+    }
+    #contact .contact-social p { margin:5px 0 0; font-size:.88rem; }
+    #contact .social-links {
+      gap:8px;
+      margin-top:12px;
+    }
+    #contact .social-links a {
+      min-height:40px;
+      padding:8px 12px;
+      border-color:var(--romix-border);
+      background:var(--romix-pink-bg);
+      color:var(--romix-ink);
+    }
+    #contact .social-links a:hover,
+    #contact .social-links a:focus-visible {
+      border-color:var(--romix-pink);
+      color:var(--romix-pink);
+    }
+    #contact .local-visit-card > p { max-width:52ch; }
+    #contact .local-map {
+      width:100%;
+      height:280px;
+      margin-top:18px;
+      overflow:hidden;
+      border:1px solid var(--romix-border);
+      border-radius:14px;
+      background:var(--romix-pink-bg);
+    }
+    #contact .local-map iframe {
+      display:block;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+    #contact .local-store-grid {
+      display:grid;
+      grid-template-columns:minmax(0, 1.3fr) minmax(220px, .7fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    #contact .local-store-info {
+      grid-column:1 / -1;
+      display:grid;
+      gap:14px;
+      align-content:start;
+    }
+    #contact .local-store-info__address {
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      color:var(--romix-ink);
+      font-size:.94rem;
+      line-height:1.5;
+    }
+    #contact .local-store-info__icon {
+      flex:0 0 auto;
+      color:var(--romix-pink);
+      margin-top:2px;
+    }
+    #contact .local-store-info__address strong { display:block; font-weight:700; }
+    #contact .local-store-info__address span:last-child { color:var(--romix-muted); }
+    #contact .local-store-actions {
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:10px;
+    }
+    #contact .local-store-actions .romix-btn {
+      min-height:48px;
+      justify-content:center;
+      gap:8px;
+      text-align:center;
+    }
+    #contact .local-store-photo {
+      min-width:0;
+      overflow:hidden;
+      aspect-ratio:16 / 10;
+      border-radius:12px;
+      background:#f7f5f6;
+    }
+    #contact .local-store-photo img {
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    @media (min-width:1025px) {
+      #contact .contact-info-card,
+      #contact .local-visit-card { min-height:100%; }
+    }
+    @media (max-width:1024px) {
+      #contact .contact-layout { grid-template-columns:1fr; }
+    }
+    @media (max-width:768px) {
+      #contact.help-surface { padding:22px 18px; }
+      #contact .contact-info-card,
+      #contact .local-visit-card { padding:20px 18px; }
+      #contact .local-map { height:240px; }
+      #contact .local-store-grid { grid-template-columns:1fr; }
+      #contact .local-store-actions { grid-template-columns:1fr; }
+    }
+    @media (max-width:430px) {
+      #contact .local-map { height:230px; }
+    }
     .faq-list {
       display:grid;
       gap:14px;
@@ -896,7 +1093,7 @@
     </div>
   </div>
 </header>
-<script src="assets/js/romix-icons.js?v=17"></script>
+<script src="assets/js/romix-icons.js?v=18"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
 
   <main class="container help-page" id="main">
@@ -1259,20 +1456,66 @@
       </div>
 
       <div class="contact-layout">
-        <article class="contact-item">
+        <article class="contact-info-card">
+          <h3>Hablemos</h3>
+          <p>Estamos para ayudarte. Pod&eacute;s escribirnos o visitarnos.</p>
           <ul class="contact-listing">
-            <li><span data-romix-icon="MessageCircle" data-romix-icon-size="sm"></span><span><strong>WhatsApp:</strong> <a href="https://wa.me/5491154272065" target="_blank" rel="noopener">+54 9 11 5427-2065</a></span></li>
-            <li><span data-romix-icon="CircleHelp" data-romix-icon-size="sm"></span><span><strong>Horario de atenci&oacute;n:</strong> Lunes a viernes de 7:00 a 16:30 hs. S&aacute;bados de 7:00 a 12:30 hs.</span></li>
-            <li><span data-romix-icon="MapPin" data-romix-icon-size="sm"></span><span><strong>Ubicaci&oacute;n:</strong> CABA, Argentina</span></li>
-            <li><span data-romix-icon="MapPin" data-romix-icon-size="sm"></span><span><strong>Local:</strong> Concordia 514 local B</span></li>
+            <li>
+              <a class="contact-channel" href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp al +54 9 11 5427-2065">
+                <span class="contact-channel__icon" aria-hidden="true"><span data-romix-icon="MessageCircle" data-romix-icon-size="md"></span></span>
+                <span class="contact-channel__copy"><span class="contact-channel__label">WhatsApp</span><span class="contact-channel__value">+54 9 11 5427-2065</span></span>
+              </a>
+            </li>
+            <li>
+              <div class="contact-channel">
+                <span class="contact-channel__icon" aria-hidden="true"><span data-romix-icon="Clock" data-romix-icon-size="md"></span></span>
+                <span class="contact-channel__copy"><span class="contact-channel__label">Horario de atenci&oacute;n</span><span class="contact-channel__value">Lunes a viernes de 7:00 a 16:30 hs.<br />S&aacute;bados de 7:00 a 12:30 hs.</span></span>
+              </div>
+            </li>
+            <li>
+              <div class="contact-channel">
+                <span class="contact-channel__icon" aria-hidden="true"><span data-romix-icon="MapPin" data-romix-icon-size="md"></span></span>
+                <span class="contact-channel__copy"><span class="contact-channel__label">Ubicaci&oacute;n</span><span class="contact-channel__value">CABA, Argentina</span></span>
+              </div>
+            </li>
+            <li>
+              <div class="contact-channel">
+                <span class="contact-channel__icon" aria-hidden="true"><span data-romix-icon="Store" data-romix-icon-size="md"></span></span>
+                <span class="contact-channel__copy"><span class="contact-channel__label">Local</span><span class="contact-channel__value">Concordia 514 local B</span></span>
+              </div>
+            </li>
           </ul>
+          <div class="contact-social">
+            <h4>Seguinos</h4>
+            <p>Novedades, lanzamientos y m&aacute;s ideas para combinar tus prendas.</p>
+            <div class="social-links">
+              <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram ROMIX"><span data-romix-icon="Instagram" data-romix-icon-size="sm" aria-hidden="true"></span> Instagram</a>
+              <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook ROMIX"><span aria-hidden="true">f</span> Facebook</a>
+            </div>
+          </div>
         </article>
-        <article class="contact-item">
-          <h3>Redes sociales</h3>
-          <p>Segu&iacute; a ROMIX para ver novedades, lanzamientos y m&aacute;s ideas para combinar tus prendas.</p>
-          <div class="social-links">
-            <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener"><span data-romix-icon="Instagram" data-romix-icon-size="sm"></span> Instagram</a>
-            <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener"><span aria-hidden="true">f</span> Facebook</a>
+        <article class="local-visit-card">
+          <h3>Visit&aacute; nuestro local</h3>
+          <p>Te esperamos en nuestro local de CABA para que conozcas nuestros productos y recibas atenci&oacute;n personalizada.</p>
+          <div class="local-map">
+            <iframe src="https://www.google.com/maps?q=Concordia+514+local+B,+CABA,+Argentina&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicaci&oacute;n de ROMIX en Google Maps"></iframe>
+          </div>
+          <div class="local-store-grid">
+            <template id="romix-local-photo-template">
+              <div class="local-store-photo">
+                <img src="images/local/romix-local.webp" alt="Local ROMIX en Concordia 514 local B, CABA" loading="lazy" decoding="async" />
+              </div>
+            </template>
+            <div class="local-store-info">
+              <div class="local-store-info__address">
+                <span class="local-store-info__icon" aria-hidden="true"><span data-romix-icon="MapPin" data-romix-icon-size="md"></span></span>
+                <span><strong>Concordia 514 local B</strong><span>CABA, Argentina</span></span>
+              </div>
+              <div class="local-store-actions">
+                <a class="romix-btn romix-btn--primary" href="https://www.google.com/maps/search/?api=1&amp;query=Concordia+514+local+B%2C+CABA%2C+Argentina" target="_blank" rel="noopener"><span data-romix-icon="Map" data-romix-icon-size="sm" aria-hidden="true"></span> Ver en Google Maps</a>
+                <a class="romix-btn romix-btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Concordia+514+local+B%2C+CABA%2C+Argentina" target="_blank" rel="noopener"><span data-romix-icon="Navigation" data-romix-icon-size="sm" aria-hidden="true"></span> C&oacute;mo llegar</a>
+              </div>
+            </div>
           </div>
         </article>
       </div>

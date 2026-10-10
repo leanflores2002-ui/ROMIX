@@ -17,6 +17,15 @@ main.container.help-page {
   gap: 18px;
 }
 
+.header-account-link {
+  color: var(--romix-ink);
+}
+
+.header-account-link:hover,
+.header-account-link:focus-visible {
+  color: var(--romix-pink);
+}
+
 main.help-page > .help-hero,
 main.help-page > .quick-links,
 main.help-page > .help-wide-card,
@@ -216,6 +225,9 @@ main.help-page > .help-duo-grid {
 .hero-visual img {
   width: min(100%, 430px);
   max-height: 330px;
+  border-radius: 22px 22px 0 0;
+  object-fit: cover;
+  object-position: center top;
   filter: drop-shadow(0 20px 28px rgba(36, 36, 38, .12));
 }
 
@@ -225,6 +237,7 @@ main.help-page > .help-duo-grid {
 }
 
 .quick-link-card {
+  position: relative;
   min-height: 138px;
   gap: 10px;
   padding: 17px 16px 15px;
@@ -258,6 +271,14 @@ main.help-page > .help-duo-grid {
   color: var(--romix-muted);
   font-size: .8rem;
   line-height: 1.45;
+}
+
+.quick-link-arrow {
+  position: absolute;
+  right: 15px;
+  bottom: 13px;
+  display: inline-flex;
+  color: var(--romix-pink);
 }
 
 .help-wide-card,
@@ -413,6 +434,10 @@ main.help-page > .help-duo-grid {
   .help-duo-grid--support #contact.help-surface { padding: 22px 18px; }
 }
 
+@media (max-width: 900px) {
+  .header-account-link { display: none; }
+}
+
 @media (max-width: 460px) {
   main.container.help-page { width: calc(100% - 20px); }
   .help-hero { padding-inline: 16px; }
@@ -429,4 +454,39 @@ main.help-page > .help-duo-grid {
   .checklist { grid-template-columns: 1fr; }
   .size-guide-cta { width: 100%; justify-content: center; }
   .help-duo-grid--support #contact .local-store-actions { grid-template-columns: 1fr; }
+}
+
+/* The reference uses a full-width help banner with a centered content rail. */
+main.container.help-page {
+  width: 100%;
+}
+
+main.help-page > :not(.help-hero) {
+  width: min(1280px, calc(100% - 40px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+main.help-page > .help-hero {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding-left: max(24px, calc((100% - 1200px) / 2));
+  padding-right: max(24px, calc((100% - 1200px) / 2));
+}
+
+.help-duo-grid--support #contact .local-map { height: 140px; }
+
+@media (max-width: 768px) {
+  main.help-page > :not(.help-hero) { width: calc(100% - 24px); }
+  main.help-page > .help-hero { padding-left: 20px; padding-right: 20px; }
+}
+
+@media (max-width: 460px) {
+  main.help-page > :not(.help-hero) { width: calc(100% - 20px); }
+  main.help-page > .help-hero { padding-left: 16px; padding-right: 16px; }
 }

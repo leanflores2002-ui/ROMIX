@@ -444,14 +444,6 @@ header.romix-shared-header .mega-accessories { border-radius: var(--romix-radius
 .category-item:hover .category-thumb { border-color: rgba(242,39,151,.36); box-shadow: var(--romix-shadow); }
 .category-item span { color: var(--ink); font-size: 13px; letter-spacing: .01em; }
 
-.benefit-strip {
-  border: 1px solid rgba(36,36,38,.08);
-  border-radius: var(--romix-radius-lg);
-  overflow: hidden;
-  background: rgba(36,36,38,.08);
-}
-.benefit-item { min-height: 72px; background: #fff; color: var(--ink); font-size: 14px; }
-
 .editorial-grid { gap: 16px; }
 .editorial-card { border-radius: var(--romix-radius); box-shadow: none; }
 .editorial-card__copy span { border-radius: var(--romix-radius); }
@@ -482,7 +474,6 @@ header.romix-shared-header .mega-accessories { border-radius: var(--romix-radius
 /* Lucide visual normalization across the storefront. */
 .category-label { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
 .category-label .romix-icon { color: var(--romix-pink); }
-.benefit-item > [data-romix-icon] { display: inline-flex; color: var(--romix-pink); }
 .editorial-card__arrow {
   position: absolute;
   top: 16px;
@@ -1123,7 +1114,6 @@ body:has(#root) .cta { min-height: 50px; border-radius: var(--romix-radius); }
     overflow: visible;
     scroll-snap-type: none;
   }
-  .benefit-strip { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .editorial-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
 
   .catalog-page { padding-top: 18px; }
@@ -1211,7 +1201,7 @@ body:has(#root) .cta { min-height: 50px; border-radius: var(--romix-radius); }
   .site-header .brand-logo-media { display: none; }
   #product-grid.grid, .catalog-page .grid { grid-template-columns: 1fr; }
   .catalog-page .product-thumb { aspect-ratio: 4 / 5; }
-  .categories-grid, .editorial-grid, .benefit-strip { grid-template-columns: 1fr; }
+  .categories-grid, .editorial-grid { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -52,7 +52,6 @@
   --romix-icon-md: 20px;
   --romix-icon-lg: 24px;
   --romix-icon-xl: 28px;
-  --romix-icon-benefit: 32px;
   --romix-max: 1400px;
   --romix-space-1: 4px;
   --romix-space-2: 8px;
@@ -208,12 +207,10 @@ romix-toast.romix-toast.romix-toast--error { background: var(--romix-danger); }
 .romix-icon--sm { width: var(--romix-icon-sm); height: var(--romix-icon-sm); }
 .romix-icon--lg { width: var(--romix-icon-lg); height: var(--romix-icon-lg); }
 .romix-icon--xl { width: var(--romix-icon-xl); height: var(--romix-icon-xl); }
-.romix-icon--benefit { width: var(--romix-icon-benefit); height: var(--romix-icon-benefit); }
 .romix-icon[data-romix-icon-size="xs"] { width: var(--romix-icon-xs); height: var(--romix-icon-xs); }
 .romix-icon[data-romix-icon-size="sm"] { width: var(--romix-icon-sm); height: var(--romix-icon-sm); }
 .romix-icon[data-romix-icon-size="lg"] { width: var(--romix-icon-lg); height: var(--romix-icon-lg); }
 .romix-icon[data-romix-icon-size="xl"] { width: var(--romix-icon-xl); height: var(--romix-icon-xl); }
-.romix-icon[data-romix-icon-size="benefit"] { width: var(--romix-icon-benefit); height: var(--romix-icon-benefit); }
 .romix-icon-btn--primary {
   color: var(--romix-white);
   background: var(--romix-pink);

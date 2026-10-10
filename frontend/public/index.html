@@ -1577,25 +1577,6 @@
     </section>
 
     <!-- ── PROMO CAROUSEL ── -->
-    <section class="benefit-strip" aria-label="Beneficios de compra">
-      <div class="benefit-item">
-        <span data-romix-icon="RotateCcw" data-romix-icon-size="benefit"></span>
-        <span>Cambios f&aacute;ciles</span>
-      </div>
-      <div class="benefit-item">
-        <span data-romix-icon="CreditCard" data-romix-icon-size="benefit"></span>
-        <span>Pago seguro</span>
-      </div>
-      <div class="benefit-item">
-        <span data-romix-icon="MessageCircle" data-romix-icon-size="benefit"></span>
-        <span>Atenci&oacute;n por WhatsApp</span>
-      </div>
-      <div class="benefit-item">
-        <span data-romix-icon="MapPin" data-romix-icon-size="benefit"></span>
-        <span>Retiro/compra coordinada</span>
-      </div>
-    </section>
-
     <section class="editorial-section" aria-labelledby="editorial-title">
       <div class="section-head">
         <div>
@@ -1699,6 +1680,13 @@
           </svg>
         </button>
       </div>
+      <div class="products-mobile-cta">
+        <a class="section-link" href="catalogo.html?view=novedades">Ver todos los lanzamientos
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
     </section>
 
     <section class="why-section" aria-labelledby="why-title">
@@ -1779,6 +1767,14 @@
     ];
 
     let refreshProductsCarousel = null;
+    let homeProductsData = null;
+    let homeProductsRenderMode = null;
+
+    function isHomeMobileViewport() {
+      return window.matchMedia
+        ? window.matchMedia("(max-width: 767px)").matches
+        : window.innerWidth <= 767;
+    }
 
     function normalizeText(value) {
       const raw = String(value || "").trim().toLowerCase();
@@ -2029,7 +2025,9 @@
       }
 
       const variantLimit = 4;
-      const homeProductLimit = window.innerWidth <= 768 ? 8 : 12;
+      const isMobileViewport = isHomeMobileViewport();
+      const homeProductLimit = isMobileViewport ? 4 : 12;
+      homeProductsRenderMode = isMobileViewport;
       row.innerHTML = "";
       source = source.slice(0, homeProductLimit);
 
@@ -2277,6 +2275,15 @@
         requestAnimationFrame(refreshProductsCarousel);
       }
     }
+
+    function syncHomeProductsViewport() {
+      if (!Array.isArray(homeProductsData)) return;
+      const isMobileViewport = isHomeMobileViewport();
+      if (homeProductsRenderMode === isMobileViewport) return;
+      renderProducts(homeProductsData);
+    }
+
+    window.addEventListener("resize", syncHomeProductsViewport);
 
     (function initHeroCarousel() {
       const carousel = document.getElementById("mainImageCarousel");
@@ -2528,7 +2535,8 @@
           console.warn("[index] loadHomeProducts devolvio una lista vacia");
           return;
         }
-        renderProducts(products);
+        homeProductsData = products;
+        renderProducts(homeProductsData);
       } catch (error) {
         const row = document.getElementById("productsRow");
         if (row) {

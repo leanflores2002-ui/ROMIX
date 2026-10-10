@@ -6,7 +6,7 @@ const ROOT_DIR = path.resolve(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "frontend", "public");
 const PRODUCTS_FILE = path.join(PUBLIC_DIR, "assets", "data", "products.json");
 const SHARE_DIR = path.join(PUBLIC_DIR, "share");
-const FALLBACK_IMAGE = "images/logo-romix-social-1200x630.png";
+const FALLBACK_IMAGE = "images/branding/romix-logo-social.webp";
 
 function normalizeSiteUrl(raw) {
   const value = String(raw || "").trim();

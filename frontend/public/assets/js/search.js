@@ -197,7 +197,7 @@
     if (typeof imageUtils.getThumbPath === "function" && product && product.image) {
       return imageUtils.getThumbPath(product.image);
     }
-    return (product && (product.thumbnail || product.thumb || product.image || (Array.isArray(product.images) && product.images[0]))) || "images/logo-romix.png";
+    return (product && (product.thumbnail || product.thumb || product.image || (Array.isArray(product.images) && product.images[0]))) || "images/branding/romix-logo.webp";
   }
 
   function ensureProducts() {

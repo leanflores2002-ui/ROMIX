@@ -10,7 +10,7 @@
     brand: 'ROMIX',
     brandColor: '#f72585',
     panelBg: '#fff5fa',
-    logoSrc: '/assets/logo-romix.png',
+    logoSrc: '/images/branding/romix-logo.webp',
     defaultMessage: '¡Hola! Necesito ayuda con mi pedido ROMIX.'
   };
 
@@ -28,7 +28,7 @@
 
   #romix-support-panel{position:fixed;right:20px;bottom:86px;width:360px;max-width:92vw;background:${CONFIG.panelBg};border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.22),0 6px 16px rgba(0,0,0,.14);opacity:0;transform:translateY(8px) scale(.98);transition:opacity .22s ease, transform .22s ease, visibility .22s step-end;visibility:hidden;z-index:9999;font-family: Inter, Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif}
   #romix-support-panel .romix-support-header{display:flex;align-items:center;gap:10px;padding:12px 14px 10px 14px;border-bottom:1px solid rgba(0,0,0,.06)}
-  #romix-support-panel .romix-support-header .romix-logo{width:28px;height:28px;border-radius:6px;object-fit:contain;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  #romix-support-panel .romix-support-header .romix-logo{width:92px;height:30px;border-radius:0;object-fit:contain;background:#fff;box-shadow:none}
   #romix-support-panel .romix-support-header h3{font-size:1rem;line-height:1.2;margin:0;color:#1b1f24;font-weight:800}
   #romix-support-panel .romix-close{margin-left:auto;border:none;background:transparent;cursor:pointer;color:#6c757d;width:36px;height:36px;border-radius:8px}
   #romix-support-panel .romix-close:hover{background:rgba(0,0,0,.05)}

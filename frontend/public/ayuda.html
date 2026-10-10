@@ -1384,7 +1384,7 @@
     <section id="returns" class="help-surface" aria-labelledby="returns-title">
       <div class="section-heading">
         <div>
-          <h2 id="returns-title">Cambios y devoluciones</h2>
+          <h2 id="returns-title">Cambios </h2>
         </div>
       </div>
 
@@ -1498,29 +1498,28 @@
             </div>
           </div>
         </article>
-        <article class="local-visit-card store-card">
-          <div class="store-card__heading">
-            <span class="store-card__icon" aria-hidden="true"><span data-romix-icon="Store" data-romix-icon-size="md"></span></span>
-            <div>
-              <h3>Conoc&eacute; nuestra tienda</h3>
-              <p>Te esperamos en nuestro local f&iacute;sico, donde pod&eacute;s ver todos los productos, probarlos y recibir atenci&oacute;n personalizada de nuestro equipo.</p>
-            </div>
+        <article class="local-visit-card">
+          <h3>Visit&aacute; nuestro local</h3>
+          <p>Te esperamos en nuestro local de CABA para que conozcas nuestros productos y recibas atenci&oacute;n personalizada.</p>
+          <div class="local-map">
+            <iframe src="https://www.google.com/maps?q=Concordia+514+local+B,+CABA,+Argentina&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicaci&oacute;n de ROMIX en Google Maps"></iframe>
           </div>
-          <div class="store-card__photo">
-            <img src="images/foto-local.png" alt="Interior del local ROMIX en Concordia 514 local B, CABA" loading="lazy" decoding="async" />
-          </div>
-          <div class="store-card__footer">
-            <div class="store-card__details">
-              <div class="store-card__detail">
-                <span class="store-card__detail-icon" aria-hidden="true"><span data-romix-icon="MapPin" data-romix-icon-size="sm"></span></span>
-                <span><strong>Concordia 514 local B</strong><small>CABA, Argentina</small></span>
+          <div class="local-store-grid">
+            <template id="romix-local-photo-template">
+              <div class="local-store-photo">
+                <img src="images/local/romix-local.webp" alt="Local ROMIX en Concordia 514 local B, CABA" loading="lazy" decoding="async" />
               </div>
-              <div class="store-card__detail">
-                <span class="store-card__detail-icon" aria-hidden="true"><span data-romix-icon="MessageCircle" data-romix-icon-size="sm"></span></span>
-                <span><strong>Atenci&oacute;n personalizada</strong><small>Te asesoramos en tu compra.</small></span>
+            </template>
+            <div class="local-store-info">
+              <div class="local-store-info__address">
+                <span class="local-store-info__icon" aria-hidden="true"><span data-romix-icon="MapPin" data-romix-icon-size="md"></span></span>
+                <span><strong>Concordia 514 local B</strong><span>CABA, Argentina</span></span>
+              </div>
+              <div class="local-store-actions">
+                <a class="romix-btn romix-btn--primary" href="https://www.google.com/maps/search/?api=1&amp;query=Concordia+514+local+B%2C+CABA%2C+Argentina" target="_blank" rel="noopener"><span data-romix-icon="Map" data-romix-icon-size="sm" aria-hidden="true"></span> Ver en Google Maps</a>
+                <a class="romix-btn romix-btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Concordia+514+local+B%2C+CABA%2C+Argentina" target="_blank" rel="noopener"><span data-romix-icon="Navigation" data-romix-icon-size="sm" aria-hidden="true"></span> C&oacute;mo llegar</a>
               </div>
             </div>
-            <a class="romix-btn romix-btn--primary store-card__button" href="https://www.google.com/maps/search/?api=1&amp;query=Concordia+514+local+B%2C+CABA%2C+Argentina" target="_blank" rel="noopener">Ver local <span data-romix-icon="ArrowRight" data-romix-icon-size="sm" aria-hidden="true"></span></a>
           </div>
         </article>
       </div>

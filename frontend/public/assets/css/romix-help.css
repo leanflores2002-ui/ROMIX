@@ -396,7 +396,15 @@ main.help-page > .help-duo-grid {
 .help-duo-grid--support #contact .local-store-actions .romix-btn { min-height: 42px; padding: 9px 10px; font-size: .78rem; }
 .help-duo-grid--support #contact .contact-social { padding-top: 14px; }
 
-.faq-list { gap: 9px; }
+.faq-list { gap: 18px; }
+.faq-category { display: grid; gap: 9px; }
+.faq-category h3 {
+  margin: 0 0 2px;
+  color: var(--romix-ink);
+  font-family: "Outfit", "Manrope", sans-serif;
+  font-size: 1rem;
+  letter-spacing: -.01em;
+}
 .faq-item { padding: 17px 18px; border-color: var(--romix-border); background: var(--romix-surface-soft); }
 .faq-item summary { color: var(--romix-ink); font-size: .92rem; }
 .faq-item summary i { color: var(--romix-pink); }

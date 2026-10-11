@@ -6,20 +6,29 @@ ROMIX administra una sola imagen canónica por foto o variante comercial:
 frontend/public/images/products/<nombre>.webp
 ```
 
-La misma imagen se reutiliza en las cards, el detalle, la galería, los swatches,
-el carrito y las recomendaciones. Si un producto no define `thumbnail`,
-`thumbnailFallback`, `swatch` o una galería separada, el frontend usa `image`
-automáticamente. El formato anterior con esos campos explícitos sigue siendo
-compatible durante la transición.
+La imagen canónica se usa para el detalle y la galería principal. El proceso de
+optimización genera automáticamente derivados para los contextos pequeños:
+
+```text
+frontend/public/images/thumbs/<nombre>.webp       # cards y miniaturas de galería
+frontend/public/images/swatches/<nombre>.webp     # variantes de pocos píxeles
+```
+
+El resolver mantiene los campos explícitos `thumbnail`, `thumb`, `swatch` y sus
+fallbacks para compatibilidad, pero cuando no existen deriva rutas seguras desde
+la imagen canónica. Si falta un derivado, el navegador conserva el fallback a la
+foto original sin romper la tarjeta.
 
 ## Agregar una foto
 
 1. Guardar el archivo WebP en `frontend/public/images/products/`.
 2. Referenciarlo una sola vez en `products.json`, normalmente en `image` o en
    la variante correspondiente.
+3. Ejecutar `npm run optimize:products -- --write` para generar el WebP
+   canónico, las miniaturas de card y los swatches.
 
-No crear archivos manuales en `images/thumbs/`, `images/mobile/`,
-`images/optimized/` ni variantes AVIF.
+No crear manualmente archivos derivados en `images/thumbs/` o
+`images/swatches/`; los nombres se calculan a partir del archivo canónico.
 
 Para una foto PNG/JPG nueva, validar y convertir en modo seguro:
 
@@ -29,16 +38,16 @@ npm run optimize:products -- --write
 ```
 
 El primer comando es dry-run. El segundo crea WebP con orientación corregida,
-lado mayor de hasta 1.600 px, calidad 82 y sin agrandar imágenes pequeñas.
-Nunca borra el archivo de entrada ni modifica referencias automáticamente;
-informá o actualizá esas referencias y validá el resultado antes de borrar
-archivos antiguos.
+lado mayor de hasta 1.600 px, calidad 82 y sin agrandar imágenes pequeñas;
+además genera derivados de 640×853 para cards y 96×128 para swatches.
+Nunca borra el archivo de entrada ni modifica referencias del catálogo.
 
 ## Cambiar una foto
 
 Reemplazar un único archivo manteniendo el mismo nombre, por ejemplo
-`capri_lycra_negro.webp`. No hay que regenerar miniaturas ni buscar extensiones
-adicionales.
+`capri_lycra_negro.webp`, y ejecutar el optimizador para actualizar los
+derivados cuyo origen haya cambiado. No hay que editar rutas de miniaturas a
+mano.
 
 ## Agregar un producto
 
@@ -67,6 +76,19 @@ npm run generate:share-pages
 
 Los archivos resultantes viven en `frontend/public/share-previews/` y el
 manifiesto se genera automáticamente. No se administran manualmente.
+
+## Banners y branding
+
+Los banners y el logo se optimizan sin tocar sus fuentes originales mediante:
+
+```text
+npm run optimize:storefront -- --write
+```
+
+El script genera variantes WebP responsive en
+`frontend/public/images/optimized/banners/` y
+`frontend/public/images/optimized/branding/`. Las páginas usan `picture`,
+`srcset` y `sizes` para que el navegador descargue solo la variante adecuada.
 
 ## Auditoría y validación
 

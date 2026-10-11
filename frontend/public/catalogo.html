@@ -71,13 +71,13 @@
 </noscript>
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=17" />
-  <link rel="stylesheet" href="assets/css/romix-catalog-pages.css?v=17" />
+  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=18" />
+  <link rel="stylesheet" href="assets/css/romix-catalog-pages.css?v=18" />
   <link rel="icon" href="images/branding/romix-logo-icon.webp" type="image/webp" sizes="180x180" />
   <link rel="apple-touch-icon" href="images/branding/romix-logo-icon.webp" sizes="180x180" />
-  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=17" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=17" />
-  <link rel="stylesheet" href="assets/css/romix-footer.css?v=17" />
+  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=18" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=18" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css?v=18" />
 </head>
 <body data-catalog-scope="catalogo">
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -88,21 +88,26 @@
     <div class="header-actions-left" aria-label="Acciones principales">
       <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
     </div>
-    <a class="brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><img class="site-logo site-logo--header" src="images/branding/romix-logo.webp" alt="ROMIX" width="2172" height="724" decoding="async" /></a>
+    <a class="brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><picture><source srcset="images/optimized/branding/romix-logo-360.webp 360w, images/optimized/branding/romix-logo-720.webp 720w" sizes="(max-width: 900px) 156px, 184px" type="image/webp" /><img class="site-logo site-logo--header" src="images/optimized/branding/romix-logo-360.webp" alt="ROMIX" width="360" height="120" decoding="async" /></picture></a>
     <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
       <div class="mobile-drawer-header">
-        <a class="mobile-drawer-brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><img class="site-logo site-logo--mobile" src="images/branding/romix-logo.webp" alt="ROMIX" width="2172" height="724" decoding="async" /></a>
+        <a class="mobile-drawer-brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><picture><source srcset="images/optimized/branding/romix-logo-360.webp 360w, images/optimized/branding/romix-logo-720.webp 720w" sizes="148px" type="image/webp" /><img class="site-logo site-logo--mobile" src="images/optimized/branding/romix-logo-360.webp" alt="ROMIX" width="360" height="120" decoding="async" /></picture></a>
         <button class="mobile-drawer-close romix-icon-btn" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><span data-romix-icon="X" data-romix-icon-size="md"></span></button>
       </div>
       <div class="main-nav-wrap">
         <ul class="main-nav">
-          <li data-menu-key="mujer"><a class="mega-trigger" id="mega-trigger-mujer" href="catalogo.html?sections=mujer" aria-expanded="false" aria-controls="mega-panel-mujer"><span>Mujer</span></a></li>
-          <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="catalogo.html?sections=hombre" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span></a></li>
-          <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="catalogo.html?sections=ninos" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span></a></li>
-          <li data-menu-key="novedades"><a class="mega-trigger" id="mega-trigger-novedades" href="catalogo.html?view=novedades" aria-expanded="false" aria-controls="mega-panel-novedades"><span>Novedades</span></a></li>
-          <li data-menu-key="ofertas"><a class="mega-trigger" id="mega-trigger-ofertas" href="catalogo.html?q=oferta"><span>Ofertas</span></a></li>
+          <li data-menu-key="mujer"><a class="mega-trigger" id="mega-trigger-mujer" href="catalogo.html?sections=mujer" aria-expanded="false" aria-controls="mega-panel-mujer"><span>Mujer</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="catalogo.html?sections=hombre" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="catalogo.html?sections=ninos" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="novedades"><a class="mega-trigger" id="mega-trigger-novedades" href="catalogo.html?view=novedades" aria-expanded="false" aria-controls="mega-panel-novedades"><span>Novedades</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="ofertas"><a class="mega-trigger" id="mega-trigger-ofertas" href="catalogo.html?q=oferta"><span>Ofertas</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
         </ul>
       </div>
+      <nav class="mobile-drawer-links" aria-label="Atajos">
+        <a href="catalogo.html" data-mega-link="true">Cat&aacute;logo completo<span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a>
+        <a href="ayuda.html#faq" data-mega-link="true">Ayuda<span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a>
+        <a href="ayuda.html#size-guide" data-mega-link="true">Gu&iacute;a de talles<span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a>
+      </nav>
     </nav>
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
       <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
@@ -145,7 +150,7 @@
     </div>
   </div>
 </header>
-<script src="assets/js/romix-icons.js?v=17"></script>
+<script src="assets/js/romix-icons.js?v=18"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
 
   <div id="filters-overlay" class="filters-overlay" aria-hidden="true"></div>
@@ -264,7 +269,7 @@
     <div class="footer-top">
       <div class="footer-brand">
         <a href="index.html" class="footer-logo site-logo-link" aria-label="ROMIX inicio">
-          <img class="site-logo site-logo--footer" src="images/branding/romix-logo.webp" alt="ROMIX" width="2172" height="724" loading="lazy" decoding="async" />
+          <picture><source srcset="images/optimized/branding/romix-logo-360.webp 360w, images/optimized/branding/romix-logo-720.webp 720w" sizes="(max-width: 900px) 180px, 212px" type="image/webp" /><img class="site-logo site-logo--footer" src="images/optimized/branding/romix-logo-360.webp" alt="ROMIX" width="360" height="120" loading="lazy" decoding="async" /></picture>
           <span class="footer-logo-copy"><span>Sportswear &amp; Fashion</span></span>
         </a>
         <p class="footer-description">Rendimiento que inspira. Estilo que te acompa&ntilde;a.<br />Ropa deportiva y urbana para cada versi&oacute;n de ti.</p>
@@ -293,15 +298,15 @@
 
   <div id="catalog-toast" class="catalog-toast" aria-live="polite" role="status"></div>
 
-  <script src="assets/js/romix-image-utils.js?v=17" defer></script>
-  <script src="assets/js/cart.js?v=17" defer></script>
-  <script src="assets/js/romix-pricing.js?v=17" defer></script>
-  <script src="assets/js/products-store.js?v=17" defer></script>
-  <script src="assets/js/catalog-relevance-order.js?v=17" defer></script>
-  <script src="assets/js/romix-catalog-pages.js?v=17" defer></script>
-  <script src="assets/js/romix-header.js?v=17" defer></script>
+  <script src="assets/js/romix-image-utils.js?v=18" defer></script>
+  <script src="assets/js/cart.js?v=18" defer></script>
+  <script src="assets/js/romix-pricing.js?v=18" defer></script>
+  <script src="assets/js/products-store.js?v=18" defer></script>
+  <script src="assets/js/catalog-relevance-order.js?v=18" defer></script>
+  <script src="assets/js/romix-catalog-pages.js?v=18" defer></script>
+  <script src="assets/js/romix-header.js?v=18" defer></script>
   <romix-toast></romix-toast>
-  <script type="module" src="assets/js/ts/main.js?v=17"></script>
+  <script type="module" src="assets/js/ts/main.js?v=18"></script>
 </body>
 </html>
 

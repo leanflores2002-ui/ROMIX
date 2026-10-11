@@ -45,14 +45,14 @@ function loadImageUtils() {
 
   const thumbSources = utils.getSafeProductThumbSources(product, 'Negro', 0);
   assert(
-    thumbSources.includes('images/products/chaleco_polar_con_corderito_hombre_invierno_negro.webp'),
-    'Las miniaturas deben reutilizar la imagen canónica cuando no hay thumb explícito'
+    thumbSources[0] === 'images/thumbs/chaleco_polar_con_corderito_hombre_invierno_negro.webp',
+    'Las miniaturas deben priorizar el derivado de card cuando no hay thumb explícito'
   );
 
   const greenThumbSet = utils.getProductThumbSet(product, 'Verde');
   assert(
-    greenThumbSet.src === 'images/products/chaleco_polar_con_corderito_hombre_invierno_verde.webp',
-    'La miniatura de un color seleccionado debe reutilizar la imagen canónica del color'
+    greenThumbSet.src === 'images/thumbs/chaleco_polar_con_corderito_hombre_invierno_verde.webp',
+    'La miniatura de un color seleccionado debe usar el derivado de card del color'
   );
 
   const explicitColorImage = 'images/products/chaleco_verde_canonico.webp';
@@ -63,7 +63,7 @@ function loadImageUtils() {
     colors: [{ name: 'Verde', image: explicitColorImage, thumb: explicitColorThumb }]
   }, { name: 'Verde', image: explicitColorImage, thumb: explicitColorThumb });
   assert(explicitColorSet.originalSrc === explicitColorImage, 'originalSrc debe priorizar color.image');
-  assert(explicitColorSet.src === explicitColorImage, 'src debe priorizar color.image sobre color.thumb');
+  assert(explicitColorSet.src === explicitColorThumb, 'src debe priorizar color.thumb sobre color.image');
 
   const productWithColorGalleries = {
     image: 'images/products/chaleco_negro_1.webp',

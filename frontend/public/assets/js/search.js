@@ -192,12 +192,13 @@
     const imageUtils = window.romixImageUtils || {};
     if (typeof imageUtils.getProductMainImage === "function") {
       const main = imageUtils.getProductMainImage(product);
+      if (main && typeof imageUtils.getThumbPath === "function") return imageUtils.getThumbPath(main);
       if (main) return main;
     }
     if (typeof imageUtils.getThumbPath === "function" && product && product.image) {
       return imageUtils.getThumbPath(product.image);
     }
-    return (product && (product.thumbnail || product.thumb || product.image || (Array.isArray(product.images) && product.images[0]))) || "images/branding/romix-logo.webp";
+    return (product && (product.thumbnail || product.thumb || product.image || (Array.isArray(product.images) && product.images[0]))) || "images/optimized/branding/romix-logo-360.webp";
   }
 
   function ensureProducts() {

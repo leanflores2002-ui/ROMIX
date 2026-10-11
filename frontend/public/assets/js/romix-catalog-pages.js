@@ -870,6 +870,7 @@
         hex: "#dddddd",
         image: fallbackImage,
         thumb: typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(fallbackImage) : fallbackImage,
+        swatch: typeof imageUtils.getSwatchPath === "function" ? imageUtils.getSwatchPath(fallbackImage) : fallbackImage,
         thumbFallback: fallbackImage,
         thumbAvif: ""
       }];
@@ -883,6 +884,10 @@
         : String(entry && entry.image || "").trim()) || fallbackImage;
       const thumb = String(entry && entry.thumb || "").trim()
         || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : "");
+      const explicitSwatch = String(entry && (entry.swatch || entry.swatchImage) || "").trim();
+      const swatch = explicitSwatch
+        ? (typeof imageUtils.getSwatchPath === "function" ? imageUtils.getSwatchPath(explicitSwatch) : explicitSwatch)
+        : (typeof imageUtils.getSwatchPath === "function" ? imageUtils.getSwatchPath(resolvedImage) : thumb);
       const thumbFallback = String(entry && entry.thumbFallback || "").trim()
         || resolvedImage;
       const thumbAvif = String(entry && entry.thumbAvif || "").trim();
@@ -892,6 +897,7 @@
         hex: entry && entry.hex ? entry.hex : (RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da"),
         image: resolvedImage,
         thumb,
+        swatch,
         thumbFallback,
         thumbAvif
       });
@@ -1542,10 +1548,10 @@
 
       function cardImageCandidates(colorOption, nextSet, previousVisibleSrc, allowPlaceholder) {
         const values = [
-          colorOption && colorOption.image,
           colorOption && (colorOption.thumb || colorOption.thumbnail),
           nextSet && nextSet.src,
           nextSet && nextSet.fallbackSrc,
+          colorOption && colorOption.image,
           product && product.image,
           previousVisibleSrc,
           defaultThumbSet && defaultThumbSet.fallbackSrc
@@ -1644,7 +1650,7 @@
           button.title = "Ver variante " + color.name;
           button.dataset.variantIndex = String(index);
           const preview = document.createElement("img");
-          preview.src = String(color.thumb || color.thumbnail || color.image || "").trim();
+          preview.src = String(color.swatch || color.thumb || color.thumbnail || color.image || "").trim();
           preview.alt = "Variante " + color.name;
           preview.loading = "lazy";
           preview.decoding = "async";

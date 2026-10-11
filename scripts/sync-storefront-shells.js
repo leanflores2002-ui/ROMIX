@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const publicDir = path.join(__dirname, '..', 'frontend', 'public');
-const assetVersion = '17';
+const assetVersion = '18';
 const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap';
 const pages = [
   'index.html',
@@ -67,10 +67,10 @@ const header = `<!-- ROMIX:SHELL:HEADER:START -->
     <div class="header-actions-left" aria-label="Acciones principales">
       <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
     </div>
-    <a class="brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><img class="site-logo site-logo--header" src="images/branding/romix-logo.webp" alt="ROMIX" width="2172" height="724" decoding="async" /></a>
+    <a class="brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><picture><source srcset="images/optimized/branding/romix-logo-360.webp 360w, images/optimized/branding/romix-logo-720.webp 720w" sizes="(max-width: 900px) 156px, 184px" type="image/webp" /><img class="site-logo site-logo--header" src="images/optimized/branding/romix-logo-360.webp" alt="ROMIX" width="360" height="120" decoding="async" /></picture></a>
     <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
       <div class="mobile-drawer-header">
-        <a class="mobile-drawer-brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><img class="site-logo site-logo--mobile" src="images/branding/romix-logo.webp" alt="ROMIX" width="2172" height="724" decoding="async" /></a>
+        <a class="mobile-drawer-brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><picture><source srcset="images/optimized/branding/romix-logo-360.webp 360w, images/optimized/branding/romix-logo-720.webp 720w" sizes="148px" type="image/webp" /><img class="site-logo site-logo--mobile" src="images/optimized/branding/romix-logo-360.webp" alt="ROMIX" width="360" height="120" decoding="async" /></picture></a>
         <button class="mobile-drawer-close romix-icon-btn" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><span data-romix-icon="X" data-romix-icon-size="md"></span></button>
       </div>
       <div class="main-nav-wrap">
@@ -138,7 +138,7 @@ const footer = `<!-- ROMIX:SHELL:FOOTER:START -->
     <div class="footer-top">
       <div class="footer-brand">
         <a href="index.html" class="footer-logo site-logo-link" aria-label="ROMIX inicio">
-          <img class="site-logo site-logo--footer" src="images/branding/romix-logo.webp" alt="ROMIX" width="2172" height="724" loading="lazy" decoding="async" />
+          <picture><source srcset="images/optimized/branding/romix-logo-360.webp 360w, images/optimized/branding/romix-logo-720.webp 720w" sizes="(max-width: 900px) 180px, 212px" type="image/webp" /><img class="site-logo site-logo--footer" src="images/optimized/branding/romix-logo-360.webp" alt="ROMIX" width="360" height="120" loading="lazy" decoding="async" /></picture>
           <span class="footer-logo-copy"><span>Sportswear &amp; Fashion</span></span>
         </a>
         <p class="footer-description">Rendimiento que inspira. Estilo que te acompa&ntilde;a.<br />Ropa deportiva y urbana para cada versi&oacute;n de ti.</p>

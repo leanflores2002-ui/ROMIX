@@ -1409,7 +1409,7 @@
         wrapper.appendChild(select);
 
         const openBtn = document.getElementById("open-filters");
-        if (openBtn && openBtn.parentElement === topBar) topBar.insertBefore(wrapper, openBtn);
+        if (openBtn && Array.from(topBar.children).includes(openBtn)) topBar.insertBefore(wrapper, openBtn);
         else topBar.appendChild(wrapper);
       }
 

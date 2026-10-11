@@ -2765,9 +2765,13 @@
       }
 
       const related = relatedRaw
-        .slice()
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 8);
+        .map((product) => ({
+          product,
+          rank: window.crypto.getRandomValues(new Uint32Array(1))[0]
+        }))
+        .sort((a, b) => a.rank - b.rank)
+        .slice(0, 8)
+        .map((entry) => entry.product);
 
       const getBadgeLabel = (product) => {
         return String(product.badge || product.featuredBadge || '').trim();

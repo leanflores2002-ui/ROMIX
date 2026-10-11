@@ -1610,7 +1610,9 @@
         thumb.appendChild(picture);
       }
 
-      setMainImage(selectedColor, selectedColor && selectedColor.name);
+      setMainImage(selectedColor, selectedColor && selectedColor.name).catch(function (error) {
+        console.warn("No se pudo cargar la imagen del producto", product.id, error);
+      });
 
       const badgeLabel = product.badge || product.featuredBadge;
       if (badgeLabel) {
@@ -1634,7 +1636,9 @@
             control.classList.toggle("is-active", active);
             control.setAttribute("aria-pressed", active ? "true" : "false");
           });
-          setMainImage(color, color.name);
+          setMainImage(color, color.name).catch(function (error) {
+            console.warn("No se pudo cargar la imagen de la variante", product.id, color.name, error);
+          });
         }
 
         const thumbs = document.createElement("div");

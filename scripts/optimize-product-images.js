@@ -4,17 +4,30 @@ const sharp = require('sharp');
 
 const ROOT = path.resolve(__dirname, '..');
 const PRODUCTS_DIR = path.join(ROOT, 'frontend', 'public', 'images', 'products');
+const THUMBS_DIR = path.join(ROOT, 'frontend', 'public', 'images', 'thumbs');
+const SWATCHES_DIR = path.join(ROOT, 'frontend', 'public', 'images', 'swatches');
 const ALLOWED_INPUT_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.webp']);
 const RASTER_INPUT_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg']);
 const MAX_SIDE = 1600;
 const QUALITY = 82;
 const EFFORT = 6;
+const CARD_THUMB = { width: 640, height: 853, quality: 76 };
+const COLOR_SWATCH = { width: 96, height: 128, quality: 70 };
 const WRITE = process.argv.includes('--write');
 
 function assertInsideProducts(filePath) {
   const resolved = path.resolve(filePath);
   if (resolved !== PRODUCTS_DIR && !resolved.startsWith(PRODUCTS_DIR + path.sep)) {
     throw new Error(`Ruta fuera de images/products: ${filePath}`);
+  }
+  return resolved;
+}
+
+function assertInside(root, filePath) {
+  const resolved = path.resolve(filePath);
+  const safeRoot = path.resolve(root);
+  if (resolved !== safeRoot && !resolved.startsWith(safeRoot + path.sep)) {
+    throw new Error(`Ruta fuera del directorio permitido: ${filePath}`);
   }
   return resolved;
 }
@@ -56,10 +69,11 @@ async function planFile(inputPath) {
   const outputExists = fs.existsSync(output);
   if (outputExists) assertRegularFile(output);
   const outputMeta = outputExists ? await metadata(output) : null;
-  const needsResize = Math.max(inputMeta.width || 0, inputMeta.height || 0) > MAX_SIDE;
-  const isCanonicalWebp = ext === '.webp' && !needsResize;
+  // Existing WebP files are canonical source assets. Keep them byte-stable;
+  // delivery optimization happens in the derived card/swatch outputs below.
+  const isCanonicalWebp = ext === '.webp';
   const needsConversion = RASTER_INPUT_EXTENSIONS.has(ext) && !outputExists;
-  const needsReencode = ext === '.webp' && needsResize;
+  const needsReencode = false;
   return {
     inputPath,
     outputPath: output,
@@ -89,6 +103,40 @@ async function writeOptimized(plan) {
   }
 }
 
+function derivedPath(sourcePath, directory) {
+  const fileName = `${path.parse(sourcePath).name}.webp`;
+  return assertInside(directory, path.join(directory, fileName));
+}
+
+function needsDerived(sourcePath, outputPath) {
+  if (!fs.existsSync(outputPath)) return true;
+  const sourceStat = fs.statSync(sourcePath);
+  const outputStat = fs.statSync(outputPath);
+  return sourceStat.mtimeMs > outputStat.mtimeMs;
+}
+
+async function writeDerived(sourcePath, outputPath, options) {
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  const temp = `${outputPath}.tmp-${process.pid}.webp`;
+  assertInside(path.dirname(outputPath), temp);
+  try {
+    await sharp(fs.readFileSync(sourcePath), { animated: false, limitInputPixels: 40000000 })
+      .rotate()
+      .resize({
+        width: options.width,
+        height: options.height,
+        fit: 'inside',
+        withoutEnlargement: true
+      })
+      .webp({ quality: options.quality, effort: EFFORT })
+      .toFile(temp);
+    fs.renameSync(temp, outputPath);
+    return fs.statSync(outputPath).size;
+  } finally {
+    if (fs.existsSync(temp)) fs.unlinkSync(temp);
+  }
+}
+
 function formatBytes(value) {
   return `${value.toLocaleString('es-AR')} B`;
 }
@@ -113,7 +161,49 @@ async function main() {
   }
   const kept = plans.filter((plan) => plan.action === 'keep').length;
   const review = plans.filter((plan) => plan.action === 'review').length;
-  console.log(JSON.stringify({ dryRun: !WRITE, scanned: plans.length, planned: jobs.length, kept, review, inputBytes: before, outputBytes: after, maxSide: MAX_SIDE, quality: QUALITY, effort: EFFORT }, null, 2));
+
+  const canonicalFiles = walkProducts(PRODUCTS_DIR).filter((file) => path.extname(file).toLowerCase() === '.webp');
+  const derivedPlans = canonicalFiles.flatMap((sourcePath) => {
+    const cardPath = derivedPath(sourcePath, THUMBS_DIR);
+    const swatchPath = derivedPath(sourcePath, SWATCHES_DIR);
+    return [
+      { sourcePath, outputPath: cardPath, kind: 'card', options: CARD_THUMB },
+      { sourcePath, outputPath: swatchPath, kind: 'swatch', options: COLOR_SWATCH }
+    ];
+  }).filter((plan) => needsDerived(plan.sourcePath, plan.outputPath));
+
+  let derivedBeforeBytes = 0;
+  let derivedAfterBytes = 0;
+  let derivedWritten = 0;
+  for (const plan of derivedPlans) {
+    if (fs.existsSync(plan.outputPath)) derivedBeforeBytes += fs.statSync(plan.outputPath).size;
+    if (WRITE) {
+      const bytes = await writeDerived(plan.sourcePath, plan.outputPath, plan.options);
+      derivedAfterBytes += bytes;
+      derivedWritten += 1;
+    }
+  }
+
+  console.log(JSON.stringify({
+    dryRun: !WRITE,
+    scanned: plans.length,
+    planned: jobs.length,
+    kept,
+    review,
+    inputBytes: before,
+    outputBytes: after,
+    derivedPlanned: derivedPlans.length,
+    derivedWritten,
+    derivedBeforeBytes,
+    derivedAfterBytes,
+    derived: {
+      card: `${CARD_THUMB.width}x${CARD_THUMB.height}@${CARD_THUMB.quality}`,
+      swatch: `${COLOR_SWATCH.width}x${COLOR_SWATCH.height}@${COLOR_SWATCH.quality}`
+    },
+    maxSide: MAX_SIDE,
+    quality: QUALITY,
+    effort: EFFORT
+  }, null, 2));
 }
 
 if (require.main === module) main().catch((error) => {

@@ -10,7 +10,7 @@
     brand: 'ROMIX',
     brandColor: '#f72585',
     panelBg: '#fff5fa',
-    logoSrc: '/images/branding/romix-logo.webp',
+    logoSrc: '/images/optimized/branding/romix-logo-360.webp',
     defaultMessage: '¡Hola! Necesito ayuda con mi pedido ROMIX.'
   };
 

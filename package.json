@@ -17,6 +17,7 @@
     "audit:storage": "node scripts/measure-storage.js",
     "audit:product-media": "node scripts/audit-product-media.js",
     "optimize:products": "node scripts/optimize-product-images.js",
+    "optimize:storefront": "node scripts/optimize-storefront-images.js",
     "storage:migration:dry-run": "node scripts/catalog-media.js",
     "check:products": "node scripts/check-products.js",
     "compact:products": "node scripts/compact-products.js --write",

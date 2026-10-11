@@ -29,12 +29,12 @@ async function main() {
   assert(catalogSource.includes('let variantRequestId = 0'), 'Catálogo debe tener token por card');
   assert(catalogSource.includes('image.currentSrc || image.src'), 'Catálogo debe considerar currentSrc');
   assert(!catalogSource.includes('thumb.classList.remove("is-loaded")'), 'Catálogo no debe ocultar la foto anterior');
-  assert(!catalogSource.includes('swatchImage'), 'Catálogo no debe usar fotos como swatches');
+  assert(catalogSource.includes('getSwatchPath'), 'Catálogo debe resolver swatches derivados');
   assert(homeSource.includes('setImg(variant, variant.name)'), 'Home debe pasar la variante completa al selector');
   assert(homeSource.includes('product-variant-thumbs'), 'Home debe renderizar miniaturas');
   assert(!homeSource.includes('product-color-swatches') && !homeSource.includes('product-color-swatch'), 'Home no debe renderizar swatches en las cards');
   assert(!homeSource.includes('thumbLink.classList.remove("is-loaded")'), 'Home no debe ocultar la foto anterior');
-  assert(!homeSource.includes('variant.swatchImage'), 'Home no debe usar fotos como swatches');
+  assert(homeSource.includes('getSwatchPath'), 'Home debe resolver swatches derivados');
   assert(catalogCss.includes('.product-thumb img { object-fit: contain; object-position: center; opacity: 1;'), 'Catálogo debe mantener la imagen visible');
   assert(/\.product-thumb img \{[\s\S]{0,400}?opacity:\s*1;/.test(homeSource), 'Home debe mantener la imagen visible');
   assert(imageUtilsSource.includes('function loadImageResource(src)'), 'Debe existir precarga reutilizable');
@@ -125,19 +125,19 @@ async function main() {
 
   card.querySelector('.product-variant-thumb[data-variant-index="2"]').click();
   await wait(window, 20);
-  assert(image.src.endsWith('/images/products/azul.webp'), 'Click en miniatura debe cambiar la imagen principal');
+  assert(image.src.endsWith('/images/thumbs/azul.webp'), 'Click en miniatura debe cambiar la imagen principal al derivado de card');
   assert(card.querySelector('.product-variant-thumb[data-variant-index="2"]').classList.contains('is-active'), 'La miniatura seleccionada debe quedar activa');
 
   card.querySelector('.product-variant-thumb[data-variant-index="1"]').click();
   card.querySelector('.product-variant-thumb[data-variant-index="2"]').click();
   await wait(window, 20);
-  assert(image.src.endsWith('/images/products/azul.webp'), 'El último click debe ganar la carrera de precarga');
+  assert(image.src.endsWith('/images/thumbs/azul.webp'), 'El último click debe ganar la carrera de precarga');
   assert(card.querySelector('.product-thumb').classList.contains('is-loaded'), 'La card debe conservar is-loaded tras cambiar variante');
   assert(card.querySelectorAll('.product-thumb picture source').length === 0, 'No debe quedar un source anterior en picture');
 
   card.querySelector('.product-variant-thumb[data-variant-index="2"]').click();
   assert(card.querySelector('.product-thumb').classList.contains('is-loaded'), 'Repetir la misma variante no debe ocultar la imagen');
-  assert(image.src.endsWith('/images/products/azul.webp'), 'Repetir la variante debe conservar su imagen');
+  assert(image.src.endsWith('/images/thumbs/azul.webp'), 'Repetir la variante debe conservar su imagen');
 
   dom.window.close();
   console.log('cardVariantTests: passed');

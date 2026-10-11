@@ -13,7 +13,7 @@
   const LOGO_HEIGHT = 829;
   const PRODUCTS_DIR = "images/products/";
   const THUMBS_DIR = "images/thumbs/";
-  const MOBILE_DIR = "images/mobile/";
+  const SWATCHES_DIR = "images/swatches/";
 
   function normalizeColorKey(value) {
     const raw = String(value || "").trim();
@@ -71,17 +71,26 @@
 
   function getThumbPath(imagePath) {
     const normalized = cleanPath(imagePath);
-    // Product cards use the canonical image. Legacy explicit thumbnails remain
-    // valid, but this helper must never invent a path to a derived file.
-    return normalized;
+    if (!normalized || /^data:/i.test(normalized)) return normalized;
+    if (normalized.indexOf(THUMBS_DIR) === 0 || normalized.indexOf(SWATCHES_DIR) === 0) return normalized;
+    if (normalized.indexOf(PRODUCTS_DIR) !== 0) return normalized;
+    return THUMBS_DIR + basename(normalized).replace(/\.(png|jpe?g|avif|webp)$/i, ".webp");
   }
 
   function getAvifThumbPath(imagePath) {
-    return cleanPath(imagePath);
+    return getThumbPath(imagePath);
   }
 
   function getMobileImagePath(imagePath) {
     return cleanPath(imagePath);
+  }
+
+  function getSwatchPath(imagePath) {
+    const normalized = cleanPath(imagePath);
+    if (!normalized || /^data:/i.test(normalized)) return normalized;
+    if (normalized.indexOf(SWATCHES_DIR) === 0) return normalized;
+    if (normalized.indexOf(PRODUCTS_DIR) !== 0) return normalized;
+    return SWATCHES_DIR + basename(normalized).replace(/\.(png|jpe?g|avif|webp)$/i, ".webp");
   }
 
   function toThumbPath(value) {
@@ -303,14 +312,16 @@
     const mainImage = getColorImage(colorEntry || color, product) || getProductMainImage(product);
     const hasColorEntry = !!colorEntry;
     const explicitColorImage = cleanPath(colorEntry && colorEntry.image);
-    const explicitThumb = cleanPath((colorEntry && (colorEntry.thumb || colorEntry.thumbnail)) || (!hasColorEntry && product && (product.thumbnail || product.thumb)));
+    const explicitThumbValue = cleanPath((colorEntry && (colorEntry.thumb || colorEntry.thumbnail)) || (!hasColorEntry && product && (product.thumbnail || product.thumb)));
+    const explicitThumb = getThumbPath(explicitThumbValue);
     const explicitFallback = cleanPath((colorEntry && (colorEntry.thumbFallback || colorEntry.thumbnailFallback)) || (!hasColorEntry && product && (product.thumbnailFallback || product.thumbFallback)));
     const explicitAvif = cleanPath((colorEntry && (colorEntry.thumbAvif || colorEntry.thumbnailAvif)) || (!hasColorEntry && product && product.thumbnailAvif));
     const explicitThumbExt = extension(explicitThumb);
     const thumbFallback = explicitThumb && explicitThumbExt && explicitThumbExt !== "avif" ? explicitThumb : "";
-    const productThumb = cleanPath(product && (product.thumbnail || product.thumb));
-    const fallbackSrc = explicitColorImage || thumbFallback || explicitFallback || mainImage || productThumb;
-    const primarySrc = explicitColorImage || fallbackSrc || mainImage || productThumb;
+    const productThumb = getThumbPath(cleanPath(product && (product.thumbnail || product.thumb)));
+    const generatedThumb = getThumbPath(mainImage);
+    const fallbackSrc = thumbFallback || explicitFallback || productThumb || generatedThumb || mainImage;
+    const primarySrc = thumbFallback || explicitFallback || productThumb || generatedThumb || mainImage;
     const explicitWebp = explicitThumbExt === "webp" ? explicitThumb : "";
     const explicitAvifSrc = extension(explicitAvif) === "avif" ? explicitAvif : "";
 
@@ -320,7 +331,7 @@
       webpSrc: explicitColorImage ? "" : explicitWebp,
       avifSrc: explicitColorImage ? "" : explicitAvifSrc,
       originalSrc: explicitColorImage || mainImage,
-      sources: uniqueSources([explicitColorImage, thumbFallback, explicitFallback, mainImage, productThumb])
+      sources: uniqueSources([thumbFallback, explicitFallback, productThumb, generatedThumb, mainImage])
     };
   }
 
@@ -366,9 +377,10 @@
     push(normalized);
 
     const ext = extension(normalized);
-    if (normalized.includes(THUMBS_DIR) || hasThumbSuffix(normalized)) {
+    if (normalized.includes(THUMBS_DIR) || normalized.includes(SWATCHES_DIR) || hasThumbSuffix(normalized)) {
       const originalBase = normalized
         .replace(THUMBS_DIR, PRODUCTS_DIR)
+        .replace(SWATCHES_DIR, PRODUCTS_DIR)
         .replace(/-thumb(?=\.[^./]+$)/i, "");
       [
         originalBase,
@@ -421,15 +433,15 @@
     const colorEntry = findProductColor(product, colorName);
     const baseSources = getSafeProductImageSources(product, colorName, index);
     const thumbCandidates = [
-      cleanPath(colorEntry && (colorEntry.thumbAvif || colorEntry.thumbnailAvif)),
-      cleanPath(colorEntry && (colorEntry.thumb || colorEntry.thumbnail)),
-      cleanPath(colorEntry && (colorEntry.thumbFallback || colorEntry.thumbnailFallback)),
+      getThumbPath(cleanPath(colorEntry && (colorEntry.thumbAvif || colorEntry.thumbnailAvif))),
+      getThumbPath(cleanPath(colorEntry && (colorEntry.thumb || colorEntry.thumbnail))),
+      getThumbPath(cleanPath(colorEntry && (colorEntry.thumbFallback || colorEntry.thumbnailFallback))),
       baseSources.map(function (source) { return getAvifThumbPath(source); }),
       baseSources.map(function (source) { return getThumbPath(source); }),
       baseSources,
-      cleanPath(product.thumbnailAvif),
-      cleanPath(product.thumbnail || product.thumb),
-      cleanPath(product.thumbnailFallback || product.thumbFallback)
+      getThumbPath(cleanPath(product.thumbnailAvif)),
+      getThumbPath(cleanPath(product.thumbnail || product.thumb)),
+      getThumbPath(cleanPath(product.thumbnailFallback || product.thumbFallback))
     ];
 
     const expanded = [];
@@ -577,6 +589,7 @@
     extension,
     replaceExtension,
     getThumbPath,
+    getSwatchPath,
     getAvifThumbPath,
     getMobileImagePath,
     toThumbPath,

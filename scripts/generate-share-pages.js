@@ -200,6 +200,7 @@ function buildSharePage(product, siteUrl, social) {
 }
 
 async function main() {
+  require("./sync-storefront-shells").main();
   if (!fs.existsSync(PRODUCTS_FILE)) {
     throw new Error(`No se encontro ${PRODUCTS_FILE}`);
   }

@@ -1,208 +1,30 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+const templateDir = path.join(__dirname, '..', 'frontend', 'src', 'templates');
 const publicDir = path.join(__dirname, '..', 'frontend', 'public');
-const assetVersion = '18';
-const coreFontHref = 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap';
-const pages = [
-  'index.html',
-  'catalogo.html',
-  'product.html',
-  'cart.html',
-  'ayuda.html',
-  '404.html'
-];
+const pages = ['index.html', 'catalogo.html', 'product.html', 'cart.html', 'ayuda.html', '404.html'];
+const partials = ['header', 'footer'];
 
-const criticalShellCss = `<!-- ROMIX:SHELL:CRITICAL:START -->
-<link rel="stylesheet" href="assets/css/romix-shell-base.css?v=${assetVersion}" data-romix-shell-critical />
-<!-- ROMIX:SHELL:CRITICAL:END -->`;
-
-const header = `<!-- ROMIX:SHELL:HEADER:START -->
-<div class="romix-announcement" role="note">ENV&Iacute;OS Y RETIROS COORDINADOS &middot; CONSULT&Aacute; DISPONIBILIDAD</div>
-<header class="site-header romix-shared-header" data-romix-shell="header-v1">
-  <div class="container header-row">
-    <div class="header-actions-left" aria-label="Acciones principales">
-      <button class="icon-btn romix-icon-btn mobile-menu-btn" id="toggle-mobile-nav" type="button" aria-label="Abrir men&uacute;" aria-controls="header-mobile-nav" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
-    </div>
-    <a class="brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><picture><source srcset="images/optimized/branding/romix-logo-360.webp 360w, images/optimized/branding/romix-logo-720.webp 720w" sizes="(max-width: 900px) 156px, 184px" type="image/webp" /><img class="site-logo site-logo--header" src="images/optimized/branding/romix-logo-360.webp" alt="ROMIX" width="360" height="120" decoding="async" /></picture></a>
-    <nav class="mega-nav" id="header-mobile-nav" aria-label="Principal">
-      <div class="mobile-drawer-header">
-        <a class="mobile-drawer-brand site-logo-link" href="index.html" aria-label="ROMIX inicio"><picture><source srcset="images/optimized/branding/romix-logo-360.webp 360w, images/optimized/branding/romix-logo-720.webp 720w" sizes="148px" type="image/webp" /><img class="site-logo site-logo--mobile" src="images/optimized/branding/romix-logo-360.webp" alt="ROMIX" width="360" height="120" decoding="async" /></picture></a>
-        <button class="mobile-drawer-close romix-icon-btn" id="close-mobile-nav" type="button" aria-label="Cerrar men&uacute;"><span data-romix-icon="X" data-romix-icon-size="md"></span></button>
-      </div>
-      <div class="main-nav-wrap">
-        <ul class="main-nav">
-          <li data-menu-key="mujer"><a class="mega-trigger" id="mega-trigger-mujer" href="catalogo.html?sections=mujer" aria-expanded="false" aria-controls="mega-panel-mujer"><span>Mujer</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
-          <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="catalogo.html?sections=hombre" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
-          <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="catalogo.html?sections=ninos" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
-          <li data-menu-key="novedades"><a class="mega-trigger" id="mega-trigger-novedades" href="catalogo.html?view=novedades" aria-expanded="false" aria-controls="mega-panel-novedades"><span>Novedades</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
-          <li data-menu-key="ofertas"><a class="mega-trigger" id="mega-trigger-ofertas" href="catalogo.html?q=oferta"><span>Ofertas</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
-        </ul>
-      </div>
-      <nav class="mobile-drawer-links" aria-label="Atajos">
-        <a href="catalogo.html" data-mega-link="true">Cat&aacute;logo completo<span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a>
-        <a href="ayuda.html#faq" data-mega-link="true">Ayuda<span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a>
-        <a href="ayuda.html#size-guide" data-mega-link="true">Gu&iacute;a de talles<span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a>
-      </nav>
-    </nav>
-    <div class="header-icons" aria-label="Acciones r&aacute;pidas">
-      <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
-      <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
-      <a class="cart-pill" href="cart.html" aria-label="Carrito de compras">
-        <span class="cart-pill__icon" aria-hidden="true"><span data-romix-icon="ShoppingCart" data-romix-icon-size="md"></span></span>
-        <span class="cart-pill__text"><strong>Carrito</strong></span>
-        <span class="icon-badge" id="cart-count">0</span>
-      </a>
-      <button class="icon-btn romix-icon-btn header-utility-menu" id="toggle-utility-menu" type="button" aria-label="Abrir menú de utilidades" aria-controls="header-utility-panel" aria-expanded="false"><span data-romix-icon="Menu" data-romix-icon-size="md"></span></button>
-    </div>
-  </div>
-  <div class="header-utility-panel" id="header-utility-panel" role="dialog" aria-label="Men&uacute; de utilidades" aria-hidden="true" hidden>
-    <div class="header-utility-panel__inner">
-      <p class="header-utility-panel__title">ROMIX</p>
-      <nav aria-label="Utilidades">
-        <a href="catalogo.html"><span data-romix-icon="ShoppingBag" data-romix-icon-size="sm" aria-hidden="true"></span><span>Cat&aacute;logo</span></a>
-        <a href="catalogo.html?q=oferta"><span data-romix-icon="Tag" data-romix-icon-size="sm" aria-hidden="true"></span><span>Ofertas</span></a>
-        <a href="ayuda.html#size-guide"><span data-romix-icon="Ruler" data-romix-icon-size="sm" aria-hidden="true"></span><span>Gu&iacute;a de talles</span></a>
-        <a href="ayuda.html#faq"><span data-romix-icon="CircleHelp" data-romix-icon-size="sm" aria-hidden="true"></span><span>Ayuda</span></a>
-        <a href="ayuda.html#contact"><span data-romix-icon="MessageCircle" data-romix-icon-size="sm" aria-hidden="true"></span><span>Contacto</span></a>
-      </nav>
-    </div>
-  </div>
-  <button class="mobile-nav-scrim" id="mobile-nav-scrim" type="button" aria-label="Cerrar men&uacute;" hidden></button>
-  <div class="search-panel" id="header-search" role="dialog" aria-label="B&uacute;squeda de productos" aria-hidden="true">
-    <div class="container">
-      <form id="global-search-form" class="global-search" role="search" aria-label="Buscar productos" action="catalogo.html" method="get">
-        <div class="romix-search-shell">
-          <div class="romix-search-input-wrap">
-            <span class="romix-search-icon" aria-hidden="true"></span>
-            <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" aria-expanded="false" autocomplete="off" />
-            <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span data-romix-icon="X" data-romix-icon-size="sm"></span></button>
-          </div>
-          <button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
-          <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
-          <div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>
-        </div>
-      </form>
-    </div>
-  </div>
-</header>
-<script src="assets/js/romix-icons.js?v=14"></script>
-<!-- ROMIX:SHELL:HEADER:END -->`;
-
-const footer = `<!-- ROMIX:SHELL:FOOTER:START -->
-<footer class="site-footer" data-romix-shell="footer-v1">
-  <div class="footer-shell">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="index.html" class="footer-logo site-logo-link" aria-label="ROMIX inicio">
-          <picture><source srcset="images/optimized/branding/romix-logo-360.webp 360w, images/optimized/branding/romix-logo-720.webp 720w" sizes="(max-width: 900px) 180px, 212px" type="image/webp" /><img class="site-logo site-logo--footer" src="images/optimized/branding/romix-logo-360.webp" alt="ROMIX" width="360" height="120" loading="lazy" decoding="async" /></picture>
-          <span class="footer-logo-copy"><span>Sportswear &amp; Fashion</span></span>
-        </a>
-        <p class="footer-description">Rendimiento que inspira. Estilo que te acompa&ntilde;a.<br />Ropa deportiva y urbana para cada versi&oacute;n de ti.</p>
-        <div class="footer-contact" aria-label="Contacto ROMIX">
-          <a class="footer-contact-item footer-contact-item--link" href="https://wa.me/5491154272065" target="_blank" rel="noopener"><span data-romix-icon="MessageCircle" data-romix-icon-size="sm"></span><span>+54 9 11 5427-2065</span></a>
-          <span class="footer-contact-divider" aria-hidden="true"></span>
-          <span class="footer-contact-item"><span data-romix-icon="MapPin" data-romix-icon-size="sm"></span><span>CABA, Argentina</span></span>
-        </div>
-      </div>
-      <nav class="footer-column" aria-label="Comprar"><h4>Comprar</h4><ul><li><a href="catalogo.html?sections=mujer">Mujer</a></li><li><a href="catalogo.html?sections=hombre">Hombre</a></li><li><a href="catalogo.html?sections=ninos">Ni&ntilde;os</a></li><li><a href="catalogo.html?view=novedades">Novedades</a></li><li><a href="catalogo.html?q=oferta">Ofertas</a></li></ul></nav>
-      <nav class="footer-column" aria-label="Categor&iacute;a"><h4>Categor&iacute;a</h4><ul><li><a href="catalogo.html?categories=calzas">Calzas</a></li><li><a href="catalogo.html?categories=remeras">Remeras</a></li><li><a href="catalogo.html?categories=pantalones">Pantalones</a></li><li><a href="catalogo.html?categories=camperas">Camperas</a></li><li><a href="catalogo.html?categories=tops">Tops</a></li><li><a href="catalogo.html?categories=buzos">Buzos</a></li></ul></nav>
-      <nav class="footer-column" aria-label="Ayuda"><h4>Ayuda</h4><ul><li><a href="ayuda.html#size-guide">Gu&iacute;a de talles</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="ayuda.html#payments">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li></ul></nav>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
-      <div class="footer-socials" aria-label="Redes sociales">
-        <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><span data-romix-icon="Instagram" data-romix-icon-size="sm"></span></a>
-        <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V10H8.3v3h2.6v8h2.9Z"/></svg></a>
-        <a href="https://www.tiktok.com/@romix_tienda?_r=1&amp;_t=ZS-97FOkImZhLN" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.3 3c.4 2.2 1.7 3.6 3.7 3.8v3.1c-1.4 0-2.7-.4-3.7-1.1v6.1a6.1 6.1 0 1 1-5.3-6V12a3 3 0 1 0 2.2 2.9V3h3.1Z"/></svg></a>
-        <a href="https://wa.me/5491154272065" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.8 7l-4.2 1 1.1-4A8 8 0 1 1 20 11.7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.4 7.8c.4-.3.8-.1 1 .3l.8 1.7c.1.3.1.6-.2.8l-.7.7c.8 1.7 2 2.9 3.7 3.7l.7-.7c.2-.3.5-.3.8-.2l1.7.8c.4.2.6.6.3 1-1 1.4-2.4 1.7-4 .9-2.8-1.3-5-3.5-6.3-6.3-.8-1.7-.5-3.1.9-4Z" fill="currentColor"/></svg></a>
-      </div>
-    </div>
-  </div>
-</footer>
-<!-- ROMIX:SHELL:FOOTER:END -->`;
-
-function replaceShell(html, startMarker, endMarker, replacement) {
-  const start = html.indexOf(startMarker);
-  const end = html.indexOf(endMarker);
-  if (start >= 0 && end >= start) {
-    return html.slice(0, start) + replacement + html.slice(end + endMarker.length);
+function renderPage(page, sourceDir = templateDir) {
+  if (!pages.includes(page)) throw new Error('Unknown storefront page');
+  let html = fs.readFileSync(path.join(sourceDir, page), 'utf8');
+  for (const kind of partials) {
+    const marker = '<!-- ROMIX:INCLUDE:' + kind.toUpperCase() + ' -->';
+    if (html.split(marker).length !== 2) throw new Error(page + ': expected exactly one ' + kind + ' include');
+    const partial = fs.readFileSync(path.join(sourceDir, 'partials', kind + '.html'), 'utf8');
+    html = html.replace(marker, () => partial);
   }
-  return null;
+  if (html.includes('<!-- ROMIX:INCLUDE:')) throw new Error(page + ': unresolved include');
+  return html;
 }
 
-function syncHeader(html) {
-  const marked = replaceShell(html, '<!-- ROMIX:SHELL:HEADER:START -->', '<!-- ROMIX:SHELL:HEADER:END -->', header);
-  if (marked != null) return marked;
-  const headerPattern = /\s*<header\b[^>]*class=["'][^"']*romix-shared-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i;
-  if (!headerPattern.test(html)) throw new Error('No se encontr&oacute; header compartido');
-  return html.replace(headerPattern, '\n' + header);
+function main() {
+  // Render every page before writing, so invalid templates leave the output intact.
+  const rendered = pages.map(page => ({page, html: renderPage(page)}));
+  for (const {page, html} of rendered) fs.writeFileSync(path.join(publicDir, page), html, 'utf8');
+  console.log('Storefront pages generated: ' + rendered.length);
 }
 
-function syncFooter(html) {
-  const marked = replaceShell(html, '<!-- ROMIX:SHELL:FOOTER:START -->', '<!-- ROMIX:SHELL:FOOTER:END -->', footer);
-  if (marked != null) return marked;
-  const footerPattern = /\s*<footer\b[^>]*>[\s\S]*?<\/footer>/i;
-  if (footerPattern.test(html)) return html.replace(footerPattern, '\n' + footer);
-  const mainEnd = html.lastIndexOf('</main>');
-  if (mainEnd < 0) throw new Error('No se encontr&oacute; </main> para insertar footer');
-  const insertAt = mainEnd + '</main>'.length;
-  return html.slice(0, insertAt) + '\n\n' + footer + html.slice(insertAt);
-}
-
-function versionLocalAssets(html) {
-  return html.replace(/(["'])(assets\/(?:css|js)\/[^"'?]+)(?:\?v=[^"']+)?\1/g, (_match, quote, assetPath) => {
-    return quote + assetPath + '?v=' + assetVersion + quote;
-  });
-}
-
-function syncCriticalShellCss(html) {
-  const marked = replaceShell(html, '<!-- ROMIX:SHELL:CRITICAL:START -->', '<!-- ROMIX:SHELL:CRITICAL:END -->', criticalShellCss);
-  if (marked != null) return marked;
-  const viewport = /<meta\s+name=["']viewport["'][^>]*>/i;
-  if (viewport.test(html)) return html.replace(viewport, (match) => match + '\n  ' + criticalShellCss);
-  return html.replace(/<head>/i, '<head>\n  ' + criticalShellCss);
-}
-
-function syncFonts(html, page) {
-  let next = html
-    .replace(/\s*<noscript>\s*<link[^>]+fonts\.googleapis\.com\/css2[^>]*>\s*<\/noscript>/gi, '')
-    .replace(/\s*<link[^>]+fonts\.googleapis\.com\/css2[^>]*>/gi, '');
-  const links = `  <link href="${coreFontHref}" rel="stylesheet" />`;
-  const firstLocalStylesheet = /\s*<link\s+rel=["']stylesheet["']\s+href=["']assets\/css\//i;
-  if (firstLocalStylesheet.test(next)) return next.replace(firstLocalStylesheet, '\n' + links + '\n  <link rel="stylesheet" href="assets/css/');
-  return next.replace(/<\/head>/i, links + '\n</head>');
-}
-
-function syncShellStyles(html) {
-  const next = html.replace(/\s*<link\s+rel=["']stylesheet["']\s+href=["']assets\/css\/romix-(?:header|footer)\.css(?:\?[^"']*)?["'][^>]*>/gi, '');
-  const links = [
-    `  <link rel="stylesheet" href="assets/css/romix-header.css?v=${assetVersion}" />`,
-    `  <link rel="stylesheet" href="assets/css/romix-footer.css?v=${assetVersion}" />`
-  ].join('\n');
-  return next.replace(/<\/head>/i, links + '\n</head>');
-}
-
-function syncBrandingAssets(html) {
-  return html
-    .replace(/<link\s+rel=["']icon["'][^>]*href=["']images\/logo-romix-icon-64\.png["'][^>]*>/gi, '<link rel="icon" href="images/branding/romix-logo-icon.webp" type="image/webp" sizes="180x180" />')
-    .replace(/<link\s+rel=["']apple-touch-icon["'][^>]*href=["']images\/logo-romix-icon-180\.png["'][^>]*>/gi, '<link rel="apple-touch-icon" href="images/branding/romix-logo-icon.webp" sizes="180x180" />')
-    .replace(/images\/logo-romix-social-(?:20260502\.jpg|1200x630\.png)/g, 'images/branding/romix-logo-social.webp');
-}
-
-for (const page of pages) {
-  const file = path.join(publicDir, page);
-  let html = fs.readFileSync(file, 'utf8');
-  html = syncHeader(html);
-  html = syncFooter(html);
-  html = syncCriticalShellCss(html);
-  html = syncFonts(html, page);
-  html = syncShellStyles(html);
-  html = syncBrandingAssets(html);
-  html = html.replace(/\s*<script\s+src=["']assets\/js\/romix-footer\.js(?:\?[^"']*)?["'][^>]*><\/script>/gi, '');
-  html = html.replace(/\s*<script\s+src=["']assets\/js\/romix-minimal-theme\.js(?:\?[^"']*)?["'][^>]*><\/script>/gi, '');
-  html = versionLocalAssets(html);
-  fs.writeFileSync(file, html, 'utf8');
-}
-
-console.log(`Storefront shells sincronizados en ${pages.length} p&aacute;ginas.`);
+if (require.main === module) main();
+module.exports = {main, renderPage, pages};

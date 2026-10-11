@@ -1183,7 +1183,7 @@ body:has(#root) .cta { min-height: 50px; border-radius: var(--romix-radius); }
   .main-hero-carousel__content { width: min(70vw, 250px); left: 16px; }
   .main-hero-carousel__title { font-size: clamp(44px, 15vw, 62px); }
   .main-hero-carousel__subtitle { font-size: 13px; }
-  #product-grid.grid, .catalog-page .grid { gap-inline: 8px; }
+  #product-grid.grid, .catalog-page .grid { column-gap: 8px; }
   .product-tag { display: none; }
 }
 

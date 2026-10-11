@@ -328,7 +328,7 @@ body[data-catalog-scope] select { font: inherit; }
 }
 @media (max-width: 370px) {
   .catalog-page { padding-inline: 10px; }
-  .grid { gap-inline: 7px; }
+  .grid { column-gap: 7px; }
   .product-body { padding-inline: 8px; }
   .product-variant-thumb { width: 26px; height: 32px; min-width: 26px; }
 }

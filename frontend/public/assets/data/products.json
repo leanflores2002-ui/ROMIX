@@ -5264,18 +5264,6 @@
         "hex": "#F7B267",
         "swatch": "images/products/camisola_fibrana_dama_estampado_5.webp",
         "image": "images/products/camisola_fibrana_dama_estampado_5.webp"
-      },
-      {
-        "name": "Estampado 6",
-        "hex": "#1D3557",
-        "swatch": "images/products/camisola_fibrana_dama_estampado_6.webp",
-        "image": "images/products/camisola_fibrana_dama_estampado_6.webp"
-      },
-      {
-        "name": "Estampado 7",
-        "hex": "#4B4B4B",
-        "swatch": "images/products/camisola_fibrana_dama_estampado_7.webp",
-        "image": "images/products/camisola_fibrana_dama_estampado_7.webp"
       }
     ],
     "sizes": [
@@ -5323,20 +5311,6 @@
         "swatch": "images/products/camisola_fibrana_dama_estampado_5.webp",
         "image": "images/products/camisola_fibrana_dama_estampado_5.webp",
         "variantId": "estampado-5"
-      },
-      {
-        "name": "Estampado 6",
-        "hex": "#1D3557",
-        "swatch": "images/products/camisola_fibrana_dama_estampado_6.webp",
-        "image": "images/products/camisola_fibrana_dama_estampado_6.webp",
-        "variantId": "estampado-6"
-      },
-      {
-        "name": "Estampado 7",
-        "hex": "#4B4B4B",
-        "swatch": "images/products/camisola_fibrana_dama_estampado_7.webp",
-        "image": "images/products/camisola_fibrana_dama_estampado_7.webp",
-        "variantId": "estampado-7"
       }
     ]
   },

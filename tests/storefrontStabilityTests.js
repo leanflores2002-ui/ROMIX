@@ -78,6 +78,12 @@ function checkStaticShells() {
     assert(!/<i\s+class=["'][^"']*fa/i.test(html), `${page}: unstable Font Awesome placeholder remains`);
     assert(doc.querySelectorAll('title').length === 1, `${page}: exactly one title is required`);
     assert((doc.documentElement.getAttribute('lang') || '').toLowerCase().startsWith('es'), `${page}: Spanish lang is required`);
+    const baseStyles = doc.querySelectorAll('link[data-romix-shell-critical]');
+    assert(baseStyles.length === 1, `${page}: one shared base stylesheet required`);
+    assert(baseStyles[0].getAttribute('href') === 'assets/css/romix-shell-base.css?v=18', `${page}: shared base stylesheet path drifted`);
+    assert(!doc.querySelector('style[data-romix-shell-critical]'), `${page}: shared base styles must not be duplicated inline`);
+    assert(doc.querySelector('link[rel="stylesheet"][href^="assets/css/"]') === baseStyles[0], `${page}: base styles must precede other local styles`);
+    assert(fs.existsSync(path.join(publicDir, 'assets/css/romix-shell-base.css')), `${page}: base stylesheet missing`);
     const stylesheetHrefs = Array.from(doc.querySelectorAll('link[rel="stylesheet"]')).map((link) => link.getAttribute('href') || '');
     assert(/assets\/css\/romix-footer\.css/.test(stylesheetHrefs[stylesheetHrefs.length - 1] || ''), `${page}: shared footer CSS must be the final stylesheet`);
     const ids = Array.from(doc.querySelectorAll('[id]')).map((element) => element.id);
@@ -193,6 +199,7 @@ function checkCartStorageSync() {
     url: 'https://romix.test/cart.html'
   });
   dom.window.localStorage.setItem('romix_cart', '{corrupt');
+  dom.window.eval(read('frontend/public/assets/js/romix-icons.js'));
   dom.window.eval(read('frontend/public/assets/js/cart.js'));
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
   assert(dom.window.document.getElementById('cart-count').textContent === '0', 'Corrupt cart storage must recover safely');

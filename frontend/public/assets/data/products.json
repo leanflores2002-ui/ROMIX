@@ -3080,7 +3080,13 @@
         "name": "Azul",
         "hex": "#1E4ED8",
         "image": "images/products/capri_cey_azul.webp"
+      },
+      {
+        "name": "Camel",
+        "hex": "#C19A6B",
+        "image": "images/products/capri_cey_camel.webp"
       }
+
     ],
     "sizes": [
       "1",

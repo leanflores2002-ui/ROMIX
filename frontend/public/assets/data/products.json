@@ -8272,6 +8272,69 @@
   {
     "section": "mujer",
     "type": "calzas",
+    "name": "Calza lycra morley con bolsillos dama",
+    "season": "media-estacion",
+    "featured": true,
+    "featuredBadge": "Nuevo",
+    "image": "images/products/calza_lycra_morley_con_bolsillos_negro.webp",
+    "price": 12000,
+    "priceByGroup": {
+      "common": 12000
+    },
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/calza_lycra_morley_con_bolsillos_negro.webp"
+      },
+      {
+        "name": "Fucsia",
+        "hex": "#FF00A8",
+        "image": "images/products/calza_lycra_morley_con_bolsillos_fucsia.webp"
+      },
+      {
+        "name": "Verde",
+        "hex": "#6bff6b",
+        "image": "images/products/calza_lycra_morley_con_bolsillos_verde.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#6b8cff",
+        "image": "images/products/calza_lycra_morley_con_bolsillos_azul.webp"
+      },
+      {
+        "name": "Azul lavanda",
+        "hex": "#CCCCFF",
+        "image": "images/products/calza_lycra_morley_con_bolsillos_azul lavanda.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#6c757d",
+        "image": "images/products/calza_lycra_morley_con_bolsillos_gris.webp"
+      },
+      {
+        "name": "Bordo",
+        "hex": "#800040",
+        "image": "images/products/calza_lycra_morley_con_bolsillos_bordo.webp"
+      },
+      {
+        "name": "Chocolate",
+        "hex": "#45322e",
+        "image": "images/products/calza_lycra_morley_con_bolsillos_chocolate.webp"
+      }
+
+    ],
+    "sizes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "calzas",
     "name": "Calza oxford",
     "season": "media-estacion",
     "image": "images/products/calza_oxfor_negro.webp",

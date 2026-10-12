@@ -3542,36 +3542,6 @@
         "hex": "#8A2BE2",
         "swatch": "images/products/short_lycra_estampado_8.webp",
         "image": "images/products/short_lycra_estampado_8.webp"
-      },
-      {
-        "name": "Estampado 9",
-        "hex": "#004643",
-        "swatch": "images/products/short_lycra_estampado_9.webp",
-        "image": "images/products/short_lycra_estampado_9.webp"
-      },
-      {
-        "name": "Estampado 10",
-        "hex": "#C1121F",
-        "swatch": "images/products/short_lycra_estampado_10.webp",
-        "image": "images/products/short_lycra_estampado_10.webp"
-      },
-      {
-        "name": "Estampado 11",
-        "hex": "#4B4B4B",
-        "swatch": "images/products/short_lycra_estampado_11.webp",
-        "image": "images/products/short_lycra_estampado_11.webp"
-      },
-      {
-        "name": "Estampado 12",
-        "hex": "#A9A9A9",
-        "swatch": "images/products/short_lycra_estampado_12.webp",
-        "image": "images/products/short_lycra_estampado_12.webp"
-      },
-      {
-        "name": "Estampado 13",
-        "hex": "#6B7280",
-        "swatch": "images/products/short_lycra_estampado_13.webp",
-        "image": "images/products/short_lycra_estampado_13.webp"
       }
     ],
     "sizes": [
@@ -3637,41 +3607,6 @@
         "swatch": "images/products/short_lycra_estampado_8.webp",
         "image": "images/products/short_lycra_estampado_8.webp",
         "variantId": "estampado-8"
-      },
-      {
-        "name": "Estampado 9",
-        "hex": "#004643",
-        "swatch": "images/products/short_lycra_estampado_9.webp",
-        "image": "images/products/short_lycra_estampado_9.webp",
-        "variantId": "estampado-9"
-      },
-      {
-        "name": "Estampado 10",
-        "hex": "#C1121F",
-        "swatch": "images/products/short_lycra_estampado_10.webp",
-        "image": "images/products/short_lycra_estampado_10.webp",
-        "variantId": "estampado-10"
-      },
-      {
-        "name": "Estampado 11",
-        "hex": "#4B4B4B",
-        "swatch": "images/products/short_lycra_estampado_11.webp",
-        "image": "images/products/short_lycra_estampado_11.webp",
-        "variantId": "estampado-11"
-      },
-      {
-        "name": "Estampado 12",
-        "hex": "#A9A9A9",
-        "swatch": "images/products/short_lycra_estampado_12.webp",
-        "image": "images/products/short_lycra_estampado_12.webp",
-        "variantId": "estampado-12"
-      },
-      {
-        "name": "Estampado 13",
-        "hex": "#6B7280",
-        "swatch": "images/products/short_lycra_estampado_13.webp",
-        "image": "images/products/short_lycra_estampado_13.webp",
-        "variantId": "estampado-13"
       }
     ]
   },

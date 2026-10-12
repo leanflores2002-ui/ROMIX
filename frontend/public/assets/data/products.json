@@ -438,6 +438,51 @@
   {
     "section": "mujer",
     "type": "pantalones",
+    "name": "Pantalon baggy jogging algodon rustico dama",
+    "season": "media-estacion",
+    "image": "images/products/pantalon_baggy_jogging_algodon_rustico_dama_negro.webp",
+    "price": 14000,
+    "priceByGroup": {
+      "common": 14000
+    },
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/pantalon_baggy_jogging_algodon_rustico_dama_negro.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#A9A9A9",
+        "image": "images/products/pantalon_baggy_jogging_algodon_rustico_dama_gris.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#1E4ED8",
+        "image": "images/products/pantalon_baggy_jogging_algodon_rustico_dama_azul.webp"
+      },
+      {
+        "name": "Gris oscuro",
+        "hex": "#4B4B4B",
+        "image": "images/products/pantalon_baggy_jogging_algodon_rustico_dama_gris_oscuro.webp"
+      },
+      {
+        "name": "Beige",
+        "hex": "#F5F5DC",
+        "image": "images/products/pantalon_baggy_jogging_algodon_rustico_dama_beige.webp"
+      }
+    ],
+    "sizes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "pantalones",
     "name": "Babucha premium frizado algodon dama",
     "season": "invierno",
     "image": "images/products/babucha_premium_frizado_algodon_dama_negro.webp",

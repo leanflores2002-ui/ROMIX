@@ -440,6 +440,8 @@
     "type": "pantalones",
     "name": "Pantalon baggy jogging algodon rustico dama",
     "season": "media-estacion",
+    "featured": true,
+    "featuredBadge": "Nuevo",
     "image": "images/products/pantalon_baggy_jogging_algodon_rustico_dama_negro.webp",
     "price": 14000,
     "priceByGroup": {
@@ -8920,6 +8922,43 @@
       "6",
       "7",
       "8"
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "camperas",
+    "name": "Campera corto lycra morley dama",
+    "season": "media-estacion",
+    "featured": true,
+    "featuredBadge": "Nuevo",
+    "image": "images/products/campera_corto_lycra_morley_negro.webp",
+    "price": 14000,
+    "priceByGroup": {
+      "common": 14000
+    },
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/campera_corto_lycra_morley_negro.webp"
+      },
+      {
+        "name": "Fucsia",
+        "hex": "#FF00A8",
+        "image": "images/products/campera_corto_lycra_morley_fucsia.webp"
+      },
+      {
+        "name": "Lila",
+        "hex": "#C8A2C8",
+        "image": "images/products/campera_corto_lycra_morley_lila.webp"
+      }
+    ],
+    "sizes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
     ]
   },
   {

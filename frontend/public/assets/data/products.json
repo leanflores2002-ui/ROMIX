@@ -4384,6 +4384,42 @@
   {
     "section": "mujer",
     "type": "ciclistas",
+    "name": "Ciclista lycra suplex con bolsillo dama",
+    "season": "verano",
+    "featured":true,
+    "featuredBadge":"Nuevo",
+    "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama.webp",
+    "price": 9500,
+    "priceByGroup": {
+      "common": 9500,
+      "special": 10000
+    },
+    "specialSizes": [
+      6,
+      7,
+      8
+    ],
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama.webp"
+      }
+    ],
+    "sizes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "ciclistas",
     "name": "Ciclista jaspeado saplex",
     "season": "verano",
     "image": "images/products/ciclista_jaspeado_saplex_gris_melange.webp",
@@ -8855,6 +8891,42 @@
         "name": "Negro",
         "hex": "#000000",
         "image": "images/products/calza_oxfor_negro.webp"
+      }
+    ],
+    "sizes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "calzas",
+    "name": "Calza oxford algodon con lycra dama",
+    "season": "media-estacion",
+    "featured":true,
+    "featuredBadge":"Nuevo",
+    "image": "images/products/calza_oxford_algodon_con_lycra_negro.webp",
+    "price": 13500,
+    "priceByGroup": {
+      "common": 13500,
+      "special": 14000
+    },
+    "specialSizes": [
+      6,
+      7,
+      8
+    ],
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/calza_oxford_algodon_con_lycra_negro.webp"
       }
     ],
     "sizes": [

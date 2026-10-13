@@ -248,7 +248,7 @@
     const dataUrl = new URL(opts.dataUrl || DATA_URL, location.href);
     const errors = [];
 
-    if (opts.useApi !== false) {
+    if (opts.useApi === true) {
       try {
         const apiRes = await fetch('/api/products', { cache: 'no-cache' });
         if (!apiRes.ok) throw new Error(`API products respondió ${apiRes.status}`);

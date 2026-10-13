@@ -1216,3 +1216,5 @@ body:has(#root) .cta { min-height: 50px; border-radius: var(--romix-radius); }
 
 
 /* Predictive search is owned by assets/css/romix-header.css. */
+
+.section-eyebrow, .sec-eyebrow { color: #b51664; }

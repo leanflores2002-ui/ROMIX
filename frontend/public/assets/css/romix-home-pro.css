@@ -1100,3 +1100,11 @@ body.video-lightbox-open {
     font-size: 0.78rem;
   }
 }
+
+/* Readable accent text on the white storefront background. */
+.section-eyebrow, .sec-eyebrow, .section-link:hover { color: #b51664; }
+
+.products-mobile-cta .section-link { color: #b51664; }
+.main-hero-carousel__dot, .main-hero-carousel__dot.is-active { width: 44px; height: 44px; padding: 0; background: transparent; display: grid; place-items: center; }
+.main-hero-carousel__dot::after { content: ""; width: 9px; height: 9px; border-radius: 999px; background: rgba(255,255,255,.72); }
+.main-hero-carousel__dot.is-active::after { width: 26px; background: white; }

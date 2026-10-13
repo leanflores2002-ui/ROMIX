@@ -143,15 +143,15 @@ async function checkProductsStore() {
     }
   });
   const list = await context.window.romixProductsStore.load({ force: true });
-  assert(calls[0] === '/api/products', 'Products store must try API before any cache fallback');
-  assert(calls[1].includes('assets/data/products.json'), 'Products store must fall back to static JSON after API');
+  assert(calls.length === 1 && calls[0].includes('assets/data/products.json'), 'Static storefront must load JSON without probing an absent API');
+
   assert(list[0].sizes[0].status === 'unknown', 'Primitive sizes must not invent availability');
   assert(context.window.romixProductsStore.getStatus().source === 'json', 'Fallback source must be observable');
 
   const emptyContext = loadScript('frontend/public/assets/js/products-store.js', {
     fetch: async () => ({ ok: true, json: async () => [] })
   });
-  const empty = await emptyContext.window.romixProductsStore.load({ force: true });
+  const empty = await emptyContext.window.romixProductsStore.load({ force: true, useApi: true });
   assert(Array.isArray(empty) && empty.length === 0, 'An authoritative empty API response is valid');
   assert(emptyContext.window.romixProductsStore.getStatus().source === 'api', 'Empty API response must remain authoritative');
 

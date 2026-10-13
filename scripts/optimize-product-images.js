@@ -108,11 +108,12 @@ function derivedPath(sourcePath, directory) {
   return assertInside(directory, path.join(directory, fileName));
 }
 
-function needsDerived(sourcePath, outputPath) {
+async function needsDerived(sourcePath, outputPath, options) {
   if (!fs.existsSync(outputPath)) return true;
   const sourceStat = fs.statSync(sourcePath);
   const outputStat = fs.statSync(outputPath);
-  return sourceStat.mtimeMs > outputStat.mtimeMs;
+  const info = await sharp(fs.readFileSync(outputPath)).metadata();
+  return info.format !== "webp" || info.width > options.width || info.height > options.height || sourceStat.mtimeMs > outputStat.mtimeMs;
 }
 
 async function writeDerived(sourcePath, outputPath, options) {
@@ -141,16 +142,16 @@ function formatBytes(value) {
   return `${value.toLocaleString('es-AR')} B`;
 }
 
-async function main() {
+async function main({ write = WRITE, derivedOnly = false } = {}) {
   if (!fs.existsSync(PRODUCTS_DIR)) throw new Error(`No existe ${PRODUCTS_DIR}`);
   const files = walkProducts(PRODUCTS_DIR);
-  const plans = await Promise.all(files.map(planFile));
+  const plans = derivedOnly ? [] : await Promise.all(files.map(planFile));
   const jobs = plans.filter((plan) => ['convert', 'reencode'].includes(plan.action));
   let before = 0;
   let after = 0;
   for (const plan of jobs) {
     before += plan.input.bytes;
-    if (WRITE) {
+    if (write) {
       const bytes = await writeOptimized(plan);
       after += bytes;
       console.log(`${path.relative(ROOT, plan.inputPath)} -> ${path.relative(ROOT, plan.outputPath)}: ${formatBytes(plan.input.bytes)} -> ${formatBytes(bytes)} (${((1 - bytes / plan.input.bytes) * 100).toFixed(1)}% ahorro)`);
@@ -163,21 +164,23 @@ async function main() {
   const review = plans.filter((plan) => plan.action === 'review').length;
 
   const canonicalFiles = walkProducts(PRODUCTS_DIR).filter((file) => path.extname(file).toLowerCase() === '.webp');
-  const derivedPlans = canonicalFiles.flatMap((sourcePath) => {
+  const candidates = canonicalFiles.flatMap((sourcePath) => {
     const cardPath = derivedPath(sourcePath, THUMBS_DIR);
     const swatchPath = derivedPath(sourcePath, SWATCHES_DIR);
     return [
       { sourcePath, outputPath: cardPath, kind: 'card', options: CARD_THUMB },
       { sourcePath, outputPath: swatchPath, kind: 'swatch', options: COLOR_SWATCH }
     ];
-  }).filter((plan) => needsDerived(plan.sourcePath, plan.outputPath));
+  });
+  const decisions = await Promise.all(candidates.map(plan => needsDerived(plan.sourcePath, plan.outputPath, plan.options)));
+  const derivedPlans = candidates.filter((plan, index) => decisions[index]);
 
   let derivedBeforeBytes = 0;
   let derivedAfterBytes = 0;
   let derivedWritten = 0;
   for (const plan of derivedPlans) {
     if (fs.existsSync(plan.outputPath)) derivedBeforeBytes += fs.statSync(plan.outputPath).size;
-    if (WRITE) {
+    if (write) {
       const bytes = await writeDerived(plan.sourcePath, plan.outputPath, plan.options);
       derivedAfterBytes += bytes;
       derivedWritten += 1;
@@ -185,7 +188,7 @@ async function main() {
   }
 
   console.log(JSON.stringify({
-    dryRun: !WRITE,
+    dryRun: !write,
     scanned: plans.length,
     planned: jobs.length,
     kept,
@@ -211,4 +214,4 @@ if (require.main === module) main().catch((error) => {
   process.exitCode = 1;
 });
 
-module.exports = { main, assertInsideProducts, walkProducts };
+module.exports = { main, assertInsideProducts, walkProducts, needsDerived, writeDerived };

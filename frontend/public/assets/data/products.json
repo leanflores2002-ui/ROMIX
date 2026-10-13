@@ -585,6 +585,54 @@
   },
   {
     "section": "mujer",
+    "type": "Palazos",
+    "name": "Palazo algodon morley liviano dama",
+    "season": "media-estacion",
+    "featured": true,
+    "featuredBadge": "Por agotarse",
+    "image": "images/products/palazo_algodon_morley_liviano_negro.webp",
+    "price": 11000,
+    "priceByGroup": {
+      "common": 11000,
+      "special": 11800
+    },
+    "originalPrice": 20000,
+    "badge": "oferta",
+    "specialSizes": [
+      6,
+      7,
+      8
+    ],
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000",
+        "image": "images/products/palazo_algodon_morley_liviano_negro.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#6b8cff",
+        "image": "images/products/palazo_algodon_morley_liviano_azul.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#a9a9a9",
+        "image": "images/products/palazo_algodon_morley_liviano_gris.webp"
+      }
+
+    ],
+    "sizes": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ]
+  },
+  {
+    "section": "mujer",
     "type": "camperas",
     "name": "Campera termica jaspeado saplex dama",
     "season": "invierno",

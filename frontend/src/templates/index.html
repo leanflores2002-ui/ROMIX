@@ -1289,13 +1289,9 @@
       .promo-dots { bottom: 12px; }
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=18" />
-  <link rel="stylesheet" href="assets/css/romix-home-pro.css?v=18" />
-  <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=18" />
-  <link rel="stylesheet" href="assets/css/romix-pricing.css?v=18" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=18" />
-  <link rel="stylesheet" href="assets/css/romix-footer.css?v=18" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
+  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=19" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css?v=19" />
 </head>
 <body>
 <!-- ROMIX:INCLUDE:HEADER -->
@@ -1525,7 +1521,7 @@
         <div class="promo-track" id="promoTrack">
 
           <article class="promo-slide">
-            <a class="promo-slide__link" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" aria-label="Ver l&iacute;nea deportiva ROMIX">
+            <a class="promo-slide__link" href="catalogo.html?q_any=dry,deportivo,lycra,saplex" aria-label="Ver colección: línea deportiva ROMIX">
               <picture>
                 <source srcset="images/optimized/ROPA_DEPORTIVA-960.webp 960w, images/optimized/ROPA_DEPORTIVA-1440.webp 1440w" sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 960px) min(82vw, 760px), 760px" type="image/webp" />
                 <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" decoding="async" width="1708" height="921" />
@@ -1604,11 +1600,11 @@
   </main>
 <!-- ROMIX:INCLUDE:FOOTER -->
 
-  <script src="assets/js/romix-image-utils.js?v=18"></script>
-  <script src="assets/js/romix-pricing.js?v=18"></script>
-  <script src="assets/js/products-store.js?v=18"></script>
-  <script src="assets/js/catalog-relevance-order.js?v=18"></script>
-  <script src="assets/js/romix-header.js?v=18"></script>
+  <script src="assets/js/romix-image-utils.js?v=19"></script>
+  <script src="assets/js/romix-pricing.js?v=19"></script>
+  <script src="assets/js/products-store.js?v=19"></script>
+  <script src="assets/js/catalog-relevance-order.js?v=19"></script>
+  <script src="assets/js/romix-header.js?v=19"></script>
   <script>
     const imageUtils = window.romixImageUtils || {};
     const pricing = window.romixPricing || {};
@@ -2201,7 +2197,7 @@
 
       function startAutoplay() {
         stopAutoplay();
-        if (reduceMotion || slides.length < 2) return;
+        if (reduceMotion || slides.length < 2 || !slides[0].querySelector("img").complete) return;
         timer = setInterval(() => goTo(current + 1), autoplayMs);
       }
 
@@ -2217,7 +2213,7 @@
           const dot = document.createElement("button");
           dot.type = "button";
           dot.className = "main-hero-carousel__dot" + (index === 0 ? " is-active" : "");
-          dot.setAttribute("aria-label", "Ir a la imagen " + (index + 1));
+          dot.setAttribute("aria-label", "Imagen " + (index + 1));
           dot.innerHTML = '<span class="sr-only">Imagen ' + (index + 1) + '</span>';
           dot.addEventListener("click", () => {
             goTo(index);
@@ -2268,6 +2264,7 @@
         }, { passive: true });
       }
 
+      slides[0].querySelector("img").addEventListener("load", startAutoplay, { once: true });
       render();
       startAutoplay();
     })();
@@ -2415,6 +2412,6 @@
     })();
   </script>
   <romix-toast></romix-toast>
-  <script type="module" src="assets/js/ts/main.js?v=18"></script>
+  <script type="module" src="assets/js/ts/main.js?v=19"></script>
 </body>
 </html>

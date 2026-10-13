@@ -707,6 +707,7 @@
     function isMobile() { return mobileMedia.matches; }
 
     nav.setAttribute("aria-hidden", isMobile() ? "true" : "false");
+    nav.inert = isMobile();
 
     function setOpen(open, options) {
       var active = !!(open && isMobile());
@@ -715,7 +716,8 @@
       header.classList.toggle("mobile-nav-open", active);
       toggle.setAttribute("aria-expanded", active ? "true" : "false");
       scrim.hidden = !active;
-      nav.setAttribute("aria-hidden", active ? "false" : "true");
+      nav.setAttribute("aria-hidden", active || !isMobile() ? "false" : "true");
+      nav.inert = isMobile() && !active;
       if (active && closeButton) {
         window.requestAnimationFrame(function () { closeButton.focus(); });
       } else if (wasOpen && options && options.restoreFocus) {

@@ -7622,11 +7622,11 @@
   {
     "section": "ninos",
     "type": "pantalones",
-    "name": "Pantalon algodon rustico chico",
+    "name": "Pantalon algodon rustico recto chico",
     "season": "media-estacion",
     "featured": true,
     "featuredBadge": "Nuevo",
-    "image": "images/products/pantalon_algodon_rustico_chico_azul.webp",
+    "image": "images/products/pantalon_algodon_rustico_chico_negro.webp",
     "price": 9000,
     "priceByGroup": {
       "common": 9000,
@@ -7639,9 +7639,24 @@
     ],
     "colors": [
       {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/pantalon_algodon_rustico_chico_negro.webp"
+      },
+      {
         "name": "Azul",
         "hex": "#0000FF",
         "image": "images/products/pantalon_algodon_rustico_chico_azul.webp"
+      },
+      {
+        "name": "Gris melange",
+        "hex": "#A9A9A9",
+        "image": "images/products/pantalon_algodon_rustico_chico_gris_melange.webp"
+      },
+      {
+        "name": "Gris oscuro",
+        "hex": "#4B4B4B",
+        "image": "images/products/pantalon_algodon_rustico_chico_gris_oscuro.webp"
       }
     ],
     "sizes": [

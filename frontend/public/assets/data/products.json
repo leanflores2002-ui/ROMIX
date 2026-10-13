@@ -1981,6 +1981,50 @@
   },
   {
     "section": "mujer",
+    "type": "palazos",
+    "name": "Palazo wide-leg cey dama",
+    "season": "verano",
+    "featured": true,
+    "featuredBadge": "Nuevo",
+    "image": "images/products/palazo_wide-leg_cey_dama_liso_negro.webp",
+    "price": 10500,
+    "priceByGroup": {
+      "common": 10500
+    },
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/palazo_wide-leg_cey_dama_liso_negro.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#1E4ED8",
+        "image": "images/products/palazo_wide-leg_cey_dama_liso_azul.webp"
+      },
+      {
+        "name": "Camel",
+        "hex": "#D2B48C",
+        "image": "images/products/palazo_wide-leg_cey_dama_liso_camel.webp"
+      },
+      {
+        "name": "Verde",
+        "hex": "#2E7D32",
+        "image": "images/products/palazo_wide-leg_cey_dama_liso_verde.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#8BC34A",
+        "image": "images/products/palazo_wide-leg_cey_dama_liso_gris.webp"
+      }
+    ],
+    "sizes": [
+      "3",
+      "4"
+    ]
+  },
+  {
+    "section": "mujer",
     "type": "Palazos",
     "name": "Palazo fibrana estampado",
     "season": "verano",
@@ -4938,7 +4982,7 @@
   {
     "section": "mujer",
     "type": "remeras",
-    "name": "Remera algodon peinado dama",
+    "name": "Remera oversize algodon peinado dama",
     "season": "media-estacion",
     "featured": true,
     "featuredBadge": "Nuevo",

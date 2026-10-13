@@ -5681,7 +5681,7 @@
   {
     "section": "mujer",
     "type": "remeras",
-    "name": "Camisola fibrana dama",
+    "name": "Camisola fibrana poplin dama",
     "season": "verano",
     "image": "images/products/camisola_fibrana_dama_estampado_1.webp",
     "price": 8000,
@@ -5781,6 +5781,107 @@
         "hex": "#F7B267",
         "swatch": "images/products/camisola_fibrana_dama_estampado_5.webp",
         "image": "images/products/camisola_fibrana_dama_estampado_5.webp",
+        "variantId": "estampado-5"
+      }
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "remeras",
+    "name": "Camisola fibrana poplin con manga volado dama",
+    "season": "verano",
+    "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_1.webp",
+    "price": 8000,
+    "priceByGroup": {
+      "common": 8000,
+      "special": 8800
+    },
+    "specialSizes": [
+      6,
+      7,
+      8
+    ],
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000000",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_negro.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_negro.webp"
+      },
+      {
+        "name": "Estampado 1",
+        "hex": "#1F4FA8",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_1.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_1.webp"
+      },
+      {
+        "name": "Estampado 2",
+        "hex": "#FF5FA2",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_2.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_2.webp"
+      },
+      {
+        "name": "Estampado 3",
+        "hex": "#3F7246",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_3.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_3.webp"
+      },
+      {
+        "name": "Estampado 4",
+        "hex": "#2B2D42",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_4.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_4.webp"
+      },
+      {
+        "name": "Estampado 5",
+        "hex": "#F7B267",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_5.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_5.webp"
+      }
+    ],
+    "sizes": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "designs": [
+      {
+        "name": "Estampado 1",
+        "hex": "#1F4FA8",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_1.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_1.webp",
+        "variantId": "estampado-1"
+      },
+      {
+        "name": "Estampado 2",
+        "hex": "#FF5FA2",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_2.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_2.webp",
+        "variantId": "estampado-2"
+      },
+      {
+        "name": "Estampado 3",
+        "hex": "#3F7246",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_3.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_3.webp",
+        "variantId": "estampado-3"
+      },
+      {
+        "name": "Estampado 4",
+        "hex": "#2B2D42",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_4.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_4.webp",
+        "variantId": "estampado-4"
+      },
+      {
+        "name": "Estampado 5",
+        "hex": "#F7B267",
+        "swatch": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_5.webp",
+        "image": "images/products/camisola_fibrana_poplin_con_manga_volado_dama_estampado_5.webp",
         "variantId": "estampado-5"
       }
     ]

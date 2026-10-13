@@ -1426,7 +1426,7 @@
     "priceByGroup": {
       "common": 8500,
       "special": 9300,
-      "special2": 9100
+      "special2": 10200
     },
     "specialSizes": [
       6,
@@ -1497,7 +1497,7 @@
     "priceByGroup": {
       "common": 8500,
       "special": 9300,
-      "special2": 9100
+      "special2": 10200
     },
     "specialSizes": [
       6,
@@ -3014,11 +3014,11 @@
     "name": "Capri modal",
     "season": "verano",
     "image": "images/products/capri_modal_negro.webp",
-    "price": 6000,
+    "price": 6500,
     "priceByGroup": {
-      "common": 6000,
-      "special": 6800,
-      "special2": 7600
+      "common": 6500,
+      "special": 7300,
+      "special2": 8100
     },
     "specialSizes": [
       6,
@@ -3198,11 +3198,11 @@
     "name": "Bermuda fibrana liso",
     "season": "verano",
     "image": "images/products/bermuda_fibrana_liso_negro.webp",
-    "price": 6000,
+    "price": 7000,
     "priceByGroup": {
-      "common": 6000,
-      "special": 6800,
-      "special2": 7600
+      "common": 7000,
+      "special": 7800,
+      "special2": 8600
     },
     "specialSizes": [
       6,
@@ -3264,11 +3264,11 @@
     "name": "Bermuda fibrana estampado",
     "season": "verano",
     "image": "images/products/bermuda_fibrana_estampado_1.webp",
-    "price": 6000,
+    "price": 7000,
     "priceByGroup": {
-      "common": 6000,
-      "special": 6800,
-      "special2": 7600
+      "common": 7000,
+      "special": 7800,
+      "special2": 8600
     },
     "specialSizes": [
       6,
@@ -9712,7 +9712,7 @@
     "priceByGroup": {
       "common": 11000,
       "special": 11800,
-      "special2": 12300
+      "special2": 12600
     },
     "specialSizes": [
       6,

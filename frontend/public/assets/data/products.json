@@ -3495,6 +3495,239 @@
   {
     "section": "mujer",
     "type": "shorts",
+    "name": "Short fibrana poplin estampado dama",
+    "season": "verano",
+    "image": "images/products/short_fibrana_estampado_dama_1.webp",
+    "price": 5600,
+    "priceByGroup": {
+      "common": 5600,
+      "special": 6400,
+      "special2": 7200
+    },
+    "specialSizes": [
+      6,
+      7,
+      8
+    ],
+    "superSpecialSizes": [
+      9,
+      10
+    ],
+    "colors": [
+      {
+        "name": "Estampado 1",
+        "hex": "#1F4FA8",
+        "swatch": "images/products/short_fibrana_estampado_dama_1.webp",
+        "image": "images/products/short_fibrana_estampado_dama_1.webp"
+      },
+      {
+        "name": "Estampado 2",
+        "hex": "#FF5FA2",
+        "swatch": "images/products/short_fibrana_estampado_dama_2.webp",
+        "image": "images/products/short_fibrana_estampado_dama_2.webp"
+      },
+      {
+        "name": "Estampado 3",
+        "hex": "#3F7246",
+        "swatch": "images/products/short_fibrana_estampado_dama_3.webp",
+        "image": "images/products/short_fibrana_estampado_dama_3.webp"
+      },
+      {
+        "name": "Estampado 4",
+        "hex": "#2B2D42",
+        "swatch": "images/products/short_fibrana_estampado_dama_4.webp",
+        "image": "images/products/short_fibrana_estampado_dama_4.webp"
+      },
+      {
+        "name": "Estampado 5",
+        "hex": "#F7B267",
+        "swatch": "images/products/short_fibrana_estampado_dama_5.webp",
+        "image": "images/products/short_fibrana_estampado_dama_5.webp"
+      },
+      {
+        "name": "Estampado 6",
+        "hex": "#1D3557",
+        "swatch": "images/products/short_fibrana_estampado_dama_6.webp",
+        "image": "images/products/short_fibrana_estampado_dama_6.webp"
+      },
+      {
+        "name": "Estampado 7",
+        "hex": "#2A9D8F",
+        "swatch": "images/products/short_fibrana_estampado_dama_7.webp",
+        "image": "images/products/short_fibrana_estampado_dama_7.webp"
+      },
+      {
+        "name": "Estampado 8",
+        "hex": "#8A2BE2",
+        "swatch": "images/products/short_fibrana_estampado_dama_8.webp",
+        "image": "images/products/short_fibrana_estampado_dama_8.webp"
+      },
+      {
+        "name": "Estampado 9",
+        "hex": "#004643",
+        "swatch": "images/products/short_fibrana_estampado_dama_9.webp",
+        "image": "images/products/short_fibrana_estampado_dama_9.webp"
+      },
+      {
+        "name": "Estampado 10",
+        "hex": "#C1121F",
+        "swatch": "images/products/short_fibrana_estampado_dama_10.webp",
+        "image": "images/products/short_fibrana_estampado_dama_10.webp"
+      },
+      {
+        "name": "Estampado 11",
+        "hex": "#4B4B4B",
+        "swatch": "images/products/short_fibrana_estampado_dama_11.webp",
+        "image": "images/products/short_fibrana_estampado_dama_11.webp"
+      },
+      {
+        "name": "Estampado 12",
+        "hex": "#A9A9A9",
+        "swatch": "images/products/short_fibrana_estampado_dama_12.webp",
+        "image": "images/products/short_fibrana_estampado_dama_12.webp"
+      },
+      {
+        "name": "Estampado 13",
+        "hex": "#6B8EFF",
+        "swatch": "images/products/short_fibrana_estampado_dama_13.webp",
+        "image": "images/products/short_fibrana_estampado_dama_13.webp"
+      },
+      {
+        "name": "Estampado 14",
+        "hex": "#E07A5F",
+        "swatch": "images/products/short_fibrana_estampado_dama_14.webp",
+        "image": "images/products/short_fibrana_estampado_dama_14.webp"
+      },
+      {
+        "name": "Estampado 15",
+        "hex": "#81B29A",
+        "swatch": "images/products/short_fibrana_estampado_dama_15.webp",
+        "image": "images/products/short_fibrana_estampado_dama_15.webp"
+      }
+    ],
+    "sizes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "designs": [
+      {
+        "name": "Estampado 1",
+        "hex": "#1F4FA8",
+        "swatch": "images/products/short_fibrana_estampado_dama_1.webp",
+        "image": "images/products/short_fibrana_estampado_dama_1.webp",
+        "variantId": "estampado-1"
+      },
+      {
+        "name": "Estampado 2",
+        "hex": "#FF5FA2",
+        "swatch": "images/products/short_fibrana_estampado_dama_2.webp",
+        "image": "images/products/short_fibrana_estampado_dama_2.webp",
+        "variantId": "estampado-2"
+      },
+      {
+        "name": "Estampado 3",
+        "hex": "#3F7246",
+        "swatch": "images/products/short_fibrana_estampado_dama_3.webp",
+        "image": "images/products/short_fibrana_estampado_dama_3.webp",
+        "variantId": "estampado-3"
+      },
+      {
+        "name": "Estampado 4",
+        "hex": "#2B2D42",
+        "swatch": "images/products/short_fibrana_estampado_dama_4.webp",
+        "image": "images/products/short_fibrana_estampado_dama_4.webp",
+        "variantId": "estampado-4"
+      },
+      {
+        "name": "Estampado 5",
+        "hex": "#F7B267",
+        "swatch": "images/products/short_fibrana_estampado_dama_5.webp",
+        "image": "images/products/short_fibrana_estampado_dama_5.webp",
+        "variantId": "estampado-5"
+      },
+      {
+        "name": "Estampado 6",
+        "hex": "#1D3557",
+        "swatch": "images/products/short_fibrana_estampado_dama_6.webp",
+        "image": "images/products/short_fibrana_estampado_dama_6.webp",
+        "variantId": "estampado-6"
+      },
+      {
+        "name": "Estampado 7",
+        "hex": "#2A9D8F",
+        "swatch": "images/products/short_fibrana_estampado_dama_7.webp",
+        "image": "images/products/short_fibrana_estampado_dama_7.webp",
+        "variantId": "estampado-7"
+      },
+      {
+        "name": "Estampado 8",
+        "hex": "#8A2BE2",
+        "swatch": "images/products/short_fibrana_estampado_dama_8.webp",
+        "image": "images/products/short_fibrana_estampado_dama_8.webp",
+        "variantId": "estampado-8"
+      },
+      {
+        "name": "Estampado 9",
+        "hex": "#004643",
+        "swatch": "images/products/short_fibrana_estampado_dama_9.webp",
+        "image": "images/products/short_fibrana_estampado_dama_9.webp",
+        "variantId": "estampado-9"
+      },
+      {
+        "name": "Estampado 10",
+        "hex": "#C1121F",
+        "swatch": "images/products/short_fibrana_estampado_dama_10.webp",
+        "image": "images/products/short_fibrana_estampado_dama_10.webp",
+        "variantId": "estampado-10"
+      },
+      {
+        "name": "Estampado 11",
+        "hex": "#4B4B4B",
+        "swatch": "images/products/short_fibrana_estampado_dama_11.webp",
+        "image": "images/products/short_fibrana_estampado_dama_11.webp",
+        "variantId": "estampado-11"
+      },
+      {
+        "name": "Estampado 12",
+        "hex": "#A9A9A9",
+        "swatch": "images/products/short_fibrana_estampado_dama_12.webp",
+        "image": "images/products/short_fibrana_estampado_dama_12.webp",
+        "variantId": "estampado-12"
+      },
+      {
+        "name": "Estampado 13",
+        "hex": "#6B8EFF",
+        "swatch": "images/products/short_fibrana_estampado_dama_13.webp",
+        "image": "images/products/short_fibrana_estampado_dama_13.webp",
+        "variantId": "estampado-13"
+      },
+      {
+        "name": "Estampado 14",
+        "hex": "#E07A5F",
+        "swatch": "images/products/short_fibrana_estampado_dama_14.webp",
+        "image": "images/products/short_fibrana_estampado_dama_14.webp",
+        "variantId": "estampado-14"
+      },
+      {
+        "name": "Estampado 15",
+        "hex": "#81B29A",
+        "swatch": "images/products/short_fibrana_estampado_dama_15.webp",
+        "image": "images/products/short_fibrana_estampado_dama_15.webp",
+        "variantId": "estampado-15"
+      }
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "shorts",
     "name": "Short lycra tiro alto",
     "season": "verano",
     "image": "images/products/short_lycra_tiro_alto_negro.webp",

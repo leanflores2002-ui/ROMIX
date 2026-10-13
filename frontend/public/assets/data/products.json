@@ -9237,12 +9237,6 @@
     ],
     "colors": [
       {
-        "name": "Negro",
-        "hex": "#000000",
-        "swatch": "images/products/campera_lycra_estampado_negro.webp",
-        "image": "images/products/campera_lycra_estampado_negro.webp"
-      },
-      {
         "name": "Estampado 1",
         "hex": "#888888",
         "swatch": "images/products/campera_lycra_estampado_1.webp",

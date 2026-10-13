@@ -3429,6 +3429,72 @@
   {
     "section": "mujer",
     "type": "shorts",
+    "name": "Short fibrana poplin liso dama",
+    "season": "verano",
+    "image": "images/products/short_fibrana_liso_negro.webp",
+    "price": 5600,
+    "priceByGroup": {
+      "common": 5600,
+      "special": 6400,
+      "special2": 7200
+    },
+    "specialSizes": [
+      6,
+      7,
+      8
+    ],
+    "specialSizes2": [
+      9,
+      10
+    ],
+    "colors": [
+       {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/short_fibrana_liso_negro.webp"
+      },
+      {
+        "name": "Verde",
+        "hex": "#2E7D32",
+        "image": "images/products/short_fibrana_liso_verde.webp"
+      },
+      {
+        "name": "Camel",
+        "hex": "#C19A6B",
+        "image": "images/products/short_fibrana_liso_camel.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#1E4ED8",
+        "image": "images/products/short_fibrana_liso_azul.webp"
+      },
+      {
+        "name": "Beige",
+        "hex": "#E5D3B3",
+        "image": "images/products/short_fibrana_liso_beige.webp"
+      },
+      {
+        "name": "Verde claro",
+        "hex": "#8BC34A",
+        "image": "images/products/short_fibrana_liso_verde_claro.webp"
+      }
+    ],
+    "sizes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ]
+  },
+  {
+    "section": "mujer",
+    "type": "shorts",
     "name": "Short lycra tiro alto",
     "season": "verano",
     "image": "images/products/short_lycra_tiro_alto_negro.webp",

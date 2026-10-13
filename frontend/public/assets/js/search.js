@@ -217,10 +217,8 @@
         .catch(() => []);
     }
 
-    const tryApi = () => fetch("/api/products").then((response) => response.ok ? response.json() : Promise.reject());
     const tryFile = () => fetch(new URL("assets/data/products.json", location.href)).then((response) => response.json());
-    return tryApi()
-      .catch(tryFile)
+    return tryFile()
       .then((data) => {
         PRODUCTS = sanitizeProducts(data || []);
         return PRODUCTS;

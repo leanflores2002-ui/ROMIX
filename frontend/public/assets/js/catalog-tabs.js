@@ -105,10 +105,8 @@
         .then(list => filterVisibleProducts(list))
         .catch(()=>[]);
     }
-    const fromApi = ()=> fetch('/api/products?section='+encodeURIComponent(section)).then(r=>r.ok?r.json():Promise.reject());
     const fromFile = ()=> fetch(new URL('assets/data/products.json', location.href)).then(r=>r.json()).then(list => (list||[]).filter(p => String(p.section||'').toLowerCase()===section));
-    return fromApi()
-      .catch(fromFile)
+    return fromFile()
       .then(list => filterVisibleProducts(list))
       .catch(()=>[]);
   }

@@ -1,5 +1,6 @@
-(() => {
+function initAnalytics(environment) {
   'use strict';
+  const { window, location, document } = environment;
   // Only the public production host sends analytics; previews and local tests do not.
   if (location.hostname !== 'romix-ropas.vercel.app' || window.romixAnalytics) return;
   const measurementId = 'G-JJB0XY6PPR';
@@ -50,4 +51,10 @@
   window.addEventListener('romix:product-viewed', e => viewProduct(e.detail.product));
   window.addEventListener('romix:analytics-cart-added', e => event('add_to_cart', [e.detail.item]));
   if (window.romixViewedProduct) viewProduct(window.romixViewedProduct);
-})();
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { initAnalytics };
+} else {
+  initAnalytics({ window, location, document });
+}

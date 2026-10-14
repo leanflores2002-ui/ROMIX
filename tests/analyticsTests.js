@@ -1,11 +1,9 @@
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const vm = require('node:vm');
-const source = fs.readFileSync('frontend/public/assets/js/romix-analytics.js', 'utf8');
+const { initAnalytics } = require('../frontend/public/assets/js/romix-analytics');
 function load(hostname) {
   const listeners = {}, scripts = [], window = { addEventListener: (name, handler) => { listeners[name] = handler; } };
   const context = { window, location: { hostname, href: `https://${hostname}/product.html?id=p1&message=private&phone=123` }, document: { referrer: 'https://example.com/?phone=private', createElement: () => ({}), head: { appendChild: script => scripts.push(script) } }, URL, Date };
-  vm.runInNewContext(source, context);
+  initAnalytics(context);
   return { window, listeners, scripts, context };
 }
 for (const host of ['localhost', 'romix-preview.vercel.app']) {
@@ -15,7 +13,7 @@ for (const host of ['localhost', 'romix-preview.vercel.app']) {
 }
 const test = load('romix-ropas.vercel.app');
 assert.equal(test.scripts.length, 1);
-vm.runInNewContext(source, test.context);
+initAnalytics(test.context);
 assert.equal(test.scripts.length, 1, 'Duplicate initialization must not duplicate page views');
 assert.ok(test.window.dataLayer.every(entry => Object.prototype.toString.call(entry) === '[object Arguments]'), 'Google tag commands require the official arguments format');
 const commands = Array.from(test.window.dataLayer);

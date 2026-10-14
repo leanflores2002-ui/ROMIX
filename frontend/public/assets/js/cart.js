@@ -429,7 +429,10 @@
 
     const saved = saveCart(cart);
     const persistedItem = saved.find((entry) => entry.key === addedItem.key) || addedItem;
-    if (lastSavePersisted) notifyItemAdded(persistedItem);
+    if (lastSavePersisted) {
+      notifyItemAdded(persistedItem);
+      window.dispatchEvent(new CustomEvent("romix:analytics-cart-added", { detail: { item: newItem } }));
+    }
     return saved;
   };
 

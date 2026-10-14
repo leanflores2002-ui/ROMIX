@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=19" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=20" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=19" />
+  <script defer src="/assets/js/romix-analytics.js?v=1"></script>
 </head>
 <body class="product-detail-page">
 <!-- ROMIX:SHELL:HEADER:START -->
@@ -2146,6 +2147,8 @@
         renderProductPrice(product, getPriceForSize(product, ''));
         document.title = product.name ? `ROMIX - ${product.name}` : 'ROMIX - Detalle';
         updateProductSeo(product);
+        window.romixViewedProduct = product;
+        window.dispatchEvent(new CustomEvent("romix:product-viewed", { detail: { product } }));
 
         const mainImage = detail.querySelector('#main-image');
         const thumbContainer = detail.querySelector('#gallery-thumbs');

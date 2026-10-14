@@ -735,6 +735,7 @@
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=19" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=20" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=19" />
+  <script defer src="/assets/js/romix-analytics.js?v=1"></script>
 </head>
 <body>
 <!-- ROMIX:INCLUDE:HEADER -->
@@ -1018,6 +1019,7 @@
         if (orderBtn) orderBtn.disabled = false;
         return;
       }
+      if (window.romixAnalytics) window.romixAnalytics.trackWhatsApp(cart);
       finalizeOrder();
       orderInProgress = false;
     }

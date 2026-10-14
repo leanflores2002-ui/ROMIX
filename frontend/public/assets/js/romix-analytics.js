@@ -4,7 +4,7 @@
   if (location.hostname !== 'romix-ropas.vercel.app' || window.romixAnalytics) return;
   const measurementId = 'G-JJB0XY6PPR';
   window.dataLayer = window.dataLayer || [];
-  const gtag = (...args) => window.dataLayer.push(args);
+  function gtag() { window.dataLayer.push(arguments); }
   window.gtag = gtag;
   const cleanUrl = (value) => {
     try { const url = new URL(value); return url.origin + url.pathname; } catch { return ''; }

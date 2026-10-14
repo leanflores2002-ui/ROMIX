@@ -476,11 +476,8 @@
 
   const buildWhatsAppMessage = (cart = getCart()) => {
     if (!Array.isArray(cart) || !cart.length) return '';
-    let total = 0;
     const lines = cart.map((item) => {
       const qty = Number(item.qty ?? item.quantity) || 0;
-      const price = Number(item.price) || 0;
-      total += qty * price;
       const name = decodeCartText(item.name) || 'Producto';
       const type = decodeCartText(item.type);
       const color = decodeCartText(item.colorName ?? item.color);
@@ -494,7 +491,6 @@
       ].filter(Boolean);
       return parts.join(' | ');
     });
-    lines.push('', `Total: $${total.toFixed(2)}`);
     return encodeURIComponent(lines.join('\n'));
   };
 

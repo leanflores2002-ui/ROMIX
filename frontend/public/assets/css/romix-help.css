@@ -144,6 +144,7 @@ main.help-page > .help-duo-grid {
 .help-search-field input:focus { box-shadow: none; }
 
 .hero-search button {
+  background: var(--romix-pink-readable);
   min-width: 104px;
   min-height: 50px;
   padding: 12px 20px;

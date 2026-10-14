@@ -36,9 +36,9 @@
   };
 
   const POPULAR_SEARCHES = [
-    { label: "Mujer", href: "catalogo.html?sections=mujer" },
-    { label: "Hombre", href: "catalogo.html?sections=hombre" },
-    { label: "Ni\u00f1os", href: "catalogo.html?sections=ninos" },
+    { label: "Mujer", href: "/mujer/" },
+    { label: "Hombre", href: "/hombre/" },
+    { label: "Ni\u00f1os", href: "/ninos/" },
     { label: "Calzas", href: "catalogo.html?tipo=calzas&q=calzas" },
     { label: "Remeras", href: "catalogo.html?tipo=remeras&q=remeras" },
     { label: "Pantalones", href: "catalogo.html?tipo=pantalones&q=pantalones" },
@@ -217,7 +217,7 @@
         .catch(() => []);
     }
 
-    const tryFile = () => fetch(new URL("assets/data/products.json", location.href)).then((response) => response.json());
+    const tryFile = () => fetch(new URL("assets/data/products.json", document.baseURI || location.href)).then((response) => response.json());
     return tryFile()
       .then((data) => {
         PRODUCTS = sanitizeProducts(data || []);
@@ -700,7 +700,7 @@
       event.preventDefault();
       const query = input.value.trim();
       if (!query) return;
-      location.href = buildCatalogUrl({ q: query });
+      location.href = new URL(buildCatalogUrl({ q: query }), document.baseURI).href;
     });
 
     document.addEventListener("click", (event) => {

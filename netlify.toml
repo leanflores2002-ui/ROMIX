@@ -2,21 +2,28 @@
   command = "node scripts/generate-share-pages.js"
   publish = "frontend/public"
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
 [[redirects]]
   from = "/mujer.html"
-  to = "/catalogo.html?sections=mujer"
+  to = "/mujer/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/hombre.html"
-  to = "/catalogo.html?sections=hombre"
+  to = "/hombre/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ninos.html"
-  to = "/catalogo.html?sections=ninos"
+  to = "/ninos/"
   status = 301
   force = true
 

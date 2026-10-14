@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="assets/css/romix-shell-base.css?v=18" data-romix-shell-critical />
 <!-- ROMIX:SHELL:CRITICAL:END -->
   <title>ROMIX - Mi Carrito</title>
+  <meta name="description" content="Revisá tu selección de prendas ROMIX y coordiná tu pedido por WhatsApp." />
+  <meta name="robots" content="noindex, follow" />
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -77,20 +79,20 @@
     .search-suggestion:hover, .search-suggestion.active { background:#f1f3f5; }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=19" />
+  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=20" />
   <link rel="stylesheet" href="assets/css/responsive.css?v=19">
   <link rel="icon" href="images/branding/romix-logo-icon.webp" type="image/webp" sizes="180x180" />
   <link rel="apple-touch-icon" href="images/branding/romix-logo-icon.webp" sizes="180x180" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ROMIX">
-  <meta property="og:title" content="ROMIX - Indumentaria Deportiva & Urbana">
+  <meta property="og:title" content="Mi carrito | ROMIX">
   <meta property="og:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta property="og:image" content="https://romi-damas.netlify.app/images/branding/romix-logo-social.webp">
-  <meta property="og:url" content="https://romi-damas.netlify.app/">
+  <meta property="og:image" content="https://romix-ropas.vercel.app/images/branding/romix-logo-social.webp">
+  <meta property="og:url" content="https://romix-ropas.vercel.app/cart.html">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ROMIX - Indumentaria Deportiva & Urbana">
+  <meta name="twitter:title" content="Mi carrito | ROMIX">
   <meta name="twitter:description" content="Descubri calzas, joggers y outfits deportivos con estilo. Movimiento y estilo para cada dia.">
-  <meta name="twitter:image" content="https://romi-damas.netlify.app/images/branding/romix-logo-social.webp">
+  <meta name="twitter:image" content="https://romix-ropas.vercel.app/images/branding/romix-logo-social.webp">
   <style>
     :root {
       --rose-50: #fff8fc;
@@ -441,7 +443,7 @@
     }
 
     .summary-thumb-empty {
-      color: #9a8ea5;
+      color: #6F6D76;
       font-size: 0.84rem;
       font-weight: 600;
     }
@@ -524,7 +526,7 @@
       border-radius: 18px;
       padding: 22px;
       background: #fff;
-      color: #8d8198;
+      color: #6F6D76;
       text-align: center;
     }
 
@@ -731,8 +733,9 @@
   </style>
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=19" />
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=19" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=19" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=20" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=19" />
+  <script defer src="/assets/js/romix-analytics.js?v=1"></script>
 </head>
 <body>
 <!-- ROMIX:SHELL:HEADER:START -->
@@ -750,9 +753,9 @@
       </div>
       <div class="main-nav-wrap">
         <ul class="main-nav">
-          <li data-menu-key="mujer"><a class="mega-trigger" id="mega-trigger-mujer" href="catalogo.html?sections=mujer" aria-expanded="false" aria-controls="mega-panel-mujer"><span>Mujer</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
-          <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="catalogo.html?sections=hombre" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
-          <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="catalogo.html?sections=ninos" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="mujer"><a class="mega-trigger" id="mega-trigger-mujer" href="/mujer/" aria-expanded="false" aria-controls="mega-panel-mujer"><span>Mujer</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="hombre"><a class="mega-trigger" id="mega-trigger-hombre" href="/hombre/" aria-expanded="false" aria-controls="mega-panel-hombre"><span>Hombre</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
+          <li data-menu-key="ninos"><a class="mega-trigger" id="mega-trigger-ninos" href="/ninos/" aria-expanded="false" aria-controls="mega-panel-ninos"><span>Ni&ntilde;os</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
           <li data-menu-key="novedades"><a class="mega-trigger" id="mega-trigger-novedades" href="catalogo.html?view=novedades" aria-expanded="false" aria-controls="mega-panel-novedades"><span>Novedades</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
           <li data-menu-key="ofertas"><a class="mega-trigger" id="mega-trigger-ofertas" href="catalogo.html?q=oferta"><span>Ofertas</span><span class="mobile-nav-arrow" aria-hidden="true" data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></a></li>
         </ul>
@@ -852,7 +855,7 @@
           <span class="footer-contact-item"><span data-romix-icon="MapPin" data-romix-icon-size="sm"></span><span>CABA, Argentina</span></span>
         </div>
       </div>
-      <nav class="footer-column" aria-label="Comprar"><h2>Comprar</h2><ul><li><a href="catalogo.html?sections=mujer">Mujer</a></li><li><a href="catalogo.html?sections=hombre">Hombre</a></li><li><a href="catalogo.html?sections=ninos">Ni&ntilde;os</a></li><li><a href="catalogo.html?view=novedades">Novedades</a></li><li><a href="catalogo.html?q=oferta">Ofertas</a></li></ul></nav>
+      <nav class="footer-column" aria-label="Comprar"><h2>Comprar</h2><ul><li><a href="/mujer/">Mujer</a></li><li><a href="/hombre/">Hombre</a></li><li><a href="/ninos/">Ni&ntilde;os</a></li><li><a href="catalogo.html?view=novedades">Novedades</a></li><li><a href="catalogo.html?q=oferta">Ofertas</a></li></ul></nav>
       <nav class="footer-column" aria-label="Categor&iacute;a"><h2>Categor&iacute;a</h2><ul><li><a href="catalogo.html?categories=calzas">Calzas</a></li><li><a href="catalogo.html?categories=remeras">Remeras</a></li><li><a href="catalogo.html?categories=pantalones">Pantalones</a></li><li><a href="catalogo.html?categories=camperas">Camperas</a></li><li><a href="catalogo.html?categories=tops">Tops</a></li><li><a href="catalogo.html?categories=buzos">Buzos</a></li></ul></nav>
       <nav class="footer-column" aria-label="Ayuda"><h2>Ayuda</h2><ul><li><a href="ayuda.html#size-guide">Gu&iacute;a de talles</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="ayuda.html#payments">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li></ul></nav>
     </div>
@@ -868,7 +871,7 @@
   </div>
 </footer>
 <!-- ROMIX:SHELL:FOOTER:END -->
-  <script src="assets/js/romix-image-utils.js?v=19"></script>
+  <script src="assets/js/romix-image-utils.js?v=20"></script>
     <script src="assets/js/color-utils.js?v=19"></script>
   <script src="assets/js/cart.js?v=19"></script>
   <script>
@@ -1110,13 +1113,16 @@
         if (orderBtn) orderBtn.disabled = false;
         return;
       }
-      const orderWindow = window.open(`https://wa.me/${WA_NUMBER}?text=${message}`, '_blank', 'noopener');
+      const orderWindow = window.open('about:blank', '_blank');
       if (!orderWindow) {
         showCartAlert('error', 'El navegador bloqueo la apertura de WhatsApp. Habilita las ventanas emergentes e intenta nuevamente.');
         orderInProgress = false;
         if (orderBtn) orderBtn.disabled = false;
         return;
       }
+      orderWindow.opener = null;
+      orderWindow.location.href = `https://wa.me/${WA_NUMBER}?text=${message}`;
+      if (window.romixAnalytics) window.romixAnalytics.trackWhatsApp(cart);
       finalizeOrder();
       orderInProgress = false;
     }
@@ -1224,7 +1230,9 @@
       if (orderBtn) orderBtn.addEventListener('click', handleOrder);
       renderCart();
       const inventory = window.romixInventory;
-      const sync = inventory && typeof inventory.syncFromApi === 'function'
+      const hasBackend = window.ROMIX_API_ENABLED === true
+        || document.getElementById('preloaded-products')?.textContent.trim().startsWith('[');
+      const sync = hasBackend && inventory && typeof inventory.syncFromApi === 'function'
         ? inventory.syncFromApi()
         : Promise.resolve({ ok: false });
       sync.finally(() => {
@@ -1239,7 +1247,7 @@
 
   <script src="assets/js/inventory.js?v=19"></script>
   <script src="assets/js/romix-pricing.js?v=19"></script>
-  <script src="assets/js/romix-header.js?v=19"></script>
+  <script src="assets/js/romix-header.js?v=20"></script>
   <romix-toast></romix-toast>
   <script type="module" src="assets/js/ts/main.js?v=19"></script>
 </body>

@@ -583,7 +583,7 @@
     return { picture, img };
   }
 
-  window.romixImageUtils = {
+  const api = {
     cleanPath,
     basename,
     extension,
@@ -619,4 +619,6 @@
       logo: { width: LOGO_WIDTH, height: LOGO_HEIGHT }
     }
   };
+  if (typeof module === "object" && module.exports) module.exports = api;
+  if (typeof window !== "undefined") window.romixImageUtils = api;
 })();

@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
-const {renderPage, pages} = require('../scripts/sync-storefront-shells');
+const {renderPage, pages, generatedPages} = require('../scripts/sync-storefront-shells');
 const root = path.join(__dirname, '..');
 const sources = path.join(root, 'frontend/src/templates');
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'romix-template-test-'));
@@ -36,7 +36,7 @@ try {
     const config = fs.readFileSync(path.join(root, name), 'utf8');
     assert(!/^sonar\.exclusions=/m.test(config), 'Do not exclude generated pages from bug/security analysis');
     const exclusions = config.match(/^sonar\.cpd\.exclusions=(.*)$/m)[1].split(',');
-    assert.deepEqual(exclusions, pages.map(page => 'frontend/public/' + page));
+    assert.deepEqual(exclusions, generatedPages.map(page => 'frontend/public/' + page));
   }
   console.log('storefrontTemplateTests: passed');
 } finally {

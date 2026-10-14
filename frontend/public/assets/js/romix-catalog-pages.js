@@ -255,11 +255,7 @@
   }
 
   function normalizeSection(value) {
-    const key = normalizeText(value);
-    if (["mujer", "mujeres", "dama", "damas"].includes(key)) return "mujer";
-    if (["hombre", "hombres", "caballero", "caballeros"].includes(key)) return "hombre";
-    if (["ninos", "ninas", "nino", "nina", "ninos y ninas", "nino y nina"].includes(key)) return "ninos";
-    return key || "catalogo";
+    return window.romixCatalogSections.normalizeSection(value);
   }
 
   function sectionLabel(sectionKey) {
@@ -330,6 +326,10 @@
   }
 
   function resolveCatalogView() {
+    const category = document.body?.dataset.categoryPage;
+    if (["mujer", "hombre", "ninos"].includes(category)) {
+      return { mode: "section", scope: category, sectionKeys: [category] };
+    }
     let params = null;
     try {
       params = new URLSearchParams(window.location.search || "");
@@ -1003,7 +1003,7 @@
       return Array.isArray(data) ? data.filter((product) => product && product.visible !== false) : [];
     }
 
-    const response = await fetch(new URL(DATA_URL, window.location.href));
+    const response = await fetch(new URL(DATA_URL, document.baseURI));
     const text = await response.text();
     const parsed = parseJsonText(text);
     return (Array.isArray(parsed) ? parsed : []).filter((product) => product && product.visible !== false);
@@ -1159,7 +1159,7 @@
 
   function addToCart(product, selectedColor) {
     if (!window.romixCart || typeof window.romixCart.addToCart !== "function") {
-      window.location.href = detailUrl(product);
+      window.location.href = new URL(detailUrl(product), document.baseURI).href;
       return;
     }
 
@@ -1480,14 +1480,14 @@
 
       card.addEventListener("click", function (event) {
         if (isInteractiveTarget(event.target)) return;
-        window.location.href = productDetailUrl;
+        window.location.href = new URL(productDetailUrl, document.baseURI).href;
       });
 
       card.addEventListener("keydown", function (event) {
         if (isInteractiveTarget(event.target)) return;
         if (event.key !== "Enter" && event.key !== " ") return;
         event.preventDefault();
-        window.location.href = productDetailUrl;
+        window.location.href = new URL(productDetailUrl, document.baseURI).href;
       });
 
       const thumb = document.createElement("div");
@@ -1870,7 +1870,7 @@
     if (state.catalogView.mode === "novedades") {
       params.set("view", "novedades");
     } else if (state.catalogView.mode === "section") {
-      params.set("sections", state.scope);
+      if (!document.body.dataset.categoryPage) params.set("sections", state.scope);
     } else if (state.selected.sections.size) {
       params.set("sections", Array.from(state.selected.sections).sort(compareFilterValues).join(","));
     }
@@ -2217,10 +2217,10 @@
   function initPageHeader() {
     const config = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
     const title = document.getElementById("page-title");
-    if (title) {
+    if (title && !document.body.dataset.categoryPage) {
       title.textContent = state.scope === "catalogo" ? "Catálogo ROMIX" : config.title;
     }
-    document.title = "ROMIX - " + (state.scope === "catalogo" ? "Catálogo" : config.title);
+    if (!document.body.dataset.categoryPage) document.title = "ROMIX - " + (state.scope === "catalogo" ? "Catálogo" : config.title);
 
     document.querySelectorAll(".catalog-nav a[data-scope]").forEach((link) => {
       const active = link.dataset.scope === state.scope;
@@ -2437,6 +2437,12 @@
     applyFilters();
     } catch (error) {
       const grid = document.getElementById("product-grid");
+      if (document.body.dataset.categoryPage && grid?.querySelector('.product-card')) {
+        const summary = document.getElementById('products-summary');
+        if (summary) summary.textContent = 'Los filtros no están disponibles por ahora. Podés abrir los productos del listado.';
+        console.warn('[romix-catalog] Se conserva el listado generado.', error);
+        return;
+      }
       if (grid) {
         grid.innerHTML = "";
         const empty = document.createElement("div");

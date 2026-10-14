@@ -40,6 +40,7 @@ async function renderCatalog(url) {
   };
   window.romixCart = { updateBadge() {} };
   window.eval(readPublic('assets/js/romix-image-utils.js'));
+  window.eval(readPublic('assets/js/catalog-sections.js'));
   window.eval(readPublic('assets/js/romix-catalog-pages.js'));
   window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
   await new Promise((resolve) => window.setTimeout(resolve, 30));

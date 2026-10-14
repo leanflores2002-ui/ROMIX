@@ -9,6 +9,7 @@
   /* Brand and semantic colors */
   --romix-pink: #F22797;
   --romix-pink-hover: #D91D83;
+  --romix-pink-readable: #C71976;
   --romix-pink-soft: #F291C7;
   --romix-pink-bg: #FFF0F6;
   --romix-ink: #242426;
@@ -110,7 +111,7 @@
 
 .romix-btn:hover { transform: translateY(-1px); }
 .romix-btn:active:not(:disabled):not([aria-disabled="true"]) { transform: translateY(0); filter: brightness(.95); }
-.romix-btn--primary { color: var(--romix-white); background: var(--romix-pink); border-color: var(--romix-pink); }
+.romix-btn--primary { color: var(--romix-white); background: var(--romix-pink-readable); border-color: var(--romix-pink-readable); }
 .romix-btn--primary:hover { color: var(--romix-white); background: var(--romix-pink-hover); border-color: var(--romix-pink-hover); }
 .romix-btn--secondary { color: var(--romix-ink); background: var(--romix-white); border-color: var(--romix-border-strong); }
 .romix-btn--secondary:hover { color: var(--romix-pink); background: var(--romix-pink-bg); border-color: var(--romix-pink-soft); }
@@ -4395,7 +4396,7 @@ header.romix-shared-header .main-nav > li > a[aria-current="page"],
 header.romix-shared-header .main-nav .mega-trigger:hover,
 header.romix-shared-header .main-nav .mega-trigger:focus-visible,
 header.romix-shared-header .main-nav .mega-trigger.active {
-  color: var(--header-pink);
+  color: var(--romix-pink-readable);
 }
 
 /* Shared header utilities: quiet controls and a compact desktop menu. */

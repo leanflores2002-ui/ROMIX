@@ -95,9 +95,9 @@
   }
 
   function buildMenuConfig() {
-    var mujer = "catalogo.html?sections=mujer";
-    var hombre = "catalogo.html?sections=hombre";
-    var ninos = "catalogo.html?sections=ninos";
+    var mujer = "/mujer/";
+    var hombre = "/hombre/";
+    var ninos = "/ninos/";
     var novedades = "catalogo.html?view=novedades";
     var ofertas = "catalogo.html?q=oferta";
     var catalogo = "catalogo.html";
@@ -292,6 +292,8 @@
   }
 
   function getCurrentNavKey(currentPage) {
+    var category = location.pathname.match(/^\/(mujer|hombre|ninos)\/(?:index.html)?$/);
+    if (category) return category[1];
     var exact = MENU_CONFIG.find(function (item) {
       return item.page.toLowerCase() === currentPage;
     });

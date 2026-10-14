@@ -24,8 +24,9 @@ async function prepareCartDom(cartItems) {
       window.localStorage.setItem('cart', JSON.stringify(cartItems));
       window.alert = () => {};
       window.open = (url, target) => {
-        events.push({ url, target });
-        return { opener: null };
+        const entry = { url, target };
+        events.push(entry);
+        return { opener: null, location: { set href(value) { entry.url = value; } } };
       };
     }
   });
@@ -84,7 +85,8 @@ function assert(condition, message) {
   assert(message.includes('Color: Azul Intenso'), 'Color should be decoded');
   assert(message.includes('Talle: 2'), 'Numeric size must appear in the message');
   assert(message.includes('Talle: 4'), 'All cart entries must show their sizes');
-  assert(message.includes('Total: $25900.00'), 'Total must be included');
+  assert(!message.includes('Total:') && !message.includes('$'), 'WhatsApp orders must not include prices or a total');
+  assert(message.includes('Cant: 1') && message.includes('Cant: 2'), 'Requested quantities must be preserved');
   assert(!message.includes('Talle: U'), 'Fallback size marker should not leak into the message');
 
   dom.window.close();

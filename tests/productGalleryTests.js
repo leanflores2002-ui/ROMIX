@@ -9,7 +9,11 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(productHtml.includes('romix-product-detail.css?v=18'), 'Debe actualizarse el cache bust del CSS de detalle');
+const sourceHtml = fs.readFileSync(path.join(__dirname, '../frontend/src/templates/product.html'), 'utf8');
+const cssHref = html => html.match(/href="(assets\/css\/romix-product-detail\.css\?v=[^"&]+)"/)?.[1];
+assert(cssHref(productHtml), 'El CSS de detalle debe conservar una versión para invalidar caché');
+assert(cssHref(sourceHtml) === cssHref(productHtml), 'Fuente y página generada deben usar la misma versión CSS');
+assert(fs.existsSync(path.join(root, cssHref(productHtml).split('?')[0])), 'El recurso CSS referenciado debe existir');
 assert((productHtml.match(/id="zoom-modal"/g) || []).length === 1, 'Debe existir un solo zoom-modal en el template');
 assert((productHtml.match(/id="zoom-image"/g) || []).length === 1, 'Debe existir una sola zoom-image en el template');
 assert(productHtml.includes('window.romixIcon("ChevronDown"'), 'La navegación vertical debe usar iconos locales');

@@ -105,9 +105,9 @@ async function testMobileNavigation(page, width, height) {
   }
 
   const destinations = {
-    mujer: 'catalogo.html?sections=mujer',
-    hombre: 'catalogo.html?sections=hombre',
-    ninos: 'catalogo.html?sections=ninos',
+    mujer: '/mujer/',
+    hombre: '/hombre/',
+    ninos: '/ninos/',
     novedades: 'catalogo.html?view=novedades',
     ofertas: 'catalogo.html?q=oferta'
   };

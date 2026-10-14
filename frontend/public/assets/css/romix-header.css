@@ -1632,7 +1632,7 @@ header.romix-shared-header .main-nav > li > a[aria-current="page"],
 header.romix-shared-header .main-nav .mega-trigger:hover,
 header.romix-shared-header .main-nav .mega-trigger:focus-visible,
 header.romix-shared-header .main-nav .mega-trigger.active {
-  color: var(--header-pink);
+  color: var(--romix-pink-readable);
 }
 
 /* Shared header utilities: quiet controls and a compact desktop menu. */

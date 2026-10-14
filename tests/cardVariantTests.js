@@ -110,6 +110,7 @@ async function main() {
     isVisible: () => true
   };
   window.romixCart = { updateBadge() {} };
+  window.eval(readPublic('assets/js/catalog-sections.js'));
   window.eval(catalogSource);
   window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
   await wait(window, 45);

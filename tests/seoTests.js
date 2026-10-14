@@ -9,7 +9,7 @@ const products = require('../frontend/public/assets/data/products.json');
 const origin = require('../config/site.json').origin;
 const xml = new JSDOM(sitemap(products, origin), {contentType: 'application/xml'}).window.document;
 const urls = [...xml.querySelectorAll('loc')].map(node => node.textContent);
-assert.equal(urls.length, products.filter(p => p.visible !== false).length + 3);
+assert.equal(urls.length, products.filter(p => p.visible !== false).length + 6);
 assert.equal(new Set(urls).size, urls.length);
 for (const product of products) {
   const url = origin + detailHref(product, productSlug(product));
@@ -17,7 +17,7 @@ for (const product of products) {
 }
 assert(urls.every(url => url.startsWith(origin + '/')));
 assert(!urls.some(url => /cart|404|\/share\//.test(new URL(url).pathname)));
-for (const url of urls) assert(fs.existsSync(path.join(__dirname, '../frontend/public', new URL(url).pathname === '/' ? 'index.html' : new URL(url).pathname)));
+for (const url of urls) assert(fs.existsSync(path.join(__dirname, '../frontend/public', new URL(url).pathname.endsWith('/') ? new URL(url).pathname + 'index.html' : new URL(url).pathname)));
 assert.equal(deploymentSiteUrl({VERCEL_ENV: 'preview', VERCEL_URL: 'old-preview.vercel.app', URL: 'https://old.netlify.app'}), origin);
 assert.equal(deploymentSiteUrl({ROMIX_SITE_URL: 'https://romix.example'}), 'https://romix.example');
 assert(isPreview({VERCEL_ENV: 'preview'}));

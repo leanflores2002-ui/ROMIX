@@ -14,6 +14,13 @@ Ejecutar `npm run sync:shells` despues de editar una plantilla. El comando gener
 las paginas de `frontend/public/`, que se conservan versionadas para servir el sitio
 sin JavaScript adicional ni una solicitud de red para insertar encabezado y pie.
 No editar esas seis salidas HTML directamente: la siguiente generacion las reemplaza.
+Las rutas `/mujer/`, `/hombre/` y `/ninos/` tambien se generan con `sync:shells`.
+Reutilizan `catalogo.html`, los mismos encabezado/pie y
+`partials/category-card.html`; `scripts/generate-category-pages.js` resuelve el
+contenido y metadatos de cada seccion. Su clasificacion y visibilidad comparten
+`public/assets/js/catalog-sections.js` con el catalogo interactivo.
+No editar `public/{mujer,hombre,ninos}/index.html` directamente.
+El build completo genera tambien sitemap, previews sociales y reglas noindex de Preview.
 Los archivos CSS, JavaScript, imagenes y datos siguen editandose en sus rutas actuales.
 
 `npm test` genera el HTML antes de verificarlo. `npm run build` y el generador de

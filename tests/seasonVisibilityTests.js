@@ -97,6 +97,7 @@ async function renderCatalog(url) {
     isVisible: (item) => !!item && typeof item === 'object' && item.visible !== false
   };
   window.romixCart = { updateBadge() {} };
+  evaluate(window, 'assets/js/catalog-sections.js');
   evaluate(window, 'assets/js/romix-catalog-pages.js');
 
   if (window.document.readyState === 'loading') {

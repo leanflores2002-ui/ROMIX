@@ -245,7 +245,7 @@
 
   async function fetchProducts(options) {
     const opts = options || {};
-    const dataUrl = new URL(opts.dataUrl || DATA_URL, location.href);
+    const dataUrl = new URL(opts.dataUrl || DATA_URL, document.baseURI || location.href);
     const errors = [];
 
     if (opts.useApi === true) {

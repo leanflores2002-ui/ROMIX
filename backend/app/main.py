@@ -8,6 +8,7 @@ from html import escape as html_escape
 from pathlib import Path
 from threading import RLock
 import threading
+import tempfile
 from typing import Dict, List, Tuple
 from urllib.parse import quote, urljoin
 
@@ -215,10 +216,22 @@ def load_variants(force: bool = False) -> dict:
         return _variants
 
 
-def persist_variants() -> None:
+def persist_variants(payload: list[dict] | None = None) -> None:
     path = variants_file()
-    payload = list(_variants.values())
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    payload = list(_variants.values()) if payload is None else payload
+    # Replace a complete snapshot on the same filesystem; never leave truncated JSON.
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent,
+                                         prefix=".variants-", suffix=".tmp", delete=False) as file:
+            temporary = Path(file.name)
+            json.dump(payload, file, ensure_ascii=False, indent=2)
+            file.flush()
+            os.fsync(file.fileno())
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
 
 
 def get_variant(product_id: str, color: str, size: str) -> dict | None:
@@ -491,35 +504,39 @@ def ensure_product_exists(product_id: str) -> dict:
 
 
 def validate_and_reserve(items: List[dict]) -> Tuple[List[dict], List[dict]]:
-    """Valida stock y retorna (updates, order_items) sin persistir todavía."""
+    """Validate the entire order and commit one stock snapshot under the process lock."""
+    global _variants
     updates = []
     order_items = []
     with _variants_lock:
         variants = load_variants()
+        quantities = {}
         for it in items:
+            if not isinstance(it, dict):
+                raise HTTPException(status_code=400, detail="Item invalido")
             pid = str(it.get("productId") or "").strip()
             color = it.get("color") or ""
             size = it.get("size") or ""
-            qty = int(it.get("qty") or 0)
-            if not pid or not color or not size or qty <= 0:
+            qty = it.get("qty")
+            if type(qty) is not int or qty <= 0:
+                raise HTTPException(status_code=400, detail="qty debe ser un entero positivo")
+            if not pid or not isinstance(color, str) or not color.strip() or not isinstance(size, str) or not size.strip():
                 raise HTTPException(status_code=400, detail="Item invalido: productId, color, size y qty son obligatorios")
             ensure_product_exists(pid)
             key = (pid, normalize_text(color), normalize_text(size))
             variant = variants.get(key)
             if not variant:
                 raise HTTPException(status_code=400, detail=f"No existe variante para productId={pid}, color={color}, talle={size}")
+            quantities[key] = quantities.get(key, 0) + qty
+        for key, qty in quantities.items():
+            variant = variants[key]
             if variant["stock"] < qty:
                 raise HTTPException(status_code=400, detail=f"Stock insuficiente para {variant['color']} talle {variant['size']}")
-        for it in items:
-            pid = str(it.get("productId"))
-            color = it.get("color")
-            size = it.get("size")
-            qty = int(it.get("qty"))
-            key = (pid, normalize_text(color), normalize_text(size))
-            variant = variants[key]
+        next_variants = {key: dict(variant) for key, variant in variants.items()}
+        for key, qty in quantities.items():
+            pid = key[0]
+            variant = next_variants[key]
             variant["stock"] -= qty
-            if variant["stock"] < 0:
-                variant["stock"] = 0
             updates.append(
                 {
                     "productId": pid,
@@ -529,7 +546,8 @@ def validate_and_reserve(items: List[dict]) -> Tuple[List[dict], List[dict]]:
                 }
             )
             order_items.append({"productId": pid, "color": variant["color"], "size": variant["size"], "qty": qty})
-        persist_variants()
+        persist_variants(list(next_variants.values()))
+        _variants = next_variants
     return updates, order_items
 
 

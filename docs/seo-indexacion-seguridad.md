@@ -1,5 +1,9 @@
 # Auditoría de SEO, indexación y seguridad
 
+Actualización: la etapa posterior de categorías y validación de pedidos está
+documentada en [categorias-y-pedidos.md](categorias-y-pedidos.md). Los resultados
+y pendientes de esa etapa sustituyen los estados iniciales indicados abajo.
+
 Revisión del 13 de octubre de 2026, realizada localmente en `develop`. Sin commit,
 push ni despliegue. Dominio confirmado por el propietario:
 `https://romix-ropas.vercel.app`.

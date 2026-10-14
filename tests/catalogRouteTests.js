@@ -29,6 +29,7 @@ async function renderCatalog(url) {
     isVisible: (item) => !!item && item.visible !== false
   };
   window.romixCart = { updateBadge() {} };
+  window.eval(readPublic('assets/js/catalog-sections.js'));
   window.eval(readPublic('assets/js/romix-catalog-pages.js'));
   if (window.document.readyState === 'loading') {
     await new Promise((resolve) => window.document.addEventListener('DOMContentLoaded', resolve, { once: true }));
@@ -64,9 +65,9 @@ async function main() {
 
   const redirects = readPublic('../../netlify.toml');
   for (const [legacy, target] of [
-    ['mujer.html', 'catalogo.html?sections=mujer'],
-    ['hombre.html', 'catalogo.html?sections=hombre'],
-    ['ninos.html', 'catalogo.html?sections=ninos'],
+    ['mujer.html', 'mujer/'],
+    ['hombre.html', 'hombre/'],
+    ['ninos.html', 'ninos/'],
     ['novedades.html', 'catalogo.html?view=novedades'],
     ['detalle.html', 'product.html']
   ]) {

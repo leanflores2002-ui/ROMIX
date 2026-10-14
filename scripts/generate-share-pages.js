@@ -251,5 +251,6 @@ module.exports = {
   productSlug,
   productTitle,
   shareHtml,
-  detailHref
+  detailHref,
+  escapeHtml
 };

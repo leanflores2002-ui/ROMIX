@@ -2,6 +2,13 @@
   command = "node scripts/generate-share-pages.js"
   publish = "frontend/public"
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
 [[redirects]]
   from = "/mujer.html"
   to = "/catalogo.html?sections=mujer"

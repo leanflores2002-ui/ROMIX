@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="assets/css/romix-shell-base.css?v=18" data-romix-shell-critical />
 <!-- ROMIX:SHELL:CRITICAL:END -->
   <title>ROMIX - Detalle</title>
+  <meta name="romix-site-origin" content="https://romix-ropas.vercel.app" />
   <meta name="description" content="Comprá productos ROMIX: indumentaria para mujer, hombre y niños. Consultá talles, colores disponibles y precios." />
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,9 +24,9 @@
   <link rel="icon" href="images/branding/romix-logo-icon.webp" type="image/webp" sizes="180x180" />
   <link rel="apple-touch-icon" href="images/branding/romix-logo-icon.webp" sizes="180x180" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=19" />
+  <link rel="stylesheet" href="assets/css/romix-design-system.css?v=20" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=19">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=20">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=19" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=19" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=19" />
@@ -230,7 +231,8 @@
     (function(){
       const PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360"><rect width="100%" height="100%" fill="#f8f9fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="Segoe UI, sans-serif" font-size="20">Imagen no disponible</text></svg>`);
       const DATA_URL = 'assets/data/products.json';
-      const localStaticPreview = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
+      const localStaticPreview = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname)
+        || isTemplatePlaceholder(document.getElementById('preloaded-products')?.textContent || '');
       const CART_KEY = 'cart';
       const imageUtils = window.romixImageUtils || {};
       const pricing = window.romixPricing || {};
@@ -534,6 +536,32 @@
         const idSlug = normalizeSlug(rawId);
         if (!idSlug || idSlug === baseSlug || baseSlug.endsWith(`-${idSlug}`)) return baseSlug;
         return `${baseSlug}-${idSlug}`;
+      }
+
+      function updateProductSeo(product) {
+        const origin = document.querySelector('meta[name="romix-site-origin"]').content;
+        const slug = buildShareSlug(product);
+        const id = encodeURIComponent(String(product.id || slug));
+        const canonical = `${origin}/product.html?id=${id}&slug=${encodeURIComponent(slug)}&name=${encodeURIComponent(product.name || '')}`;
+        const description = String(product.description || product.desc || product.subtitle
+          || `${product.name}. Consultá talles, colores y precios de indumentaria ROMIX.`).replace(/\s+/g, ' ').trim().slice(0, 220);
+        const image = new URL(product.image || 'images/branding/romix-logo-social.webp', origin + '/').href;
+        const setMeta = (attribute, key, value) => {
+          let tag = document.querySelector(`meta[${attribute}="${key}"]`);
+          if (!tag) { tag = document.createElement('meta'); tag.setAttribute(attribute, key); document.head.appendChild(tag); }
+          tag.content = value;
+        };
+        let link = document.querySelector('link[rel="canonical"]');
+        if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link); }
+        link.href = canonical;
+        if (!document.querySelector('meta[name="romix-preview"]')) setMeta('name', 'robots', 'index, follow');
+        setMeta('name', 'description', description);
+        for (const [key, value] of Object.entries({type: 'product', site_name: 'ROMIX', locale: 'es_AR', title: document.title, description, url: canonical, image, 'image:alt': product.name})) setMeta('property', `og:${key}`, value);
+        for (const [key, value] of Object.entries({card: 'summary_large_image', title: document.title, description, image, 'image:alt': product.name, url: canonical})) setMeta('name', `twitter:${key}`, value);
+        let schema = document.getElementById('romix-product-schema');
+        if (!schema) { schema = document.createElement('script'); schema.id = 'romix-product-schema'; schema.type = 'application/ld+json'; document.head.appendChild(schema); }
+        // Stock and variant prices are confirmed separately; do not fabricate Offers.
+        schema.textContent = JSON.stringify({'@context': 'https://schema.org', '@type': 'Product', name: product.name, description, image, url: canonical});
       }
 
       function parsePreloadedProduct() {
@@ -1909,6 +1937,7 @@
         item.classList.toggle('is-open', isOpen);
         button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         content.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+        content.inert = !isOpen;
 
         if (isOpen) {
           content.style.opacity = '1';
@@ -2011,10 +2040,10 @@
         detail.innerHTML = `
           <div class="detail-grid">
             <div class="gallery">
-              <div class="main-image" role="button" tabindex="0" aria-label="Abrir zoom de imagen" aria-haspopup="dialog">
+              <div class="main-image">
                 <picture id="main-image-picture">
                   ${primaryImage.webpSrc ? `<source srcset="${primaryImage.webpSrc}" sizes="${PRODUCT_IMAGE_SIZES}" type="image/webp" />` : ''}
-                  <img id="main-image" src="${primaryImageSrc}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${primaryImageFallback}';" />
+                  <img id="main-image" role="button" tabindex="0" aria-haspopup="dialog" src="${primaryImageSrc}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${primaryImageFallback}';" />
                 </picture>
                 <button type="button" class="romix-icon-btn zoom-btn" id="zoom-open" aria-label="Acercar imagen" aria-haspopup="dialog">
                   ${window.romixIcon("Search", { size: "md" })}
@@ -2116,6 +2145,7 @@
           `;
         renderProductPrice(product, getPriceForSize(product, ''));
         document.title = product.name ? `ROMIX - ${product.name}` : 'ROMIX - Detalle';
+        updateProductSeo(product);
 
         const mainImage = detail.querySelector('#main-image');
         const thumbContainer = detail.querySelector('#gallery-thumbs');
@@ -2673,7 +2703,7 @@
               <span class="product-accordion__title">${item.title}</span>
               <span class="product-accordion__icon" aria-hidden="true">${window.romixIcon("ChevronDown", { size: "sm" })}</span>
             </button>
-            <div class="product-accordion__content" id="${panelId}" role="region" aria-labelledby="${triggerId}" aria-hidden="true">
+            <div class="product-accordion__content" id="${panelId}" role="region" aria-labelledby="${triggerId}" aria-hidden="true" inert>
               <div class="product-accordion__content-inner">${item.content}</div>
             </div>
           </article>`;
@@ -2956,6 +2986,10 @@
       }
 
       function showNotFound(){
+        const robots = document.createElement('meta');
+        robots.name = 'robots';
+        robots.content = 'noindex, follow';
+        document.head.appendChild(robots);
         const detail = document.getElementById('product-detail');
         if (detail) {
           detail.classList.remove('is-loading');

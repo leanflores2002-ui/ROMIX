@@ -79,7 +79,7 @@ body[data-catalog-scope] select { font: inherit; }
 .filters-clear {
   display: inline-flex; align-items: center; gap: 7px; min-height: 40px;
   margin: 0; padding: 4px 0 10px; border: 0;
-  color: var(--catalog-pink); background: transparent;
+  color: var(--catalog-pink-dark); background: transparent;
   font-size: var(--romix-text-sm); font-weight: 750; cursor: pointer;
 }
 .filters-clear svg, .sidebar-close svg, .filters-open-btn svg { width: 18px; height: 18px; flex: 0 0 auto; }
@@ -145,7 +145,7 @@ body[data-catalog-scope] select { font: inherit; }
 .products-wrap { min-width: 0; }
 .products-top { display: flex; align-items: center; min-height: 42px; gap: 18px; margin: 0 0 12px; }
 .products-summary { margin: 0; color: var(--catalog-muted); font-size: var(--romix-text-sm); }
-.products-summary strong { color: var(--catalog-pink); font-weight: 800; }
+.products-summary strong { color: var(--catalog-pink-dark); font-weight: 800; }
 .products-sort { display: inline-flex; align-items: center; gap: 10px; margin-left: auto; }
 .products-sort-label { color: var(--catalog-muted); font-size: var(--romix-text-sm); white-space: nowrap; }
 .products-sort-select {

@@ -4,6 +4,7 @@ import re
 import sys
 from html import unescape
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -60,7 +61,8 @@ def run() -> None:
             slug = main.slugify(product.get("name", ""))
             response = main.product_page(request_for(f"/product/{slug}"), slug)
             html_text = bytes(response.body).decode("utf-8")
-            expected_url = f"https://romix.example/product/{slug}"
+            encoded_name = quote(product["name"], safe="-_.!~*'()")
+            expected_url = f"https://romix.example/product.html?id={slug}&slug={slug}&name={encoded_name}"
 
             assert_true(response.status_code == 200, f"{section}: status incorrecto")
             assert_true(meta(html_text, "property", "og:type") == "product", f"{section}: og:type")

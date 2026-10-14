@@ -16,6 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from markupsafe import Markup
 
 
 def repo_root() -> Path:
@@ -33,7 +34,8 @@ DATA_FILE = Path(
 )
 VARIANTS_FILE = ROOT / "backend" / "data" / "product_variants.json"
 templates = Jinja2Templates(directory=str(PUBLIC_DIR))
-SITE_URL = str(os.environ.get("ROMIX_SITE_URL") or "").strip().rstrip("/")
+SITE_URL = str(os.environ.get("ROMIX_SITE_URL") or json.loads(
+    (ROOT / "config" / "site.json").read_text())["origin"]).strip().rstrip("/")
 
 # Cache en memoria para evitar leer/parsing del JSON en cada request bajo carga
 _products_cache: list[dict] | None = None
@@ -94,7 +96,18 @@ def products_json() -> str:
     with _products_lock:
         if _products_json_cache is None:
             _products_json_cache = json.dumps(_products_cache or [], ensure_ascii=False)
-        return _products_json_cache
+        return safe_script_json(_products_json_cache)
+
+
+def script_json(value) -> Markup:
+    """JSON for script data, never executable markup or HTML entities."""
+    return safe_script_json(json.dumps(value, ensure_ascii=False))
+
+
+def safe_script_json(raw: str) -> Markup:
+    return Markup(raw.replace("<", "\\u003c")
+                  .replace(">", "\\u003e").replace("&", "\\u0026")
+                  .replace("\u2028", "\\u2028").replace("\u2029", "\\u2029"))
 
 
 def normalize_text(value: str) -> str:
@@ -278,7 +291,7 @@ def product_share_image(request: Request, product: dict) -> str:
         image = next((str(src).strip() for src in images if str(src or "").strip()), "")
 
     if not image:
-        image = "images/logo-romix-social-1200x630.png"
+        image = "images/branding/romix-logo-social.webp"
 
     return absolute_url(request, image)
 
@@ -296,6 +309,8 @@ def inject_product_meta(
     safe_image = html_escape(image_url, quote=True)
     safe_url = html_escape(page_url, quote=True)
     rendered = html_text
+    rendered = re.sub(r"<title>.*?</title>", lambda _: f"<title>{safe_title}</title>", rendered, count=1, flags=re.DOTALL)
+    rendered = upsert_meta_tag(rendered, "name", "description", safe_description)
     rendered = upsert_meta_tag(rendered, "property", "og:type", "product")
     rendered = upsert_meta_tag(rendered, "property", "og:site_name", "ROMIX")
     rendered = upsert_meta_tag(rendered, "property", "og:title", safe_title)
@@ -315,13 +330,28 @@ def inject_product_meta(
 
 app = FastAPI(title="ROMIX API", version="1.0.0")
 
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    preview = any(os.environ.get(key) and os.environ[key] != "production"
+                  for key in ("VERCEL_ENV", "CONTEXT"))
+    if preview or response.status_code >= 400 or request.url.path.startswith(("/api/", "/docs", "/redoc", "/openapi.json")):
+        response.headers["X-Robots-Tag"] = "noindex, follow"
+    return response
+
 # Permitir consumir desde el mismo host y uso local
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # para desarrollo; ajustar en prod
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[origin.strip() for origin in os.environ.get(
+        "ROMIX_CORS_ORIGINS", SITE_URL or json.loads((ROOT / "config" / "site.json").read_text())["origin"]
+    ).split(",") if origin.strip()],
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
 )
 
 
@@ -387,8 +417,9 @@ def search(q: str):
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request, q: str | None = None):
     return templates.TemplateResponse(
-        "index.html",
-        {
+        request=request,
+        name="index.html",
+        context={
             "request": request,
             "products_json": products_json(),
             "query": q or "",
@@ -399,8 +430,9 @@ def home(request: Request, q: str | None = None):
 @app.get("/catalogo", response_class=HTMLResponse)
 def catalog_page(request: Request, q: str | None = None):
     return templates.TemplateResponse(
-        "catalogo.html",
-        {
+        request=request,
+        name="catalogo.html",
+        context={
             "request": request,
             "products_json": products_json(),
             "query": q or "",
@@ -423,12 +455,18 @@ def product_page(request: Request, slug: str):
     og_title = f"{title_name} | ROMIX"
     og_description = product_share_description(product)
     og_image = product_share_image(request, product)
-    og_url = absolute_url(request, f"product/{slug}")
+    canonical_slug = slugify(product.get("name") or product.get("id") or "producto")
+    id_slug = slugify(str(product.get("id") or ""))
+    if id_slug and id_slug != canonical_slug and not canonical_slug.endswith(f"-{id_slug}"):
+        canonical_slug = f"{canonical_slug}-{id_slug}"
+    product_id = quote(str(product.get("id") or canonical_slug), safe="")
+    product_name = quote(title_name, safe="-_.!~*'()")
+    og_url = absolute_url(request, f"product.html?id={product_id}&slug={canonical_slug}&name={product_name}")
 
     template = templates.get_template("product.html")
     html_content = template.render(
         request=request,
-        product_json=json.dumps(product, ensure_ascii=False),
+        product_json=script_json(product),
         products_json=products_json(),
         slug=slug,
     )

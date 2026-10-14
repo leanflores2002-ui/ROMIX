@@ -16,6 +16,8 @@ function renderPage(page, sourceDir = templateDir) {
     html = html.replace(marker, () => partial);
   }
   if (html.includes('<!-- ROMIX:INCLUDE:')) throw new Error(page + ': unresolved include');
+  const origin = require('./generate-share-pages').deploymentSiteUrl();
+  html = html.replaceAll('%%ROMIX_SITE_ORIGIN%%', origin);
   return html;
 }
 

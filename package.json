@@ -17,6 +17,7 @@
     "test:share": "node tests/sharePreviewTests.js",
     "test:media": "node tests/mediaStorageTests.js",
     "test:security": "node tests/shareSecurityTests.js",
+    "test:seo": "node tests/seoTests.js",
     "audit:storage": "node scripts/measure-storage.js",
     "audit:product-media": "node scripts/audit-product-media.js",
     "optimize:products": "node scripts/optimize-product-images.js",

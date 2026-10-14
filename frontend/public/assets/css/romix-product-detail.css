@@ -76,9 +76,9 @@
 .qty-control input { appearance: textfield; }
 .purchase-actions { display: grid; gap: 10px; }
 .btn, .purchase-actions .btn, .product-buy-now { display: inline-flex; align-items: center; justify-content: center; gap: 9px; width: 100%; min-height: 52px; padding: 0 20px; border: 1px solid var(--product-pink); border-radius: 8px; font-size: .86rem; font-weight: 750; cursor: pointer; transition: color 150ms ease, background 150ms ease, border-color 150ms ease; }
-.purchase-actions .btn { color: #fff; background: var(--product-pink); }
+.purchase-actions .btn { color: #fff; background: var(--romix-pink-readable); }
 .purchase-actions .btn:hover, .purchase-actions .btn:focus-visible { border-color: var(--product-pink-dark); background: var(--product-pink-dark); }
-.product-buy-now { color: var(--product-pink); background: #fff; }
+.product-buy-now { color: var(--romix-pink-readable); background: #fff; }
 .product-buy-now:hover, .product-buy-now:focus-visible { color: #fff; background: var(--product-pink); }
 .btn:disabled { color: #8f8b93; border-color: #dedce1; background: #efeff1; cursor: not-allowed; }
 .share-panel { padding-top: 16px; border-top: 1px solid var(--product-line); }
@@ -100,7 +100,7 @@
 .features-panel[hidden] { display: none; }
 .product-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); width: 100%; border-bottom: 1px solid var(--product-line); }
 .product-tab { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 54px; padding: 0 12px; border: 0; border-bottom: 2px solid transparent; color: var(--product-ink); background: #fff; font-size: .84rem; font-weight: 700; text-align: center; cursor: pointer; }
-.product-tab:hover, .product-tab:focus-visible, .product-tab.is-active { color: var(--product-pink); border-bottom-color: var(--product-pink); }
+.product-tab:hover, .product-tab:focus-visible, .product-tab.is-active { color: var(--romix-pink-readable); border-bottom-color: var(--product-pink); }
 .product-tab-panels { width: 100%; }
 .product-tab-panel { min-width: 0; padding: 24px 0 4px; }
 .product-tab-panel[hidden] { display: none; }

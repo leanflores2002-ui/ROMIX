@@ -20,13 +20,7 @@ function normalizeSiteUrl(raw) {
 }
 
 function deploymentSiteUrl(env = process.env) {
-  const configured = (env.VERCEL_ENV === 'preview' && env.VERCEL_URL) || env.ROMIX_SITE_URL
-    || env.URL
-    || env.SITE_URL
-    || env.VERCEL_PROJECT_PRODUCTION_URL
-    || env.VERCEL_URL
-    || env.DEPLOY_PRIME_URL
-    || "http://localhost:8000";
+  const configured = env.ROMIX_SITE_URL || require('../config/site.json').origin;
   const value = /^https?:\/\//i.test(configured) ? configured : `https://${configured}`;
   return normalizeSiteUrl(value);
 }
@@ -148,6 +142,7 @@ function shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${safeTitle}</title>
   <meta name="description" content="${safeDescription}" />
+  <meta name="robots" content="noindex, follow" />
   <meta property="og:type" content="product" />
   <meta property="og:site_name" content="ROMIX" />
   <meta property="og:locale" content="es_AR" />
@@ -166,7 +161,7 @@ function shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, 
   <meta name="twitter:image" content="${safeImage}" />
   <meta name="twitter:image:alt" content="${escapeHtml(alt)}" />
   <meta name="twitter:url" content="${safeShare}" />
-  <link rel="canonical" href="${safeShare}" />
+  <link rel="canonical" href="${safeDetail}" />
   <script>window.location.replace(${scriptString(detailUrl)});</script>
 </head>
 <body>
@@ -208,7 +203,7 @@ async function main() {
 
   const raw = fs.readFileSync(PRODUCTS_FILE, "utf8").replace(/^\uFEFF/, "");
   const parsed = JSON.parse(raw);
-  const list = Array.isArray(parsed) ? parsed : [];
+  const list = Array.isArray(parsed) ? parsed.filter(product => product && product.visible !== false) : [];
 
   fs.rmSync(SHARE_DIR, { recursive: true, force: true });
   ensureDir(SHARE_DIR);
@@ -239,6 +234,7 @@ async function main() {
   }
   fs.writeFileSync(path.join(PUBLIC_DIR,'assets/data/share-manifest.json'),JSON.stringify(manifest));
   fs.writeFileSync(path.join(PUBLIC_DIR,'assets/js/share-versions.js'),`window.ROMIX_SHARE_VERSIONS=${JSON.stringify(versions)};\n`);
+  require('./generate-seo').main(list, siteUrl);
 
   console.log(`Share pages generated: ${created}`);
 }
@@ -254,5 +250,6 @@ module.exports = {
   productImage,
   productSlug,
   productTitle,
-  shareHtml
+  shareHtml,
+  detailHref
 };

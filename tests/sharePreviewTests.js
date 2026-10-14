@@ -49,7 +49,8 @@ async function checkGeneratedPreview(product, section) {
   assert(meta(document, 'meta[property="og:image"]') === expectedImage, `${section}: primary image mismatch`);
   assert(/^https:\/\//.test(meta(document, 'meta[property="og:image"]')), `${section}: image must be absolute HTTPS`);
   assert(meta(document, 'meta[property="og:url"]') === expectedUrl, `${section}: canonical OG URL mismatch`);
-  assert(document.querySelector('link[rel="canonical"]')?.href === expectedUrl, `${section}: canonical link mismatch`);
+  assert(document.querySelector('link[rel="canonical"]')?.href === page.detailUrl, `${section}: canonical detail link mismatch`);
+  assert(meta(document, 'meta[name="robots"]').includes('noindex'), `${section}: redirect preview must not be indexed`);
   assert(meta(document, 'meta[name="twitter:card"]') === 'summary_large_image', `${section}: Twitter card missing`);
   assert(meta(document, 'meta[name="twitter:title"]') === `${product.name} | ROMIX`, `${section}: Twitter title mismatch`);
   assert(meta(document, 'meta[name="twitter:image"]') === expectedImage, `${section}: Twitter image mismatch`);
@@ -101,10 +102,13 @@ function checkCanonicalConfiguration() {
 async function main() {
   await require('../scripts/generate-share-pages').main();
   const products = JSON.parse(read('frontend/public/assets/data/products.json').replace(/^\uFEFF/, ''));
-  for (const product of products) {
+  for (const product of products.filter(product => product.visible !== false)) {
     await checkGeneratedPreview(product,product.name);
     const file = path.join(publicDir,'share',productSlug(product),'index.html');
     assert(fs.existsSync(file) && fs.statSync(file).size < 16000, 'Generated static share HTML missing or oversized');
+  }
+  for (const product of products.filter(product => product.visible === false)) {
+    assert(!fs.existsSync(path.join(publicDir, 'share', productSlug(product), 'index.html')), 'Hidden product must not have a public share page');
   }
   const encoded = productImage({image:'images/products/niño azul (1) #%.png'});
   assert(decodeURIComponent(encoded) === 'images/products/niño azul (1) #%.png', 'Special character encoding must round trip');

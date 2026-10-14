@@ -24,8 +24,9 @@ async function prepareCartDom(cartItems) {
       window.localStorage.setItem('cart', JSON.stringify(cartItems));
       window.alert = () => {};
       window.open = (url, target) => {
-        events.push({ url, target });
-        return { opener: null };
+        const entry = { url, target };
+        events.push(entry);
+        return { opener: null, location: { set href(value) { entry.url = value; } } };
       };
     }
   });

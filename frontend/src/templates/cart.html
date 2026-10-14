@@ -1012,13 +1012,15 @@
         if (orderBtn) orderBtn.disabled = false;
         return;
       }
-      const orderWindow = window.open(`https://wa.me/${WA_NUMBER}?text=${message}`, '_blank', 'noopener');
+      const orderWindow = window.open('about:blank', '_blank');
       if (!orderWindow) {
         showCartAlert('error', 'El navegador bloqueo la apertura de WhatsApp. Habilita las ventanas emergentes e intenta nuevamente.');
         orderInProgress = false;
         if (orderBtn) orderBtn.disabled = false;
         return;
       }
+      orderWindow.opener = null;
+      orderWindow.location.href = `https://wa.me/${WA_NUMBER}?text=${message}`;
       if (window.romixAnalytics) window.romixAnalytics.trackWhatsApp(cart);
       finalizeOrder();
       orderInProgress = false;

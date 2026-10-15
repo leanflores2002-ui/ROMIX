@@ -134,6 +134,8 @@ function shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, 
   const safeImage = escapeHtml(imageUrl);
   const safeShare = escapeHtml(shareUrl);
   const safeDetail = escapeHtml(detailUrl);
+  const navigationPath = detail.pathname + detail.search;
+  const safeNavigation = escapeHtml(navigationPath);
 
   return `<!DOCTYPE html>
 <html lang="es">
@@ -162,11 +164,11 @@ function shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, 
   <meta name="twitter:image:alt" content="${escapeHtml(alt)}" />
   <meta name="twitter:url" content="${safeShare}" />
   <link rel="canonical" href="${safeDetail}" />
-  <script>window.location.replace(${scriptString(detailUrl)});</script>
+  <script>window.location.replace(${scriptString(navigationPath)});</script>
 </head>
 <body>
   <p>Redirigiendo al producto...</p>
-  <p><a href="${safeDetail}">Abrir producto</a></p>
+  <p><a href="${safeNavigation}">Abrir producto</a></p>
 </body>
 </html>
 `;

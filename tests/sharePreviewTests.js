@@ -70,7 +70,7 @@ async function checkGeneratedPreview(product, section) {
   assert(!/placeholder|logo-romix|data:image|base64/i.test(page.html), `${section}: placeholder/embedded image`);
   assert(!document.querySelector('meta[http-equiv="refresh"]'), `${section}: crawler must retain static metadata`);
   for (const a of document.querySelectorAll('a[href]')) {
-    const url = new URL(a.href);
+    const url = new URL(a.getAttribute('href'), siteUrl);
     assert(url.pathname === '/product.html' && url.searchParams.get('id') === String(product.id || productSlug(product)), `${section}: detail link mismatch`);
     assert(fs.existsSync(path.join(publicDir,url.pathname)), `${section}: broken detail href`);
   }

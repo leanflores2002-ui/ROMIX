@@ -10,7 +10,7 @@
     "pretest": "node scripts/sync-storefront-shells.js",
     "build": "node scripts/generate-share-pages.js",
     "test:templates": "node tests/storefrontTemplateTests.js",
-    "test": "node tests/storefrontTemplateTests.js && node tests/catalogSyncTests.js && node tests/pageTests.js && node tests/romixIconButtonTests.js && node tests/catalogRouteTests.js && node tests/catalogFilterTests.js && node tests/cardVariantTests.js && node tests/productGalleryTests.js && node tests/salePricingTests.js && node tests/cartOrderTests.js && node tests/colorNameTests.js && node tests/seasonVisibilityTests.js && node tests/recommendedOrderTests.js && node tests/storefrontStabilityTests.js && node tests/sharePreviewTests.js && node tests/productImageResolverTests.js && node tests/imageUtilsTests.js && node tests/mediaStorageTests.js && node tests/shareSecurityTests.js && node tests/seoTests.js && node tests/categoryPagesTests.js",
+    "test": "node scripts/test-suite.js",
     "test:buttons": "node tests/romixIconButtonTests.js",
     "test:season-backend": "python tests/season_visibility_backend_tests.py",
     "test:share-backend": "python tests/product_share_backend_tests.py",
@@ -33,7 +33,10 @@
     "sync:shells": "node scripts/sync-storefront-shells.js",
     "build:ts": "tsc -p tsconfig.json",
     "check:ts": "tsc -p tsconfig.json --noEmit",
-    "test:performance": "node tests/productDerivativeTests.js"
+    "test:performance": "node tests/productDerivativeTests.js",
+    "test:regressions": "node tests/analyticsTests.js && node tests/sharePriceTests.js && node tests/cartPersistenceTests.js",
+    "test:browser": "node tests/commerceBrowserTests.js && node tests/megaMenuBrowserTests.js",
+    "test:backend": "python -m pytest backend/tests/test_orders.py -q -p no:cacheprovider && python tests/season_visibility_backend_tests.py && python tests/product_share_backend_tests.py && python tests/seo_backend_tests.py"
   },
   "repository": {
     "type": "git",

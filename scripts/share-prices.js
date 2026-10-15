@@ -24,12 +24,12 @@ function sharePrices(product) {
   const money = value => '$' + value.toLocaleString('es-AR');
   if (!sizes.length || (sizes.length === 1 && sizes[0].toUpperCase() === 'U')) {
     const price = Number(product.price || prices.common || Object.values(prices)[0] || 0);
-    return price > 0 ? money(price) : '';
+    return Number.isFinite(price) && price > 0 ? money(price) : '';
   }
   const groups = [];
   for (const size of sizes) {
     const price = priceFor(size);
-    if (!(price > 0)) continue;
+    if (!Number.isFinite(price) || !(price > 0)) continue;
     const last = groups[groups.length - 1];
     if (last && last.price === price) last.sizes.push(size);
     else groups.push({ price, sizes: [size] });

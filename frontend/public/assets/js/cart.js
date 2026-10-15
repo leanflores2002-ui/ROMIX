@@ -62,12 +62,14 @@
 
   const normalizeItem = (item) => {
     if (!item || typeof item !== 'object') return null;
-    const qty = Math.max(1, Number(item.qty ?? item.quantity ?? 1) || 1);
+    const rawQty = Object.hasOwn(item, 'qty') ? item.qty : Object.hasOwn(item, 'quantity') ? item.quantity : 1;
+    const qty = typeof rawQty === 'number' ? rawQty : Number(rawQty);
+    if (!['number', 'string'].includes(typeof rawQty) || !Number.isSafeInteger(qty) || qty <= 0) return null;
     const price = Number(item.price || 0);
     const productId = item.productId ?? item.pid ?? item.id ?? item.slug ?? item.sku ?? '';
     const color = item.color ?? item.colorName ?? item.colorKey ?? 'Unico';
     const size = item.size ?? item.talle ?? item.sizeValue ?? 'U';
-    const key = item.key || buildKey({ productId, color, size });
+    const key = buildKey({ productId, color, size });
 
     return {
       key,
@@ -353,7 +355,7 @@
         const normalized = legacy
           .map((item) => normalizeItem(item))
           .filter(Boolean);
-        persist(normalized);
+        if (!persist(normalized)) return normalized;
         try {
           localStorage.removeItem(key);
         } catch {
@@ -414,6 +416,7 @@
     if (existingIndex >= 0) {
       const existing = cart[existingIndex];
       const qty = (Number(existing.qty) || Number(existing.quantity) || 0) + newItem.qty;
+      if (!Number.isSafeInteger(qty)) return cart;
       cart[existingIndex] = {
         ...existing,
         ...newItem,
@@ -442,7 +445,8 @@
   };
 
   const updateQty = (key, qty) => {
-    const nextQty = Math.max(1, Number(qty) || 1);
+    const nextQty = Number(qty);
+    if (!['number', 'string'].includes(typeof qty) || !Number.isSafeInteger(nextQty) || nextQty <= 0) return getCart();
     const updated = getCart().map((item) => {
       if (item.key !== key) return item;
       return {

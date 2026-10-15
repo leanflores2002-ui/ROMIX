@@ -3,8 +3,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 
-const BASE_URL = process.env.ROMIX_TEST_URL || 'http://127.0.0.1:4173/index.html';
-const SCREENSHOT_DIR = process.env.ROMIX_SCREENSHOTS || '';
+let BASE_URL = process.env.ROMIX_TEST_URL;
+const SCREENSHOT_DIR = process.env.ROMIX_SCREENSHOTS === '1' ? require('node:os').tmpdir() : process.env.ROMIX_SCREENSHOTS || '';
 const PRODUCTS_JSON = fs.readFileSync(path.join(__dirname, '..', 'frontend', 'public', 'assets', 'data', 'products.json'), 'utf8');
 if (SCREENSHOT_DIR) fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
 
@@ -141,7 +141,11 @@ async function testMobileNavigation(page, width, height) {
 }
 
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const server = BASE_URL ? null : await require('./helpers/browserServer')();
+  if (server) BASE_URL = server.origin + '/index.html';
+  let browser;
+  try {
+  browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
   await page.route('**/api/products**', (route) => route.fulfill({
     status: 200,
@@ -165,6 +169,10 @@ async function testMobileNavigation(page, width, height) {
   assert.deepEqual(consoleErrors, [], `Browser console errors: ${consoleErrors.join('; ')}`);
   await browser.close();
   console.log('megaMenuBrowserTests: ok');
+  } finally {
+    if (browser) await browser.close();
+    if (server) await server.close();
+  }
 })().catch((error) => {
   console.error(error.stack || error);
   process.exitCode = 1;

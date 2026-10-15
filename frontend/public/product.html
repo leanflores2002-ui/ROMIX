@@ -2430,7 +2430,10 @@
 
         function selectVariant(index, options = {}) {
           const targetIndex = Math.max(0, Math.min(Number(index) || 0, Math.max(0, gallery.length - 1)));
-          const item = gallery[targetIndex] || gallery[0] || {};
+          const galleryItem = gallery[targetIndex] || gallery[0] || {};
+          const item = options.colorName
+            ? { ...galleryItem, colorName: options.colorName, colorKey: options.colorName }
+            : galleryItem;
           const colorName = item.colorName || item.label || 'Unico';
           const displayName = getDisplayColorName(product, colorName);
 
@@ -2611,6 +2614,7 @@
           const opts = options || {};
           if (zoomApi && typeof zoomApi.setGallery === 'function') zoomApi.setGallery(gallery);
           selectVariant(findGalleryIndexForColor(colorName), {
+            colorName,
             skipPickerSync: !!opts.skipPickerSync,
             skipLabelUpdate: !!opts.skipLabelUpdate
           });

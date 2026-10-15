@@ -1,7 +1,10 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { chromium } = require('playwright');
+const { chromium, firefox, webkit } = require('playwright');
+const browserName = process.env.ROMIX_BROWSER || 'chromium';
+const engine = { chromium, firefox, webkit }[browserName];
+if (!engine) throw new Error(`Unsupported browser: ${browserName}`);
 
 let BASE_URL = process.env.ROMIX_TEST_URL;
 const SCREENSHOT_DIR = process.env.ROMIX_SCREENSHOTS === '1' ? require('node:os').tmpdir() : process.env.ROMIX_SCREENSHOTS || '';
@@ -145,8 +148,13 @@ async function testMobileNavigation(page, width, height) {
   if (server) BASE_URL = server.origin + '/index.html';
   let browser;
   try {
-  browser = await chromium.launch({ headless: true });
+  browser = await engine.launch({ headless: true });
   const page = await browser.newPage();
+  await page.route('**/*', route => {
+    if (new URL(route.request().url()).origin !== new URL(BASE_URL).origin) return route.fulfill({ status: 200, body: '' });
+    if (route.request().method() !== 'GET') throw new Error('Unexpected mutation');
+    return route.continue();
+  });
   await page.route('**/api/products**', (route) => route.fulfill({
     status: 200,
     contentType: 'application/json',

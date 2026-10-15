@@ -8,7 +8,7 @@ const tests = [
   'colorName', 'seasonVisibility', 'recommendedOrder', 'storefrontStability',
   'sharePreview', 'productImageResolver', 'imageUtils', 'mediaStorage',
   'shareSecurity', 'seo', 'categoryPages', 'analytics', 'sharePrice',
-  'cartPersistence', 'productDerivative', 'catalogIdentity'
+  'cartPersistence', 'productDerivative', 'catalogIdentity', 'productFormat'
 ];
 const failures = [];
 for (const name of tests) {

@@ -1,5 +1,8 @@
 const assert = require('node:assert/strict');
-const { chromium } = require('playwright');
+const { chromium, firefox, webkit } = require('playwright');
+const browserName = process.env.ROMIX_BROWSER || 'chromium';
+const engine = { chromium, firefox, webkit }[browserName];
+if (!engine) throw new Error(`Unsupported browser: ${browserName}`);
 const browserServer = require('./helpers/browserServer');
 const path = require('node:path');
 const os = require('node:os');
@@ -141,6 +144,7 @@ async function run(context, origin, width) {
   if (await openFilters.isVisible()) {
     await openFilters.focus();
     await page.keyboard.press('Enter');
+    await page.waitForFunction(() => document.activeElement === document.querySelector('#close-filters'));
   }
   await page.locator('#price-min').fill('9000');
   await page.locator('#apply-price-filter').click();
@@ -160,12 +164,15 @@ async function run(context, origin, width) {
   while (await page.locator('#catalog-load-more-btn').isVisible()) await page.locator('#catalog-load-more-btn').click();
   assert.equal(await page.locator('#product-grid .product-card').count(), products.filter(product => product.visible !== false).length);
   assert.ok(!(await page.locator('#product-grid').textContent()).includes('Oculto QA'));
-  if (width < 768) await page.locator('#catalog-mobile-filter-trigger').click();
+  if (width < 768) {
+    await page.locator('#catalog-mobile-filter-trigger').click();
+    await page.waitForFunction(() => document.activeElement === document.querySelector('#close-filters'));
+  }
   for (const [group, value] of [['sections', 'mujer'], ['categories', 'remeras'], ['sizes', '6'], ['colors', 'rojo']]) {
     const input = page.locator(`.filters-sidebar input[data-group="${group}"][value="${value}"]`);
     await input.focus();
     await page.keyboard.press('Space');
-    assert.equal(await input.isChecked(), true);
+    assert.equal(await input.isChecked(), true, `Keyboard must select ${group}=${value}`);
   }
   await page.locator('#price-max').fill('4400');
   await page.locator('#apply-price-filter').click();
@@ -190,7 +197,7 @@ async function run(context, origin, width) {
   const server = await browserServer();
   let browser;
   try {
-    browser = await chromium.launch();
+    browser = await engine.launch();
     for (const width of [1440, 390]) {
       const context = await browser.newContext({ viewport: { width, height: 900 } });
       try { await run(context, server.origin, width); } finally { await context.close(); }

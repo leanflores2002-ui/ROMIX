@@ -9,6 +9,9 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      ROMIX_BROWSER: chromium
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

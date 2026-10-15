@@ -1,0 +1,14 @@
+const assert = require('node:assert/strict');
+const { sharePrices } = require('../scripts/share-prices');
+const { buildSharePage } = require('../scripts/generate-share-pages');
+const product = { name: 'Remera', section: 'mujer', sizes: ['1','2','3','4','5','6','7','8'], price: 4600, priceByGroup: { common:4600, special:5100 }, specialSizes:[6,7,8] };
+assert.equal(sharePrices(product), 'T1-5 $4.600 · T6-8 $5.100');
+assert.equal(sharePrices({price:8900,sizes:['U']}), '$8.900');
+assert.equal(sharePrices({price:5000,sizes:['1','3','4']}), 'T1, T3, T4 $5.000');
+assert.equal(sharePrices({price:0,sizes:['U']}), '');
+const social = { image:'images/products/test.webp', imageHash:'abcd1234', source:'test', type:'image/webp', width:600, height:600 };
+const before = buildSharePage(product, 'https://romix.example', social);
+const after = buildSharePage({...product, priceByGroup:{common:4700,special:5200}}, 'https://romix.example', social);
+assert.ok(before.html.includes('content="T1-5 $4.600 · T6-8 $5.100.'));
+assert.notEqual(before.version, after.version, 'Price changes must refresh the shared URL version');
+console.log('sharePriceTests: passed');

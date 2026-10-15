@@ -95,6 +95,12 @@ function productImage(product) {
 }
 
 function productDescription(product) {
+  const prices = require("./share-prices").sharePrices(product || {});
+  const details = productDetailsDescription(product);
+  return (prices ? `${prices}. ${details}` : details).slice(0, 220);
+}
+
+function productDetailsDescription(product) {
   const candidates = [
     product && product.description,
     product && product.desc,
@@ -191,7 +197,7 @@ function buildSharePage(product, siteUrl, social) {
   const imageUrl = image.href;
   const title = productTitle(product);
   const description = productDescription(product);
-  const version = hash(JSON.stringify({id:product.id,title,description,imageHash:social.imageHash,source:social.source,updatedAt:product.updated_at || '',schema:1})).slice(0,16);
+  const version = hash(JSON.stringify({id:product.id,title,description,imageHash:social.imageHash,source:social.source,updatedAt:product.updated_at || '',schema:2})).slice(0,16);
   const html = shareHtml({ title, description, imageUrl, shareUrl, detailUrl, social, alt:product.name });
   return { slug, shareUrl, detailUrl, imageUrl, title, description, html, version, social };
 }

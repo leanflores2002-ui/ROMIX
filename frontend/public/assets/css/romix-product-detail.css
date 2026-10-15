@@ -264,3 +264,10 @@
   .main-image img, .thumbs img, .product-accordion__content, .related-products__card, .romix-toast { transition: none; }
   .product-skeleton__media, .product-skeleton__line, .product-skeleton__pill, .product-skeleton__button { animation: none; }
 }
+
+.share-heading { margin: 0 0 10px; font-weight: 700; font-size: .9rem; }
+.share-help { margin: 10px 0; color: #5f5b63; font-size: .78rem; line-height: 1.5; }
+.share-contact { display: inline-flex; align-items: center; min-height: 44px; font-size: .85rem; text-underline-offset: 3px; }
+.share-actions [hidden] { display: none; }
+.share-panel .share-actions .share-btn:hover, .share-panel .share-actions .share-btn:focus-visible { color: #a6125b; }
+.share-panel .share-contact { color: #a6125b; }

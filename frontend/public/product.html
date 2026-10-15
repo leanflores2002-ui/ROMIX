@@ -26,7 +26,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=20" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=20">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=21">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=19" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=20" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=19" />
@@ -102,7 +102,7 @@
     </div>
   </div>
 </header>
-<script src="assets/js/romix-icons.js?v=18"></script>
+<script src="assets/js/romix-icons.js?v=19"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
 
   <main class="page-container">
@@ -639,6 +639,8 @@
         const nativeBtn = document.getElementById('btn-share-native');
         const waBtn = document.getElementById('btn-share-whatsapp');
         const copyBtn = document.getElementById('btn-share-copy');
+        const telegramBtn = document.getElementById('btn-share-telegram');
+        const emailBtn = document.getElementById('btn-share-email');
         const shareInput = document.getElementById('share-link-input');
         if (!nativeBtn || !copyBtn || !shareInput) return;
 
@@ -646,6 +648,8 @@
         const shareText = buildShareText(product, shareUrl);
         shareInput.value = shareUrl;
         if (waBtn) waBtn.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+        if (telegramBtn) telegramBtn.href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(buildShareMessageBody(product))}`;
+        if (emailBtn) emailBtn.href = `mailto:?subject=${encodeURIComponent(product.name || "Producto ROMIX")}&body=${encodeURIComponent(shareText)}`;
 
         nativeBtn.onclick = async () => {
           if (!navigator.share) {
@@ -680,7 +684,7 @@
                 if (!document.execCommand('copy')) throw new Error('No se pudo copiar');
               } finally {
                 copyArea.remove();
-                nativeBtn.focus();
+                copyBtn.focus();
               }
             }
             showToast('Producto, precios y link copiados para compartir.');
@@ -689,8 +693,8 @@
           }
         };
 
-        nativeBtn.removeAttribute('hidden');
-        nativeBtn.setAttribute('aria-label', navigator.share ? 'Compartir producto' : 'Copiar producto, precios y link');
+        nativeBtn.hidden = typeof navigator.share !== 'function';
+        nativeBtn.setAttribute('aria-label', 'Otras opciones para compartir el producto');
 
       }
 
@@ -2113,16 +2117,26 @@
                 </div>
               </div>
               <div class="share-panel" id="share-panel">
+                <p class="share-heading">Compartir producto</p>
                 <div class="share-actions">
-                  <button type="button" class="share-btn romix-btn romix-btn--outline" id="btn-share-native">
-                    ${window.romixIcon("Share2", { size: "sm" })}<span>Compartir</span>
-                  </button>
-                  <a class="share-btn romix-btn romix-btn--outline" id="btn-contact" href="ayuda.html#contact">
-                    ${window.romixIcon("MessageCircle", { size: "sm" })}<span>Consultar</span>
+                  <a class="share-btn romix-btn romix-btn--outline" id="btn-share-whatsapp" href="#" target="_blank" rel="noopener noreferrer">
+                    ${window.romixIcon("MessageCircle", { size: "sm" })}<span>WhatsApp</span>
                   </a>
+                  <button type="button" class="share-btn romix-btn romix-btn--outline" id="btn-share-copy">
+                    ${window.romixIcon("Copy", { size: "sm" })}<span>Copiar mensaje</span>
+                  </button>
+                  <a class="share-btn romix-btn romix-btn--outline" id="btn-share-telegram" href="#" target="_blank" rel="noopener noreferrer">
+                    ${window.romixIcon("Send", { size: "sm" })}<span>Telegram</span>
+                  </a>
+                  <a class="share-btn romix-btn romix-btn--outline" id="btn-share-email" href="#">
+                    ${window.romixIcon("Mail", { size: "sm" })}<span>Correo</span>
+                  </a>
+                  <button type="button" class="share-btn romix-btn romix-btn--outline" id="btn-share-native" hidden>
+                    ${window.romixIcon("Share2", { size: "sm" })}<span>Otras opciones</span>
+                  </button>
                 </div>
-                <a id="btn-share-whatsapp" href="#" hidden aria-hidden="true" tabindex="-1">WhatsApp</a>
-                <button type="button" id="btn-share-copy" hidden aria-hidden="true">Copiar link</button>
+                <p class="share-help">Incluye nombre, precios por talle y enlace.</p>
+                <a class="share-contact" id="btn-contact" href="ayuda.html#contact">Consultar sobre este producto</a>
                 <input id="share-link-input" type="text" readonly aria-label="Link para compartir" tabindex="-1" />
               </div>
             </div>

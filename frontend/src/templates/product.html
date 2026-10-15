@@ -568,19 +568,30 @@
         copyBtn.onclick = async () => {
           try {
             if (navigator.clipboard && navigator.clipboard.writeText) {
-              await navigator.clipboard.writeText(shareUrl);
+              await navigator.clipboard.writeText(shareText);
             } else {
-              shareInput.select();
-              document.execCommand('copy');
+              const copyArea = document.createElement("textarea");
+              copyArea.value = shareText;
+              copyArea.setAttribute("readonly", "");
+              copyArea.style.position = "fixed";
+              copyArea.style.opacity = "0";
+              document.body.appendChild(copyArea);
+              copyArea.select();
+              try {
+                if (!document.execCommand('copy')) throw new Error('No se pudo copiar');
+              } finally {
+                copyArea.remove();
+                nativeBtn.focus();
+              }
             }
-            showToast('Link copiado para compartir.');
+            showToast('Producto, precios y link copiados para compartir.');
           } catch {
             showToast('No se pudo copiar el link.', 'error');
           }
         };
 
         nativeBtn.removeAttribute('hidden');
-        nativeBtn.setAttribute('aria-label', navigator.share ? 'Compartir producto' : 'Copiar link del producto');
+        nativeBtn.setAttribute('aria-label', navigator.share ? 'Compartir producto' : 'Copiar producto, precios y link');
 
       }
 

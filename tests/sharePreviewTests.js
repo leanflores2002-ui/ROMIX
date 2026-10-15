@@ -85,7 +85,8 @@ function checkSingleClientShareUrl() {
   const shareFunction = productHtml.match(/function buildShareUrl\(product\)\s*\{[\s\S]*?\n\s*\}/)?.[0] || '';
   assert(shareFunction.includes('share/${encodeURIComponent(slug)}/'), 'Client share URL must target the generated OG page');
   assert(/waBtn\.href\s*=\s*`https:\/\/wa\.me\/\?text=\$\{encodeURIComponent\(shareText\)\}`/.test(productHtml), 'WhatsApp must use the shared URL text');
-  assert(/navigator\.share\(\{[\s\S]*?url:\s*shareUrl/.test(productHtml), 'Native share must use shareUrl');
+  assert(/navigator\.share\(\{[^}]*text:\s*shareText/.test(productHtml), 'Native share must send the product, prices and URL together as text');
+  assert(!/navigator\.share\(\{[^}]*url:/.test(productHtml), 'Separate URL must not override the shared message');
   assert(/clipboard\.writeText\(shareText\)/.test(productHtml), 'Copy must include the product, size prices and shared URL');
   assert(!/document\.querySelector\(['"]meta\[property=['"]og:image/.test(productHtml), 'Preview must not depend on client-side OG mutation');
 }

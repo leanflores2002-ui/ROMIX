@@ -653,11 +653,9 @@
             return;
           }
           try {
-            const shareMessage = buildShareMessageBody(product);
             await navigator.share({
               title: String(product && product.name ? product.name : 'Producto ROMIX'),
-              text: shareMessage,
-              url: shareUrl
+              text: shareText
             });
           } catch (error) {
             if (error && error.name !== 'AbortError') {

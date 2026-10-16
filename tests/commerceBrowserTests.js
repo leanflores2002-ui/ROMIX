@@ -192,11 +192,26 @@ async function run(context, origin, width) {
   if (width < 768) {
     await page.keyboard.press('Escape');
     await page.waitForFunction(() => !document.body.classList.contains('filters-open'));
+    // Closing restores focus in requestAnimationFrame; observe that completed state.
+    await page.waitForFunction(() => document.activeElement === document.querySelector('#catalog-mobile-filter-trigger'));
     assert.equal(await page.locator('#catalog-mobile-filter-trigger').evaluate(node => node === document.activeElement), true);
   }
   assert.ok(!destinations.some(url => /google-analytics|googletagmanager/.test(url)), 'Localhost sends no analytics');
   assert.deepEqual(errors, []);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Catalog overflow at ${width}`);
+  await page.goto(origin + '/index.html');
+  await page.locator('#productsRow .product-card').first().waitFor();
+  assert.equal((await page.locator('#campaign-title').innerText()).replace(/\s+/g, ' '), 'TU ESTILO. EN MOVIMIENTO.');
+  assert.equal(await page.locator('.campaign-hero__cta').getAttribute('href'), 'catalogo.html');
+  assert.equal(await page.locator('#productsRow .product-card').count(), width <= 760 ? 4 : 12, 'Home keeps its existing initial product limits');
+  assert.ok(!(await page.locator('#productsRow').textContent()).includes('Oculto QA'));
+  assert.equal(await page.locator('#promoPrev').isVisible(), false, 'A single campaign has no active previous/next controls');
+  await health('home');
+  await page.locator('.campaign-hero__cta').click();
+  await page.locator('#product-grid .product-card').first().waitFor();
+  assert.equal(new URL(page.url()).pathname, '/catalogo.html');
+  assert.deepEqual(errors, []);
+  assert.ok(!destinations.some(url => /google-analytics|googletagmanager/.test(url)), 'Home sends no real analytics');
   console.log(`commerceBrowserTests: ${width}px passed (real intercepted popup)`);
 }
 

@@ -1,3 +1,12 @@
+/* Anton: local Latin subset, SIL OFL; see ../fonts/Anton-OFL.txt. */
+@font-face {
+  font-family: "Anton";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/anton-latin.woff2") format("woff2");
+}
+
 /*
  * ROMIX Design System
  * Shared tokens and opt-in controls for every storefront page.
@@ -24,8 +33,8 @@
   --romix-warning: #C66C12;
   --romix-danger: #B4233A;
 
-  /* Typography scale: Outfit for headings, Manrope for body and UI. */
-  --romix-font-heading: "Outfit", system-ui, sans-serif;
+  /* Condensed campaign titles; Manrope stays on body and commerce controls. */
+  --romix-font-heading: "Anton", "Impact", "Arial Narrow", sans-serif;
   --romix-font-body: "Manrope", system-ui, sans-serif;
   --romix-text-xs: 12px;
   --romix-text-sm: 14px;
@@ -303,4 +312,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (max-width: 380px) {
   .romix-container { width: calc(100% - 24px); }
+}
+
+/* Display type is condensed without synthetic bold or horizontal transforms. */
+h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
+  font-synthesis: none;
 }

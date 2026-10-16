@@ -229,13 +229,13 @@ body[data-catalog-scope] select { font: inherit; }
 }
 .product-name {
   display: -webkit-box; min-height: 2.5em; margin: 0; overflow: hidden;
-  color: var(--catalog-ink); font-family: var(--romix-font-heading);
+  color: var(--catalog-ink); font-family: var(--romix-font-body);
   font-size: 15px; font-weight: 700; letter-spacing: -.01em; line-height: 1.3;
   -webkit-box-orient: vertical; -webkit-line-clamp: 2;
 }
 .product-meta { min-height: 1.2em; margin: 0; overflow: hidden; color: var(--catalog-muted); font-size: 13px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
 .price-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 6px 8px; margin-top: auto; padding-top: 5px; }
-.product-price { margin: 0; color: var(--catalog-ink); font-family: var(--romix-font-heading); font-size: 18px; font-weight: 800; line-height: 1; }
+.product-price { margin: 0; color: var(--catalog-ink); font-family: var(--romix-font-body); font-size: 18px; font-weight: 800; line-height: 1; }
 .stock-note { display: inline-flex; align-items: center; gap: 5px; margin: 0; color: var(--catalog-muted); font-size: 13px; font-weight: 650; line-height: 1.3; text-align: right; }
 .stock-note::before { width: 6px; height: 6px; flex: 0 0 auto; border-radius: 50%; background: currentColor; content: ""; }
 .stock-note.status-available { color: var(--catalog-success); }

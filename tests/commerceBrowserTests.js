@@ -137,6 +137,13 @@ async function run(context, origin, width) {
   await page.evaluate(() => window.orderCartWhatsApp());
   assert.equal(context.pages().length, pagesBefore, 'Empty cart cannot open another window');
   await page.goto(origin + '/catalogo.html?q=REMERON');
+  await page.setViewportSize({ width: width + 1, height: 900 });
+  await page.setViewportSize({ width, height: 900 });
+  await page.waitForFunction(() => {
+    const panel = document.getElementById('filters-sidebar');
+    return panel && panel.inert === (innerWidth <= 960) && panel.getAttribute('aria-hidden') === String(innerWidth <= 960);
+  });
+
   await page.locator('#product-grid a[href*="product.html"]').first().waitFor();
   await health('catalog');
   assert.ok((await page.locator('#product-grid').textContent()).includes(fixture.name), 'Search ignores case and accents');

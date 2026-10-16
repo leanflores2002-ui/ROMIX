@@ -1,7 +1,7 @@
 /* ROMIX help center: reference-led layout using the shared brand tokens. */
 :root {
-  --help-radius: 16px;
-  --help-shadow: 0 12px 32px rgba(36, 36, 38, .06);
+  --help-radius: var(--romix-radius-lg);
+  --help-shadow: none;
 }
 body:has(.help-page) {
   background: var(--romix-white, #fff);
@@ -31,7 +31,7 @@ main.help-page > .help-duo-grid {
   gap: 20px;
   padding: 34px 40px 30px;
   border: 1px solid var(--romix-border);
-  border-radius: 20px;
+  border-radius: var(--romix-radius);
   box-shadow: var(--help-shadow);
   background:
     radial-gradient(circle at 4% 112%, rgba(242, 145, 199, .22), transparent 34%),
@@ -123,10 +123,10 @@ main.help-page > .help-duo-grid {
   min-height: 50px;
   padding: 0 15px;
   border: 1px solid var(--romix-border);
-  border-radius: 12px;
+  border-radius: var(--romix-radius);
   background: #fff;
   color: var(--romix-pink);
-  box-shadow: 0 5px 18px rgba(36, 36, 38, .04);
+  box-shadow: none;
 }
 
 .help-search-field > span { flex: 0 0 auto; }
@@ -148,7 +148,7 @@ main.help-page > .help-duo-grid {
   min-width: 104px;
   min-height: 50px;
   padding: 12px 20px;
-  border-radius: 12px;
+  border-radius: var(--romix-radius);
   box-shadow: none;
 }
 
@@ -165,7 +165,7 @@ main.help-page > .help-duo-grid {
 .hero-meta li {
   padding: 9px 12px;
   border-color: rgba(242, 145, 199, .24);
-  border-radius: 10px;
+  border-radius: var(--romix-radius);
   background: rgba(255, 255, 255, .72);
   color: var(--romix-muted);
   font-size: .84rem;
@@ -325,7 +325,7 @@ main.help-page > .help-duo-grid {
 
 .size-guide-block {
   border-color: var(--romix-border);
-  border-radius: 14px;
+  border-radius: var(--romix-radius);
   background: var(--romix-surface-soft);
   box-shadow: none;
 }

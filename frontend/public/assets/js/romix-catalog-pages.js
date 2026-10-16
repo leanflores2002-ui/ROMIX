@@ -2242,7 +2242,9 @@
       trigger.setAttribute("aria-expanded", "false");
     });
     if (sidebar) {
-      sidebar.setAttribute("aria-hidden", "true");
+      const mobile = window.innerWidth <= 960;
+      sidebar.setAttribute("aria-hidden", String(mobile));
+      sidebar.inert = mobile;
       sidebar.removeAttribute("aria-modal");
       sidebar.removeAttribute("role");
     }
@@ -2261,6 +2263,7 @@
       trigger.setAttribute("aria-expanded", "true");
     });
     if (sidebar) {
+      sidebar.inert = false;
       sidebar.setAttribute("role", "dialog");
       sidebar.setAttribute("aria-modal", "true");
       sidebar.setAttribute("aria-hidden", "false");
@@ -2398,7 +2401,7 @@
     });
 
     window.addEventListener("resize", function () {
-      if (window.innerWidth > 960) closeSidebar();
+      if (window.innerWidth > 960 || !document.body.classList.contains("filters-open")) closeSidebar();
       const nextCompactVariantViewport = isCompactVariantViewport();
       if (state.compactVariantViewport !== nextCompactVariantViewport) {
         state.compactVariantViewport = nextCompactVariantViewport;
@@ -2414,6 +2417,7 @@
 
     initPageHeader();
     wireUiEvents();
+    closeSidebar();
 
     try {
       const raw = await loadProducts();

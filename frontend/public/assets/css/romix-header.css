@@ -8,10 +8,10 @@ header.romix-shared-header {
   position: sticky;
   top: 0;
   z-index: 1200;
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 2px solid rgba(255, 143, 180, 0.55);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 6px 16px rgba(30, 30, 30, 0.04);
+  background: var(--romix-white);
+  border-bottom: 1px solid var(--romix-border);
+  backdrop-filter: none;
+  box-shadow: none;
   margin: 0;
   padding: 0;
   border-radius: 0;

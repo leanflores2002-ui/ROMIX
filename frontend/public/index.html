@@ -44,10 +44,10 @@
       --line-soft: var(--romix-border);
       --shadow-soft: var(--romix-shadow);
       --shadow-card: var(--romix-shadow);
-      --radius-xl: 32px;
-      --radius-lg: 24px;
-      --radius-md: 18px;
-      --radius-sm: 12px;
+      --radius-xl: var(--romix-radius-lg);
+      --radius-lg: var(--romix-radius-lg);
+      --radius-md: var(--romix-radius);
+      --radius-sm: var(--romix-radius-sm);
       --pill: 999px;
       --home-max: 1200px;
       --section-gap: clamp(22px, 2.6vw, 34px);
@@ -114,7 +114,7 @@
 
     .main-hero-carousel {
       position: relative;
-      --hero-height: clamp(540px, 40vw, 680px);
+      --hero-height: calc((100vw - 40px) * 735 / 2139);
       width: 100vw;
       max-width: 100vw;
       margin-left: calc(50% - 50vw);
@@ -383,8 +383,6 @@
       border: 1px solid rgba(255, 255, 255, 0.7);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-card);
-      content-visibility: auto;
-      contain-intrinsic-size: 780px;
       overflow: hidden;
     }
 
@@ -954,7 +952,7 @@
 
     @media (max-width: 1024px) {
       .main-hero-carousel {
-        --hero-height: clamp(430px, 48vw, 560px);
+        --hero-height: calc((100vw - 40px) * 735 / 2139);
       }
 
       .audience-grid {
@@ -973,7 +971,7 @@
 
     @media (min-width: 1025px) and (max-width: 1199px) {
       .main-hero-carousel {
-        --hero-height: clamp(430px, 48vw, 560px);
+        --hero-height: calc((100vw - 40px) * 735 / 2139);
       }
     }
 
@@ -984,7 +982,7 @@
       }
 
       .main-hero-carousel {
-        --hero-height: clamp(230px, 68vw, 310px);
+        --hero-height: calc((100vw - 40px) * 2 / 3);
       }
 
       .main-hero-carousel__viewport {
@@ -1204,40 +1202,40 @@
       position: relative;
       border-radius: var(--radius-xl);
       overflow: hidden;
-      min-height: clamp(260px, 38vw, 500px);
+      min-height: 0;
       background: #111;
       box-shadow: var(--shadow-hover);
       width: 100%;
       max-width: 100%;
     }
-    .promo-track { position: relative; width: 100%; height: 100%; }
+    .promo-track { position: relative; width: 100%; }
     .promo-carousel.is-static { touch-action: auto; }
     .promo-slide {
       display: none;
       position: relative;
       width: 100%;
-      min-height: clamp(260px, 38vw, 500px);
+      min-height: 0;
       overflow: hidden;
     }
     .promo-slide.is-active { display: block; }
     .promo-slide__link {
       display: block;
       width: 100%;
-      height: 100%;
-      min-height: inherit;
+      height: auto;
+      min-height: 0;
       text-decoration: none;
     }
     .promo-slide__link img,
     .promo-slide img {
       display: block;
-      width: 100%; height: 100%; min-height: inherit;
+      width: 100%; height: auto; min-height: 0;
       object-fit: cover; object-position: center center;
       object-view-box: inset(0);
       transition: transform 0.4s ease;
       max-width: 100%;
       image-rendering: auto;
     }
-    .promo-slide.is-active img { transform: scale(1.02); }
+    .promo-slide.is-active img { transform: none; }
     .promo-slide__overlay,
     .promo-slide__body,
     .promo-slide__eyebrow,
@@ -1290,8 +1288,8 @@
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=21" />
-  <link rel="stylesheet" href="assets/css/romix-footer.css?v=19" />
+  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=22" />
+  <link rel="stylesheet" href="assets/css/romix-footer.css?v=22" />
   <script defer src="/assets/js/romix-analytics.js?v=1"></script>
 </head>
 <body>
@@ -1488,7 +1486,7 @@
               <img src="images/calzas.png" alt="Calzas" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span>Calzas</span>
+          <span class="category-label">Calzas</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=camperas">
           <div class="category-thumb">
@@ -1497,7 +1495,7 @@
               <img src="images/camperas.png" alt="Camperas" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span>Camperas</span>
+          <span class="category-label">Camperas</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=remeras">
           <div class="category-thumb">
@@ -1506,7 +1504,7 @@
               <img src="images/remeras.png" alt="Remeras" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span>Remeras</span>
+          <span class="category-label">Remeras</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=tops">
           <div class="category-thumb">
@@ -1515,7 +1513,7 @@
               <img src="images/tops.png" alt="Tops" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span>Tops</span>
+          <span class="category-label">Tops</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=buzos">
           <div class="category-thumb">
@@ -1524,7 +1522,7 @@
               <img src="images/buzos.png" alt="Buzos" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span>Buzos</span>
+          <span class="category-label">Buzos</span>
         </a>
         <a class="category-item" href="catalogo.html?categories=pantalones">
           <div class="category-thumb">
@@ -1533,12 +1531,49 @@
               <img src="images/pantalones.png" alt="Pantalones" loading="lazy" decoding="async" width="1254" height="1254" />
             </picture>
           </div>
-          <span>Pantalones</span>
+          <span class="category-label">Pantalones</span>
         </a>
       </div>
     </section>
 
     <!-- ── PROMO CAROUSEL ── -->
+    <section class="products-section" id="ofertas" aria-labelledby="ofertas-titulo">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">Nueva temporada</span>
+          <h2 id="ofertas-titulo">NUEVOS LANZAMIENTOS</h2>
+        </div>
+        <a class="section-link" href="catalogo.html?view=novedades">Ver todo
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+      <div class="products-shell">
+        <button class="romix-icon-btn products-arrow left" type="button" id="productsPrev" aria-label="Ver productos anteriores">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="products-row" id="productsRow">
+          <div class="products-empty">Cargando productos...</div>
+        </div>
+        <button class="romix-icon-btn products-arrow right" type="button" id="productsNext" aria-label="Ver mas productos">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="products-mobile-cta">
+        <a class="section-link" href="catalogo.html?view=novedades">Ver todos los lanzamientos
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+
     <section class="editorial-section" aria-labelledby="editorial-title">
       <div class="section-head">
         <div>
@@ -1598,7 +1633,7 @@
                 <source srcset="images/optimized/ROPA_DEPORTIVA-960.webp 960w, images/optimized/ROPA_DEPORTIVA-1440.webp 1440w" sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 960px) min(82vw, 760px), 760px" type="image/webp" />
                 <img src="images/ROPA_DEPORTIVA.png" alt="Ropa Deportiva ROMIX" loading="lazy" decoding="async" width="1708" height="921" />
               </picture>
-              <span class="promo-slide__cta romix-btn romix-btn--secondary romix-btn--pill">Ver colecci&oacute;n <span aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></span></span>
+              <span class="promo-slide__cta romix-btn romix-btn--secondary">Ver colecci&oacute;n <span aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="sm"></span></span></span>
             </a>
           </article>
 
@@ -1614,42 +1649,6 @@
         <div class="promo-dots" id="promoDots"></div>
       </div>
     </div>
-
-    <section class="products-section" id="ofertas" aria-labelledby="ofertas-titulo">
-      <div class="section-head">
-        <div>
-          <span class="section-eyebrow">Nueva temporada</span>
-          <h2 id="ofertas-titulo">NUEVOS LANZAMIENTOS</h2>
-        </div>
-        <a class="section-link" href="catalogo.html?view=novedades">Ver todo
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </a>
-      </div>
-      <div class="products-shell">
-        <button class="romix-icon-btn products-arrow left" type="button" id="productsPrev" aria-label="Ver productos anteriores">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </button>
-        <div class="products-row" id="productsRow">
-          <div class="products-empty">Cargando productos...</div>
-        </div>
-        <button class="romix-icon-btn products-arrow right" type="button" id="productsNext" aria-label="Ver mas productos">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </button>
-      </div>
-      <div class="products-mobile-cta">
-        <a class="section-link" href="catalogo.html?view=novedades">Ver todos los lanzamientos
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </a>
-      </div>
-    </section>
 
     <section class="why-section" aria-labelledby="why-title">
       <div class="section-head">

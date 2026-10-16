@@ -39,9 +39,9 @@
   --romix-leading-tight: 1.08;
 
   /* Layout, shape and motion */
-  --romix-radius-sm: 8px;
-  --romix-radius: 10px;
-  --romix-radius-lg: 14px;
+  --romix-radius-sm: 2px;
+  --romix-radius: 2px;
+  --romix-radius-lg: 0px;
   --romix-pill: 999px;
   --romix-control-sm: 40px;
   --romix-control-md: 44px;
@@ -68,9 +68,9 @@
   --romix-ease: var(--romix-transition);
   --romix-focus-ring: 0 0 0 3px rgba(242, 39, 151, .22);
   --romix-focus: var(--romix-pink);
-  --romix-shadow-xs: 0 2px 8px rgba(36, 36, 38, .035);
-  --romix-shadow: 0 6px 20px rgba(36, 36, 38, .055);
-  --romix-shadow-hover: 0 8px 24px rgba(36, 36, 38, .07);
+  --romix-shadow-xs: none;
+  --romix-shadow: none;
+  --romix-shadow-hover: none;
   --romix-z-content: 1;
   --romix-z-sticky: 100;
   --romix-z-header: 500;

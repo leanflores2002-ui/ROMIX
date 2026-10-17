@@ -26,7 +26,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=23" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=23">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=24">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
@@ -1908,6 +1908,15 @@
         return true;
       }
 
+      const compactProductLayout = window.matchMedia('(max-width: 640px)');
+      function positionProductSummary() {
+        const summary = document.querySelector('#product-detail .product-summary');
+        const target = document.querySelector(compactProductLayout.matches
+          ? '#product-detail .mobile-product-name' : '#product-detail .info-panel');
+        if (summary && target && summary.parentElement !== target) target.prepend(summary);
+      }
+      compactProductLayout.addEventListener('change', positionProductSummary);
+
       function renderProduct(product){
         const detail = document.getElementById('product-detail');
         if (!detail) return;
@@ -1975,10 +1984,9 @@
                 </button>
               </div>
             </div>
-            <div class="mobile-product-name">
-              <h1>${product.name || 'Producto'}</h1>
-            </div>
+            <div class="mobile-product-name"></div>
             <div class="info-panel">
+              <div class="product-summary">
               <div>
                 <p class="product-context">${['ROMIX', sectionLabel, typeLabel].filter(Boolean).join(' &middot; ')}</p>
                 <div class="title-row">
@@ -1987,6 +1995,7 @@
                 </div>
               </div>
               <div class="price-area" id="product-price-display"></div>
+              </div>
               <div class="stock-note" id="stock-note"></div>
               <div class="selector">
                 <div class="selector-label">Color: <span id="selectedColorName"></span></div>
@@ -2066,6 +2075,7 @@
             </div>
           </div>
           `;
+        positionProductSummary();
         renderProductPrice(product, getPriceForSize(product, ''));
         document.title = product.name ? `ROMIX - ${product.name}` : 'ROMIX - Detalle';
         updateProductSeo(product);

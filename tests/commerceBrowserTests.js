@@ -201,9 +201,10 @@ async function run(context, origin, width) {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Catalog overflow at ${width}`);
   await page.goto(origin + '/index.html');
   await page.locator('#productsRow .product-card').first().waitFor();
-  assert.equal(await page.locator('main.home > section').first().evaluate(node => node.classList.contains('home-campaigns')), true, 'Promotional carousel must be the main banner');
+  assert.equal(await page.locator('main.home > section').first().evaluate(node => node.classList.contains('video-hero')), true, 'Video must be the main banner');
   assert.ok(await page.locator('#mainImageCarousel figure.is-active').getAttribute('class').then(value => value.includes('slide--lycra')), 'Outlet must be the first campaign');
-  assert.equal(await page.locator('#mainImageCarousel figure.is-active img').getAttribute('fetchpriority'), 'high', 'Main banner must load with priority');
+  assert.equal(await page.locator('#mainImageCarousel figure.is-active img').getAttribute('loading'), 'lazy', 'Lower carousel must not compete with the video poster');
+  assert.equal(await page.locator('.video-hero__poster img').getAttribute('fetchpriority'), 'high', 'Video poster must load with priority');
   assert.equal(await page.locator('.campaign-hero img').getAttribute('loading'), 'lazy', 'Lower campaign must not compete with the main banner');
   assert.equal((await page.locator('#campaign-title').innerText()).replace(/\s+/g, ' '), 'TU ESTILO. EN MOVIMIENTO.');
   assert.equal(await page.locator('.campaign-hero__cta').getAttribute('href'), 'catalogo.html');

@@ -46,8 +46,8 @@ const browserServer = require('./helpers/browserServer');
         await page.waitForFunction(() => { const v = document.querySelector('.video-hero video'); return v.readyState >= 2 && !v.paused; });
         const info = await video.evaluate(node => ({ muted: node.muted, inline: node.playsInline, loop: node.loop, src: node.getAttribute('src') }));
         assert.ok(info.muted && info.inline && info.loop);
-        assert.equal(info.src.includes('-mobile.mp4'), width <= 760);
-        assert.ok(requests.every(url => url.endsWith(width <= 760 ? '/romix-principal-mobile.mp4' : '/romix-principal.mp4')), 'Only the selected optimized video may be requested');
+        assert.equal(info.src.includes('-mobile.mp4'), width <= 960);
+        assert.ok(requests.every(url => url.endsWith(width <= 960 ? '/romix-principal-mobile.mp4' : '/romix-principal.mp4')), 'Only the selected optimized video may be requested');
         await toggle.click();
         assert.equal(await video.evaluate(node => node.paused), true);
         await page.evaluate(() => scrollTo(0, innerHeight * 2));
@@ -61,6 +61,12 @@ const browserServer = require('./helpers/browserServer');
         await page.waitForFunction(() => document.querySelector('.video-hero video').paused);
         await page.evaluate(() => scrollTo(0, 0));
         await page.waitForFunction(() => !document.querySelector('.video-hero video').paused);
+      }
+      if (width === 1440 && !failVideo) {
+        await page.setViewportSize({ width: 390, height: 900 });
+        await page.waitForFunction(() => { const v = document.querySelector('.video-hero video'); return v.currentSrc.includes('-mobile.mp4') && !v.paused; });
+        await page.setViewportSize({ width: 1440, height: 900 });
+        await page.waitForFunction(() => { const v = document.querySelector('.video-hero video'); return v.currentSrc.includes('romix-principal.mp4') && !v.paused; });
       }
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
       assert.deepEqual(errors, []);

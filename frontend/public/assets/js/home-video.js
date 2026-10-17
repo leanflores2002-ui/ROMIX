@@ -6,7 +6,7 @@
   const button = section.querySelector('[data-video-toggle]');
   const label = button.querySelector('span');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const mobile = window.matchMedia('(max-width: 760px)');
+  const mobile = window.matchMedia('(max-width: 960px)');
   let wantsPlayback = !reduced.matches && !navigator.connection?.saveData;
   let inView = true;
   let ready = document.readyState === 'complete';
@@ -17,6 +17,7 @@
   const updateButton = () => {
     const text = video.paused ? 'Reproducir video' : 'Pausar video';
     label.textContent = text;
+    button.dataset.playing = String(!video.paused);
     button.setAttribute('aria-label', text);
   };
   const ensureSource = () => {
@@ -43,6 +44,7 @@
   video.addEventListener('playing', () => { section.classList.add('has-video-frame'); updateButton(); });
   video.addEventListener('pause', updateButton);
   video.addEventListener('error', () => {
+    if (!video.error) return;
     failed = true;
     video.pause();
     section.classList.remove('has-video-frame');
@@ -61,6 +63,17 @@
   document.addEventListener('visibilitychange', () => { void syncPlayback(); });
   reduced.addEventListener('change', () => {
     if (reduced.matches) wantsPlayback = false;
+    void syncPlayback();
+  });
+  mobile.addEventListener('change', () => {
+    if (!video.getAttribute('src')) return;
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+    failed = false;
+    button.hidden = false;
+    section.classList.remove('has-video-frame');
+    updateButton();
     void syncPlayback();
   });
   if ('IntersectionObserver' in window) {

@@ -32,9 +32,9 @@
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
 
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=26" />
+  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=27" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
-  <script defer src="/assets/js/home-video.js?v=1"></script>
+  <script defer src="/assets/js/home-video.js?v=2"></script>
   <script defer src="/assets/js/romix-analytics.js?v=1"></script>
 </head>
 <body>
@@ -112,16 +112,21 @@
 
   <main class="home">
     <section class="video-hero" data-home-video aria-labelledby="video-hero-title">
-      <h1 class="sr-only" id="video-hero-title">ROMIX: indumentaria deportiva y urbana</h1>
       <picture class="video-hero__poster">
-        <source media="(max-width: 760px)" srcset="videos/romix-principal-mobile-poster.webp" />
-        <img src="videos/romix-principal-poster.webp" alt="Atletas entrenando en un gimnasio con indumentaria deportiva ROMIX" width="1280" height="720" fetchpriority="high" loading="eager" decoding="async" />
+        <source media="(max-width: 960px)" srcset="videos/romix-principal-mobile-poster.webp?v=2" />
+        <img src="videos/romix-principal-poster.webp?v=2" alt="Atletas entrenando en un gimnasio con indumentaria deportiva ROMIX" width="1600" height="556" fetchpriority="high" loading="eager" decoding="async" />
       </picture>
-      <video class="video-hero__video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" width="1280" height="720" data-desktop-src="videos/romix-principal.mp4" data-mobile-src="videos/romix-principal-mobile.mp4" data-desktop-poster="videos/romix-principal-poster.webp" data-mobile-poster="videos/romix-principal-mobile-poster.webp"></video>
-      <div class="video-hero__controls">
-        <a class="video-hero__explore" href="catalogo.html">Explorar colecci&oacute;n</a>
-        <button class="video-hero__toggle" type="button" data-video-toggle hidden><span>Reproducir video</span></button>
+      <video class="video-hero__video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" width="1600" height="556" data-desktop-src="videos/romix-principal.mp4?v=2" data-mobile-src="videos/romix-principal-mobile.mp4?v=2" data-desktop-poster="videos/romix-principal-poster.webp?v=2" data-mobile-poster="videos/romix-principal-mobile-poster.webp?v=2"></video>
+      <div class="video-hero__copy">
+        <h1 id="video-hero-title">ROMIX EN MOVIMIENTO</h1>
+        <p>Indumentaria deportiva y urbana.</p>
+        <a class="video-hero__explore" href="catalogo.html">EXPLORAR</a>
       </div>
+      <button class="video-hero__toggle" type="button" data-video-toggle data-playing="false" hidden>
+        <span class="sr-only">Reproducir video</span>
+        <svg class="video-icon video-icon--play" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 11 7-11 7V5Z" fill="currentColor" /></svg>
+        <svg class="video-icon video-icon--pause" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="3" /></svg>
+      </button>
     </section>
 
     <section class="audience-section surface-section" aria-labelledby="quick-shop-title">

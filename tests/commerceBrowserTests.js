@@ -209,7 +209,7 @@ async function run(context, origin, width) {
   assert.equal(await page.locator('.campaign-hero__cta').getAttribute('href'), 'catalogo.html');
   assert.equal(await page.locator('#productsRow .product-card').count(), width <= 760 ? 4 : 12, 'Home keeps its existing initial product limits');
   assert.ok(!(await page.locator('#productsRow').textContent()).includes('Oculto QA'));
-  assert.equal(await page.locator('#promoPrev').isVisible(), false, 'A single campaign has no active previous/next controls');
+  assert.equal(await page.locator('#promoCarouselWrap').count(), 0, 'Removed seasonal campaign must not return to home');
   await health('home');
   await page.locator('.campaign-hero__cta').click();
   await page.locator('#product-grid .product-card').first().waitFor();

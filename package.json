@@ -35,10 +35,12 @@
     "check:ts": "tsc -p tsconfig.json --noEmit",
     "test:performance": "node tests/productDerivativeTests.js",
     "test:regressions": "node tests/analyticsTests.js && node tests/sharePriceTests.js && node tests/cartPersistenceTests.js",
-    "test:browser": "node tests/commerceBrowserTests.js && node tests/megaMenuBrowserTests.js && node tests/buttonLabelTests.js",
+    "test:browser": "node tests/commerceBrowserTests.js && node tests/megaMenuBrowserTests.js && node tests/buttonLabelTests.js && node tests/homeVideoBrowserTests.js",
     "test:backend": "python -m pytest backend/tests/test_orders.py -q -p no:cacheprovider && python tests/season_visibility_backend_tests.py && python tests/product_share_backend_tests.py && python tests/seo_backend_tests.py",
     "test:formats": "node tests/productFormatTests.js",
-    "audit:media-review": "node scripts/audit-product-media.js after && node scripts/review-product-media.js"
+    "audit:media-review": "node scripts/audit-product-media.js after && node scripts/review-product-media.js",
+    "test:home-video": "node tests/homeVideoBrowserTests.js",
+    "optimize:home-video": "node scripts/optimize-home-video.js"
   },
   "repository": {
     "type": "git",

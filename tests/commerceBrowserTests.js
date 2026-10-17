@@ -137,6 +137,13 @@ async function run(context, origin, width) {
   await page.evaluate(() => window.orderCartWhatsApp());
   assert.equal(context.pages().length, pagesBefore, 'Empty cart cannot open another window');
   await page.goto(origin + '/catalogo.html?q=REMERON');
+  await page.setViewportSize({ width: width + 1, height: 900 });
+  await page.setViewportSize({ width, height: 900 });
+  await page.waitForFunction(() => {
+    const panel = document.getElementById('filters-sidebar');
+    return panel && panel.inert === (innerWidth <= 960) && panel.getAttribute('aria-hidden') === String(innerWidth <= 960);
+  });
+
   await page.locator('#product-grid a[href*="product.html"]').first().waitFor();
   await health('catalog');
   assert.ok((await page.locator('#product-grid').textContent()).includes(fixture.name), 'Search ignores case and accents');
@@ -185,11 +192,31 @@ async function run(context, origin, width) {
   if (width < 768) {
     await page.keyboard.press('Escape');
     await page.waitForFunction(() => !document.body.classList.contains('filters-open'));
+    // Closing restores focus in requestAnimationFrame; observe that completed state.
+    await page.waitForFunction(() => document.activeElement === document.querySelector('#catalog-mobile-filter-trigger'));
     assert.equal(await page.locator('#catalog-mobile-filter-trigger').evaluate(node => node === document.activeElement), true);
   }
   assert.ok(!destinations.some(url => /google-analytics|googletagmanager/.test(url)), 'Localhost sends no analytics');
   assert.deepEqual(errors, []);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Catalog overflow at ${width}`);
+  await page.goto(origin + '/index.html');
+  await page.locator('#productsRow .product-card').first().waitFor();
+  assert.equal(await page.locator('main.home > section').first().evaluate(node => node.classList.contains('video-hero')), true, 'Video must be the main banner');
+  assert.ok(await page.locator('#mainImageCarousel figure.is-active').getAttribute('class').then(value => value.includes('slide--lycra')), 'Outlet must be the first campaign');
+  assert.equal(await page.locator('#mainImageCarousel figure.is-active img').getAttribute('loading'), 'lazy', 'Lower carousel must not compete with the video poster');
+  assert.equal(await page.locator('.video-hero__poster img').getAttribute('fetchpriority'), 'high', 'Video poster must load with priority');
+  assert.equal(await page.locator('.campaign-hero img').getAttribute('loading'), 'lazy', 'Lower campaign must not compete with the main banner');
+  assert.equal((await page.locator('#campaign-title').innerText()).replace(/\s+/g, ' '), 'TU ESTILO. EN MOVIMIENTO.');
+  assert.equal(await page.locator('.campaign-hero__cta').getAttribute('href'), 'catalogo.html');
+  assert.equal(await page.locator('#productsRow .product-card').count(), width <= 760 ? 4 : 12, 'Home keeps its existing initial product limits');
+  assert.ok(!(await page.locator('#productsRow').textContent()).includes('Oculto QA'));
+  assert.equal(await page.locator('#promoCarouselWrap').count(), 0, 'Removed seasonal campaign must not return to home');
+  await health('home');
+  await page.locator('.campaign-hero__cta').click();
+  await page.locator('#product-grid .product-card').first().waitFor();
+  assert.equal(new URL(page.url()).pathname, '/catalogo.html');
+  assert.deepEqual(errors, []);
+  assert.ok(!destinations.some(url => /google-analytics|googletagmanager/.test(url)), 'Home sends no real analytics');
   console.log(`commerceBrowserTests: ${width}px passed (real intercepted popup)`);
 }
 

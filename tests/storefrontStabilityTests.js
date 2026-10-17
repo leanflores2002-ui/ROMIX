@@ -80,7 +80,7 @@ function checkStaticShells() {
     assert((doc.documentElement.getAttribute('lang') || '').toLowerCase().startsWith('es'), `${page}: Spanish lang is required`);
     const baseStyles = doc.querySelectorAll('link[data-romix-shell-critical]');
     assert(baseStyles.length === 1, `${page}: one shared base stylesheet required`);
-    assert(baseStyles[0].getAttribute('href') === 'assets/css/romix-shell-base.css?v=18', `${page}: shared base stylesheet path drifted`);
+    assert(baseStyles[0].getAttribute('href') === 'assets/css/romix-shell-base.css?v=23', `${page}: shared base stylesheet path drifted`);
     assert(!doc.querySelector('style[data-romix-shell-critical]'), `${page}: shared base styles must not be duplicated inline`);
     assert(doc.querySelector('link[rel="stylesheet"][href^="assets/css/"]') === baseStyles[0], `${page}: base styles must precede other local styles`);
     assert(fs.existsSync(path.join(publicDir, 'assets/css/romix-shell-base.css')), `${page}: base stylesheet missing`);

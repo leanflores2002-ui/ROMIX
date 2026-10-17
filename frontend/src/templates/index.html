@@ -32,7 +32,7 @@
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
 
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=27" />
+  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=28" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/home-video.js?v=2"></script>
   <script defer src="/assets/js/romix-analytics.js?v=1"></script>
@@ -924,6 +924,8 @@
         }
         dots.forEach((dot, index) => {
           dot.classList.toggle("is-active", index === current);
+          if (index === current) dot.setAttribute("aria-current", "true");
+          else dot.removeAttribute("aria-current");
         });
       }
 

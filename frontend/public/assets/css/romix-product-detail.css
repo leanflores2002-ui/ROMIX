@@ -271,12 +271,3 @@
 .share-actions [hidden] { display: none; }
 .share-panel .share-actions .share-btn:hover, .share-panel .share-actions .share-btn:focus-visible { color: #a6125b; }
 .share-panel .share-contact { color: #a6125b; }
-
-.product-summary { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
-@media (max-width: 640px) {
-  .detail-grid { grid-template-areas: "name" "gallery" "info" "extras"; gap: 20px; }
-  .mobile-product-name { margin: 0; min-width: 0; }
-  .mobile-product-name .product-context { display: none; }
-  .mobile-product-name .title-row h1 { font-size: clamp(26px, 7vw, 34px); line-height: 1.12; overflow-wrap: anywhere; }
-  .mobile-product-name .product-summary { gap: 12px; }
-}

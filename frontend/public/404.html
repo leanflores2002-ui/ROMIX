@@ -24,7 +24,7 @@
   </style>
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=23" />
-  <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=1" />
+  <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/romix-analytics.js?v=2"></script>
 </head>
@@ -142,13 +142,14 @@
   </div>
 </footer>
 <section class="cookie-consent" id="cookie-consent" aria-labelledby="cookie-consent-title" hidden>
-  <h2 id="cookie-consent-title">Tu privacidad en ROMIX</h2>
-  <p>Si aceptás, usamos cookies de Google Analytics para medir visitas y acciones como ver productos, agregarlos al carrito o iniciar un pedido por WhatsApp. Podés rechazar la analítica y seguir usando la tienda y el carrito.</p>
-  <p>Recordamos tu elección en este navegador. Podés cambiarla desde «Preferencias de cookies» en el pie de página.</p>
+  <div class="cookie-consent__copy">
+    <h2 id="cookie-consent-title">Cookies de analítica</h2>
+    <p>Google Analytics usa cookies para medir visitas y uso de la tienda, solo si aceptás. Podés cambiar tu elección desde el pie.</p>
+  </div>
   <p id="cookie-consent-status" role="status" aria-live="polite"></p>
   <div class="cookie-consent__actions">
-    <button type="button" id="cookie-reject">Rechazar analítica</button>
-    <button type="button" id="cookie-accept">Aceptar analítica</button>
+    <button type="button" id="cookie-reject" aria-label="Rechazar analítica">Rechazar</button>
+    <button type="button" id="cookie-accept" aria-label="Aceptar analítica">Aceptar</button>
   </div>
 </section>
 <script defer src="/assets/js/cookie-consent.js?v=1"></script>

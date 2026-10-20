@@ -18,6 +18,9 @@ const origin = require('../config/site.json').origin;
         ? route.continue() : route.fulfill({status: 200, body: ''}));
       const page = await context.newPage();
       page.on('pageerror', error => errors.push(error.message));
+      page.on('console', message => {
+        if (['warning', 'error'].includes(message.type()) && /srcset/i.test(message.text())) errors.push(message.text());
+      });
       for (const section of ['mujer', 'hombre', 'ninos']) {
         const product = products.find(p => p.visible !== false && p.section === section);
         await page.goto(server.origin + `/${section}/`);

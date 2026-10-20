@@ -88,3 +88,29 @@ esas referencias reparadas, manteniendo intactos nombres, precios, colores y tal
 Para una futura actualización se debe revisar el diff comercial y su procedencia,
 actualizar explícitamente los valores/hashes afectados y ejecutar la suite; nunca
 copiar ciegamente un resultado nuevo para silenciar un fallo.
+
+## Revisión puntual del 20 de octubre de 2026
+
+El fallo posterior de `catalogSync` se reprodujo antes de modificar esta expectativa.
+El baseline coincidía con todos los campos y el orden del catálogo de `67fcf4d7`.
+La comparación completa contra el catálogo actual de `14547c3d` encontró solo dos
+diferencias, ambas introducidas explícitamente en `330d8d76008cd3541fadca71c01d0eaedff482d8`
+(`Update products.json`), para **Remera manga larga morley viscosa**:
+
+- `season`: `media-estacion` → `invierno`.
+- `visible`: ausente (público por defecto) → `false`.
+
+Los 169 nombres, su orden, precios, grupos, talles, variantes, imágenes y restantes
+campos coinciden. Los productos públicos pasan de 124 a 123 por esa ocultación;
+no es una pérdida de fichas causada por SEO. El commit SEO no cambió el catálogo.
+No se revierte la decisión versionada ni se modifica información comercial.
+
+Se revisaron y actualizaron **manualmente solo los dos hashes afectados**, y la
+procedencia/fecha del baseline. No se ejecutó una regeneración automática del snapshot.
+El hash JSON de `"invierno"` es
+`de83bb0f633e4697f11ae34ba48af981d5034d45f0d09e598523511316e829e7`;
+el de `false` es
+`fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa`.
+Se mantiene la comparación de cada campo y se agrega una mutación negativa de
+temporada a las nueve comprobaciones existentes. No se ignora visibilidad,
+temporada, altas/bajas, orden o cambios comerciales para conseguir un resultado verde.

@@ -4,6 +4,7 @@
   const COLOR_LIMIT = 8;
   const SIZE_BASE = ["1", "2", "3", "4", "5", "6"];
   const imageUtils = window.romixImageUtils || {};
+  const srcsetUrl = imageUtils.srcsetUrl || (value => String(value || '').replace(/[\t\n\f\r ,]/g, character => encodeURIComponent(character)));
   const pricing = window.romixPricing || {};
   const iconMarkup = (name, options) => typeof window.romixIcon === "function"
     ? window.romixIcon(name, options)
@@ -1524,12 +1525,12 @@
           return;
         }
         if (current) {
-          current.srcset = src;
+          current.srcset = srcsetUrl(src);
           return;
         }
         const source = document.createElement("source");
         source.type = type;
-        source.srcset = src;
+        source.srcset = srcsetUrl(src);
         if (type === "image/avif") {
           picture.insertBefore(source, picture.firstChild);
           return;

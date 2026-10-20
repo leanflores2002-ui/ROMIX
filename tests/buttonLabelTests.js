@@ -95,6 +95,8 @@ if (!engine) throw new Error(`Unsupported browser: ${engineName}`);
           assert.equal(await focusable.last().evaluate(node => node === document.activeElement), true, 'Shift+Tab wraps to the last drawer control');
           await page.keyboard.press('Escape');
           await page.waitForFunction(() => document.querySelector('#toggle-mobile-nav').getAttribute('aria-expanded') === 'false');
+          // The drawer restores focus on the next animation frame, after aria-expanded changes.
+          await page.waitForFunction(() => document.activeElement === document.querySelector('#toggle-mobile-nav'));
           assert.equal(await menu.evaluate(node => node === document.activeElement), true);
         }
         await page.route('**/qa-catalog-tabs.html', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Catalog fallback regression</title><div id="catalog-grid"></div><script src="/assets/js/slugify.js"></script><script src="/assets/js/catalog-tabs.js"></script>' }));

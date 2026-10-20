@@ -12,6 +12,7 @@ for (const [label, mutate] of [
   ['size removal', list => { list[0].sizes.pop(); }],
   ['photo', list => { list[0].colors[0].image = 'images/wrong.webp'; }],
   ['hidden product', list => { list[0].visible = !list[0].visible; }],
+  ['season', list => { list[0].season = 'unreviewed-season'; }],
   ['order', list => { [list[0], list[1]] = [list[1], list[0]]; }],
   ['identity', list => { list[0].name = list[1].name; }],
   ['removal', list => { list.pop(); }],

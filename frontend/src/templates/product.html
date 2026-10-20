@@ -97,7 +97,7 @@
   </main>
 <!-- ROMIX:INCLUDE:FOOTER -->
 
-  <script src="assets/js/romix-image-utils.js?v=20"></script>
+  <script src="assets/js/romix-image-utils.js?v=21"></script>
   <script src="assets/js/color-utils.js?v=19"></script>
   <script src="assets/js/slugify.js?v=19"></script>
   <script src="assets/js/share-versions.js?v=19"></script>
@@ -135,6 +135,7 @@
         || isTemplatePlaceholder(document.getElementById('preloaded-products')?.textContent || '');
       const CART_KEY = 'cart';
       const imageUtils = window.romixImageUtils || {};
+      const srcsetUrl = imageUtils.srcsetUrl || (value => String(value || '').replace(/[\t\n\f\r ,]/g, character => encodeURIComponent(character)));
       const pricing = window.romixPricing || {};
       const productImageSize = imageUtils.dimensions && imageUtils.dimensions.productFull
         ? imageUtils.dimensions.productFull
@@ -1961,7 +1962,7 @@
             <div class="gallery">
               <div class="main-image">
                 <picture id="main-image-picture">
-                  ${primaryImage.webpSrc ? `<source srcset="${primaryImage.webpSrc}" sizes="${PRODUCT_IMAGE_SIZES}" type="image/webp" />` : ''}
+                  ${primaryImage.webpSrc ? `<source srcset="${srcsetUrl(primaryImage.webpSrc)}" sizes="${PRODUCT_IMAGE_SIZES}" type="image/webp" />` : ''}
                   <img id="main-image" role="button" tabindex="0" aria-haspopup="dialog" src="${primaryImageSrc}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${primaryImageFallback}';" />
                 </picture>
                 <button type="button" class="romix-icon-btn zoom-btn" id="zoom-open" aria-label="Acercar imagen" aria-haspopup="dialog">
@@ -2233,13 +2234,13 @@
             return;
           }
           if (current) {
-            current.srcset = src;
+            current.srcset = srcsetUrl(src);
             current.sizes = PRODUCT_IMAGE_SIZES;
             return;
           }
           const sourceTag = document.createElement('source');
           sourceTag.type = type;
-          sourceTag.srcset = src;
+          sourceTag.srcset = srcsetUrl(src);
           sourceTag.sizes = PRODUCT_IMAGE_SIZES;
           picture.insertBefore(sourceTag, picture.firstChild);
         }

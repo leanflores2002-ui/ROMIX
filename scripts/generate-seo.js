@@ -33,7 +33,8 @@ function main(products, origin = deploymentSiteUrl(), env = process.env) {
   // Preview HTML is crawlable so crawlers can actually read noindex.
   if (isPreview(env)) {
     const files = ['index.html', 'catalogo.html', 'ayuda.html', 'product.html', 'cart.html', '404.html',
-      ...categories.map(category => `${category.key}/index.html`)];
+      ...categories.map(category => `${category.key}/index.html`),
+      ...products.filter(product => product && product.visible !== false).map(product => `productos/${productSlug(product)}/index.html`)];
     for (const file of files) {
       const target = path.join(publicDir, file);
       fs.writeFileSync(target, previewHtml(fs.readFileSync(target, 'utf8')));

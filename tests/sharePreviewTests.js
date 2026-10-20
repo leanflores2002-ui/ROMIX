@@ -71,8 +71,8 @@ async function checkGeneratedPreview(product, section) {
   assert(!document.querySelector('meta[http-equiv="refresh"]'), `${section}: crawler must retain static metadata`);
   for (const a of document.querySelectorAll('a[href]')) {
     const url = new URL(a.getAttribute('href'), siteUrl);
-    assert(url.pathname === '/product.html' && url.searchParams.get('id') === String(product.id || productSlug(product)), `${section}: detail link mismatch`);
-    assert(fs.existsSync(path.join(publicDir,url.pathname)), `${section}: broken detail href`);
+    assert(url.pathname === `/productos/${productSlug(product)}/`, `${section}: detail link mismatch`);
+    assert(fs.existsSync(path.join(publicDir,url.pathname,'index.html')), `${section}: broken detail href`);
   }
   assert(page.version === buildSharePage(product,siteUrl,social).version, 'Version must be deterministic');
   assert(page.version !== buildSharePage(product,siteUrl,{...social,imageHash:'changed'}).version, 'Image replacement must change version');

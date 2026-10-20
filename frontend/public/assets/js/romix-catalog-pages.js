@@ -1130,6 +1130,7 @@
   }
 
   function detailUrl(product) {
+    if (window.romixProductUrl) return window.romixProductUrl.detailHref(product);
     const id = encodeURIComponent(product.id || product.slug);
     const slug = encodeURIComponent(product.slug || slugify(product.name));
     const name = encodeURIComponent(product.name || "");
@@ -2441,7 +2442,7 @@
     applyFilters();
     } catch (error) {
       const grid = document.getElementById("product-grid");
-      if (document.body.dataset.categoryPage && grid?.querySelector('.product-card')) {
+      if (grid?.querySelector('.product-card')) {
         const summary = document.getElementById('products-summary');
         if (summary) summary.textContent = 'Los filtros no están disponibles por ahora. Podés abrir los productos del listado.';
         console.warn('[romix-catalog] Se conserva el listado generado.', error);

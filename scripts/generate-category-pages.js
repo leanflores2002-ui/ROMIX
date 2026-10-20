@@ -8,12 +8,7 @@ const cardTemplate = fs.readFileSync(path.resolve(__dirname, '../frontend/src/te
 
 function renderCategory(category, catalogHtml, products, origin) {
   const list = publicProducts(products, category.key);
-  const cards = list.map(product => {
-    const thumbnail = imageUtils.getThumbPath(product.image);
-    const image = fs.existsSync(path.join(publicDir, thumbnail)) ? thumbnail : product.image;
-    const fields = {DETAIL: detailHref(product, productSlug(product)), NAME: product.name, IMAGE: image, TYPE: product.type || ''};
-    return cardTemplate.replace(/%%([A-Z]+)%%/g, (_, key) => escapeHtml(fields[key]));
-  }).join('\n');
+  const cards = renderCards(list);
   const canonical = `${origin}/${category.key}/`;
   let html = catalogHtml.replace('<head>', '<head>\n  <base href="/" />')
     .replace(/<title>[^<]*<\/title>/, () => `<title>${escapeHtml(category.title)}</title>`)
@@ -23,11 +18,26 @@ function renderCategory(category, catalogHtml, products, origin) {
     .replace('data-catalog-scope="catalogo"', `data-catalog-scope="${category.key}" data-category-page="${category.key}"`)
     .replace(/(<h1 id="page-title"[^>]*>)[\s\S]*?(<\/h1>)/, (_, before, after) => `${before}Ropa para ${escapeHtml(category.label.toLowerCase())} ROMIX${after}`)
     .replace('<!-- ROMIX:CATEGORY:INTRO -->', () => `<p class="catalog-intro">${escapeHtml(category.intro)}</p>`)
-    .replace('<!-- ROMIX:CATEGORY:PRODUCTS -->', () => cards)
+    .replace(/<!-- ROMIX:CATALOG:STATIC:START -->[\s\S]*?<!-- ROMIX:CATALOG:STATIC:END -->|<!-- ROMIX:CATEGORY:PRODUCTS -->/, () => cards)
     .replace('Cargando catálogo...', `${list.length} productos publicados`)
     .replace(/<noscript>[\s\S]*?<\/noscript>/g, match => match.includes('catálogo interactivo')
       ? '<noscript><p class="catalog-noscript">Podés abrir cada producto del listado. Activá JavaScript para usar los filtros interactivos.</p></noscript>' : match);
   return html;
+}
+
+function renderCards(list) {
+  return list.map(product => {
+    const thumbnail = imageUtils.getThumbPath(product.image);
+    const image = fs.existsSync(path.join(publicDir, thumbnail)) ? thumbnail : product.image;
+    const fields = {DETAIL: detailHref(product, productSlug(product)), NAME: product.name, IMAGE: image, TYPE: product.type || ''};
+    return cardTemplate.replace(/%%([A-Z]+)%%/g, (_, key) => escapeHtml(fields[key]));
+  }).join('\n');
+}
+function renderCatalog(html) {
+  const products = require('../frontend/public/assets/data/products.json');
+  return html.replace('<!-- ROMIX:CATEGORY:PRODUCTS -->', () => '<!-- ROMIX:CATALOG:STATIC:START -->' + renderCards(publicProducts(products)) + '<!-- ROMIX:CATALOG:STATIC:END -->')
+    .replace('Cargando catálogo...', `${publicProducts(products).length} productos publicados`)
+    .replace('El catálogo interactivo necesita JavaScript. También podés consultar productos y disponibilidad por WhatsApp desde el pie de página.', 'Podés abrir cada producto del listado. Activá JavaScript para usar los filtros interactivos.');
 }
 
 function main(catalogHtml, origin) {
@@ -41,4 +51,4 @@ function main(catalogHtml, origin) {
   console.log('Category pages generated: ' + rendered.length);
 }
 
-module.exports = {renderCategory, main, categories};
+module.exports = {renderCategory, renderCatalog, main, categories};

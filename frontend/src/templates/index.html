@@ -549,6 +549,7 @@
     }
 
     function buildProductHref(product, fallbackType) {
+      if (product && product.name && window.romixProductUrl) return window.romixProductUrl.detailHref(product);
       if (product && product.name) {
         const pid = encodeURIComponent(product && product.id ? String(product.id) : slugifyName(product.name));
         const slug = encodeURIComponent(slugifyName(product.name));

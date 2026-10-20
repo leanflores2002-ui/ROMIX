@@ -37,6 +37,7 @@
     return (Array.isArray(list) ? list : []).filter(p => !hideProduct(p));
   }
   function detailHref(product, buy){
+    if (window.romixProductUrl) return window.romixProductUrl.detailHref(product) + (buy ? '?buy=1' : '');
     const slugVal = slugForProduct(product);
     const nameVal = typeof window.fixUtf8 === 'function'
       ? window.fixUtf8(product && product.name ? product.name : '')

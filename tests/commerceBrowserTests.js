@@ -144,7 +144,7 @@ async function run(context, origin, width) {
     return panel && panel.inert === (innerWidth <= 960) && panel.getAttribute('aria-hidden') === String(innerWidth <= 960);
   });
 
-  await page.locator('#product-grid a[href*="product.html"]').first().waitFor();
+  await page.locator('#product-grid a[href^="/productos/"]').first().waitFor();
   await health('catalog');
   assert.ok((await page.locator('#product-grid').textContent()).includes(fixture.name), 'Search ignores case and accents');
   const openFilters = page.locator(width < 768 ? '#catalog-mobile-filter-trigger' : '#open-filters');
@@ -155,9 +155,9 @@ async function run(context, origin, width) {
   }
   await page.locator('#price-min').fill('9000');
   await page.locator('#apply-price-filter').click();
-  await page.waitForFunction(() => !document.querySelector('#product-grid a[href*="product.html"]'));
+  await page.waitForFunction(() => !document.querySelector('#product-grid a[href^="/productos/"]'));
   await page.locator('#clear-filters').click();
-  await page.locator('#product-grid a[href*="product.html"]').first().waitFor();
+  await page.locator('#product-grid a[href^="/productos/"]').first().waitFor();
   products = Array.from({ length: 30 }, (_, index) => ({ ...fixture, id: `catalog-${index}`, name: `Remerón ${index}`, price: 4000 + index * 100,
     section: index < 20 ? 'mujer' : 'hombre', sizes: index < 20 ? ['6'] : ['2'],
     colors: [fixture.colors[index < 20 ? 1 : 0]] }));

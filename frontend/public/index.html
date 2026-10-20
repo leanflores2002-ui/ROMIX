@@ -34,9 +34,10 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=28" />
+  <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=1" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/home-video.js?v=2"></script>
-  <script defer src="/assets/js/romix-analytics.js?v=1"></script>
+  <script defer src="/assets/js/romix-analytics.js?v=2"></script>
 </head>
 <body>
 <!-- ROMIX:SHELL:HEADER:START -->
@@ -435,6 +436,7 @@
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
+      <button type="button" class="cookie-settings" id="cookie-settings" hidden>Preferencias de cookies</button>
       <div class="footer-socials" aria-label="Redes sociales">
         <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><span data-romix-icon="Instagram" data-romix-icon-size="sm"></span></a>
         <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V10H8.3v3h2.6v8h2.9Z"/></svg></a>
@@ -444,6 +446,17 @@
     </div>
   </div>
 </footer>
+<section class="cookie-consent" id="cookie-consent" aria-labelledby="cookie-consent-title" hidden>
+  <h2 id="cookie-consent-title">Tu privacidad en ROMIX</h2>
+  <p>Si aceptás, usamos cookies de Google Analytics para medir visitas y acciones como ver productos, agregarlos al carrito o iniciar un pedido por WhatsApp. Podés rechazar la analítica y seguir usando la tienda y el carrito.</p>
+  <p>Recordamos tu elección en este navegador. Podés cambiarla desde «Preferencias de cookies» en el pie de página.</p>
+  <p id="cookie-consent-status" role="status" aria-live="polite"></p>
+  <div class="cookie-consent__actions">
+    <button type="button" id="cookie-reject">Rechazar analítica</button>
+    <button type="button" id="cookie-accept">Aceptar analítica</button>
+  </div>
+</section>
+<script defer src="/assets/js/cookie-consent.js?v=1"></script>
 <!-- ROMIX:SHELL:FOOTER:END -->
 
   <script src="assets/js/romix-image-utils.js?v=21"></script>

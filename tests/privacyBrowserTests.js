@@ -49,7 +49,7 @@ const consentKey = 'romix.analytics-consent.v1';
       await page.locator('.cookie-privacy-link').focus();
       assert.notEqual(await page.locator('.cookie-privacy-link').evaluate(n => getComputedStyle(n).outlineStyle), 'none');
       await page.keyboard.press('Enter');
-      await page.locator('h1').filter({hasText:'Privacidad en ROMIX'}).waitFor();
+      await page.locator('h1').filter({hasText:'Política de privacidad'}).waitFor();
       assert.equal(new URL(page.url()).pathname, '/privacidad.html');
       assert.equal(await page.evaluate(k => localStorage.getItem(k), consentKey), null);
       assert.equal(await page.evaluate(() => typeof window.gtag), 'undefined');

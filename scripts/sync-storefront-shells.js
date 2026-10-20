@@ -3,7 +3,7 @@ const path = require('node:path');
 
 const templateDir = path.join(__dirname, '..', 'frontend', 'src', 'templates');
 const publicDir = path.join(__dirname, '..', 'frontend', 'public');
-const pages = ['index.html', 'catalogo.html', 'product.html', 'cart.html', 'ayuda.html', '404.html'];
+const pages = ['index.html', 'catalogo.html', 'product.html', 'cart.html', 'ayuda.html', 'privacidad.html', '404.html'];
 const generatedPages = [...pages, ...require('../frontend/public/assets/js/catalog-sections').categories.map(category => `${category.key}/index.html`)];
 const partials = ['header', 'footer'];
 

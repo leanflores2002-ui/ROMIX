@@ -17,3 +17,6 @@
   .cookie-consent__actions button { padding-inline: 8px; }
   #cookie-consent-status { margin-top: 0; }
 }
+
+.cookie-consent .cookie-privacy-link { color: #8b1054; text-decoration: underline; text-underline-offset: 2px; }
+.cookie-consent .cookie-privacy-link:focus-visible { outline: 3px solid #b91470; outline-offset: 4px; }

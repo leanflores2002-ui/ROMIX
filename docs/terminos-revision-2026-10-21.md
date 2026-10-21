@@ -61,3 +61,7 @@ Todo el trabajo se realiza en develop. Sin commit, push, merge ni despliegue.
 - Los plazos de atención manual, la situación fiscal y la solución de reclamos no se verifican mediante pruebas de software. No se realizó un despliegue ni una validación jurídica integral.
 
 Commit sugerido: feat: añadir términos y condiciones y canal de arrepentimiento
+
+## Ajuste posterior solicitado: ubicación del acceso
+
+Se retiró el enlace de arrepentimiento de la franja superior y se restauró su texto original «ENVÍOS Y RETIROS COORDINADOS · CONSULTÁ DISPONIBILIDAD», junto con su altura y estilos anteriores. El canal no se eliminó: continúa en el pie de todas las páginas y dentro de Términos. Esta nota sustituye las referencias anteriores a su presencia en el primer acceso. Las pruebas comprueban ahora su ausencia en el encabezado y el funcionamiento desde el pie. La adecuación jurídica de la nueva ubicación no está certificada por las pruebas técnicas.

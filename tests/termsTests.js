@@ -23,9 +23,7 @@ assert(main.querySelector('#arrepentimiento').textContent.includes('10 días cor
 assert(main.querySelector('#arrepentimiento').textContent.includes('24 horas'));
 assert(!d.querySelector('.romix-announcement a'));
 const withdrawal=d.querySelector('footer a[href*="text="]');
-assert.equal(withdrawal.getAttribute('aria-label'),'Botón de arrepentimiento');
-assert(withdrawal.querySelector('svg[aria-hidden="true"]'));
-assert(withdrawal.textContent.includes('ARREPENTIMIENTO'));
+assert.equal(withdrawal.textContent,'Botón de arrepentimiento');
 const destination=new URL(withdrawal.href);
 assert.equal(destination.hostname,'wa.me');
 assert.equal(destination.pathname,'/5491154272065');

@@ -65,3 +65,7 @@ Commit sugerido: feat: añadir términos y condiciones y canal de arrepentimient
 ## Ajuste posterior solicitado: ubicación del acceso
 
 Se retiró el enlace de arrepentimiento de la franja superior y se restauró su texto original «ENVÍOS Y RETIROS COORDINADOS · CONSULTÁ DISPONIBILIDAD», junto con su altura y estilos anteriores. El canal no se eliminó: continúa en el pie de todas las páginas y dentro de Términos. Esta nota sustituye las referencias anteriores a su presencia en el primer acceso. Las pruebas comprueban ahora su ausencia en el encabezado y el funcionamiento desde el pie. La adecuación jurídica de la nueva ubicación no está certificada por las pruebas técnicas.
+
+## Presentación final del acceso en el pie
+
+Por pedido del usuario, el enlace de arrepentimiento pasa a un bloque propio del footer, separado de las columnas de navegación: fondo oscuro, borde claro, ícono SVG de devolución y texto en dos líneas. Mantiene el mismo destino y mensaje preparado de WhatsApp, con nombre accesible y foco visible. No se incorporó de nuevo al encabezado. Este cambio de presentación no certifica por sí solo el requisito legal de visibilidad en el primer acceso.

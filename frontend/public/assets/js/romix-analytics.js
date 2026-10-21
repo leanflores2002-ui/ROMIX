@@ -58,9 +58,25 @@ function initAnalytics(environment) {
       viewedId = String(product.id);
       event('view_item', [{ ...product, qty: 1 }]);
     };
-    window.romixAnalytics = { trackWhatsApp: cart => event('whatsapp_order_click', cart) };
+    let cartViewed = false;
+    const viewCart = cart => {
+      if (!allowed || cartViewed || !Array.isArray(cart)) return;
+      cartViewed = true;
+      event('view_cart', cart);
+    };
+    window.romixAnalytics = {
+      trackWhatsApp: cart => event('whatsapp_order_click', cart),
+      trackCheckout: cart => event('begin_checkout', cart),
+      trackCheckoutFailure: reason => {
+        if (!allowed || !['popup_blocked', 'open_error'].includes(reason)) return;
+        gtag('event', 'whatsapp_open_failed', { reason });
+      }
+    };
     window.addEventListener('romix:product-viewed', e => viewProduct(e.detail.product));
     window.addEventListener('romix:analytics-cart-added', e => event('add_to_cart', [e.detail.item]));
+    window.addEventListener('romix:analytics-cart-removed', e => event('remove_from_cart', e.detail.items));
+    window.addEventListener('romix:analytics-cart-viewed', e => viewCart(e.detail.items));
+    if (Array.isArray(window.romixViewedCart)) viewCart(window.romixViewedCart);
     if (window.romixViewedProduct) viewProduct(window.romixViewedProduct);
   }
   function applyConsent(event) {

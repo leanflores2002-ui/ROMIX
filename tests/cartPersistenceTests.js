@@ -65,5 +65,25 @@ const product = { productId: 'p1', name: 'Remerón & algodón', color: 'Azul', s
     assert.equal(blocked.window.romixCart.getStatus().persisted, false);
     assert.ok(blocked.window.localStorage.getItem('cart'), 'Failed migration retains recoverable legacy data');
   } finally { blocked.window.close(); }
+  const measurement = await load();
+  try {
+    const additions = [], removals = [];
+    const w = measurement.window, cart = w.romixCart;
+    w.addEventListener('romix:analytics-cart-added', e => additions.push(e.detail.item.qty));
+    w.addEventListener('romix:analytics-cart-removed', e => removals.push(e.detail.items.reduce((n, item) => n + item.qty, 0)));
+    cart.addToCart(product);
+    const key = cart.getCart()[0].key;
+    cart.updateQty(key, 4);
+    cart.updateQty(key, 4);
+    cart.updateQty(key, 2);
+    cart.removeFromCart(key);
+    cart.removeFromCart(key);
+    cart.addToCart({ ...product, qty: 3 });
+    cart.clearCart({ forOrder: true });
+    cart.addToCart({ ...product, qty: 2 });
+    cart.clearCart();
+    assert.deepEqual(additions, [1, 3, 3, 2], 'Quantity changes measure the delta, not the new total');
+    assert.deepEqual(removals, [2, 2, 2], 'Order handoff is not a removal or abandonment');
+  } finally { measurement.window.close(); }
   console.log('cartPersistenceTests: passed');
 })().catch(error => { console.error(error); process.exitCode = 1; });

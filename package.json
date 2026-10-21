@@ -44,7 +44,8 @@
     "test:home-video": "node tests/homeVideoBrowserTests.js",
     "optimize:home-video": "node scripts/optimize-home-video.js",
     "test:privacy": "node tests/privacyTests.js && node tests/privacyBrowserTests.js",
-    "test:consent": "node tests/analyticsTests.js && node tests/cookieConsentBrowserTests.js"
+    "test:consent": "node tests/analyticsTests.js && node tests/cookieConsentBrowserTests.js",
+    "test:terms": "node tests/termsTests.js && node tests/termsBrowserTests.js"
   },
   "repository": {
     "type": "git",

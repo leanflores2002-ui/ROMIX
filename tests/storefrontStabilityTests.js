@@ -57,7 +57,10 @@ function checkStaticShells() {
     assert(doc.querySelectorAll('header[data-romix-shell="header-v1"]').length === 1, `${page}: one initial header required`);
     assert(doc.querySelectorAll('footer[data-romix-shell="footer-v1"]').length === 1, `${page}: one initial footer required`);
     const announcement = doc.querySelector('.romix-announcement');
-    assert(announcement.textContent.replace(/\s+/g, ' ').trim() === 'ENV\u00cdOS Y RETIROS COORDINADOS \u00b7 CONSULT\u00c1 DISPONIBILIDAD', `${page}: announcement copy drifted`);
+    assert(announcement.querySelector('span').textContent.trim() === 'ENVÍOS Y RETIROS COORDINADOS', `${page}: announcement copy drifted`);
+    const withdrawal = announcement.querySelector('a.romix-withdrawal-link');
+    assert(withdrawal && withdrawal.textContent === 'Botón de arrepentimiento', `${page}: visible withdrawal access missing`);
+    assert(new URL(withdrawal.href).hostname === 'wa.me', `${page}: withdrawal must use the confirmed channel`);
     assert(announcement.querySelector('strong') == null, `${page}: announcement must not retain the old highlighted word`);
     const headerMarkup = doc.querySelector('header[data-romix-shell="header-v1"]').outerHTML;
     if (canonicalHeader == null) canonicalHeader = headerMarkup;

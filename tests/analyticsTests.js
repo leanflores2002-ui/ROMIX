@@ -1,8 +1,9 @@
 const assert = require('node:assert/strict');
 const { initAnalytics } = require('../frontend/public/assets/js/romix-analytics');
-function load(hostname) {
+function load(hostname, choice = 'accepted', blocked = false) {
   const listeners = {}, scripts = [], window = { addEventListener: (name, handler) => { listeners[name] = handler; } };
   const context = { window, location: { hostname, href: `https://${hostname}/product.html?id=p1&message=private&phone=123` }, document: { referrer: 'https://example.com/?phone=private', createElement: () => ({}), head: { appendChild: script => scripts.push(script) } }, URL, Date };
+  window.localStorage = { getItem: () => { if (blocked) throw new Error('Storage blocked'); return choice; }, setItem: (_key, value) => { choice = value; } };
   initAnalytics(context);
   return { window, listeners, scripts, context };
 }
@@ -39,4 +40,49 @@ for (const entry of events) {
   assert.deepEqual(Object.keys(entry[2]).sort(), ['currency', 'items', 'value']);
   for (const item of entry[2].items) assert.deepEqual(Object.keys(item).sort(), ['item_brand', 'item_category', 'item_id', 'item_name', 'price', 'quantity']);
 }
+const key = 'romix.analytics-consent.v1';
+for (const choice of [null, 'rejected', 'invalid']) {
+  const pending = load('romix-ropas.vercel.app', choice);
+  assert.equal(pending.scripts.length, 0, 'No Google before explicit acceptance');
+  assert.equal(pending.window.dataLayer, undefined, 'No events queued before acceptance');
+  pending.window.localStorage.setItem(key, 'accepted');
+  pending.listeners['romix:analytics-consent-changed']();
+  assert.equal(pending.scripts.length, 1);
+  const defaults = Array.from(pending.window.dataLayer).find(x => x[0] === 'consent');
+  assert.equal(defaults[2].analytics_storage, 'granted');
+  for (const field of ['ad_storage', 'ad_user_data', 'ad_personalization']) assert.equal(defaults[2][field], 'denied');
+  pending.window.localStorage.setItem(key, 'rejected');
+  pending.listeners['romix:analytics-consent-changed']();
+  const count = pending.window.dataLayer.length;
+  pending.window.romixAnalytics.trackWhatsApp([{ id: 'p1', price: 10 }]);
+  assert.equal(pending.window.dataLayer.length, count, 'Revoked consent blocks events');
+  assert.equal(pending.window['ga-disable-G-JJB0XY6PPR'], true);
+}
+assert.equal(load('romix-ropas.vercel.app', 'accepted', true).scripts.length, 0, 'Storage errors fail closed');
+const blockedWithdrawal = load('romix-ropas.vercel.app');
+blockedWithdrawal.listeners['romix:analytics-consent-changed']({ detail: { choice: 'rejected' } });
+assert.equal(blockedWithdrawal.window['ga-disable-G-JJB0XY6PPR'], true, 'Withdrawal fails closed even if the saved choice cannot be updated');
+const countBefore = blockedWithdrawal.window.dataLayer.length;
+blockedWithdrawal.window.romixAnalytics.trackWhatsApp([{ id: 'p1', price: 10 }]);
+assert.equal(blockedWithdrawal.window.dataLayer.length, countBefore);
+const funnel = load('romix-ropas.vercel.app');
+const basket = [{ productId: 'p1', name: 'Calza', price: 10000, qty: 2, phone: 'private' }];
+funnel.listeners['romix:analytics-cart-viewed']({ detail: { items: basket } });
+funnel.listeners['romix:analytics-cart-viewed']({ detail: { items: basket } });
+funnel.listeners['romix:analytics-cart-removed']({ detail: { items: basket } });
+funnel.window.romixAnalytics.trackCheckout(basket);
+funnel.window.romixAnalytics.trackCheckoutFailure('private URL or arbitrary error');
+funnel.window.romixAnalytics.trackCheckoutFailure('popup_blocked');
+funnel.window.romixAnalytics.trackWhatsApp(basket);
+const journey = Array.from(funnel.window.dataLayer).filter(x => x[0] === 'event');
+assert.deepEqual(journey.map(x => x[1]), ['view_cart', 'remove_from_cart', 'begin_checkout', 'whatsapp_open_failed', 'whatsapp_order_click']);
+assert.equal(journey[0][2].value, 20000);
+assert.deepEqual(journey[3][2], { reason: 'popup_blocked' });
+assert.ok(!JSON.stringify(journey).includes('private'));
+funnel.listeners['romix:analytics-consent-changed']({ detail: { choice: 'rejected' } });
+const afterWithdrawal = funnel.window.dataLayer.length;
+funnel.window.romixAnalytics.trackCheckout(basket);
+funnel.window.romixAnalytics.trackCheckoutFailure('open_error');
+funnel.listeners['romix:analytics-cart-removed']({ detail: { items: basket } });
+assert.equal(funnel.window.dataLayer.length, afterWithdrawal);
 console.log('analyticsTests: passed');

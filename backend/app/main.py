@@ -474,7 +474,7 @@ def product_page(request: Request, slug: str):
         canonical_slug = f"{canonical_slug}-{id_slug}"
     product_id = quote(str(product.get("id") or canonical_slug), safe="")
     product_name = quote(title_name, safe="-_.!~*'()")
-    og_url = absolute_url(request, f"product.html?id={product_id}&slug={canonical_slug}&name={product_name}")
+    og_url = absolute_url(request, f"productos/{canonical_slug}/")
 
     template = templates.get_template("product.html")
     html_content = template.render(

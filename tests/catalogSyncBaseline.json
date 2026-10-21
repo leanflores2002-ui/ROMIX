@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "catalogRevision": "d39fc5e",
-  "reviewedAt": "2026-10-15",
+  "catalogRevision": "330d8d76008cd3541fadca71c01d0eaedff482d8",
+  "reviewedAt": "2026-10-20",
   "provenance": "docs/catalog-baseline-review.md",
   "technicalMediaChanges": "config/product-media-formats.json",
   "products": [
@@ -2168,11 +2168,12 @@
         "name": "ea0b83fbddbfdf9f4fc7be399e75dadf41eea6589d32c38b2c7f55973fb2fbaa",
         "price": "404c93bdee16f75b1fa65f8e52993cc7f0b0bf7b5314afc1729736f8bf94d30c",
         "priceByGroup": "b201188677076aa1e99b06ea9cbe9cfb1b244c559e600ba1b0f5cef71bcf6d2c",
-        "season": "d79c7010cb137dd47ad6a26c882bbe6b47775483583311f9d35dd6f759c9d118",
+        "season": "de83bb0f633e4697f11ae34ba48af981d5034d45f0d09e598523511316e829e7",
         "section": "8d164915384597615febe43b8e158cc41c9fa0683b569a55274f81394daa08cf",
         "sizes": "9b0355405acccde17cc4f91f83b272e68615253c78195b8532358ce3e57d0f3c",
         "specialSizes": "1a98b65e0a633c88274d1d3cb9c90fbc634fa223bb74c7e08d9e2c28132965ca",
-        "type": "ca21ad3ff3859ad7b619897d6879824466309cf666c8d9971349b19a5627115a"
+        "type": "ca21ad3ff3859ad7b619897d6879824466309cf666c8d9971349b19a5627115a",
+        "visible": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
       }
     },
     {

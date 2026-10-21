@@ -3,7 +3,7 @@ const path = require('node:path');
 
 const templateDir = path.join(__dirname, '..', 'frontend', 'src', 'templates');
 const publicDir = path.join(__dirname, '..', 'frontend', 'public');
-const pages = ['index.html', 'catalogo.html', 'product.html', 'cart.html', 'ayuda.html', '404.html'];
+const pages = ['index.html', 'catalogo.html', 'product.html', 'cart.html', 'ayuda.html', 'privacidad.html', 'terminos.html', '404.html'];
 const generatedPages = [...pages, ...require('../frontend/public/assets/js/catalog-sections').categories.map(category => `${category.key}/index.html`)];
 const partials = ['header', 'footer'];
 
@@ -19,6 +19,8 @@ function renderPage(page, sourceDir = templateDir) {
   if (html.includes('<!-- ROMIX:INCLUDE:')) throw new Error(page + ': unresolved include');
   const origin = require('./generate-share-pages').deploymentSiteUrl();
   html = html.replaceAll('%%ROMIX_SITE_ORIGIN%%', origin);
+  html = html.replace('<head>', '<head>\n  <script src="/assets/js/product-url.js?v=1"></script>');
+  if (page === 'catalogo.html') html = require('./generate-category-pages').renderCatalog(html);
   return html;
 }
 
@@ -29,7 +31,7 @@ function main() {
   // Render every page before writing, so invalid templates leave the output intact.
   const rendered = pages.map(page => ({page, html: renderPage(page)}));
   for (const {page, html} of rendered) fs.writeFileSync(path.join(publicDir, page), html, 'utf8');
-  require('./generate-category-pages').main(rendered.find(item => item.page === 'catalogo.html').html,
+  require('./generate-category-pages').main(renderPage('catalogo.html'),
     require('./generate-share-pages').deploymentSiteUrl());
   console.log('Storefront pages generated: ' + rendered.length);
 }

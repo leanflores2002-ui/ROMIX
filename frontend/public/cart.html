@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <script src="/assets/js/product-url.js?v=1"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- ROMIX:SHELL:CRITICAL:START -->
@@ -733,9 +734,10 @@
   </style>
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=23" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=25" />
+  <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
-  <script defer src="/assets/js/romix-analytics.js?v=1"></script>
+  <script defer src="/assets/js/romix-analytics.js?v=3"></script>
 </head>
 <body>
 <!-- ROMIX:SHELL:HEADER:START -->
@@ -857,10 +859,11 @@
       </div>
       <nav class="footer-column" aria-label="Comprar"><h2>Comprar</h2><ul><li><a href="/mujer/">Mujer</a></li><li><a href="/hombre/">Hombre</a></li><li><a href="/ninos/">Ni&ntilde;os</a></li><li><a href="catalogo.html?view=novedades">Novedades</a></li><li><a href="catalogo.html?q=oferta">Ofertas</a></li></ul></nav>
       <nav class="footer-column" aria-label="Categor&iacute;a"><h2>Categor&iacute;a</h2><ul><li><a href="catalogo.html?categories=calzas">Calzas</a></li><li><a href="catalogo.html?categories=remeras">Remeras</a></li><li><a href="catalogo.html?categories=pantalones">Pantalones</a></li><li><a href="catalogo.html?categories=camperas">Camperas</a></li><li><a href="catalogo.html?categories=tops">Tops</a></li><li><a href="catalogo.html?categories=buzos">Buzos</a></li></ul></nav>
-      <nav class="footer-column" aria-label="Ayuda"><h2>Ayuda</h2><ul><li><a href="ayuda.html#size-guide">Gu&iacute;a de talles</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="ayuda.html#payments">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li></ul></nav>
+      <nav class="footer-column" aria-label="Ayuda"><h2>Ayuda</h2><ul><li><a href="ayuda.html#size-guide">Gu&iacute;a de talles</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="ayuda.html#payments">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li><li><a href="/privacidad.html">Privacidad</a></li><li><a href="/terminos.html">Términos y condiciones</a></li><li><a href="https://wa.me/5491154272065?text=Hola%20ROMIX.%20Quiero%20ejercer%20el%20derecho%20de%20arrepentimiento%20respecto%20de%20una%20compra%20a%20distancia.%20Datos%20para%20identificar%20mi%20pedido%3A%20" target="_blank" rel="noopener noreferrer">Botón de arrepentimiento</a></li></ul></nav>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
+      <button type="button" class="cookie-settings" id="cookie-settings" hidden>Preferencias de cookies</button>
       <div class="footer-socials" aria-label="Redes sociales">
         <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><span data-romix-icon="Instagram" data-romix-icon-size="sm"></span></a>
         <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V10H8.3v3h2.6v8h2.9Z"/></svg></a>
@@ -870,10 +873,22 @@
     </div>
   </div>
 </footer>
+<section class="cookie-consent" id="cookie-consent" aria-labelledby="cookie-consent-title" hidden>
+  <div class="cookie-consent__copy">
+    <h2 id="cookie-consent-title">Cookies de analítica</h2>
+    <p>Google Analytics usa cookies para medir visitas, solo si aceptás. Cambiá tu elección desde el pie. <a class="cookie-privacy-link" href="/privacidad.html">Privacidad</a>.</p>
+  </div>
+  <p id="cookie-consent-status" role="status" aria-live="polite"></p>
+  <div class="cookie-consent__actions">
+    <button type="button" id="cookie-reject" aria-label="Rechazar analítica">Rechazar</button>
+    <button type="button" id="cookie-accept" aria-label="Aceptar analítica">Aceptar</button>
+  </div>
+</section>
+<script defer src="/assets/js/cookie-consent.js?v=1"></script>
 <!-- ROMIX:SHELL:FOOTER:END -->
-  <script src="assets/js/romix-image-utils.js?v=20"></script>
+  <script src="assets/js/romix-image-utils.js?v=21"></script>
     <script src="assets/js/color-utils.js?v=19"></script>
-  <script src="assets/js/cart.js?v=19"></script>
+  <script src="assets/js/cart.js?v=20"></script>
   <script>
     // Correccion basica de textos mal decodificados
     (function(){
@@ -1075,7 +1090,7 @@
     function finalizeOrder() {
       orderStatus = 'success';
       hideCartAlert();
-      window.romixCart.clearCart();
+      window.romixCart.clearCart({ forOrder: true });
       removeCartStorage();
       window.romixCart.updateBadge();
       renderCart();
@@ -1113,6 +1128,7 @@
         if (orderBtn) orderBtn.disabled = false;
         return;
       }
+      if (window.romixAnalytics) window.romixAnalytics.trackCheckout(cart);
       let orderWindow;
       try {
         orderWindow = window.open('about:blank', '_blank');
@@ -1122,12 +1138,14 @@
         }
       } catch {
         try { if (orderWindow) orderWindow.close(); } catch { /* Browser may deny access. */ }
+        if (window.romixAnalytics) window.romixAnalytics.trackCheckoutFailure('open_error');
         showCartAlert('error', 'No se pudo abrir WhatsApp. Intenta nuevamente.');
         orderInProgress = false;
         if (orderBtn) orderBtn.disabled = false;
         return;
       }
       if (!orderWindow) {
+        if (window.romixAnalytics) window.romixAnalytics.trackCheckoutFailure('popup_blocked');
         showCartAlert('error', 'El navegador bloqueo la apertura de WhatsApp. Habilita las ventanas emergentes e intenta nuevamente.');
         orderInProgress = false;
         if (orderBtn) orderBtn.disabled = false;
@@ -1140,6 +1158,8 @@
     window.orderCartWhatsApp = handleOrder;
     function renderCart(){
       const cart = window.romixCart.getCart();
+      window.romixViewedCart = cart;
+      window.dispatchEvent(new CustomEvent('romix:analytics-cart-viewed', { detail: { items: cart } }));
       const list = document.getElementById('cart-list');
       const countDisplay = document.getElementById('cart-count-display');
       const itemsTitleCount = document.getElementById('cart-items-title-count');

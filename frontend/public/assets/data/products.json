@@ -5119,7 +5119,7 @@
     "section": "mujer",
     "type": "remeras",
     "name": "Remera manga larga morley viscosa",
-    "season": "media-estacion",
+    "season": "invierno",
     "image": "images/products/remera_manga_larga_morley_viscosa_negro.webp",
     "price": 4600,
     "priceByGroup": {
@@ -5167,7 +5167,8 @@
       "6",
       "7",
       "8"
-    ]
+    ],
+    "visible": false
   },
   {
     "section": "mujer",

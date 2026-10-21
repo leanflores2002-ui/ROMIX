@@ -41,3 +41,6 @@ frontend/public/share/
 frontend/public/share-previews/
 frontend/public/assets/data/share-manifest.json
 frontend/public/assets/js/share-versions.js
+
+# Product HTML generated from catalog and original storefront template by npm run build
+frontend/public/productos/

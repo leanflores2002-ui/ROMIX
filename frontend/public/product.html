@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <script src="/assets/js/product-url.js?v=1"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- ROMIX:SHELL:CRITICAL:START -->
@@ -28,9 +29,10 @@
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
   <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=23">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=23" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=25" />
+  <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
-  <script defer src="/assets/js/romix-analytics.js?v=1"></script>
+  <script defer src="/assets/js/romix-analytics.js?v=3"></script>
 </head>
 <body class="product-detail-page">
 <!-- ROMIX:SHELL:HEADER:START -->
@@ -183,10 +185,11 @@
       </div>
       <nav class="footer-column" aria-label="Comprar"><h2>Comprar</h2><ul><li><a href="/mujer/">Mujer</a></li><li><a href="/hombre/">Hombre</a></li><li><a href="/ninos/">Ni&ntilde;os</a></li><li><a href="catalogo.html?view=novedades">Novedades</a></li><li><a href="catalogo.html?q=oferta">Ofertas</a></li></ul></nav>
       <nav class="footer-column" aria-label="Categor&iacute;a"><h2>Categor&iacute;a</h2><ul><li><a href="catalogo.html?categories=calzas">Calzas</a></li><li><a href="catalogo.html?categories=remeras">Remeras</a></li><li><a href="catalogo.html?categories=pantalones">Pantalones</a></li><li><a href="catalogo.html?categories=camperas">Camperas</a></li><li><a href="catalogo.html?categories=tops">Tops</a></li><li><a href="catalogo.html?categories=buzos">Buzos</a></li></ul></nav>
-      <nav class="footer-column" aria-label="Ayuda"><h2>Ayuda</h2><ul><li><a href="ayuda.html#size-guide">Gu&iacute;a de talles</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="ayuda.html#payments">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li></ul></nav>
+      <nav class="footer-column" aria-label="Ayuda"><h2>Ayuda</h2><ul><li><a href="ayuda.html#size-guide">Gu&iacute;a de talles</a></li><li><a href="ayuda.html#returns">Cambios</a></li><li><a href="ayuda.html#payments">Formas de pago</a></li><li><a href="ayuda.html#contact">Contacto</a></li><li><a href="/privacidad.html">Privacidad</a></li><li><a href="/terminos.html">Términos y condiciones</a></li><li><a href="https://wa.me/5491154272065?text=Hola%20ROMIX.%20Quiero%20ejercer%20el%20derecho%20de%20arrepentimiento%20respecto%20de%20una%20compra%20a%20distancia.%20Datos%20para%20identificar%20mi%20pedido%3A%20" target="_blank" rel="noopener noreferrer">Botón de arrepentimiento</a></li></ul></nav>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 ROMIX. Indumentaria deportiva, invernal y urbana.</p>
+      <button type="button" class="cookie-settings" id="cookie-settings" hidden>Preferencias de cookies</button>
       <div class="footer-socials" aria-label="Redes sociales">
         <a href="https://www.instagram.com/romixdamasalbertina/" target="_blank" rel="noopener" aria-label="Instagram"><span data-romix-icon="Instagram" data-romix-icon-size="sm"></span></a>
         <a href="https://www.facebook.com/p/ROMIX-concordia-514-100040099371330/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V10H8.3v3h2.6v8h2.9Z"/></svg></a>
@@ -196,13 +199,25 @@
     </div>
   </div>
 </footer>
+<section class="cookie-consent" id="cookie-consent" aria-labelledby="cookie-consent-title" hidden>
+  <div class="cookie-consent__copy">
+    <h2 id="cookie-consent-title">Cookies de analítica</h2>
+    <p>Google Analytics usa cookies para medir visitas, solo si aceptás. Cambiá tu elección desde el pie. <a class="cookie-privacy-link" href="/privacidad.html">Privacidad</a>.</p>
+  </div>
+  <p id="cookie-consent-status" role="status" aria-live="polite"></p>
+  <div class="cookie-consent__actions">
+    <button type="button" id="cookie-reject" aria-label="Rechazar analítica">Rechazar</button>
+    <button type="button" id="cookie-accept" aria-label="Aceptar analítica">Aceptar</button>
+  </div>
+</section>
+<script defer src="/assets/js/cookie-consent.js?v=1"></script>
 <!-- ROMIX:SHELL:FOOTER:END -->
 
-  <script src="assets/js/romix-image-utils.js?v=20"></script>
+  <script src="assets/js/romix-image-utils.js?v=21"></script>
   <script src="assets/js/color-utils.js?v=19"></script>
   <script src="assets/js/slugify.js?v=19"></script>
   <script src="assets/js/share-versions.js?v=19"></script>
-  <script src="assets/js/cart.js?v=19"></script>
+  <script src="assets/js/cart.js?v=20"></script>
   <script src="assets/js/romix-pricing.js?v=19"></script>
   <script src="assets/js/products-store.js?v=20"></script>
   <script src="assets/js/inventory.js?v=19"></script>
@@ -236,6 +251,7 @@
         || isTemplatePlaceholder(document.getElementById('preloaded-products')?.textContent || '');
       const CART_KEY = 'cart';
       const imageUtils = window.romixImageUtils || {};
+      const srcsetUrl = imageUtils.srcsetUrl || (value => String(value || '').replace(/[\t\n\f\r ,]/g, character => encodeURIComponent(character)));
       const pricing = window.romixPricing || {};
       const productImageSize = imageUtils.dimensions && imageUtils.dimensions.productFull
         ? imageUtils.dimensions.productFull
@@ -522,6 +538,7 @@
       }
 
       function buildHref(product, buy){
+        if (window.romixProductUrl) return window.romixProductUrl.detailHref(product) + (buy ? '?buy=1' : '');
         const pid = encodeURIComponent(product && product.id ? String(product.id) : slugifyName(product && product.name));
         const slug = encodeURIComponent(slugifyName(product && product.name));
         const name = encodeURIComponent(String(product && product.name || ''));
@@ -530,6 +547,7 @@
       }
 
       function buildShareSlug(product) {
+        if (window.romixProductUrl) return window.romixProductUrl.productSlug(product);
         const baseSource = (product && (product.name || product.id)) ? (product.name || product.id) : 'producto';
         const baseSlug = slugifyName(baseSource) || 'producto';
         const rawId = String(product && product.id ? product.id : '').trim();
@@ -543,7 +561,7 @@
         const origin = document.querySelector('meta[name="romix-site-origin"]').content;
         const slug = buildShareSlug(product);
         const id = encodeURIComponent(String(product.id || slug));
-        const canonical = `${origin}/product.html?id=${id}&slug=${encodeURIComponent(slug)}&name=${encodeURIComponent(product.name || '')}`;
+        const canonical = origin + (window.romixProductUrl ? window.romixProductUrl.detailHref(product) : `/product.html?id=${id}&slug=${encodeURIComponent(slug)}&name=${encodeURIComponent(product.name || '')}`);
         const description = String(product.description || product.desc || product.subtitle
           || `${product.name}. Consultá talles, colores y precios de indumentaria ROMIX.`).replace(/\s+/g, ' ').trim().slice(0, 220);
         const image = new URL(product.image || 'images/branding/romix-logo-social.webp', origin + '/').href;
@@ -1153,7 +1171,7 @@
             useApi: !localStaticPreview
           });
         }
-        const response = await fetch(new URL(DATA_URL, location.href));
+        const response = await fetch(new URL(DATA_URL, document.baseURI));
         if (!response.ok) throw new Error('HTTP ' + response.status);
         const json = await response.json();
         return sanitizeList(Array.isArray(json) ? json : []);
@@ -1164,6 +1182,10 @@
         let product = null;
         if (idParam) {
           product = list.find(item => String(item.id) === idParam);
+          if (!product) product = list.find(item => !item.id && (
+            slugifyName(item.name || '') === idParam
+            || `${normalizeSlug(item.section)}-${slugifyName(item.name || '')}` === idParam
+          ));
         }
         if (!product && slugParam) {
           product = list.find(item => slugifyName(item.name || '') === slugParam);
@@ -1446,7 +1468,7 @@
         let items = Array.isArray(gallery)
           ? gallery.map(item => item && item.src).filter(Boolean).map(src => {
             try {
-              return new URL(src, window.location.href).href;
+              return new URL(src, document.baseURI).href;
             } catch {
               return src;
             }
@@ -1623,7 +1645,7 @@
           items = Array.isArray(nextGallery)
             ? nextGallery.map(item => item && item.src).filter(Boolean).map(src => {
               try {
-                return new URL(src, window.location.href).href;
+                return new URL(src, document.baseURI).href;
               } catch {
                 return src;
               }
@@ -2056,7 +2078,7 @@
             <div class="gallery">
               <div class="main-image">
                 <picture id="main-image-picture">
-                  ${primaryImage.webpSrc ? `<source srcset="${primaryImage.webpSrc}" sizes="${PRODUCT_IMAGE_SIZES}" type="image/webp" />` : ''}
+                  ${primaryImage.webpSrc ? `<source srcset="${srcsetUrl(primaryImage.webpSrc)}" sizes="${PRODUCT_IMAGE_SIZES}" type="image/webp" />` : ''}
                   <img id="main-image" role="button" tabindex="0" aria-haspopup="dialog" src="${primaryImageSrc}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" loading="eager" decoding="async" fetchpriority="high" sizes="${PRODUCT_IMAGE_SIZES}" onerror="this.onerror=null;this.src='${primaryImageFallback}';" />
                 </picture>
                 <button type="button" class="romix-icon-btn zoom-btn" id="zoom-open" aria-label="Acercar imagen" aria-haspopup="dialog">
@@ -2328,13 +2350,13 @@
             return;
           }
           if (current) {
-            current.srcset = src;
+            current.srcset = srcsetUrl(src);
             current.sizes = PRODUCT_IMAGE_SIZES;
             return;
           }
           const sourceTag = document.createElement('source');
           sourceTag.type = type;
-          sourceTag.srcset = src;
+          sourceTag.srcset = srcsetUrl(src);
           sourceTag.sizes = PRODUCT_IMAGE_SIZES;
           picture.insertBefore(sourceTag, picture.firstChild);
         }
@@ -2692,7 +2714,7 @@
             if (isDuplicatePurchaseAction()) return;
             const added = addCurrentProductToCart();
             if (!added) return;
-            window.location.href = 'cart.html';
+            window.location.href = new URL('cart.html', document.baseURI).href;
           });
         }
         minusBtn?.addEventListener('click', () => setQuantity(currentQty - 1));
@@ -3040,7 +3062,7 @@
             window.history.back();
             return;
           }
-          window.location.href = backLink.getAttribute('href') || 'index.html';
+          window.location.href = backLink.href || new URL('index.html', document.baseURI).href;
         });
       }
 
@@ -3078,7 +3100,7 @@
           if (detail) {
             detail.classList.remove('is-loading');
             detail.setAttribute('aria-busy', 'false');
-            detail.innerHTML = '<p>Error al cargar el producto. Intenta recargar la página.</p>';
+            if (!detail.querySelector('[data-romix-static-product]')) detail.innerHTML = '<p>Error al cargar el producto. Intenta recargar la página.</p>';
           }
         }
       }

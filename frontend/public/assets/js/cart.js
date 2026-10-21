@@ -440,14 +440,19 @@
   };
 
   const removeFromCart = (key) => {
-    const filtered = getCart().filter((item) => item.key !== key);
-    return saveCart(filtered);
+    const before = getCart();
+    const removed = before.filter(item => item.key === key);
+    const saved = saveCart(before.filter(item => item.key !== key));
+    if (lastSavePersisted && removed.length) window.dispatchEvent(new CustomEvent('romix:analytics-cart-removed', { detail: { items: removed } }));
+    return saved;
   };
 
   const updateQty = (key, qty) => {
     const nextQty = Number(qty);
     if (!['number', 'string'].includes(typeof qty) || !Number.isSafeInteger(nextQty) || nextQty <= 0) return getCart();
-    const updated = getCart().map((item) => {
+    const before = getCart();
+    const previous = before.find(item => item.key === key);
+    const updated = before.map((item) => {
       if (item.key !== key) return item;
       return {
         ...item,
@@ -456,10 +461,22 @@
         subtotal: nextQty * (Number(item.price) || 0),
       };
     });
-    return saveCart(updated);
+    const saved = saveCart(updated);
+    const delta = previous ? nextQty - previous.qty : 0;
+    if (lastSavePersisted && delta) {
+      const change = { ...previous, qty: Math.abs(delta), quantity: Math.abs(delta) };
+      const name = delta > 0 ? 'romix:analytics-cart-added' : 'romix:analytics-cart-removed';
+      window.dispatchEvent(new CustomEvent(name, { detail: delta > 0 ? { item: change } : { items: [change] } }));
+    }
+    return saved;
   };
 
-  const clearCart = () => saveCart([]);
+  const clearCart = ({ forOrder = false } = {}) => {
+    const before = getCart();
+    const saved = saveCart([]);
+    if (lastSavePersisted && before.length && !forOrder) window.dispatchEvent(new CustomEvent('romix:analytics-cart-removed', { detail: { items: before } }));
+    return saved;
+  };
 
   const updateBadge = (selector = '#cart-count') => {
     const badge = document.querySelector(selector);

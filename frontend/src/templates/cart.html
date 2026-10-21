@@ -733,9 +733,10 @@
   </style>
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=23" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=25" />
+  <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
-  <script defer src="/assets/js/romix-analytics.js?v=1"></script>
+  <script defer src="/assets/js/romix-analytics.js?v=3"></script>
 </head>
 <body>
 <!-- ROMIX:INCLUDE:HEADER -->
@@ -770,9 +771,9 @@
     </div>
   </div>
 <!-- ROMIX:INCLUDE:FOOTER -->
-  <script src="assets/js/romix-image-utils.js?v=20"></script>
+  <script src="assets/js/romix-image-utils.js?v=21"></script>
     <script src="assets/js/color-utils.js?v=19"></script>
-  <script src="assets/js/cart.js?v=19"></script>
+  <script src="assets/js/cart.js?v=20"></script>
   <script>
     // Correccion basica de textos mal decodificados
     (function(){
@@ -974,7 +975,7 @@
     function finalizeOrder() {
       orderStatus = 'success';
       hideCartAlert();
-      window.romixCart.clearCart();
+      window.romixCart.clearCart({ forOrder: true });
       removeCartStorage();
       window.romixCart.updateBadge();
       renderCart();
@@ -1012,6 +1013,7 @@
         if (orderBtn) orderBtn.disabled = false;
         return;
       }
+      if (window.romixAnalytics) window.romixAnalytics.trackCheckout(cart);
       let orderWindow;
       try {
         orderWindow = window.open('about:blank', '_blank');
@@ -1021,12 +1023,14 @@
         }
       } catch {
         try { if (orderWindow) orderWindow.close(); } catch { /* Browser may deny access. */ }
+        if (window.romixAnalytics) window.romixAnalytics.trackCheckoutFailure('open_error');
         showCartAlert('error', 'No se pudo abrir WhatsApp. Intenta nuevamente.');
         orderInProgress = false;
         if (orderBtn) orderBtn.disabled = false;
         return;
       }
       if (!orderWindow) {
+        if (window.romixAnalytics) window.romixAnalytics.trackCheckoutFailure('popup_blocked');
         showCartAlert('error', 'El navegador bloqueo la apertura de WhatsApp. Habilita las ventanas emergentes e intenta nuevamente.');
         orderInProgress = false;
         if (orderBtn) orderBtn.disabled = false;
@@ -1039,6 +1043,8 @@
     window.orderCartWhatsApp = handleOrder;
     function renderCart(){
       const cart = window.romixCart.getCart();
+      window.romixViewedCart = cart;
+      window.dispatchEvent(new CustomEvent('romix:analytics-cart-viewed', { detail: { items: cart } }));
       const list = document.getElementById('cart-list');
       const countDisplay = document.getElementById('cart-count-display');
       const itemsTitleCount = document.getElementById('cart-items-title-count');

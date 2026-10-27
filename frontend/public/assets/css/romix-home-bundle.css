@@ -5496,7 +5496,8 @@ header.romix-shared-header .romix-icon-btn:hover {
 .romix-product-card {
   display: flex;
   min-width: 0;
-  height: 100%;
+  height: auto;
+  align-self: start;
   flex-direction: column;
   overflow: hidden;
   border: 1px solid #e7e3e8;
@@ -5550,10 +5551,10 @@ header.romix-shared-header .romix-icon-btn:hover {
 .romix-product-card .related-products__content {
   display: flex;
   min-width: 0;
-  flex: 1;
+  flex: none;
   flex-direction: column;
-  gap: 10px;
-  padding: 12px 12px 14px;
+  gap: 0;
+  padding: 8px 12px 12px;
 }
 
 .romix-product-card .product-variant-thumbs,
@@ -5563,7 +5564,7 @@ header.romix-shared-header .romix-icon-btn:hover {
   min-height: 50px;
   align-items: center;
   gap: 6px;
-  margin: 0;
+  margin: 0 0 8px;
   overflow-x: auto;
   overflow-y: hidden;
   flex-wrap: nowrap;
@@ -5643,7 +5644,7 @@ header.romix-shared-header .romix-icon-btn:hover {
 .romix-product-card .related-products__name {
   display: -webkit-box;
   min-height: 2.72em;
-  margin: 0;
+  margin: 0 0 7px;
   overflow: hidden;
   color: var(--romix-ink);
   font-family: var(--romix-font-body);
@@ -5667,12 +5668,12 @@ header.romix-shared-header .romix-icon-btn:hover {
 .romix-product-card .related-products__footer {
   display: flex;
   min-width: 0;
-  min-height: 48px;
+  min-height: 0;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 6px;
-  margin-top: auto;
-  padding-top: 2px;
+  margin: 0 0 10px;
+  padding-top: 0;
 }
 
 .romix-product-card .product-price,
@@ -5716,7 +5717,7 @@ header.romix-shared-header .romix-icon-btn:hover {
   min-height: 44px;
   align-items: center;
   justify-content: center;
-  margin-top: auto;
+  margin-top: 0;
   padding: 0 12px;
   border: 1px solid var(--romix-pink);
   border-radius: 7px;
@@ -5757,8 +5758,8 @@ header.romix-shared-header .romix-icon-btn:hover {
 @media (max-width: 768px) {
   .romix-product-card .product-body,
   .romix-product-card .related-products__content {
-    gap: 8px;
-    padding: 10px 10px 12px;
+    gap: 0;
+    padding: 8px 10px 12px;
   }
 
   .romix-product-card .product-name,

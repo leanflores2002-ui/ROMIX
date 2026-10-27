@@ -29,8 +29,25 @@ function renderCards(list) {
   return list.map(product => {
     const thumbnail = imageUtils.getThumbPath(product.image);
     const image = fs.existsSync(path.join(publicDir, thumbnail)) ? thumbnail : product.image;
-    const fields = {DETAIL: detailHref(product, productSlug(product)), NAME: product.name, IMAGE: image, TYPE: product.type || ''};
-    return cardTemplate.replace(/%%([A-Z]+)%%/g, (_, key) => escapeHtml(fields[key]));
+    const priceValues = product.priceByGroup && typeof product.priceByGroup === 'object'
+      ? Object.values(product.priceByGroup).map(Number).filter(value => Number.isFinite(value) && value > 0)
+      : [];
+    const uniquePrices = [...new Set(priceValues)].sort((a, b) => a - b);
+    const price = uniquePrices.length > 1
+      ? `Desde $${uniquePrices[0].toLocaleString('es-AR')}`
+      : `$${Number(product.price || uniquePrices[0] || 0).toLocaleString('es-AR')}`;
+    const variants = Array.isArray(product.colors)
+      ? product.colors.slice(0, 4).map((color, index) => {
+        const source = color && (color.thumb || color.thumbnail || color.image);
+        const thumb = imageUtils.getThumbPath(source || product.image);
+        const fallback = fs.existsSync(path.join(publicDir, thumb)) ? thumb : (color && color.image) || product.image;
+        const label = escapeHtml((color && color.name) || `Variante ${index + 1}`);
+        return `<span class="product-variant-thumb" aria-label="Variante ${label}"><img src="${escapeHtml(fallback)}" alt="${label}" width="96" height="128" loading="lazy" decoding="async" /></span>`;
+      }).join('') : '';
+    const more = Array.isArray(product.colors) && product.colors.length > 4
+      ? `<span class="product-variant-more" aria-label="Hay ${product.colors.length - 4} variantes adicionales">+${product.colors.length - 4}</span>` : '';
+    const fields = {DETAIL: detailHref(product, productSlug(product)), NAME: product.name, IMAGE: image, PRICE: price, VARIANTS: variants + more};
+    return cardTemplate.replace(/%%([A-Z]+)%%/g, (_, key) => key === 'VARIANTS' ? fields[key] : escapeHtml(fields[key] || ''));
   }).join('\n');
 }
 function renderCatalog(html) {

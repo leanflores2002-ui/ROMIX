@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
   <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=23">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
+  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=1" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=25" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
@@ -2874,7 +2875,7 @@
         gallery.forEach((item) => {
           if (!item || !item.src) return;
           if (thumbs.some((thumb) => thumb.src === item.thumbSrc)) return;
-          thumbs.push({ src: item.thumbSrc || item.src, alt: item.label || product.name || 'Variante' });
+          thumbs.push({ src: item.thumbSrc || item.src, mainSrc: item.src, alt: item.label || product.name || 'Variante' });
         });
         return thumbs.slice(0, 4);
       };
@@ -2903,13 +2904,15 @@
           return;
         }
 
-        const card = document.createElement('a');
-        card.className = 'related-products__card';
-        card.setAttribute('aria-label', p.name || 'Producto relacionado');
-        card.href = href;
+        const card = document.createElement('article');
+        card.className = 'related-products__card romix-product-card';
 
         const imageWrap = document.createElement('div');
         imageWrap.className = 'related-products__image-wrap';
+
+        const imageLink = document.createElement('a');
+        imageLink.className = 'related-products__media-link';
+        imageLink.href = href;
 
         const badgeLabel = getBadgeLabel(p);
         const badge = badgeLabel ? document.createElement('span') : null;
@@ -2933,6 +2936,7 @@
         };
         if (badge) imageWrap.appendChild(badge);
         imageWrap.appendChild(img);
+        imageLink.appendChild(imageWrap);
 
         const content = document.createElement('div');
         content.className = 'related-products__content';
@@ -2940,12 +2944,15 @@
         const thumbs = document.createElement('div');
         thumbs.className = 'related-products__thumbs';
         const variantThumbs = getVariantThumbs(p);
-        if (!variantThumbs.length || variantThumbs.length <= 1) {
-          thumbs.hidden = true;
-        } else {
-          variantThumbs.slice(0, 3).forEach((variant) => {
-            const thumb = document.createElement('span');
+        const thumbControls = [];
+        variantThumbs.slice(0, 4).forEach((variant, index) => {
+            const thumb = document.createElement('button');
+            thumb.type = 'button';
             thumb.className = 'related-products__thumb';
+            thumb.classList.toggle('is-active', index === 0);
+            thumb.setAttribute('aria-label', 'Ver variante ' + (variant.alt || p.name || 'Producto'));
+            thumb.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
+            thumb.setAttribute('aria-current', index === 0 ? 'true' : 'false');
             const thumbImg = document.createElement('img');
             thumbImg.src = variant.src || PLACEHOLDER;
             thumbImg.alt = variant.alt || p.name || 'Variante';
@@ -2959,32 +2966,44 @@
               thumbImg.src = PLACEHOLDER;
             };
             thumb.appendChild(thumbImg);
+            thumb.addEventListener('click', (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              const variantMainSrc = variant.mainSrc || variant.src || PLACEHOLDER;
+              img.src = typeof imageUtils.getThumbPath === 'function'
+                ? imageUtils.getThumbPath(variantMainSrc)
+                : toThumbImage(variantMainSrc);
+              img.alt = variant.alt || p.name || 'Producto';
+              thumbControls.forEach((control, controlIndex) => {
+                const active = controlIndex === index;
+                control.classList.toggle('is-active', active);
+                control.setAttribute('aria-pressed', active ? 'true' : 'false');
+                control.setAttribute('aria-current', active ? 'true' : 'false');
+              });
+            });
             thumbs.appendChild(thumb);
+            thumbControls.push(thumb);
           });
-          if (variantThumbs.length > 3) {
+          if (variantThumbs.length > 4) {
             const more = document.createElement('span');
             more.className = 'related-products__more';
-            more.textContent = '+' + (variantThumbs.length - 3);
+            more.textContent = '+' + (variantThumbs.length - 4);
+            more.setAttribute('aria-label', 'Hay ' + (variantThumbs.length - 4) + ' variantes adicionales');
             thumbs.appendChild(more);
           }
-        }
 
-        const name = document.createElement('div');
+        const name = document.createElement('a');
         name.className = 'related-products__name';
+        name.href = href;
         name.textContent = p.name || 'Producto';
-
-        const meta = document.createElement('div');
-        meta.className = 'related-products__meta';
-        meta.textContent = getMetaLabel(p);
 
         const footer = document.createElement('div');
         footer.className = 'related-products__footer';
 
-        const priceDisplay = typeof pricing.createPriceDisplay === 'function'
-          ? pricing.createPriceDisplay(p, {
+        const priceDisplay = typeof pricing.createCardPriceDisplay === 'function'
+          ? pricing.createCardPriceDisplay(p, {
               currentClass: 'related-products__price',
-              currentTag: 'span',
-              variant: 'mini'
+              currentTag: 'span'
             })
           : null;
         const price = priceDisplay || document.createElement('strong');
@@ -2993,18 +3012,16 @@
           price.textContent = '$' + Number(p.price || 0).toLocaleString('es-AR');
         }
 
-        const stock = document.createElement('span');
-        const stockMeta = getStockMeta(p);
-        stock.className = 'related-products__stock ' + stockMeta.css;
-        stock.textContent = stockMeta.label;
-
         content.appendChild(thumbs);
         content.appendChild(name);
-        content.appendChild(meta);
         footer.appendChild(price);
-        footer.appendChild(stock);
         content.appendChild(footer);
-        card.appendChild(imageWrap);
+        const cta = document.createElement('a');
+        cta.className = 'related-products__cta';
+        cta.href = href;
+        cta.textContent = 'Ver producto';
+        content.appendChild(cta);
+        card.appendChild(imageLink);
         card.appendChild(content);
 
         container.appendChild(card);

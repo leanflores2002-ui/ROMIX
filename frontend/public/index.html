@@ -765,7 +765,7 @@
         const metaText = getProductMeta(product);
 
         const card = document.createElement("article");
-        card.className = "product-card";
+        card.className = "product-card romix-product-card";
 
         const thumbLink = document.createElement("a");
         thumbLink.className = "product-thumb";
@@ -906,6 +906,7 @@
               const active = Number(control.dataset.variantIndex) === index;
               control.classList.toggle("is-active", active);
               control.setAttribute("aria-pressed", active ? "true" : "false");
+              control.setAttribute("aria-current", active ? "true" : "false");
             });
             setImg(variant, variant.name);
           }
@@ -919,10 +920,11 @@
             button.className = "product-variant-thumb" + (index === 0 ? " is-active" : "");
             button.setAttribute("aria-label", "Ver variante " + variant.name);
             button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
+            button.setAttribute("aria-current", index === 0 ? "true" : "false");
             button.title = "Ver variante " + variant.name;
             button.dataset.variantIndex = String(index);
             const preview = document.createElement("img");
-            preview.src = String(variant.swatch || variant.thumb || variant.image || "").trim();
+            preview.src = String(variant.thumb || variant.image || "").trim();
             preview.alt = "Variante " + variant.name;
             preview.loading = "lazy";
             preview.decoding = "async";
@@ -952,23 +954,23 @@
           if (initial) setImg(initial, initial.name);
         }
 
+        if (!body.querySelector(".product-variant-thumbs")) {
+          const emptyThumbs = document.createElement("div");
+          emptyThumbs.className = "product-variant-thumbs";
+          emptyThumbs.setAttribute("aria-hidden", "true");
+          body.appendChild(emptyThumbs);
+        }
+
         const nameEl = document.createElement("a");
         nameEl.className = "product-name";
         nameEl.href = href;
         nameEl.textContent = product && product.name ? String(product.name) : "Producto";
         body.appendChild(nameEl);
 
-        if (metaText) {
-          const meta = document.createElement("p");
-          meta.className = "product-meta";
-          meta.textContent = metaText;
-          body.appendChild(meta);
-        }
-
         const priceRow = document.createElement("div");
         priceRow.className = "price-row";
-        const priceDisplay = typeof pricing.createPriceDisplay === "function"
-          ? pricing.createPriceDisplay(product, {
+        const priceDisplay = typeof pricing.createCardPriceDisplay === "function"
+          ? pricing.createCardPriceDisplay(product, {
               currentClass: "product-price",
               currentTag: "span"
             })
@@ -978,17 +980,21 @@
           price.className = "product-price";
           price.textContent = formatPrice(product && product.price);
         }
-        const stock = document.createElement("p");
-        stock.className = "stock-note " + stockInfo.cssClass;
-        stock.textContent = stockInfo.label;
         priceRow.appendChild(price);
-        priceRow.appendChild(stock);
         body.appendChild(priceRow);
+
+        if (stockInfo.label !== "Consultar disponibilidad") {
+          const stock = document.createElement("p");
+          stock.className = "stock-note " + stockInfo.cssClass;
+          stock.setAttribute("aria-hidden", "true");
+          stock.textContent = stockInfo.label;
+          body.appendChild(stock);
+        }
 
         const cta = document.createElement("a");
         cta.className = "product-cta romix-btn romix-btn--outline romix-btn--sm";
         cta.href = href;
-        cta.innerHTML = window.romixIcon("Eye", { size: "sm" }) + "<span>VER PRODUCTO</span>";
+        cta.textContent = "Ver producto";
         body.appendChild(cta);
 
         card.appendChild(thumbLink);

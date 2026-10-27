@@ -19,17 +19,12 @@ function renderPage(page, sourceDir = templateDir) {
   if (html.includes('<!-- ROMIX:INCLUDE:')) throw new Error(page + ': unresolved include');
   const origin = require('./generate-share-pages').deploymentSiteUrl();
   html = html.replaceAll('%%ROMIX_SITE_ORIGIN%%', origin);
-  html = html.replace('<head>', '<head>\n  <link rel="stylesheet" href="/assets/css/romix-assistant.css?v=1">\n  <script src="/assets/js/product-url.js?v=1"></script>');
+  html = html.replace('<head>', '<head>\n  <script src="/assets/js/product-url.js?v=1"></script>');
   if (page === 'catalogo.html') html = require('./generate-category-pages').renderCatalog(html);
   return html;
 }
 
 function main() {
-  const {detailHref} = require('./generate-share-pages');
-  const {sharePrices} = require('./share-prices');
-  const products = JSON.parse(fs.readFileSync(path.join(publicDir, 'assets/data/products.json'), 'utf8'));
-  const assistantCatalog = products.filter(p => p && p.visible !== false).map(p => ({name:p.name, type:p.type, section:p.section, href:detailHref(p), priceText:sharePrices(p), sizes:(p.sizes || []).map(s => String(typeof s === 'object' ? s.size || s.label || '' : s)), colors:(p.colors || []).map(c => String(typeof c === 'object' ? c.name || '' : c))}));
-  fs.writeFileSync(path.join(publicDir, 'assets/data/assistant-catalog.json'), JSON.stringify(assistantCatalog));
   const cssDir = path.join(publicDir, "assets", "css");
   const homeStyles = ["romix-design-system.css", "romix-home-pro.css", "romix-minimal-theme.css", "romix-pricing.css", "romix-header.css"];
   fs.writeFileSync(path.join(cssDir, "romix-home-bundle.css"), homeStyles.map(file => fs.readFileSync(path.join(cssDir, file), "utf8")).join("\n"));

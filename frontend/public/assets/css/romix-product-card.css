@@ -3,7 +3,7 @@
   display: flex;
   min-width: 0;
   height: auto;
-  align-self: start;
+  align-self: stretch;
   flex-direction: column;
   overflow: hidden;
   border: 1px solid #e7e3e8;
@@ -149,7 +149,7 @@
 .romix-product-card .product-name,
 .romix-product-card .related-products__name {
   display: -webkit-box;
-  min-height: 0;
+  min-height: 2.72em;
   margin: 0 0 4px;
   overflow: hidden;
   color: var(--romix-ink);
@@ -174,7 +174,7 @@
 .romix-product-card .related-products__footer {
   display: flex;
   min-width: 0;
-  min-height: 0;
+  min-height: 40px;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 6px;
@@ -278,6 +278,11 @@
   .romix-product-card .related-products__price,
   .romix-product-card .romix-price-current {
     font-size: 18px;
+  }
+
+  .romix-product-card .price-row,
+  .romix-product-card .related-products__footer {
+    min-height: 52px;
   }
 
   .romix-product-card .product-variant-thumb,

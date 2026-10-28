@@ -50,6 +50,8 @@
     { key: "price-desc", label: "Mayor a menor precio" }
   ];
 
+  const FILTERS_SIDEBAR_STORAGE_KEY = "romix.catalog.filters.sidebarHidden";
+
   const NINO_AUDIENCE_PRODUCT_SLUGS = new Set([
     "campera-frizada-algodon-nino",
     "pantalon-frizado-algodon-premium-nino-recto",
@@ -131,12 +133,66 @@
     priceMin: "",
     priceMax: "",
     sizeValues: [],
-    visibleCount: window.innerWidth <= 768 ? 8 : 12
+    visibleCount: window.innerWidth <= 768 ? 8 : 12,
+    desktopFiltersHidden: false
   };
   let filterLastFocus = null;
 
   function isCompactVariantViewport() {
     return window.innerWidth <= 768;
+  }
+
+  function readDesktopFiltersHidden() {
+    try {
+      return window.sessionStorage.getItem(FILTERS_SIDEBAR_STORAGE_KEY) === "1";
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function persistDesktopFiltersHidden(hidden) {
+    try {
+      if (hidden) window.sessionStorage.setItem(FILTERS_SIDEBAR_STORAGE_KEY, "1");
+      else window.sessionStorage.removeItem(FILTERS_SIDEBAR_STORAGE_KEY);
+    } catch (_error) {
+      // The toggle remains usable when sessionStorage is unavailable or blocked.
+    }
+  }
+
+  function updateDesktopFiltersToggle(hidden) {
+    const toggle = document.getElementById("toggle-filters");
+    if (!toggle) return;
+    const label = toggle.querySelector(".filters-toggle-label");
+    const text = hidden ? "Mostrar filtros" : "Ocultar filtros";
+    toggle.setAttribute("aria-controls", "filters-sidebar");
+    toggle.setAttribute("aria-expanded", String(!hidden));
+    toggle.setAttribute("aria-label", text);
+    if (label) label.textContent = text;
+  }
+
+  function applyDesktopFiltersState(hidden, options) {
+    const settings = options || {};
+    const nextHidden = Boolean(hidden);
+    const sidebar = document.getElementById("filters-sidebar");
+    const toggle = document.getElementById("toggle-filters");
+    const focusInsideSidebar = sidebar && sidebar.contains(document.activeElement);
+
+    state.desktopFiltersHidden = nextHidden;
+    if (window.innerWidth > 960) {
+      document.body.classList.toggle("filters-sidebar-collapsed", nextHidden);
+      if (sidebar) {
+        sidebar.setAttribute("aria-hidden", String(nextHidden));
+        sidebar.inert = nextHidden;
+      }
+    } else {
+      document.body.classList.remove("filters-sidebar-collapsed");
+    }
+    updateDesktopFiltersToggle(nextHidden);
+    if (settings.persist !== false) persistDesktopFiltersHidden(nextHidden);
+
+    if (nextHidden && focusInsideSidebar && toggle) {
+      requestAnimationFrame(() => toggle.focus());
+    }
   }
 
   function getInitialVisibleProducts() {
@@ -2369,6 +2425,14 @@
       openBtn.addEventListener("click", openSidebar);
     }
 
+    const desktopToggle = document.getElementById("toggle-filters");
+    if (desktopToggle) {
+      desktopToggle.addEventListener("click", function () {
+        applyDesktopFiltersState(!state.desktopFiltersHidden);
+      });
+      updateDesktopFiltersToggle(state.desktopFiltersHidden);
+    }
+
     const mobileTrigger = document.getElementById("catalog-mobile-filter-trigger");
     if (mobileTrigger) {
       mobileTrigger.addEventListener("click", openSidebar);
@@ -2410,6 +2474,7 @@
 
     window.addEventListener("resize", function () {
       if (window.innerWidth > 960 || !document.body.classList.contains("filters-open")) closeSidebar();
+      applyDesktopFiltersState(state.desktopFiltersHidden, { persist: false });
       const nextCompactVariantViewport = isCompactVariantViewport();
       if (state.compactVariantViewport !== nextCompactVariantViewport) {
         state.compactVariantViewport = nextCompactVariantViewport;
@@ -2422,10 +2487,12 @@
     state.catalogView = resolveCatalogView();
     state.scope = state.catalogView.scope;
     state.sortBy = readInitialSortKey();
+    state.desktopFiltersHidden = readDesktopFiltersHidden();
 
     initPageHeader();
     wireUiEvents();
     closeSidebar();
+    applyDesktopFiltersState(state.desktopFiltersHidden, { persist: false });
 
     try {
       const raw = await loadProducts();

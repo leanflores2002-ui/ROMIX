@@ -5554,7 +5554,7 @@ header.romix-shared-header .romix-icon-btn:hover {
   flex: none;
   flex-direction: column;
   gap: 0;
-  padding: 8px 12px 12px;
+  padding: 8px;
 }
 
 .romix-product-card .product-variant-thumbs,
@@ -5564,7 +5564,7 @@ header.romix-shared-header .romix-icon-btn:hover {
   min-height: 50px;
   align-items: center;
   gap: 6px;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
   overflow-x: auto;
   overflow-y: hidden;
   flex-wrap: nowrap;
@@ -5643,8 +5643,8 @@ header.romix-shared-header .romix-icon-btn:hover {
 .romix-product-card .product-name,
 .romix-product-card .related-products__name {
   display: -webkit-box;
-  min-height: 2.72em;
-  margin: 0 0 7px;
+  min-height: 0;
+  margin: 0 0 4px;
   overflow: hidden;
   color: var(--romix-ink);
   font-family: var(--romix-font-body);
@@ -5672,7 +5672,7 @@ header.romix-shared-header .romix-icon-btn:hover {
   align-items: flex-start;
   justify-content: flex-start;
   gap: 6px;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   padding-top: 0;
 }
 
@@ -5759,7 +5759,7 @@ header.romix-shared-header .romix-icon-btn:hover {
   .romix-product-card .product-body,
   .romix-product-card .related-products__content {
     gap: 0;
-    padding: 8px 10px 12px;
+    padding: 8px;
   }
 
   .romix-product-card .product-name,

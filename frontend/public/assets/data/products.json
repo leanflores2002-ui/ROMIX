@@ -4399,7 +4399,7 @@
     "season": "verano",
     "featured": true,
     "featuredBadge": "Nuevo",
-    "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_delivery.webp",
+    "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama.webp",
     "price": 9500,
     "priceByGroup": {
       "common": 9500,
@@ -4414,7 +4414,27 @@
       {
         "name": "Negro",
         "hex": "#000000",
-        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_delivery.webp"
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#A9A9A9",
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_gris.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#1E4ED8",
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_azul.webp"
+      },
+      {
+        "name": "Bordo",
+        "hex": "#8B0000",
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_bordo.webp"
+      },
+      {
+        "name": "Lila",
+        "hex": "#A020F0",
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_lila.webp"
       }
     ],
     "sizes": [

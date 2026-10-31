@@ -5665,6 +5665,25 @@ header.romix-shared-header .romix-icon-btn:hover {
   line-height: 1.35;
 }
 
+.romix-product-card .product-color-count {
+  display: flex;
+  min-width: 0;
+  min-height: 18px;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 10px;
+  color: var(--card-muted);
+  font-size: clamp(11px, 1.05vw, 14px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.romix-product-card .product-color-count .romix-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+
 .romix-product-card .product-variant-thumbs,
 .romix-product-card .related-products__thumbs {
   display: flex;
@@ -5798,10 +5817,16 @@ header.romix-shared-header .romix-icon-btn:hover {
 /* Home and related surfaces previously had square media overrides. Keep the same card family. */
 .home .romix-product-card,
 .related-products__card.romix-product-card {
+  height: auto;
+  align-self: stretch;
   border: 1px solid var(--card-border);
   border-radius: 20px;
   background: var(--card-surface);
   box-shadow: 0 8px 24px rgba(36, 36, 38, .055);
+}
+
+.related-products__list {
+  align-items: stretch;
 }
 
 .home .romix-product-card .product-thumb {
@@ -5899,6 +5924,19 @@ header.romix-shared-header .romix-icon-btn:hover {
 
   .romix-product-card .romix-price-range-note {
     font-size: 10px;
+  }
+
+  .romix-product-card .product-color-count {
+    gap: 5px;
+    min-height: 15px;
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+
+  .romix-product-card .product-color-count .romix-icon {
+    width: 15px;
+    height: 15px;
+    flex-basis: 15px;
   }
 
   .romix-product-card .product-variant-thumbs,

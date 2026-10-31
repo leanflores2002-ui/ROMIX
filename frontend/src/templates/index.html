@@ -862,6 +862,16 @@
         }
         priceRow.appendChild(price);
         body.appendChild(priceRow);
+        const registeredColorCount = Array.isArray(product && product.colors) ? product.colors.length : 0;
+        if (registeredColorCount > 0) {
+          const colorCount = document.createElement("p");
+          colorCount.className = "product-color-count";
+          colorCount.innerHTML = window.romixIcon("Palette", { size: "sm" }) +
+            "<span>" + registeredColorCount +
+            (registeredColorCount === 1 ? " color disponible" : " colores disponibles") +
+            "</span>";
+          body.appendChild(colorCount);
+        }
         if (thumbs) body.appendChild(thumbs);
 
         if (stockInfo.label !== "Consultar disponibilidad") {

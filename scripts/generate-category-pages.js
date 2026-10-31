@@ -60,15 +60,20 @@ function renderCards(list) {
       }).join('') : '';
     const more = Array.isArray(product.colors) && product.colors.length > 4
       ? `<span class="product-variant-more" aria-label="Hay ${product.colors.length - 4} variantes adicionales">+${product.colors.length - 4}</span>` : '';
+    const colorCount = Array.isArray(product.colors) ? product.colors.length : 0;
+    const colorCountMarkup = colorCount > 0
+      ? `<p class="product-color-count"><span data-romix-icon="Palette" data-romix-icon-size="sm" aria-hidden="true"></span><span>${colorCount}${colorCount === 1 ? ' color disponible' : ' colores disponibles'}</span></p>`
+      : '';
     const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
     const fields = {
       DETAIL: detailHref(product, productSlug(product)),
       NAME: product.name, IMAGE: image, PRICE: price,
       BADGE: badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '',
       VARIANTS: variants || more ? '<div class="product-variant-thumbs" aria-label="Variantes fotográficas">' + variants + more + '</div>' : '',
-      PRICE_NOTE: priceNote ? '<span class="romix-price-range-note">' + escapeHtml(priceNote) + '</span>' : ''
+      PRICE_NOTE: priceNote ? '<span class="romix-price-range-note">' + escapeHtml(priceNote) + '</span>' : '',
+      COLOR_COUNT: colorCountMarkup
     };
-    return cardTemplate.replace(/%%([A-Z_]+)%%/g, (_, key) => ['BADGE', 'VARIANTS', 'PRICE_NOTE'].includes(key) ? fields[key] : escapeHtml(fields[key] || ''));
+    return cardTemplate.replace(/%%([A-Z_]+)%%/g, (_, key) => ['BADGE', 'VARIANTS', 'PRICE_NOTE', 'COLOR_COUNT'].includes(key) ? fields[key] : escapeHtml(fields[key] || ''));
   }).join('\n');
 }
 function renderCatalog(html) {

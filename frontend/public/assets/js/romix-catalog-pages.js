@@ -988,6 +988,7 @@
     const categoryKey = categoryKeyFromType(typeRaw);
     const sizes = buildSizes(raw);
     const colors = buildColors(raw);
+    const registeredColorCount = Array.isArray(raw && raw.colors) ? raw.colors.length : 0;
     const filterColorKeys = Array.from(new Set(colors.map((entry) => normalizeColorToFilterKey(entry.name)).filter(Boolean)));
     const seasonKey = normalizeSeason(raw && raw.season, name);
     const baseStock = raw && raw.stockStatus ? normalizeStatus(raw.stockStatus) : "";
@@ -1044,6 +1045,7 @@
       seasonKey,
       featured: !!(raw && raw.featured === true),
       colors,
+      registeredColorCount,
       filterColorKeys,
       sizes,
       stockByColor: raw && raw.stockByColor && typeof raw.stockByColor === "object" ? raw.stockByColor : null,
@@ -1770,6 +1772,16 @@
 
       body.appendChild(name);
       body.appendChild(priceRow);
+
+      if (product.registeredColorCount > 0) {
+        const colorCount = document.createElement("p");
+        colorCount.className = "product-color-count";
+        colorCount.innerHTML = iconMarkup("Palette", { size: "sm" }) +
+          "<span>" + product.registeredColorCount +
+          (product.registeredColorCount === 1 ? " color disponible" : " colores disponibles") +
+          "</span>";
+        body.appendChild(colorCount);
+      }
 
       if (thumbs) body.appendChild(thumbs);
 

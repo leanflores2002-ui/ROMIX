@@ -28,6 +28,7 @@ const icons = {
   Navigation: 'navigation',
   Minus: 'minus',
   Package: 'package',
+  Palette: 'palette',
   Plus: 'plus',
   RotateCcw: 'rotate-ccw',
   Ruler: 'ruler',

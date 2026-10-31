@@ -443,6 +443,13 @@
           ? '<span class="product-variant-more" aria-label="Hay ' + (product.colors.length - colors.length) + ' variantes adicionales">+' + (product.colors.length - colors.length) + '</span>'
           : '') + '</div>'
       : '';
+    const registeredColorCount = Array.isArray(product.colors) ? product.colors.length : 0;
+    const colorCount = registeredColorCount > 0
+      ? '<p class="product-color-count">' +
+          (typeof window.romixIcon === "function" ? window.romixIcon("Palette", { size: "sm" }) : '') +
+          '<span>' + registeredColorCount + (registeredColorCount === 1 ? ' color disponible' : ' colores disponibles') + '</span>' +
+        '</p>'
+      : '';
     const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
     const badge = badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '';
     const bagIcon = typeof window.romixIcon === "function" ? window.romixIcon("ShoppingBag", { size: "sm" }) : '';
@@ -456,6 +463,7 @@
         '<div class="product-body romix-search-product__body">' +
           '<a class="product-name" href="' + escapeHtml(href) + '">' + escapeHtml(product.name) + '</a>' +
           '<div class="price-row">' + priceMarkup + '</div>' +
+          colorCount +
           variants +
           '<a class="catalog-cta romix-btn romix-btn--primary romix-btn--sm" href="' + escapeHtml(href) + '">' + bagIcon + '<span>Ver producto</span></a>' +
         '</div>' +

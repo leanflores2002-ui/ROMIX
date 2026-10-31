@@ -3015,6 +3015,16 @@
         content.appendChild(name);
         footer.appendChild(price);
         content.appendChild(footer);
+        const registeredColorCount = Array.isArray(p && p.colors) ? p.colors.length : 0;
+        if (registeredColorCount > 0) {
+          const colorCount = document.createElement('p');
+          colorCount.className = 'product-color-count';
+          colorCount.innerHTML = window.romixIcon('Palette', { size: 'sm' }) +
+            '<span>' + registeredColorCount +
+            (registeredColorCount === 1 ? ' color disponible' : ' colores disponibles') +
+            '</span>';
+          content.appendChild(colorCount);
+        }
         if (variantThumbs.length) content.appendChild(thumbs);
         const cta = document.createElement('a');
         cta.className = 'related-products__cta romix-btn romix-btn--primary romix-btn--sm';

@@ -36,6 +36,20 @@ function renderCards(list) {
     const price = uniquePrices.length > 1
       ? `Desde $${uniquePrices[0].toLocaleString('es-AR')}`
       : `$${Number(product.price || uniquePrices[0] || 0).toLocaleString('es-AR')}`;
+    const priceEntries = product.priceByGroup && typeof product.priceByGroup === 'object'
+      ? Object.entries(product.priceByGroup)
+        .map(([key, value]) => ({key, value: Number(value)}))
+        .filter(entry => Number.isFinite(entry.value) && entry.value > 0)
+        .sort((a, b) => a.value - b.value)
+      : [];
+    const priceNote = uniquePrices.length > 1
+      ? priceEntries.map(({key, value}) => {
+        const special = key === 'special' ? product.specialSizes : key === 'special2' ? (product.specialSizes2 || product.superSpecialSizes) : null;
+        const sizes = Array.isArray(special) ? special.map(size => String(size && typeof size === 'object' ? size.size || size.label : size).trim()).filter(Boolean).join(', ') : '';
+        const label = sizes ? 'Talles ' + sizes : key === 'common' ? 'Talles comunes' : key;
+        return label + ': ' + String.fromCharCode(36) + value.toLocaleString('es-AR');
+      }).join(' · ')
+      : '';
     const variants = Array.isArray(product.colors)
       ? product.colors.slice(0, 4).map((color, index) => {
         const source = color && (color.thumb || color.thumbnail || color.image);
@@ -46,8 +60,15 @@ function renderCards(list) {
       }).join('') : '';
     const more = Array.isArray(product.colors) && product.colors.length > 4
       ? `<span class="product-variant-more" aria-label="Hay ${product.colors.length - 4} variantes adicionales">+${product.colors.length - 4}</span>` : '';
-    const fields = {DETAIL: detailHref(product, productSlug(product)), NAME: product.name, IMAGE: image, PRICE: price, VARIANTS: variants + more};
-    return cardTemplate.replace(/%%([A-Z]+)%%/g, (_, key) => key === 'VARIANTS' ? fields[key] : escapeHtml(fields[key] || ''));
+    const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
+    const fields = {
+      DETAIL: detailHref(product, productSlug(product)),
+      NAME: product.name, IMAGE: image, PRICE: price,
+      BADGE: badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '',
+      VARIANTS: variants || more ? '<div class="product-variant-thumbs" aria-label="Variantes fotográficas">' + variants + more + '</div>' : '',
+      PRICE_NOTE: priceNote ? '<span class="romix-price-range-note">' + escapeHtml(priceNote) + '</span>' : ''
+    };
+    return cardTemplate.replace(/%%([A-Z_]+)%%/g, (_, key) => ['BADGE', 'VARIANTS', 'PRICE_NOTE'].includes(key) ? fields[key] : escapeHtml(fields[key] || ''));
   }).join('\n');
 }
 function renderCatalog(html) {

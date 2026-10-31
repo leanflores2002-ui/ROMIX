@@ -33,7 +33,7 @@
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
 
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=30" />
+  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=31" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/home-video.js?v=2"></script>
@@ -770,10 +770,13 @@
         const thumbLink = document.createElement("a");
         thumbLink.className = "product-thumb";
         thumbLink.href = href;
-        const badge = document.createElement("span");
-        badge.className = "product-badge";
-        badge.textContent = "Nuevo";
-        thumbLink.appendChild(badge);
+        const badgeLabel = String(product && (product.badge || product.featuredBadge) || "").trim();
+        if (badgeLabel) {
+          const badge = document.createElement("span");
+          badge.className = "product-badge";
+          badge.textContent = badgeLabel;
+          thumbLink.appendChild(badge);
+        }
         const media = typeof imageUtils.createPicture === "function"
           ? imageUtils.createPicture({
               src: defaultThumbSet.src,
@@ -952,13 +955,6 @@
 
           const initial = visible[0];
           if (initial) setImg(initial, initial.name);
-        }
-
-        if (!body.querySelector(".product-variant-thumbs")) {
-          const emptyThumbs = document.createElement("div");
-          emptyThumbs.className = "product-variant-thumbs";
-          emptyThumbs.setAttribute("aria-hidden", "true");
-          body.appendChild(emptyThumbs);
         }
 
         const nameEl = document.createElement("a");

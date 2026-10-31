@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
   <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=23">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
-  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=1" />
+  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=25" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
@@ -2877,7 +2877,7 @@
           if (thumbs.some((thumb) => thumb.src === item.thumbSrc)) return;
           thumbs.push({ src: item.thumbSrc || item.src, mainSrc: item.src, alt: item.label || product.name || 'Variante' });
         });
-        return thumbs.slice(0, 4);
+        return thumbs;
       };
 
       const getStockMeta = (product) => {
@@ -3012,7 +3012,7 @@
           price.textContent = '$' + Number(p.price || 0).toLocaleString('es-AR');
         }
 
-        content.appendChild(thumbs);
+        if (variantThumbs.length) content.appendChild(thumbs);
         content.appendChild(name);
         footer.appendChild(price);
         content.appendChild(footer);

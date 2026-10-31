@@ -1742,13 +1742,6 @@
         body.appendChild(thumbs);
       }
 
-      if (!body.querySelector(".product-variant-thumbs")) {
-        const emptyThumbs = document.createElement("div");
-        emptyThumbs.className = "product-variant-thumbs";
-        emptyThumbs.setAttribute("aria-hidden", "true");
-        body.appendChild(emptyThumbs);
-      }
-
       const name = document.createElement("a");
       name.className = "product-name";
       name.href = productDetailUrl;

@@ -255,22 +255,24 @@
   function editDistanceAtMost(a, b, max) {
     if (a === b) return true;
     if (!a || !b) return false;
-    if (Math.abs(a.length - b.length) > max) return false;
-    const prev = new Array(b.length + 1);
-    const curr = new Array(b.length + 1);
-    for (let j = 0; j <= b.length; j++) prev[j] = j;
-    for (let i = 1; i <= a.length; i++) {
+    const aChars = Array.from(a);
+    const bChars = Array.from(b);
+    if (Math.abs(aChars.length - bChars.length) > max) return false;
+    const prev = new Array(bChars.length + 1);
+    const curr = new Array(bChars.length + 1);
+    for (let j = 0; j <= bChars.length; j++) prev[j] = j;
+    for (let i = 1; i <= aChars.length; i++) {
       curr[0] = i;
       let rowMin = curr[0];
-      for (let j = 1; j <= b.length; j++) {
-        const cost = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+      for (let j = 1; j <= bChars.length; j++) {
+        const cost = aChars[i - 1] === bChars[j - 1] ? 0 : 1;
         curr[j] = Math.min(prev[j] + 1, curr[j - 1] + 1, prev[j - 1] + cost);
         if (curr[j] < rowMin) rowMin = curr[j];
       }
       if (rowMin > max) return false;
-      for (let j = 0; j <= b.length; j++) prev[j] = curr[j];
+      for (let j = 0; j <= bChars.length; j++) prev[j] = curr[j];
     }
-    return prev[b.length] <= max;
+    return prev[bChars.length] <= max;
   }
 
   function scoreProduct(product, queryNorm) {
@@ -637,7 +639,6 @@
     document.querySelectorAll("[data-search-toggle='true']").forEach((toggle) => {
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
-    state.input.setAttribute("aria-expanded", open ? "true" : "false");
     window.clearTimeout(state.focusTimer);
     if (open) {
       scheduleRender();

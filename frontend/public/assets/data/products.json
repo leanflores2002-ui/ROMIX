@@ -9074,6 +9074,21 @@
         "name": "Negro",
         "hex": "#000000",
         "image": "images/products/calza_oxfor_negro.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#0000FF",
+        "image": "images/products/calza_oxfor_azul.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#808080",
+        "image": "images/products/calza_oxfor_gris.webp"
+      },
+      {
+        "name": "Chocolate",
+        "hex": "#45322e",
+        "image": "images/products/calza_oxfor_chocolate.webp"
       }
     ],
     "sizes": [

@@ -8161,6 +8161,16 @@
         "name": "Gris medio",
         "hex": "#4b4b4b",
         "image": "images/products/babucha_modal_con puño_gris_medio.webp"
+      },
+      {
+        "name": "Gris oscuro",
+        "hex": "#4b4b4b",
+        "image": "images/products/babucha_modal_con puño_gris Oscuro.webp"
+      },
+      {
+        "name": "Verde",
+        "hex": "#008000",
+        "image": "images/products/babucha_modal_con puño_verde.webp"
       }
     ],
     "sizes": [

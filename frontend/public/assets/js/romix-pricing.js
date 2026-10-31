@@ -89,12 +89,13 @@
     return currencyFormatter.format(amount).replace(/\$\s+/u, "$");
   }
 
-  function formatSizeLabel(values) {
+  function formatSizeLabel(values, useConjunction) {
     const sizes = Array.isArray(values)
       ? values.map((value) => value && typeof value === "object" ? value.size || value.label : value)
         .map((value) => String(value == null ? "" : value).trim())
         .filter(Boolean)
       : [];
+    if (useConjunction && sizes.length > 1) return sizes.slice(0, -1).join(", ") + " y " + sizes[sizes.length - 1];
     return sizes.length ? sizes.join(", ") : "";
   }
 
@@ -114,8 +115,17 @@
       .map((entry) => {
         let sizes = "";
         if (entry.key === "special") sizes = formatSizeLabel(product.specialSizes);
-        if (entry.key === "special2") sizes = formatSizeLabel(product.specialSizes2 || product.superSpecialSizes);
-        const label = sizes ? "Talles " + sizes : entry.key === "common" ? "Talles comunes" : entry.key;
+        if (entry.key === "special2") {
+          const secondSizes = Array.isArray(product.specialSizes2) && product.specialSizes2.length
+            ? product.specialSizes2
+            : product.superSpecialSizes;
+          sizes = formatSizeLabel(secondSizes, true);
+        }
+        const label = sizes
+          ? (entry.key === "special2" && !sizes.includes(" y ") ? "Talle " : "Talles ") + sizes
+          : entry.key === "common" ? "Talles comunes"
+            : entry.key === "special2" ? "Otros talles"
+              : entry.key === "special" ? "Talles especiales" : entry.key;
         return { ...entry, label };
       });
     return entries;

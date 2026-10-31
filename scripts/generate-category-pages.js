@@ -44,9 +44,21 @@ function renderCards(list) {
       : [];
     const priceNote = uniquePrices.length > 1
       ? priceEntries.map(({key, value}) => {
-        const special = key === 'special' ? product.specialSizes : key === 'special2' ? (product.specialSizes2 || product.superSpecialSizes) : null;
-        const sizes = Array.isArray(special) ? special.map(size => String(size && typeof size === 'object' ? size.size || size.label : size).trim()).filter(Boolean).join(', ') : '';
-        const label = sizes ? 'Talles ' + sizes : key === 'common' ? 'Talles comunes' : key;
+        const secondSizes = Array.isArray(product.specialSizes2) && product.specialSizes2.length
+          ? product.specialSizes2
+          : product.superSpecialSizes;
+        const special = key === 'special' ? product.specialSizes : key === 'special2' ? secondSizes : null;
+        const sizes = Array.isArray(special)
+          ? special.map(size => String(size && typeof size === 'object' ? size.size || size.label : size).trim()).filter(Boolean)
+          : [];
+        const sizeText = key === 'special2' && sizes.length > 1
+          ? sizes.slice(0, -1).join(', ') + ' y ' + sizes[sizes.length - 1]
+          : sizes.join(', ');
+        const label = sizeText
+          ? (key === 'special2' && sizes.length === 1 ? 'Talle ' : 'Talles ') + sizeText
+          : key === 'common' ? 'Talles comunes'
+            : key === 'special2' ? 'Otros talles'
+              : key === 'special' ? 'Talles especiales' : key;
         return label + ': ' + String.fromCharCode(36) + value.toLocaleString('es-AR');
       }).join(' · ')
       : '';

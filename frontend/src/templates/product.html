@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
   <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=23">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
-  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=25" />
+  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=3" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/romix-analytics.js?v=3"></script>
@@ -2897,14 +2897,14 @@
           price.textContent = '$' + Number(p.price || 0).toLocaleString('es-AR');
         }
 
-        if (variantThumbs.length) content.appendChild(thumbs);
         content.appendChild(name);
         footer.appendChild(price);
         content.appendChild(footer);
+        if (variantThumbs.length) content.appendChild(thumbs);
         const cta = document.createElement('a');
-        cta.className = 'related-products__cta';
+        cta.className = 'related-products__cta romix-btn romix-btn--primary romix-btn--sm';
         cta.href = href;
-        cta.textContent = 'Ver producto';
+        cta.innerHTML = window.romixIcon("ShoppingBag", { size: "sm" }) + '<span>Ver producto</span>';
         content.appendChild(cta);
         card.appendChild(imageLink);
         card.appendChild(content);

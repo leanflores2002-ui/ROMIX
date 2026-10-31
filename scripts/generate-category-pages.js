@@ -56,7 +56,7 @@ function renderCards(list) {
         const thumb = imageUtils.getThumbPath(source || product.image);
         const fallback = fs.existsSync(path.join(publicDir, thumb)) ? thumb : (color && color.image) || product.image;
         const label = escapeHtml((color && color.name) || `Variante ${index + 1}`);
-        return `<span class="product-variant-thumb" aria-label="Variante ${label}"><img src="${escapeHtml(fallback)}" alt="${label}" width="96" height="128" loading="lazy" decoding="async" /></span>`;
+        return `<button type="button" class="product-variant-thumb${index === 0 ? ' is-active' : ''}" data-variant-index="${index}" data-variant-src="${escapeHtml(fallback)}" aria-label="Ver variante ${label}" aria-pressed="${index === 0 ? 'true' : 'false'}" aria-current="${index === 0 ? 'true' : 'false'}"><img src="${escapeHtml(fallback)}" alt="${label}" width="96" height="128" loading="lazy" decoding="async" /></button>`;
       }).join('') : '';
     const more = Array.isArray(product.colors) && product.colors.length > 4
       ? `<span class="product-variant-more" aria-label="Hay ${product.colors.length - 4} variantes adicionales">+${product.colors.length - 4}</span>` : '';

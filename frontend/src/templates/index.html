@@ -785,6 +785,7 @@
         const body = document.createElement("div");
         body.className = "product-body";
 
+        let thumbs = null;
         if (variantsData.length) {
           const variantControls = [];
           const visible = variantsData.slice(0, variantLimit);
@@ -799,7 +800,7 @@
             setImg(variant, variant.name);
           }
 
-          const thumbs = document.createElement("div");
+          thumbs = document.createElement("div");
           thumbs.className = "product-variant-thumbs";
           thumbs.setAttribute("aria-label", "Miniaturas de variantes");
           visible.forEach((variant, index) => {
@@ -836,8 +837,6 @@
             more.setAttribute("aria-label", "Hay " + (variantsData.length - visible.length) + " variantes adicionales");
             thumbs.appendChild(more);
           }
-          body.appendChild(thumbs);
-
           const initial = visible[0];
           if (initial) setImg(initial, initial.name);
         }
@@ -863,6 +862,7 @@
         }
         priceRow.appendChild(price);
         body.appendChild(priceRow);
+        if (thumbs) body.appendChild(thumbs);
 
         if (stockInfo.label !== "Consultar disponibilidad") {
           const stock = document.createElement("p");
@@ -873,9 +873,9 @@
         }
 
         const cta = document.createElement("a");
-        cta.className = "product-cta romix-btn romix-btn--outline romix-btn--sm";
+        cta.className = "product-cta romix-btn romix-btn--primary romix-btn--sm";
         cta.href = href;
-        cta.textContent = "Ver producto";
+        cta.innerHTML = window.romixIcon("ShoppingBag", { size: "sm" }) + "<span>Ver producto</span>";
         body.appendChild(cta);
 
         card.appendChild(thumbLink);

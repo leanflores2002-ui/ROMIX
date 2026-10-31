@@ -428,26 +428,38 @@
           ? '<span class="romix-search-product__price">' + escapeHtml(formatPrice(product.price)) + '</span>'
           : '');
     const colors = Array.isArray(product.colors) ? product.colors.slice(0, 4) : [];
-    const colorDots = colors.length
-      ? '<div class="romix-search-product__colors" aria-label="Colores disponibles">' +
-          colors.map((color) => (
-            '<span style="--swatch:' + escapeHtml((color && color.hex) || "#d9d9d9") + '" title="' + escapeHtml((color && color.name) || "Color") + '"></span>'
-          )).join("") +
-        '</div>'
-      : "";
+    const variantButtons = colors.map((color, index) => {
+      const source = color && (color.thumb || color.thumbnail || color.image);
+      const variantImage = source && typeof window.romixImageUtils?.getThumbPath === "function"
+        ? window.romixImageUtils.getThumbPath(source)
+        : source || image;
+      const label = (color && color.name) || ("Variante " + (index + 1));
+      return '<button type="button" class="product-variant-thumb' + (index === 0 ? ' is-active' : '') + '" data-variant-src="' + escapeHtml(variantImage) + '" aria-label="Ver variante ' + escapeHtml(label) + '" aria-pressed="' + (index === 0 ? 'true' : 'false') + '" aria-current="' + (index === 0 ? 'true' : 'false') + '">' +
+        '<img src="' + escapeHtml(variantImage) + '" alt="' + escapeHtml(label) + '" loading="lazy" decoding="async" />' +
+      '</button>';
+    }).join("");
+    const variants = variantButtons
+      ? '<div class="product-variant-thumbs" aria-label="Miniaturas de variantes">' + variantButtons + (Array.isArray(product.colors) && product.colors.length > colors.length
+          ? '<span class="product-variant-more" aria-label="Hay ' + (product.colors.length - colors.length) + ' variantes adicionales">+' + (product.colors.length - colors.length) + '</span>'
+          : '') + '</div>'
+      : '';
+    const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
+    const badge = badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '';
+    const bagIcon = typeof window.romixIcon === "function" ? window.romixIcon("ShoppingBag", { size: "sm" }) : '';
 
     return '' +
-      '<a class="romix-search-product" href="' + escapeHtml(href) + '">' +
-        '<span class="romix-search-product__media">' +
+      '<article class="romix-search-product romix-product-card">' +
+        '<a class="product-thumb romix-search-product__media" href="' + escapeHtml(href) + '">' +
           '<img src="' + escapeHtml(image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy" decoding="async" />' +
-        '</span>' +
-        colorDots +
-        '<span class="romix-search-product__body">' +
-          '<small>' + escapeHtml(sectionLabel(product.section)) + ' &middot; ' + escapeHtml(typeLabel(product.type || product.category)) + '</small>' +
-          '<strong>' + escapeHtml(product.name) + '</strong>' +
-          priceMarkup +
-        '</span>' +
-      '</a>';
+          badge +
+        '</a>' +
+        '<div class="product-body romix-search-product__body">' +
+          '<a class="product-name" href="' + escapeHtml(href) + '">' + escapeHtml(product.name) + '</a>' +
+          '<div class="price-row">' + priceMarkup + '</div>' +
+          variants +
+          '<a class="catalog-cta romix-btn romix-btn--primary romix-btn--sm" href="' + escapeHtml(href) + '">' + bagIcon + '<span>Ver producto</span></a>' +
+        '</div>' +
+      '</article>';
   }
 
   function highlightMatch(label, query) {
@@ -513,6 +525,28 @@
           '<div class="romix-search-products">' + products + '</div>' +
         '</section>' +
       '</div>';
+
+    state.overlay.querySelectorAll('.romix-search-product').forEach((card) => {
+      const mainImage = card.querySelector('.product-thumb img');
+      const controls = Array.from(card.querySelectorAll('.product-variant-thumb'));
+      controls.forEach((control) => {
+        control.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const nextSrc = control.getAttribute('data-variant-src');
+          if (mainImage && nextSrc) {
+            mainImage.src = nextSrc;
+            mainImage.alt = control.querySelector('img')?.alt || mainImage.alt;
+          }
+          controls.forEach((item) => {
+            const active = item === control;
+            item.classList.toggle('is-active', active);
+            item.setAttribute('aria-pressed', active ? 'true' : 'false');
+            item.setAttribute('aria-current', active ? 'true' : 'false');
+          });
+        });
+      });
+    });
 
     state.overlay.querySelectorAll("[data-search-suggestion]").forEach((button) => {
       button.addEventListener("click", () => {

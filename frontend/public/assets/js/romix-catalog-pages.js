@@ -1035,6 +1035,10 @@
       images: galleryImages,
       price: saleInfo.currentPrice,
       originalPrice: saleInfo.originalPrice,
+      priceByGroup: raw && raw.priceByGroup && typeof raw.priceByGroup === "object" ? raw.priceByGroup : null,
+      specialSizes: Array.isArray(raw && raw.specialSizes) ? raw.specialSizes : [],
+      specialSizes2: Array.isArray(raw && raw.specialSizes2) ? raw.specialSizes2 : [],
+      superSpecialSizes: Array.isArray(raw && raw.superSpecialSizes) ? raw.superSpecialSizes : [],
       badge: String((raw && raw.badge) || "").trim(),
       featuredBadge: String((raw && raw.featuredBadge) || "").trim(),
       seasonKey,
@@ -1683,6 +1687,7 @@
       const body = document.createElement("div");
       body.className = "product-body";
 
+      let thumbs = null;
       if (allowVariantPreview && Array.isArray(product.colors) && product.colors.length > 0) {
         const variantControls = [];
         const visibleThumbs = product.colors.slice(0, 4);
@@ -1700,7 +1705,7 @@
           });
         }
 
-        const thumbs = document.createElement("div");
+        thumbs = document.createElement("div");
         thumbs.className = "product-variant-thumbs";
         thumbs.setAttribute("aria-label", "Miniaturas de variantes");
 
@@ -1739,7 +1744,6 @@
           more.setAttribute("aria-label", "Hay " + (product.colors.length - visibleThumbs.length) + " variantes adicionales");
           thumbs.appendChild(more);
         }
-        body.appendChild(thumbs);
       }
 
       const name = document.createElement("a");
@@ -1767,6 +1771,8 @@
       body.appendChild(name);
       body.appendChild(priceRow);
 
+      if (thumbs) body.appendChild(thumbs);
+
       const stockInfo = STOCK_META[product.stockStatus] || STOCK_META.unknown;
       if (stockInfo.label !== "Consultar disponibilidad") {
         const stock = document.createElement("p");
@@ -1777,9 +1783,9 @@
       }
 
       const detailsLink = document.createElement("a");
-      detailsLink.className = "catalog-cta romix-btn romix-btn--outline romix-btn--sm";
+      detailsLink.className = "catalog-cta romix-btn romix-btn--primary romix-btn--sm";
       detailsLink.href = productDetailUrl;
-      detailsLink.textContent = "Ver producto";
+      detailsLink.innerHTML = iconMarkup("ShoppingBag", { size: "sm" }) + "<span>Ver producto</span>";
       body.appendChild(detailsLink);
 
       card.appendChild(thumb);
@@ -1789,6 +1795,30 @@
 
     renderSummary();
     updateLoadMoreControls();
+  }
+
+  function bindStaticVariantCards(root) {
+    const scope = root || document;
+    scope.querySelectorAll('.product-card:not([data-romix-static-bound])').forEach((card) => {
+      const image = card.querySelector('.product-thumb img');
+      const controls = Array.from(card.querySelectorAll('.product-variant-thumb[data-variant-src]'));
+      if (!image || !controls.length) return;
+      card.dataset.romixStaticBound = 'true';
+      controls.forEach((control) => {
+        control.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const nextSrc = control.getAttribute('data-variant-src');
+          if (nextSrc) image.src = nextSrc;
+          controls.forEach((item) => {
+            const active = item === control;
+            item.classList.toggle('is-active', active);
+            item.setAttribute('aria-pressed', active ? 'true' : 'false');
+            item.setAttribute('aria-current', active ? 'true' : 'false');
+          });
+        });
+      });
+    });
   }
 
   function matchFilters(product) {
@@ -2486,6 +2516,7 @@
     wireUiEvents();
     closeSidebar();
     applyDesktopFiltersState(state.desktopFiltersHidden, { persist: false });
+    bindStaticVariantCards();
 
     try {
       const raw = await loadProducts();
@@ -2512,6 +2543,7 @@
       if (grid?.querySelector('.product-card')) {
         const summary = document.getElementById('products-summary');
         if (summary) summary.textContent = 'Los filtros no están disponibles por ahora. Podés abrir los productos del listado.';
+        bindStaticVariantCards(grid);
         console.warn('[romix-catalog] Se conserva el listado generado.', error);
         return;
       }

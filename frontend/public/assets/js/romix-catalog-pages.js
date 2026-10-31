@@ -2052,7 +2052,7 @@
     const rows = Array.from(document.querySelectorAll(selector));
 
     rows.forEach((row, index) => {
-      if (index < limit) {
+      if (index < limit || row.querySelector("input:checked")) {
         row.classList.remove("is-hidden");
         return;
       }

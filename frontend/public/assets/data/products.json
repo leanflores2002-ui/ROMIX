@@ -10053,6 +10053,21 @@
         "name": "Negro",
         "hex": "#000000",
         "image": "images/products/pantalon_jogger_lycra_negro.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#0000FF",
+        "image": "images/products/pantalon_jogger_lycra_azul.webp"
+      },
+      {
+        "name": "Chocolate",
+        "hex": "#D2691E",
+        "image": "images/products/pantalon_jogger_lycra_chocolate.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#808080",
+        "image": "images/products/pantalon_jogger_lycra_gris.webp"
       }
     ],
     "sizes": [

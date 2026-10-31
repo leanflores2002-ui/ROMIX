@@ -236,7 +236,7 @@
     const key = normalizeText(value).replace(/\s+/g, " ");
     if (!key) return "";
     if (MULTICOLOR_PATTERN.test(key)) return "multicolor";
-    return key.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return key.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   }
 
   function setOptionLabel(group, value, label) {
@@ -282,7 +282,7 @@
   }
 
   function slugify(value) {
-    return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "producto";
+    return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "producto";
   }
 
   function titleCase(value) {

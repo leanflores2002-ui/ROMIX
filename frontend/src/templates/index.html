@@ -546,7 +546,7 @@
 
     function slugifyName(value) {
       if (typeof window.romixSlug === "function") return window.romixSlug(value);
-      return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "producto";
+      return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "producto";
     }
 
     function buildProductHref(product, fallbackType) {
@@ -1038,7 +1038,7 @@
       function getStep() {
         const card = track.querySelector(".product-card");
         const styles = window.getComputedStyle(track);
-        const gap = parseFloat(styles.columnGap || styles.gap) || 0;
+        const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
         return card ? card.getBoundingClientRect().width + gap : 210;
       }
 

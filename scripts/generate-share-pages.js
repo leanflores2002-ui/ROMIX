@@ -33,7 +33,7 @@ function slugify(value) {
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "producto";
+    .replace(/^-|-$/g, "") || "producto";
 }
 
 const {productSlug, detailHref} = require('../frontend/public/assets/js/product-url');

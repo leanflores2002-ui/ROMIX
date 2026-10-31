@@ -23,7 +23,7 @@ function sitemap(products, origin) {
 
 function previewHtml(html) {
   if (html.includes('<meta name="romix-preview" content="true" />')) return html;
-  return html.replace(/\s*<meta name="(?:robots|romix-preview)"[^>]*>/g, '')
+  return html.replace(/<meta name="(?:robots|romix-preview)"[^>]*>/g, '')
     .replace('</head>', '  <meta name="romix-preview" content="true" />\n  <meta name="robots" content="noindex, follow" />\n</head>');
 }
 

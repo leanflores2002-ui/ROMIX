@@ -1,7 +1,7 @@
 (function (root) {
   function slug(value) {
     return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'producto';
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'producto';
   }
   function productSlug(product) {
     const base = slug(product && (product.name || product.id));

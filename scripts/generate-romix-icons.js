@@ -148,4 +148,7 @@ loadIcons().then((iconEntries) => {
   const output = path.join(__dirname, '..', 'frontend', 'public', 'assets', 'js', 'romix-icons.js');
   fs.writeFileSync(output, buildRuntime(iconEntries), 'utf8');
   console.log('ROMIX icon registry generated with lucide@' + lucideVersion + ': ' + Object.keys(iconEntries).length + ' icons.');
+}).catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
 });

@@ -23,10 +23,10 @@ function main() {
   let shouldInsert = false;
   let insertedForProduct = false;
 
-  const startProductRegex = /^ {4}\{$/;
-  const endProductRegex = /^ {4}\},?$/;
-  const nameRegex = /^\s*"name":\s*"([^"]+)",/;
-  const priceRegex = /^(\s{8})"price":\s*[^,]+,/;
+  const startProductRegex = /^ {2}\{$/;
+  const endProductRegex = /^ {2}\},?$/;
+  const nameRegex = /^ {4}"name": +"([^"]+)",/;
+  const priceRegex = /^( {4})"price": [^,]+,/;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];

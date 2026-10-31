@@ -105,7 +105,7 @@
   function defaultSlugify(value) {
     return norm(String(value || ""))
       .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+      .replace(/^-|-$/g, "");
   }
 
   function slugify(value) {

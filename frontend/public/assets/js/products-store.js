@@ -23,20 +23,28 @@
   function fileToken(value) {
     return normalizeText(value)
       .replace(/[^a-z0-9]+/g, '_')
-      .replace(/^_+|_+$/g, '');
+      .replace(/^_|_$/g, '');
   }
 
   function cleanPath(value) {
     return String(value || '').trim().split(/[?#]/)[0];
   }
 
+  function stripSlashes(value) {
+    let start = 0;
+    let end = value.length;
+    while (start < end && value[start] === '/') start++;
+    while (end > start && value[end - 1] === '/') end--;
+    return value.slice(start, end);
+  }
+
   function deriveColorImage(product, colorName) {
     if (!product || !product.imageBase) return '';
-    const base = String(product.imageBase || '').trim().replace(/^\/+|\/+$/g, '');
+    const base = stripSlashes(String(product.imageBase || '').trim());
     const color = fileToken(colorName);
     if (!base || !color) return '';
     const ext = String(product.imageExt || 'webp').trim().replace(/^\./, '') || 'webp';
-    const dir = String(product.imageDir || 'images/products').trim().replace(/^\/+|\/+$/g, '') || 'images/products';
+    const dir = stripSlashes(String(product.imageDir || 'images/products').trim()) || 'images/products';
     return `${dir}/${base}_${color}.${ext}`;
   }
 

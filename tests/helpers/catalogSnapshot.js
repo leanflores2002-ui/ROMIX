@@ -2,13 +2,13 @@ const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
 function stable(value) {
   if (Array.isArray(value)) return value.map(stable);
-  if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort().map(key => [key, stable(value[key])]));
+  if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort((a, b) => a.localeCompare(b)).map(key => [key, stable(value[key])]));
   return value;
 }
 function snapshot(products) {
   return products.map(product => ({
     name: product.name, price: product.price, priceByGroup: product.priceByGroup || null, sizes: product.sizes,
-    fields: Object.fromEntries(Object.keys(product).sort().map(key => [key, crypto.createHash('sha256').update(JSON.stringify(stable(product[key]))).digest('hex')]))
+    fields: Object.fromEntries(Object.keys(product).sort((a, b) => a.localeCompare(b)).map(key => [key, crypto.createHash('sha256').update(JSON.stringify(stable(product[key]))).digest('hex')]))
   }));
 }
 function verify(products, baseline) {

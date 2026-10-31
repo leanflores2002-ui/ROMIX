@@ -515,12 +515,12 @@
             .replace(/\p{Diacritic}+/gu, '')
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-+|-+$/g, '');
+            .replace(/^-|-$/g, '');
         } catch {
           return safeValue
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-+|-+$/g, '');
+            .replace(/^-|-$/g, '');
         }
       }
 
@@ -1860,7 +1860,7 @@
         return String(product?.id || product?.slug || product?.name || 'product')
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-+|-+$/g, '') || 'product';
+          .replace(/^-|-$/g, '') || 'product';
       }
 
       function normalizeProductCopy(value){
@@ -2333,8 +2333,8 @@
           if (!thumbContainer) return;
           const axis = getThumbAxis();
           const step = axis === 'y'
-            ? (parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-height')) || 88) + (parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-gap')) || 12)
-            : (parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-size')) || 76) + (parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-gap')) || 10);
+            ? (Number.parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-height')) || 88) + (Number.parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-gap')) || 12)
+            : (Number.parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-size')) || 76) + (Number.parseFloat(getComputedStyle(thumbContainer).getPropertyValue('--thumb-gap')) || 10);
           if (axis === 'y') {
             thumbContainer.scrollBy({ top: step * direction, behavior: 'smooth' });
           } else {
@@ -2792,7 +2792,7 @@
         if (!firstCard) return listEl.clientWidth * 0.92;
         const cardWidth = firstCard.getBoundingClientRect().width;
         const styles = window.getComputedStyle(listEl);
-        const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+        const gap = Number.parseFloat(styles.columnGap || styles.gap || '0') || 0;
         const visibleCards = Math.max(1, Math.round(listEl.clientWidth / Math.max(1, cardWidth + gap)));
         return (cardWidth + gap) * visibleCards;
       };

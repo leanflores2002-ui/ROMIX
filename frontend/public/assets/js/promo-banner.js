@@ -128,7 +128,7 @@
       const firstCard = track.querySelector('.promo-card');
       if (!firstCard) return;
       const style = window.getComputedStyle(track);
-      const gap = parseFloat(style.gap || style.columnGap || '0') || 0;
+      const gap = Number.parseFloat(style.gap || style.columnGap || '0') || 0;
       const cardWidth = firstCard.getBoundingClientRect().width;
       const step = cardWidth + gap;
       const itemsPerPage = Math.max(1, Math.floor(viewport.clientWidth / step));

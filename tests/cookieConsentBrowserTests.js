@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 const startServer = require('./helpers/browserServer');
@@ -66,7 +67,9 @@ const key = 'romix.analytics-consent.v1';
       assert.equal(result.violations.length, 0, JSON.stringify(result.violations.map(x => x.id)));
       if (process.env.ROMIX_SCREENSHOTS) {
         await page.evaluate(() => scrollTo(0, 0));
-        await page.screenshot({ path: path.join(process.env.TEMP, 'romix-cookies-' + width + '.png') });
+        const screenshotDir = path.join(__dirname, '..', 'test-results', 'cookies');
+        fs.mkdirSync(screenshotDir, { recursive: true, mode: 0o700 });
+        await page.screenshot({ path: path.join(screenshotDir, 'romix-cookies-' + width + '.png') });
       }
       assert.deepEqual(errors, []);
       console.log('cookieConsentBrowserTests: ' + width + 'px passed (no Google until accepted, persisted rejection, keyboard, withdrawal, cookie cleanup, cart preserved, axe)');

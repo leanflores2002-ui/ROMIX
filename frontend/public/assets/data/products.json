@@ -6773,6 +6773,60 @@
     ]
   },
   {
+    "section": "mujer",
+    "type": "bermudas",
+    "name": "Bermuda algodon rustico dama",
+    "season": "verano",
+    "image": "images/products/bermuda_algodon_rustico_dama_negro.webp",
+    "price": 12000,
+    "priceByGroup": {
+      "common": 12000,
+      "special": 12800
+    },
+    "specialSizes": [
+      6,
+      7,
+      8
+    ],
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/bermuda_algodon_rustico_dama_negro.webp"
+      },
+      {
+        "name": "Gris melange",
+        "hex": "#A9A9A9",
+        "image": "images/products/bermuda_algodon_rustico_dama_gris_melange.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#1E4ED8",
+        "image": "images/products/bermuda_algodon_rustico_dama_azul.webp"
+      },
+      {
+        "name": "Gris oscuro",
+        "hex": "#4B4B4B",
+        "image": "images/products/bermuda_algodon_rustico_dama_gris_oscuro.webp"
+      },
+      {
+        "name": "Beige",
+        "hex": "#F5F5DC",
+        "image": "images/products/bermuda_algodon_rustico_dama_beige.webp"
+      }
+    ],
+    "sizes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ]
+  },
+  {
     "section": "hombre",
     "type": "bermudas",
     "name": "Bermuda lycra hombre",

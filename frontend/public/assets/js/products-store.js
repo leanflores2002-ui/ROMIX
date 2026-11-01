@@ -159,19 +159,6 @@
     return normalized;
   }
 
-  function seasonKey(product) {
-    const fromSeason = normalizeText(product?.season).replace(/[^a-z0-9]+/g, '');
-    if (fromSeason.includes('verano')) return 'verano';
-    if (fromSeason.includes('invierno')) return 'invierno';
-    if (fromSeason === 'mediaestacion') return 'media-estacion';
-
-    const fromSeasonKey = normalizeText(product?.seasonKey).replace(/[^a-z0-9-]+/g, '');
-    if (fromSeasonKey.includes('verano')) return 'verano';
-    if (fromSeasonKey.includes('invierno')) return 'invierno';
-    if (fromSeasonKey.replaceAll('-', '') === 'mediaestacion') return 'media-estacion';
-    return '';
-  }
-
   function isVisibleProduct(product) {
     if (!product || typeof product !== 'object') return false;
     return product.visible !== false;

@@ -4,7 +4,6 @@
   const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
     ? imageUtils.dimensions.productCard
     : { width: 720, height: 960 };
-  function qs(name){ const p = new URLSearchParams(location.search); return (p.get(name)||'').trim(); }
   function cap(s){ if(s==='hombre') return 'Hombre'; if(s==='ninos') return 'Niños'; return 'Mujer'; }
   function money(n){ return `$${Number(n||0).toLocaleString('es-AR')}`; }
   function computeTotalStock(p){

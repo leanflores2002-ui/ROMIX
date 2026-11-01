@@ -1043,7 +1043,7 @@
       badge: String((raw?.badge) || "").trim(),
       featuredBadge: String((raw?.featuredBadge) || "").trim(),
       seasonKey,
-      featured: !!(raw?.featured === true),
+      featured: raw?.featured === true,
       colors,
       registeredColorCount,
       filterColorKeys,
@@ -1204,12 +1204,6 @@
     return (product.colors && product.colors[0]) || { key: "unico", name: "Unico", image: product.image || PLACEHOLDER };
   }
 
-  function getFirstAvailableSize(product) {
-    if (!product.sizes.length) return "U";
-    const available = product.sizes.find((entry) => entry.status !== "out");
-    return String((available && available.value) || product.sizes[0].value || "U");
-  }
-
   function showToast(message) {
     const toast = document.getElementById("catalog-toast");
     if (!toast) return;
@@ -1219,36 +1213,6 @@
     showToast.timer = setTimeout(function () {
       toast.classList.remove("is-visible");
     }, 2100);
-  }
-
-  function addToCart(product, selectedColor) {
-    if (!window.romixCart || typeof window.romixCart.addToCart !== "function") {
-      window.location.href = new URL(detailUrl(product), document.baseURI).href;
-      return;
-    }
-
-    const fallbackColor = getFirstColor(product);
-    const color = selectedColor || fallbackColor;
-    const size = getFirstAvailableSize(product);
-    const image = color && color.image ? color.image : product.image;
-
-    window.romixCart.addToCart({
-      productId: product.id,
-      id: product.id,
-      name: product.name,
-      type: product.typeLabel,
-      price: product.price,
-      image,
-      color: color.name,
-      colorName: color.name,
-      size,
-      talle: size,
-      qty: 1
-    });
-
-    if (typeof window.romixCart.updateBadge === "function") {
-      window.romixCart.updateBadge("#cart-count");
-    }
   }
 
   function renderSummary() {
@@ -1326,7 +1290,6 @@
   function ensureMobileFilterTrigger() {
     const openBtn = document.getElementById("open-filters");
     const heading = document.getElementById("page-title");
-    const breadcrumb = document.getElementById("catalog-breadcrumb");
     if (!openBtn && !heading) return;
 
     const triggerMarkup =

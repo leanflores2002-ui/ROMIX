@@ -135,7 +135,6 @@
       const DATA_URL = 'assets/data/products.json';
       const localStaticPreview = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname)
         || isTemplatePlaceholder(document.getElementById('preloaded-products')?.textContent || '');
-      const CART_KEY = 'cart';
       const imageUtils = window.romixImageUtils || {};
       const srcsetUrl = imageUtils.srcsetUrl || (value => String(value || '').replace(/[\t\n\f\r ,]/g, character => encodeURIComponent(character)));
       const pricing = window.romixPricing || {};
@@ -165,9 +164,6 @@
       const getDisplayColorName = typeof colorUtils.getDisplayColorName === 'function'
         ? colorUtils.getDisplayColorName
         : (product, selected) => (selected || 'Único');
-      const normalizeColorName = typeof colorUtils.normalizeColorName === 'function'
-        ? colorUtils.normalizeColorName
-        : (value) => (value || '').toString().trim();
       function isTemplatePlaceholder(raw) {
         return /^\s*\{\{[\s\S]*\}\}\s*$/.test(String(raw || ''));
       }
@@ -192,11 +188,6 @@
         const value = String(src || '').trim();
         if (/\.webp(?:$|\?)/i.test(value)) return value;
         return toWebpImage(value);
-      }
-      function getProductImageMap(product) {
-        return typeof imageUtils.getProductLegacyImageMap === 'function'
-          ? imageUtils.getProductLegacyImageMap(product)
-          : null;
       }
       function getProductImageList(product) {
         return typeof imageUtils.getProductImageList === 'function'
@@ -232,12 +223,6 @@
           return imageUtils.getSafeProductThumbSources(product, colorName, index);
         }
         return getSafeProductImageSources(product, colorName, index);
-      }
-      function getSafeProductThumb(product, colorName, index) {
-        if (typeof imageUtils.getSafeProductThumb === 'function') {
-          return imageUtils.getSafeProductThumb(product, colorName, index) || getSafeProductImage(product, colorName, index);
-        }
-        return getSafeProductThumbSources(product, colorName, index)[0] || getSafeProductImage(product, colorName, index);
       }
       function normalizeColorKey(value) {
         const raw = (value ?? '').toString().trim();
@@ -602,16 +587,6 @@
 
       }
 
-      function readCart(){
-        try { return (window.romixCart && window.romixCart.getCart()) || []; }
-        catch (error) { console.warn('[detalle] carrito invalido', error); return []; }
-      }
-
-      function writeCart(items){
-        try { if (window.romixCart) window.romixCart.saveCart(items); }
-        catch (error) { console.warn('[detalle] no se pudo guardar el carrito', error); }
-      }
-
       function updateCartCount(){
         try { if (window.romixCart) window.romixCart.updateBadge(); }
         catch (error) { console.warn('[detalle] no pudo actualizar el contador', error); }
@@ -943,11 +918,6 @@
         }
       }
 
-      function updatePriceForSize(product, sizeValue){
-        const newPrice = getPriceForSize(product, sizeValue);
-        renderProductPrice(product, newPrice);
-      }
-
       let lastPurchaseActionAt = -Infinity;
 
       function isDuplicatePurchaseAction() {
@@ -1082,16 +1052,6 @@
         }
         if (isHiddenProduct(product)) return null;
         return product;
-      }
-
-      function normalizeSeasonKey(value) {
-        const raw = String(value || '').trim();
-        if (!raw) return '';
-        try {
-          return raw.normalize('NFD').replace(/\p{Diacritic}+/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
-        } catch {
-          return raw.toLowerCase().replace(/[^a-z0-9]+/g, '');
-        }
       }
 
       function isHiddenProduct(product) {
@@ -2085,7 +2045,6 @@
 
         const mainImage = detail.querySelector('#main-image');
         const thumbContainer = detail.querySelector('#gallery-thumbs');
-        const thumbsPanel = detail.querySelector('.thumbs-panel');
         const thumbsPrevBtn = detail.querySelector('#thumbs-prev');
         const thumbsNextBtn = detail.querySelector('#thumbs-next');
         const colorPickerContainer = detail.querySelector('#colorPicker');
@@ -2096,7 +2055,6 @@
         const quantityInput = detail.querySelector('#quantity-input');
         const minusBtn = detail.querySelector('#quantity-minus');
         const plusBtn = detail.querySelector('#quantity-plus');
-        const purchaseActions = detail.querySelector('#purchase-actions');
         const btnAdd = detail.querySelector('#btn-add');
         const btnBuy = detail.querySelector('#btn-buy');
         let colorPickerApi = null;
@@ -2266,14 +2224,6 @@
           syncPictureSource(picture, 'image/webp', getSafeWebpSource(nextSrc));
           mainImage.src = nextSrc;
           if (alt != null) mainImage.alt = alt;
-        }
-
-        function thumbMarkup(item, index, total) {
-          const src = item && (item.thumbSrc || item.src) ? String(item.thumbSrc || item.src) : PLACEHOLDER;
-          const label = item && item.label ? String(item.label) : (product.name || 'Producto');
-          const colorKey = item && item.colorKey ? String(item.colorKey) : variantColorKey(label);
-          const full = item && item.src ? String(item.src) : PLACEHOLDER;
-          return `<img src="${src}" alt="${label}" data-index="${index}" data-color="${label}" data-color-key="${colorKey}" data-full="${full}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" sizes="${THUMB_IMAGE_SIZES}" ${index === 0 ? 'class="active"' : ''} role="option" tabindex="0" aria-label="Ver imagen ${index + 1} de ${total}" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`;
         }
 
         function bindGalleryThumbs() {
@@ -2463,19 +2413,6 @@
             if (match) return Number(match.stock || 0);
           }
           return null;
-        }
-
-        function getColorTotalStock(product, colorName) {
-          if (product && Array.isArray(product.variants)) {
-            return product.variants.reduce((sum, v) => {
-              if (String(v.color).toLowerCase() === String(colorName).toLowerCase()) {
-                return sum + Number(v.stock || 0);
-              }
-              return sum;
-            }, 0);
-          }
-          const map = stockMap[colorName] || stockMap['Unico'] || {};
-          return Object.values(map).reduce((acc, qty) => acc + (Number(qty) || 0), 0);
         }
 
         function updateSizesStateForColor(product, colorName){
@@ -2760,15 +2697,6 @@
         return String(product.badge || product.featuredBadge || '').trim();
       };
 
-      const getMetaLabel = (product) => {
-        const sectionText = String(product.section || '').trim();
-        const typeText = String(product.type || product.typeLabel || '').trim();
-        return [sectionText, typeText]
-          .filter(Boolean)
-          .map((value) => value.toLowerCase())
-          .join(' | ');
-      };
-
       const getVariantThumbs = (product) => {
         const thumbs = [];
         const gallery = getGallery(product, '', { allColors: true });
@@ -2778,20 +2706,6 @@
           thumbs.push({ src: item.thumbSrc || item.src, mainSrc: item.src, alt: item.label || product.name || 'Variante' });
         });
         return thumbs;
-      };
-
-      const getStockMeta = (product) => {
-        const stockMap = buildStockMap(product);
-        const totals = Object.values(stockMap || {}).map((sizeMap) => {
-          const values = Object.values(sizeMap || {});
-          if (values.some(qty => qty === 'unknown' || qty == null)) return 'unknown';
-          return values.reduce((sum, qty) => sum + (Number(qty) || 0), 0);
-        });
-        if (totals.includes('unknown')) return { label: 'Consultar disponibilidad', css: 'is-unknown' };
-        const total = totals.length ? Math.max(...totals) : Number(product.stock || 0);
-        if (total <= 0) return { label: 'Agotado', css: 'is-out' };
-        if (total <= 3) return { label: 'Por agotarse', css: 'is-low' };
-        return { label: 'Disponible', css: 'is-available' };
       };
 
       if (section) section.hidden = false;

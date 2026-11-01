@@ -55,20 +55,6 @@
     return /-thumb\.(png|jpe?g|webp|avif)$/i.test(cleanPath(value));
   }
 
-  function hasMobileSuffix(value) {
-    return /-mobile\.(png|jpe?g|webp|avif)$/i.test(cleanPath(value));
-  }
-
-  function appendSuffixBeforeExtension(value, suffix, nextExtension) {
-    const normalized = cleanPath(value);
-    if (!normalized) return "";
-    const safeSuffix = String(suffix || "").trim();
-    const base = safeSuffix && normalized.includes(safeSuffix)
-      ? normalized
-      : normalized.replace(/(\.[^./]+)$/i, safeSuffix + "$1");
-    return nextExtension ? replaceExtension(base, nextExtension) : base;
-  }
-
   function getThumbPath(imagePath) {
     const normalized = cleanPath(imagePath);
     if (!normalized || /^data:/i.test(normalized)) return normalized;

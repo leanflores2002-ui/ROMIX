@@ -595,15 +595,6 @@
       return "$" + Number(price || 0).toLocaleString("es-AR");
     }
 
-    function formatDisplayLabel(value) {
-      const text = String(value || "").trim();
-      if (!text) return "";
-      return text
-        .split(/\s+/)
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(" ");
-    }
-
     function findColorImage(product, colorName) {
       if (typeof imageUtils.findProductColor === "function") {
         const color = imageUtils.findProductColor(product, colorName);
@@ -636,13 +627,6 @@
           swatch
         };
       });
-    }
-
-    function getProductMeta(product) {
-      const sectionLabel = formatDisplayLabel(product && product.section);
-      const typeLabel = formatDisplayLabel(product && product.type);
-      if (sectionLabel && typeLabel) return sectionLabel + " | " + typeLabel;
-      return sectionLabel || typeLabel || "";
     }
 
     function getProductStockMeta(product) {
@@ -764,7 +748,6 @@
         const defaultThumbSet = resolveThumbSet(product);
         const stockInfo = getProductStockMeta(product);
         const variantsData = getProductVariants(product);
-        const metaText = getProductMeta(product);
 
         const card = document.createElement("article");
         card.className = "product-card romix-product-card";

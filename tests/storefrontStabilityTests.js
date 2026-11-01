@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const vm = require('vm');
 const { JSDOM } = require('jsdom');
 
 const root = path.join(__dirname, '..');
@@ -27,23 +26,30 @@ function storage(seed = {}) {
 }
 
 function loadScript(relativePath, additions = {}) {
-  const window = Object.assign({ addEventListener() {} }, additions.window || {});
-  const context = Object.assign({
-    window,
+  const allowedScripts = new Set([
+    'frontend/public/assets/js/products-store.js',
+    'frontend/public/assets/js/inventory.js'
+  ]);
+  assert(allowedScripts.has(relativePath), `Unexpected test script: ${relativePath}`);
+  const dom = new JSDOM('<!doctype html><html><body></body></html>', {
+    runScripts: 'outside-only',
+    url: 'https://romix.test/catalogo.html'
+  });
+  const { window } = dom;
+  const globals = {
     console: { warn() {}, error() {}, log() {} },
-    URL,
-    Date,
-    Error,
-    Promise,
     AbortSignal,
-    location: { href: 'https://romix.test/catalogo.html' },
     sessionStorage: storage(),
     localStorage: storage(),
-    document: { getElementById() { return null; } }
-  }, additions);
-  context.window.window = context.window;
-  vm.runInNewContext(read(relativePath), context, { filename: relativePath });
-  return context;
+    ...additions,
+    ...additions.window
+  };
+  delete globals.window;
+  Object.entries(globals).forEach(([key, value]) => {
+    Object.defineProperty(window, key, { configurable: true, value });
+  });
+  window.eval(read(relativePath));
+  return { window };
 }
 
 function checkStaticShells() {

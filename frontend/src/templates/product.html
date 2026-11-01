@@ -135,7 +135,6 @@
       const DATA_URL = 'assets/data/products.json';
       const localStaticPreview = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname)
         || isTemplatePlaceholder(document.getElementById('preloaded-products')?.textContent || '');
-      const CART_KEY = 'cart';
       const imageUtils = window.romixImageUtils || {};
       const srcsetUrl = imageUtils.srcsetUrl || (value => String(value || '').replace(/[\t\n\f\r ,]/g, character => encodeURIComponent(character)));
       const pricing = window.romixPricing || {};
@@ -165,9 +164,6 @@
       const getDisplayColorName = typeof colorUtils.getDisplayColorName === 'function'
         ? colorUtils.getDisplayColorName
         : (product, selected) => (selected || 'Único');
-      const normalizeColorName = typeof colorUtils.normalizeColorName === 'function'
-        ? colorUtils.normalizeColorName
-        : (value) => (value || '').toString().trim();
       function isTemplatePlaceholder(raw) {
         return /^\s*\{\{[\s\S]*\}\}\s*$/.test(String(raw || ''));
       }
@@ -192,11 +188,6 @@
         const value = String(src || '').trim();
         if (/\.webp(?:$|\?)/i.test(value)) return value;
         return toWebpImage(value);
-      }
-      function getProductImageMap(product) {
-        return typeof imageUtils.getProductLegacyImageMap === 'function'
-          ? imageUtils.getProductLegacyImageMap(product)
-          : null;
       }
       function getProductImageList(product) {
         return typeof imageUtils.getProductImageList === 'function'
@@ -232,12 +223,6 @@
           return imageUtils.getSafeProductThumbSources(product, colorName, index);
         }
         return getSafeProductImageSources(product, colorName, index);
-      }
-      function getSafeProductThumb(product, colorName, index) {
-        if (typeof imageUtils.getSafeProductThumb === 'function') {
-          return imageUtils.getSafeProductThumb(product, colorName, index) || getSafeProductImage(product, colorName, index);
-        }
-        return getSafeProductThumbSources(product, colorName, index)[0] || getSafeProductImage(product, colorName, index);
       }
       function normalizeColorKey(value) {
         const raw = (value ?? '').toString().trim();
@@ -602,16 +587,6 @@
 
       }
 
-      function readCart(){
-        try { return (window.romixCart && window.romixCart.getCart()) || []; }
-        catch (error) { console.warn('[detalle] carrito invalido', error); return []; }
-      }
-
-      function writeCart(items){
-        try { if (window.romixCart) window.romixCart.saveCart(items); }
-        catch (error) { console.warn('[detalle] no se pudo guardar el carrito', error); }
-      }
-
       function updateCartCount(){
         try { if (window.romixCart) window.romixCart.updateBadge(); }
         catch (error) { console.warn('[detalle] no pudo actualizar el contador', error); }
@@ -943,11 +918,6 @@
         }
       }
 
-      function updatePriceForSize(product, sizeValue){
-        const newPrice = getPriceForSize(product, sizeValue);
-        renderProductPrice(product, newPrice);
-      }
-
       let lastPurchaseActionAt = -Infinity;
 
       function isDuplicatePurchaseAction() {
@@ -1084,16 +1054,6 @@
         return product;
       }
 
-      function normalizeSeasonKey(value) {
-        const raw = String(value || '').trim();
-        if (!raw) return '';
-        try {
-          return raw.normalize('NFD').replace(/\p{Diacritic}+/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
-        } catch {
-          return raw.toLowerCase().replace(/[^a-z0-9]+/g, '');
-        }
-      }
-
       function isHiddenProduct(product) {
         if (!product || typeof product !== 'object') return true;
         if (window.romixProductsStore && typeof window.romixProductsStore.isVisible === 'function') {
@@ -1204,7 +1164,7 @@
             })
           : null;
         const selectedEntries = opts.onlyColor
-          ? (selectedColor ? [selectedColor] : (colorEntries[0] ? [colorEntries[0]] : []))
+          ? [selectedColor || colorEntries[0]].filter(Boolean)
           : colorEntries;
         const fallbackEntries = opts.allColors
           ? colorEntries
@@ -1263,11 +1223,13 @@
 
         if (fallbackEntries.length) {
           fallbackEntries.forEach((color, index) => {
-            const colorName = color && color.name ? color.name : (index === 0 ? 'principal' : `vista-${index + 1}`);
+            const fallbackColorName = index === 0 ? 'principal' : `vista-${index + 1}`;
+            const colorName = color && color.name ? color.name : fallbackColorName;
             const colorIndex = Number.isInteger(Number(color && color.index)) ? Number(color.index) : index;
+            const rawColorImages = Array.isArray(color && color.images) ? color.images : [];
             const explicitImages = typeof imageUtils.getColorImageList === 'function'
               ? imageUtils.getColorImageList(color)
-              : (Array.isArray(color && color.images) ? color.images : []);
+              : rawColorImages;
             const list = explicitImages.length ? explicitImages : getSafeProductImageSources(product, colorName, colorIndex);
             list.forEach((src, imageIndex) => {
               const imageSources = imageIndex === 0
@@ -1825,7 +1787,7 @@
         const descriptionContent = `<div class="product-description-layout"><div>${description}</div>${featureItems ? `<ul class="product-description-features">${featureItems}</ul>` : ''}</div>`;
         const details = [
           hasProductValue(product.type) ? `<li><span class="product-accordion__label">Tipo:</span> ${product.type}</li>` : '',
-          hasProductValue(product.season) ? `<li><span class="product-accordion__label">Temporada:</span> ${String(product.season).replace(/-/g, ' ')}</li>` : '',
+          hasProductValue(product.season) ? `<li><span class="product-accordion__label">Temporada:</span> ${String(product.season).replaceAll('-', ' ')}</li>` : '',
           ...(product.specs && typeof product.specs === 'object'
             ? Object.entries(product.specs)
               .filter(([key, value]) => hasProductValue(key) && hasProductValue(value))
@@ -2007,7 +1969,7 @@
               <div class="selector size-selector" id="size-selector">
                 <div class="selector-label">Talle</div>
                 <div class="size-options" id="size-options" role="group" aria-label="Seleccionar talle" aria-describedby="size-error"></div>
-                <p id="size-error" class="product-size-error" aria-live="polite" role="status" hidden></p>
+                <p id="size-error" class="product-size-error" aria-live="polite" hidden></p>
               </div>
               <div id="product-size-guide-slot" class="product-size-guide-slot"></div>
               <div class="product-buy-section">
@@ -2083,7 +2045,6 @@
 
         const mainImage = detail.querySelector('#main-image');
         const thumbContainer = detail.querySelector('#gallery-thumbs');
-        const thumbsPanel = detail.querySelector('.thumbs-panel');
         const thumbsPrevBtn = detail.querySelector('#thumbs-prev');
         const thumbsNextBtn = detail.querySelector('#thumbs-next');
         const colorPickerContainer = detail.querySelector('#colorPicker');
@@ -2094,7 +2055,6 @@
         const quantityInput = detail.querySelector('#quantity-input');
         const minusBtn = detail.querySelector('#quantity-minus');
         const plusBtn = detail.querySelector('#quantity-plus');
-        const purchaseActions = detail.querySelector('#purchase-actions');
         const btnAdd = detail.querySelector('#btn-add');
         const btnBuy = detail.querySelector('#btn-buy');
         let colorPickerApi = null;
@@ -2266,14 +2226,6 @@
           if (alt != null) mainImage.alt = alt;
         }
 
-        function thumbMarkup(item, index, total) {
-          const src = item && (item.thumbSrc || item.src) ? String(item.thumbSrc || item.src) : PLACEHOLDER;
-          const label = item && item.label ? String(item.label) : (product.name || 'Producto');
-          const colorKey = item && item.colorKey ? String(item.colorKey) : variantColorKey(label);
-          const full = item && item.src ? String(item.src) : PLACEHOLDER;
-          return `<img src="${src}" alt="${label}" data-index="${index}" data-color="${label}" data-color-key="${colorKey}" data-full="${full}" width="${thumbImageSize.width}" height="${thumbImageSize.height}" sizes="${THUMB_IMAGE_SIZES}" ${index === 0 ? 'class="active"' : ''} role="option" tabindex="0" aria-label="Ver imagen ${index + 1} de ${total}" aria-selected="${index === 0 ? 'true' : 'false'}" loading="lazy" decoding="async"/>`;
-        }
-
         function bindGalleryThumbs() {
           if (!thumbContainer) return;
           const thumbs = Array.from(thumbContainer.querySelectorAll('[data-index]'));
@@ -2400,7 +2352,10 @@
             const qty = stockUnknown ? null : Number(rawStock);
             if (stockUnknown) hasUnknownStock = true;
             else total += qty;
-            const stockState = stockUnknown ? 'unknown' : (qty <= 0 ? 'out' : (qty <= 3 ? 'low' : 'available'));
+            let stockState = 'available';
+            if (stockUnknown) stockState = 'unknown';
+            else if (qty <= 0) stockState = 'out';
+            else if (qty <= 3) stockState = 'low';
             const chip = document.createElement('button');
             chip.type = 'button';
             chip.className = 'size-chip size-option';
@@ -2410,9 +2365,10 @@
             chip.dataset.sizeValue = sizeKey;
             chip.textContent = sizeKey;
             chip.setAttribute('aria-pressed', 'false');
-            chip.setAttribute('aria-label', stockState === 'unknown'
-              ? `Seleccionar talle ${sizeKey}, disponibilidad a confirmar`
-              : (stockState === 'low' ? `Seleccionar talle ${sizeKey}, pocas unidades` : `Seleccionar talle ${sizeKey}`));
+            let sizeLabel = `Seleccionar talle ${sizeKey}`;
+            if (stockState === 'unknown') sizeLabel += ', disponibilidad a confirmar';
+            else if (stockState === 'low') sizeLabel += ', pocas unidades';
+            chip.setAttribute('aria-label', sizeLabel);
             if (stockState === 'out') chip.classList.add('out');
             chip.addEventListener('click', () => {
               if (chip.disabled || chip.classList.contains('out')) return;
@@ -2436,7 +2392,8 @@
             stockNote.style.display = 'block';
           }
           const fallbackMax = Number(currentProduct && currentProduct.stock) || 0;
-          const nextMax = fallbackMax > 0 ? fallbackMax : (!hasUnknownStock && total > 0 ? total : null);
+          const availableTotal = !hasUnknownStock && total > 0 ? total : null;
+          const nextMax = fallbackMax > 0 ? fallbackMax : availableTotal;
           STOCK_MAX = nextMax && nextMax > 0 ? nextMax : null;
           if (Number.isFinite(STOCK_MAX)) currentQty = Math.min(currentQty, STOCK_MAX);
           setQuantity(currentQty);
@@ -2456,19 +2413,6 @@
             if (match) return Number(match.stock || 0);
           }
           return null;
-        }
-
-        function getColorTotalStock(product, colorName) {
-          if (product && Array.isArray(product.variants)) {
-            return product.variants.reduce((sum, v) => {
-              if (String(v.color).toLowerCase() === String(colorName).toLowerCase()) {
-                return sum + Number(v.stock || 0);
-              }
-              return sum;
-            }, 0);
-          }
-          const map = stockMap[colorName] || stockMap['Unico'] || {};
-          return Object.values(map).reduce((acc, qty) => acc + (Number(qty) || 0), 0);
         }
 
         function updateSizesStateForColor(product, colorName){
@@ -2539,9 +2483,17 @@
             const colorImage = getSafeProductImage(product, colorName, index);
             const key = colorEntryKey(color, colorName);
             const explicitSwatch = color.swatch || color.preview || color.pattern || '';
-            const colorSwatchImage = explicitSwatch
-              ? (typeof imageUtils.getSwatchPath === 'function' ? imageUtils.getSwatchPath(explicitSwatch) : explicitSwatch)
-              : ((typeof imageUtils.getSwatchPath === 'function' ? imageUtils.getSwatchPath(colorImage) : '') || colorImage || '');
+            let colorSwatchImage;
+            if (explicitSwatch) {
+              colorSwatchImage = typeof imageUtils.getSwatchPath === 'function'
+                ? imageUtils.getSwatchPath(explicitSwatch)
+                : explicitSwatch;
+            } else {
+              const fallbackSwatch = typeof imageUtils.getSwatchPath === 'function'
+                ? imageUtils.getSwatchPath(colorImage)
+                : '';
+              colorSwatchImage = fallbackSwatch || colorImage || '';
+            }
             btn.dataset.color = colorName;
             btn.dataset.colorOption = 'true';
             btn.dataset.colorName = colorName;
@@ -2745,15 +2697,6 @@
         return String(product.badge || product.featuredBadge || '').trim();
       };
 
-      const getMetaLabel = (product) => {
-        const sectionText = String(product.section || '').trim();
-        const typeText = String(product.type || product.typeLabel || '').trim();
-        return [sectionText, typeText]
-          .filter(Boolean)
-          .map((value) => value.toLowerCase())
-          .join(' | ');
-      };
-
       const getVariantThumbs = (product) => {
         const thumbs = [];
         const gallery = getGallery(product, '', { allColors: true });
@@ -2763,20 +2706,6 @@
           thumbs.push({ src: item.thumbSrc || item.src, mainSrc: item.src, alt: item.label || product.name || 'Variante' });
         });
         return thumbs;
-      };
-
-      const getStockMeta = (product) => {
-        const stockMap = buildStockMap(product);
-        const totals = Object.values(stockMap || {}).map((sizeMap) => {
-          const values = Object.values(sizeMap || {});
-          if (values.some(qty => qty === 'unknown' || qty == null)) return 'unknown';
-          return values.reduce((sum, qty) => sum + (Number(qty) || 0), 0);
-        });
-        if (totals.includes('unknown')) return { label: 'Consultar disponibilidad', css: 'is-unknown' };
-        const total = totals.length ? Math.max(...totals) : Number(product.stock || 0);
-        if (total <= 0) return { label: 'Agotado', css: 'is-out' };
-        if (total <= 3) return { label: 'Por agotarse', css: 'is-low' };
-        return { label: 'Disponible', css: 'is-available' };
       };
 
       if (section) section.hidden = false;
@@ -3024,7 +2953,7 @@
       }
     })();
   </script>
-  <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
+  <div id="romix-toast" class="romix-toast" aria-live="polite"></div>
   <script src="assets/js/romix-header.js?v=20" defer></script>
   <romix-toast></romix-toast>
   <script type="module" src="assets/js/ts/main.js?v=19"></script>

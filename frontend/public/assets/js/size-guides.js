@@ -173,33 +173,33 @@
 
   function getProductHaystack(product) {
     const fields = [
-      product && product.name,
-      product && product.nombre,
-      product && product.title,
-      product && product.titulo,
-      product && product.type,
-      product && product.tipo,
-      product && product.typeKey,
-      product && product.tipoKey,
-      product && product.typeLabel,
-      product && product.tipoLabel,
-      product && product.category,
-      product && product.categoria,
-      product && product.categoryKey,
-      product && product.categoriaKey,
-      product && product.categoryLabel,
-      product && product.categoriaLabel,
-      product && product.section,
-      product && product.seccion,
-      product && product.sectionLabel,
-      product && product.seccionLabel,
-      product && product.gender,
-      product && product.genero,
-      product && product.audience,
-      product && product.audiencia
+      product?.name,
+      product?.nombre,
+      product?.title,
+      product?.titulo,
+      product?.type,
+      product?.tipo,
+      product?.typeKey,
+      product?.tipoKey,
+      product?.typeLabel,
+      product?.tipoLabel,
+      product?.category,
+      product?.categoria,
+      product?.categoryKey,
+      product?.categoriaKey,
+      product?.categoryLabel,
+      product?.categoriaLabel,
+      product?.section,
+      product?.seccion,
+      product?.sectionLabel,
+      product?.seccionLabel,
+      product?.gender,
+      product?.genero,
+      product?.audience,
+      product?.audiencia
     ];
 
-    if (Array.isArray(product && product.tags)) {
+    if (Array.isArray(product?.tags)) {
       product.tags.forEach((tag) => fields.push(tag));
     }
 
@@ -237,16 +237,16 @@
   }
 
   function formatGuideSubtitle(guide) {
-    return String((guide && guide.title) || "Guia orientativa").replace(" - ", " \u00b7 ");
+    return String((guide?.title) || "Guia orientativa").replace(" - ", " \u00b7 ");
   }
 
   function escapeHtml(value) {
     return String(value == null ? "" : value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
   }
 
   function renderTable(guide) {

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
-const assert = require("assert");
+const fs = require("node:fs");
+const path = require("node:path");
+const assert = require("node:assert");
 
 const COLOR_DEFINITIONS = [
   { key: "multicolor", label: "Multicolor", hex: "#f7c948", aliases: ["multicolor", "estampado", "estampada", "print", "floreado"] },

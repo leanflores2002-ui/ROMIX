@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const PRODUCTS_PATH = path.join(__dirname, '..', 'frontend', 'public', 'assets', 'data', 'products.json');
 

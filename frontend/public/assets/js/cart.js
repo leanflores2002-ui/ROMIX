@@ -541,7 +541,7 @@
   });
 
   window.addEventListener('storage', (event) => {
-    if (event && event.key === STORAGE_KEY) updateBadge();
+    if (event?.key === STORAGE_KEY) updateBadge();
   });
   window.addEventListener('romix:cart-changed', () => updateBadge());
 })();

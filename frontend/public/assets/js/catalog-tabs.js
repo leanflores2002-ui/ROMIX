@@ -4,11 +4,10 @@
   const cardImageSize = imageUtils.dimensions && imageUtils.dimensions.productCard
     ? imageUtils.dimensions.productCard
     : { width: 720, height: 960 };
-  function qs(name){ const p = new URLSearchParams(location.search); return (p.get(name)||'').trim(); }
   function cap(s){ if(s==='hombre') return 'Hombre'; if(s==='ninos') return 'Niños'; return 'Mujer'; }
   function money(n){ return `$${Number(n||0).toLocaleString('es-AR')}`; }
   function computeTotalStock(p){
-    if (p && p.stockByColor) {
+    if (p?.stockByColor) {
       let total=0; for(const k of Object.keys(p.stockByColor)){ const m=p.stockByColor[k]||{}; for(const t of Object.keys(m)) total += Number(m[t]||0); } return total;
     }
     const st=(p.sizes||[]).map(x=>String(x.status||'').toLowerCase());
@@ -16,7 +15,7 @@
   }
   function stateFromStock(n){ if(n<=0) return 'out'; if(n<=3) return 'low'; return 'available'; }
   function slugForProduct(product){
-    const fallback = (product && product.name) ? product.name : '';
+    const fallback = (product?.name) ? product.name : '';
     const romixFn = typeof window.romixSlug === 'function'
       ? window.romixSlug
       : (typeof window.romixSlugify === 'function' ? window.romixSlugify : (typeof window.slugify === 'function' ? window.slugify : null));
@@ -39,9 +38,10 @@
   function detailHref(product, buy){
     if (window.romixProductUrl) return window.romixProductUrl.detailHref(product) + (buy ? '?buy=1' : '');
     const slugVal = slugForProduct(product);
+    const productName = product?.name || '';
     const nameVal = typeof window.fixUtf8 === 'function'
-      ? window.fixUtf8(product && product.name ? product.name : '')
-      : (product && product.name ? product.name : '');
+      ? window.fixUtf8(productName)
+      : productName;
     const pid = typeof window.productId === 'function' ? window.productId(product) : slugVal;
     const base = 'product.html?id=' + encodeURIComponent(pid) +
       '&slug=' + encodeURIComponent(slugVal) +
@@ -86,16 +86,16 @@
       </div>`;
     }).join('');
     const cards = Array.from(grid.children);
-    empty && empty.classList.toggle('hidden', cards.length>0);
+    empty?.classList.toggle('hidden', cards.length>0);
     // Wire actions
     cards.forEach((card,i)=>{
       const p = products[i];
       const href = detailHref(p);
       const go = ()=> location.href = href;
-      const a = card.querySelector('.btn.btn-details'); a && a.addEventListener('click', (e)=>{ e.preventDefault(); go(); });
-      const add = card.querySelector('.btn.btn-primary'); add && add.addEventListener('click', (e)=>{ e.preventDefault(); location.href = detailHref(p, true); });
-      const img = card.querySelector('.product-image'); img && img.addEventListener('click', go);
-      const t = card.querySelector('.product-title'); t && t.addEventListener('click', go);
+      const a = card.querySelector('.btn.btn-details'); a?.addEventListener('click', (e)=>{ e.preventDefault(); go(); });
+      const add = card.querySelector('.btn.btn-primary'); add?.addEventListener('click', (e)=>{ e.preventDefault(); location.href = detailHref(p, true); });
+      const img = card.querySelector('.product-image'); img?.addEventListener('click', go);
+      const t = card.querySelector('.product-title'); t?.addEventListener('click', go);
     });
   }
 

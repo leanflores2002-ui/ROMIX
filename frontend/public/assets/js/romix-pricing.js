@@ -100,7 +100,7 @@
   }
 
   function getCardPriceEntries(product) {
-    const groups = product && product.priceByGroup && typeof product.priceByGroup === "object"
+    const groups = product?.priceByGroup && typeof product.priceByGroup === "object"
       ? Object.entries(product.priceByGroup)
         .map(([key, value]) => ({ key, value: toAmount(value) }))
         .filter((entry) => entry.value > 0)
@@ -221,9 +221,9 @@
   }
 
   function createPriceDisplay(product, options) {
-    const container = document.createElement((options && options.rootTag) || "div");
-    if (options && options.rootClass) appendClasses(container, options.rootClass);
-    if (options && options.rootId) container.id = options.rootId;
+    const container = document.createElement((options?.rootTag) || "div");
+    if (options?.rootClass) appendClasses(container, options.rootClass);
+    if (options?.rootId) container.id = options.rootId;
     renderInto(container, product, options);
     return container;
   }

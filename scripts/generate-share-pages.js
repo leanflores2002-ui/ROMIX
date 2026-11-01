@@ -76,9 +76,9 @@ function absoluteUrl(value, siteUrl = deploymentSiteUrl()) {
 }
 
 function productImage(product) {
-  const direct = encodePathForMeta(product && product.image);
+  const direct = encodePathForMeta(product?.image);
   if (direct) return direct;
-  if (product && product.images && typeof product.images === "object") {
+  if (product?.images && typeof product.images === "object") {
     const entries = Array.isArray(product.images) ? product.images : Object.values(product.images);
     const first = entries.find((entry) => String(entry || "").trim());
     if (first) return encodePathForMeta(first);
@@ -94,9 +94,9 @@ function productDescription(product) {
 
 function productDetailsDescription(product) {
   const candidates = [
-    product && product.description,
-    product && product.desc,
-    product && product.subtitle
+    product?.description,
+    product?.desc,
+    product?.subtitle
   ];
   const first = candidates.find((entry) => String(entry || "").trim());
   if (!first) {
@@ -108,7 +108,7 @@ function productDetailsDescription(product) {
 }
 
 function productTitle(product) {
-  const name = String((product && product.name) || "Producto ROMIX").trim();
+  const name = String((product?.name) || "Producto ROMIX").trim();
   return `${name} | ROMIX`;
 }
 

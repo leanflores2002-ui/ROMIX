@@ -127,14 +127,14 @@
       result.push(value);
     }
 
-    if (product && product.image) push(product.image);
+    if (product?.image) push(product.image);
 
     const legacyMap = getProductLegacyImageMap(product);
     if (legacyMap) {
       Object.values(legacyMap).forEach(push);
     }
 
-    if (Array.isArray(product && product.images)) {
+    if (Array.isArray(product?.images)) {
       product.images.forEach(push);
     }
 
@@ -185,15 +185,15 @@
 
   function resolveProductColorEntries(product) {
     const legacyMap = getProductLegacyImageMap(product);
-    const imageList = Array.isArray(product && product.images) ? product.images.filter(Boolean).map(cleanPath) : [];
-    const mainFallback = cleanPath(product && product.image);
+    const imageList = Array.isArray(product?.images) ? product.images.filter(Boolean).map(cleanPath) : [];
+    const mainFallback = cleanPath(product?.image);
     const legacyValues = legacyMap ? Object.values(legacyMap).map(cleanPath).filter(Boolean) : [];
     const firstLegacyImage = legacyValues[0] || imageList[0] || mainFallback || "";
     let palette = [];
 
-    if (Array.isArray(product && product.colors)) {
+    if (Array.isArray(product?.colors)) {
       palette = product.colors.slice();
-    } else if (product && product.colors && typeof product.colors === "object") {
+    } else if (product?.colors && typeof product.colors === "object") {
       const values = Object.values(product.colors);
       if (values.every(function (entry) { return entry && typeof entry === "object"; })) {
         palette = values;
@@ -252,7 +252,7 @@
   function getProductMainImage(product) {
     const colors = resolveProductColorEntries(product);
     if (colors[0] && colors[0].image) return colors[0].image;
-    return cleanPath(product && product.image)
+    return cleanPath(product?.image)
       || getProductImageList(product)[0]
       || "";
   }
@@ -290,7 +290,7 @@
     }
 
     const namedColor = findProductColor(product, color);
-    if (namedColor && namedColor.image) return cleanPath(namedColor.image);
+    if (namedColor?.image) return cleanPath(namedColor.image);
 
     if (color && typeof color === "object" && color.name) {
       const legacyImage = findColorImageInLegacyMap(product, color.name);
@@ -311,11 +311,11 @@
       : findProductColor(product, color);
     const mainImage = getColorImage(colorEntry || color, product) || getProductMainImage(product);
     const hasColorEntry = !!colorEntry;
-    const explicitColorImage = cleanPath(colorEntry && colorEntry.image);
+    const explicitColorImage = cleanPath(colorEntry?.image);
     const explicitThumbValue = cleanPath((colorEntry && (colorEntry.thumb || colorEntry.thumbnail)) || (!hasColorEntry && product && (product.thumbnail || product.thumb)));
     const explicitThumb = getThumbPath(explicitThumbValue);
     const explicitFallback = cleanPath((colorEntry && (colorEntry.thumbFallback || colorEntry.thumbnailFallback)) || (!hasColorEntry && product && (product.thumbnailFallback || product.thumbFallback)));
-    const explicitAvif = cleanPath((colorEntry && (colorEntry.thumbAvif || colorEntry.thumbnailAvif)) || (!hasColorEntry && product && product.thumbnailAvif));
+    const explicitAvif = cleanPath((colorEntry && (colorEntry.thumbAvif || colorEntry.thumbnailAvif)) || (!hasColorEntry && product?.thumbnailAvif));
     const explicitThumbExt = extension(explicitThumb);
     const thumbFallback = explicitThumb && explicitThumbExt && explicitThumbExt !== "avif" ? explicitThumb : "";
     const productThumb = getThumbPath(cleanPath(product && (product.thumbnail || product.thumb)));
@@ -408,13 +408,13 @@
     const colorEntry = findProductColor(product, colorName);
     const colorIndex = getColorIndex(product, colorName, index);
     const imageList = Array.isArray(product.images) ? product.images.map(cleanPath) : [];
-    const colorLabel = colorEntry && colorEntry.name ? colorEntry.name : colorName;
+    const colorLabel = colorEntry?.name ? colorEntry.name : colorName;
     const colorImages = getColorImageList(colorEntry);
 
     return uniqueSources([
       colorImages,
       findColorImageInLegacyMap(product, colorLabel),
-      cleanPath(colorEntry && colorEntry.image),
+      cleanPath(colorEntry?.image),
       imageList[colorIndex],
       cleanPath(product.image),
       cleanPath(product.thumbnailFallback),

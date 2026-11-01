@@ -64,7 +64,7 @@
     if (direct) return direct;
 
     const colorName = String(source.name || source.value || '').trim();
-    const imageMap = product && product.imageMap && typeof product.imageMap === 'object' && !Array.isArray(product.imageMap)
+    const imageMap = product?.imageMap && typeof product.imageMap === 'object' && !Array.isArray(product.imageMap)
       ? product.imageMap
       : null;
     if (imageMap && colorName) {
@@ -77,11 +77,11 @@
     const derived = deriveColorImage(product, colorName);
     if (derived) return derived;
 
-    if (Array.isArray(product && product.images) && product.images[index]) {
+    if (Array.isArray(product?.images) && product.images[index]) {
       return cleanPath(product.images[index]);
     }
 
-    return cleanPath(product && product.image);
+    return cleanPath(product?.image);
   }
 
   function normalizeSizes(sizes) {
@@ -160,12 +160,12 @@
   }
 
   function seasonKey(product) {
-    const fromSeason = normalizeText(product && product.season).replace(/[^a-z0-9]+/g, '');
+    const fromSeason = normalizeText(product?.season).replace(/[^a-z0-9]+/g, '');
     if (fromSeason.includes('verano')) return 'verano';
     if (fromSeason.includes('invierno')) return 'invierno';
     if (fromSeason === 'mediaestacion') return 'media-estacion';
 
-    const fromSeasonKey = normalizeText(product && product.seasonKey).replace(/[^a-z0-9-]+/g, '');
+    const fromSeasonKey = normalizeText(product?.seasonKey).replace(/[^a-z0-9-]+/g, '');
     if (fromSeasonKey.includes('verano')) return 'verano';
     if (fromSeasonKey.includes('invierno')) return 'invierno';
     if (fromSeasonKey.replaceAll('-', '') === 'mediaestacion') return 'media-estacion';

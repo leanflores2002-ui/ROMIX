@@ -78,7 +78,7 @@ function main() {
   const referencedFiles = new Set();
 
   products.forEach((product, productIndex) => {
-    const label = String(product && product.name || `Producto #${productIndex + 1}`).trim();
+    const label = String(product?.name || `Producto #${productIndex + 1}`).trim();
 
     ['section', 'type', 'name', 'season', 'price'].forEach((field) => {
       const value = product && product[field];
@@ -87,7 +87,7 @@ function main() {
       }
     });
 
-    const season = stripDiacritics(String(product && product.season || '')).toLowerCase().trim();
+    const season = stripDiacritics(String(product?.season || '')).toLowerCase().trim();
     if (season && !ALLOWED_SEASONS.has(season)) {
       errors.push(`${label}: "season" debe ser verano, invierno o media-estacion.`);
     }
@@ -106,7 +106,7 @@ function main() {
     const colors = productColors(product);
     if (!colors.length) warnings.push(`${label}: no tiene colores; se mostrara como variante unica.`);
 
-    const sizes = Array.isArray(product && product.sizes) ? product.sizes : [];
+    const sizes = Array.isArray(product?.sizes) ? product.sizes : [];
     if (!sizes.length) warnings.push(`${label}: no tiene talles declarados.`);
 
     colors.forEach((color, colorIndex) => {

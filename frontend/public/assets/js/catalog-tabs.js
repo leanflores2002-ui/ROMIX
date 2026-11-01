@@ -38,9 +38,10 @@
   function detailHref(product, buy){
     if (window.romixProductUrl) return window.romixProductUrl.detailHref(product) + (buy ? '?buy=1' : '');
     const slugVal = slugForProduct(product);
+    const productName = product?.name || '';
     const nameVal = typeof window.fixUtf8 === 'function'
-      ? window.fixUtf8(product?.name ? product.name : '')
-      : (product?.name ? product.name : '');
+      ? window.fixUtf8(productName)
+      : productName;
     const pid = typeof window.productId === 'function' ? window.productId(product) : slugVal;
     const base = 'product.html?id=' + encodeURIComponent(pid) +
       '&slug=' + encodeURIComponent(slugVal) +

@@ -390,21 +390,11 @@
       font-size:1.18rem;
     }
     .size-guide-table-wrap {
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:thin;
-      scrollbar-color:#e8ccd8 transparent;
-    }
-    .size-guide-table-wrap::-webkit-scrollbar {
-      height:8px;
-    }
-    .size-guide-table-wrap::-webkit-scrollbar-thumb {
-      background:#e8ccd8;
-      border-radius:999px;
+      min-width:0;
     }
     .size-guide-table {
       width:100%;
-      min-width:440px;
+      table-layout:fixed;
       border-collapse:separate;
       border-spacing:0;
       border:1px solid #f0d9e2;
@@ -898,12 +888,11 @@
         margin:0 -2px;
         padding-bottom:6px;
       }
-      .size-guide-table { min-width:360px; }
       .size-guide-table th,
       .size-guide-table td {
-        padding:10px 11px;
+        padding:10px 5px;
         font-size:.88rem;
-        white-space:nowrap;
+        overflow-wrap:anywhere;
       }
       .size-guide-visual {
         min-height:280px;
@@ -960,12 +949,13 @@
         height:36px;
         border-radius:12px;
       }
-      .size-guide-table { min-width:330px; }
+      .size-guide-table { min-width:0; }
       .size-guide-table th,
       .size-guide-table td {
-        font-size:.84rem;
-        padding:9px 10px;
+        font-size:.8rem;
+        padding:9px 3px;
       }
+      .size-guide-table th { font-size:.74rem; }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
@@ -1172,10 +1162,10 @@
             <div class="size-item-panel" id="tab-mujer-pantalones" role="tabpanel" aria-labelledby="tab-button-mujer-pantalones" data-tab-panel="pantalones">
           <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Cintura</th><th>B Cadera</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>74-78</td><td>98-102</td><td>109</td></tr>
@@ -1199,10 +1189,10 @@
             <div class="size-item-panel" id="tab-mujer-superiores" role="tabpanel" aria-labelledby="tab-button-mujer-superiores" data-tab-panel="superiores" hidden>
           <section class="size-guide-block">
             <h3>Camperas, Buzos y Remeras</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Busto</th><th>B Cintura</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>92-96</td><td>88-92</td><td>61</td></tr>
@@ -1235,10 +1225,10 @@
             <div class="size-item-panel" id="tab-hombre-pantalones" role="tabpanel" aria-labelledby="tab-button-hombre-pantalones" data-tab-panel="pantalones">
           <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Cintura</th><th>B Cadera</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>74-78</td><td>112-116</td><td>104</td></tr>
@@ -1262,10 +1252,10 @@
             <div class="size-item-panel" id="tab-hombre-superiores" role="tabpanel" aria-labelledby="tab-button-hombre-superiores" data-tab-panel="superiores" hidden>
           <section class="size-guide-block">
             <h3>Camperas, Buzos y Remeras</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Busto</th><th>B Cintura</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>104-108</td><td>100-104</td><td>66</td></tr>
@@ -1298,10 +1288,10 @@
             <div class="size-item-panel" id="tab-ninos-pantalones" role="tabpanel" aria-labelledby="tab-button-ninos-pantalones" data-tab-panel="pantalones">
           <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Cintura</th><th>B Cadera</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>6</td><td>54-56</td><td>62-64</td><td>70</td></tr>
@@ -1323,10 +1313,10 @@
             <div class="size-item-panel" id="tab-ninos-superiores" role="tabpanel" aria-labelledby="tab-button-ninos-superiores" data-tab-panel="superiores" hidden>
           <section class="size-guide-block">
             <h3>Camperas, Buzos y Remeras</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Busto</th><th>B Cintura</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>6</td><td>62-64</td><td>54-56</td><td>45</td></tr>

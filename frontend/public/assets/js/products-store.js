@@ -168,7 +168,7 @@
     const fromSeasonKey = normalizeText(product && product.seasonKey).replace(/[^a-z0-9-]+/g, '');
     if (fromSeasonKey.includes('verano')) return 'verano';
     if (fromSeasonKey.includes('invierno')) return 'invierno';
-    if (fromSeasonKey.replace(/-/g, '') === 'mediaestacion') return 'media-estacion';
+    if (fromSeasonKey.replaceAll('-', '') === 'mediaestacion') return 'media-estacion';
     return '';
   }
 

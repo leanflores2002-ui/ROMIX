@@ -34,7 +34,8 @@ try {
   assert.throws(() => renderPage('../index.html', temp), /Unknown storefront page/);
   for (const name of ['.sonarcloud.properties', 'sonar-project.properties']) {
     const config = fs.readFileSync(path.join(root, name), 'utf8');
-    assert(!/^sonar\.exclusions=/m.test(config), 'Do not exclude generated pages from bug/security analysis');
+    const analysisExclusions = (config.match(/^sonar\.exclusions=(.*)$/m)?.[1] || '').split(',').filter(Boolean);
+    assert.deepEqual(analysisExclusions, ['frontend/public/assets/css/romix-home-bundle.css'], 'Only the duplicate CSS bundle may be excluded from analysis');
     const exclusions = config.match(/^sonar\.cpd\.exclusions=(.*)$/m)[1].split(',');
     assert.deepEqual(exclusions, generatedPages.map(page => 'frontend/public/' + page));
   }

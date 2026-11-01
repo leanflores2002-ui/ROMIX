@@ -1825,7 +1825,7 @@
         const descriptionContent = `<div class="product-description-layout"><div>${description}</div>${featureItems ? `<ul class="product-description-features">${featureItems}</ul>` : ''}</div>`;
         const details = [
           hasProductValue(product.type) ? `<li><span class="product-accordion__label">Tipo:</span> ${product.type}</li>` : '',
-          hasProductValue(product.season) ? `<li><span class="product-accordion__label">Temporada:</span> ${String(product.season).replace(/-/g, ' ')}</li>` : '',
+          hasProductValue(product.season) ? `<li><span class="product-accordion__label">Temporada:</span> ${String(product.season).replaceAll('-', ' ')}</li>` : '',
           ...(product.specs && typeof product.specs === 'object'
             ? Object.entries(product.specs)
               .filter(([key, value]) => hasProductValue(key) && hasProductValue(value))
@@ -2007,7 +2007,7 @@
               <div class="selector size-selector" id="size-selector">
                 <div class="selector-label">Talle</div>
                 <div class="size-options" id="size-options" role="group" aria-label="Seleccionar talle" aria-describedby="size-error"></div>
-                <p id="size-error" class="product-size-error" aria-live="polite" role="status" hidden></p>
+                <p id="size-error" class="product-size-error" aria-live="polite" hidden></p>
               </div>
               <div id="product-size-guide-slot" class="product-size-guide-slot"></div>
               <div class="product-buy-section">
@@ -3024,7 +3024,7 @@
       }
     })();
   </script>
-  <div id="romix-toast" class="romix-toast" aria-live="polite" role="status"></div>
+  <div id="romix-toast" class="romix-toast" aria-live="polite"></div>
   <script src="assets/js/romix-header.js?v=20" defer></script>
   <romix-toast></romix-toast>
   <script type="module" src="assets/js/ts/main.js?v=19"></script>

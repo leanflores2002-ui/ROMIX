@@ -40,17 +40,17 @@ const {productSlug, detailHref} = require('../frontend/public/assets/js/product-
 
 function escapeHtml(value) {
   return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function normalizePath(value) {
   const raw = String(value || "").trim();
   if (!raw) return "";
-  return raw.replace(/\\/g, "/");
+  return raw.replaceAll("\\", "/");
 }
 
 function encodePathForMeta(value) {

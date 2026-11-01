@@ -79,8 +79,8 @@
             <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span data-romix-icon="X" data-romix-icon-size="sm"></span></button>
           </div>
           <button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
-          <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
-          <div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>
+          <p class="romix-search-status" id="romix-search-status" aria-live="polite" aria-atomic="true"></p>
+          <section class="romix-search-overlay" id="romix-search-results" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></section>
         </div>
       </form>
     </div>
@@ -88,6 +88,7 @@
 </header>
 <script src="assets/js/romix-icons.js?v=19"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
+
 <main id="terms-content" class="privacy-page" tabindex="-1">
   <nav class="privacy-breadcrumb" aria-label="Ruta de navegación"><a href="/">Inicio</a><span aria-hidden="true"> / </span><span aria-current="page">Términos y condiciones</span></nav>
   <header class="privacy-heading">
@@ -179,7 +180,7 @@
     <h2 id="cookie-consent-title">Cookies de analítica</h2>
     <p>Google Analytics usa cookies para medir visitas, solo si aceptás. Cambiá tu elección desde el pie. <a class="cookie-privacy-link" href="/privacidad.html">Privacidad</a>.</p>
   </div>
-  <p id="cookie-consent-status" role="status" aria-live="polite"></p>
+  <p id="cookie-consent-status" aria-live="polite"></p>
   <div class="cookie-consent__actions">
     <button type="button" id="cookie-reject" aria-label="Rechazar analítica">Rechazar</button>
     <button type="button" id="cookie-accept" aria-label="Aceptar analítica">Aceptar</button>
@@ -187,6 +188,7 @@
 </section>
 <script defer src="/assets/js/cookie-consent.js?v=1"></script>
 <!-- ROMIX:SHELL:FOOTER:END -->
+
 <script src="/assets/js/cart.js?v=20"></script>
 <script src="/assets/js/romix-header.js?v=20" defer></script>
 <script src="/assets/js/ts/main.js?v=19" type="module"></script>

@@ -95,11 +95,11 @@
 
   function escapeHtml(value) {
     return String(value == null ? "" : value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
   }
 
   function defaultSlugify(value) {
@@ -688,8 +688,8 @@
           '<button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden>' + window.romixIcon("X", { size: "sm" }) + '</button>' +
         '</div>' +
         '<button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>' +
-        '<p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>' +
-        '<div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>';
+        '<p class="romix-search-status" id="romix-search-status" aria-live="polite" aria-atomic="true"></p>' +
+        '<section class="romix-search-overlay" id="romix-search-results" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></section>';
       form.appendChild(shell);
       shell.querySelector(".romix-search-input-wrap").insertBefore(input, shell.querySelector(".romix-search-clear"));
     }

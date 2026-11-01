@@ -58,7 +58,7 @@
       });
       if (Array.isArray(copy.colors)) {
         copy.colors = copy.colors.map((color) => Object.assign({}, color, {
-          name: globalFixUtf8(color && color.name)
+          name: globalFixUtf8(color?.name)
         }));
       }
       if (hideProduct(copy)) return;
@@ -181,8 +181,8 @@
 
   function buildDetailUrl(product, slugOverride, nameOverride) {
     if (window.romixProductUrl) return window.romixProductUrl.detailHref(product);
-    const slugValue = slugOverride || slugify(product && product.name ? product.name : "");
-    const nameValue = nameOverride || globalFixUtf8(product && product.name ? product.name : "");
+    const slugValue = slugOverride || slugify(product?.name ? product.name : "");
+    const nameValue = nameOverride || globalFixUtf8(product?.name ? product.name : "");
     const pid = typeof window.productId === "function" ? window.productId(product) : (product && (product.id || product.slug)) || slugValue;
     return "product.html?id=" + encodeURIComponent(pid) +
       "&slug=" + encodeURIComponent(slugValue) +
@@ -196,7 +196,7 @@
       if (main && typeof imageUtils.getThumbPath === "function") return imageUtils.getThumbPath(main);
       if (main) return main;
     }
-    if (typeof imageUtils.getThumbPath === "function" && product && product.image) {
+    if (typeof imageUtils.getThumbPath === "function" && product?.image) {
       return imageUtils.getThumbPath(product.image);
     }
     return (product && (product.thumbnail || product.thumb || product.image || (Array.isArray(product.images) && product.images[0]))) || "images/optimized/branding/romix-logo-360.webp";
@@ -229,24 +229,24 @@
 
   function productFields(product) {
     const fields = [
-      product && product.name,
-      product && product.type,
-      product && product.category,
-      product && product.section,
-      product && product.gender,
-      product && product.genero,
-      product && product.collection,
-      product && product.season,
-      product && product.badge,
-      product && product.description
+      product?.name,
+      product?.type,
+      product?.category,
+      product?.section,
+      product?.gender,
+      product?.genero,
+      product?.collection,
+      product?.season,
+      product?.badge,
+      product?.description
     ];
 
-    if (Array.isArray(product && product.tags)) {
+    if (Array.isArray(product?.tags)) {
       product.tags.forEach((tag) => fields.push(tag));
     }
-    if (Array.isArray(product && product.colors)) {
+    if (Array.isArray(product?.colors)) {
       product.colors.forEach((color) => {
-        if (color && color.name) fields.push(color.name);
+        if (color?.name) fields.push(color.name);
       });
     }
     return fields.filter(Boolean).join(" ");
@@ -344,7 +344,7 @@
     const qn = norm(term);
     const results = qn ? searchProductsSync(products, term).slice(0, 24) : [];
     const defaultProducts = (Array.isArray(products) ? products : [])
-      .filter((product) => product && product.name)
+      .filter((product) => product?.name)
       .slice(0, 5);
     return {
       query: term,
@@ -435,7 +435,7 @@
       const variantImage = source && typeof window.romixImageUtils?.getThumbPath === "function"
         ? window.romixImageUtils.getThumbPath(source)
         : source || image;
-      const label = (color && color.name) || ("Variante " + (index + 1));
+      const label = (color?.name) || ("Variante " + (index + 1));
       return '<button type="button" class="product-variant-thumb' + (index === 0 ? ' is-active' : '') + '" data-variant-src="' + escapeHtml(variantImage) + '" aria-label="Ver variante ' + escapeHtml(label) + '" aria-pressed="' + (index === 0 ? 'true' : 'false') + '" aria-current="' + (index === 0 ? 'true' : 'false') + '">' +
         '<img src="' + escapeHtml(variantImage) + '" alt="' + escapeHtml(label) + '" loading="lazy" decoding="async" />' +
       '</button>';

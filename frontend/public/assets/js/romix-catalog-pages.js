@@ -728,7 +728,7 @@
     if (requestedTypes.length) {
       const availableTypes = new Map();
       state.products.forEach((product) => {
-        const key = normalizeTypeFilterValue(product && product.typeKey ? product.typeKey : product && product.type);
+        const key = normalizeTypeFilterValue(product?.typeKey ? product.typeKey : product?.type);
         if (!key || availableTypes.has(key)) return;
         availableTypes.set(key, product.typeLabel || toStartCase(product.type || key));
       });
@@ -791,7 +791,7 @@
 
     if (Array.isArray(product.colors)) {
       product.colors.forEach((entry) => {
-        if (entry && entry.name) fields.push(entry.name);
+        if (entry?.name) fields.push(entry.name);
       });
     }
 
@@ -886,7 +886,7 @@
         };
       }
     }
-    const primaryImage = String(product && product.image || "").trim() || PLACEHOLDER;
+    const primaryImage = String(product?.image || "").trim() || PLACEHOLDER;
     return thumbSetFromSources(primaryImage, primaryImage, "");
   }
 
@@ -897,7 +897,7 @@
     let unknown = 0;
 
     sizes.forEach((entry) => {
-      const status = normalizeStatus(entry && entry.status);
+      const status = normalizeStatus(entry?.status);
       if (status === "available") available += 1;
       if (status === "low") {
         available += 1;
@@ -918,7 +918,7 @@
       : [];
     const fallbackImage = (typeof imageUtils.getProductMainImage === "function"
       ? imageUtils.getProductMainImage(product)
-      : String(product && product.image || "").trim()) || PLACEHOLDER;
+      : String(product?.image || "").trim()) || PLACEHOLDER;
 
     if (!entries.length) {
       return [{
@@ -938,20 +938,20 @@
       const key = normalizeText(name) || "unico";
       const resolvedImage = (typeof imageUtils.getColorImage === "function"
         ? imageUtils.getColorImage(entry, product)
-        : String(entry && entry.image || "").trim()) || fallbackImage;
-      const thumb = String(entry && entry.thumb || "").trim()
+        : String(entry?.image || "").trim()) || fallbackImage;
+      const thumb = String(entry?.thumb || "").trim()
         || (typeof imageUtils.getThumbPath === "function" ? imageUtils.getThumbPath(resolvedImage) : "");
       const explicitSwatch = String(entry && (entry.swatch || entry.swatchImage) || "").trim();
       const swatch = explicitSwatch
         ? (typeof imageUtils.getSwatchPath === "function" ? imageUtils.getSwatchPath(explicitSwatch) : explicitSwatch)
         : (typeof imageUtils.getSwatchPath === "function" ? imageUtils.getSwatchPath(resolvedImage) : thumb);
-      const thumbFallback = String(entry && entry.thumbFallback || "").trim()
+      const thumbFallback = String(entry?.thumbFallback || "").trim()
         || resolvedImage;
-      const thumbAvif = String(entry && entry.thumbAvif || "").trim();
+      const thumbAvif = String(entry?.thumbAvif || "").trim();
       return Object.assign({}, entry, {
         key,
         name,
-        hex: entry && entry.hex ? entry.hex : (RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da"),
+        hex: entry?.hex ? entry.hex : (RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da"),
         image: resolvedImage,
         thumb,
         swatch,
@@ -964,15 +964,15 @@
   function buildSizes(product) {
     const list = [];
     const seen = new Set();
-    const source = Array.isArray(product && product.sizes) ? product.sizes : [];
+    const source = Array.isArray(product?.sizes) ? product.sizes : [];
 
     source.forEach((entry) => {
-      const value = String((entry && entry.size) || entry || "").trim();
+      const value = String((entry?.size) || entry || "").trim();
       if (!value || seen.has(value)) return;
       seen.add(value);
       list.push({
         value,
-        status: normalizeStatus(entry && entry.status)
+        status: normalizeStatus(entry?.status)
       });
     });
 
@@ -980,28 +980,28 @@
   }
 
   function normalizeProduct(raw) {
-    const section = normalizeSection(raw && raw.section);
-    const name = String((raw && raw.name) || "Producto ROMIX").trim();
-    const typeRaw = String((raw && raw.type) || (raw && raw.category) || "Indumentaria").trim();
+    const section = normalizeSection(raw?.section);
+    const name = String((raw?.name) || "Producto ROMIX").trim();
+    const typeRaw = String((raw?.type) || (raw?.category) || "Indumentaria").trim();
     const typeLabel = titleCase(typeRaw);
     const typeKey = normalizeTypeFilterValue(typeRaw);
     const categoryKey = categoryKeyFromType(typeRaw);
     const sizes = buildSizes(raw);
     const colors = buildColors(raw);
-    const registeredColorCount = Array.isArray(raw && raw.colors) ? raw.colors.length : 0;
+    const registeredColorCount = Array.isArray(raw?.colors) ? raw.colors.length : 0;
     const filterColorKeys = Array.from(new Set(colors.map((entry) => normalizeColorToFilterKey(entry.name)).filter(Boolean)));
-    const seasonKey = normalizeSeason(raw && raw.season, name);
-    const baseStock = raw && raw.stockStatus ? normalizeStatus(raw.stockStatus) : "";
+    const seasonKey = normalizeSeason(raw?.season, name);
+    const baseStock = raw?.stockStatus ? normalizeStatus(raw.stockStatus) : "";
     const galleryImages = getRawImageList(raw);
     const rawImageMap = getRawImageMap(raw);
     const coverImage = (typeof imageUtils.getProductMainImage === "function"
       ? imageUtils.getProductMainImage(raw)
       : "")
       || (colors[0] && colors[0].image)
-      || (galleryImages[0] || ((raw && raw.image) || PLACEHOLDER));
-    const rawThumbnail = String(raw && raw.thumbnail || "").trim();
-    const rawThumbnailFallback = String(raw && raw.thumbnailFallback || "").trim();
-    const rawThumbnailAvif = String(raw && raw.thumbnailAvif || "").trim();
+      || (galleryImages[0] || ((raw?.image) || PLACEHOLDER));
+    const rawThumbnail = String(raw?.thumbnail || "").trim();
+    const rawThumbnailFallback = String(raw?.thumbnailFallback || "").trim();
+    const rawThumbnailAvif = String(raw?.thumbnailAvif || "").trim();
     const coverThumb = rawThumbnail
       || (colors[0] && colors[0].thumb)
       || (typeof imageUtils.getThumbPath === "function" && coverImage !== PLACEHOLDER ? imageUtils.getThumbPath(coverImage) : "")
@@ -1017,7 +1017,7 @@
         };
 
     return {
-      id: String((raw && raw.id) || (section + "-" + slugify(name))),
+      id: String((raw?.id) || (section + "-" + slugify(name))),
       slug: slugify(name),
       name,
       section,
@@ -1036,20 +1036,20 @@
       images: galleryImages,
       price: saleInfo.currentPrice,
       originalPrice: saleInfo.originalPrice,
-      priceByGroup: raw && raw.priceByGroup && typeof raw.priceByGroup === "object" ? raw.priceByGroup : null,
-      specialSizes: Array.isArray(raw && raw.specialSizes) ? raw.specialSizes : [],
-      specialSizes2: Array.isArray(raw && raw.specialSizes2) ? raw.specialSizes2 : [],
-      superSpecialSizes: Array.isArray(raw && raw.superSpecialSizes) ? raw.superSpecialSizes : [],
-      badge: String((raw && raw.badge) || "").trim(),
-      featuredBadge: String((raw && raw.featuredBadge) || "").trim(),
+      priceByGroup: raw?.priceByGroup && typeof raw.priceByGroup === "object" ? raw.priceByGroup : null,
+      specialSizes: Array.isArray(raw?.specialSizes) ? raw.specialSizes : [],
+      specialSizes2: Array.isArray(raw?.specialSizes2) ? raw.specialSizes2 : [],
+      superSpecialSizes: Array.isArray(raw?.superSpecialSizes) ? raw.superSpecialSizes : [],
+      badge: String((raw?.badge) || "").trim(),
+      featuredBadge: String((raw?.featuredBadge) || "").trim(),
       seasonKey,
-      featured: !!(raw && raw.featured === true),
+      featured: !!(raw?.featured === true),
       colors,
       registeredColorCount,
       filterColorKeys,
       sizes,
-      stockByColor: raw && raw.stockByColor && typeof raw.stockByColor === "object" ? raw.stockByColor : null,
-      inventory: raw && raw.inventory && typeof raw.inventory === "object" ? raw.inventory : null,
+      stockByColor: raw?.stockByColor && typeof raw.stockByColor === "object" ? raw.stockByColor : null,
+      inventory: raw?.inventory && typeof raw.inventory === "object" ? raw.inventory : null,
       stockStatus: baseStock || statusFromSizes(sizes)
     };
   }
@@ -1092,7 +1092,7 @@
   function collectColorOptions(list) {
     const map = new Map();
     list.forEach((product) => {
-      const colors = Array.isArray(product && product.colors) ? product.colors : [];
+      const colors = Array.isArray(product?.colors) ? product.colors : [];
       colors.forEach((color) => {
         const name = String(color && (color.name || color.value) || "").trim();
         const key = normalizeColorToFilterKey(name);
@@ -1155,7 +1155,7 @@
     const values = new Set(includeBase ? SIZE_BASE : []);
     list.forEach((product) => {
       product.sizes.forEach((entry) => {
-        if (entry && entry.value) values.add(String(entry.value));
+        if (entry?.value) values.add(String(entry.value));
       });
     });
 
@@ -1168,12 +1168,12 @@
     const map = new Map();
 
     list.forEach((product) => {
-      const key = String(product && product.categoryKey ? product.categoryKey : "").trim();
+      const key = String(product?.categoryKey ? product.categoryKey : "").trim();
       if (!key) return;
 
       if (!map.has(key)) {
         const knownLabel = predefinedLabels.get(key);
-        const derivedLabel = toStartCase(product && product.typeLabel ? product.typeLabel : key);
+        const derivedLabel = toStartCase(product?.typeLabel ? product.typeLabel : key);
         map.set(key, {
           key,
           label: knownLabel || derivedLabel || toStartCase(key),
@@ -1616,7 +1616,7 @@
           nextSet && nextSet.src,
           nextSet && nextSet.fallbackSrc,
           colorOption && colorOption.image,
-          product && product.image,
+          product?.image,
           previousVisibleSrc,
           defaultThumbSet && defaultThumbSet.fallbackSrc
         ];

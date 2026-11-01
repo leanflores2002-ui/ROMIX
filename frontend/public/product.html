@@ -1321,7 +1321,7 @@
             })
           : null;
         const selectedEntries = opts.onlyColor
-          ? (selectedColor ? [selectedColor] : (colorEntries[0] ? [colorEntries[0]] : []))
+          ? [selectedColor || colorEntries[0]].filter(Boolean)
           : colorEntries;
         const fallbackEntries = opts.allColors
           ? colorEntries
@@ -1380,11 +1380,13 @@
 
         if (fallbackEntries.length) {
           fallbackEntries.forEach((color, index) => {
-            const colorName = color && color.name ? color.name : (index === 0 ? 'principal' : `vista-${index + 1}`);
+            const fallbackColorName = index === 0 ? 'principal' : `vista-${index + 1}`;
+            const colorName = color && color.name ? color.name : fallbackColorName;
             const colorIndex = Number.isInteger(Number(color && color.index)) ? Number(color.index) : index;
+            const rawColorImages = Array.isArray(color && color.images) ? color.images : [];
             const explicitImages = typeof imageUtils.getColorImageList === 'function'
               ? imageUtils.getColorImageList(color)
-              : (Array.isArray(color && color.images) ? color.images : []);
+              : rawColorImages;
             const list = explicitImages.length ? explicitImages : getSafeProductImageSources(product, colorName, colorIndex);
             list.forEach((src, imageIndex) => {
               const imageSources = imageIndex === 0
@@ -2517,7 +2519,10 @@
             const qty = stockUnknown ? null : Number(rawStock);
             if (stockUnknown) hasUnknownStock = true;
             else total += qty;
-            const stockState = stockUnknown ? 'unknown' : (qty <= 0 ? 'out' : (qty <= 3 ? 'low' : 'available'));
+            let stockState = 'available';
+            if (stockUnknown) stockState = 'unknown';
+            else if (qty <= 0) stockState = 'out';
+            else if (qty <= 3) stockState = 'low';
             const chip = document.createElement('button');
             chip.type = 'button';
             chip.className = 'size-chip size-option';
@@ -2527,9 +2532,10 @@
             chip.dataset.sizeValue = sizeKey;
             chip.textContent = sizeKey;
             chip.setAttribute('aria-pressed', 'false');
-            chip.setAttribute('aria-label', stockState === 'unknown'
-              ? `Seleccionar talle ${sizeKey}, disponibilidad a confirmar`
-              : (stockState === 'low' ? `Seleccionar talle ${sizeKey}, pocas unidades` : `Seleccionar talle ${sizeKey}`));
+            let sizeLabel = `Seleccionar talle ${sizeKey}`;
+            if (stockState === 'unknown') sizeLabel += ', disponibilidad a confirmar';
+            else if (stockState === 'low') sizeLabel += ', pocas unidades';
+            chip.setAttribute('aria-label', sizeLabel);
             if (stockState === 'out') chip.classList.add('out');
             chip.addEventListener('click', () => {
               if (chip.disabled || chip.classList.contains('out')) return;
@@ -2553,7 +2559,8 @@
             stockNote.style.display = 'block';
           }
           const fallbackMax = Number(currentProduct && currentProduct.stock) || 0;
-          const nextMax = fallbackMax > 0 ? fallbackMax : (!hasUnknownStock && total > 0 ? total : null);
+          const availableTotal = !hasUnknownStock && total > 0 ? total : null;
+          const nextMax = fallbackMax > 0 ? fallbackMax : availableTotal;
           STOCK_MAX = nextMax && nextMax > 0 ? nextMax : null;
           if (Number.isFinite(STOCK_MAX)) currentQty = Math.min(currentQty, STOCK_MAX);
           setQuantity(currentQty);
@@ -2656,9 +2663,17 @@
             const colorImage = getSafeProductImage(product, colorName, index);
             const key = colorEntryKey(color, colorName);
             const explicitSwatch = color.swatch || color.preview || color.pattern || '';
-            const colorSwatchImage = explicitSwatch
-              ? (typeof imageUtils.getSwatchPath === 'function' ? imageUtils.getSwatchPath(explicitSwatch) : explicitSwatch)
-              : ((typeof imageUtils.getSwatchPath === 'function' ? imageUtils.getSwatchPath(colorImage) : '') || colorImage || '');
+            let colorSwatchImage;
+            if (explicitSwatch) {
+              colorSwatchImage = typeof imageUtils.getSwatchPath === 'function'
+                ? imageUtils.getSwatchPath(explicitSwatch)
+                : explicitSwatch;
+            } else {
+              const fallbackSwatch = typeof imageUtils.getSwatchPath === 'function'
+                ? imageUtils.getSwatchPath(colorImage)
+                : '';
+              colorSwatchImage = fallbackSwatch || colorImage || '';
+            }
             btn.dataset.color = colorName;
             btn.dataset.colorOption = 'true';
             btn.dataset.colorName = colorName;

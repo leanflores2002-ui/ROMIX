@@ -1423,7 +1423,8 @@
         const prevBtn = detail.querySelector('#zoom-prev');
         const nextBtn = detail.querySelector('#zoom-next');
         const counterEl = detail.querySelector('#zoom-counter');
-        if (!mainImage || !modal || !zoomImage || !openBtn || !closeBtn || !stage || !prevBtn || !nextBtn || !counterEl) return;
+        const thumbsEl = detail.querySelector('#zoom-thumbs');
+        if (!mainImage || !modal || !zoomImage || !openBtn || !closeBtn || !stage || !prevBtn || !nextBtn || !counterEl || !thumbsEl) return;
 
         const existingBodyModal = document.body.querySelector('.zoom-modal#zoom-modal');
         if (existingBodyModal && existingBodyModal !== modal) {
@@ -1433,15 +1434,27 @@
           document.body.appendChild(modal);
         }
 
-        let items = Array.isArray(gallery)
-          ? gallery.map(item => item && item.src).filter(Boolean).map(src => {
-            try {
-              return new URL(src, document.baseURI).href;
-            } catch {
-              return src;
-            }
-          })
-          : [];
+        function normalizeZoomItems(source){
+          return Array.isArray(source)
+            ? source.map(item => {
+              const src = item && item.src;
+              if (!src) return null;
+              let absoluteSrc = src;
+              try {
+                absoluteSrc = new URL(src, document.baseURI).href;
+              } catch {
+                absoluteSrc = src;
+              }
+              return {
+                src: absoluteSrc,
+                thumbSrc: item.thumbSrc || src,
+                label: item.label || item.colorName || 'Imagen del producto'
+              };
+            }).filter(Boolean)
+            : [];
+        }
+
+        let items = normalizeZoomItems(gallery);
         let total = items.length || 1;
         let currentIndex = 0;
         let scale = 1;
@@ -1492,6 +1505,33 @@
         function updateZoomState(){
           stage.classList.toggle('is-zoomed', scale > 1);
           stage.dataset.zoomScale = String(scale);
+        }
+
+        function renderZoomThumbs(){
+          thumbsEl.innerHTML = '';
+          if (total <= 1) {
+            thumbsEl.hidden = true;
+            return;
+          }
+          thumbsEl.hidden = false;
+          items.forEach((item, index) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'zoom-thumb' + (index === currentIndex ? ' is-active' : '');
+            button.setAttribute('aria-label', 'Ver imagen ' + (index + 1) + ' de ' + total + (item.label ? ': ' + item.label : ''));
+            button.setAttribute('aria-current', index === currentIndex ? 'true' : 'false');
+            const image = document.createElement('img');
+            image.src = item.thumbSrc || item.src;
+            image.alt = item.label || 'Miniatura del producto';
+            image.loading = 'lazy';
+            image.decoding = 'async';
+            button.appendChild(image);
+            button.addEventListener('click', () => {
+              currentIndex = index;
+              syncImage();
+            });
+            thumbsEl.appendChild(button);
+          });
         }
 
         function reset(){
@@ -1555,7 +1595,8 @@
           const requestId = ++imageRequestId;
           total = items.length || 1;
           if (currentIndex >= total) currentIndex = Math.max(0, total - 1);
-          const src = items[currentIndex] || mainImage.src;
+          const item = items[currentIndex] || { src: mainImage.src, label: 'Producto' };
+          const src = item.src || mainImage.src;
           reset();
           stage.classList.add('is-loading');
           zoomImage.style.opacity = '0.35';
@@ -1570,6 +1611,7 @@
           stage.classList.remove('is-loading');
           zoomImage.style.opacity = '1';
           counterEl.textContent = (currentIndex + 1) + ' / ' + total;
+          renderZoomThumbs();
           prevBtn.disabled = currentIndex <= 0;
           nextBtn.disabled = currentIndex >= total - 1;
         }
@@ -1578,7 +1620,7 @@
           if (isOpen) return;
           lastActive = trigger || document.activeElement || openBtn;
           const src = mainImage.currentSrc || mainImage.src;
-          const idx = items.indexOf(src);
+          const idx = items.findIndex(item => item.src === src);
           currentIndex = idx >= 0 ? idx : 0;
           syncImage();
           lockBackground();
@@ -1610,20 +1652,13 @@
         }
 
         function setGallery(nextGallery){
-          items = Array.isArray(nextGallery)
-            ? nextGallery.map(item => item && item.src).filter(Boolean).map(src => {
-              try {
-                return new URL(src, document.baseURI).href;
-              } catch {
-                return src;
-              }
-            })
-            : [];
+          items = normalizeZoomItems(nextGallery);
           total = items.length || 1;
           currentIndex = 0;
           prevBtn.style.display = total > 1 ? 'block' : 'none';
           nextBtn.style.display = total > 1 ? 'block' : 'none';
           counterEl.textContent = '1 / ' + total;
+          renderZoomThumbs();
           if (isOpen) syncImage();
         }
 
@@ -2146,7 +2181,7 @@
           </div>
           <div class="zoom-modal" id="zoom-modal" role="dialog" aria-modal="true" aria-label="Vista ampliada del producto" aria-describedby="zoom-help" aria-hidden="true">
             <div class="zoom-panel" tabindex="-1">
-              <p class="sr-only" id="zoom-help">Hace click sobre la imagen para acercar o alejar. Usa las flechas para cambiar de imagen. Presiona Escape para cerrar.</p>
+              <p class="sr-only" id="zoom-help">Hace click sobre la imagen para acercar o alejar. Usa las flechas o las miniaturas para cambiar de imagen. Presiona Escape para cerrar.</p>
               <div class="zoom-counter" id="zoom-counter" aria-live="polite">1 / 1</div>
               <button type="button" class="zoom-close romix-icon-btn" id="zoom-close" aria-label="Cerrar">${window.romixIcon("X", { size: "md" })}</button>
               <button type="button" class="zoom-nav prev romix-icon-btn" id="zoom-prev" aria-label="Anterior">${window.romixIcon("ChevronLeft", { size: "md" })}</button>
@@ -2154,6 +2189,7 @@
                 <img id="zoom-image" src="${PLACEHOLDER}" alt="${product.name || 'Producto'}" width="${productImageSize.width}" height="${productImageSize.height}" loading="lazy" decoding="async" />
               </div>
               <button type="button" class="zoom-nav next romix-icon-btn" id="zoom-next" aria-label="Siguiente">${window.romixIcon("ChevronRight", { size: "md" })}</button>
+              <div class="zoom-thumbs" id="zoom-thumbs" role="toolbar" aria-label="Imágenes del producto"></div>
             </div>
           </div>
           `;

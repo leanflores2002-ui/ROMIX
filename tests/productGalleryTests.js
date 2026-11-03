@@ -26,10 +26,12 @@ assert(productCss.includes('--product-gallery-height: clamp(520px, 68vh, 700px)'
 assert(productCss.includes('height: var(--product-gallery-height)'), 'La imagen y thumbs deben compartir altura controlada');
 assert(productCss.includes('overflow-y: auto; overflow-x: hidden'), 'Las miniaturas desktop deben scrollear internamente');
 assert(productCss.includes('flex-direction: row'), 'Las miniaturas mobile deben ser horizontales');
-assert(productCss.includes('background: transparent'), 'El stage del zoom debe ser transparente');
+assert(productCss.includes('.zoom-modal') && productCss.includes('background: #eef1f2'), 'El zoom debe usar un fondo claro');
+assert(productCss.includes('.zoom-thumbs'), 'El zoom debe incluir una franja de miniaturas');
+assert(productHtml.includes('id="zoom-thumbs"'), 'El modal debe renderizar miniaturas para navegar las imágenes');
 assert(productCss.includes('position: static; width: auto; height: auto'), 'La imagen del zoom no debe ocupar el stage por absolute 100%');
 assert(productCss.includes('max-width: calc(100vw - 140px)'), 'La imagen desktop debe respetar los controles laterales');
-assert(productCss.includes('max-height: calc(100dvh - 96px)'), 'La imagen mobile debe respetar el viewport');
+assert(productCss.includes('max-height: calc(100dvh - 160px)'), 'La imagen mobile debe respetar el viewport y la tira de miniaturas');
 assert(productHtml.includes('Math.min(2, value)'), 'El zoom máximo debe ser 2x');
 
 console.log('productGalleryTests: passed');

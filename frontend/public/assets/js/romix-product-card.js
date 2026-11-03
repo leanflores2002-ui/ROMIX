@@ -327,7 +327,10 @@
         suppressNextFocusShow = false;
         return;
       }
-      if (isTouch && event.sourceCapabilities && event.sourceCapabilities.firesTouchEvents) return;
+      // On touch devices a tap focuses the card before the pointer gesture
+      // reaches the explicit selector toggle. Do not auto-open from focus or
+      // the same tap would immediately toggle the selector closed again.
+      if (isTouch) return;
       show();
     });
     card.addEventListener("focusout", () => {

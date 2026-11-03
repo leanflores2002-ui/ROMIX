@@ -120,7 +120,8 @@ async function main() {
   const card = window.document.querySelector('.product-card');
   assert(card, 'Debe renderizarse una card de prueba');
   const image = card.querySelector('.product-thumb img');
-  assert(card.querySelectorAll('.product-variant-thumb').length === 4, 'La card debe mostrar cuatro miniaturas visibles');
+  assert(card.querySelectorAll('.product-variant-thumb').length === 6, 'La card debe conservar todas las variantes reales en el selector');
+  assert(card.querySelectorAll('.product-variant-thumb:not([hidden])').length === 4, 'La card debe mostrar cuatro miniaturas visibles inicialmente');
   assert(card.querySelector('.product-variant-more').textContent.trim() === '+2', 'Las miniaturas deben mostrar overflow +n');
   assert(card.querySelectorAll('.product-variant-thumbs').length === 1, 'La card debe mostrar una sola fila de variantes');
   assert(!card.querySelector('.product-color-swatches'), 'La card no debe mostrar una fila de swatches');

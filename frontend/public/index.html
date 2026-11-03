@@ -110,6 +110,7 @@
   </div>
 </header>
 <script src="assets/js/romix-icons.js?v=19"></script>
+<script src="assets/js/romix-product-card.js?v=1"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
 
 
@@ -604,9 +605,12 @@
     }
 
     function getProductVariants(product) {
-      const colorEntries = typeof imageUtils.resolveProductColorEntries === "function"
+      const rawColorEntries = typeof imageUtils.resolveProductColorEntries === "function"
         ? imageUtils.resolveProductColorEntries(product)
         : [];
+      const colorEntries = window.romixProductCard && typeof window.romixProductCard.uniqueColorEntries === "function"
+        ? window.romixProductCard.uniqueColorEntries(rawColorEntries)
+        : rawColorEntries;
       if (!colorEntries.length) return [];
       return colorEntries.map((color, index) => {
         const resolvedImage = (typeof imageUtils.getColorImage === "function"
@@ -751,6 +755,20 @@
 
         const card = document.createElement("article");
         card.className = "product-card romix-product-card";
+        card.setAttribute("role", "link");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", "Ver detalles de " + (product && product.name ? String(product.name) : "Producto"));
+        const isInteractiveTarget = (target) => !!(target && target.closest("a, button, input, select, textarea, label"));
+        card.addEventListener("click", function (event) {
+          if (isInteractiveTarget(event.target)) return;
+          window.location.href = new URL(href, document.baseURI).href;
+        });
+        card.addEventListener("keydown", function (event) {
+          if (isInteractiveTarget(event.target)) return;
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          window.location.href = new URL(href, document.baseURI).href;
+        });
 
         const thumbLink = document.createElement("a");
         thumbLink.className = "product-thumb";
@@ -886,9 +904,10 @@
         body.className = "product-body";
 
         let thumbs = null;
+        let activateVariantPreview = null;
+        let restoreVariantPreview = null;
         if (variantsData.length) {
           const variantControls = [];
-          const visible = variantsData.slice(0, variantLimit);
 
           function activateVariant(index, variant) {
             variantControls.forEach((control) => {
@@ -900,10 +919,19 @@
             setImg(variant, variant.name);
           }
 
+          activateVariantPreview = function (index) {
+            const variant = variantsData[index];
+            if (variant) activateVariant(index, variant);
+          };
+          restoreVariantPreview = function () {
+            const variant = variantsData[0];
+            if (variant) activateVariant(0, variant);
+          };
+
           thumbs = document.createElement("div");
           thumbs.className = "product-variant-thumbs";
           thumbs.setAttribute("aria-label", "Miniaturas de variantes");
-          visible.forEach((variant, index) => {
+          variantsData.forEach((variant, index) => {
             const button = document.createElement("button");
             button.type = "button";
             button.className = "product-variant-thumb" + (index === 0 ? " is-active" : "");
@@ -912,16 +940,25 @@
             button.setAttribute("aria-current", index === 0 ? "true" : "false");
             button.title = "Ver variante " + variant.name;
             button.dataset.variantIndex = String(index);
-            const preview = document.createElement("img");
-            preview.src = String(variant.thumb || variant.image || "").trim();
-            preview.alt = "Variante " + variant.name;
-            preview.loading = "lazy";
-            preview.decoding = "async";
-            preview.addEventListener("error", function () {
-              const fallback = String(variant.image || "").trim();
-              if (fallback && preview.src !== fallback) preview.src = fallback;
-            });
-            button.appendChild(preview);
+            button.dataset.variantSrc = String(variant.thumb || variant.image || "").trim();
+            button.dataset.variantMainSrc = String(variant.image || "").trim();
+            const previewSrc = String(variant.thumb || variant.image || "").trim();
+            if (index < variantLimit) {
+              const preview = document.createElement("img");
+              preview.src = previewSrc;
+              preview.alt = "Variante " + variant.name;
+              preview.loading = "lazy";
+              preview.decoding = "async";
+              preview.addEventListener("error", function () {
+                const fallback = String(variant.image || "").trim();
+                if (fallback && preview.src !== fallback) preview.src = fallback;
+              });
+              button.appendChild(preview);
+            } else {
+              button.hidden = true;
+              button.setAttribute("aria-hidden", "true");
+              button.tabIndex = -1;
+            }
             button.addEventListener("click", function (event) {
               event.preventDefault();
               event.stopPropagation();
@@ -930,14 +967,16 @@
             thumbs.appendChild(button);
             variantControls.push(button);
           });
-          if (variantsData.length > visible.length) {
-            const more = document.createElement("span");
+          if (variantsData.length > 1) {
+            const more = document.createElement("button");
+            more.type = "button";
             more.className = "product-variant-more variant-more";
-            more.textContent = "+" + (variantsData.length - visible.length);
-            more.setAttribute("aria-label", "Hay " + (variantsData.length - visible.length) + " variantes adicionales");
+            more.textContent = "+" + Math.max(0, variantsData.length - variantLimit);
+            more.setAttribute("aria-label", "Hay " + Math.max(0, variantsData.length - variantLimit) + " variantes adicionales");
+            more.setAttribute("aria-expanded", "false");
             thumbs.appendChild(more);
           }
-          const initial = visible[0];
+          const initial = variantsData[0];
           if (initial) setImg(initial, initial.name);
         }
 
@@ -962,7 +1001,7 @@
         }
         priceRow.appendChild(price);
         body.appendChild(priceRow);
-        const registeredColorCount = Array.isArray(product && product.colors) ? product.colors.length : 0;
+        const registeredColorCount = variantsData.length;
         if (registeredColorCount > 0) {
           const colorCount = document.createElement("p");
           colorCount.className = "product-color-count";
@@ -990,6 +1029,13 @@
 
         card.appendChild(thumbLink);
         card.appendChild(body);
+        if (window.romixProductCard && typeof window.romixProductCard.bind === "function") {
+          window.romixProductCard.bind(card, {
+            image: mainImg,
+            activateVariant: activateVariantPreview,
+            restoreInitial: restoreVariantPreview
+          });
+        }
         row.appendChild(card);
       });
 

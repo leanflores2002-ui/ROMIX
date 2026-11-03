@@ -515,6 +515,247 @@
     return encodeURIComponent(lines.join('\n'));
   };
 
+  const DRAWER_HIDE_MS = 220;
+  const drawerState = {
+    root: null,
+    backdrop: null,
+    panel: null,
+    list: null,
+    empty: null,
+    count: null,
+    subtotal: null,
+    close: null,
+    trigger: null,
+    hideTimer: null,
+    focusReturn: null,
+    bound: false,
+  };
+
+  const escapeHtml = (value) => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+  const drawerItemDisplay = (item) => ({
+    name: decodeCartText(item?.name) || 'Producto',
+    color: decodeCartText(item?.colorName ?? item?.color) || 'Unico',
+    size: decodeCartText(item?.talle ?? item?.size) || 'U',
+    image: String(item?.image || '').trim(),
+  });
+
+  const applyDrawerImage = (img, item, altText) => {
+    if (!img) return;
+    const rawImage = item && item.image ? String(item.image).trim() : '';
+    const sources = rawImage && window.romixImageUtils && typeof window.romixImageUtils.getImageFallbackSources === 'function'
+      ? window.romixImageUtils.getImageFallbackSources(rawImage)
+      : (rawImage ? [rawImage] : []);
+    if (window.romixImageUtils && typeof window.romixImageUtils.applyImageWithFallback === 'function') {
+      window.romixImageUtils.applyImageWithFallback(img, sources, altText || 'Producto ROMIX', {
+        placeholder: PANEL_IMAGE_PLACEHOLDER,
+      });
+      return;
+    }
+    img.alt = altText || 'Producto ROMIX';
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = PANEL_IMAGE_PLACEHOLDER;
+    };
+    img.src = sources[0] || PANEL_IMAGE_PLACEHOLDER;
+  };
+
+  const drawerFocusable = () => {
+    if (!drawerState.panel) return [];
+    return Array.from(drawerState.panel.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    )).filter((element) => !element.hidden && element.getClientRects().length);
+  };
+
+  const setDrawerLinks = () => {
+    if (!drawerState.root) return;
+    const cartUrl = new URL('cart.html', document.baseURI).href;
+    const orderUrl = `${cartUrl}#order-btn`;
+    drawerState.root.querySelector('[data-cart-drawer-link="cart"]')?.setAttribute('href', cartUrl);
+    drawerState.root.querySelector('[data-cart-drawer-link="order"]')?.setAttribute('href', orderUrl);
+  };
+
+  const renderCartDrawer = () => {
+    if (!drawerState.root) return;
+    const cart = getCart();
+    const totals = getCartTotals(cart);
+    drawerState.count.textContent = `${totals.totalItems} ${totals.totalItems === 1 ? 'producto' : 'productos'}`;
+    drawerState.subtotal.textContent = formatPrice(totals.totalPrice);
+    drawerState.list.innerHTML = '';
+    drawerState.empty.hidden = cart.length > 0;
+    drawerState.list.hidden = cart.length === 0;
+
+    cart.forEach((item) => {
+      const display = drawerItemDisplay(item);
+      const qty = Math.max(1, Number(item.qty ?? item.quantity) || 1);
+      const price = Number(item.price) || 0;
+      const itemElement = document.createElement('article');
+      itemElement.className = 'romix-cart-drawer__item';
+      itemElement.innerHTML = `
+        <div class="romix-cart-drawer__media">
+          <img src="${escapeHtml(display.image || PANEL_IMAGE_PLACEHOLDER)}" alt="${escapeHtml(display.name)}" loading="lazy" decoding="async" width="96" height="120" />
+        </div>
+        <div class="romix-cart-drawer__details">
+          <h3 class="romix-cart-drawer__name">${escapeHtml(display.name)}</h3>
+          <p class="romix-cart-drawer__meta">Color: ${escapeHtml(display.color)} · Talle: ${escapeHtml(display.size)}</p>
+          <p class="romix-cart-drawer__price">${formatPrice(price)}</p>
+          <div class="romix-cart-drawer__controls">
+            <div class="romix-cart-drawer__stepper" role="group" aria-label="Cantidad de ${escapeHtml(display.name)}">
+              <button type="button" class="romix-icon-btn romix-cart-drawer__qty romix-cart-drawer__qty--dec" aria-label="Disminuir cantidad de ${escapeHtml(display.name)}"${qty <= 1 ? ' disabled' : ''}>${window.romixIcon('Minus', { size: 'xs' })}</button>
+              <input class="romix-cart-drawer__qty-input" type="number" min="1" inputmode="numeric" value="${qty}" aria-label="Cantidad de ${escapeHtml(display.name)}" />
+              <button type="button" class="romix-icon-btn romix-cart-drawer__qty romix-cart-drawer__qty--inc" aria-label="Aumentar cantidad de ${escapeHtml(display.name)}">${window.romixIcon('Plus', { size: 'xs' })}</button>
+            </div>
+            <button type="button" class="romix-icon-btn romix-cart-drawer__remove" aria-label="Quitar ${escapeHtml(display.name)} del carrito">${window.romixIcon('Trash2', { size: 'sm' })}</button>
+          </div>
+        </div>`;
+
+      const key = item.key;
+      itemElement.querySelector('.romix-cart-drawer__qty--dec').addEventListener('click', () => updateQty(key, qty - 1));
+      itemElement.querySelector('.romix-cart-drawer__qty--inc').addEventListener('click', () => updateQty(key, qty + 1));
+      itemElement.querySelector('.romix-cart-drawer__qty-input').addEventListener('change', (event) => updateQty(key, event.target.value));
+      itemElement.querySelector('.romix-cart-drawer__remove').addEventListener('click', () => removeFromCart(key));
+      applyDrawerImage(itemElement.querySelector('img'), item, display.name);
+      drawerState.list.appendChild(itemElement);
+    });
+  };
+
+  const closeCartDrawer = ({ restoreFocus = true } = {}) => {
+    if (!drawerState.root || drawerState.root.hidden) return;
+    if (drawerState.hideTimer) clearTimeout(drawerState.hideTimer);
+    drawerState.root.classList.remove('is-open');
+    drawerState.root.setAttribute('aria-hidden', 'true');
+    drawerState.backdrop.classList.remove('is-visible');
+    drawerState.backdrop.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('romix-cart-drawer-open');
+    if (drawerState.trigger) drawerState.trigger.setAttribute('aria-expanded', 'false');
+    drawerState.hideTimer = window.setTimeout(() => {
+      drawerState.root.hidden = true;
+      drawerState.backdrop.hidden = true;
+      if (restoreFocus) (drawerState.trigger || drawerState.focusReturn)?.focus?.({ preventScroll: true });
+    }, DRAWER_HIDE_MS);
+  };
+
+  const openCartDrawer = () => {
+    if (!drawerState.root) ensureCartDrawer();
+    if (!drawerState.root) return;
+    if (drawerState.hideTimer) clearTimeout(drawerState.hideTimer);
+    drawerState.focusReturn = document.activeElement;
+    renderCartDrawer();
+    setDrawerLinks();
+    drawerState.root.hidden = false;
+    drawerState.backdrop.hidden = false;
+    drawerState.root.setAttribute('aria-hidden', 'false');
+    drawerState.backdrop.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('romix-cart-drawer-open');
+    if (drawerState.trigger) drawerState.trigger.setAttribute('aria-expanded', 'true');
+    const scheduleFrame = window.requestAnimationFrame || ((callback) => window.setTimeout(callback, 0));
+    scheduleFrame(() => {
+      drawerState.root.classList.add('is-open');
+      drawerState.backdrop.classList.add('is-visible');
+      drawerState.close?.focus({ preventScroll: true });
+    });
+  };
+
+  function ensureCartDrawer() {
+    if (!document?.body) return null;
+    if (drawerState.root) return drawerState;
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'romix-cart-drawer__backdrop';
+    backdrop.hidden = true;
+    backdrop.setAttribute('aria-hidden', 'true');
+
+    const drawer = document.createElement('aside');
+    drawer.id = 'romix-cart-drawer';
+    drawer.className = 'romix-cart-drawer';
+    drawer.hidden = true;
+    drawer.setAttribute('role', 'dialog');
+    drawer.setAttribute('aria-modal', 'true');
+    drawer.setAttribute('aria-labelledby', 'romix-cart-drawer-title');
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.tabIndex = -1;
+    drawer.innerHTML = `
+      <div class="romix-cart-drawer__header">
+        <div>
+          <h2 id="romix-cart-drawer-title">Tu carrito</h2>
+          <p class="romix-cart-drawer__count"></p>
+        </div>
+        <button type="button" class="romix-icon-btn romix-cart-drawer__close" aria-label="Cerrar carrito">${window.romixIcon('X', { size: 'md' })}</button>
+      </div>
+      <div class="romix-cart-drawer__body">
+        <div class="romix-cart-drawer__list" aria-live="polite"></div>
+        <div class="romix-cart-drawer__empty" hidden>
+          <span class="romix-cart-drawer__empty-icon" aria-hidden="true">${window.romixIcon('ShoppingBag', { size: 'lg' })}</span>
+          <h3>Tu carrito está vacío</h3>
+          <p>Agregá productos para verlos acá.</p>
+        </div>
+      </div>
+      <div class="romix-cart-drawer__footer">
+        <div class="romix-cart-drawer__subtotal"><span>Subtotal</span><strong>$0</strong></div>
+        <div class="romix-cart-drawer__actions">
+          <a class="romix-btn romix-btn--secondary" data-cart-drawer-link="cart" href="cart.html">Ver carrito</a>
+          <a class="romix-btn romix-btn--primary" data-cart-drawer-link="order" href="cart.html#order-btn">Enviar pedido</a>
+        </div>
+      </div>`;
+
+    document.body.append(backdrop, drawer);
+    drawerState.root = drawer;
+    drawerState.backdrop = backdrop;
+    drawerState.panel = drawer;
+    drawerState.list = drawer.querySelector('.romix-cart-drawer__list');
+    drawerState.empty = drawer.querySelector('.romix-cart-drawer__empty');
+    drawerState.count = drawer.querySelector('.romix-cart-drawer__count');
+    drawerState.subtotal = drawer.querySelector('.romix-cart-drawer__subtotal strong');
+    drawerState.close = drawer.querySelector('.romix-cart-drawer__close');
+    drawerState.trigger = document.querySelector('.cart-pill');
+    if (drawerState.trigger) {
+      drawerState.trigger.setAttribute('aria-controls', drawer.id);
+      drawerState.trigger.setAttribute('aria-expanded', 'false');
+      drawerState.trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        openCartDrawer();
+      });
+    }
+    drawerState.close.addEventListener('click', () => closeCartDrawer());
+    backdrop.addEventListener('click', () => closeCartDrawer());
+    drawer.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeCartDrawer();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = drawerFocusable();
+      if (!focusable.length) {
+        event.preventDefault();
+        drawer.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    window.addEventListener('romix:cart-changed', () => renderCartDrawer());
+    window.addEventListener('storage', (event) => {
+      if (event?.key === STORAGE_KEY || event?.key === null) renderCartDrawer();
+    });
+    drawerState.bound = true;
+    renderCartDrawer();
+    setDrawerLinks();
+    return drawerState;
+  }
+
   window.romixCart = {
     STORAGE_KEY,
     getCart,
@@ -538,6 +779,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     updateBadge();
     ensurePanel();
+    ensureCartDrawer();
   });
 
   window.addEventListener('storage', (event) => {

@@ -1465,6 +1465,322 @@ header.romix-shared-header .global-search button[type="submit"] {
   }
 }
 
+/* Shared cart drawer: product state comes from romixCart/localStorage. */
+body.romix-cart-drawer-open {
+  overflow: hidden;
+}
+
+.romix-cart-drawer__backdrop,
+.romix-cart-drawer {
+  position: fixed;
+  z-index: 3400;
+}
+
+.romix-cart-drawer__backdrop {
+  inset: 0;
+  background: rgba(20, 19, 24, .42);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.romix-cart-drawer__backdrop.is-visible {
+  opacity: 1;
+}
+
+.romix-cart-drawer {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  width: min(100vw, 440px);
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid rgba(229, 222, 229, .95);
+  color: var(--romix-ink, #242426);
+  background: #fff;
+  box-shadow: -18px 0 44px rgba(27, 22, 29, .18);
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+  transition: transform 220ms ease, opacity 180ms ease;
+}
+
+.romix-cart-drawer.is-open {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.romix-cart-drawer[hidden],
+.romix-cart-drawer__backdrop[hidden] {
+  display: none;
+}
+
+.romix-cart-drawer__header {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid #eee8ee;
+  background: #fff;
+}
+
+.romix-cart-drawer__header h2 {
+  margin: 0;
+  color: var(--romix-ink, #242426);
+  font-family: var(--romix-font-body, Manrope, sans-serif);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.15;
+  text-transform: none;
+}
+
+.romix-cart-drawer__count {
+  margin: 4px 0 0;
+  color: #77717a;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.romix-cart-drawer__close {
+  flex: 0 0 44px;
+  color: var(--romix-ink, #242426);
+}
+
+.romix-cart-drawer__body {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px 16px 20px;
+}
+
+.romix-cart-drawer__list {
+  display: grid;
+  gap: 12px;
+}
+
+.romix-cart-drawer__list[hidden],
+.romix-cart-drawer__empty[hidden] {
+  display: none;
+}
+
+.romix-cart-drawer__item {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 12px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid #eee8ee;
+}
+
+.romix-cart-drawer__media {
+  width: 82px;
+  height: 104px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #faf7fa;
+}
+
+.romix-cart-drawer__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.romix-cart-drawer__details {
+  min-width: 0;
+}
+
+.romix-cart-drawer__name {
+  display: -webkit-box;
+  margin: 1px 28px 4px 0;
+  overflow: hidden;
+  color: var(--romix-ink, #242426);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.romix-cart-drawer__meta {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #77717a;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.romix-cart-drawer__price {
+  margin: 7px 0 10px;
+  color: var(--romix-pink, #f72585);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.romix-cart-drawer__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.romix-cart-drawer__stepper {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  border: 1px solid #dfd9df;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.romix-cart-drawer__qty {
+  width: 30px;
+  min-width: 30px;
+  height: 32px;
+  min-height: 32px;
+  border-radius: 8px;
+  color: var(--romix-ink, #242426);
+}
+
+.romix-cart-drawer__qty:disabled {
+  color: #c6bec7;
+  cursor: not-allowed;
+}
+
+.romix-cart-drawer__qty-input {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  color: var(--romix-ink, #242426);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.romix-cart-drawer__qty-input::-webkit-outer-spin-button,
+.romix-cart-drawer__qty-input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.romix-cart-drawer__qty-input[type="number"] {
+  appearance: textfield;
+}
+
+.romix-cart-drawer__remove {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  color: var(--romix-pink, #f72585);
+}
+
+.romix-cart-drawer__empty {
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  color: #77717a;
+  text-align: center;
+}
+
+.romix-cart-drawer__empty-icon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--romix-pink, #f72585);
+  background: #fff0f6;
+}
+
+.romix-cart-drawer__empty h3 {
+  margin: 8px 0 0;
+  color: var(--romix-ink, #242426);
+  font-size: 16px;
+}
+
+.romix-cart-drawer__empty p {
+  max-width: 230px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.romix-cart-drawer__footer {
+  flex: 0 0 auto;
+  padding: 14px 16px 18px;
+  border-top: 1px solid #eee8ee;
+  background: #fff;
+  box-shadow: 0 -8px 18px rgba(36, 36, 38, .04);
+}
+
+.romix-cart-drawer__subtotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  color: #66616a;
+  font-size: 14px;
+}
+
+.romix-cart-drawer__subtotal strong {
+  color: var(--romix-ink, #242426);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.romix-cart-drawer__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.romix-cart-drawer__actions .romix-btn {
+  min-height: 48px;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.romix-cart-drawer :is(a, button, input):focus-visible {
+  outline: 3px solid rgba(247, 37, 133, .36);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .romix-cart-drawer {
+    width: 100vw;
+    border-left: 0;
+  }
+
+  .romix-cart-drawer__header {
+    padding-inline: 16px;
+  }
+
+  .romix-cart-drawer__body,
+  .romix-cart-drawer__footer {
+    padding-inline: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .romix-cart-drawer,
+  .romix-cart-drawer__backdrop {
+    transition: none;
+  }
+}
+
 /* Final logo pass: the shared wordmark must remain visible through legacy theme layers. */
 .site-header .brand.site-logo-link,
 header.romix-shared-header .brand.site-logo-link {

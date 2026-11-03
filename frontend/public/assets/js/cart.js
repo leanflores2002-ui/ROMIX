@@ -653,6 +653,11 @@
     drawerState.backdrop.setAttribute('aria-hidden', 'false');
     document.body.classList.add('romix-cart-drawer-open');
     if (drawerState.trigger) drawerState.trigger.setAttribute('aria-expanded', 'true');
+    try {
+      window.dispatchEvent(new CustomEvent('romix:cart-drawer-opened'));
+    } catch {
+      /* CustomEvent is optional in legacy browsers. */
+    }
     const scheduleFrame = window.requestAnimationFrame || ((callback) => window.setTimeout(callback, 0));
     scheduleFrame(() => {
       drawerState.root.classList.add('is-open');
@@ -694,6 +699,18 @@
           <h3>Tu carrito está vacío</h3>
           <p>Agregá productos para verlos acá.</p>
         </div>
+        <section id="romix-cart-drawer-recommendations" class="romix-cart-drawer-recommendations" aria-labelledby="romix-cart-drawer-recommendations-title" hidden>
+          <div class="romix-cart-drawer-recommendations__header">
+            <h3 id="romix-cart-drawer-recommendations-title">Te puede interesar</h3>
+            <div class="romix-cart-drawer-recommendations__controls" aria-label="Controles de recomendaciones">
+              <button id="romix-cart-drawer-recommendations-prev" class="romix-icon-btn" type="button" aria-label="Ver recomendaciones anteriores" aria-controls="romix-cart-drawer-recommendations-list"><span data-romix-icon="ChevronLeft" data-romix-icon-size="xs"></span></button>
+              <button id="romix-cart-drawer-recommendations-next" class="romix-icon-btn" type="button" aria-label="Ver recomendaciones siguientes" aria-controls="romix-cart-drawer-recommendations-list"><span data-romix-icon="ChevronRight" data-romix-icon-size="xs"></span></button>
+            </div>
+          </div>
+          <div class="romix-cart-drawer-recommendations__viewport">
+            <div id="romix-cart-drawer-recommendations-list" class="romix-cart-drawer-recommendations__list" aria-live="polite"></div>
+          </div>
+        </section>
       </div>
       <div class="romix-cart-drawer__footer">
         <div class="romix-cart-drawer__subtotal"><span>Subtotal</span><strong>$0</strong></div>
@@ -753,6 +770,11 @@
     drawerState.bound = true;
     renderCartDrawer();
     setDrawerLinks();
+    try {
+      window.dispatchEvent(new CustomEvent('romix:cart-drawer-ready', { detail: { root: drawer } }));
+    } catch {
+      /* CustomEvent is optional in legacy browsers. */
+    }
     return drawerState;
   }
 

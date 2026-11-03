@@ -1,19 +1,21 @@
 (function (window, document) {
   "use strict";
 
-  const DATA_URL = "assets/data/products.json";
+  const scriptBase = document.currentScript?.src || document.baseURI;
+  const DATA_URL = new URL("../data/products.json", scriptBase).href;
   const MAX_RECOMMENDATIONS = 8;
   const PLACEHOLDER = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
     '<svg xmlns="http://www.w3.org/2000/svg" width="720" height="960"><rect width="100%" height="100%" fill="#fff7fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b7a6af" font-family="Segoe UI, Arial" font-size="24">ROMIX</text></svg>',
   );
-  const imageUtils = window.romixImageUtils || {};
-  const pricing = window.romixPricing || {};
   const state = {
     products: null,
     loading: null,
     renderedKeys: [],
     carouselTrack: null,
     carouselSync: null,
+    drawerTrack: null,
+    drawerSync: null,
+    drawerBound: false,
   };
 
   const section = () => document.getElementById("cart-recommendations");
@@ -21,6 +23,8 @@
   const iconMarkup = (name, options) => typeof window.romixIcon === "function"
     ? window.romixIcon(name, options)
     : "";
+  const getImageUtils = () => window.romixImageUtils || {};
+  const getPricing = () => window.romixPricing || {};
 
   function normalize(value) {
     const raw = String(value == null ? "" : value).trim();
@@ -78,7 +82,162 @@
     return `product.html?id=${id}&slug=${slug}&name=${name}`;
   }
 
+  function normalizeSizeValue(value) {
+    if (value && typeof value === "object") {
+      return String(value.size ?? value.value ?? value.label ?? "").trim();
+    }
+    return String(value ?? "").trim();
+  }
+
+  function uniqueSizes(product) {
+    const sizes = Array.isArray(product?.sizes) ? product.sizes : [];
+    const seen = new Set();
+    return sizes.reduce((result, entry) => {
+      const value = normalizeSizeValue(entry);
+      const normalized = normalize(value);
+      if (!value || seen.has(normalized)) return result;
+      seen.add(normalized);
+      result.push(value);
+      return result;
+    }, []);
+  }
+
+  function getProductId(product) {
+    return String(product?.id || product?.slug || key(product?.name) || "").trim();
+  }
+
+  function getPriceForSize(product, size) {
+    const pricing = getPricing();
+    if (typeof pricing.getPriceForSize === "function") return pricing.getPriceForSize(product, size);
+    return Number(product?.price || 0);
+  }
+
+  function formatPrice(value) {
+    const pricing = getPricing();
+    if (typeof pricing.formatPrice === "function") return pricing.formatPrice(value);
+    return `$${Number(value || 0).toLocaleString("es-AR")}`;
+  }
+
+  function createSelect(label, className, options) {
+    const labelElement = document.createElement("label");
+    labelElement.className = "romix-cart-drawer-recommendation__field";
+    const labelText = document.createElement("span");
+    labelText.className = "sr-only";
+    labelText.textContent = label;
+    const select = document.createElement("select");
+    select.className = className;
+    select.setAttribute("aria-label", label);
+    options.forEach((optionValue) => {
+      const option = document.createElement("option");
+      option.value = optionValue;
+      option.textContent = optionValue;
+      select.appendChild(option);
+    });
+    labelElement.append(labelText, select);
+    return { labelElement, select };
+  }
+
+  function createCompactCard(product, index) {
+    const href = getDetailHref(product);
+    const colors = uniqueColors(product);
+    const sizes = uniqueSizes(product);
+    const firstColor = colors[0] || null;
+    const firstVariant = colorImageData(product, firstColor, 0);
+    const card = document.createElement("article");
+    card.className = "romix-cart-drawer-recommendation";
+
+    const mediaLink = document.createElement("a");
+    mediaLink.className = "romix-cart-drawer-recommendation__media";
+    mediaLink.href = href;
+    mediaLink.setAttribute("aria-label", `Ver ${product.name}`);
+    const image = document.createElement("img");
+    image.width = 180;
+    image.height = 224;
+    image.loading = index < 2 ? "eager" : "lazy";
+    image.decoding = "async";
+    image.sizes = "144px";
+    applyImage(image, [firstVariant.src, firstVariant.mainSrc], `${product.name}${firstVariant.name ? ` - ${firstVariant.name}` : ""}`);
+    mediaLink.appendChild(image);
+
+    const content = document.createElement("div");
+    content.className = "romix-cart-drawer-recommendation__content";
+    const name = document.createElement("a");
+    name.className = "romix-cart-drawer-recommendation__name";
+    name.href = href;
+    name.textContent = product.name;
+    content.appendChild(name);
+
+    const price = document.createElement("p");
+    price.className = "romix-cart-drawer-recommendation__price";
+    content.appendChild(price);
+
+    const options = document.createElement("div");
+    options.className = "romix-cart-drawer-recommendation__options";
+    let colorSelect = null;
+    let sizeSelect = null;
+    if (colors.length > 1) {
+      const colorControl = createSelect("Elegir color", "romix-cart-drawer-recommendation__select", colors.map((color, colorIndex) => String(color?.name || color?.value || `Color ${colorIndex + 1}`)));
+      colorSelect = colorControl.select;
+      options.appendChild(colorControl.labelElement);
+    }
+    if (sizes.length > 1) {
+      const sizeControl = createSelect("Elegir talle", "romix-cart-drawer-recommendation__select", sizes);
+      sizeSelect = sizeControl.select;
+      options.appendChild(sizeControl.labelElement);
+    }
+    if (options.children.length) content.appendChild(options);
+
+    const updatePreview = () => {
+      const colorIndex = colorSelect ? colorSelect.selectedIndex : 0;
+      const selectedColor = colors[colorIndex] || firstColor;
+      const selectedSize = sizeSelect ? sizeSelect.value : sizes[0] || "";
+      const variant = colorImageData(product, selectedColor, colorIndex);
+      applyImage(image, [variant.src, variant.mainSrc], `${product.name}${variant.name ? ` - ${variant.name}` : ""}`);
+      price.textContent = formatPrice(getPriceForSize(product, selectedSize));
+    };
+    if (colorSelect) colorSelect.addEventListener("change", updatePreview);
+    if (sizeSelect) sizeSelect.addEventListener("change", updatePreview);
+    updatePreview();
+
+    const action = colors.length && sizes.length && window.romixCart && typeof window.romixCart.addToCart === "function"
+      ? document.createElement("button")
+      : document.createElement("a");
+    action.className = "romix-cart-drawer-recommendation__action romix-btn romix-btn--primary";
+    if (action.tagName === "A") {
+      action.href = href;
+      action.textContent = "Ver producto";
+    } else {
+      action.type = "button";
+      action.innerHTML = iconMarkup("ShoppingBag", { size: "xs" }) + "<span>Agregar al carrito</span>";
+      action.addEventListener("click", (event) => {
+        event.preventDefault();
+        const colorIndex = colorSelect ? colorSelect.selectedIndex : 0;
+        const color = colors[colorIndex] || firstColor;
+        const colorName = String(color?.name || color?.value || "Unico").trim();
+        const size = sizeSelect ? sizeSelect.value : sizes[0];
+        const variant = colorImageData(product, color, colorIndex);
+        window.romixCart.addToCart({
+          productId: getProductId(product),
+          name: product.name,
+          type: product.type || "",
+          color: colorName,
+          colorName,
+          colorKey: colorName,
+          colorId: color?.id ?? color?.colorId ?? color?.variantId ?? color?.variant_id ?? null,
+          size,
+          qty: 1,
+          price: getPriceForSize(product, size),
+          image: variant.mainSrc || variant.src,
+        });
+      });
+    }
+    content.appendChild(action);
+    card.append(mediaLink, content);
+    return card;
+  }
+
   function colorImageData(product, color, index) {
+    const imageUtils = getImageUtils();
     const mainSrc = typeof imageUtils.getColorImage === "function"
       ? imageUtils.getColorImage(color, product, index)
       : String(color?.image || product?.image || "").trim();
@@ -98,6 +257,7 @@
 
   function applyImage(img, sources, alt) {
     if (!img) return;
+    const imageUtils = getImageUtils();
     if (typeof imageUtils.applyImageWithFallback === "function") {
       imageUtils.applyImageWithFallback(img, sources, alt, { placeholder: PLACEHOLDER });
       return;
@@ -243,6 +403,7 @@
 
     const priceRow = document.createElement("div");
     priceRow.className = "price-row";
+    const pricing = getPricing();
     const priceDisplay = typeof pricing.createCardPriceDisplay === "function"
       ? pricing.createCardPriceDisplay(product, { currentClass: "product-price", currentTag: "span" })
       : null;
@@ -334,7 +495,75 @@
     window.requestAnimationFrame(sync);
   }
 
-  function render(products) {
+  function drawerSection() {
+    return document.getElementById("romix-cart-drawer-recommendations");
+  }
+
+  function drawerList() {
+    return document.getElementById("romix-cart-drawer-recommendations-list");
+  }
+
+  function setupDrawerCarousel() {
+    const track = drawerList();
+    const previous = document.getElementById("romix-cart-drawer-recommendations-prev");
+    const next = document.getElementById("romix-cart-drawer-recommendations-next");
+    if (!track || !previous || !next) return;
+
+    if (state.drawerTrack === track) {
+      state.drawerSync?.();
+      return;
+    }
+
+    const getStep = () => {
+      const firstCard = track.querySelector(".romix-cart-drawer-recommendation");
+      if (!firstCard) return track.clientWidth * 0.85;
+      const styles = window.getComputedStyle(track);
+      const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
+      return firstCard.getBoundingClientRect().width + gap;
+    };
+    const sync = () => {
+      const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+      const hasOverflow = maxScroll > 4;
+      previous.disabled = !hasOverflow || track.scrollLeft <= 4;
+      next.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 4;
+    };
+    const scroll = (direction) => {
+      const reduced = typeof window.matchMedia === "function"
+        && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      track.scrollBy({ left: direction * getStep(), behavior: reduced ? "auto" : "smooth" });
+    };
+
+    previous.onclick = () => scroll(-1);
+    next.onclick = () => scroll(1);
+    track.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync, { passive: true });
+    state.drawerTrack = track;
+    state.drawerSync = sync;
+    window.requestAnimationFrame(sync);
+  }
+
+  function renderDrawer(products) {
+    const targetSection = drawerSection();
+    const targetList = drawerList();
+    if (!targetSection || !targetList || !Array.isArray(products)) return;
+
+    const cart = window.romixCart && typeof window.romixCart.getCart === "function"
+      ? window.romixCart.getCart()
+      : [];
+    const recommendations = chooseRecommendations(products.filter(isPublicProduct), cart);
+    targetList.replaceChildren();
+    recommendations.forEach((product, index) => targetList.appendChild(createCompactCard(product, index)));
+    targetSection.hidden = recommendations.length === 0;
+    if (recommendations.length) setupDrawerCarousel();
+  }
+
+  function initDrawer() {
+    if (state.drawerBound || !drawerSection()) return;
+    state.drawerBound = true;
+    if (state.products) renderDrawer(state.products);
+  }
+
+  function renderFull(products) {
     const targetSection = section();
     const targetList = list();
     if (!targetSection || !targetList || !Array.isArray(products)) return;
@@ -377,17 +606,34 @@
   }
 
   function refresh() {
-    loadProducts().then(render);
+    loadProducts().then((products) => {
+      renderFull(products);
+      renderDrawer(products);
+    });
+  }
+
+  function hasActiveTarget() {
+    return Boolean(section()) || document.body.classList.contains("romix-cart-drawer-open");
   }
 
   function init() {
-    if (!section() || !list()) return;
-    refresh();
-    window.addEventListener("romix:cart-changed", refresh);
+    initDrawer();
+    window.addEventListener("romix:cart-drawer-ready", initDrawer, { passive: true });
+    if (section()) refresh();
+    window.addEventListener("romix:cart-drawer-opened", refresh);
+    window.addEventListener("romix:cart-changed", () => {
+      if (hasActiveTarget()) refresh();
+    });
     window.addEventListener("storage", (event) => {
-      if (event.key === "romix_cart" || event.key === "cart") refresh();
+      if ((event.key === "romix_cart" || event.key === "cart") && hasActiveTarget()) refresh();
     });
   }
+
+  window.romixRecommendations = Object.freeze({
+    load: loadProducts,
+    choose: (cart) => loadProducts().then((products) => chooseRecommendations(products.filter(isPublicProduct), Array.isArray(cart) ? cart : [])),
+    refresh,
+  });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init, { once: true });

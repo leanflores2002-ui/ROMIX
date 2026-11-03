@@ -3563,6 +3563,185 @@ body.romix-cart-drawer-open {
   outline-offset: 2px;
 }
 
+.romix-cart-drawer-recommendations {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #eee8ee;
+}
+
+.romix-cart-drawer-recommendations[hidden] {
+  display: none;
+}
+
+.romix-cart-drawer-recommendations__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.romix-cart-drawer-recommendations__header h3 {
+  margin: 0;
+  color: var(--romix-ink, #242426);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.romix-cart-drawer-recommendations__controls {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.romix-cart-drawer-recommendations__controls .romix-icon-btn {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
+  border: 1px solid #e5dfe6;
+  border-radius: 50%;
+  color: var(--romix-ink, #242426);
+  background: #fff;
+}
+
+.romix-cart-drawer-recommendations__controls .romix-icon-btn:disabled {
+  color: #c9c1ca;
+  background: #faf8fa;
+  cursor: not-allowed;
+}
+
+.romix-cart-drawer-recommendations__viewport {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.romix-cart-drawer-recommendations__list {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 2px 1px 8px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+.romix-cart-drawer-recommendations__list::-webkit-scrollbar {
+  display: none;
+}
+
+.romix-cart-drawer-recommendation {
+  display: flex;
+  flex: 0 0 154px;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #ece6ed;
+  border-radius: 12px;
+  background: #fff;
+  scroll-snap-align: start;
+}
+
+.romix-cart-drawer-recommendation__media {
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #faf7fa;
+}
+
+.romix-cart-drawer-recommendation__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.romix-cart-drawer-recommendation__content {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 6px;
+  padding: 9px;
+}
+
+.romix-cart-drawer-recommendation__name {
+  display: -webkit-box;
+  min-height: 31px;
+  overflow: hidden;
+  color: var(--romix-ink, #242426);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-decoration: none;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.romix-cart-drawer-recommendation__price {
+  margin: 0;
+  color: var(--romix-pink, #f72585);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.romix-cart-drawer-recommendation__options {
+  display: grid;
+  gap: 5px;
+}
+
+.romix-cart-drawer-recommendation__field {
+  display: block;
+  min-width: 0;
+}
+
+.romix-cart-drawer-recommendation__select {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  padding: 0 7px;
+  border: 1px solid #ddd5df;
+  border-radius: 7px;
+  color: var(--romix-ink, #242426);
+  background: #fff;
+  font: 600 11px/1.1 var(--romix-font-body, Manrope, sans-serif);
+}
+
+.romix-cart-drawer-recommendation__action {
+  display: inline-flex;
+  width: 100%;
+  min-height: 35px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: auto;
+  padding: 0 7px;
+  border: 1px solid var(--romix-pink, #f72585);
+  border-radius: 8px;
+  color: #fff;
+  background: var(--romix-pink, #f72585);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+}
+
+.romix-cart-drawer-recommendation__action:hover,
+.romix-cart-drawer-recommendation__action:focus-visible {
+  color: #fff;
+  background: var(--romix-pink-hover, #df176f);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .romix-cart-drawer-recommendations__list {
+    scroll-behavior: auto;
+  }
+}
+
 @media (max-width: 480px) {
   .romix-cart-drawer {
     width: 100vw;
@@ -3576,6 +3755,10 @@ body.romix-cart-drawer-open {
   .romix-cart-drawer__body,
   .romix-cart-drawer__footer {
     padding-inline: 12px;
+  }
+
+  .romix-cart-drawer-recommendation {
+    flex-basis: 148px;
   }
 }
 

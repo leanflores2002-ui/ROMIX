@@ -34,6 +34,75 @@
     return arguments.length > 1 ? toAmount(override) : firstAmount(product, CURRENT_PRICE_FIELDS);
   }
 
+  function normalizeSizeValue(value) {
+    if (value && typeof value === "object") {
+      return String(value.size ?? value.value ?? value.label ?? "").trim();
+    }
+    return String(value ?? "").trim();
+  }
+
+  function sizeListIncludes(sizeList, sizeValue) {
+    if (!Array.isArray(sizeList) || !sizeList.length) return false;
+    const rawTarget = normalizeSizeValue(sizeValue);
+    const numericTarget = Number(rawTarget);
+    const isNumericTarget = rawTarget !== "" && !Number.isNaN(numericTarget);
+
+    return sizeList.some((entry) => {
+      const current = normalizeSizeValue(entry);
+      if (!current) return false;
+      if (isNumericTarget) {
+        const currentNumber = Number(current);
+        if (!Number.isNaN(currentNumber)) return currentNumber === numericTarget;
+      }
+      return current.toUpperCase() === rawTarget.toUpperCase();
+    });
+  }
+
+  function fallbackPriceGroup(sizeValue, productSection) {
+    const sizeNum = Number(sizeValue);
+    const section = String(productSection || "")
+      .normalize("NFD")
+      .replace(/\p{Diacritic}+/gu, "")
+      .toLowerCase();
+    if (section === "mujer" || section === "hombre") {
+      if (sizeNum >= 1 && sizeNum <= 5) return "common";
+      if (sizeNum >= 6 && sizeNum <= 8) return "special";
+      if (sizeNum === 9 || sizeNum === 10) return "special2";
+    }
+    if (section === "ninos" || section === "nino") {
+      if ([2, 4, 6, 8, 10].includes(sizeNum)) return "common";
+      if ([12, 14, 16].includes(sizeNum)) return "special";
+    }
+    return null;
+  }
+
+  function getPriceGroupForSize(product, sizeValue) {
+    const priceByGroup = product?.priceByGroup;
+    if (priceByGroup && typeof priceByGroup === "object") {
+      const specialSizes2 = Array.isArray(product.specialSizes2) && product.specialSizes2.length
+        ? product.specialSizes2
+        : product.superSpecialSizes;
+      if (sizeListIncludes(specialSizes2, sizeValue) && priceByGroup.special2 != null) return "special2";
+      if (sizeListIncludes(product.specialSizes, sizeValue) && priceByGroup.special != null) return "special";
+
+      const hasDeclaredSpecialGroups = Array.isArray(product.specialSizes) || Array.isArray(specialSizes2);
+      if (hasDeclaredSpecialGroups && priceByGroup.common != null) return "common";
+
+      const groupKeys = Object.keys(priceByGroup);
+      if (groupKeys.length === 1 && groupKeys[0] === "common") return "common";
+    }
+    return fallbackPriceGroup(sizeValue, product?.section);
+  }
+
+  function getPriceForSize(product, sizeValue) {
+    const base = getCurrentPrice(product);
+    const group = getPriceGroupForSize(product, sizeValue);
+    const groupPrice = group && product?.priceByGroup && typeof product.priceByGroup === "object"
+      ? product.priceByGroup[group]
+      : null;
+    return groupPrice != null && toAmount(groupPrice) > 0 ? toAmount(groupPrice) : base;
+  }
+
   function getOriginalPrice(product) {
     return firstAmount(product, ORIGINAL_PRICE_FIELDS);
   }
@@ -230,6 +299,7 @@
 
   global.romixPricing = Object.freeze({
     getCurrentPrice,
+    getPriceForSize,
     getOriginalPrice,
     getSaleInfo,
     isProductOnSale,

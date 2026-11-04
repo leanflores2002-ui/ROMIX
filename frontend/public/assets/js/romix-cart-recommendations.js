@@ -458,7 +458,7 @@
     const next = document.getElementById("cart-recommendations-next");
     if (!track || !previous || !next) return;
 
-    if (state.carouselTrack === track) {
+    if (state.carouselTrack?.isConnected && state.carouselTrack.isSameNode(track)) {
       state.carouselSync?.();
       return;
     }
@@ -509,7 +509,7 @@
     const next = document.getElementById("romix-cart-drawer-recommendations-next");
     if (!track || !previous || !next) return;
 
-    if (state.drawerTrack === track) {
+    if (state.drawerTrack?.isConnected && state.drawerTrack.isSameNode(track)) {
       state.drawerSync?.();
       return;
     }
@@ -606,7 +606,7 @@
   }
 
   function refresh() {
-    loadProducts().then((products) => {
+    void loadProducts().then((products) => {
       renderFull(products);
       renderDrawer(products);
     });
@@ -631,7 +631,10 @@
 
   window.romixRecommendations = Object.freeze({
     load: loadProducts,
-    choose: (cart) => loadProducts().then((products) => chooseRecommendations(products.filter(isPublicProduct), Array.isArray(cart) ? cart : [])),
+    choose: (cart) => loadProducts().then((products) => {
+      const availableProducts = Array.isArray(products) ? products : [];
+      return chooseRecommendations(availableProducts.filter(isPublicProduct), Array.isArray(cart) ? cart : []);
+    }),
     refresh,
   });
 

@@ -800,3 +800,20 @@
     scroll-behavior: auto;
   }
 }
+
+/* The card surface is the product link; keep the legacy CTA in the markup
+   for renderer compatibility without reserving visual space for it. */
+.romix-product-card .catalog-cta,
+.romix-product-card .product-cta,
+.romix-product-card .related-products__cta {
+  display: none !important;
+}
+
+.romix-product-card[role="link"] {
+  cursor: pointer;
+}
+
+.romix-product-card[role="link"]:focus-visible {
+  outline: 3px solid rgba(242, 39, 151, .55);
+  outline-offset: 4px;
+}

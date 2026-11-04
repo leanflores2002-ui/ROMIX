@@ -64,6 +64,52 @@
     ));
   }
 
+  function isInteractiveTarget(target) {
+    return Boolean(target && target.closest("a, button, input, select, textarea, label"));
+  }
+
+  function bindCardNavigation(card) {
+    if (!card || card.dataset.romixCardNavigation) return card;
+
+    const detailLink = card.querySelector(
+      ".product-thumb[href], .related-products__media-link[href], .romix-search-product__media[href], .product-name[href], .related-products__name[href]"
+    );
+    const href = detailLink?.getAttribute("href");
+    if (!href) return card;
+
+    // Home, catalog and cart recommendations already provide this behavior in
+    // their renderers. Keep their handlers and only fill the missing surfaces.
+    if (card.matches('[role="link"][tabindex]')) {
+      card.dataset.romixCardNavigation = "existing";
+      return card;
+    }
+
+    card.dataset.romixCardNavigation = "true";
+    card.setAttribute("role", "link");
+    card.tabIndex = 0;
+    if (!card.getAttribute("aria-label")) {
+      const name = card.querySelector(".product-name, .related-products__name")?.textContent?.trim();
+      card.setAttribute("aria-label", "Ver detalles de " + (name || detailLink.getAttribute("aria-label") || "producto"));
+    }
+
+    const navigate = () => {
+      window.location.href = new URL(href, document.baseURI).href;
+    };
+
+    card.addEventListener("click", (event) => {
+      if (isInteractiveTarget(event.target)) return;
+      navigate();
+    });
+    card.addEventListener("keydown", (event) => {
+      if (isInteractiveTarget(event.target)) return;
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      navigate();
+    });
+
+    return card;
+  }
+
   function hydrateThumb(button) {
     if (!button) return;
     let image = button.querySelector("img");
@@ -129,7 +175,9 @@
   }
 
   function bind(card, options) {
-    if (!card || card.dataset.romixVariantInteraction === "true") return card;
+    if (!card) return card;
+    bindCardNavigation(card);
+    if (card.dataset.romixVariantInteraction === "true") return card;
     const buttons = getButtons(card);
     if (buttons.length <= 1) {
       const onlyThumbs = card.querySelector(".product-variant-thumbs, .related-products__thumbs");
@@ -362,7 +410,10 @@
 
   function bindAll(root) {
     const scope = root || document;
-    scope.querySelectorAll(".romix-product-card").forEach((card) => bind(card));
+    scope.querySelectorAll(".romix-product-card").forEach((card) => {
+      bindCardNavigation(card);
+      bind(card);
+    });
   }
 
   window.romixProductCard = Object.freeze({

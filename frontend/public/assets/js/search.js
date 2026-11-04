@@ -429,23 +429,28 @@
       : (formatPrice(product.price)
           ? '<span class="romix-search-product__price">' + escapeHtml(formatPrice(product.price)) + '</span>'
           : '');
-    const colors = Array.isArray(product.colors) ? product.colors.slice(0, 4) : [];
+    const rawColors = Array.isArray(product.colors) ? product.colors : [];
+    const colors = window.romixProductCard && typeof window.romixProductCard.uniqueColorEntries === "function"
+      ? window.romixProductCard.uniqueColorEntries(rawColors)
+      : rawColors;
     const variantButtons = colors.map((color, index) => {
       const source = color && (color.thumb || color.thumbnail || color.image);
       const variantImage = source && typeof window.romixImageUtils?.getThumbPath === "function"
         ? window.romixImageUtils.getThumbPath(source)
         : source || image;
       const label = (color?.name) || ("Variante " + (index + 1));
-      return '<button type="button" class="product-variant-thumb' + (index === 0 ? ' is-active' : '') + '" data-variant-src="' + escapeHtml(variantImage) + '" aria-label="Ver variante ' + escapeHtml(label) + '" aria-pressed="' + (index === 0 ? 'true' : 'false') + '" aria-current="' + (index === 0 ? 'true' : 'false') + '">' +
-        '<img src="' + escapeHtml(variantImage) + '" alt="' + escapeHtml(label) + '" loading="lazy" decoding="async" />' +
+      const mainImage = color && (color.image || color.mainImage || color.originalImage) || variantImage;
+      const deferred = index >= 4;
+      return '<button type="button" class="product-variant-thumb' + (index === 0 ? ' is-active' : '') + '" data-variant-index="' + index + '" data-variant-src="' + escapeHtml(variantImage) + '" data-variant-main-src="' + escapeHtml(mainImage) + '" aria-label="Ver variante ' + escapeHtml(label) + '" aria-pressed="' + (index === 0 ? 'true' : 'false') + '" aria-current="' + (index === 0 ? 'true' : 'false') + '"' + (deferred ? ' hidden aria-hidden="true" tabindex="-1"' : '') + '>' +
+        (deferred ? '' : '<img src="' + escapeHtml(variantImage) + '" alt="' + escapeHtml(label) + '" loading="lazy" decoding="async" />') +
       '</button>';
     }).join("");
     const variants = variantButtons
-      ? '<div class="product-variant-thumbs" aria-label="Miniaturas de variantes">' + variantButtons + (Array.isArray(product.colors) && product.colors.length > colors.length
-          ? '<span class="product-variant-more" aria-label="Hay ' + (product.colors.length - colors.length) + ' variantes adicionales">+' + (product.colors.length - colors.length) + '</span>'
+      ? '<div class="product-variant-thumbs" aria-label="Miniaturas de variantes">' + variantButtons + (colors.length > 1
+          ? '<button type="button" class="product-variant-more" aria-expanded="false" aria-label="Hay ' + Math.max(0, colors.length - 4) + ' variantes adicionales">+' + Math.max(0, colors.length - 4) + '</button>'
           : '') + '</div>'
       : '';
-    const registeredColorCount = Array.isArray(product.colors) ? product.colors.length : 0;
+    const registeredColorCount = colors.length;
     const colorCount = registeredColorCount > 0
       ? '<p class="product-color-count">' +
           (typeof window.romixIcon === "function" ? window.romixIcon("Palette", { size: "sm" }) : '') +
@@ -556,6 +561,9 @@
           });
         });
       });
+      if (window.romixProductCard && typeof window.romixProductCard.bind === "function") {
+        window.romixProductCard.bind(card, { image: mainImage });
+      }
     });
 
     state.overlay.querySelectorAll("[data-search-suggestion]").forEach((button) => {

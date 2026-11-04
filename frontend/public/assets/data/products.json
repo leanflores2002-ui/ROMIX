@@ -10260,6 +10260,11 @@
         "name": "Gris melange",
         "hex": "#a9a9a9",
         "image": "images/products/pantalon_jogger_rustico_gris melange.webp"
+      },
+      {
+        "name": "Chocolate",
+        "hex": "#A0522D",
+        "image": "images/products/pantalon_jogger_rustico_chocolate.webp"
       }
     ],
     "sizes": [

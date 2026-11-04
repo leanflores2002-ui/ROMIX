@@ -987,8 +987,11 @@
     const typeKey = normalizeTypeFilterValue(typeRaw);
     const categoryKey = categoryKeyFromType(typeRaw);
     const sizes = buildSizes(raw);
-    const colors = buildColors(raw);
-    const registeredColorCount = Array.isArray(raw?.colors) ? raw.colors.length : 0;
+    const rawColors = buildColors(raw);
+    const colors = window.romixProductCard && typeof window.romixProductCard.uniqueColorEntries === "function"
+      ? window.romixProductCard.uniqueColorEntries(rawColors)
+      : rawColors;
+    const registeredColorCount = colors.length;
     const filterColorKeys = Array.from(new Set(colors.map((entry) => normalizeColorToFilterKey(entry.name)).filter(Boolean)));
     const seasonKey = normalizeSeason(raw?.season, name);
     const baseStock = raw?.stockStatus ? normalizeStatus(raw.stockStatus) : "";
@@ -1653,9 +1656,10 @@
       body.className = "product-body";
 
       let thumbs = null;
+      let activateVariantPreview = null;
+      let restoreVariantPreview = null;
       if (allowVariantPreview && Array.isArray(product.colors) && product.colors.length > 0) {
         const variantControls = [];
-        const visibleThumbs = product.colors.slice(0, 4);
 
         function activateVariant(index, color) {
           selectedColor = color;
@@ -1670,11 +1674,20 @@
           });
         }
 
+        activateVariantPreview = function (index) {
+          const color = product.colors[index];
+          if (color) activateVariant(index, color);
+        };
+        restoreVariantPreview = function () {
+          const color = product.colors[0];
+          if (color) activateVariant(0, color);
+        };
+
         thumbs = document.createElement("div");
         thumbs.className = "product-variant-thumbs";
         thumbs.setAttribute("aria-label", "Miniaturas de variantes");
 
-        visibleThumbs.forEach((color, index) => {
+        product.colors.forEach((color, index) => {
           const button = document.createElement("button");
           button.type = "button";
           button.className = "product-variant-thumb" + (index === 0 ? " is-active" : "");
@@ -1683,16 +1696,25 @@
             button.setAttribute("aria-current", index === 0 ? "true" : "false");
           button.title = "Ver variante " + color.name;
           button.dataset.variantIndex = String(index);
-          const preview = document.createElement("img");
-            preview.src = String(color.thumb || color.thumbnail || color.image || "").trim();
-          preview.alt = "Variante " + color.name;
-          preview.loading = "lazy";
-          preview.decoding = "async";
-          preview.addEventListener("error", function () {
-            const fallback = String(color.image || "").trim();
-            if (fallback && preview.src !== fallback) preview.src = fallback;
-          });
-          button.appendChild(preview);
+          button.dataset.variantSrc = String(color.thumb || color.thumbnail || color.image || "").trim();
+          button.dataset.variantMainSrc = String(color.image || "").trim();
+          const previewSrc = String(color.thumb || color.thumbnail || color.image || "").trim();
+          if (index < 4) {
+            const preview = document.createElement("img");
+            preview.src = previewSrc;
+            preview.alt = "Variante " + color.name;
+            preview.loading = "lazy";
+            preview.decoding = "async";
+            preview.addEventListener("error", function () {
+              const fallback = String(color.image || "").trim();
+              if (fallback && preview.src !== fallback) preview.src = fallback;
+            });
+            button.appendChild(preview);
+          } else {
+            button.hidden = true;
+            button.setAttribute("aria-hidden", "true");
+            button.tabIndex = -1;
+          }
           button.addEventListener("click", function (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -1702,11 +1724,13 @@
           variantControls.push(button);
         });
 
-        if (product.colors.length > visibleThumbs.length) {
-          const more = document.createElement("span");
+        if (product.colors.length > 1) {
+          const more = document.createElement("button");
+          more.type = "button";
           more.className = "product-variant-more variant-more";
-          more.textContent = "+" + (product.colors.length - visibleThumbs.length);
-          more.setAttribute("aria-label", "Hay " + (product.colors.length - visibleThumbs.length) + " variantes adicionales");
+          more.textContent = "+" + Math.max(0, product.colors.length - 4);
+          more.setAttribute("aria-label", "Hay " + Math.max(0, product.colors.length - 4) + " variantes adicionales");
+          more.setAttribute("aria-expanded", "false");
           thumbs.appendChild(more);
         }
       }
@@ -1765,6 +1789,13 @@
 
       card.appendChild(thumb);
       card.appendChild(body);
+      if (window.romixProductCard && typeof window.romixProductCard.bind === "function") {
+        window.romixProductCard.bind(card, {
+          image,
+          activateVariant: activateVariantPreview,
+          restoreInitial: restoreVariantPreview
+        });
+      }
       grid.appendChild(card);
     });
 

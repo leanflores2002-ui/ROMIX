@@ -8,7 +8,7 @@ const path = require('node:path');
 const os = require('node:os');
 const fixture = { id: 'qa-shirt', name: 'Remerón algodón & más', section: 'mujer', type: 'remeras', season: 'verano', price: 5000,
   priceByGroup: { common: 5000, special: 6000 }, specialSizes: [6], sizes: ['2', '6'],
-  image: 'images/products/calza_termica_lycra_chupin_dama_negro.webp', colors: [{ name: 'Azul', hex: '#0000ff', image: 'images/products/calza_termica_lycra_chupin_dama_negro.webp' }, { name: 'Rojo', hex: '#ff0000', image: 'images/products/calza_termica_lycra_chupin_dama_negro.webp' }] };
+  image: 'images/products/calza_termica_lycra_chupin_dama_negro.webp', colors: [{ name: 'Azul', hex: '#0000ff', image: 'images/products/calza_termica_lycra_chupin_dama_negro.webp' }, { name: 'Rojo', hex: '#ff0000', image: 'images/products/calza_termica_lycra_chupin_dama_azul_marino.webp' }] };
 
 async function run(context, origin, width) {
   const errors = [], destinations = [];
@@ -45,6 +45,17 @@ async function run(context, origin, width) {
   await health('product');
   assert.ok((await page.locator('#main-image').getAttribute('src')).includes('calza_termica'), 'Product image must not silently become a placeholder');
   assert.match(await page.title(), /Remer/);
+  await page.locator('#zoom-open').click();
+  await page.locator('#zoom-modal[aria-hidden="false"]').waitFor();
+  await page.locator('#zoom-thumbs .zoom-thumb').nth(1).waitFor();
+  assert.equal(await page.locator('#zoom-thumbs .zoom-thumb').count(), fixture.colors.length, 'Zoom must expose every product image as a thumbnail');
+  assert.equal(await page.locator('#zoom-modal').evaluate(node => getComputedStyle(node).backgroundColor), 'rgb(238, 241, 242)', 'Zoom must use a light background');
+  await page.locator('#zoom-thumbs .zoom-thumb').nth(1).click();
+  await page.waitForFunction(() => document.querySelector('#zoom-counter')?.textContent === '2 / 2');
+  assert.equal(await page.locator('#zoom-counter').textContent(), '2 / 2', 'Thumbnail navigation must update the current image');
+  if (process.env.ROMIX_SCREENSHOTS) await page.screenshot({ path: path.join(process.env.ROMIX_SCREENSHOTS === '1' ? os.tmpdir() : process.env.ROMIX_SCREENSHOTS, `romix-zoom-${width}.png`) });
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => document.querySelector('#zoom-modal')?.getAttribute('aria-hidden') === 'true');
   const text = new URL(await page.locator('#btn-share-whatsapp').getAttribute('href')).searchParams.get('text');
   assert.ok(text.includes(fixture.name) && text.includes('$5.000') && text.includes('$6.000'));
   assert.ok(text.includes(origin + '/share/'), 'Shared URL preserves current navigation origin');

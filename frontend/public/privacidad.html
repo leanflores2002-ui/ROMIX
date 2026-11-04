@@ -9,8 +9,8 @@
   <meta name="description" content="Datos, pedidos por WhatsApp y preferencias de Analytics en ROMIX. Responsable, contacto y derechos sobre tus datos." />
   <link rel="stylesheet" href="/assets/css/romix-shell-base.css?v=23" />
   <link rel="stylesheet" href="/assets/css/romix-design-system.css?v=23" />
-  <link rel="stylesheet" href="/assets/css/romix-header.css?v=25" />
-  <link rel="stylesheet" href="/assets/css/romix-product-card.css?v=3" />
+  <link rel="stylesheet" href="/assets/css/romix-header.css?v=26" />
+  <link rel="stylesheet" href="/assets/css/romix-product-card.css?v=4" />
   <link rel="stylesheet" href="/assets/css/romix-footer.css?v=23" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="/assets/css/romix-privacy.css?v=2" />
@@ -45,7 +45,7 @@
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
       <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
       <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
-      <a class="cart-pill" href="cart.html" aria-label="Carrito de compras">
+      <a class="cart-pill" href="cart.html" aria-label="Carrito de compras" aria-controls="romix-cart-drawer" aria-expanded="false">
         <span class="cart-pill__icon" aria-hidden="true"><span data-romix-icon="ShoppingCart" data-romix-icon-size="md"></span></span>
         <span class="cart-pill__text"><strong>Carrito</strong></span>
         <span class="icon-badge" id="cart-count" aria-hidden="true">0</span>
@@ -87,6 +87,9 @@
   </div>
 </header>
 <script src="assets/js/romix-icons.js?v=19"></script>
+  <script src="assets/js/romix-product-card.js?v=2"></script>
+  <script src="assets/js/romix-pricing.js?v=21"></script>
+  <script src="assets/js/romix-cart-recommendations.js?v=3"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
 
 <main id="privacy-content" class="privacy-page" tabindex="-1">
@@ -200,7 +203,7 @@
 <script defer src="/assets/js/cookie-consent.js?v=1"></script>
 <!-- ROMIX:SHELL:FOOTER:END -->
 
-<script src="/assets/js/cart.js?v=20"></script>
+<script src="/assets/js/cart.js?v=22"></script>
 <script src="/assets/js/romix-header.js?v=20" defer></script>
 <script src="/assets/js/ts/main.js?v=19" type="module"></script>
 </body>

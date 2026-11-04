@@ -6,6 +6,24 @@ const {productSlug, detailHref, escapeHtml} = require('./generate-share-pages');
 const publicDir = path.resolve(__dirname, '../frontend/public');
 const cardTemplate = fs.readFileSync(path.resolve(__dirname, '../frontend/src/templates/partials/category-card.html'), 'utf8');
 
+function normalizeColorKey(value) {
+  return String(value || '').trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ');
+}
+
+function uniqueColorEntries(colors) {
+  if (!Array.isArray(colors)) return [];
+  const seen = new Set();
+  return colors.filter((color, index) => {
+    const key = normalizeColorKey(color && (color.name || color.value || color.color || color.slug))
+      || String(color && (color.id || color.colorId || color.variantId || color.variant_id) || '').trim().toLowerCase()
+      || normalizeColorKey(color && (color.image || color.thumbnail || color.thumb))
+      || `index:${index}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function renderCategory(category, catalogHtml, products, origin) {
   const list = publicProducts(products, category.key);
   const cards = renderCards(list);
@@ -62,17 +80,19 @@ function renderCards(list) {
         return label + ': ' + String.fromCharCode(36) + value.toLocaleString('es-AR');
       }).join(' · ')
       : '';
-    const variants = Array.isArray(product.colors)
-      ? product.colors.slice(0, 4).map((color, index) => {
+    const colors = uniqueColorEntries(product.colors);
+    const variants = colors.length
+      ? colors.map((color, index) => {
         const source = color && (color.thumb || color.thumbnail || color.image);
         const thumb = imageUtils.getThumbPath(source || product.image);
         const fallback = fs.existsSync(path.join(publicDir, thumb)) ? thumb : (color && color.image) || product.image;
         const label = escapeHtml((color && color.name) || `Variante ${index + 1}`);
-        return `<button type="button" class="product-variant-thumb${index === 0 ? ' is-active' : ''}" data-variant-index="${index}" data-variant-src="${escapeHtml(fallback)}" aria-label="Ver variante ${label}" aria-pressed="${index === 0 ? 'true' : 'false'}" aria-current="${index === 0 ? 'true' : 'false'}"><img src="${escapeHtml(fallback)}" alt="${label}" width="96" height="128" loading="lazy" decoding="async" /></button>`;
+        const deferred = index >= 4;
+        return `<button type="button" class="product-variant-thumb${index === 0 ? ' is-active' : ''}" data-variant-index="${index}" data-variant-src="${escapeHtml(fallback)}" data-variant-main-src="${escapeHtml(fallback)}" aria-label="Ver variante ${label}" aria-pressed="${index === 0 ? 'true' : 'false'}" aria-current="${index === 0 ? 'true' : 'false'}"${deferred ? ' hidden aria-hidden="true" tabindex="-1"' : ''}>${deferred ? '' : `<img src="${escapeHtml(fallback)}" alt="${label}" width="96" height="128" loading="lazy" decoding="async" />`}</button>`;
       }).join('') : '';
-    const more = Array.isArray(product.colors) && product.colors.length > 4
-      ? `<span class="product-variant-more" aria-label="Hay ${product.colors.length - 4} variantes adicionales">+${product.colors.length - 4}</span>` : '';
-    const colorCount = Array.isArray(product.colors) ? product.colors.length : 0;
+    const more = colors.length > 1
+      ? `<button type="button" class="product-variant-more" aria-expanded="false" aria-label="Hay ${Math.max(0, colors.length - 4)} variantes adicionales">+${Math.max(0, colors.length - 4)}</button>` : '';
+    const colorCount = colors.length;
     const colorCountMarkup = colorCount > 0
       ? `<p class="product-color-count"><span data-romix-icon="Palette" data-romix-icon-size="sm" aria-hidden="true"></span><span>${colorCount}${colorCount === 1 ? ' color disponible' : ' colores disponibles'}</span></p>`
       : '';

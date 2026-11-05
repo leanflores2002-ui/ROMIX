@@ -58,7 +58,7 @@
       });
       if (Array.isArray(copy.colors)) {
         copy.colors = copy.colors.map((color) => Object.assign({}, color, {
-          name: globalFixUtf8(color && color.name)
+          name: globalFixUtf8(color?.name)
         }));
       }
       if (hideProduct(copy)) return;
@@ -95,17 +95,17 @@
 
   function escapeHtml(value) {
     return String(value == null ? "" : value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
   }
 
   function defaultSlugify(value) {
     return norm(String(value || ""))
       .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+      .replace(/^-|-$/g, "");
   }
 
   function slugify(value) {
@@ -181,8 +181,8 @@
 
   function buildDetailUrl(product, slugOverride, nameOverride) {
     if (window.romixProductUrl) return window.romixProductUrl.detailHref(product);
-    const slugValue = slugOverride || slugify(product && product.name ? product.name : "");
-    const nameValue = nameOverride || globalFixUtf8(product && product.name ? product.name : "");
+    const slugValue = slugOverride || slugify(product?.name ? product.name : "");
+    const nameValue = nameOverride || globalFixUtf8(product?.name ? product.name : "");
     const pid = typeof window.productId === "function" ? window.productId(product) : (product && (product.id || product.slug)) || slugValue;
     return "product.html?id=" + encodeURIComponent(pid) +
       "&slug=" + encodeURIComponent(slugValue) +
@@ -196,7 +196,7 @@
       if (main && typeof imageUtils.getThumbPath === "function") return imageUtils.getThumbPath(main);
       if (main) return main;
     }
-    if (typeof imageUtils.getThumbPath === "function" && product && product.image) {
+    if (typeof imageUtils.getThumbPath === "function" && product?.image) {
       return imageUtils.getThumbPath(product.image);
     }
     return (product && (product.thumbnail || product.thumb || product.image || (Array.isArray(product.images) && product.images[0]))) || "images/optimized/branding/romix-logo-360.webp";
@@ -229,24 +229,24 @@
 
   function productFields(product) {
     const fields = [
-      product && product.name,
-      product && product.type,
-      product && product.category,
-      product && product.section,
-      product && product.gender,
-      product && product.genero,
-      product && product.collection,
-      product && product.season,
-      product && product.badge,
-      product && product.description
+      product?.name,
+      product?.type,
+      product?.category,
+      product?.section,
+      product?.gender,
+      product?.genero,
+      product?.collection,
+      product?.season,
+      product?.badge,
+      product?.description
     ];
 
-    if (Array.isArray(product && product.tags)) {
+    if (Array.isArray(product?.tags)) {
       product.tags.forEach((tag) => fields.push(tag));
     }
-    if (Array.isArray(product && product.colors)) {
+    if (Array.isArray(product?.colors)) {
       product.colors.forEach((color) => {
-        if (color && color.name) fields.push(color.name);
+        if (color?.name) fields.push(color.name);
       });
     }
     return fields.filter(Boolean).join(" ");
@@ -255,22 +255,24 @@
   function editDistanceAtMost(a, b, max) {
     if (a === b) return true;
     if (!a || !b) return false;
-    if (Math.abs(a.length - b.length) > max) return false;
-    const prev = new Array(b.length + 1);
-    const curr = new Array(b.length + 1);
-    for (let j = 0; j <= b.length; j++) prev[j] = j;
-    for (let i = 1; i <= a.length; i++) {
+    const aChars = Array.from(a);
+    const bChars = Array.from(b);
+    if (Math.abs(aChars.length - bChars.length) > max) return false;
+    const prev = new Array(bChars.length + 1);
+    const curr = new Array(bChars.length + 1);
+    for (let j = 0; j <= bChars.length; j++) prev[j] = j;
+    for (let i = 1; i <= aChars.length; i++) {
       curr[0] = i;
       let rowMin = curr[0];
-      for (let j = 1; j <= b.length; j++) {
-        const cost = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+      for (let j = 1; j <= bChars.length; j++) {
+        const cost = aChars[i - 1] === bChars[j - 1] ? 0 : 1;
         curr[j] = Math.min(prev[j] + 1, curr[j - 1] + 1, prev[j - 1] + cost);
         if (curr[j] < rowMin) rowMin = curr[j];
       }
       if (rowMin > max) return false;
-      for (let j = 0; j <= b.length; j++) prev[j] = curr[j];
+      for (let j = 0; j <= bChars.length; j++) prev[j] = curr[j];
     }
-    return prev[b.length] <= max;
+    return prev[bChars.length] <= max;
   }
 
   function scoreProduct(product, queryNorm) {
@@ -342,7 +344,7 @@
     const qn = norm(term);
     const results = qn ? searchProductsSync(products, term).slice(0, 24) : [];
     const defaultProducts = (Array.isArray(products) ? products : [])
-      .filter((product) => product && product.name)
+      .filter((product) => product?.name)
       .slice(0, 5);
     return {
       query: term,
@@ -427,27 +429,52 @@
       : (formatPrice(product.price)
           ? '<span class="romix-search-product__price">' + escapeHtml(formatPrice(product.price)) + '</span>'
           : '');
-    const colors = Array.isArray(product.colors) ? product.colors.slice(0, 4) : [];
-    const colorDots = colors.length
-      ? '<div class="romix-search-product__colors" aria-label="Colores disponibles">' +
-          colors.map((color) => (
-            '<span style="--swatch:' + escapeHtml((color && color.hex) || "#d9d9d9") + '" title="' + escapeHtml((color && color.name) || "Color") + '"></span>'
-          )).join("") +
-        '</div>'
-      : "";
+    const rawColors = Array.isArray(product.colors) ? product.colors : [];
+    const colors = window.romixProductCard && typeof window.romixProductCard.uniqueColorEntries === "function"
+      ? window.romixProductCard.uniqueColorEntries(rawColors)
+      : rawColors;
+    const variantButtons = colors.map((color, index) => {
+      const source = color && (color.thumb || color.thumbnail || color.image);
+      const variantImage = source && typeof window.romixImageUtils?.getThumbPath === "function"
+        ? window.romixImageUtils.getThumbPath(source)
+        : source || image;
+      const label = (color?.name) || ("Variante " + (index + 1));
+      const mainImage = color && (color.image || color.mainImage || color.originalImage) || variantImage;
+      const deferred = index >= 4;
+      return '<button type="button" class="product-variant-thumb' + (index === 0 ? ' is-active' : '') + '" data-variant-index="' + index + '" data-variant-src="' + escapeHtml(variantImage) + '" data-variant-main-src="' + escapeHtml(mainImage) + '" aria-label="Ver variante ' + escapeHtml(label) + '" aria-pressed="' + (index === 0 ? 'true' : 'false') + '" aria-current="' + (index === 0 ? 'true' : 'false') + '"' + (deferred ? ' hidden aria-hidden="true" tabindex="-1"' : '') + '>' +
+        (deferred ? '' : '<img src="' + escapeHtml(variantImage) + '" alt="' + escapeHtml(label) + '" loading="lazy" decoding="async" />') +
+      '</button>';
+    }).join("");
+    const variants = variantButtons
+      ? '<div class="product-variant-thumbs" aria-label="Miniaturas de variantes">' + variantButtons + (colors.length > 1
+          ? '<button type="button" class="product-variant-more" aria-expanded="false" aria-label="Hay ' + Math.max(0, colors.length - 4) + ' variantes adicionales">+' + Math.max(0, colors.length - 4) + '</button>'
+          : '') + '</div>'
+      : '';
+    const registeredColorCount = colors.length;
+    const colorCount = registeredColorCount > 0
+      ? '<p class="product-color-count">' +
+          (typeof window.romixIcon === "function" ? window.romixIcon("Palette", { size: "sm" }) : '') +
+          '<span>' + registeredColorCount + (registeredColorCount === 1 ? ' color disponible' : ' colores disponibles') + '</span>' +
+        '</p>'
+      : '';
+    const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
+    const badge = badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '';
+    const bagIcon = typeof window.romixIcon === "function" ? window.romixIcon("ShoppingBag", { size: "sm" }) : '';
 
     return '' +
-      '<a class="romix-search-product" href="' + escapeHtml(href) + '">' +
-        '<span class="romix-search-product__media">' +
+      '<article class="romix-search-product romix-product-card">' +
+        '<a class="product-thumb romix-search-product__media" href="' + escapeHtml(href) + '">' +
           '<img src="' + escapeHtml(image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy" decoding="async" />' +
-        '</span>' +
-        colorDots +
-        '<span class="romix-search-product__body">' +
-          '<small>' + escapeHtml(sectionLabel(product.section)) + ' &middot; ' + escapeHtml(typeLabel(product.type || product.category)) + '</small>' +
-          '<strong>' + escapeHtml(product.name) + '</strong>' +
-          priceMarkup +
-        '</span>' +
-      '</a>';
+          badge +
+        '</a>' +
+        '<div class="product-body romix-search-product__body">' +
+          '<a class="product-name" href="' + escapeHtml(href) + '">' + escapeHtml(product.name) + '</a>' +
+          '<div class="price-row">' + priceMarkup + '</div>' +
+          colorCount +
+          variants +
+          '<a class="catalog-cta romix-btn romix-btn--primary romix-btn--sm" href="' + escapeHtml(href) + '">' + bagIcon + '<span>Ver producto</span></a>' +
+        '</div>' +
+      '</article>';
   }
 
   function highlightMatch(label, query) {
@@ -513,6 +540,31 @@
           '<div class="romix-search-products">' + products + '</div>' +
         '</section>' +
       '</div>';
+
+    state.overlay.querySelectorAll('.romix-search-product').forEach((card) => {
+      const mainImage = card.querySelector('.product-thumb img');
+      const controls = Array.from(card.querySelectorAll('.product-variant-thumb'));
+      controls.forEach((control) => {
+        control.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const nextSrc = control.getAttribute('data-variant-src');
+          if (mainImage && nextSrc) {
+            mainImage.src = nextSrc;
+            mainImage.alt = control.querySelector('img')?.alt || mainImage.alt;
+          }
+          controls.forEach((item) => {
+            const active = item === control;
+            item.classList.toggle('is-active', active);
+            item.setAttribute('aria-pressed', active ? 'true' : 'false');
+            item.setAttribute('aria-current', active ? 'true' : 'false');
+          });
+        });
+      });
+      if (window.romixProductCard && typeof window.romixProductCard.bind === "function") {
+        window.romixProductCard.bind(card, { image: mainImage });
+      }
+    });
 
     state.overlay.querySelectorAll("[data-search-suggestion]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -595,7 +647,6 @@
     document.querySelectorAll("[data-search-toggle='true']").forEach((toggle) => {
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
-    state.input.setAttribute("aria-expanded", open ? "true" : "false");
     window.clearTimeout(state.focusTimer);
     if (open) {
       scheduleRender();
@@ -645,8 +696,8 @@
           '<button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden>' + window.romixIcon("X", { size: "sm" }) + '</button>' +
         '</div>' +
         '<button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>' +
-        '<p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>' +
-        '<div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>';
+        '<p class="romix-search-status" id="romix-search-status" aria-live="polite" aria-atomic="true"></p>' +
+        '<section class="romix-search-overlay" id="romix-search-results" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></section>';
       form.appendChild(shell);
       shell.querySelector(".romix-search-input-wrap").insertBefore(input, shell.querySelector(".romix-search-clear"));
     }

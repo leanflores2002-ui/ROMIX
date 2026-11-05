@@ -33,6 +33,7 @@ const origin = require('../config/site.json').origin;
         await link.click();
         await page.locator('#btn-add').waitFor();
         assert.equal(new URL(page.url()).pathname, detailHref(selected));
+        assert.equal(await page.evaluate(product => window.romixProductUrl.detailHref(product), selected), detailHref(selected));
         assert.equal(await page.locator('h1:visible').textContent(), selected.name);
         assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'), origin + detailHref(selected));
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);

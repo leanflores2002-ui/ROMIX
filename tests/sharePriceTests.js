@@ -6,7 +6,7 @@ assert.equal(sharePrices(product), 'T1-5 $4.600 · T6-8 $5.100');
 assert.equal(sharePrices({price:8900,sizes:['U']}), '$8.900');
 assert.equal(sharePrices({price:5000,sizes:['1','3','4']}), 'T1, T3, T4 $5.000');
 assert.equal(sharePrices({price:0,sizes:['U']}), '');
-for (const price of [-1, NaN, Infinity, 'Infinity', 'invalid', undefined]) {
+for (const price of [-1, Number.NaN, Infinity, 'Infinity', 'invalid', undefined]) {
   for (const sizes of [['U'], ['2']]) assert.equal(sharePrices({ price, sizes }), '', 'Invalid prices cannot appear in share cards');
 }
 assert.equal(sharePrices({ ...product, sizes: ['2', '6', '9'], specialSizes: [2], superSpecialSizes: [9], priceByGroup: { common: 4000, special: 5000, special2: 6000 } }), 'T2 $5.000 · T6 $4.000 · T9 $6.000', 'Declared exceptions override conventional size groups');

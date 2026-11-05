@@ -2013,6 +2013,11 @@
         "name": "Verde claro",
         "hex": "#8BC34A",
         "image": "images/products/palazo_fibrana_liso_verde_claro.webp"
+      },
+      {
+        "name": "Chocolate",
+        "hex": "#A0522D",
+        "image": "images/products/palazo_fibrana_liso_chocolate.webp"
       }
     ],
     "sizes": [
@@ -2461,10 +2466,10 @@
     "name": "Capri lycra combinado",
     "season": "verano",
     "image": "images/products/capri_lycra_combinado_estampado_1_delivery.webp",
-    "price": 10500,
+    "price": 11000,
     "priceByGroup": {
-      "common": 10500,
-      "special": 11000
+      "common": 11000,
+      "special": 11500
     },
     "specialSizes": [
       6,
@@ -2583,9 +2588,9 @@
     "name": "Capri lycra estampado",
     "season": "verano",
     "image": "images/products/capri_lycra_estampado_1.webp",
-    "price": 10500,
+    "price": 11000,
     "priceByGroup": {
-      "common": 10500
+      "common": 11000
     },
     "colors": [
       {
@@ -2722,11 +2727,11 @@
     "name": "Capri fibrana",
     "season": "verano",
     "image": "images/products/capri_fibrana_negro.webp",
-    "price": 7000,
+    "price": 8000,
     "priceByGroup": {
-      "common": 7000,
-      "special": 7800,
-      "special2": 8600
+      "common": 8000,
+      "special": 8800,
+      "special2": 9600
     },
     "specialSizes": [
       6,
@@ -2793,11 +2798,11 @@
     "name": "Capri fibrana estampado",
     "season": "verano",
     "image": "images/products/capri_fibrana_estampado_1.webp",
-    "price": 7000,
+    "price": 8000,
     "priceByGroup": {
-      "common": 7000,
-      "special": 7800,
-      "special2": 8600
+      "common": 8000,
+      "special": 8800,
+      "special2": 9600
     },
     "specialSizes": [
       6,
@@ -3148,11 +3153,11 @@
     "name": "Capri CEY",
     "season": "verano",
     "image": "images/products/capri_cey_negro_delivery.webp",
-    "price": 7200,
+    "price": 8000,
     "priceByGroup": {
-      "common": 7200,
-      "special": 8000,
-      "special2": 8800
+      "common": 8000,
+      "special": 8800,
+      "special2": 9600
     },
     "specialSizes": [
       6,
@@ -3443,11 +3448,11 @@
     "name": "Short fibrana poplin liso dama",
     "season": "verano",
     "image": "images/products/short_fibrana_liso_negro_delivery.webp",
-    "price": 5600,
+    "price": 6000,
     "priceByGroup": {
-      "common": 5600,
-      "special": 6400,
-      "special2": 7200
+      "common": 6000,
+      "special": 6800,
+      "special2": 7600
     },
     "specialSizes": [
       6,
@@ -3509,11 +3514,11 @@
     "name": "Short fibrana poplin estampado dama",
     "season": "verano",
     "image": "images/products/short_fibrana_estampado_dama_1_delivery.webp",
-    "price": 5600,
+    "price": 6000,
     "priceByGroup": {
-      "common": 5600,
-      "special": 6400,
-      "special2": 7200
+      "common": 6000,
+      "special": 6800,
+      "special2": 7600
     },
     "specialSizes": [
       6,
@@ -3894,12 +3899,12 @@
   {
     "section": "mujer",
     "type": "shorts",
-    "name": "Short lycra estampado",
+    "name": "Short lycra suplex estampado",
     "season": "verano",
     "image": "images/products/short_lycra_estampado_1_delivery.webp",
-    "price": 9000,
+    "price": 9500,
     "priceByGroup": {
-      "common": 9000
+      "common": 9500
     },
     "colors": [
       {
@@ -4087,12 +4092,14 @@
     "name": "Short algodon morley",
     "season": "verano",
     "image": "images/products/short_algodon_morley_negro.webp",
-    "price": 7000,
+    "price": 6000,
     "priceByGroup": {
-      "common": 7000,
-      "special": 7500,
-      "special2": 8300
+      "common": 6000,
+      "special": 6500,
+      "special2": 7300
     },
+    "originalPrice": 18000,
+    "badge": "oferta",
     "specialSizes": [
       6,
       7,
@@ -4399,7 +4406,7 @@
     "season": "verano",
     "featured": true,
     "featuredBadge": "Nuevo",
-    "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_delivery.webp",
+    "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama.webp",
     "price": 9500,
     "priceByGroup": {
       "common": 9500,
@@ -4414,7 +4421,27 @@
       {
         "name": "Negro",
         "hex": "#000000",
-        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_delivery.webp"
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#A9A9A9",
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_gris.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#1E4ED8",
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_azul.webp"
+      },
+      {
+        "name": "Bordo",
+        "hex": "#8B0000",
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_bordo.webp"
+      },
+      {
+        "name": "Lila",
+        "hex": "#A020F0",
+        "image": "images/products/ciclista_lycra_suplex_con_bolsillo_dama_lila.webp"
       }
     ],
     "sizes": [
@@ -4498,9 +4525,9 @@
     "name": "Ciclista lycra estampado",
     "season": "verano",
     "image": "images/products/ciclista_lycra_estampado_1.webp",
-    "price": 9500,
+    "price": 10000,
     "priceByGroup": {
-      "common": 9500
+      "common": 10000
     },
     "colors": [
       {
@@ -6753,6 +6780,60 @@
     ]
   },
   {
+    "section": "mujer",
+    "type": "bermudas",
+    "name": "Bermuda baggy algodon rustico dama",
+    "season": "verano",
+    "image": "images/products/bermuda_algodon_rustico_dama_negro.webp",
+    "price": 12000,
+    "priceByGroup": {
+      "common": 12000,
+      "special": 12800
+    },
+    "specialSizes": [
+      6,
+      7,
+      8
+    ],
+    "colors": [
+      {
+        "name": "Negro",
+        "hex": "#000000",
+        "image": "images/products/bermuda_algodon_rustico_dama_negro.webp"
+      },
+      {
+        "name": "Gris melange",
+        "hex": "#A9A9A9",
+        "image": "images/products/bermuda_algodon_rustico_dama_gris_melange.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#1E4ED8",
+        "image": "images/products/bermuda_algodon_rustico_dama_azul.webp"
+      },
+      {
+        "name": "Gris oscuro",
+        "hex": "#4B4B4B",
+        "image": "images/products/bermuda_algodon_rustico_dama_gris_oscuro.webp"
+      },
+      {
+        "name": "Beige",
+        "hex": "#F5F5DC",
+        "image": "images/products/bermuda_algodon_rustico_dama_beige.webp"
+      }
+    ],
+    "sizes": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ]
+  },
+  {
     "section": "hombre",
     "type": "bermudas",
     "name": "Bermuda lycra hombre",
@@ -8110,7 +8191,7 @@
     "priceByGroup": {
       "common": 7000,
       "special": 7800,
-      "special2": 8300
+      "special2": 8600
     },
     "specialSizes": [
       6,
@@ -8141,6 +8222,16 @@
         "name": "Gris medio",
         "hex": "#4b4b4b",
         "image": "images/products/babucha_modal_con puño_gris_medio.webp"
+      },
+      {
+        "name": "Gris oscuro",
+        "hex": "#4b4b4b",
+        "image": "images/products/babucha_modal_con puño_gris_oscuro.webp"
+      },
+      {
+        "name": "Verde",
+        "hex": "#008000",
+        "image": "images/products/babucha_modal_con puño_verde.webp"
       }
     ],
     "sizes": [
@@ -9044,6 +9135,21 @@
         "name": "Negro",
         "hex": "#000000",
         "image": "images/products/calza_oxfor_negro.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#0000FF",
+        "image": "images/products/calza_oxfor_azul.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#808080",
+        "image": "images/products/calza_oxfor_gris.webp"
+      },
+      {
+        "name": "Chocolate",
+        "hex": "#45322e",
+        "image": "images/products/calza_oxfor_chocolate.webp"
       }
     ],
     "sizes": [
@@ -10023,6 +10129,21 @@
         "name": "Negro",
         "hex": "#000000",
         "image": "images/products/pantalon_jogger_lycra_negro.webp"
+      },
+      {
+        "name": "Azul",
+        "hex": "#0000FF",
+        "image": "images/products/pantalon_jogger_lycra_azul.webp"
+      },
+      {
+        "name": "Chocolate",
+        "hex": "#D2691E",
+        "image": "images/products/pantalon_jogger_lycra_chocolate.webp"
+      },
+      {
+        "name": "Gris",
+        "hex": "#808080",
+        "image": "images/products/pantalon_jogger_lycra_gris.webp"
       }
     ],
     "sizes": [
@@ -10146,6 +10267,11 @@
         "name": "Gris melange",
         "hex": "#a9a9a9",
         "image": "images/products/pantalon_jogger_rustico_gris melange.webp"
+      },
+      {
+        "name": "Chocolate",
+        "hex": "#A0522D",
+        "image": "images/products/pantalon_jogger_rustico_chocolate.webp"
       }
     ],
     "sizes": [
@@ -10169,7 +10295,7 @@
     "priceByGroup": {
       "common": 7000,
       "special": 7800,
-      "special2": 8300
+      "special2": 8600
     },
     "specialSizes": [
       6,

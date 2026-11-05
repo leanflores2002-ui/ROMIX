@@ -38,7 +38,7 @@ const product = { productId: 'p1', name: 'Remerón & algodón', color: 'Azul', s
     assert.equal(cart.getCart().length, 4, 'Supplied keys cannot merge different variants');
     const key = cart.getCart()[0].key;
     const before = JSON.stringify(cart.getCart());
-    for (const qty of [0, -1, 1.5, NaN, Infinity, '', null, true, [], [1], {}, Number.MAX_SAFE_INTEGER + 1]) {
+    for (const qty of [0, -1, 1.5, Number.NaN, Infinity, '', null, true, [], [1], {}, Number.MAX_SAFE_INTEGER + 1]) {
       cart.addToCart({ ...product, qty });
       cart.updateQty(key, qty);
       assert.equal(JSON.stringify(cart.getCart()), before, `Invalid quantity: ${String(qty)}`);

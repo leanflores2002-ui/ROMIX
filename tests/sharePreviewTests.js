@@ -82,7 +82,9 @@ async function checkGeneratedPreview(product, section) {
 
 function checkSingleClientShareUrl() {
   const productHtml = read('frontend/public/product.html');
-  const shareFunction = productHtml.match(/function buildShareUrl\(product\)\s*\{[\s\S]*?\n\s*\}/)?.[0] || '';
+  const start = productHtml.indexOf('function buildShareUrl(product) {');
+  const end = productHtml.indexOf('function buildShareMessageBody', start);
+  const shareFunction = start >= 0 && end > start ? productHtml.slice(start, end) : '';
   assert(shareFunction.includes('share/${encodeURIComponent(slug)}/'), 'Client share URL must target the generated OG page');
   assert(/waBtn\.href\s*=\s*`https:\/\/wa\.me\/\?text=\$\{encodeURIComponent\(shareText\)\}`/.test(productHtml), 'WhatsApp must use the shared URL text');
   assert(/navigator\.share\(\{[^}]*text:\s*shareText/.test(productHtml), 'Native share must send the product, prices and URL together as text');

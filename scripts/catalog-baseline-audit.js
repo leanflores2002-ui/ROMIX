@@ -5,7 +5,10 @@ const { execFileSync } = require('node:child_process');
 const root = path.resolve(__dirname, '..');
 const file = 'frontend/public/assets/data/products.json';
 const from = '94bf2e088dbef8f1d44fee19d67b94de8b808809';
-const git = args => execFileSync('git', args, { cwd: root, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 }).trim();
+const gitExecutable = process.platform === 'win32'
+  ? String.raw`C:\Program Files\Git\cmd\git.exe`
+  : '/usr/bin/git';
+const git = args => execFileSync(gitExecutable, args, { cwd: root, encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 }).trim();
 const read = revision => JSON.parse(git(['show', `${revision}:${file}`]));
 function compare(before, after) {
   const a = new Map(before.map(p => [p.name, p]));

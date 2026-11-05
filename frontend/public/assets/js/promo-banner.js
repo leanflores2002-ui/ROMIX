@@ -31,7 +31,7 @@
     const card = document.createElement('a');
     card.className = 'promo-card';
     card.href = 'catalogo.html?view=novedades';
-    card.setAttribute('aria-label', product && product.name ? product.name : 'Ver novedades');
+    card.setAttribute('aria-label', product?.name ? product.name : 'Ver novedades');
 
     const media = document.createElement('div');
     media.className = 'promo-card__media';
@@ -40,7 +40,7 @@
     img.decoding = 'async';
     img.width = cardImageSize.width;
     img.height = cardImageSize.height;
-    img.alt = product && product.name ? product.name : 'Producto';
+    img.alt = product?.name ? product.name : 'Producto';
     img.src = getProductImage(product) || '';
     media.appendChild(img);
 
@@ -55,7 +55,7 @@
     meta.className = 'promo-card__meta';
     const name = document.createElement('h3');
     name.className = 'promo-card__name';
-    name.textContent = product && product.name ? product.name : 'Producto destacado';
+    name.textContent = product?.name ? product.name : 'Producto destacado';
     meta.appendChild(name);
     card.appendChild(meta);
     return card;
@@ -128,7 +128,7 @@
       const firstCard = track.querySelector('.promo-card');
       if (!firstCard) return;
       const style = window.getComputedStyle(track);
-      const gap = parseFloat(style.gap || style.columnGap || '0') || 0;
+      const gap = Number.parseFloat(style.gap || style.columnGap || '0') || 0;
       const cardWidth = firstCard.getBoundingClientRect().width;
       const step = cardWidth + gap;
       const itemsPerPage = Math.max(1, Math.floor(viewport.clientWidth / step));

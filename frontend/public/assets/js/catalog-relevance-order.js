@@ -234,8 +234,9 @@
       .map(entry => entry.item);
   }
 
-  window.applyCatalogRelevanceOrder = applyCatalogRelevanceOrder;
-  window.RECOMMENDED_ORDER = RECOMMENDED_ORDER;
-  window.normalizeRecommendedCategory = normalizeRecommendedCategory;
-  window.recommendedSort = recommendedSort;
+  const target = typeof module === 'object' && module.exports ? module.exports : window;
+  target.applyCatalogRelevanceOrder = applyCatalogRelevanceOrder;
+  target.RECOMMENDED_ORDER = RECOMMENDED_ORDER;
+  target.normalizeRecommendedCategory = normalizeRecommendedCategory;
+  target.recommendedSort = recommendedSort;
 })();

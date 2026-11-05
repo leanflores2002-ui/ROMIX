@@ -390,21 +390,11 @@
       font-size:1.18rem;
     }
     .size-guide-table-wrap {
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:thin;
-      scrollbar-color:#e8ccd8 transparent;
-    }
-    .size-guide-table-wrap::-webkit-scrollbar {
-      height:8px;
-    }
-    .size-guide-table-wrap::-webkit-scrollbar-thumb {
-      background:#e8ccd8;
-      border-radius:999px;
+      min-width:0;
     }
     .size-guide-table {
       width:100%;
-      min-width:440px;
+      table-layout:fixed;
       border-collapse:separate;
       border-spacing:0;
       border:1px solid #f0d9e2;
@@ -898,12 +888,11 @@
         margin:0 -2px;
         padding-bottom:6px;
       }
-      .size-guide-table { min-width:360px; }
       .size-guide-table th,
       .size-guide-table td {
-        padding:10px 11px;
+        padding:10px 5px;
         font-size:.88rem;
-        white-space:nowrap;
+        overflow-wrap:anywhere;
       }
       .size-guide-visual {
         min-height:280px;
@@ -960,12 +949,13 @@
         height:36px;
         border-radius:12px;
       }
-      .size-guide-table { min-width:330px; }
+      .size-guide-table { min-width:0; }
       .size-guide-table th,
       .size-guide-table td {
-        font-size:.84rem;
-        padding:9px 10px;
+        font-size:.8rem;
+        padding:9px 3px;
       }
+      .size-guide-table th { font-size:.74rem; }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
@@ -987,7 +977,8 @@
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-help.css?v=23" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=25" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=26" />
+  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=4" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/romix-analytics.js?v=3"></script>
@@ -1022,7 +1013,7 @@
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
       <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
       <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
-      <a class="cart-pill" href="cart.html" aria-label="Carrito de compras">
+      <a class="cart-pill" href="cart.html" aria-label="Carrito de compras" aria-controls="romix-cart-drawer" aria-expanded="false">
         <span class="cart-pill__icon" aria-hidden="true"><span data-romix-icon="ShoppingCart" data-romix-icon-size="md"></span></span>
         <span class="cart-pill__text"><strong>Carrito</strong></span>
         <span class="icon-badge" id="cart-count" aria-hidden="true">0</span>
@@ -1052,19 +1043,23 @@
         <div class="romix-search-shell">
           <div class="romix-search-input-wrap">
             <span class="romix-search-icon" aria-hidden="true"></span>
-            <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" aria-expanded="false" autocomplete="off" />
+            <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" autocomplete="off" />
             <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span data-romix-icon="X" data-romix-icon-size="sm"></span></button>
           </div>
           <button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
-          <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
-          <div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>
+          <p class="romix-search-status" id="romix-search-status" aria-live="polite" aria-atomic="true"></p>
+          <section class="romix-search-overlay" id="romix-search-results" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></section>
         </div>
       </form>
     </div>
   </div>
 </header>
 <script src="assets/js/romix-icons.js?v=19"></script>
+  <script src="assets/js/romix-product-card.js?v=3"></script>
+  <script src="assets/js/romix-pricing.js?v=21"></script>
+  <script src="assets/js/romix-cart-recommendations.js?v=3"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
+
 
   <main class="container help-page" id="main">
     <section class="help-hero" aria-labelledby="help-title">
@@ -1171,10 +1166,10 @@
             <div class="size-item-panel" id="tab-mujer-pantalones" role="tabpanel" aria-labelledby="tab-button-mujer-pantalones" data-tab-panel="pantalones">
           <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Cintura</th><th>B Cadera</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>74-78</td><td>98-102</td><td>109</td></tr>
@@ -1198,10 +1193,10 @@
             <div class="size-item-panel" id="tab-mujer-superiores" role="tabpanel" aria-labelledby="tab-button-mujer-superiores" data-tab-panel="superiores" hidden>
           <section class="size-guide-block">
             <h3>Camperas, Buzos y Remeras</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Busto</th><th>B Cintura</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>92-96</td><td>88-92</td><td>61</td></tr>
@@ -1234,10 +1229,10 @@
             <div class="size-item-panel" id="tab-hombre-pantalones" role="tabpanel" aria-labelledby="tab-button-hombre-pantalones" data-tab-panel="pantalones">
           <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Cintura</th><th>B Cadera</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>74-78</td><td>112-116</td><td>104</td></tr>
@@ -1261,10 +1256,10 @@
             <div class="size-item-panel" id="tab-hombre-superiores" role="tabpanel" aria-labelledby="tab-button-hombre-superiores" data-tab-panel="superiores" hidden>
           <section class="size-guide-block">
             <h3>Camperas, Buzos y Remeras</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Busto</th><th>B Cintura</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>1</td><td>104-108</td><td>100-104</td><td>66</td></tr>
@@ -1297,10 +1292,10 @@
             <div class="size-item-panel" id="tab-ninos-pantalones" role="tabpanel" aria-labelledby="tab-button-ninos-pantalones" data-tab-panel="pantalones">
           <section class="size-guide-block">
             <h3>Pantalones y Calzas</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Cintura)</th><th>B (Cadera)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Cintura</th><th>B Cadera</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>6</td><td>54-56</td><td>62-64</td><td>70</td></tr>
@@ -1322,10 +1317,10 @@
             <div class="size-item-panel" id="tab-ninos-superiores" role="tabpanel" aria-labelledby="tab-button-ninos-superiores" data-tab-panel="superiores" hidden>
           <section class="size-guide-block">
             <h3>Camperas, Buzos y Remeras</h3>
-            <div class="size-guide-table-wrap" tabindex="0" role="region" aria-label="Tabla de talles">
+            <div class="size-guide-table-wrap">
               <table class="size-guide-table">
                 <thead>
-                  <tr><th>Talle</th><th>A (Busto)</th><th>B (Cintura)</th><th>C (Largo total)</th></tr>
+                  <tr><th>Talle</th><th>A Busto</th><th>B Cintura</th><th>C Largo total</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>6</td><td>62-64</td><td>54-56</td><td>45</td></tr>
@@ -1587,7 +1582,7 @@
     <h2 id="cookie-consent-title">Cookies de analítica</h2>
     <p>Google Analytics usa cookies para medir visitas, solo si aceptás. Cambiá tu elección desde el pie. <a class="cookie-privacy-link" href="/privacidad.html">Privacidad</a>.</p>
   </div>
-  <p id="cookie-consent-status" role="status" aria-live="polite"></p>
+  <p id="cookie-consent-status" aria-live="polite"></p>
   <div class="cookie-consent__actions">
     <button type="button" id="cookie-reject" aria-label="Rechazar analítica">Rechazar</button>
     <button type="button" id="cookie-accept" aria-label="Aceptar analítica">Aceptar</button>
@@ -1596,7 +1591,8 @@
 <script defer src="/assets/js/cookie-consent.js?v=1"></script>
 <!-- ROMIX:SHELL:FOOTER:END -->
 
-  <script src="assets/js/cart.js?v=20"></script>
+
+  <script src="assets/js/cart.js?v=22"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (window.romixCart) window.romixCart.updateBadge();
@@ -1727,7 +1723,7 @@
       }
     });
   </script>
-  <script src="assets/js/romix-pricing.js?v=19"></script>
+  <script src="assets/js/romix-pricing.js?v=21"></script>
   <script src="assets/js/romix-header.js?v=20"></script>
   <romix-toast></romix-toast>
   <script type="module" src="assets/js/ts/main.js?v=19"></script>

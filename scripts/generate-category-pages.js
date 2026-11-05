@@ -6,6 +6,24 @@ const {productSlug, detailHref, escapeHtml} = require('./generate-share-pages');
 const publicDir = path.resolve(__dirname, '../frontend/public');
 const cardTemplate = fs.readFileSync(path.resolve(__dirname, '../frontend/src/templates/partials/category-card.html'), 'utf8');
 
+function normalizeColorKey(value) {
+  return String(value || '').trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ');
+}
+
+function uniqueColorEntries(colors) {
+  if (!Array.isArray(colors)) return [];
+  const seen = new Set();
+  return colors.filter((color, index) => {
+    const key = normalizeColorKey(color && (color.name || color.value || color.color || color.slug))
+      || String(color && (color.id || color.colorId || color.variantId || color.variant_id) || '').trim().toLowerCase()
+      || normalizeColorKey(color && (color.image || color.thumbnail || color.thumb))
+      || `index:${index}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function renderCategory(category, catalogHtml, products, origin) {
   const list = publicProducts(products, category.key);
   const cards = renderCards(list);
@@ -29,8 +47,65 @@ function renderCards(list) {
   return list.map(product => {
     const thumbnail = imageUtils.getThumbPath(product.image);
     const image = fs.existsSync(path.join(publicDir, thumbnail)) ? thumbnail : product.image;
-    const fields = {DETAIL: detailHref(product, productSlug(product)), NAME: product.name, IMAGE: image, TYPE: product.type || ''};
-    return cardTemplate.replace(/%%([A-Z]+)%%/g, (_, key) => escapeHtml(fields[key]));
+    const priceValues = product.priceByGroup && typeof product.priceByGroup === 'object'
+      ? Object.values(product.priceByGroup).map(Number).filter(value => Number.isFinite(value) && value > 0)
+      : [];
+    const uniquePrices = [...new Set(priceValues)].sort((a, b) => a - b);
+    const price = uniquePrices.length > 1
+      ? `Desde $${uniquePrices[0].toLocaleString('es-AR')}`
+      : `$${Number(product.price || uniquePrices[0] || 0).toLocaleString('es-AR')}`;
+    const priceEntries = product.priceByGroup && typeof product.priceByGroup === 'object'
+      ? Object.entries(product.priceByGroup)
+        .map(([key, value]) => ({key, value: Number(value)}))
+        .filter(entry => Number.isFinite(entry.value) && entry.value > 0)
+        .sort((a, b) => a.value - b.value)
+      : [];
+    const priceNote = uniquePrices.length > 1
+      ? priceEntries.map(({key, value}) => {
+        const secondSizes = Array.isArray(product.specialSizes2) && product.specialSizes2.length
+          ? product.specialSizes2
+          : product.superSpecialSizes;
+        const special = key === 'special' ? product.specialSizes : key === 'special2' ? secondSizes : null;
+        const sizes = Array.isArray(special)
+          ? special.map(size => String(size && typeof size === 'object' ? size.size || size.label : size).trim()).filter(Boolean)
+          : [];
+        const sizeText = key === 'special2' && sizes.length > 1
+          ? sizes.slice(0, -1).join(', ') + ' y ' + sizes[sizes.length - 1]
+          : sizes.join(', ');
+        const label = sizeText
+          ? (key === 'special2' && sizes.length === 1 ? 'Talle ' : 'Talles ') + sizeText
+          : key === 'common' ? 'Talles comunes'
+            : key === 'special2' ? 'Otros talles'
+              : key === 'special' ? 'Talles especiales' : key;
+        return label + ': ' + String.fromCharCode(36) + value.toLocaleString('es-AR');
+      }).join(' · ')
+      : '';
+    const colors = uniqueColorEntries(product.colors);
+    const variants = colors.length
+      ? colors.map((color, index) => {
+        const source = color && (color.thumb || color.thumbnail || color.image);
+        const thumb = imageUtils.getThumbPath(source || product.image);
+        const fallback = fs.existsSync(path.join(publicDir, thumb)) ? thumb : (color && color.image) || product.image;
+        const label = escapeHtml((color && color.name) || `Variante ${index + 1}`);
+        const deferred = index >= 4;
+        return `<button type="button" class="product-variant-thumb${index === 0 ? ' is-active' : ''}" data-variant-index="${index}" data-variant-src="${escapeHtml(fallback)}" data-variant-main-src="${escapeHtml(fallback)}" aria-label="Ver variante ${label}" aria-pressed="${index === 0 ? 'true' : 'false'}" aria-current="${index === 0 ? 'true' : 'false'}"${deferred ? ' hidden aria-hidden="true" tabindex="-1"' : ''}>${deferred ? '' : `<img src="${escapeHtml(fallback)}" alt="${label}" width="96" height="128" loading="lazy" decoding="async" />`}</button>`;
+      }).join('') : '';
+    const more = colors.length > 1
+      ? `<button type="button" class="product-variant-more" aria-expanded="false" aria-label="Hay ${Math.max(0, colors.length - 4)} variantes adicionales">+${Math.max(0, colors.length - 4)}</button>` : '';
+    const colorCount = colors.length;
+    const colorCountMarkup = colorCount > 0
+      ? `<p class="product-color-count"><span data-romix-icon="Palette" data-romix-icon-size="sm" aria-hidden="true"></span><span>${colorCount}${colorCount === 1 ? ' color disponible' : ' colores disponibles'}</span></p>`
+      : '';
+    const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
+    const fields = {
+      DETAIL: detailHref(product, productSlug(product)),
+      NAME: product.name, IMAGE: image, PRICE: price,
+      BADGE: badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '',
+      VARIANTS: variants || more ? '<div class="product-variant-thumbs" aria-label="Variantes fotográficas">' + variants + more + '</div>' : '',
+      PRICE_NOTE: priceNote ? '<span class="romix-price-range-note">' + escapeHtml(priceNote) + '</span>' : '',
+      COLOR_COUNT: colorCountMarkup
+    };
+    return cardTemplate.replace(/%%([A-Z_]+)%%/g, (_, key) => ['BADGE', 'VARIANTS', 'PRICE_NOTE', 'COLOR_COUNT'].includes(key) ? fields[key] : escapeHtml(fields[key] || ''));
   }).join('\n');
 }
 function renderCatalog(html) {

@@ -733,7 +733,8 @@
   </style>
   <link rel="stylesheet" href="assets/css/romix-minimal-theme.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
-  <link rel="stylesheet" href="assets/css/romix-header.css?v=25" />
+  <link rel="stylesheet" href="assets/css/romix-header.css?v=26" />
+  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=4" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/romix-analytics.js?v=3"></script>
@@ -768,12 +769,29 @@
           </aside>
         </div>
       </div>
+
+      <section id="cart-recommendations" class="cart-recommendations" aria-labelledby="cart-recommendations-title" hidden>
+        <div class="cart-recommendations__header">
+          <h2 id="cart-recommendations-title" class="cart-recommendations__title">Te puede interesar</h2>
+        </div>
+        <div class="cart-recommendations__track">
+          <button id="cart-recommendations-prev" class="romix-icon-btn cart-recommendations__nav cart-recommendations__nav--prev" type="button" aria-label="Ver recomendaciones anteriores" aria-controls="cart-recommendations-list">
+            <span data-romix-icon="ChevronLeft" data-romix-icon-size="sm" aria-hidden="true"></span>
+          </button>
+          <div class="cart-recommendations__viewport">
+            <div id="cart-recommendations-list" class="cart-recommendations__list" aria-live="polite"></div>
+          </div>
+          <button id="cart-recommendations-next" class="romix-icon-btn cart-recommendations__nav cart-recommendations__nav--next" type="button" aria-label="Ver recomendaciones siguientes" aria-controls="cart-recommendations-list">
+            <span data-romix-icon="ChevronRight" data-romix-icon-size="sm" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
     </div>
   </div>
 <!-- ROMIX:INCLUDE:FOOTER -->
   <script src="assets/js/romix-image-utils.js?v=21"></script>
     <script src="assets/js/color-utils.js?v=19"></script>
-  <script src="assets/js/cart.js?v=20"></script>
+  <script src="assets/js/cart.js?v=22"></script>
   <script>
     // Correccion basica de textos mal decodificados
     (function(){
@@ -901,7 +919,7 @@
 
     function renderSuccessState() {
       return `
-        <div class="post-order-state" role="status" aria-live="polite">
+        <div class="post-order-state" aria-live="polite">
           <div class="post-order-state__details">
             <span class="post-order-state__icon" aria-hidden="true">${window.romixIcon("Check", { size: "md" })}</span>
             <div>
@@ -1162,7 +1180,7 @@
   </script>
 
   <script src="assets/js/inventory.js?v=19"></script>
-  <script src="assets/js/romix-pricing.js?v=19"></script>
+  <script src="assets/js/romix-pricing.js?v=21"></script>
   <script src="assets/js/romix-header.js?v=20"></script>
   <romix-toast></romix-toast>
   <script type="module" src="assets/js/ts/main.js?v=19"></script>

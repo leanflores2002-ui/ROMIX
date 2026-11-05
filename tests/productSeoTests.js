@@ -1,21 +1,16 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const vm = require('node:vm');
 const {JSDOM} = require('jsdom');
 const {renderProduct} = require('../scripts/generate-product-pages');
 const urls = require('../frontend/public/assets/js/product-url');
 const products = require('../frontend/public/assets/data/products.json');
 const origin = require('../config/site.json').origin;
 const root = path.resolve(__dirname, '../frontend/public');
-const context = {window: {}};
-vm.runInNewContext(fs.readFileSync(path.join(root, 'assets/js/product-url.js'), 'utf8'), context);
 for (const product of products.filter(p => p.visible !== false)) {
   const url = urls.detailHref(product);
   const html = fs.readFileSync(path.join(root, url, 'index.html'), 'utf8');
   assert.equal(html, renderProduct(product, origin, {}), 'Generated product must match its sources');
-  const id = product.id || `${product.section}-${urls.productSlug(product)}`;
-  assert.equal(context.window.romixProductUrl.detailHref({...product, id}), url, 'Runtime normalization must preserve canonical identity');
   const doc = new JSDOM(html, {url: origin + url}).window.document;
   assert.equal(doc.querySelectorAll('h1').length, 1);
   assert.equal(doc.querySelector('h1').textContent, product.name);

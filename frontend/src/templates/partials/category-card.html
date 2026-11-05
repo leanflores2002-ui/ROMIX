@@ -1,10 +1,13 @@
-<article class="product-card">
+<article class="product-card romix-product-card">
   <a class="product-thumb" href="%%DETAIL%%" aria-label="Ver %%NAME%%">
     <img src="%%IMAGE%%" alt="%%NAME%%" width="720" height="960" loading="lazy" decoding="async" />
+%%BADGE%%
   </a>
   <div class="product-body">
     <a class="product-name" href="%%DETAIL%%">%%NAME%%</a>
-    <p class="product-meta">%%TYPE%%</p>
-    <a class="catalog-cta romix-btn romix-btn--outline romix-btn--sm" href="%%DETAIL%%">Ver talles y colores</a>
+    <div class="price-row"><div class="romix-price-display"><span class="romix-price-primary"><span class="product-price romix-price-current">%%PRICE%%</span></span>%%PRICE_NOTE%%</div></div>
+%%COLOR_COUNT%%
+%%VARIANTS%%
+    <a class="catalog-cta romix-btn romix-btn--primary romix-btn--sm" href="%%DETAIL%%"><span data-romix-icon="ShoppingBag" data-romix-icon-size="sm" aria-hidden="true"></span><span>Ver producto</span></a>
   </div>
 </article>

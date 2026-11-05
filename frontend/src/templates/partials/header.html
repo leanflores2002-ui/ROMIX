@@ -26,7 +26,7 @@
     <div class="header-icons" aria-label="Acciones r&aacute;pidas">
       <button class="icon-btn romix-icon-btn header-search-desktop" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
       <button class="icon-btn romix-icon-btn header-search-mobile" type="button" data-search-toggle="true" aria-label="Abrir buscador" aria-controls="header-search" aria-expanded="false"><span data-romix-icon="Search" data-romix-icon-size="md"></span></button>
-      <a class="cart-pill" href="cart.html" aria-label="Carrito de compras">
+      <a class="cart-pill" href="cart.html" aria-label="Carrito de compras" aria-controls="romix-cart-drawer" aria-expanded="false">
         <span class="cart-pill__icon" aria-hidden="true"><span data-romix-icon="ShoppingCart" data-romix-icon-size="md"></span></span>
         <span class="cart-pill__text"><strong>Carrito</strong></span>
         <span class="icon-badge" id="cart-count" aria-hidden="true">0</span>
@@ -56,16 +56,19 @@
         <div class="romix-search-shell">
           <div class="romix-search-input-wrap">
             <span class="romix-search-icon" aria-hidden="true"></span>
-            <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" aria-expanded="false" autocomplete="off" />
+            <input type="search" name="q" placeholder="Encontr&aacute; lo que busc&aacute;s" aria-label="Buscar productos" aria-controls="romix-search-results" autocomplete="off" />
             <button class="romix-icon-btn romix-search-clear" type="button" aria-label="Limpiar b&uacute;squeda" hidden><span data-romix-icon="X" data-romix-icon-size="sm"></span></button>
           </div>
           <button class="romix-search-cancel" type="button" aria-label="Cerrar b&uacute;squeda">Cancelar</button>
-          <p class="romix-search-status" id="romix-search-status" role="status" aria-live="polite" aria-atomic="true"></p>
-          <div class="romix-search-overlay" id="romix-search-results" role="region" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></div>
+          <p class="romix-search-status" id="romix-search-status" aria-live="polite" aria-atomic="true"></p>
+          <section class="romix-search-overlay" id="romix-search-results" aria-label="Resultados de b&uacute;squeda" aria-describedby="romix-search-status"></section>
         </div>
       </form>
     </div>
   </div>
 </header>
 <script src="assets/js/romix-icons.js?v=19"></script>
+  <script src="assets/js/romix-product-card.js?v=3"></script>
+  <script src="assets/js/romix-pricing.js?v=21"></script>
+  <script src="assets/js/romix-cart-recommendations.js?v=3"></script>
 <!-- ROMIX:SHELL:HEADER:END -->

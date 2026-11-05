@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const {prepareSocialImage, hash} = require('./social-images');
 
 const ROOT_DIR = path.resolve(__dirname, "..");
@@ -33,24 +33,24 @@ function slugify(value) {
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "producto";
+    .replace(/^-|-$/g, "") || "producto";
 }
 
 const {productSlug, detailHref} = require('../frontend/public/assets/js/product-url');
 
 function escapeHtml(value) {
   return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function normalizePath(value) {
   const raw = String(value || "").trim();
   if (!raw) return "";
-  return raw.replace(/\\/g, "/");
+  return raw.replaceAll("\\", "/");
 }
 
 function encodePathForMeta(value) {
@@ -76,9 +76,9 @@ function absoluteUrl(value, siteUrl = deploymentSiteUrl()) {
 }
 
 function productImage(product) {
-  const direct = encodePathForMeta(product && product.image);
+  const direct = encodePathForMeta(product?.image);
   if (direct) return direct;
-  if (product && product.images && typeof product.images === "object") {
+  if (product?.images && typeof product.images === "object") {
     const entries = Array.isArray(product.images) ? product.images : Object.values(product.images);
     const first = entries.find((entry) => String(entry || "").trim());
     if (first) return encodePathForMeta(first);
@@ -94,9 +94,9 @@ function productDescription(product) {
 
 function productDetailsDescription(product) {
   const candidates = [
-    product && product.description,
-    product && product.desc,
-    product && product.subtitle
+    product?.description,
+    product?.desc,
+    product?.subtitle
   ];
   const first = candidates.find((entry) => String(entry || "").trim());
   if (!first) {
@@ -108,7 +108,7 @@ function productDetailsDescription(product) {
 }
 
 function productTitle(product) {
-  const name = String((product && product.name) || "Producto ROMIX").trim();
+  const name = String((product?.name) || "Producto ROMIX").trim();
   return `${name} | ROMIX`;
 }
 

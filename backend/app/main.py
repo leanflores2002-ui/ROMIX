@@ -196,7 +196,7 @@ def load_variants(force: bool = False) -> dict:
             data = json.loads(path.read_text(encoding="utf-8") or "[]")
         else:
             data = build_variants_from_products(load_products())
-            path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+            persist_variants(data)
         _variants = {}
         for v in data:
             key = (

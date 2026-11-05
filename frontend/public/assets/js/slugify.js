@@ -17,12 +17,12 @@
         .replace(/\p{Diacritic}+/gu,'')
         .toLowerCase()
         .replace(/[^a-z0-9]+/g,'-')
-        .replace(/^-+|-+$/g,'');
+        .replace(/^-|-$/g,'');
     } catch {
       return clean
         .toLowerCase()
         .replace(/[^a-z0-9]+/g,'-')
-        .replace(/^-+|-+$/g,'');
+        .replace(/^-|-$/g,'');
     }
   }
 

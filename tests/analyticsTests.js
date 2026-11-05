@@ -37,8 +37,8 @@ assert.equal(events[2][2].value, 30000);
 assert.ok(!JSON.stringify(events).includes('private'));
 assert.ok(!events.some(entry => entry[1] === 'purchase'), 'A WhatsApp consultation is not a confirmed purchase');
 for (const entry of events) {
-  assert.deepEqual(Object.keys(entry[2]).sort(), ['currency', 'items', 'value']);
-  for (const item of entry[2].items) assert.deepEqual(Object.keys(item).sort(), ['item_brand', 'item_category', 'item_id', 'item_name', 'price', 'quantity']);
+  assert.deepEqual(Object.keys(entry[2]).sort((a, b) => a.localeCompare(b)), ['currency', 'items', 'value']);
+  for (const item of entry[2].items) assert.deepEqual(Object.keys(item).sort((a, b) => a.localeCompare(b)), ['item_brand', 'item_category', 'item_id', 'item_name', 'price', 'quantity']);
 }
 const key = 'romix.analytics-consent.v1';
 for (const choice of [null, 'rejected', 'invalid']) {

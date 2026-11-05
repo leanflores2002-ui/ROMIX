@@ -23,20 +23,28 @@
   function fileToken(value) {
     return normalizeText(value)
       .replace(/[^a-z0-9]+/g, '_')
-      .replace(/^_+|_+$/g, '');
+      .replace(/^_|_$/g, '');
   }
 
   function cleanPath(value) {
     return String(value || '').trim().split(/[?#]/)[0];
   }
 
+  function stripSlashes(value) {
+    let start = 0;
+    let end = value.length;
+    while (start < end && value[start] === '/') start++;
+    while (end > start && value[end - 1] === '/') end--;
+    return value.slice(start, end);
+  }
+
   function deriveColorImage(product, colorName) {
     if (!product || !product.imageBase) return '';
-    const base = String(product.imageBase || '').trim().replace(/^\/+|\/+$/g, '');
+    const base = stripSlashes(String(product.imageBase || '').trim());
     const color = fileToken(colorName);
     if (!base || !color) return '';
     const ext = String(product.imageExt || 'webp').trim().replace(/^\./, '') || 'webp';
-    const dir = String(product.imageDir || 'images/products').trim().replace(/^\/+|\/+$/g, '') || 'images/products';
+    const dir = stripSlashes(String(product.imageDir || 'images/products').trim()) || 'images/products';
     return `${dir}/${base}_${color}.${ext}`;
   }
 
@@ -56,7 +64,7 @@
     if (direct) return direct;
 
     const colorName = String(source.name || source.value || '').trim();
-    const imageMap = product && product.imageMap && typeof product.imageMap === 'object' && !Array.isArray(product.imageMap)
+    const imageMap = product?.imageMap && typeof product.imageMap === 'object' && !Array.isArray(product.imageMap)
       ? product.imageMap
       : null;
     if (imageMap && colorName) {
@@ -69,11 +77,11 @@
     const derived = deriveColorImage(product, colorName);
     if (derived) return derived;
 
-    if (Array.isArray(product && product.images) && product.images[index]) {
+    if (Array.isArray(product?.images) && product.images[index]) {
       return cleanPath(product.images[index]);
     }
 
-    return cleanPath(product && product.image);
+    return cleanPath(product?.image);
   }
 
   function normalizeSizes(sizes) {
@@ -149,19 +157,6 @@
     }
 
     return normalized;
-  }
-
-  function seasonKey(product) {
-    const fromSeason = normalizeText(product && product.season).replace(/[^a-z0-9]+/g, '');
-    if (fromSeason.includes('verano')) return 'verano';
-    if (fromSeason.includes('invierno')) return 'invierno';
-    if (fromSeason === 'mediaestacion') return 'media-estacion';
-
-    const fromSeasonKey = normalizeText(product && product.seasonKey).replace(/[^a-z0-9-]+/g, '');
-    if (fromSeasonKey.includes('verano')) return 'verano';
-    if (fromSeasonKey.includes('invierno')) return 'invierno';
-    if (fromSeasonKey.replace(/-/g, '') === 'mediaestacion') return 'media-estacion';
-    return '';
   }
 
   function isVisibleProduct(product) {

@@ -1,7 +1,6 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const vm = require('vm');
 const { JSDOM } = require('jsdom');
 
 const root = path.join(__dirname, '..');
@@ -12,9 +11,7 @@ function readPublic(relativePath) {
 }
 
 function loadRecommendedOrder() {
-  const window = {};
-  vm.runInNewContext(readPublic('assets/js/catalog-relevance-order.js'), { window, Object, Array, String, Number });
-  return window;
+  return require('../frontend/public/assets/js/catalog-relevance-order.js');
 }
 
 function ids(list) {

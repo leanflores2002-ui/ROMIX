@@ -49,6 +49,28 @@ function assertNoOffer(pricing, product, label) {
   assert(display.querySelector('.romix-price-original').textContent.includes('$30.534'), 'old price must use AR formatting');
   assert(display.querySelector('.romix-savings-label').textContent === 'Ahorrás $12.518', 'savings must use AR formatting');
 
+  const groupedProduct = {
+    price: 7000,
+    priceByGroup: {common: 7000, special: 7800, special2: 8300},
+    specialSizes: [6, 7, 8],
+    specialSizes2: [],
+    superSpecialSizes: [9, 10]
+  };
+  const groupedNote = pricing.createCardPriceDisplay(groupedProduct)
+    .querySelector('.romix-price-range-note').textContent;
+  assert(groupedNote.includes('Talles 9 y 10: $8.300'), 'Las cards deben nombrar los talles reales del segundo grupo');
+  assert(!groupedNote.includes('special2'), 'Las cards no deben mostrar claves internas de precios');
+
+  const childProduct = {
+    price: 4500,
+    priceByGroup: {common: 4500, special: 5000, special2: 5000},
+    specialSizes: [12, 14, 16],
+    superSpecialSizes: [18]
+  };
+  const childNote = pricing.createCardPriceDisplay(childProduct)
+    .querySelector('.romix-price-range-note').textContent;
+  assert(childNote.includes('Talle 18: $5.000'), 'El segundo grupo debe respetar otros talles declarados');
+
   const apiShape = pricing.getSaleInfo({ base_price: '18016', compare_at_price: '30534' });
   assert(apiShape.isOnSale && apiShape.discountPercent === 41, 'API snake_case aliases must be supported');
 

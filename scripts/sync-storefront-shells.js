@@ -26,7 +26,7 @@ function renderPage(page, sourceDir = templateDir) {
 
 function main() {
   const cssDir = path.join(publicDir, "assets", "css");
-  const homeStyles = ["romix-design-system.css", "romix-home-pro.css", "romix-minimal-theme.css", "romix-pricing.css", "romix-header.css"];
+  const homeStyles = ["romix-design-system.css", "romix-home-pro.css", "romix-minimal-theme.css", "romix-pricing.css", "romix-header.css", "romix-product-card.css"];
   fs.writeFileSync(path.join(cssDir, "romix-home-bundle.css"), homeStyles.map(file => fs.readFileSync(path.join(cssDir, file), "utf8")).join("\n"));
   // Render every page before writing, so invalid templates leave the output intact.
   const rendered = pages.map(page => ({page, html: renderPage(page)}));

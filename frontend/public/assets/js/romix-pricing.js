@@ -34,6 +34,75 @@
     return arguments.length > 1 ? toAmount(override) : firstAmount(product, CURRENT_PRICE_FIELDS);
   }
 
+  function normalizeSizeValue(value) {
+    if (value && typeof value === "object") {
+      return String(value.size ?? value.value ?? value.label ?? "").trim();
+    }
+    return String(value ?? "").trim();
+  }
+
+  function sizeListIncludes(sizeList, sizeValue) {
+    if (!Array.isArray(sizeList) || !sizeList.length) return false;
+    const rawTarget = normalizeSizeValue(sizeValue);
+    const numericTarget = Number(rawTarget);
+    const isNumericTarget = rawTarget !== "" && !Number.isNaN(numericTarget);
+
+    return sizeList.some((entry) => {
+      const current = normalizeSizeValue(entry);
+      if (!current) return false;
+      if (isNumericTarget) {
+        const currentNumber = Number(current);
+        if (!Number.isNaN(currentNumber)) return currentNumber === numericTarget;
+      }
+      return current.toUpperCase() === rawTarget.toUpperCase();
+    });
+  }
+
+  function fallbackPriceGroup(sizeValue, productSection) {
+    const sizeNum = Number(sizeValue);
+    const section = String(productSection || "")
+      .normalize("NFD")
+      .replace(/\p{Diacritic}+/gu, "")
+      .toLowerCase();
+    if (section === "mujer" || section === "hombre") {
+      if (sizeNum >= 1 && sizeNum <= 5) return "common";
+      if (sizeNum >= 6 && sizeNum <= 8) return "special";
+      if (sizeNum === 9 || sizeNum === 10) return "special2";
+    }
+    if (section === "ninos" || section === "nino") {
+      if ([2, 4, 6, 8, 10].includes(sizeNum)) return "common";
+      if ([12, 14, 16].includes(sizeNum)) return "special";
+    }
+    return null;
+  }
+
+  function getPriceGroupForSize(product, sizeValue) {
+    const priceByGroup = product?.priceByGroup;
+    if (priceByGroup && typeof priceByGroup === "object") {
+      const specialSizes2 = Array.isArray(product.specialSizes2) && product.specialSizes2.length
+        ? product.specialSizes2
+        : product.superSpecialSizes;
+      if (sizeListIncludes(specialSizes2, sizeValue) && priceByGroup.special2 != null) return "special2";
+      if (sizeListIncludes(product.specialSizes, sizeValue) && priceByGroup.special != null) return "special";
+
+      const hasDeclaredSpecialGroups = Array.isArray(product.specialSizes) || Array.isArray(specialSizes2);
+      if (hasDeclaredSpecialGroups && priceByGroup.common != null) return "common";
+
+      const groupKeys = Object.keys(priceByGroup);
+      if (groupKeys.length === 1 && groupKeys[0] === "common") return "common";
+    }
+    return fallbackPriceGroup(sizeValue, product?.section);
+  }
+
+  function getPriceForSize(product, sizeValue) {
+    const base = getCurrentPrice(product);
+    const group = getPriceGroupForSize(product, sizeValue);
+    const groupPrice = group && product?.priceByGroup && typeof product.priceByGroup === "object"
+      ? product.priceByGroup[group]
+      : null;
+    return groupPrice != null && toAmount(groupPrice) > 0 ? toAmount(groupPrice) : base;
+  }
+
   function getOriginalPrice(product) {
     return firstAmount(product, ORIGINAL_PRICE_FIELDS);
   }
@@ -87,6 +156,71 @@
     const amount = toAmount(value);
     if (!amount) return "";
     return currencyFormatter.format(amount).replace(/\$\s+/u, "$");
+  }
+
+  function formatSizeLabel(values, useConjunction) {
+    const sizes = Array.isArray(values)
+      ? values.map((value) => value && typeof value === "object" ? value.size || value.label : value)
+        .map((value) => String(value == null ? "" : value).trim())
+        .filter(Boolean)
+      : [];
+    if (useConjunction && sizes.length > 1) return sizes.slice(0, -1).join(", ") + " y " + sizes[sizes.length - 1];
+    return sizes.length ? sizes.join(", ") : "";
+  }
+
+  function getCardPriceEntries(product) {
+    const groups = product?.priceByGroup && typeof product.priceByGroup === "object"
+      ? Object.entries(product.priceByGroup)
+        .map(([key, value]) => ({ key, value: toAmount(value) }))
+        .filter((entry) => entry.value > 0)
+      : [];
+    if (!groups.length) {
+      const currentPrice = getCurrentPrice(product);
+      return currentPrice > 0 ? [{ key: "base", value: currentPrice, label: "" }] : [];
+    }
+
+    const entries = groups
+      .sort((a, b) => a.value - b.value)
+      .map((entry) => {
+        let sizes = "";
+        if (entry.key === "special") sizes = formatSizeLabel(product.specialSizes);
+        if (entry.key === "special2") {
+          const secondSizes = Array.isArray(product.specialSizes2) && product.specialSizes2.length
+            ? product.specialSizes2
+            : product.superSpecialSizes;
+          sizes = formatSizeLabel(secondSizes, true);
+        }
+        const label = sizes
+          ? (entry.key === "special2" && !sizes.includes(" y ") ? "Talle " : "Talles ") + sizes
+          : entry.key === "common" ? "Talles comunes"
+            : entry.key === "special2" ? "Otros talles"
+              : entry.key === "special" ? "Talles especiales" : entry.key;
+        return { ...entry, label };
+      });
+    return entries;
+  }
+
+  function createCardPriceDisplay(product, options) {
+    const opts = options || {};
+    const entries = getCardPriceEntries(product);
+    const values = Array.from(new Set(entries.map((entry) => entry.value))).sort((a, b) => a - b);
+    const root = document.createElement(opts.rootTag || "div");
+    if (opts.rootClass) appendClasses(root, opts.rootClass);
+    if (!entries.length) {
+      root.className += " romix-price-display";
+      return root;
+    }
+
+    renderInto(root, product, { ...opts, currentPrice: values[0], variant: "card" });
+    const current = root.querySelector(".romix-price-current");
+    if (current && values.length > 1) current.textContent = "Desde " + formatPrice(values[0]);
+    if (values.length > 1) {
+      const note = document.createElement("span");
+      note.className = "romix-price-range-note";
+      note.textContent = entries.map((entry) => `${entry.label}: ${formatPrice(entry.value)}`).join(" · ");
+      root.appendChild(note);
+    }
+    return root;
   }
 
   function appendClasses(element, value) {
@@ -156,21 +290,24 @@
   }
 
   function createPriceDisplay(product, options) {
-    const container = document.createElement((options && options.rootTag) || "div");
-    if (options && options.rootClass) appendClasses(container, options.rootClass);
-    if (options && options.rootId) container.id = options.rootId;
+    const container = document.createElement((options?.rootTag) || "div");
+    if (options?.rootClass) appendClasses(container, options.rootClass);
+    if (options?.rootId) container.id = options.rootId;
     renderInto(container, product, options);
     return container;
   }
 
   global.romixPricing = Object.freeze({
     getCurrentPrice,
+    getPriceForSize,
     getOriginalPrice,
     getSaleInfo,
     isProductOnSale,
     getDiscountPercent,
     getProductSavings,
     formatPrice,
+    getCardPriceEntries,
+    createCardPriceDisplay,
     renderInto,
     createPriceDisplay
   });

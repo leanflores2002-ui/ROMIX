@@ -131,7 +131,7 @@
         </a>
       </div>
       <div class="products-shell">
-        <button class="romix-icon-btn products-arrow left" type="button" id="productsPrev" aria-label="Ver productos anteriores">
+        <button class="romix-icon-btn products-arrow left" type="button" id="productsPrev" aria-label="Ver productos anteriores" aria-controls="productsRow">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
@@ -139,12 +139,13 @@
         <div class="products-row" id="productsRow">
           <div class="products-empty products-empty--loading">Cargando productos...</div>
         </div>
-        <button class="romix-icon-btn products-arrow right" type="button" id="productsNext" aria-label="Ver mas productos">
+        <button class="romix-icon-btn products-arrow right" type="button" id="productsNext" aria-label="Ver más productos" aria-controls="productsRow">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </button>
       </div>
+      <p class="products-hint" id="productsHint" aria-live="polite">Deslizá o usá las flechas para ver más productos</p>
       <div class="products-mobile-cta">
         <a class="section-link" href="catalogo.html?view=novedades">Ver todos los lanzamientos
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -627,7 +628,7 @@
 
       const variantLimit = 4;
       const isMobileViewport = isHomeMobileViewport();
-      const homeProductLimit = isMobileViewport ? 4 : 12;
+      const homeProductLimit = isMobileViewport ? 8 : 12;
       homeProductsRenderMode = isMobileViewport;
       row.innerHTML = "";
       source = source.slice(0, homeProductLimit);
@@ -1064,6 +1065,7 @@
       const track = document.getElementById("productsRow");
       const prev = document.getElementById("productsPrev");
       const next = document.getElementById("productsNext");
+      const hint = document.getElementById("productsHint");
       if (!track || !prev || !next) return;
 
       function getStep() {
@@ -1074,18 +1076,20 @@
       }
 
       function getStepCount() {
-        return window.innerWidth <= 760 ? 1 : 2;
+        if (window.innerWidth <= 760) return 1;
+        if (window.innerWidth <= 1100) return 2;
+        return 3;
       }
 
       function syncButtons() {
         const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
-        if (maxScroll <= 4 || window.innerWidth <= 760) {
-          prev.disabled = true;
-          next.disabled = true;
-          return;
-        }
-        prev.disabled = track.scrollLeft <= 4;
-        next.disabled = track.scrollLeft >= maxScroll - 4;
+        const hasOverflow = maxScroll > 4;
+        track.classList.toggle("is-scrollable", hasOverflow);
+        if (hint) hint.hidden = !hasOverflow;
+        prev.disabled = !hasOverflow || track.scrollLeft <= 4;
+        next.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 4;
+        prev.setAttribute("aria-disabled", prev.disabled ? "true" : "false");
+        next.setAttribute("aria-disabled", next.disabled ? "true" : "false");
       }
 
       prev.addEventListener("click", () => {

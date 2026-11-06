@@ -4,7 +4,7 @@
   --card-surface: transparent;
   --card-media: #f8f6f8;
   --card-muted: #65636b;
-  --card-pink: var(--romix-pink);
+  --card-pink: var(--romix-pink-readable);
   --card-price: var(--romix-pink-readable);
   --card-name-size: clamp(15px, 1.05vw, 17px);
   --card-price-size: clamp(20px, 1.5vw, 24px);
@@ -111,10 +111,10 @@
   min-height: 30px;
   max-width: calc(100% - 28px);
   padding: 5px 11px;
-  border: 1px solid rgba(255, 255, 255, .82);
+  border: 1px solid var(--romix-pink);
   border-radius: 999px;
   color: #ffffff;
-  background: #14202d;
+  background: var(--romix-brand-ink, #242426);
   box-shadow: 0 4px 10px rgba(20, 32, 45, .12);
   font-size: 11px;
   font-weight: 800;

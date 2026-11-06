@@ -15,13 +15,19 @@
 :root {
   color-scheme: light;
 
-  /* Brand and semantic colors */
-  --romix-pink: #F22797;
-  --romix-pink-hover: #D91D83;
-  --romix-pink-readable: #C71976;
-  --romix-pink-soft: #F291C7;
-  --romix-pink-bg: #FFF0F6;
-  --romix-ink: #242426;
+  /* ROMIX brand palette: vivid pink for actions, readable pink for text, ink for contrast. */
+  --romix-brand-pink: #F22797;
+  --romix-brand-pink-hover: #D91D83;
+  --romix-brand-pink-readable: #C71976;
+  --romix-brand-pink-soft: #F291C7;
+  --romix-brand-pink-bg: #FFF0F6;
+  --romix-brand-ink: #242426;
+  --romix-pink: var(--romix-brand-pink);
+  --romix-pink-hover: var(--romix-brand-pink-hover);
+  --romix-pink-readable: var(--romix-brand-pink-readable);
+  --romix-pink-soft: var(--romix-brand-pink-soft);
+  --romix-pink-bg: var(--romix-brand-pink-bg);
+  --romix-ink: var(--romix-brand-ink);
   --romix-muted: #6F6D76;
   --romix-text-muted: var(--romix-muted);
   --romix-white: #FFFFFF;
@@ -427,10 +433,10 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
 .home .product-name { min-height: 36px; font: 700 14px/1.3 var(--romix-font-body); color: var(--romix-ink); }
 .home .product-meta { font-size: 12px; color: var(--romix-muted); }
 .home .price-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 6px; margin-top: auto; }
-.home .product-price { font-size: 18px; font-weight: 800; color: var(--romix-ink); }
+.home .product-price { font-size: 18px; font-weight: 800; color: var(--romix-pink-readable); }
 .home .stock-note { font-size: 11px; line-height: 1.4; color: var(--romix-muted); }
-.home .product-cta { width: 100%; min-height: 44px; gap: 8px; border: 1px solid var(--romix-ink); border-radius: 2px; background: var(--romix-white); color: var(--romix-ink); font-size: 12px; font-weight: 600; }
-.home .product-cta:hover { background: var(--romix-surface); }
+.home .product-cta { width: 100%; min-height: 44px; gap: 8px; border: 1px solid var(--romix-pink-readable); border-radius: 4px; background: var(--romix-pink-readable); color: var(--romix-white); font-size: 12px; font-weight: 700; transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease; }
+.home .product-cta:hover { border-color: var(--romix-pink-hover); background: var(--romix-pink-hover); transform: translateY(-1px); }
 .home .products-empty { grid-column: 1 / -1; padding: 32px; border: 1px solid var(--romix-border); color: var(--romix-muted); }
 .home .products-empty--loading { min-height: calc((min(1400px, 100vw - var(--home-gutter) * 2) - 54px) / 4 + 220px); }
 .home .products-arrow { position: absolute; top: 36%; z-index: 2; display: grid; width: 48px; height: 48px; min-height: 48px; place-items: center; border: 2px solid var(--romix-white); border-radius: 50%; background: var(--romix-ink); color: var(--romix-white); box-shadow: 0 8px 18px rgba(36, 36, 38, .2); transition: background-color 160ms ease, border-color 160ms ease, opacity 160ms ease, transform 160ms ease; }
@@ -6059,7 +6065,7 @@ header.romix-shared-header .romix-icon-btn:hover {
   --card-surface: transparent;
   --card-media: #f8f6f8;
   --card-muted: #65636b;
-  --card-pink: var(--romix-pink);
+  --card-pink: var(--romix-pink-readable);
   --card-price: var(--romix-pink-readable);
   --card-name-size: clamp(15px, 1.05vw, 17px);
   --card-price-size: clamp(20px, 1.5vw, 24px);
@@ -6166,10 +6172,10 @@ header.romix-shared-header .romix-icon-btn:hover {
   min-height: 30px;
   max-width: calc(100% - 28px);
   padding: 5px 11px;
-  border: 1px solid rgba(255, 255, 255, .82);
+  border: 1px solid var(--romix-pink);
   border-radius: 999px;
   color: #ffffff;
-  background: #14202d;
+  background: var(--romix-brand-ink, #242426);
   box-shadow: 0 4px 10px rgba(20, 32, 45, .12);
   font-size: 11px;
   font-weight: 800;

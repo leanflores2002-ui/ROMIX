@@ -52,7 +52,10 @@
 }
 .home .campaign-hero__cta:hover { background: var(--romix-pink-bg); border-color: var(--romix-pink-soft); }
 
-.home .section-head, .home .sec-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.home .section-head, .home .sec-head { position: relative; display: grid; align-items: center; justify-items: center; gap: 16px; margin-bottom: 18px; text-align: center; }
+.home .section-head > div, .home .sec-head > div { width: 100%; display: grid; justify-items: center; }
+.home .section-head > h2, .home .sec-head > h2 { margin-inline: auto; }
+.home .section-head > .section-link, .home .sec-head > .section-link { position: absolute; top: 0; right: 0; }
 .home .section-head h2, .home .sec-title {
   font-family: var(--romix-font-heading); font-size: clamp(28px, 3vw, 40px); font-weight: 400;
   line-height: 1.1; letter-spacing: .005em; text-transform: uppercase;
@@ -189,7 +192,8 @@
   .campaign-hero h2::after { width: 48px; height: 4px; margin-top: 16px; }
   .home .campaign-hero p { font-size: 16px; max-width: 290px; }
   .home .campaign-hero__cta { min-height: 44px; padding: 12px 22px; font-size: 12px; }
-  .home .section-head, .home .sec-head { flex-direction: row; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .home .section-head, .home .sec-head { gap: 10px; margin-bottom: 14px; }
+  .home .section-head > .section-link, .home .sec-head > .section-link { position: static; }
   .home .section-head h2, .home .sec-title { font-size: clamp(24px, 6.5vw, 32px); }
   .home #ofertas-titulo { white-space: nowrap; }
   .home .section-link { min-height: 44px; font-size: 12px; }

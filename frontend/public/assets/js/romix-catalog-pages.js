@@ -1776,7 +1776,6 @@
       if (stockInfo.label !== "Consultar disponibilidad") {
         const stock = document.createElement("p");
         stock.className = "stock-note " + stockInfo.css;
-        stock.setAttribute("aria-hidden", "true");
         stock.textContent = stockInfo.label;
         body.appendChild(stock);
       }

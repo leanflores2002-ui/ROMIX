@@ -1876,6 +1876,13 @@ body {
   max-width: 100%;
 }
 
+/* Keep the commercial shortcut highlighted at every breakpoint. */
+.site-header .main-nav > li[data-menu-key="ofertas"] > a,
+header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > a {
+  color: var(--romix-pink-readable) !important;
+  font-weight: 800 !important;
+}
+
 .site-header,
 header.romix-shared-header {
   position: sticky;
@@ -6056,6 +6063,93 @@ header.romix-shared-header .romix-icon-btn:hover {
     font-size: 10px;
     line-height: 17px;
     transform: none;
+  }
+}
+
+/* Final header UX overrides: keep navigation airy and the cart count readable. */
+@media (min-width: 901px) {
+  .site-header .main-nav,
+  header.romix-shared-header .main-nav { gap: clamp(32px, 3vw, 40px); }
+
+  .site-header .main-nav > li > a,
+  header.romix-shared-header .main-nav > li > a,
+  .site-header .main-nav .mega-trigger,
+  header.romix-shared-header .main-nav .mega-trigger {
+    min-height: 44px;
+    padding: 12px 4px;
+    border-bottom: 2px solid transparent;
+    color: var(--romix-ink);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    text-transform: none;
+    transition: color 160ms ease, border-color 160ms ease;
+  }
+
+  .site-header .main-nav > li > a:hover,
+  .site-header .main-nav > li > a:focus-visible,
+  .site-header .main-nav > li > a.active,
+  .site-header .main-nav > li > a[aria-current="page"],
+  .site-header .main-nav .mega-trigger:hover,
+  .site-header .main-nav .mega-trigger:focus-visible,
+  .site-header .main-nav .mega-trigger.active,
+  header.romix-shared-header .main-nav > li > a:hover,
+  header.romix-shared-header .main-nav > li > a:focus-visible,
+  header.romix-shared-header .main-nav > li > a.active,
+  header.romix-shared-header .main-nav > li > a[aria-current="page"],
+  header.romix-shared-header .main-nav .mega-trigger:hover,
+  header.romix-shared-header .main-nav .mega-trigger:focus-visible,
+  header.romix-shared-header .main-nav .mega-trigger.active {
+    border-bottom-color: var(--romix-pink-readable);
+    color: var(--romix-pink-readable);
+  }
+
+  .site-header .main-nav > li[data-menu-key="ofertas"] > a,
+  header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > a {
+    color: var(--romix-pink-readable);
+    font-weight: 800;
+  }
+}
+
+.romix-announcement {
+  min-height: 32px;
+  padding: 7px 12px;
+  font-size: 12px;
+}
+
+.site-header .header-icons .cart-pill .icon-badge,
+header.romix-shared-header .header-icons .cart-pill .icon-badge {
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 2px solid var(--romix-white);
+  border-radius: 50%;
+  background: var(--romix-pink-readable);
+  color: var(--romix-white);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 16px;
+}
+
+@media (max-width: 900px) {
+  .romix-announcement {
+    min-height: 30px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .site-header .header-icons .cart-pill .icon-badge,
+  header.romix-shared-header .header-icons .cart-pill .icon-badge {
+    top: -3px;
+    right: -3px;
+    width: 19px;
+    min-width: 19px;
+    height: 19px;
+    font-size: 10px;
+    line-height: 15px;
   }
 }
 

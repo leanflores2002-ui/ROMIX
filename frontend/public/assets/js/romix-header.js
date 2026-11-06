@@ -380,7 +380,10 @@
   function updateCartBadge() {
     var qty = getCartQty();
     var badge = document.getElementById("cart-count");
-    if (badge) badge.textContent = String(qty);
+    if (!badge) return;
+    badge.textContent = String(qty);
+    badge.hidden = qty === 0;
+    badge.setAttribute("aria-hidden", qty === 0 ? "true" : "false");
   }
 
   function bindHeaderFavorites() {

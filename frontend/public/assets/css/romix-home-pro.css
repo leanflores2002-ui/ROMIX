@@ -73,7 +73,30 @@
 .home .product-thumb { display: block; position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 0; background: var(--romix-surface-soft); }
 .home .product-thumb picture, .home .product-thumb img { display: block; width: 100%; height: 100%; }
 .home .product-thumb img { object-fit: contain; object-position: center; opacity: 1; }
-.home .product-badge { position: absolute; z-index: 1; top: 10px; left: 10px; padding: 4px 8px; background: var(--romix-ink); color: var(--romix-white); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.home .product-badge {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  max-width: calc(100% - 24px);
+  padding: 6px 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .82);
+  border-radius: 999px;
+  background: var(--romix-ink);
+  color: var(--romix-white);
+  box-shadow: 0 4px 12px rgba(36, 36, 38, .22);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .025em;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 .home .product-body { display: flex; flex: 1; flex-direction: column; gap: 8px; min-width: 0; padding: 12px 2px 0; }
 .home .product-variant-thumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; min-height: 40px; }
 .home .product-variant-thumb { width: 30px; height: 38px; padding: 0; border: 1px solid var(--romix-border); border-radius: 2px; overflow: hidden; background: var(--romix-surface-soft); cursor: pointer; }
@@ -164,7 +187,14 @@
   .home .section-link { min-height: 44px; font-size: 12px; }
   .home .products-row { grid-auto-flow: column; grid-auto-columns: calc((100% - 12px) / 2); grid-template-columns: none; gap: 12px; overflow-x: auto; overflow-y: hidden; padding-bottom: 10px; scroll-snap-type: x mandatory; }
   .home .product-body { padding: 10px 0 0; gap: 7px; }
-  .home .product-badge { top: 8px; left: 8px; font-size: 9px; }
+  .home .product-badge {
+    top: 8px;
+    left: 8px;
+    min-height: 28px;
+    max-width: calc(100% - 16px);
+    padding: 5px 8px;
+    font-size: 11px;
+  }
   .home .product-name { font-size: 12px; min-height: 46px; }
   .home .product-meta { font-size: 11px; }
   .home .product-price { font-size: 16px; }

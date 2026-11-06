@@ -111,8 +111,8 @@
   min-height: 30px;
   max-width: calc(100% - 28px);
   padding: 5px 11px;
-  border: 0;
-  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, .82);
+  border-radius: 999px;
   color: #ffffff;
   background: #14202d;
   box-shadow: 0 4px 10px rgba(20, 32, 45, .12);
@@ -562,11 +562,11 @@
   .romix-product-card .related-products__badge {
     top: 10px;
     left: 10px;
-    min-height: 25px;
+    min-height: 28px;
     max-width: calc(100% - 20px);
     padding: 4px 8px;
-    border-radius: 9px;
-    font-size: 9px;
+    border-radius: 999px;
+    font-size: 11px;
   }
 
   .romix-product-card .product-body,

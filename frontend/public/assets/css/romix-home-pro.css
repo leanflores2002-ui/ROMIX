@@ -1,12 +1,14 @@
 /* ROMIX home: campaign and commerce composition, using the shared brand tokens. */
 .home {
   --home-gutter: clamp(16px, 4vw, 64px);
-  width: min(1400px, calc(100% - var(--home-gutter) * 2));
+  --home-content-width: min(1400px, calc(100% - var(--home-gutter) * 2));
+  width: 100%;
   margin: 0 auto 48px;
   display: grid;
   gap: clamp(28px, 3.4vw, 48px);
 }
 .home > * { min-width: 0; }
+.home > :not(.video-hero):not(.campaign-hero) { width: var(--home-content-width); margin-inline: auto; }
 .home :where(h1, h2, h3, p, figure) { margin: 0; }
 .home a { text-decoration: none; }
 .home img { display: block; max-width: 100%; }
@@ -17,8 +19,8 @@
 .home .campaign-hero {
   position: relative;
   isolation: isolate;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  width: 100%;
+  margin-left: 0;
   height: clamp(450px, 35vw, 580px);
   overflow: hidden;
   background: var(--romix-ink);
@@ -143,7 +145,7 @@
   .home .why-item { padding: 20px 12px; }
 }
 @media (max-width: 760px) {
-  .home { --home-gutter: 16px; width: calc(100% - 32px); gap: 28px; }
+  .home { --home-gutter: 16px; width: 100%; gap: 28px; }
   .home .campaign-hero { height: clamp(420px, 118vw, 480px); }
   .campaign-hero__media { inset: 0 0 auto; height: 78%; }
   .campaign-hero::after { background: linear-gradient(0deg, var(--romix-ink) 3%, rgba(36,36,38,.96) 26%, rgba(36,36,38,.58) 43%, transparent 69%); }
@@ -195,7 +197,7 @@
 }
 
 /* Campaign video: edge-to-edge image, integrated copy and a compact motion control. */
-.home .video-hero { position: relative; isolation: isolate; width: 100vw; margin-left: calc(50% - 50vw); height: clamp(380px, 38.2vw, 620px); overflow: hidden; background: #131317; }
+.home .video-hero { position: relative; isolation: isolate; width: 100%; margin-left: 0; height: clamp(380px, 38.2vw, 620px); overflow: hidden; background: #131317; }
 .video-hero__video, .video-hero__poster { position: absolute; inset: 0; width: 100%; height: 100%; }
 .video-hero__video, .video-hero__poster img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .video-hero__poster { z-index: 0; pointer-events: none; }

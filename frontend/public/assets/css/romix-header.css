@@ -4203,7 +4203,8 @@ header.romix-shared-header .romix-icon-btn:hover {
   .site-header .main-nav .mega-trigger,
   header.romix-shared-header .main-nav .mega-trigger {
     min-height: 44px;
-    padding: 12px 4px;
+    padding: 8px 0;
+    margin-bottom: -1px;
     border-bottom: 2px solid transparent;
     color: var(--romix-ink);
     font-size: 15px;

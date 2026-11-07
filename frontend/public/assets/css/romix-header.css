@@ -4193,6 +4193,11 @@ header.romix-shared-header .romix-icon-btn:hover {
   }
 }
 
+/* Compact desktop density: reduce the visual scale without shrinking mobile controls. */
+@media (min-width: 901px) {
+  body { zoom: .9; }
+}
+
 /* Final header UX overrides: keep navigation airy and the cart count readable. */
 @media (min-width: 901px) {
   .site-header .main-nav,

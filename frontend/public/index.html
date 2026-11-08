@@ -196,7 +196,7 @@
     <section class="products-section" id="ofertas" aria-labelledby="ofertas-titulo">
       <div class="section-head">
         <div>
-                    <h2 id="ofertas-titulo">NUEVOS LANZAMIENTOS</h2>
+          <h2 id="ofertas-titulo">NUEVOS LANZAMIENTOS</h2>
         </div>
       </div>
       <div class="products-shell">
@@ -215,6 +215,30 @@
         </button>
       </div>
       <p class="products-hint" id="productsHint" aria-live="polite">Deslizá o usá las flechas para ver más productos</p>
+    </section>
+
+    <section class="products-section products-section--offers" id="ofertas-reales" aria-labelledby="ofertas-reales-titulo">
+      <div class="section-head">
+        <div>
+          <h2 id="ofertas-reales-titulo">OFERTAS - HASTA 55% OFF 🔥</h2>
+        </div>
+      </div>
+      <div class="products-shell">
+        <button class="romix-icon-btn products-arrow left" type="button" id="offersPrev" aria-label="Ver ofertas anteriores" aria-controls="offersRow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="products-row" id="offersRow">
+          <div class="products-empty products-empty--loading">Cargando ofertas...</div>
+        </div>
+        <button class="romix-icon-btn products-arrow right" type="button" id="offersNext" aria-label="Ver más ofertas" aria-controls="offersRow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+      <p class="products-hint" id="offersHint" aria-live="polite">Deslizá o usá las flechas para ver más ofertas</p>
     </section>
 
 
@@ -459,7 +483,8 @@
       { label: "Pantalones", query: "pantalones", icon: "Shirt", imagePath: "images/pantalones.png", optimizedBase: "pantalones" },
     ];
 
-    let refreshProductsCarousel = null;
+    const productCarouselRefreshers = new Set();
+    let refreshProductsCarousel = () => productCarouselRefreshers.forEach((refresh) => refresh());
     let homeProductsData = null;
 
     function normalizeText(value) {
@@ -633,11 +658,35 @@
       return (Array.isArray(items) ? items : []).slice().sort((a, b) => Number((b && b.price) || 0) - Number((a && a.price) || 0));
     }
 
+    function isOfferProduct(item) {
+      if (!item || typeof item !== "object") return false;
+      const badge = normalizeText(item.badge || item.featuredBadge);
+      const currentPrice = Number(item.price);
+      const originalPrice = Number(item.originalPrice);
+      const hasDiscount = Number.isFinite(currentPrice) && Number.isFinite(originalPrice) && originalPrice > currentPrice;
+      return badge.includes("oferta") || hasDiscount;
+    }
+
+    function isNewProduct(item) {
+      if (!item || typeof item !== "object") return false;
+      const labels = [item.badge, item.featuredBadge].map(normalizeText);
+      return labels.some((label) => label === "nuevo" || label.includes("nuevo"));
+    }
+
     function getNovedadesSource(products) {
       const source = Array.isArray(products) ? products : [];
-      const featured = source.filter((item) => item && item.featured === true);
+      const novedades = source.filter((item) => isNewProduct(item) && !isOfferProduct(item));
+      if (novedades.length) return novedades;
+
+      // Compatibilidad con catálogos antiguos que todavía no tienen etiquetas de novedad.
+      // En ese caso conservamos los destacados no rebajados hasta que se etiqueten.
+      const featured = source.filter((item) => item && item.featured === true && !isOfferProduct(item));
       if (featured.length) return featured;
-      return source.slice(0, 20);
+      return source.filter((item) => !isOfferProduct(item)).slice(0, 20);
+    }
+
+    function getOffersSource(products) {
+      return (Array.isArray(products) ? products : []).filter(isOfferProduct);
     }
 
     function pickByTypes(products, types, usedKeys) {
@@ -689,17 +738,20 @@
       }).join("");
     }
 
-    function renderProducts(products) {
-      const row = document.getElementById("productsRow");
+    function renderProducts(products, targetId = "productsRow", mode = "novedades") {
+      const row = document.getElementById(targetId);
       if (!row) return;
 
-      let source = Array.isArray(getNovedadesSource(products)) ? getNovedadesSource(products).slice() : [];
+      const sourceFactory = mode === "ofertas" ? getOffersSource : getNovedadesSource;
+      let source = sourceFactory(products).slice();
       if (typeof window.applyCatalogRelevanceOrder === "function") {
-        source = window.applyCatalogRelevanceOrder(source, "novedades");
+        source = window.applyCatalogRelevanceOrder(source, mode);
       }
 
       if (!source.length) {
-        row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+        row.innerHTML = mode === "ofertas"
+          ? '<div class="products-empty">No hay ofertas disponibles por ahora.</div>'
+          : '<div class="products-empty">No hay nuevos lanzamientos disponibles por ahora.</div>';
         return;
       }
 
@@ -1159,49 +1211,54 @@
       startAutoplay();
     })();
 
-    (function initProductsCarousel() {
-      const track = document.getElementById("productsRow");
-      const prev = document.getElementById("productsPrev");
-      const next = document.getElementById("productsNext");
-      const hint = document.getElementById("productsHint");
-      if (!track || !prev || !next) return;
+    (function initProductsCarousels() {
+      function initCarousel(trackId, prevId, nextId, hintId) {
+        const track = document.getElementById(trackId);
+        const prev = document.getElementById(prevId);
+        const next = document.getElementById(nextId);
+        const hint = document.getElementById(hintId);
+        if (!track || !prev || !next) return;
 
-      function getStep() {
-        const card = track.querySelector(".product-card");
-        const styles = window.getComputedStyle(track);
-        const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
-        return card ? card.getBoundingClientRect().width + gap : 210;
+        function getStep() {
+          const card = track.querySelector(".product-card");
+          const styles = window.getComputedStyle(track);
+          const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+          return card ? card.getBoundingClientRect().width + gap : 210;
+        }
+
+        function getStepCount() {
+          if (window.innerWidth <= 760) return 1;
+          if (window.innerWidth <= 1100) return 2;
+          return 3;
+        }
+
+        function syncButtons() {
+          const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+          const hasOverflow = maxScroll > 4;
+          track.classList.toggle("is-scrollable", hasOverflow);
+          if (hint) hint.hidden = !hasOverflow;
+          prev.disabled = !hasOverflow || track.scrollLeft <= 4;
+          next.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 4;
+          prev.setAttribute("aria-disabled", prev.disabled ? "true" : "false");
+          next.setAttribute("aria-disabled", next.disabled ? "true" : "false");
+        }
+
+        prev.addEventListener("click", () => {
+          track.scrollBy({ left: -getStep() * getStepCount(), behavior: "smooth" });
+        });
+
+        next.addEventListener("click", () => {
+          track.scrollBy({ left: getStep() * getStepCount(), behavior: "smooth" });
+        });
+
+        track.addEventListener("scroll", syncButtons, { passive: true });
+        window.addEventListener("resize", syncButtons);
+        productCarouselRefreshers.add(syncButtons);
+        syncButtons();
       }
 
-      function getStepCount() {
-        if (window.innerWidth <= 760) return 1;
-        if (window.innerWidth <= 1100) return 2;
-        return 3;
-      }
-
-      function syncButtons() {
-        const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
-        const hasOverflow = maxScroll > 4;
-        track.classList.toggle("is-scrollable", hasOverflow);
-        if (hint) hint.hidden = !hasOverflow;
-        prev.disabled = !hasOverflow || track.scrollLeft <= 4;
-        next.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 4;
-        prev.setAttribute("aria-disabled", prev.disabled ? "true" : "false");
-        next.setAttribute("aria-disabled", next.disabled ? "true" : "false");
-      }
-
-      prev.addEventListener("click", () => {
-        track.scrollBy({ left: -getStep() * getStepCount(), behavior: "smooth" });
-      });
-
-      next.addEventListener("click", () => {
-        track.scrollBy({ left: getStep() * getStepCount(), behavior: "smooth" });
-      });
-
-      track.addEventListener("scroll", syncButtons, { passive: true });
-      window.addEventListener("resize", syncButtons);
-      refreshProductsCarousel = syncButtons;
-      syncButtons();
+      initCarousel("productsRow", "productsPrev", "productsNext", "productsHint");
+      initCarousel("offersRow", "offersPrev", "offersNext", "offersHint");
     })();
 
 
@@ -1221,20 +1278,21 @@
         const products = await loadHomeProducts();
         renderCategories();
         if (!Array.isArray(products) || !products.length) {
-          const row = document.getElementById("productsRow");
-          if (row) {
-            row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
-          }
+          ["productsRow", "offersRow"].forEach((rowId) => {
+            const row = document.getElementById(rowId);
+            if (row) row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+          });
           console.warn("[index] loadHomeProducts devolvio una lista vacia");
           return;
         }
         homeProductsData = products;
-        renderProducts(homeProductsData);
+        renderProducts(homeProductsData, "productsRow", "novedades");
+        renderProducts(homeProductsData, "offersRow", "ofertas");
       } catch (error) {
-        const row = document.getElementById("productsRow");
-        if (row) {
-          row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
-        }
+        ["productsRow", "offersRow"].forEach((rowId) => {
+          const row = document.getElementById(rowId);
+          if (row) row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+        });
         console.error("[index] Error cargando data de home", error);
       }
     })();

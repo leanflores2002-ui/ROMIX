@@ -262,6 +262,15 @@
           </svg>
         </button>
         <div class="main-hero-carousel__dots" data-carousel-dots aria-label="Selector de imagenes"></div>
+        <div class="main-hero-carousel__progress" data-carousel-progress aria-hidden="true"><span></span></div>
+        <button class="romix-icon-btn main-hero-carousel__toggle" type="button" data-carousel-toggle aria-pressed="false" aria-label="Pausar carrusel">
+          <svg class="main-hero-carousel__toggle-icon main-hero-carousel__toggle-icon--pause" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 5V19M16 5V19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+          </svg>
+          <svg class="main-hero-carousel__toggle-icon main-hero-carousel__toggle-icon--play" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 5L19 12L8 19V5Z" fill="currentColor"></path>
+          </svg>
+        </button>
       </div>
     </section>
 
@@ -1019,6 +1028,8 @@
       const heroSection = carousel.closest(".main-hero-carousel");
       const slides = Array.from(carousel.querySelectorAll(".main-hero-carousel__slide"));
       const dotsWrap = carousel.querySelector("[data-carousel-dots]");
+      const progress = carousel.querySelector("[data-carousel-progress]");
+      const toggleBtn = carousel.querySelector("[data-carousel-toggle]");
       const prevBtn = carousel.querySelector("[data-carousel-prev]");
       const nextBtn = carousel.querySelector("[data-carousel-next]");
       if (!slides.length || !dotsWrap) return;
@@ -1031,6 +1042,22 @@
       let dots = [];
       let touchStartX = 0;
       let touchStartY = 0;
+      let isPaused = reduceMotion;
+
+      function updateToggle() {
+        if (!toggleBtn) return;
+        toggleBtn.setAttribute("aria-pressed", String(isPaused));
+        toggleBtn.setAttribute("aria-label", isPaused ? "Reproducir carrusel" : "Pausar carrusel");
+      }
+
+      function resetProgress() {
+        const bar = progress && progress.querySelector("span");
+        if (!bar) return;
+        bar.classList.remove("is-running");
+        bar.style.setProperty("--hero-duration", autoplayMs + "ms");
+        void bar.offsetWidth;
+        if (!isPaused && !reduceMotion) bar.classList.add("is-running");
+      }
 
       function render() {
         slides.forEach((slide, index) => {
@@ -1058,17 +1085,22 @@
           clearInterval(timer);
           timer = null;
         }
+        resetProgress();
       }
 
       function startAutoplay() {
         stopAutoplay();
-        if (reduceMotion || slides.length < 2 || !slides[0].querySelector("img").complete) return;
-        timer = setInterval(() => goTo(current + 1), autoplayMs);
+        if (isPaused || reduceMotion || slides.length < 2 || !slides[0].querySelector("img").complete) return;
+        resetProgress();
+        timer = setInterval(() => {
+          goTo(current + 1);
+          startAutoplay();
+        }, autoplayMs);
       }
 
       if (isStatic) {
         carousel.classList.add("is-static");
-        [prevBtn, nextBtn, dotsWrap].forEach((control) => {
+        [prevBtn, nextBtn, dotsWrap, progress, toggleBtn].forEach((control) => {
           if (!control) return;
           control.hidden = true;
           control.setAttribute("aria-hidden", "true");
@@ -1082,7 +1114,7 @@
           dot.innerHTML = '<span class="sr-only">Imagen ' + (index + 1) + '</span>';
           dot.addEventListener("click", () => {
             goTo(index);
-            startAutoplay();
+            if (!isPaused) startAutoplay();
           });
           dotsWrap.appendChild(dot);
         });
@@ -1093,20 +1125,29 @@
       if (prevBtn && !isStatic) {
         prevBtn.addEventListener("click", () => {
           goTo(current - 1);
-          startAutoplay();
+          if (!isPaused) startAutoplay();
         });
       }
 
       if (nextBtn && !isStatic) {
         nextBtn.addEventListener("click", () => {
           goTo(current + 1);
-          startAutoplay();
+          if (!isPaused) startAutoplay();
+        });
+      }
+
+      if (toggleBtn && !isStatic) {
+        toggleBtn.addEventListener("click", () => {
+          isPaused = !isPaused;
+          updateToggle();
+          if (isPaused) stopAutoplay();
+          else startAutoplay();
         });
       }
 
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) stopAutoplay();
-        else startAutoplay();
+        else if (!isPaused) startAutoplay();
       });
 
       if (!isStatic) {
@@ -1125,10 +1166,11 @@
           if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
           if (deltaX < 0) goTo(current + 1);
           else goTo(current - 1);
-          startAutoplay();
+          if (!isPaused) startAutoplay();
         }, { passive: true });
       }
 
+      updateToggle();
       slides[0].querySelector("img").addEventListener("load", startAutoplay, { once: true });
       render();
       startAutoplay();

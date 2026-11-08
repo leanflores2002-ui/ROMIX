@@ -33,7 +33,7 @@
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
 
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=33" />
+  <link rel="stylesheet" href="assets/css/romix-home-bundle.css?v=36" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/home-video.js?v=2"></script>
@@ -110,7 +110,7 @@
   </div>
 </header>
 <script src="assets/js/romix-icons.js?v=19"></script>
-  <script src="assets/js/romix-product-card.js?v=3"></script>
+  <script src="assets/js/romix-product-card.js?v=4"></script>
   <script src="assets/js/romix-pricing.js?v=21"></script>
   <script src="assets/js/romix-cart-recommendations.js?v=3"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
@@ -124,9 +124,11 @@
       </picture>
       <video class="video-hero__video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" width="1600" height="556" data-desktop-src="videos/romix-principal.mp4?v=2" data-mobile-src="videos/romix-principal-mobile.mp4?v=2" data-desktop-poster="videos/romix-principal-poster.webp?v=2" data-mobile-poster="videos/romix-principal-mobile-poster.webp?v=2"></video>
       <div class="video-hero__copy">
-        <h1 id="video-hero-title">ROMIX EN MOVIMIENTO</h1>
-        <p>Indumentaria deportiva y urbana.</p>
-        <a class="video-hero__explore" href="catalogo.html">EXPLORAR</a>
+        <h1 id="video-hero-title">NO PARES DE MOVERTE</h1>
+        <p>Ropa deportiva y urbana ROMIX para acompa&ntilde;arte en cada movimiento.</p>
+        <div class="video-hero__actions" aria-label="Acciones principales">
+          <a class="video-hero__explore" href="catalogo.html">EXPLORAR</a>
+        </div>
       </div>
       <button class="video-hero__toggle" type="button" data-video-toggle data-playing="false" aria-label="Reproducir video" hidden>
         <span class="sr-only">Reproducir video</span>
@@ -135,58 +137,39 @@
       </button>
     </section>
 
-    <section class="audience-section surface-section" aria-labelledby="quick-shop-title">
+    <section class="categories-section surface-section quick-category-section" aria-labelledby="category-title">
       <div class="section-head">
-        <div class="audience-section__title-wrap">
-          <h2 id="quick-shop-title">&iquest;PARA QUI&Eacute;N EST&Aacute;S COMPRANDO?</h2>
-          <span class="audience-section__accent" aria-hidden="true"></span>
-        </div>
+        <h2 id="category-title">Compr&aacute; por prenda</h2>
+        <a class="section-link" href="catalogo.html">Ver todo
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
       </div>
-      <div class="audience-grid">
-        <a class="audience-card" href="/mujer/" aria-label="Ir a la categor&iacute;a Mujer">
-          <div class="audience-thumb">
-            <picture>
-              <source srcset="images/optimized/mujer-640.webp 640w, images/optimized/mujer-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/mujer.png" alt="Mujer" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="audience-label">MUJER</span>
+      <div class="categories-grid" id="categoryTrack">
+        <a class="category-item" href="catalogo.html?categories=calzas">
+          <div class="category-thumb"><picture><source srcset="images/optimized/calzas-640.webp 640w, images/optimized/calzas-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" /><img src="images/calzas.png" alt="Calzas" loading="lazy" decoding="async" width="1254" height="1254" /></picture></div>
+          <span class="category-label">Calzas</span>
         </a>
-        <a class="audience-card" href="/hombre/" aria-label="Ir a la categor&iacute;a Hombre">
-          <div class="audience-thumb">
-            <picture>
-              <source srcset="images/optimized/hombre-640.webp 640w, images/optimized/hombre-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/hombre.png" alt="Hombre" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="audience-label">HOMBRE</span>
+        <a class="category-item" href="catalogo.html?categories=camperas">
+          <div class="category-thumb"><picture><source srcset="images/optimized/camperas-640.webp 640w, images/optimized/camperas-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" /><img src="images/camperas.png" alt="Camperas" loading="lazy" decoding="async" width="1254" height="1254" /></picture></div>
+          <span class="category-label">Camperas</span>
         </a>
-        <a class="audience-card" href="catalogo.html?audiencia=nina" aria-label="Ir a la categor&iacute;a Ni&ntilde;a">
-          <div class="audience-thumb">
-            <picture>
-              <source srcset="images/optimized/nina-640.webp 640w, images/optimized/nina-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/nina.png" alt="Ni&ntilde;a" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="audience-label">NI&Ntilde;A</span>
+        <a class="category-item" href="catalogo.html?categories=remeras">
+          <div class="category-thumb"><picture><source srcset="images/optimized/remeras-640.webp 640w, images/optimized/remeras-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" /><img src="images/remeras.png" alt="Remeras" loading="lazy" decoding="async" width="1254" height="1254" /></picture></div>
+          <span class="category-label">Remeras</span>
         </a>
-        <a class="audience-card" href="catalogo.html?audiencia=nino" aria-label="Ir a la categor&iacute;a Ni&ntilde;o">
-          <div class="audience-thumb">
-            <picture>
-              <source srcset="images/optimized/nino-640.webp 640w, images/optimized/nino-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/nino.png" alt="Ni&ntilde;o" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="audience-label">NI&Ntilde;O</span>
+        <a class="category-item" href="catalogo.html?categories=tops">
+          <div class="category-thumb"><picture><source srcset="images/optimized/tops-640.webp 640w, images/optimized/tops-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" /><img src="images/tops.png" alt="Tops" loading="lazy" decoding="async" width="1254" height="1254" /></picture></div>
+          <span class="category-label">Tops</span>
         </a>
-        <a class="audience-card" href="catalogo.html" aria-label="Ir a ver todo el cat&aacute;logo">
-          <div class="audience-thumb">
-            <picture>
-              <source srcset="images/optimized/ver-todo-640.webp 640w, images/optimized/ver-todo-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/ver-todo.png" alt="Ver todo" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="audience-label">VER TODO</span>
+        <a class="category-item" href="catalogo.html?categories=buzos">
+          <div class="category-thumb"><picture><source srcset="images/optimized/buzos-640.webp 640w, images/optimized/buzos-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" /><img src="images/buzos.png" alt="Buzos" loading="lazy" decoding="async" width="1254" height="1254" /></picture></div>
+          <span class="category-label">Buzos</span>
+        </a>
+        <a class="category-item" href="catalogo.html?categories=pantalones">
+          <div class="category-thumb"><picture><source srcset="images/optimized/pantalones-640.webp 640w, images/optimized/pantalones-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" /><img src="images/pantalones.png" alt="Pantalones" loading="lazy" decoding="async" width="1254" height="1254" /></picture></div>
+          <span class="category-label">Pantalones</span>
         </a>
       </div>
     </section>
@@ -194,16 +177,11 @@
     <section class="products-section" id="ofertas" aria-labelledby="ofertas-titulo">
       <div class="section-head">
         <div>
-                    <h2 id="ofertas-titulo">NUEVOS LANZAMIENTOS</h2>
+          <h2 id="ofertas-titulo">NUEVOS LANZAMIENTOS</h2>
         </div>
-        <a class="section-link" href="catalogo.html?view=novedades">Ver todo
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </a>
       </div>
       <div class="products-shell">
-        <button class="romix-icon-btn products-arrow left" type="button" id="productsPrev" aria-label="Ver productos anteriores">
+        <button class="romix-icon-btn products-arrow left" type="button" id="productsPrev" aria-label="Ver productos anteriores" aria-controls="productsRow">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
@@ -211,21 +189,14 @@
         <div class="products-row" id="productsRow">
           <div class="products-empty products-empty--loading">Cargando productos...</div>
         </div>
-        <button class="romix-icon-btn products-arrow right" type="button" id="productsNext" aria-label="Ver mas productos">
+        <button class="romix-icon-btn products-arrow right" type="button" id="productsNext" aria-label="Ver más productos" aria-controls="productsRow">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </button>
       </div>
-      <div class="products-mobile-cta">
-        <a class="section-link" href="catalogo.html?view=novedades">Ver todos los lanzamientos
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </a>
-      </div>
+      <p class="products-hint" id="productsHint" aria-live="polite">Deslizá o usá las flechas para ver más productos</p>
     </section>
-
 
     <section class="main-hero-carousel home-campaigns" aria-label="Campa&ntilde;as ROMIX">
       <div class="main-hero-carousel__viewport" id="mainImageCarousel">
@@ -270,152 +241,40 @@
           </svg>
         </button>
         <div class="main-hero-carousel__dots" data-carousel-dots aria-label="Selector de imagenes"></div>
-      </div>
-    </section>
-
-    <section class="editorial-section" aria-labelledby="editorial-title">
-      <div class="section-head">
-        <div>
-          <span class="section-eyebrow">Categor&iacute;as</span>
-          <h2 id="editorial-title">ELEG&Iacute; POR CATEGOR&Iacute;A</h2>
-        </div>
-      </div>
-      <div class="editorial-grid">
-        <a class="editorial-card" href="/mujer/">
-          <picture>
-            <source srcset="images/optimized/mujer-640.webp 640w, images/optimized/mujer-960.webp 960w" sizes="(max-width: 760px) 60vw, 30vw" type="image/webp" />
-            <img src="images/mujer.png" alt="Indumentaria ROMIX para mujer" loading="lazy" decoding="async" width="1254" height="1254" />
-          </picture>
-          <span class="editorial-card__shade" aria-hidden="true"></span>
-          <span class="editorial-card__arrow" aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="md"></span></span><span class="editorial-card__copy"><strong>Mujer</strong><span>Ver todo</span></span>
-        </a>
-        <a class="editorial-card" href="/hombre/">
-          <picture>
-            <source srcset="images/optimized/hombre-640.webp 640w, images/optimized/hombre-960.webp 960w" sizes="(max-width: 760px) 60vw, 30vw" type="image/webp" />
-            <img src="images/hombre.png" alt="Indumentaria ROMIX para hombre" loading="lazy" decoding="async" width="1254" height="1254" />
-          </picture>
-          <span class="editorial-card__shade" aria-hidden="true"></span>
-          <span class="editorial-card__arrow" aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="md"></span></span><span class="editorial-card__copy"><strong>Hombre</strong><span>Ver todo</span></span>
-        </a>
-        <a class="editorial-card" href="/ninos/">
-          <picture>
-            <source srcset="images/optimized/nina-640.webp 640w, images/optimized/nina-960.webp 960w" sizes="(max-width: 760px) 60vw, 30vw" type="image/webp" />
-            <img src="images/nina.png" alt="Indumentaria ROMIX para ni&ntilde;os" loading="lazy" decoding="async" width="1254" height="1254" />
-          </picture>
-          <span class="editorial-card__shade" aria-hidden="true"></span>
-          <span class="editorial-card__arrow" aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="md"></span></span><span class="editorial-card__copy"><strong>Ni&ntilde;os</strong><span>Ver todo</span></span>
-        </a>
-        <a class="editorial-card" href="catalogo.html">
-          <picture>
-            <source srcset="images/optimized/ver-todo-640.webp 640w, images/optimized/ver-todo-960.webp 960w" sizes="(max-width: 760px) 60vw, 30vw" type="image/webp" />
-            <img src="images/ver-todo.png" alt="Cat&aacute;logo completo ROMIX" loading="lazy" decoding="async" width="1254" height="1254" />
-          </picture>
-          <span class="editorial-card__shade" aria-hidden="true"></span>
-          <span class="editorial-card__arrow" aria-hidden="true"><span data-romix-icon="ArrowRight" data-romix-icon-size="md"></span></span><span class="editorial-card__copy"><strong>Ver todo</strong><span>Ver todo</span></span>
-        </a>
-      </div>
-    </section>
-
-    <section class="categories-section surface-section quick-category-section" aria-labelledby="category-title">
-      <div class="section-head">
-        <h2 id="category-title">Compr&aacute; por prenda</h2>
-        <a class="section-link" href="catalogo.html">Ver todo
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        <button class="romix-icon-btn main-hero-carousel__toggle" type="button" data-carousel-toggle aria-pressed="false" aria-label="Pausar carrusel">
+          <svg class="main-hero-carousel__toggle-icon main-hero-carousel__toggle-icon--pause" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 5V19M16 5V19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
           </svg>
-        </a>
-      </div>
-      <div class="categories-grid" id="categoryTrack">
-        <a class="category-item" href="catalogo.html?categories=calzas">
-          <div class="category-thumb">
-            <picture>
-              <source srcset="images/optimized/calzas-640.webp 640w, images/optimized/calzas-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/calzas.png" alt="Calzas" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="category-label">Calzas</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=camperas">
-          <div class="category-thumb">
-            <picture>
-              <source srcset="images/optimized/camperas-640.webp 640w, images/optimized/camperas-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/camperas.png" alt="Camperas" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="category-label">Camperas</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=remeras">
-          <div class="category-thumb">
-            <picture>
-              <source srcset="images/optimized/remeras-640.webp 640w, images/optimized/remeras-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/remeras.png" alt="Remeras" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="category-label">Remeras</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=tops">
-          <div class="category-thumb">
-            <picture>
-              <source srcset="images/optimized/tops-640.webp 640w, images/optimized/tops-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/tops.png" alt="Tops" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="category-label">Tops</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=buzos">
-          <div class="category-thumb">
-            <picture>
-              <source srcset="images/optimized/buzos-640.webp 640w, images/optimized/buzos-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/buzos.png" alt="Buzos" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="category-label">Buzos</span>
-        </a>
-        <a class="category-item" href="catalogo.html?categories=pantalones">
-          <div class="category-thumb">
-            <picture>
-              <source srcset="images/optimized/pantalones-640.webp 640w, images/optimized/pantalones-960.webp 960w" sizes="(max-width: 640px) min(40vw, 180px), (max-width: 960px) min(22vw, 220px), 220px" type="image/webp" />
-              <img src="images/pantalones.png" alt="Pantalones" loading="lazy" decoding="async" width="1254" height="1254" />
-            </picture>
-          </div>
-          <span class="category-label">Pantalones</span>
-        </a>
+          <svg class="main-hero-carousel__toggle-icon main-hero-carousel__toggle-icon--play" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 5L19 12L8 19V5Z" fill="currentColor"></path>
+          </svg>
+        </button>
       </div>
     </section>
 
-    <!-- ── PROMO CAROUSEL ── -->
-
-    <section class="campaign-hero" aria-labelledby="campaign-title">
-      <picture class="campaign-hero__media">
-        <source media="(max-width: 760px)" srcset="images/optimized/mujer-640.webp 640w, images/optimized/mujer-960.webp 960w" sizes="100vw" type="image/webp" />
-        <source srcset="images/optimized/ver-todo-640.webp 640w, images/optimized/ver-todo-960.webp 960w" sizes="60vw" type="image/webp" />
-        <img src="images/optimized/ver-todo-960.webp" alt="Campa&ntilde;a de indumentaria deportiva y urbana ROMIX" width="1254" height="1254" loading="lazy" decoding="async" />
-      </picture>
-      <div class="campaign-hero__copy">
-        <h2 id="campaign-title">TU ESTILO.<br />EN MOVIMIENTO.</h2>
-        <p>Indumentaria deportiva y urbana para cada d&iacute;a.</p>
-        <a class="campaign-hero__cta romix-btn" href="catalogo.html">EXPLORAR COLECCI&Oacute;N</a>
-      </div>
-    </section>
-
-
-    <section class="why-section" aria-labelledby="why-title">
+    <section class="products-section products-section--offers" id="ofertas-reales" aria-labelledby="ofertas-reales-titulo">
       <div class="section-head">
         <div>
-          <span class="section-eyebrow">Confianza ROMIX</span>
-          <h2 id="why-title">&iquest;POR QU&Eacute; ELEGIR ROMIX?</h2>
+          <h2 id="ofertas-reales-titulo">OFERTAS - HASTA 55% OFF 🔥</h2>
         </div>
       </div>
-      <div class="why-grid">
-        <div class="why-item"><span class="why-item__icon" aria-hidden="true"><span data-romix-icon="Gem" data-romix-icon-size="lg"></span></span><strong>Calidad seleccionada</strong><p>Textiles pensados para uso real.</p></div>
-        <div class="why-item"><span class="why-item__icon" aria-hidden="true"><span data-romix-icon="Sparkles" data-romix-icon-size="lg"></span></span><strong>Dise&ntilde;o funcional</strong><p>Cortes vers&aacute;tiles para moverte mejor.</p></div>
-        <div class="why-item"><span class="why-item__icon" aria-hidden="true"><span data-romix-icon="Heart" data-romix-icon-size="lg"></span></span><strong>Prendas c&oacute;modas</strong><p>Calce suave para entrenar o salir.</p></div>
-        <div class="why-item"><span class="why-item__icon" aria-hidden="true"><span data-romix-icon="MessageCircle" data-romix-icon-size="lg"></span></span><strong>Atenci&oacute;n personalizada</strong><p>Te ayudamos a elegir por WhatsApp.</p></div>
+      <div class="products-shell">
+        <button class="romix-icon-btn products-arrow left" type="button" id="offersPrev" aria-label="Ver ofertas anteriores" aria-controls="offersRow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="products-row" id="offersRow">
+          <div class="products-empty products-empty--loading">Cargando ofertas...</div>
+        </div>
+        <button class="romix-icon-btn products-arrow right" type="button" id="offersNext" aria-label="Ver más ofertas" aria-controls="offersRow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
       </div>
+      <p class="products-hint" id="offersHint" aria-live="polite">Deslizá o usá las flechas para ver más ofertas</p>
     </section>
-
-</div>
-</section>
 
   </main>
 <!-- ROMIX:SHELL:FOOTER:START -->
@@ -465,7 +324,7 @@
 <!-- ROMIX:SHELL:FOOTER:END -->
 
 
-  <script src="assets/js/romix-image-utils.js?v=21"></script>
+  <script src="assets/js/romix-image-utils.js?v=22"></script>
   <script src="assets/js/cart.js?v=22"></script>
   <script src="assets/js/romix-pricing.js?v=21"></script>
   <script src="assets/js/products-store.js?v=20"></script>
@@ -491,15 +350,9 @@
       { label: "Pantalones", query: "pantalones", icon: "Shirt", imagePath: "images/pantalones.png", optimizedBase: "pantalones" },
     ];
 
-    let refreshProductsCarousel = null;
+    const productCarouselRefreshers = new Set();
+    let refreshProductsCarousel = () => productCarouselRefreshers.forEach((refresh) => refresh());
     let homeProductsData = null;
-    let homeProductsRenderMode = null;
-
-    function isHomeMobileViewport() {
-      return window.matchMedia
-        ? window.matchMedia("(max-width: 767px)").matches
-        : window.innerWidth <= 767;
-    }
 
     function normalizeText(value) {
       const raw = String(value || "").trim().toLowerCase();
@@ -631,7 +484,10 @@
           hex: color && color.hex ? color.hex : "",
           image: resolvedImage,
           thumb,
-          swatch
+          swatch,
+          hoverSrc: typeof imageUtils.getProductHoverImage === "function"
+            ? imageUtils.getProductHoverImage(product, color)
+            : ""
         };
       });
     }
@@ -672,11 +528,35 @@
       return (Array.isArray(items) ? items : []).slice().sort((a, b) => Number((b && b.price) || 0) - Number((a && a.price) || 0));
     }
 
+    function isOfferProduct(item) {
+      if (!item || typeof item !== "object") return false;
+      const badge = normalizeText(item.badge || item.featuredBadge);
+      const currentPrice = Number(item.price);
+      const originalPrice = Number(item.originalPrice);
+      const hasDiscount = Number.isFinite(currentPrice) && Number.isFinite(originalPrice) && originalPrice > currentPrice;
+      return badge.includes("oferta") || hasDiscount;
+    }
+
+    function isNewProduct(item) {
+      if (!item || typeof item !== "object") return false;
+      const labels = [item.badge, item.featuredBadge].map(normalizeText);
+      return labels.some((label) => label === "nuevo" || label.includes("nuevo"));
+    }
+
     function getNovedadesSource(products) {
       const source = Array.isArray(products) ? products : [];
-      const featured = source.filter((item) => item && item.featured === true);
+      const novedades = source.filter((item) => isNewProduct(item) && !isOfferProduct(item));
+      if (novedades.length) return novedades;
+
+      // Compatibilidad con catálogos antiguos que todavía no tienen etiquetas de novedad.
+      // En ese caso conservamos los destacados no rebajados hasta que se etiqueten.
+      const featured = source.filter((item) => item && item.featured === true && !isOfferProduct(item));
       if (featured.length) return featured;
-      return source.slice(0, 20);
+      return source.filter((item) => !isOfferProduct(item)).slice(0, 20);
+    }
+
+    function getOffersSource(products) {
+      return (Array.isArray(products) ? products : []).filter(isOfferProduct);
     }
 
     function pickByTypes(products, types, usedKeys) {
@@ -722,32 +602,31 @@
                 height: squareImageSize.height
               })}
             </div>
-          <span class="category-label">${window.romixIcon(category.icon || "Shirt", { size: "sm" })}${label}</span>
+          <span class="category-label">${label}</span>
           </a>
         `;
       }).join("");
     }
 
-    function renderProducts(products) {
-      const row = document.getElementById("productsRow");
+    function renderProducts(products, targetId = "productsRow", mode = "novedades") {
+      const row = document.getElementById(targetId);
       if (!row) return;
 
-      let source = Array.isArray(getNovedadesSource(products)) ? getNovedadesSource(products).slice() : [];
+      const sourceFactory = mode === "ofertas" ? getOffersSource : getNovedadesSource;
+      let source = sourceFactory(products).slice();
       if (typeof window.applyCatalogRelevanceOrder === "function") {
-        source = window.applyCatalogRelevanceOrder(source, "novedades");
+        source = window.applyCatalogRelevanceOrder(source, mode);
       }
 
       if (!source.length) {
-        row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+        row.innerHTML = mode === "ofertas"
+          ? '<div class="products-empty">No hay ofertas disponibles por ahora.</div>'
+          : '<div class="products-empty">No hay nuevos lanzamientos disponibles por ahora.</div>';
         return;
       }
 
       const variantLimit = 4;
-      const isMobileViewport = isHomeMobileViewport();
-      const homeProductLimit = isMobileViewport ? 4 : 12;
-      homeProductsRenderMode = isMobileViewport;
       row.innerHTML = "";
-      source = source.slice(0, homeProductLimit);
 
       source.forEach((product, index) => {
         const type = normalizeText(product && product.type);
@@ -776,6 +655,9 @@
         const thumbLink = document.createElement("a");
         thumbLink.className = "product-thumb";
         thumbLink.href = href;
+        thumbLink.dataset.hoverSrc = variantsData[0]?.hoverSrc || (typeof imageUtils.getProductHoverImage === "function"
+          ? imageUtils.getProductHoverImage(product, null)
+          : "");
         const badgeLabel = String(product && (product.badge || product.featuredBadge) || "").trim();
         if (badgeLabel) {
           const badge = document.createElement("span");
@@ -945,6 +827,7 @@
             button.dataset.variantIndex = String(index);
             button.dataset.variantSrc = String(variant.thumb || variant.image || "").trim();
             button.dataset.variantMainSrc = String(variant.image || "").trim();
+            button.dataset.variantHoverSrc = String(variant.hoverSrc || "").trim();
             const previewSrc = String(variant.thumb || variant.image || "").trim();
             if (index < variantLimit) {
               const preview = document.createElement("img");
@@ -1019,7 +902,6 @@
         if (stockInfo.label !== "Consultar disponibilidad") {
           const stock = document.createElement("p");
           stock.className = "stock-note " + stockInfo.cssClass;
-          stock.setAttribute("aria-hidden", "true");
           stock.textContent = stockInfo.label;
           body.appendChild(stock);
         }
@@ -1047,15 +929,6 @@
       }
     }
 
-    function syncHomeProductsViewport() {
-      if (!Array.isArray(homeProductsData)) return;
-      const isMobileViewport = isHomeMobileViewport();
-      if (homeProductsRenderMode === isMobileViewport) return;
-      renderProducts(homeProductsData);
-    }
-
-    window.addEventListener("resize", syncHomeProductsViewport);
-
     (function initHeroCarousel() {
       const carousel = document.getElementById("mainImageCarousel");
       if (!carousel) return;
@@ -1063,6 +936,7 @@
       const heroSection = carousel.closest(".main-hero-carousel");
       const slides = Array.from(carousel.querySelectorAll(".main-hero-carousel__slide"));
       const dotsWrap = carousel.querySelector("[data-carousel-dots]");
+      const toggleBtn = carousel.querySelector("[data-carousel-toggle]");
       const prevBtn = carousel.querySelector("[data-carousel-prev]");
       const nextBtn = carousel.querySelector("[data-carousel-next]");
       if (!slides.length || !dotsWrap) return;
@@ -1075,10 +949,28 @@
       let dots = [];
       let touchStartX = 0;
       let touchStartY = 0;
+      let isPaused = reduceMotion;
+
+      function updateToggle() {
+        if (!toggleBtn) return;
+        toggleBtn.setAttribute("aria-pressed", String(isPaused));
+        toggleBtn.setAttribute("aria-label", isPaused ? "Reproducir carrusel" : "Pausar carrusel");
+      }
+
+      function resetProgress() {
+        if (!dotsWrap) return;
+        dotsWrap.classList.remove("is-running");
+        dotsWrap.style.setProperty("--hero-duration", autoplayMs + "ms");
+        void dotsWrap.offsetWidth;
+        if (!isPaused && !reduceMotion) dotsWrap.classList.add("is-running");
+      }
 
       function render() {
         slides.forEach((slide, index) => {
           slide.classList.toggle("is-active", index === current);
+          slide.setAttribute("aria-hidden", index === current ? "false" : "true");
+          const link = slide.querySelector(".main-hero-carousel__slide-link");
+          if (link) link.tabIndex = index === current ? 0 : -1;
         });
         if (heroSection) {
           heroSection.classList.toggle("main-hero-carousel--kids", slides[current].classList.contains("main-hero-carousel__slide--kids"));
@@ -1102,17 +994,22 @@
           clearInterval(timer);
           timer = null;
         }
+        resetProgress();
       }
 
       function startAutoplay() {
         stopAutoplay();
-        if (reduceMotion || slides.length < 2 || !slides[0].querySelector("img").complete) return;
-        timer = setInterval(() => goTo(current + 1), autoplayMs);
+        if (isPaused || reduceMotion || slides.length < 2 || !slides[0].querySelector("img").complete) return;
+        resetProgress();
+        timer = setInterval(() => {
+          goTo(current + 1);
+          startAutoplay();
+        }, autoplayMs);
       }
 
       if (isStatic) {
         carousel.classList.add("is-static");
-        [prevBtn, nextBtn, dotsWrap].forEach((control) => {
+        [prevBtn, nextBtn, dotsWrap, toggleBtn].forEach((control) => {
           if (!control) return;
           control.hidden = true;
           control.setAttribute("aria-hidden", "true");
@@ -1126,7 +1023,7 @@
           dot.innerHTML = '<span class="sr-only">Imagen ' + (index + 1) + '</span>';
           dot.addEventListener("click", () => {
             goTo(index);
-            startAutoplay();
+            if (!isPaused) startAutoplay();
           });
           dotsWrap.appendChild(dot);
         });
@@ -1137,20 +1034,29 @@
       if (prevBtn && !isStatic) {
         prevBtn.addEventListener("click", () => {
           goTo(current - 1);
-          startAutoplay();
+          if (!isPaused) startAutoplay();
         });
       }
 
       if (nextBtn && !isStatic) {
         nextBtn.addEventListener("click", () => {
           goTo(current + 1);
-          startAutoplay();
+          if (!isPaused) startAutoplay();
+        });
+      }
+
+      if (toggleBtn && !isStatic) {
+        toggleBtn.addEventListener("click", () => {
+          isPaused = !isPaused;
+          updateToggle();
+          if (isPaused) stopAutoplay();
+          else startAutoplay();
         });
       }
 
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) stopAutoplay();
-        else startAutoplay();
+        else if (!isPaused) startAutoplay();
       });
 
       if (!isStatic) {
@@ -1169,55 +1075,64 @@
           if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
           if (deltaX < 0) goTo(current + 1);
           else goTo(current - 1);
-          startAutoplay();
+          if (!isPaused) startAutoplay();
         }, { passive: true });
       }
 
+      updateToggle();
       slides[0].querySelector("img").addEventListener("load", startAutoplay, { once: true });
       render();
       startAutoplay();
     })();
 
-    (function initProductsCarousel() {
-      const track = document.getElementById("productsRow");
-      const prev = document.getElementById("productsPrev");
-      const next = document.getElementById("productsNext");
-      if (!track || !prev || !next) return;
+    (function initProductsCarousels() {
+      function initCarousel(trackId, prevId, nextId, hintId) {
+        const track = document.getElementById(trackId);
+        const prev = document.getElementById(prevId);
+        const next = document.getElementById(nextId);
+        const hint = document.getElementById(hintId);
+        if (!track || !prev || !next) return;
 
-      function getStep() {
-        const card = track.querySelector(".product-card");
-        const styles = window.getComputedStyle(track);
-        const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
-        return card ? card.getBoundingClientRect().width + gap : 210;
-      }
-
-      function getStepCount() {
-        return window.innerWidth <= 760 ? 1 : 2;
-      }
-
-      function syncButtons() {
-        const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
-        if (maxScroll <= 4 || window.innerWidth <= 760) {
-          prev.disabled = true;
-          next.disabled = true;
-          return;
+        function getStep() {
+          const card = track.querySelector(".product-card");
+          const styles = window.getComputedStyle(track);
+          const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+          return card ? card.getBoundingClientRect().width + gap : 210;
         }
-        prev.disabled = track.scrollLeft <= 4;
-        next.disabled = track.scrollLeft >= maxScroll - 4;
+
+        function getStepCount() {
+          if (window.innerWidth <= 760) return 1;
+          if (window.innerWidth <= 1100) return 2;
+          return 3;
+        }
+
+        function syncButtons() {
+          const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+          const hasOverflow = maxScroll > 4;
+          track.classList.toggle("is-scrollable", hasOverflow);
+          if (hint) hint.hidden = !hasOverflow;
+          prev.disabled = !hasOverflow || track.scrollLeft <= 4;
+          next.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 4;
+          prev.setAttribute("aria-disabled", prev.disabled ? "true" : "false");
+          next.setAttribute("aria-disabled", next.disabled ? "true" : "false");
+        }
+
+        prev.addEventListener("click", () => {
+          track.scrollBy({ left: -getStep() * getStepCount(), behavior: "smooth" });
+        });
+
+        next.addEventListener("click", () => {
+          track.scrollBy({ left: getStep() * getStepCount(), behavior: "smooth" });
+        });
+
+        track.addEventListener("scroll", syncButtons, { passive: true });
+        window.addEventListener("resize", syncButtons);
+        productCarouselRefreshers.add(syncButtons);
+        syncButtons();
       }
 
-      prev.addEventListener("click", () => {
-        track.scrollBy({ left: -getStep() * getStepCount(), behavior: "smooth" });
-      });
-
-      next.addEventListener("click", () => {
-        track.scrollBy({ left: getStep() * getStepCount(), behavior: "smooth" });
-      });
-
-      track.addEventListener("scroll", syncButtons, { passive: true });
-      window.addEventListener("resize", syncButtons);
-      refreshProductsCarousel = syncButtons;
-      syncButtons();
+      initCarousel("productsRow", "productsPrev", "productsNext", "productsHint");
+      initCarousel("offersRow", "offersPrev", "offersNext", "offersHint");
     })();
 
 
@@ -1237,20 +1152,21 @@
         const products = await loadHomeProducts();
         renderCategories();
         if (!Array.isArray(products) || !products.length) {
-          const row = document.getElementById("productsRow");
-          if (row) {
-            row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
-          }
+          ["productsRow", "offersRow"].forEach((rowId) => {
+            const row = document.getElementById(rowId);
+            if (row) row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+          });
           console.warn("[index] loadHomeProducts devolvio una lista vacia");
           return;
         }
         homeProductsData = products;
-        renderProducts(homeProductsData);
+        renderProducts(homeProductsData, "productsRow", "novedades");
+        renderProducts(homeProductsData, "offersRow", "ofertas");
       } catch (error) {
-        const row = document.getElementById("productsRow");
-        if (row) {
-          row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
-        }
+        ["productsRow", "offersRow"].forEach((rowId) => {
+          const row = document.getElementById(rowId);
+          if (row) row.innerHTML = '<div class="products-empty">No pudimos cargar los productos por ahora.</div>';
+        });
         console.error("[index] Error cargando data de home", error);
       }
     })();

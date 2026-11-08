@@ -156,6 +156,39 @@
     return result;
   }
 
+  // Optional secondary view used by product cards on pointer hover. The
+  // catalog remains compatible with its current color-only data: a back view
+  // is used only when it is explicitly provided or when a color has a gallery
+  // with a second image.
+  function getProductHoverImage(product, color) {
+    const colorSource = color && typeof color === "object" ? color : {};
+    const explicit = [
+      colorSource.hoverImage,
+      colorSource.backImage,
+      colorSource.secondaryImage,
+      colorSource.imageBack,
+      product?.hoverImage,
+      product?.backImage,
+      product?.secondaryImage,
+      product?.imageBack
+    ];
+    const colorGallery = [
+      colorSource.images,
+      colorSource.imagenes,
+      colorSource.gallery,
+      colorSource.galeria,
+      colorSource.photos,
+      colorSource.fotos
+    ].find((list) => Array.isArray(list) && list.length > 1);
+    const candidates = explicit.concat(colorGallery ? colorGallery.slice(1) : []);
+    const main = cleanPath(colorSource.image || colorSource.imagen || product?.image);
+    for (const candidate of candidates) {
+      const value = cleanPath(candidate);
+      if (value && value !== main) return value;
+    }
+    return "";
+  }
+
   function findColorImageInLegacyMap(product, colorName) {
     const target = normalizeColorKey(colorName);
     if (!target) return "";
@@ -589,6 +622,7 @@
     getProductLegacyImageMap,
     getProductImageList,
     getColorImageList,
+    getProductHoverImage,
     resolveProductColorEntries,
     getProductMainImage,
     findProductColor,

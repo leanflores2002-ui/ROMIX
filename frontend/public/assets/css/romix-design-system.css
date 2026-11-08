@@ -15,13 +15,19 @@
 :root {
   color-scheme: light;
 
-  /* Brand and semantic colors */
-  --romix-pink: #F22797;
-  --romix-pink-hover: #D91D83;
-  --romix-pink-readable: #C71976;
-  --romix-pink-soft: #F291C7;
-  --romix-pink-bg: #FFF0F6;
-  --romix-ink: #242426;
+  /* ROMIX brand palette: vivid pink for actions, readable pink for text, ink for contrast. */
+  --romix-brand-pink: #F22797;
+  --romix-brand-pink-hover: #D91D83;
+  --romix-brand-pink-readable: #C71976;
+  --romix-brand-pink-soft: #F291C7;
+  --romix-brand-pink-bg: #FFF0F6;
+  --romix-brand-ink: #242426;
+  --romix-pink: var(--romix-brand-pink);
+  --romix-pink-hover: var(--romix-brand-pink-hover);
+  --romix-pink-readable: var(--romix-brand-pink-readable);
+  --romix-pink-soft: var(--romix-brand-pink-soft);
+  --romix-pink-bg: var(--romix-brand-pink-bg);
+  --romix-ink: var(--romix-brand-ink);
   --romix-muted: #6F6D76;
   --romix-text-muted: var(--romix-muted);
   --romix-white: #FFFFFF;

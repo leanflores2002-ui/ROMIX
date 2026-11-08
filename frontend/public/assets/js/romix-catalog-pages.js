@@ -710,7 +710,7 @@
       setOptionLabel("audiences", audienceKey, audienceKey === "nina" ? "Niña" : "Niño");
     }
 
-    if (state.scope === "catalogo" && requestedSections.length) {
+    if ((state.scope === "catalogo" || state.scope === "novedades") && requestedSections.length) {
       const availableSections = new Set(SECTION_OPTIONS.map((option) => option.key));
       const sectionKeys = state.catalogView.sectionKeys.length ? state.catalogView.sectionKeys : requestedSections;
       sectionKeys.forEach((key) => {
@@ -749,7 +749,7 @@
 
     if (requestedSizes.length) {
       let sizeSource = state.products.slice();
-      if (state.scope === "catalogo") {
+      if (state.scope === "catalogo" || state.scope === "novedades") {
         const selectedSection = Array.from(state.selected.sections)[0] || "";
         if (!selectedSection) return;
         sizeSource = state.products.filter((product) => product.section === selectedSection);
@@ -1339,11 +1339,11 @@
     if (state.scope === "catalogo") {
       const sectionValue = getSingleSelectedValue("sections");
       if (sectionValue) return getOptionLabel("sections", sectionValue);
-      return "Catalogo";
+      return "Catálogo";
     }
 
     const pageConfig = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
-    return pageConfig.title || "Catalogo";
+    return pageConfig.title || "Catálogo";
   }
 
   function renderBreadcrumb() {
@@ -1360,6 +1360,14 @@
       main.insertBefore(breadcrumb, heading);
     }
 
+    const backHref = state.scope === "catalogo" ? "index.html" : "catalogo.html";
+    const backLabel = state.scope === "catalogo" ? "Volver al inicio" : "Volver al catálogo";
+    const back = document.createElement("a");
+    back.className = "catalog-breadcrumb-back";
+    back.href = backHref;
+    back.setAttribute("aria-label", backLabel);
+    back.innerHTML = '<span class="catalog-breadcrumb-back-arrow" aria-hidden="true">&#8592;</span><span>Atrás</span>';
+
     const parts = [{ label: "Inicio", href: "index.html" }];
     const sectionLabel = getBreadcrumbSectionLabel();
     if (sectionLabel) parts.push({ label: sectionLabel });
@@ -1375,20 +1383,25 @@
     }
 
     breadcrumb.innerHTML = "";
+    breadcrumb.appendChild(back);
+
+    const trail = document.createElement("span");
+    trail.className = "catalog-breadcrumb-trail";
     parts.forEach((part, index) => {
       const node = part.href ? document.createElement("a") : document.createElement("span");
       if (part.href) node.href = part.href;
       node.textContent = part.label;
-      breadcrumb.appendChild(node);
 
       if (index < parts.length - 1) {
         const sep = document.createElement("span");
         sep.className = "catalog-breadcrumb-sep";
         sep.setAttribute("aria-hidden", "true");
-        sep.textContent = ">";
-        breadcrumb.appendChild(sep);
+        sep.textContent = "/";
+        trail.appendChild(sep);
       }
+      trail.appendChild(node);
     });
+    breadcrumb.appendChild(trail);
 
     ensureMobileFilterTrigger();
   }
@@ -1523,6 +1536,9 @@
       const thumb = document.createElement("div");
       thumb.className = "product-thumb";
       let selectedColor = getFirstColor(product);
+      thumb.dataset.hoverSrc = typeof imageUtils.getProductHoverImage === "function"
+        ? imageUtils.getProductHoverImage(product, selectedColor)
+        : "";
       const imagePriority = getCardImagePriority(index);
       const defaultThumbSet = resolveThumbSet(product, null);
       const initialThumbSet = resolveThumbSet(product, selectedColor);
@@ -1698,6 +1714,9 @@
           button.dataset.variantIndex = String(index);
           button.dataset.variantSrc = String(color.thumb || color.thumbnail || color.image || "").trim();
           button.dataset.variantMainSrc = String(color.image || "").trim();
+          button.dataset.variantHoverSrc = typeof imageUtils.getProductHoverImage === "function"
+            ? imageUtils.getProductHoverImage(product, color)
+            : "";
           const previewSrc = String(color.thumb || color.thumbnail || color.image || "").trim();
           if (index < 4) {
             const preview = document.createElement("img");
@@ -1776,7 +1795,6 @@
       if (stockInfo.label !== "Consultar disponibilidad") {
         const stock = document.createElement("p");
         stock.className = "stock-note " + stockInfo.css;
-        stock.setAttribute("aria-hidden", "true");
         stock.textContent = stockInfo.label;
         body.appendChild(stock);
       }
@@ -1837,7 +1855,7 @@
       if (selectedAudience === "nina" && (!isNinosProduct || isNinoProduct)) return false;
     }
 
-    if (state.scope === "catalogo" && state.selected.sections.size) {
+    if ((state.scope === "catalogo" || state.scope === "novedades") && state.selected.sections.size) {
       if (!state.selected.sections.has(product.section)) return false;
     }
 
@@ -1959,10 +1977,10 @@
       if (list.length) params.set(key, list.join(","));
     });
 
-    ["sections", "section", "secciones", "seccion"].forEach((key) => params.delete(key));
     if (state.catalogView.mode === "novedades") {
       params.set("view", "novedades");
     } else if (state.catalogView.mode === "section") {
+      ["sections", "section", "secciones", "seccion"].forEach((key) => params.delete(key));
       if (!document.body.dataset.categoryPage) params.set("sections", state.scope);
     } else if (state.selected.sections.size) {
       params.set("sections", Array.from(state.selected.sections).sort(compareFilterValues).join(","));
@@ -2174,12 +2192,15 @@
     const group = document.getElementById("section-filter-group");
     if (!container || !group) return;
 
-    const showSectionFilter = state.scope === "catalogo";
+    const showSectionFilter = state.scope === "catalogo" || state.scope === "novedades";
     group.hidden = !showSectionFilter;
     if (!showSectionFilter) {
       container.innerHTML = "";
       return;
     }
+
+    const heading = group.querySelector("h3");
+    if (heading) heading.textContent = state.scope === "novedades" ? "PÚBLICO" : "SECCIÓN";
 
     container.innerHTML = "";
     state.optionLabels.sections.clear();
@@ -2220,7 +2241,7 @@
     const helper = document.getElementById("size-helper");
     const sizeMoreButton = document.getElementById("size-more-btn");
 
-    if (state.scope === "catalogo") {
+    if (state.scope === "catalogo" || state.scope === "novedades") {
       const selectedSection = Array.from(state.selected.sections)[0] || "";
       if (!selectedSection) {
         state.sizeValues = [];
@@ -2237,7 +2258,9 @@
         }
         if (helper) {
           helper.hidden = false;
-          helper.textContent = "Seleccioná una sección para ver los talles disponibles";
+          helper.textContent = state.scope === "novedades"
+            ? "Seleccioná Mujer, Hombre o Niños para ver los talles disponibles"
+            : "Seleccioná una sección para ver los talles disponibles";
         }
         return;
       }
@@ -2275,9 +2298,11 @@
     state.optionLabels.sizes.clear();
 
     if (!state.sizeValues.length) {
-      if (helper && state.scope === "catalogo") {
+      if (helper && (state.scope === "catalogo" || state.scope === "novedades")) {
         helper.hidden = false;
-        helper.textContent = "No hay talles disponibles para la sección seleccionada";
+        helper.textContent = state.scope === "novedades"
+          ? "No hay talles disponibles para el público seleccionado"
+          : "No hay talles disponibles para la sección seleccionada";
       }
       if (sizeMoreButton) sizeMoreButton.classList.add("is-hidden");
       return;
@@ -2308,6 +2333,7 @@
   }
 
   function initPageHeader() {
+    document.documentElement.classList.add("romix-catalog-js");
     const config = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
     const title = document.getElementById("page-title");
     if (title && !document.body.dataset.categoryPage) {
@@ -2544,12 +2570,14 @@
     renderSizeFilters();
     renderPriceFilters();
     applyFilters();
+    document.documentElement.classList.remove("romix-catalog-hydrating");
     } catch (error) {
       const grid = document.getElementById("product-grid");
       if (grid?.querySelector('.product-card')) {
         const summary = document.getElementById('products-summary');
         if (summary) summary.textContent = 'Los filtros no están disponibles por ahora. Podés abrir los productos del listado.';
         bindStaticVariantCards(grid);
+        document.documentElement.classList.remove("romix-catalog-hydrating");
         console.warn('[romix-catalog] Se conserva el listado generado.', error);
         return;
       }
@@ -2561,6 +2589,7 @@
         grid.appendChild(empty);
       }
       renderSummary();
+      document.documentElement.classList.remove("romix-catalog-hydrating");
       console.error("[romix-catalog]", error);
     }
 

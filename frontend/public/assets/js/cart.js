@@ -483,6 +483,8 @@
     if (!badge) return;
     const { totalItems } = getCartTotals();
     badge.textContent = String(totalItems);
+    badge.hidden = totalItems === 0;
+    badge.setAttribute('aria-hidden', totalItems === 0 ? 'true' : 'false');
   };
 
   const decodeCartText = (value) => {

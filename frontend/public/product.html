@@ -2164,14 +2164,14 @@
                 <a class="share-contact" id="btn-contact" href="ayuda.html#contact">Consultar sobre este producto</a>
                 <input id="share-link-input" type="text" readonly aria-label="Link para compartir" tabindex="-1" />
               </div>
-            </div>
-            <div class="detail-extras">
               <section class="benefit-strip" aria-label="Beneficios de compra">
                 <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("RotateCcw", { size: "md" })}</span><div><strong>Cambios fáciles</strong><span>Consultá condiciones</span></div></div>
                 <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("CreditCard", { size: "md" })}</span><div><strong>Pago seguro</strong><span>Medios de pago disponibles</span></div></div>
                 <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("Truck", { size: "md" })}</span><div><strong>Envíos y retiros coordinados</strong><span>Consultá disponibilidad</span></div></div>
                 <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("MessageCircle", { size: "md" })}</span><div><strong>Atención por WhatsApp</strong><span>Te ayudamos a elegir</span></div></div>
               </section>
+            </div>
+            <div class="detail-extras">
               <section id="features-section" class="features-panel" hidden>
                 <div id="product-tabs" class="product-tabs" role="tablist" aria-label="Información del producto"></div>
                 <div id="product-accordion" class="product-accordion" aria-live="polite"></div>
@@ -2775,6 +2775,8 @@
 
         section.hidden = false;
         setupProductAccordion(section);
+        const firstAccordionItem = accordion.querySelector('.product-accordion__item');
+        if (firstAccordionItem) setAccordionItemState(firstAccordionItem, true);
       }
 
     function setupRelatedProductsCarousel(section, listEl, prevBtn, nextBtn) {

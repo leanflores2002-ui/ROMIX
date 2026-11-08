@@ -1339,11 +1339,11 @@
     if (state.scope === "catalogo") {
       const sectionValue = getSingleSelectedValue("sections");
       if (sectionValue) return getOptionLabel("sections", sectionValue);
-      return "Catalogo";
+      return "Catálogo";
     }
 
     const pageConfig = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
-    return pageConfig.title || "Catalogo";
+    return pageConfig.title || "Catálogo";
   }
 
   function renderBreadcrumb() {
@@ -1360,6 +1360,14 @@
       main.insertBefore(breadcrumb, heading);
     }
 
+    const backHref = state.scope === "catalogo" ? "index.html" : "catalogo.html";
+    const backLabel = state.scope === "catalogo" ? "Volver al inicio" : "Volver al catálogo";
+    const back = document.createElement("a");
+    back.className = "catalog-breadcrumb-back";
+    back.href = backHref;
+    back.setAttribute("aria-label", backLabel);
+    back.innerHTML = '<span class="catalog-breadcrumb-back-arrow" aria-hidden="true">&#8592;</span><span>Atrás</span>';
+
     const parts = [{ label: "Inicio", href: "index.html" }];
     const sectionLabel = getBreadcrumbSectionLabel();
     if (sectionLabel) parts.push({ label: sectionLabel });
@@ -1375,20 +1383,25 @@
     }
 
     breadcrumb.innerHTML = "";
+    breadcrumb.appendChild(back);
+
+    const trail = document.createElement("span");
+    trail.className = "catalog-breadcrumb-trail";
     parts.forEach((part, index) => {
       const node = part.href ? document.createElement("a") : document.createElement("span");
       if (part.href) node.href = part.href;
       node.textContent = part.label;
-      breadcrumb.appendChild(node);
 
       if (index < parts.length - 1) {
         const sep = document.createElement("span");
         sep.className = "catalog-breadcrumb-sep";
         sep.setAttribute("aria-hidden", "true");
-        sep.textContent = ">";
-        breadcrumb.appendChild(sep);
+        sep.textContent = "/";
+        trail.appendChild(sep);
       }
+      trail.appendChild(node);
     });
+    breadcrumb.appendChild(trail);
 
     ensureMobileFilterTrigger();
   }
@@ -2314,6 +2327,7 @@
   }
 
   function initPageHeader() {
+    document.documentElement.classList.add("romix-catalog-js");
     const config = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
     const title = document.getElementById("page-title");
     if (title && !document.body.dataset.categoryPage) {

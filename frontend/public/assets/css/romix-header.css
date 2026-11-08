@@ -4267,9 +4267,24 @@ header.romix-shared-header .romix-icon-btn:hover {
 
   .site-header .header-search-desktop svg,
   header.romix-shared-header .header-search-desktop svg {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
+
+  .site-header .cart-pill__text,
+  header.romix-shared-header .cart-pill__text { display: none; }
+
+  .site-header .cart-pill__icon svg,
+  header.romix-shared-header .cart-pill__icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { width: 54px; height: 54px; border: 0; }
+
+  .site-header .header-utility-menu svg,
+  header.romix-shared-header .header-utility-menu svg { width: 30px; height: 30px; }
 }
 
 .romix-announcement {

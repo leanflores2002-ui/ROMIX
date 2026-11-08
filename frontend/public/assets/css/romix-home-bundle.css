@@ -6109,9 +6109,9 @@ header.romix-shared-header .romix-icon-btn:hover {
     margin-bottom: -1px;
     border-bottom: 2px solid transparent;
     color: var(--romix-ink);
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
-    letter-spacing: .01em;
+    letter-spacing: 0;
     text-transform: none;
     transition: color 160ms ease, border-color 160ms ease;
   }
@@ -6136,9 +6136,52 @@ header.romix-shared-header .romix-icon-btn:hover {
 
   .site-header .main-nav > li[data-menu-key="ofertas"] > a,
   header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > a {
+    min-height: 48px;
+    padding: 8px 18px;
+    border: 0;
+    border-radius: 999px;
     color: var(--romix-pink-readable);
+    background: var(--romix-pink-soft);
     font-weight: 800;
   }
+
+  .site-header .main-nav > li[data-menu-key="ofertas"] > a:hover,
+  .site-header .main-nav > li[data-menu-key="ofertas"] > a:focus-visible,
+  header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > a:hover,
+  header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > a:focus-visible {
+    color: var(--romix-pink-hover);
+    background: #fbd7e9;
+  }
+
+  .site-header .header-search-desktop,
+  header.romix-shared-header .header-search-desktop {
+    width: 54px;
+    height: 54px;
+    border: 0;
+    background: var(--romix-pink-soft);
+    color: var(--romix-ink);
+  }
+
+  .site-header .header-search-desktop svg,
+  header.romix-shared-header .header-search-desktop svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .site-header .cart-pill__text,
+  header.romix-shared-header .cart-pill__text { display: none; }
+
+  .site-header .cart-pill__icon svg,
+  header.romix-shared-header .cart-pill__icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .site-header .header-utility-menu,
+  header.romix-shared-header .header-utility-menu { width: 54px; height: 54px; border: 0; }
+
+  .site-header .header-utility-menu svg,
+  header.romix-shared-header .header-utility-menu svg { width: 30px; height: 30px; }
 }
 
 .romix-announcement {

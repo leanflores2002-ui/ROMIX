@@ -948,7 +948,8 @@
       const thumbFallback = String(entry?.thumbFallback || "").trim()
         || resolvedImage;
       const thumbAvif = String(entry?.thumbAvif || "").trim();
-      return Object.assign({}, entry, {
+      return {
+        ...entry,
         key,
         name,
         hex: entry?.hex ? entry.hex : (RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da"),
@@ -957,7 +958,7 @@
         swatch,
         thumbFallback,
         thumbAvif
-      });
+      };
     });
   }
 

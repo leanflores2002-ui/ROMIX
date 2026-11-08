@@ -52,12 +52,13 @@
     const out = [];
     (Array.isArray(list) ? list : []).forEach((product) => {
       if (!product || !product.name) return;
-      const copy = Object.assign({}, product);
+      const copy = { ...product };
       ["name", "type", "section", "badge", "description", "season", "collection"].forEach((key) => {
         if (copy[key]) copy[key] = globalFixUtf8(String(copy[key]));
       });
       if (Array.isArray(copy.colors)) {
-        copy.colors = copy.colors.map((color) => Object.assign({}, color, {
+        copy.colors = copy.colors.map((color) => ({
+          ...color,
           name: globalFixUtf8(color?.name)
         }));
       }

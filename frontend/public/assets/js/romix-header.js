@@ -13,9 +13,9 @@
 
   function normalizeSection(value) {
     var key = normalizeText(value);
-    if (["mujer", "mujeres", "dama", "damas"].indexOf(key) >= 0) return "mujer";
-    if (["hombre", "hombres", "caballero", "caballeros"].indexOf(key) >= 0) return "hombre";
-    if (["ninos", "ninas", "nino", "nina"].indexOf(key) >= 0) return "ninos";
+    if (["mujer", "mujeres", "dama", "damas"].includes(key)) return "mujer";
+    if (["hombre", "hombres", "caballero", "caballeros"].includes(key)) return "hombre";
+    if (["ninos", "ninas", "nino", "nina"].includes(key)) return "ninos";
     if (key === "novedades") return "novedades";
     return "";
   }
@@ -33,8 +33,8 @@
     var arrow = document.createElement("span");
     arrow.className = "mobile-nav-arrow";
     arrow.setAttribute("aria-hidden", "true");
-    arrow.setAttribute("data-romix-icon", "ArrowRight");
-    arrow.setAttribute("data-romix-icon-size", "sm");
+    arrow.dataset.romixIcon = "ArrowRight";
+    arrow.dataset.romixIconSize = "sm";
     return arrow;
   }
 
@@ -543,7 +543,7 @@
       header.classList.toggle("has-open-menu", !!openKey);
 
       items.forEach(function (item) {
-        var key = item.getAttribute("data-menu-key") || "";
+        var key = item.dataset.menuKey || "";
         var open = key === openKey;
         var trigger = item.querySelector(".mega-trigger");
         var panel = item.querySelector(".mega-panel");
@@ -590,7 +590,7 @@
     headerState.closeMega = closeMenu;
 
     items.forEach(function (item) {
-      var key = item.getAttribute("data-menu-key") || "";
+      var key = item.dataset.menuKey || "";
       var trigger = item.querySelector(".mega-trigger");
       var panel = item.querySelector(".mega-panel");
       if (!trigger) return;

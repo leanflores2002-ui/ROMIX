@@ -233,7 +233,7 @@
 
   function getSizeGuideForProduct(product) {
     const key = getSizeGuideKey(product);
-    return Object.assign({ key }, SIZE_GUIDES[key] || SIZE_GUIDES.general);
+    return { key, ...(SIZE_GUIDES[key] || SIZE_GUIDES.general) };
   }
 
   function formatGuideSubtitle(guide) {

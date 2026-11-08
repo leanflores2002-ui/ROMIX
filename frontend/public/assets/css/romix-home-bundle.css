@@ -484,7 +484,7 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
 .home .quick-category-section .category-item:hover .category-thumb { border: 0; box-shadow: 0 0 0 3px var(--romix-pink-soft); }
 
 /* Secondary promotional carousel below new releases. */
-.home .main-hero-carousel { --hero-height: clamp(320px, 34.37vw, 620px); position: relative; width: 100%; max-width: none; margin: 0; overflow: hidden; background: var(--romix-surface-soft); }
+.home .main-hero-carousel { --hero-height: clamp(420px, 42vw, 720px); position: relative; width: 100%; max-width: none; margin: 0; overflow: hidden; background: var(--romix-surface-soft); }
 .home .main-hero-carousel__viewport, .home .main-hero-carousel__track { position: relative; width: 100%; height: var(--hero-height); }
 .home .main-hero-carousel__slide { display: block; position: absolute; inset: 0; width: 100%; height: 100%; visibility: hidden; opacity: 0; transform: scale(1.025); transition: opacity 560ms ease, transform 900ms ease, visibility 0s linear 560ms; }
 .home .main-hero-carousel__slide.is-active { z-index: 1; visibility: visible; opacity: 1; transform: scale(1); transition-delay: 0s; }
@@ -518,7 +518,7 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
 .home .trust-item p { margin: 0; color: var(--romix-muted); font-size: 13px; line-height: 1.5; }
 
 @media (max-width: 960px) {
-  .home .main-hero-carousel { --hero-height: clamp(300px, 34.37vw, 560px); }
+  .home .main-hero-carousel { --hero-height: clamp(360px, 42vw, 640px); }
   .home .campaign-hero { height: 450px; }
   .home .campaign-hero h2 { font-size: 64px; }
   .home .campaign-hero p { max-width: 310px; font-size: 18px; }
@@ -578,7 +578,7 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
   .home .quick-category-section .categories-grid { width: 100%; grid-auto-columns: 96px; gap: 14px; padding: 2px 2px 8px; }
   .home .quick-category-section .category-thumb { width: 88px; }
   .home .quick-category-section .category-item span { font-size: 13px; }
-  .home .main-hero-carousel { --hero-height: clamp(250px, 66.67vw, 460px); }
+  .home .main-hero-carousel { --hero-height: clamp(320px, 85vw, 560px); }
   .home .main-hero-carousel__viewport { height: var(--hero-height); background: var(--romix-ink); }
   .home .main-hero-carousel__slide::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, transparent 60%, rgba(19,19,23,.34)); }
   .home .main-hero-carousel__slide img { object-fit: cover; object-position: center; }
@@ -617,7 +617,7 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
 }
 
 /* Campaign video: edge-to-edge image, integrated copy and a compact motion control. */
-.home .video-hero { position: relative; isolation: isolate; width: 100%; margin-left: 0; height: clamp(380px, 38.2vw, 620px); overflow: hidden; background: #131317; }
+.home .video-hero { position: relative; isolation: isolate; width: 100%; margin-left: 0; height: clamp(460px, 46vw, 760px); overflow: hidden; background: #131317; }
 .video-hero__video, .video-hero__poster { position: absolute; inset: 0; width: 100%; height: 100%; }
 .video-hero__video, .video-hero__poster img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .video-hero__poster { z-index: 0; pointer-events: none; }
@@ -636,9 +636,9 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
 .video-hero__toggle .video-icon { display: block; width: 20px; height: 20px; }
 .video-hero__toggle[data-playing="true"] .video-icon--play, .video-hero__toggle[data-playing="false"] .video-icon--pause, .video-hero__toggle[hidden] { display: none; }
 .video-hero :is(a,button):focus-visible { outline: 3px solid var(--romix-pink); outline-offset: 3px; }
-@media (max-width: 960px) { .home .video-hero { height: clamp(360px, 60vw, 520px); } }
+@media (max-width: 960px) { .home .video-hero { height: clamp(420px, 72vw, 620px); } }
 @media (max-width: 600px) {
-  .home .video-hero { height: clamp(360px, 108vw, 500px); }
+  .home .video-hero { height: clamp(420px, 125vw, 620px); }
   .video-hero::after { background: linear-gradient(0deg, rgba(0,0,0,.86), rgba(0,0,0,.25) 60%, rgba(0,0,0,.06)); }
   .video-hero__copy { left: 20px; right: 20px; bottom: 32px; gap: 12px; }
   .home .video-hero h1 { max-width: 340px; font-size: clamp(38px, 10.5vw, 58px); }

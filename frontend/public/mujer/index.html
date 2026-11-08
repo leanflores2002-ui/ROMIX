@@ -8,6 +8,23 @@
   <!-- ROMIX:SHELL:CRITICAL:START -->
 <link rel="stylesheet" href="assets/css/romix-shell-base.css?v=23" data-romix-shell-critical />
 <!-- ROMIX:SHELL:CRITICAL:END -->
+  <script>document.documentElement.classList.add("romix-catalog-hydrating");</script>
+  <style id="romix-catalog-hydration-critical">
+    html.romix-catalog-hydrating .catalog-nav,
+    html.romix-catalog-hydrating #products-summary,
+    html.romix-catalog-hydrating #product-grid > * { visibility: hidden; }
+    html.romix-catalog-hydrating #product-grid { position: relative; min-height: 420px; }
+    html.romix-catalog-hydrating #product-grid::before {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      min-height: 240px;
+      color: #73798a;
+      content: "Cargando catálogo…";
+      font-size: 0.875rem;
+    }
+  </style>
   <title>Ropa para mujer | ROMIX</title>
   <meta name="description" content="Explorá la ropa para mujer de ROMIX. Compará prendas, talles, colores y precios del catálogo." />
   <link rel="canonical" href="https://romix-ropas.vercel.app/mujer/" />
@@ -31,7 +48,7 @@
   <link rel="preload" as="fetch" href="assets/data/products.json" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=23" />
-  <link rel="stylesheet" href="assets/css/romix-catalog-pages.css?v=25" />
+  <link rel="stylesheet" href="assets/css/romix-catalog-pages.css?v=26" />
   <link rel="icon" href="images/branding/romix-logo-icon.webp" type="image/webp" sizes="180x180" />
   <link rel="apple-touch-icon" href="images/branding/romix-logo-icon.webp" sizes="180x180" />
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
@@ -203,7 +220,7 @@
 
       <section class="products-wrap" aria-label="Listado de productos">
         <div class="products-top">
-          <p id="products-summary" class="products-summary">124 productos publicados</p>
+          <p id="products-summary" class="products-summary">97 productos publicados</p>
           <button id="toggle-filters" type="button" class="filters-toggle-btn romix-btn romix-btn--outline" aria-controls="filters-sidebar" aria-expanded="true">
             <span data-romix-icon="SlidersHorizontal" data-romix-icon-size="sm" aria-hidden="true"></span>
             <span class="filters-toggle-label">Ocultar filtros</span>

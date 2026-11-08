@@ -2564,12 +2564,14 @@
     renderSizeFilters();
     renderPriceFilters();
     applyFilters();
+    document.documentElement.classList.remove("romix-catalog-hydrating");
     } catch (error) {
       const grid = document.getElementById("product-grid");
       if (grid?.querySelector('.product-card')) {
         const summary = document.getElementById('products-summary');
         if (summary) summary.textContent = 'Los filtros no están disponibles por ahora. Podés abrir los productos del listado.';
         bindStaticVariantCards(grid);
+        document.documentElement.classList.remove("romix-catalog-hydrating");
         console.warn('[romix-catalog] Se conserva el listado generado.', error);
         return;
       }
@@ -2581,6 +2583,7 @@
         grid.appendChild(empty);
       }
       renderSummary();
+      document.documentElement.classList.remove("romix-catalog-hydrating");
       console.error("[romix-catalog]", error);
     }
 

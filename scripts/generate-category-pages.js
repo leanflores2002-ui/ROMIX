@@ -37,7 +37,7 @@ function renderCategory(category, catalogHtml, products, origin) {
     .replace(/(<h1 id="page-title"[^>]*>)[\s\S]*?(<\/h1>)/, (_, before, after) => `${before}Ropa para ${escapeHtml(category.label.toLowerCase())} ROMIX${after}`)
     .replace('<!-- ROMIX:CATEGORY:INTRO -->', () => `<p class="catalog-intro">${escapeHtml(category.intro)}</p>`)
     .replace(/<!-- ROMIX:CATALOG:STATIC:START -->[\s\S]*?<!-- ROMIX:CATALOG:STATIC:END -->|<!-- ROMIX:CATEGORY:PRODUCTS -->/, () => cards)
-    .replace('Cargando catálogo...', `${list.length} productos publicados`)
+    .replace(/(<p id="products-summary"[^>]*>)[\s\S]*?(<\/p>)/, (_, before, after) => `${before}${list.length} productos publicados${after}`)
     .replace(/<noscript>[\s\S]*?<\/noscript>/g, match => match.includes('catálogo interactivo')
       ? '<noscript><p class="catalog-noscript">Podés abrir cada producto del listado. Activá JavaScript para usar los filtros interactivos.</p></noscript>' : match);
   return html;

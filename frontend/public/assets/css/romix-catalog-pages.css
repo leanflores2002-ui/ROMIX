@@ -25,6 +25,35 @@ body[data-catalog-scope] {
   font-size: var(--romix-text-base);
   line-height: var(--romix-leading-body);
 }
+/* Keep the server-rendered fallback from flashing while the current catalog UI hydrates. */
+html.romix-catalog-hydrating .catalog-nav,
+html.romix-catalog-hydrating #products-summary,
+html.romix-catalog-hydrating #product-grid > * {
+  visibility: hidden;
+}
+html.romix-catalog-hydrating #product-grid {
+  position: relative;
+  min-height: 420px;
+}
+html.romix-catalog-hydrating #product-grid::before {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+  color: var(--catalog-muted);
+  content: "Cargando catálogo…";
+  font-size: var(--romix-text-sm);
+}
+html.romix-catalog-hydrating #product-grid::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: var(--catalog-line);
+  content: "";
+}
 body[data-catalog-scope] a { color: inherit; }
 body[data-catalog-scope] button,
 body[data-catalog-scope] input,

@@ -101,7 +101,7 @@
 .product-tabs { display: none; }
 .product-tab { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 54px; padding: 0 12px; border: 0; border-bottom: 2px solid transparent; color: var(--product-ink); background: #fff; font-size: .84rem; font-weight: 700; text-align: center; cursor: pointer; }
 .product-tab:hover, .product-tab:focus-visible, .product-tab.is-active { color: var(--romix-pink-readable); border-bottom-color: var(--product-pink); }
-.product-tab-panels { width: 100%; }
+.product-tab-panels { display: none; }
 .product-tab-panel { min-width: 0; padding: 24px 0 4px; }
 .product-tab-panel[hidden] { display: none; }
 .product-description-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr); gap: 40px; align-items: start; max-width: 80ch; }
@@ -284,6 +284,9 @@
 /* Product detail desktop composition: purchase information stays together on the right,
    while the descriptive accordions sit directly below the gallery on the left. */
 @media (min-width: 1021px) {
+  /* The storefront uses body zoom(.9) on desktop for compact density. Counter it
+     for the fixed lightbox so the backdrop still covers the complete viewport. */
+  .zoom-modal { zoom: 1.111111; }
   .detail-extras { align-self: start; }
   .info-panel > .benefit-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 2px 0 0; padding: 18px 0 0; border-top: 1px solid var(--product-line); border-bottom: 0; }
   .info-panel > .benefit-strip .benefit-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 12px; border-right: 1px solid var(--product-line); text-align: center; }

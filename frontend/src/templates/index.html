@@ -124,11 +124,6 @@
         <div>
                     <h2 id="ofertas-titulo">NUEVOS LANZAMIENTOS</h2>
         </div>
-        <a class="section-link" href="catalogo.html?view=novedades">Ver todo
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </a>
       </div>
       <div class="products-shell">
         <button class="romix-icon-btn products-arrow left" type="button" id="productsPrev" aria-label="Ver productos anteriores" aria-controls="productsRow">
@@ -146,13 +141,6 @@
         </button>
       </div>
       <p class="products-hint" id="productsHint" aria-live="polite">Deslizá o usá las flechas para ver más productos</p>
-      <div class="products-mobile-cta">
-        <a class="section-link" href="catalogo.html?view=novedades">Ver todos los lanzamientos
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </a>
-      </div>
     </section>
 
 
@@ -362,13 +350,6 @@
 
     let refreshProductsCarousel = null;
     let homeProductsData = null;
-    let homeProductsRenderMode = null;
-
-    function isHomeMobileViewport() {
-      return window.matchMedia
-        ? window.matchMedia("(max-width: 767px)").matches
-        : window.innerWidth <= 767;
-    }
 
     function normalizeText(value) {
       const raw = String(value || "").trim().toLowerCase();
@@ -612,11 +593,7 @@
       }
 
       const variantLimit = 4;
-      const isMobileViewport = isHomeMobileViewport();
-      const homeProductLimit = isMobileViewport ? 8 : 12;
-      homeProductsRenderMode = isMobileViewport;
       row.innerHTML = "";
-      source = source.slice(0, homeProductLimit);
 
       source.forEach((product, index) => {
         const type = normalizeText(product && product.type);
@@ -914,15 +891,6 @@
         requestAnimationFrame(refreshProductsCarousel);
       }
     }
-
-    function syncHomeProductsViewport() {
-      if (!Array.isArray(homeProductsData)) return;
-      const isMobileViewport = isHomeMobileViewport();
-      if (homeProductsRenderMode === isMobileViewport) return;
-      renderProducts(homeProductsData);
-    }
-
-    window.addEventListener("resize", syncHomeProductsViewport);
 
     (function initHeroCarousel() {
       const carousel = document.getElementById("mainImageCarousel");

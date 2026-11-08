@@ -45,6 +45,52 @@
     return card.querySelector(".product-thumb, .related-products__media-link, .romix-search-product__media");
   }
 
+  function setHoverImage(card, source, alt) {
+    const media = getMediaElement(card);
+    if (!media) return;
+    const value = String(source || "").trim();
+    media.dataset.hoverSrc = value;
+    if (!value) {
+      media.classList.remove("has-hover-image");
+      media.querySelector(".product-thumb__hover")?.remove();
+      return;
+    }
+    let hoverImage = media.querySelector(".product-thumb__hover");
+    if (!hoverImage) {
+      hoverImage = document.createElement("img");
+      hoverImage.className = "product-thumb__hover";
+      hoverImage.loading = "lazy";
+      hoverImage.decoding = "async";
+      hoverImage.width = 720;
+      hoverImage.height = 960;
+      hoverImage.setAttribute("aria-hidden", "true");
+      media.appendChild(hoverImage);
+    }
+    hoverImage.dataset.src = value;
+    hoverImage.alt = alt || "Vista trasera del producto";
+    if (hoverImage.getAttribute("src") && hoverImage.getAttribute("src") !== value) {
+      hoverImage.removeAttribute("src");
+    }
+    media.classList.add("has-hover-image");
+  }
+
+  function bindHoverImage(card) {
+    if (!card || card.dataset.romixHoverBound === "true") return;
+    const media = getMediaElement(card);
+    if (!media) return;
+    card.dataset.romixHoverBound = "true";
+    const load = () => {
+      const hoverImage = media.querySelector(".product-thumb__hover");
+      const source = hoverImage?.dataset.src || media.dataset.hoverSrc || "";
+      if (hoverImage && source && hoverImage.getAttribute("src") !== source) {
+        hoverImage.src = source;
+      }
+    };
+    card.addEventListener("pointerenter", load, { passive: true });
+    card.addEventListener("focusin", load);
+    setHoverImage(card, media.dataset.hoverSrc || card.dataset.hoverSrc || "", media.getAttribute("aria-label") || "Vista trasera del producto");
+  }
+
   function ensureMediaShell(card) {
     const media = getMediaElement(card);
     if (!media) return null;
@@ -177,6 +223,7 @@
   function bind(card, options) {
     if (!card) return card;
     bindCardNavigation(card);
+    bindHoverImage(card);
     if (card.dataset.romixVariantInteraction === "true") return card;
     const buttons = getButtons(card);
     if (buttons.length <= 1) {
@@ -280,6 +327,8 @@
       expanded = false;
       activeIndex = Number(config.initialIndex) || 0;
       syncActive(variantButtons, activeIndex);
+      const initialButton = variantButtons[activeIndex];
+      setHoverImage(card, initialButton?.dataset.variantHoverSrc || "", initialButton?.getAttribute("aria-label") || "Vista trasera del producto");
       if (typeof config.restoreInitial === "function") {
         config.restoreInitial();
       } else {
@@ -312,6 +361,7 @@
       } else {
         setGenericImage(mediaImage, button);
       }
+      setHoverImage(card, button.dataset.variantHoverSrc || "", button.getAttribute("aria-label") || "Vista trasera del producto");
       if (!open) show();
     }
 
@@ -419,6 +469,7 @@
   window.romixProductCard = Object.freeze({
     bind,
     bindAll,
+    setHoverImage,
     uniqueColorEntries,
     normalizeColorKey
   });

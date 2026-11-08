@@ -99,7 +99,7 @@
   </main>
 <!-- ROMIX:INCLUDE:FOOTER -->
 
-  <script src="assets/js/romix-image-utils.js?v=21"></script>
+  <script src="assets/js/romix-image-utils.js?v=22"></script>
   <script src="assets/js/color-utils.js?v=19"></script>
   <script src="assets/js/slugify.js?v=19"></script>
   <script src="assets/js/share-versions.js?v=19"></script>
@@ -2752,7 +2752,10 @@
           return {
             src: src || PLACEHOLDER,
             mainSrc: src || PLACEHOLDER,
-            alt: color && (color.name || color.value) || ('Variante ' + (index + 1))
+            alt: color && (color.name || color.value) || ('Variante ' + (index + 1)),
+            hoverSrc: typeof imageUtils.getProductHoverImage === 'function'
+              ? imageUtils.getProductHoverImage(product, color)
+              : ''
           };
         });
       };
@@ -2772,6 +2775,8 @@
 
         const imageWrap = document.createElement('div');
         imageWrap.className = 'related-products__image-wrap';
+        const initialVariant = getVariantThumbs(p)[0];
+        imageWrap.dataset.hoverSrc = initialVariant?.hoverSrc || '';
 
         const imageLink = document.createElement('a');
         imageLink.className = 'related-products__media-link';
@@ -2816,6 +2821,7 @@
             thumb.dataset.variantIndex = String(index);
             thumb.dataset.variantSrc = variant.src || PLACEHOLDER;
             thumb.dataset.variantMainSrc = variant.mainSrc || variant.src || PLACEHOLDER;
+            thumb.dataset.variantHoverSrc = variant.hoverSrc || '';
             thumb.setAttribute('aria-label', 'Ver variante ' + (variant.alt || p.name || 'Producto'));
             thumb.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
             thumb.setAttribute('aria-current', index === 0 ? 'true' : 'false');

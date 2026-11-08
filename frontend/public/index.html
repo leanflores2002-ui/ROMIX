@@ -110,7 +110,7 @@
   </div>
 </header>
 <script src="assets/js/romix-icons.js?v=19"></script>
-  <script src="assets/js/romix-product-card.js?v=3"></script>
+  <script src="assets/js/romix-product-card.js?v=4"></script>
   <script src="assets/js/romix-pricing.js?v=21"></script>
   <script src="assets/js/romix-cart-recommendations.js?v=3"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
@@ -324,7 +324,7 @@
 <!-- ROMIX:SHELL:FOOTER:END -->
 
 
-  <script src="assets/js/romix-image-utils.js?v=21"></script>
+  <script src="assets/js/romix-image-utils.js?v=22"></script>
   <script src="assets/js/cart.js?v=22"></script>
   <script src="assets/js/romix-pricing.js?v=21"></script>
   <script src="assets/js/products-store.js?v=20"></script>
@@ -484,7 +484,10 @@
           hex: color && color.hex ? color.hex : "",
           image: resolvedImage,
           thumb,
-          swatch
+          swatch,
+          hoverSrc: typeof imageUtils.getProductHoverImage === "function"
+            ? imageUtils.getProductHoverImage(product, color)
+            : ""
         };
       });
     }
@@ -652,6 +655,9 @@
         const thumbLink = document.createElement("a");
         thumbLink.className = "product-thumb";
         thumbLink.href = href;
+        thumbLink.dataset.hoverSrc = variantsData[0]?.hoverSrc || (typeof imageUtils.getProductHoverImage === "function"
+          ? imageUtils.getProductHoverImage(product, null)
+          : "");
         const badgeLabel = String(product && (product.badge || product.featuredBadge) || "").trim();
         if (badgeLabel) {
           const badge = document.createElement("span");
@@ -821,6 +827,7 @@
             button.dataset.variantIndex = String(index);
             button.dataset.variantSrc = String(variant.thumb || variant.image || "").trim();
             button.dataset.variantMainSrc = String(variant.image || "").trim();
+            button.dataset.variantHoverSrc = String(variant.hoverSrc || "").trim();
             const previewSrc = String(variant.thumb || variant.image || "").trim();
             if (index < variantLimit) {
               const preview = document.createElement("img");

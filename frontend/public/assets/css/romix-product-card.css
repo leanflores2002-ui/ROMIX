@@ -89,8 +89,48 @@
   transition: opacity 180ms ease, transform 240ms ease;
 }
 
+.romix-product-card .product-thumb.has-hover-image > picture,
+.romix-product-card .product-thumb.has-hover-image > img:not(.product-thumb__hover) {
+  position: relative;
+  z-index: 1;
+  transition: opacity 220ms ease;
+}
+
+.romix-product-card .product-thumb__hover {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .romix-product-card .product-thumb.has-hover-image:hover > picture,
+  .romix-product-card .product-thumb.has-hover-image:hover > img:not(.product-thumb__hover),
+  .romix-product-card .product-thumb.has-hover-image:focus-within > picture,
+  .romix-product-card .product-thumb.has-hover-image:focus-within > img:not(.product-thumb__hover) {
+    opacity: 0;
+  }
+
+  .romix-product-card .product-thumb.has-hover-image:hover > .product-thumb__hover,
+  .romix-product-card .product-thumb.has-hover-image:focus-within > .product-thumb__hover {
+    z-index: 2;
+    opacity: 1;
+  }
+}
+
 .romix-product-card .product-thumb.is-loaded img {
   opacity: 1;
+}
+
+.romix-product-card .product-thumb.is-loaded img.product-thumb__hover {
+  opacity: 0;
 }
 
 .romix-product-card .product-thumb,

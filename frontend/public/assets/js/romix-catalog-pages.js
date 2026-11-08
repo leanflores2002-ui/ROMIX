@@ -1536,6 +1536,9 @@
       const thumb = document.createElement("div");
       thumb.className = "product-thumb";
       let selectedColor = getFirstColor(product);
+      thumb.dataset.hoverSrc = typeof imageUtils.getProductHoverImage === "function"
+        ? imageUtils.getProductHoverImage(product, selectedColor)
+        : "";
       const imagePriority = getCardImagePriority(index);
       const defaultThumbSet = resolveThumbSet(product, null);
       const initialThumbSet = resolveThumbSet(product, selectedColor);
@@ -1711,6 +1714,9 @@
           button.dataset.variantIndex = String(index);
           button.dataset.variantSrc = String(color.thumb || color.thumbnail || color.image || "").trim();
           button.dataset.variantMainSrc = String(color.image || "").trim();
+          button.dataset.variantHoverSrc = typeof imageUtils.getProductHoverImage === "function"
+            ? imageUtils.getProductHoverImage(product, color)
+            : "";
           const previewSrc = String(color.thumb || color.thumbnail || color.image || "").trim();
           if (index < 4) {
             const preview = document.createElement("img");

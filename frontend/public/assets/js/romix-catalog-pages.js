@@ -710,7 +710,7 @@
       setOptionLabel("audiences", audienceKey, audienceKey === "nina" ? "Niña" : "Niño");
     }
 
-    if (state.scope === "catalogo" && requestedSections.length) {
+    if ((state.scope === "catalogo" || state.scope === "novedades") && requestedSections.length) {
       const availableSections = new Set(SECTION_OPTIONS.map((option) => option.key));
       const sectionKeys = state.catalogView.sectionKeys.length ? state.catalogView.sectionKeys : requestedSections;
       sectionKeys.forEach((key) => {
@@ -749,7 +749,7 @@
 
     if (requestedSizes.length) {
       let sizeSource = state.products.slice();
-      if (state.scope === "catalogo") {
+      if (state.scope === "catalogo" || state.scope === "novedades") {
         const selectedSection = Array.from(state.selected.sections)[0] || "";
         if (!selectedSection) return;
         sizeSource = state.products.filter((product) => product.section === selectedSection);
@@ -1836,7 +1836,7 @@
       if (selectedAudience === "nina" && (!isNinosProduct || isNinoProduct)) return false;
     }
 
-    if (state.scope === "catalogo" && state.selected.sections.size) {
+    if ((state.scope === "catalogo" || state.scope === "novedades") && state.selected.sections.size) {
       if (!state.selected.sections.has(product.section)) return false;
     }
 
@@ -1958,10 +1958,10 @@
       if (list.length) params.set(key, list.join(","));
     });
 
-    ["sections", "section", "secciones", "seccion"].forEach((key) => params.delete(key));
     if (state.catalogView.mode === "novedades") {
       params.set("view", "novedades");
     } else if (state.catalogView.mode === "section") {
+      ["sections", "section", "secciones", "seccion"].forEach((key) => params.delete(key));
       if (!document.body.dataset.categoryPage) params.set("sections", state.scope);
     } else if (state.selected.sections.size) {
       params.set("sections", Array.from(state.selected.sections).sort(compareFilterValues).join(","));
@@ -2173,12 +2173,15 @@
     const group = document.getElementById("section-filter-group");
     if (!container || !group) return;
 
-    const showSectionFilter = state.scope === "catalogo";
+    const showSectionFilter = state.scope === "catalogo" || state.scope === "novedades";
     group.hidden = !showSectionFilter;
     if (!showSectionFilter) {
       container.innerHTML = "";
       return;
     }
+
+    const heading = group.querySelector("h3");
+    if (heading) heading.textContent = state.scope === "novedades" ? "PÚBLICO" : "SECCIÓN";
 
     container.innerHTML = "";
     state.optionLabels.sections.clear();
@@ -2219,7 +2222,7 @@
     const helper = document.getElementById("size-helper");
     const sizeMoreButton = document.getElementById("size-more-btn");
 
-    if (state.scope === "catalogo") {
+    if (state.scope === "catalogo" || state.scope === "novedades") {
       const selectedSection = Array.from(state.selected.sections)[0] || "";
       if (!selectedSection) {
         state.sizeValues = [];
@@ -2236,7 +2239,9 @@
         }
         if (helper) {
           helper.hidden = false;
-          helper.textContent = "Seleccioná una sección para ver los talles disponibles";
+          helper.textContent = state.scope === "novedades"
+            ? "Seleccioná Mujer, Hombre o Niños para ver los talles disponibles"
+            : "Seleccioná una sección para ver los talles disponibles";
         }
         return;
       }
@@ -2274,9 +2279,11 @@
     state.optionLabels.sizes.clear();
 
     if (!state.sizeValues.length) {
-      if (helper && state.scope === "catalogo") {
+      if (helper && (state.scope === "catalogo" || state.scope === "novedades")) {
         helper.hidden = false;
-        helper.textContent = "No hay talles disponibles para la sección seleccionada";
+        helper.textContent = state.scope === "novedades"
+          ? "No hay talles disponibles para el público seleccionado"
+          : "No hay talles disponibles para la sección seleccionada";
       }
       if (sizeMoreButton) sizeMoreButton.classList.add("is-hidden");
       return;

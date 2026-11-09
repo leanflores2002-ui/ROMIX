@@ -70,7 +70,7 @@ function renderCards(list) {
           ? special.map(size => String(size && typeof size === 'object' ? size.size || size.label : size).trim()).filter(Boolean)
           : [];
         const sizeText = key === 'special2' && sizes.length > 1
-          ? sizes.slice(0, -1).join(', ') + ' y ' + sizes[sizes.length - 1]
+          ? sizes.slice(0, -1).join(', ') + ' y ' + sizes.at(-1)
           : sizes.join(', ');
         const label = sizeText
           ? (key === 'special2' && sizes.length === 1 ? 'Talle ' : 'Talles ') + sizeText

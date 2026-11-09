@@ -769,7 +769,7 @@
         .filter(function (node) { return !node.hidden && node.getAttribute("aria-hidden") !== "true"; });
       if (!focusable.length) return;
       var first = focusable[0];
-      var last = focusable[focusable.length - 1];
+      var last = focusable.at(-1);
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();

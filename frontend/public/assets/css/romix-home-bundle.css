@@ -499,6 +499,25 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
   .home .category-item span { font-size: 12px; }
   .home .main-hero-carousel { --hero-height: calc((100vw - 32px) * 2 / 3); }
   .home .main-hero-carousel__viewport { height: calc(var(--hero-height) + 68px); background: var(--romix-white); }
+  /* Mobile banners use dedicated 3:2 assets. Let the image define its own
+     height so the complete composition remains visible instead of being
+     cropped by the desktop-height constraint. */
+  .home .main-hero-carousel__viewport,
+  .home .main-hero-carousel__track,
+  .home .main-hero-carousel__slide,
+  .home .main-hero-carousel__slide-link,
+  .home .main-hero-carousel__slide picture {
+    height: auto;
+    min-height: 0;
+  }
+  .home .main-hero-carousel__viewport { padding-bottom: 68px; }
+  .home .main-hero-carousel__slide img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: contain;
+    background: #131317;
+  }
   .home .main-hero-carousel__arrow { top: auto; bottom: 10px; width: 48px; height: 48px; display: grid; place-items: center; touch-action: manipulation; }
   .home .main-hero-carousel__arrow--prev { left: 8px; }
   .home .main-hero-carousel__arrow--next { right: 8px; }

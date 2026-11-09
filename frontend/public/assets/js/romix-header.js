@@ -769,7 +769,7 @@
         .filter(function (node) { return !node.hidden && node.getAttribute("aria-hidden") !== "true"; });
       if (!focusable.length) return;
       var first = focusable[0];
-      var last = focusable.at(-1);
+      var last = focusable.at(-1) || first;
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
@@ -810,7 +810,7 @@
 
     return new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/js/search.js?v=13";
+      script.src = "assets/js/search.js?v=14";
       script.async = false;
       script.dataset.romixSearch = "1";
       script.addEventListener("load", function () {

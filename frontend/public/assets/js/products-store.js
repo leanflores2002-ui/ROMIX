@@ -284,7 +284,7 @@
     const cached = readSessionCache();
     if (cached) {
       loadStatus = { source: cached.source, stale: true, errors: errors.map(String) };
-      console.warn('[products-store] Red no disponible; se usa el último catálogo validado.', errors[errors.length - 1]);
+      console.warn('[products-store] Red no disponible; se usa el último catálogo validado.', errors.at(-1));
       return cached.list;
     }
 

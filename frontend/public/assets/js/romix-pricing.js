@@ -164,7 +164,7 @@
         .map((value) => String(value == null ? "" : value).trim())
         .filter(Boolean)
       : [];
-    if (useConjunction && sizes.length > 1) return sizes.slice(0, -1).join(", ") + " y " + sizes[sizes.length - 1];
+    if (useConjunction && sizes.length > 1) return sizes.slice(0, -1).join(", ") + " y " + sizes.at(-1);
     return sizes.length ? sizes.join(", ") : "";
   }
 

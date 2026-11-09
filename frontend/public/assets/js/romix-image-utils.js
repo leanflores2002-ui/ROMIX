@@ -230,12 +230,13 @@
           || findColorImageInLegacyMap(product, name)
           || cleanPath(imageList[index])
           || firstLegacyImage;
-        return Object.assign({}, color, {
+        return {
+          ...color,
           index: index,
           name: name,
           image: resolvedImage,
           images: colorImages.length ? colorImages : (resolvedImage ? [resolvedImage] : [])
-        });
+        };
       });
     }
 
@@ -287,46 +288,45 @@
     }) || null;
   }
 
+  function resolveColorProductArgs(productOrColor, colorOrProduct) {
+    const firstIsProduct = productOrColor && typeof productOrColor === "object" && Array.isArray(productOrColor.colors);
+    const secondIsProduct = colorOrProduct && typeof colorOrProduct === "object" && (
+      Array.isArray(colorOrProduct.colors) || colorOrProduct.image || colorOrProduct.imageMap || colorOrProduct.images
+    );
+    if (firstIsProduct) return { product: productOrColor, color: colorOrProduct };
+    if (secondIsProduct) return { product: colorOrProduct, color: productOrColor };
+    return { product: colorOrProduct, color: productOrColor };
+  }
+
+  function getDirectColorImage(color) {
+    if (!color || typeof color !== "object") return "";
+    return getColorImageList(color)[0] || "";
+  }
+
+  function getLegacyColorImage(product, color) {
+    if (!color || typeof color !== "object" || !color.name) return "";
+    return findColorImageInLegacyMap(product, color.name) || "";
+  }
+
+  function getIndexedColorImage(product, index) {
+    const colorIndex = Number(index);
+    if (!Number.isFinite(colorIndex) || colorIndex < 0) return "";
+    const imageList = getProductImageList(product);
+    return imageList[colorIndex] ? cleanPath(imageList[colorIndex]) : "";
+  }
+
   function getColorImage(productOrColor, colorOrProduct, index) {
-    let product = null;
-    let color = null;
-    let colorIndex = Number(index);
-
-    if (productOrColor && typeof productOrColor === "object" && Array.isArray(productOrColor.colors)) {
-      product = productOrColor;
-      color = colorOrProduct;
-    } else if (colorOrProduct && typeof colorOrProduct === "object" && (Array.isArray(colorOrProduct.colors) || colorOrProduct.image || colorOrProduct.imageMap || colorOrProduct.images)) {
-      color = productOrColor;
-      product = colorOrProduct;
-    } else {
-      color = productOrColor;
-      product = colorOrProduct;
-    }
-
-    if (color && typeof color === "object") {
-      const colorImages = getColorImageList(color);
-      if (colorImages[0]) return colorImages[0];
-    }
-
-    const namedColor = findProductColor(product, color);
-    if (namedColor?.image) return cleanPath(namedColor.image);
-
-    if (color && typeof color === "object" && color.name) {
-      const legacyImage = findColorImageInLegacyMap(product, color.name);
-      if (legacyImage) return legacyImage;
-    }
-
-    if (Number.isFinite(colorIndex) && colorIndex >= 0) {
-      const imageList = getProductImageList(product);
-      if (imageList[colorIndex]) return cleanPath(imageList[colorIndex]);
-    }
-
-    return getProductMainImage(product);
+    const { product, color } = resolveColorProductArgs(productOrColor, colorOrProduct);
+    return getDirectColorImage(color)
+      || cleanPath(findProductColor(product, color)?.image)
+      || getLegacyColorImage(product, color)
+      || getIndexedColorImage(product, index)
+      || getProductMainImage(product);
   }
 
   function getProductThumbSet(product, color) {
     const colorEntry = color && typeof color === "object"
-      ? Object.assign({}, color, { image: getColorImage(color, product) })
+      ? { ...color, image: getColorImage(color, product) }
       : findProductColor(product, color);
     const mainImage = getColorImage(colorEntry || color, product) || getProductMainImage(product);
     const hasColorEntry = !!colorEntry;

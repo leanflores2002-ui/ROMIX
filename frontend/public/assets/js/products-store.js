@@ -89,10 +89,11 @@
       if (entry && typeof entry === 'object' && !Array.isArray(entry)) {
         const size = String(entry.size ?? entry.value ?? '').trim();
         if (!size) return null;
-        return Object.assign({}, entry, {
+        return {
+          ...entry,
           size,
           status: String(entry.status || 'unknown').trim() || 'unknown'
-        });
+        };
       }
 
       const size = String(entry ?? '').trim();
@@ -103,7 +104,7 @@
   function normalizeProductShape(product) {
     if (!product || typeof product !== 'object' || Array.isArray(product)) return product;
 
-    const normalized = Object.assign({}, product);
+    const normalized = { ...product };
     if (typeof pricing.getCurrentPrice === 'function') {
       const currentPrice = pricing.getCurrentPrice(product);
       const originalPrice = pricing.getOriginalPrice(product);
@@ -118,7 +119,7 @@
 
     normalized.colors = rawColors.map((entry, index) => {
       const color = entry && typeof entry === 'object'
-        ? Object.assign({}, entry)
+        ? { ...entry }
         : { name: String(entry || '').trim() };
       const name = String(color.name || color.value || `Color ${index + 1}`).trim();
       const image = imageForColor(product, color, index);
@@ -325,7 +326,7 @@
     normalizeProduct: normalizeProductShape,
     isVisible: isVisibleProduct,
     getStatus() {
-      return Object.assign({}, loadStatus, { errors: loadStatus.errors.slice() });
+      return { ...loadStatus, errors: loadStatus.errors.slice() };
     },
     clear() {
       memoryCache = null;

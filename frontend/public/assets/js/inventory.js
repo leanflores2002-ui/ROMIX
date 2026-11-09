@@ -192,7 +192,7 @@
     getStock,
     mergeUpdates,
     syncFromApi,
-    getStatus() { return Object.assign({}, syncState); },
+    getStatus() { return { ...syncState }; },
     STOCK_UNKNOWN,
   };
 })();

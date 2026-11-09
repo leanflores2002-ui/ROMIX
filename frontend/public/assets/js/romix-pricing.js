@@ -76,22 +76,22 @@
     return null;
   }
 
-  function getPriceGroupForSize(product, sizeValue) {
+  function getDeclaredPriceGroup(product, sizeValue) {
     const priceByGroup = product?.priceByGroup;
-    if (priceByGroup && typeof priceByGroup === "object") {
-      const specialSizes2 = Array.isArray(product.specialSizes2) && product.specialSizes2.length
-        ? product.specialSizes2
-        : product.superSpecialSizes;
-      if (sizeListIncludes(specialSizes2, sizeValue) && priceByGroup.special2 != null) return "special2";
-      if (sizeListIncludes(product.specialSizes, sizeValue) && priceByGroup.special != null) return "special";
+    if (!priceByGroup || typeof priceByGroup !== "object") return null;
+    const specialSizes2 = Array.isArray(product.specialSizes2) && product.specialSizes2.length
+      ? product.specialSizes2
+      : product.superSpecialSizes;
+    if (sizeListIncludes(specialSizes2, sizeValue) && priceByGroup.special2 != null) return "special2";
+    if (sizeListIncludes(product.specialSizes, sizeValue) && priceByGroup.special != null) return "special";
+    const hasDeclaredSpecialGroups = Array.isArray(product.specialSizes) || Array.isArray(specialSizes2);
+    if (hasDeclaredSpecialGroups && priceByGroup.common != null) return "common";
+    const groupKeys = Object.keys(priceByGroup);
+    return groupKeys.length === 1 && groupKeys[0] === "common" ? "common" : null;
+  }
 
-      const hasDeclaredSpecialGroups = Array.isArray(product.specialSizes) || Array.isArray(specialSizes2);
-      if (hasDeclaredSpecialGroups && priceByGroup.common != null) return "common";
-
-      const groupKeys = Object.keys(priceByGroup);
-      if (groupKeys.length === 1 && groupKeys[0] === "common") return "common";
-    }
-    return fallbackPriceGroup(sizeValue, product?.section);
+  function getPriceGroupForSize(product, sizeValue) {
+    return getDeclaredPriceGroup(product, sizeValue) || fallbackPriceGroup(sizeValue, product?.section);
   }
 
   function getPriceForSize(product, sizeValue) {
@@ -168,36 +168,37 @@
     return sizes.length ? sizes.join(", ") : "";
   }
 
+  function getCardPriceGroups(product) {
+    if (!product?.priceByGroup || typeof product.priceByGroup !== "object") return [];
+    return Object.entries(product.priceByGroup)
+      .map(([key, value]) => ({ key, value: toAmount(value) }))
+      .filter((entry) => entry.value > 0)
+      .sort((a, b) => a.value - b.value);
+  }
+
+  function getCardPriceLabel(product, entry) {
+    const secondSizes = Array.isArray(product.specialSizes2) && product.specialSizes2.length
+      ? product.specialSizes2
+      : product.superSpecialSizes;
+    const sizes = entry.key === "special"
+      ? formatSizeLabel(product.specialSizes)
+      : entry.key === "special2"
+        ? formatSizeLabel(secondSizes, true)
+        : "";
+    if (sizes) return (entry.key === "special2" && !sizes.includes(" y ") ? "Talle " : "Talles ") + sizes;
+    if (entry.key === "common") return "Talles comunes";
+    if (entry.key === "special2") return "Otros talles";
+    if (entry.key === "special") return "Talles especiales";
+    return entry.key;
+  }
+
   function getCardPriceEntries(product) {
-    const groups = product?.priceByGroup && typeof product.priceByGroup === "object"
-      ? Object.entries(product.priceByGroup)
-        .map(([key, value]) => ({ key, value: toAmount(value) }))
-        .filter((entry) => entry.value > 0)
-      : [];
+    const groups = getCardPriceGroups(product);
     if (!groups.length) {
       const currentPrice = getCurrentPrice(product);
       return currentPrice > 0 ? [{ key: "base", value: currentPrice, label: "" }] : [];
     }
-
-    const entries = groups
-      .sort((a, b) => a.value - b.value)
-      .map((entry) => {
-        let sizes = "";
-        if (entry.key === "special") sizes = formatSizeLabel(product.specialSizes);
-        if (entry.key === "special2") {
-          const secondSizes = Array.isArray(product.specialSizes2) && product.specialSizes2.length
-            ? product.specialSizes2
-            : product.superSpecialSizes;
-          sizes = formatSizeLabel(secondSizes, true);
-        }
-        const label = sizes
-          ? (entry.key === "special2" && !sizes.includes(" y ") ? "Talle " : "Talles ") + sizes
-          : entry.key === "common" ? "Talles comunes"
-            : entry.key === "special2" ? "Otros talles"
-              : entry.key === "special" ? "Talles especiales" : entry.key;
-        return { ...entry, label };
-      });
-    return entries;
+    return groups.map((entry) => ({ ...entry, label: getCardPriceLabel(product, entry) }));
   }
 
   function createCardPriceDisplay(product, options) {

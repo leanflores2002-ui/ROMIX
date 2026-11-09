@@ -282,10 +282,9 @@
 .share-contact { display: inline-flex; align-items: center; min-height: 44px; font-size: .85rem; text-underline-offset: 3px; }
 .share-actions [hidden] { display: none; }
 .share-panel .share-actions .share-btn:hover, .share-panel .share-actions .share-btn:focus-visible { color: #a6125b; }
-.share-panel .share-contact { color: #a6125b; }
+.share-panel .share-contact { color: #a6125b; margin-top: 14px; }
 .share-panel .share-heading { display: block; margin: 0 0 14px; font-size: 1.1rem; font-weight: 800; }
 .share-panel .share-help { display: none; }
-.share-panel .share-contact { margin-top: 14px; }
 
 /* Product detail desktop composition: purchase information stays together on the right,
    while the descriptive accordions sit directly below the gallery on the left. */

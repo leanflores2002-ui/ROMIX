@@ -63,5 +63,5 @@
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = api;
   }
-  global.romixColorUtils = Object.assign({}, global.romixColorUtils, api);
+  global.romixColorUtils = { ...global.romixColorUtils, ...api };
 })(typeof window !== 'undefined' ? window : globalThis);

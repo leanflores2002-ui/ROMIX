@@ -33,12 +33,12 @@
 
   function sanitizeProduct(p){
     if (!p) return p;
-    const copy = Object.assign({}, p);
+    const copy = { ...p };
     ['name','type','section','badge','description'].forEach(k => {
       if (copy[k]) copy[k] = fixUtf8(String(copy[k]));
     });
     if (Array.isArray(copy.colors)) {
-      copy.colors = copy.colors.map(c => Object.assign({}, c, { name: fixUtf8(c && c.name) }));
+      copy.colors = copy.colors.map(c => ({ ...c, name: fixUtf8(c && c.name) }));
     }
     return copy;
   }

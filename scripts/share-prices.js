@@ -30,7 +30,7 @@ function sharePrices(product) {
   for (const size of sizes) {
     const price = priceFor(size);
     if (!Number.isFinite(price) || !(price > 0)) continue;
-    const last = groups[groups.length - 1];
+    const last = groups.at(-1);
     if (last && last.price === price) last.sizes.push(size);
     else groups.push({ price, sizes: [size] });
   }
@@ -38,7 +38,7 @@ function sharePrices(product) {
     const values = group.sizes;
     const step = values.length > 1 ? Number(values[1]) - Number(values[0]) : 0;
     const continuous = [1, 2].includes(step) && values.every((value, index) => /^\d+$/.test(value) && (!index || Number(value) - Number(values[index - 1]) === step));
-    const label = continuous ? `T${values[0]}-${values[values.length - 1]}` : values.map(value => `T${value}`).join(', ');
+    const label = continuous ? `T${values[0]}-${values.at(-1)}` : values.map(value => `T${value}`).join(', ');
     return `${label} ${money(group.price)}`;
   }).join(' · ');
 }

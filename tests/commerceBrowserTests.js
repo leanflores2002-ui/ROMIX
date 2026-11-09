@@ -219,7 +219,20 @@ async function run(context, origin, width) {
   assert.equal(await page.locator('.campaign-hero img').getAttribute('loading'), 'lazy', 'Lower campaign must not compete with the main banner');
   assert.equal((await page.locator('#campaign-title').innerText()).replace(/\s+/g, ' '), 'TU ESTILO. EN MOVIMIENTO.');
   assert.equal(await page.locator('.campaign-hero__cta').getAttribute('href'), 'catalogo.html');
-  assert.equal(await page.locator('#productsRow .product-card').count(), width <= 760 ? 4 : 12, 'Home keeps its existing initial product limits');
+  const expectedHomeProducts = products.some(product => product.featured === true)
+    ? products.filter(product => product.visible !== false && product.featured === true).length
+    : Math.min(20, products.filter(product => product.visible !== false).length);
+  assert.equal(await page.locator('#productsRow .product-card').count(), expectedHomeProducts, 'Home renders every available lanzamiento in the responsive carousel');
+  assert.equal(await page.locator('#ofertas .section-link').count(), 0, 'Nuevos lanzamientos no duplica el catálogo con un enlace Ver todo');
+  await page.locator('#productsNext').waitFor({ state: 'attached' });
+  await page.waitForFunction(() => document.querySelector('#productsNext') && !document.querySelector('#productsNext').disabled);
+  const initialProductsScroll = await page.locator('#productsRow').evaluate(node => node.scrollLeft);
+  await page.locator('#productsNext').click();
+  await page.waitForFunction((initial) => document.querySelector('#productsRow').scrollLeft > initial + 1, initialProductsScroll);
+  assert.ok(await page.locator('#productsRow').evaluate(node => node.scrollLeft > 0), 'Product carousel advances with the next arrow');
+  await page.locator('#productsPrev').click();
+  await page.waitForFunction(() => document.querySelector('#productsRow').scrollLeft <= 1);
+  if (width <= 760) assert.equal(await page.locator('#productsHint').isVisible(), true, 'Mobile shows a clear carousel hint');
   assert.ok(!(await page.locator('#productsRow').textContent()).includes('Oculto QA'));
   assert.equal(await page.locator('#promoCarouselWrap').count(), 0, 'Removed seasonal campaign must not return to home');
   await health('home');

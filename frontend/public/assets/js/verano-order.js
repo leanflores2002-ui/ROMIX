@@ -15,11 +15,11 @@
   }
 
   function hasKeyword(text, keywords){
-    return keywords.some(function(keyword){ return text.indexOf(keyword) >= 0; });
+    return keywords.some(function(keyword){ return text.includes(keyword); });
   }
 
   function isType(type, list){
-    return list.indexOf(type) >= 0;
+    return list.includes(type);
   }
 
   function rankProduct(product){

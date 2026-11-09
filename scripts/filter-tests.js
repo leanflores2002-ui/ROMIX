@@ -35,7 +35,7 @@ function canonicalColorKey(name) {
 }
 
 function normalizeProduct(raw) {
-  const product = Object.assign({}, raw);
+  const product = { ...raw };
   product.name = product.name ? String(product.name) : "";
   product.type = product.type ? String(product.type) : "";
   product.section = product.section ? String(product.section) : "";

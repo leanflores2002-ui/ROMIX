@@ -25,6 +25,35 @@ body[data-catalog-scope] {
   font-size: var(--romix-text-base);
   line-height: var(--romix-leading-body);
 }
+/* Keep the server-rendered fallback from flashing while the current catalog UI hydrates. */
+html.romix-catalog-hydrating .catalog-nav,
+html.romix-catalog-hydrating #products-summary,
+html.romix-catalog-hydrating #product-grid > * {
+  visibility: hidden;
+}
+html.romix-catalog-hydrating #product-grid {
+  position: relative;
+  min-height: 420px;
+}
+html.romix-catalog-hydrating #product-grid::before {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+  color: var(--catalog-muted);
+  content: "Cargando catálogo…";
+  font-size: var(--romix-text-sm);
+}
+html.romix-catalog-hydrating #product-grid::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: var(--catalog-line);
+  content: "";
+}
 body[data-catalog-scope] a { color: inherit; }
 body[data-catalog-scope] button,
 body[data-catalog-scope] input,
@@ -50,7 +79,38 @@ body[data-catalog-scope] select { font: inherit; }
   letter-spacing: -0.025em;
   line-height: 1.1;
 }
-.catalog-breadcrumb { display: none; }
+.catalog-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 18px;
+  color: var(--catalog-muted);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.catalog-breadcrumb-back,
+.catalog-breadcrumb-trail {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.catalog-breadcrumb-back {
+  color: var(--catalog-ink);
+  font-weight: 750;
+  text-decoration: none;
+}
+.catalog-breadcrumb-back-arrow { font-size: 18px; line-height: 1; }
+.catalog-breadcrumb-trail { gap: 8px; }
+.catalog-breadcrumb-trail a,
+.catalog-breadcrumb-trail span:not(.catalog-breadcrumb-sep) {
+  color: var(--catalog-muted);
+  text-decoration: none;
+}
+.catalog-breadcrumb-trail a:hover,
+.catalog-breadcrumb-back:hover { color: var(--catalog-pink-dark); }
+.catalog-breadcrumb-sep { color: #aaa5ad; }
+.romix-catalog-js .catalog-nav { display: none; }
 .catalog-layout {
   display: grid;
   grid-template-columns: minmax(260px, 280px) minmax(0, 1fr);

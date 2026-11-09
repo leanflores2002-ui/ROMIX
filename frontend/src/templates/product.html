@@ -26,7 +26,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=23" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=23">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=25">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=26" />
   <link rel="stylesheet" href="assets/css/romix-product-card.css?v=4" />
@@ -99,15 +99,15 @@
   </main>
 <!-- ROMIX:INCLUDE:FOOTER -->
 
-  <script src="assets/js/romix-image-utils.js?v=21"></script>
+  <script src="assets/js/romix-image-utils.js?v=23"></script>
   <script src="assets/js/color-utils.js?v=19"></script>
   <script src="assets/js/slugify.js?v=19"></script>
   <script src="assets/js/share-versions.js?v=19"></script>
-  <script src="assets/js/cart.js?v=22"></script>
-  <script src="assets/js/romix-pricing.js?v=21"></script>
-  <script src="assets/js/products-store.js?v=20"></script>
+  <script src="assets/js/cart.js?v=24"></script>
+  <script src="assets/js/romix-pricing.js?v=24"></script>
+  <script src="assets/js/products-store.js?v=22"></script>
   <script src="assets/js/inventory.js?v=19"></script>
-  <script src="assets/js/size-guides.js?v=19"></script>
+  <script src="assets/js/size-guides.js?v=21"></script>
   <script>
     let romixToastTimer;
 
@@ -608,31 +608,6 @@
           if (Number.isFinite(STOCK_MAX) && STOCK_MAX > 0) qtyInput.max = String(STOCK_MAX);
           else qtyInput.removeAttribute('max');
         }
-      }
-
-      function getPriceGroupForSize(sizeValue, productSection) {
-        const sizeNum = Number(sizeValue);
-        const section = String(productSection || '').toLowerCase();
-        if (section === 'mujer' || section === 'hombre') {
-          if (sizeNum >= 1 && sizeNum <= 5) return 'common';
-          if (sizeNum >= 6 && sizeNum <= 8) return 'special';
-          if (sizeNum === 9 || sizeNum === 10) return 'special2';
-        }
-        if (section === 'niños' || section === 'ninos' || section === 'nino') {
-          if ([2,4,6,8,10].includes(sizeNum)) return 'common';
-          if ([12,14,16].includes(sizeNum)) return 'special';
-        }
-        return null;
-      }
-
-      function getPriceForSize(product, sizeValue) {
-        const group = getPriceGroupForSize(sizeValue, product.section);
-        const base = Number(product.price || 0);
-        if (!group || !product.priceByGroup || typeof product.priceByGroup !== 'object') {
-          return base;
-        }
-        const groupPrice = product.priceByGroup[group];
-        return groupPrice != null ? Number(groupPrice) : base;
       }
 
       function normalizeProductSizeValue(sizeEntry) {
@@ -2002,11 +1977,13 @@
                 <div id="color-stock-info" class="stock-info-color"></div>
               </div>
               <div class="selector size-selector" id="size-selector">
-                <div class="selector-label">Talle</div>
+                <div class="size-selector__header">
+                  <div class="selector-label">Talle</div>
+                  <div id="product-size-guide-slot" class="product-size-guide-slot"></div>
+                </div>
                 <div class="size-options" id="size-options" role="group" aria-label="Seleccionar talle" aria-describedby="size-error"></div>
                 <p id="size-error" class="product-size-error" aria-live="polite" hidden></p>
               </div>
-              <div id="product-size-guide-slot" class="product-size-guide-slot"></div>
               <div class="product-buy-section">
                 <div class="quantity-row">
                   <div class="selector-label">Cantidad</div>
@@ -2044,14 +2021,14 @@
                 <a class="share-contact" id="btn-contact" href="ayuda.html#contact">Consultar sobre este producto</a>
                 <input id="share-link-input" type="text" readonly aria-label="Link para compartir" tabindex="-1" />
               </div>
-            </div>
-            <div class="detail-extras">
               <section class="benefit-strip" aria-label="Beneficios de compra">
                 <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("RotateCcw", { size: "md" })}</span><div><strong>Cambios fáciles</strong><span>Consultá condiciones</span></div></div>
                 <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("CreditCard", { size: "md" })}</span><div><strong>Pago seguro</strong><span>Medios de pago disponibles</span></div></div>
                 <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("Truck", { size: "md" })}</span><div><strong>Envíos y retiros coordinados</strong><span>Consultá disponibilidad</span></div></div>
                 <div class="benefit-item"><span class="benefit-item__icon">${window.romixIcon("MessageCircle", { size: "md" })}</span><div><strong>Atención por WhatsApp</strong><span>Te ayudamos a elegir</span></div></div>
               </section>
+            </div>
+            <div class="detail-extras">
               <section id="features-section" class="features-panel" hidden>
                 <div id="product-tabs" class="product-tabs" role="tablist" aria-label="Información del producto"></div>
                 <div id="product-accordion" class="product-accordion" aria-live="polite"></div>
@@ -2655,6 +2632,8 @@
 
         section.hidden = false;
         setupProductAccordion(section);
+        const firstAccordionItem = accordion.querySelector('.product-accordion__item');
+        if (firstAccordionItem) setAccordionItemState(firstAccordionItem, true);
       }
 
     function setupRelatedProductsCarousel(section, listEl, prevBtn, nextBtn) {
@@ -2748,7 +2727,10 @@
           return {
             src: src || PLACEHOLDER,
             mainSrc: src || PLACEHOLDER,
-            alt: color && (color.name || color.value) || ('Variante ' + (index + 1))
+            alt: color && (color.name || color.value) || ('Variante ' + (index + 1)),
+            hoverSrc: typeof imageUtils.getProductHoverImage === 'function'
+              ? imageUtils.getProductHoverImage(product, color)
+              : ''
           };
         });
       };
@@ -2768,6 +2750,8 @@
 
         const imageWrap = document.createElement('div');
         imageWrap.className = 'related-products__image-wrap';
+        const initialVariant = getVariantThumbs(p)[0];
+        imageWrap.dataset.hoverSrc = initialVariant?.hoverSrc || '';
 
         const imageLink = document.createElement('a');
         imageLink.className = 'related-products__media-link';
@@ -2812,6 +2796,7 @@
             thumb.dataset.variantIndex = String(index);
             thumb.dataset.variantSrc = variant.src || PLACEHOLDER;
             thumb.dataset.variantMainSrc = variant.mainSrc || variant.src || PLACEHOLDER;
+            thumb.dataset.variantHoverSrc = variant.hoverSrc || '';
             thumb.setAttribute('aria-label', 'Ver variante ' + (variant.alt || p.name || 'Producto'));
             thumb.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
             thumb.setAttribute('aria-current', index === 0 ? 'true' : 'false');
@@ -3013,7 +2998,7 @@
     })();
   </script>
   <div id="romix-toast" class="romix-toast" aria-live="polite"></div>
-  <script src="assets/js/romix-header.js?v=20" defer></script>
+  <script src="assets/js/romix-header.js?v=23" defer></script>
   <romix-toast></romix-toast>
   <script type="module" src="assets/js/ts/main.js?v=19"></script>
 </body>

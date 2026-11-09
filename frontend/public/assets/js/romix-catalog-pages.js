@@ -691,6 +691,69 @@
     return Array.from(new Set(keys));
   }
 
+  function applyAudienceFilter(keys) {
+    if (!keys.length) return;
+    const audienceKey = keys[0];
+    state.selected.audiences.add(audienceKey);
+    setOptionLabel("audiences", audienceKey, audienceKey === "nina" ? "Niña" : "Niño");
+  }
+
+  function applySectionFilter(keys) {
+    if (!keys.length || (state.scope !== "catalogo" && state.scope !== "novedades")) return;
+    const availableSections = new Set(SECTION_OPTIONS.map((option) => option.key));
+    const sectionKeys = state.catalogView.sectionKeys.length ? state.catalogView.sectionKeys : keys;
+    sectionKeys.forEach((key) => {
+      if (availableSections.has(key)) state.selected.sections.add(key);
+    });
+  }
+
+  function applyCategoryFilter(keys) {
+    if (!keys.length) return;
+    const availableCategories = new Set(collectCategoryOptions(state.products).map((option) => option.key));
+    keys.forEach((key) => {
+      if (availableCategories.has(key)) state.selected.categories.add(key);
+    });
+  }
+
+  function applyTypeFilter(keys) {
+    if (!keys.length) return;
+    const availableTypes = new Map();
+    state.products.forEach((product) => {
+      const key = normalizeTypeFilterValue(product?.typeKey ? product.typeKey : product?.type);
+      if (key && !availableTypes.has(key)) availableTypes.set(key, product.typeLabel || toStartCase(product.type || key));
+    });
+    keys.forEach((key) => {
+      if (!availableTypes.has(key)) return;
+      state.selected.types.add(key);
+      setOptionLabel("types", key, availableTypes.get(key));
+    });
+  }
+
+  function applySeasonFilter(keys) {
+    if (!keys.length) return;
+    const availableSeasons = new Set(SEASON_OPTIONS.map((option) => option.key));
+    keys.forEach((key) => {
+      if (availableSeasons.has(key)) state.selected.seasons.add(key);
+    });
+  }
+
+  function applySizeFilter(keys) {
+    if (!keys.length) return;
+    let sizeSource = state.products.slice();
+    if (state.scope === "catalogo" || state.scope === "novedades") {
+      const selectedSection = Array.from(state.selected.sections)[0] || "";
+      if (!selectedSection) return;
+      sizeSource = state.products.filter((product) => product.section === selectedSection);
+    }
+    const availableSizes = new Set(collectSizes(sizeSource, { includeBase: false }).map((value) => String(value)));
+    keys.forEach((key) => {
+      const normalized = String(key);
+      if (!availableSizes.has(normalized)) return;
+      state.selected.sizes.add(normalized);
+      setOptionLabel("sizes", normalized, normalized);
+    });
+  }
+
   function applyInitialFiltersFromQuery() {
     const requestedAudiences = readInitialAudienceFilterKeys();
     const requestedSections = readInitialSectionFilterKeys();
@@ -701,67 +764,13 @@
     const requestedSale = hasInitialQueryFlag("sale", "1") || normalizeText(readInitialSearchQuery()) === "oferta";
     state.priceMin = readInitialPriceValue("price_min");
     state.priceMax = readInitialPriceValue("price_max");
-
     if (requestedSale) state.selected.sale.add("1");
-
-    if (requestedAudiences.length) {
-      const audienceKey = requestedAudiences[0];
-      state.selected.audiences.add(audienceKey);
-      setOptionLabel("audiences", audienceKey, audienceKey === "nina" ? "Niña" : "Niño");
-    }
-
-    if (state.scope === "catalogo" && requestedSections.length) {
-      const availableSections = new Set(SECTION_OPTIONS.map((option) => option.key));
-      const sectionKeys = state.catalogView.sectionKeys.length ? state.catalogView.sectionKeys : requestedSections;
-      sectionKeys.forEach((key) => {
-        if (availableSections.has(key)) state.selected.sections.add(key);
-      });
-    }
-
-    if (requestedCategories.length) {
-      const availableCategories = new Set(collectCategoryOptions(state.products).map((option) => option.key));
-      requestedCategories.forEach((key) => {
-        if (availableCategories.has(key)) state.selected.categories.add(key);
-      });
-    }
-
-    if (requestedTypes.length) {
-      const availableTypes = new Map();
-      state.products.forEach((product) => {
-        const key = normalizeTypeFilterValue(product?.typeKey ? product.typeKey : product?.type);
-        if (!key || availableTypes.has(key)) return;
-        availableTypes.set(key, product.typeLabel || toStartCase(product.type || key));
-      });
-
-      requestedTypes.forEach((key) => {
-        if (!availableTypes.has(key)) return;
-        state.selected.types.add(key);
-        setOptionLabel("types", key, availableTypes.get(key));
-      });
-    }
-
-    if (requestedSeasons.length) {
-      const availableSeasons = new Set(SEASON_OPTIONS.map((option) => option.key));
-      requestedSeasons.forEach((key) => {
-        if (availableSeasons.has(key)) state.selected.seasons.add(key);
-      });
-    }
-
-    if (requestedSizes.length) {
-      let sizeSource = state.products.slice();
-      if (state.scope === "catalogo") {
-        const selectedSection = Array.from(state.selected.sections)[0] || "";
-        if (!selectedSection) return;
-        sizeSource = state.products.filter((product) => product.section === selectedSection);
-      }
-
-      const availableSizes = new Set(collectSizes(sizeSource, { includeBase: false }).map((value) => String(value)));
-      requestedSizes.forEach((key) => {
-        if (!availableSizes.has(String(key))) return;
-        state.selected.sizes.add(String(key));
-        setOptionLabel("sizes", String(key), String(key));
-      });
-    }
+    applyAudienceFilter(requestedAudiences);
+    applySectionFilter(requestedSections);
+    applyCategoryFilter(requestedCategories);
+    applyTypeFilter(requestedTypes);
+    applySeasonFilter(requestedSeasons);
+    applySizeFilter(requestedSizes);
   }
 
   function applyInitialSearchFromQuery() {
@@ -774,60 +783,29 @@
     state.searchExcludeTokens = readInitialSearchExcludeTokens();
   }
 
+  function searchTokenMatches(token, haystack, words) {
+    return haystack.includes(token) || words.some((word) => word.startsWith(token));
+  }
+
   function matchesSearchQuery(product) {
     if (!state.searchQueryNorm && !state.searchAnyTokens.length && !state.searchExcludeTokens.length) return true;
     if (!product) return false;
-
     const fields = [
-      product.name,
-      product.type,
-      product.typeLabel,
-      product.badge,
-      product.featuredBadge,
-      product.section,
-      product.sectionLabel,
-      product.categoryKey
+      product.name, product.type, product.typeLabel, product.badge,
+      product.featuredBadge, product.section, product.sectionLabel, product.categoryKey,
+      ...(Array.isArray(product.colors) ? product.colors.map((entry) => entry?.name).filter(Boolean) : [])
     ];
-
-    if (Array.isArray(product.colors)) {
-      product.colors.forEach((entry) => {
-        if (entry?.name) fields.push(entry.name);
-      });
-    }
-
     const haystack = normalizeText(fields.join(" "));
     const compactHaystack = compactSearch(haystack);
     const compactQuery = compactSearch(state.searchQueryNorm);
     const words = haystack.split(/[^a-z0-9]+/).filter(Boolean);
-
-    if (state.searchQueryNorm) {
-      let matchesMainQuery = false;
-      if (compactQuery && compactHaystack.includes(compactQuery)) {
-        matchesMainQuery = true;
-      } else {
-        matchesMainQuery = state.searchTokens.every((token) => {
-          return haystack.includes(token) || words.some((word) => word.startsWith(token));
-        });
-      }
-
-      if (!matchesMainQuery) return false;
-    }
-
-    if (state.searchAnyTokens.length) {
-      const matchesAny = state.searchAnyTokens.some((token) => {
-        return haystack.includes(token) || words.some((word) => word.startsWith(token));
-      });
-      if (!matchesAny) return false;
-    }
-
-    if (state.searchExcludeTokens.length) {
-      const hasExcluded = state.searchExcludeTokens.some((token) => {
-        return haystack.includes(token) || words.some((word) => word.startsWith(token));
-      });
-      if (hasExcluded) return false;
-    }
-
-    return true;
+    const matchesMainQuery = !state.searchQueryNorm
+      || (compactQuery && compactHaystack.includes(compactQuery))
+      || state.searchTokens.every((token) => searchTokenMatches(token, haystack, words));
+    const matchesAny = !state.searchAnyTokens.length
+      || state.searchAnyTokens.some((token) => searchTokenMatches(token, haystack, words));
+    const hasExcluded = state.searchExcludeTokens.some((token) => searchTokenMatches(token, haystack, words));
+    return Boolean(matchesMainQuery && matchesAny && !hasExcluded);
   }
 
   function normalizeStatus(rawStatus) {
@@ -948,7 +926,8 @@
       const thumbFallback = String(entry?.thumbFallback || "").trim()
         || resolvedImage;
       const thumbAvif = String(entry?.thumbAvif || "").trim();
-      return Object.assign({}, entry, {
+      return {
+        ...entry,
         key,
         name,
         hex: entry?.hex ? entry.hex : (RAW_COLOR_FALLBACK_HEX[key] || "#d9d4da"),
@@ -957,7 +936,7 @@
         swatch,
         thumbFallback,
         thumbAvif
-      });
+      };
     });
   }
 
@@ -979,6 +958,46 @@
     return list;
   }
 
+  function normalizeProductColors(raw) {
+    const rawColors = buildColors(raw);
+    const colorNormalizer = window.romixProductCard && typeof window.romixProductCard.uniqueColorEntries === "function"
+      ? window.romixProductCard.uniqueColorEntries
+      : null;
+    return colorNormalizer ? colorNormalizer(rawColors) : rawColors;
+  }
+
+  function getProductSaleInfo(raw) {
+    if (typeof pricing.getSaleInfo === "function") return pricing.getSaleInfo(raw);
+    return {
+      currentPrice: Number((raw && (raw.price || raw.base_price || raw.basePrice)) || 0),
+      originalPrice: Number((raw && (raw.originalPrice || raw.compare_at_price || raw.compareAtPrice)) || 0)
+    };
+  }
+
+  function resolveProductMedia(raw, colors) {
+    const galleryImages = getRawImageList(raw);
+    const rawImageMap = getRawImageMap(raw);
+    const coverImage = (typeof imageUtils.getProductMainImage === "function" ? imageUtils.getProductMainImage(raw) : "")
+      || (colors[0] && colors[0].image)
+      || galleryImages[0]
+      || raw?.image
+      || PLACEHOLDER;
+    const rawThumbnail = String(raw?.thumbnail || "").trim();
+    const rawThumbnailFallback = String(raw?.thumbnailFallback || "").trim();
+    const rawThumbnailAvif = String(raw?.thumbnailAvif || "").trim();
+    const generatedThumb = typeof imageUtils.getThumbPath === "function" && coverImage !== PLACEHOLDER
+      ? imageUtils.getThumbPath(coverImage)
+      : "";
+    return {
+      galleryImages,
+      rawImageMap,
+      coverImage,
+      coverThumb: rawThumbnail || (colors[0] && colors[0].thumb) || generatedThumb || coverImage,
+      coverThumbFallback: rawThumbnailFallback || (colors[0] && colors[0].thumbFallback) || coverImage,
+      rawThumbnailAvif
+    };
+  }
+
   function normalizeProduct(raw) {
     const section = normalizeSection(raw?.section);
     const name = String((raw?.name) || "Producto ROMIX").trim();
@@ -987,37 +1006,14 @@
     const typeKey = normalizeTypeFilterValue(typeRaw);
     const categoryKey = categoryKeyFromType(typeRaw);
     const sizes = buildSizes(raw);
-    const rawColors = buildColors(raw);
-    const colors = window.romixProductCard && typeof window.romixProductCard.uniqueColorEntries === "function"
-      ? window.romixProductCard.uniqueColorEntries(rawColors)
-      : rawColors;
+    const colors = normalizeProductColors(raw);
     const registeredColorCount = colors.length;
     const filterColorKeys = Array.from(new Set(colors.map((entry) => normalizeColorToFilterKey(entry.name)).filter(Boolean)));
     const seasonKey = normalizeSeason(raw?.season, name);
     const baseStock = raw?.stockStatus ? normalizeStatus(raw.stockStatus) : "";
-    const galleryImages = getRawImageList(raw);
-    const rawImageMap = getRawImageMap(raw);
-    const coverImage = (typeof imageUtils.getProductMainImage === "function"
-      ? imageUtils.getProductMainImage(raw)
-      : "")
-      || (colors[0] && colors[0].image)
-      || (galleryImages[0] || ((raw?.image) || PLACEHOLDER));
-    const rawThumbnail = String(raw?.thumbnail || "").trim();
-    const rawThumbnailFallback = String(raw?.thumbnailFallback || "").trim();
-    const rawThumbnailAvif = String(raw?.thumbnailAvif || "").trim();
-    const coverThumb = rawThumbnail
-      || (colors[0] && colors[0].thumb)
-      || (typeof imageUtils.getThumbPath === "function" && coverImage !== PLACEHOLDER ? imageUtils.getThumbPath(coverImage) : "")
-      || coverImage;
-    const coverThumbFallback = rawThumbnailFallback
-      || (colors[0] && colors[0].thumbFallback)
-      || coverImage;
-    const saleInfo = typeof pricing.getSaleInfo === "function"
-      ? pricing.getSaleInfo(raw)
-      : {
-          currentPrice: Number((raw && (raw.price || raw.base_price || raw.basePrice)) || 0),
-          originalPrice: Number((raw && (raw.originalPrice || raw.compare_at_price || raw.compareAtPrice)) || 0)
-        };
+    const media = resolveProductMedia(raw, colors);
+    const { galleryImages, rawImageMap, coverImage, coverThumb, coverThumbFallback, rawThumbnailAvif } = media;
+    const saleInfo = getProductSaleInfo(raw);
 
     return {
       id: String((raw?.id) || (section + "-" + slugify(name))),
@@ -1339,11 +1335,11 @@
     if (state.scope === "catalogo") {
       const sectionValue = getSingleSelectedValue("sections");
       if (sectionValue) return getOptionLabel("sections", sectionValue);
-      return "Catalogo";
+      return "Catálogo";
     }
 
     const pageConfig = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
-    return pageConfig.title || "Catalogo";
+    return pageConfig.title || "Catálogo";
   }
 
   function renderBreadcrumb() {
@@ -1360,6 +1356,14 @@
       main.insertBefore(breadcrumb, heading);
     }
 
+    const backHref = state.scope === "catalogo" ? "index.html" : "catalogo.html";
+    const backLabel = state.scope === "catalogo" ? "Volver al inicio" : "Volver al catálogo";
+    const back = document.createElement("a");
+    back.className = "catalog-breadcrumb-back";
+    back.href = backHref;
+    back.setAttribute("aria-label", backLabel);
+    back.innerHTML = '<span class="catalog-breadcrumb-back-arrow" aria-hidden="true">&#8592;</span><span>Atrás</span>';
+
     const parts = [{ label: "Inicio", href: "index.html" }];
     const sectionLabel = getBreadcrumbSectionLabel();
     if (sectionLabel) parts.push({ label: sectionLabel });
@@ -1375,20 +1379,25 @@
     }
 
     breadcrumb.innerHTML = "";
+    breadcrumb.appendChild(back);
+
+    const trail = document.createElement("span");
+    trail.className = "catalog-breadcrumb-trail";
     parts.forEach((part, index) => {
       const node = part.href ? document.createElement("a") : document.createElement("span");
       if (part.href) node.href = part.href;
       node.textContent = part.label;
-      breadcrumb.appendChild(node);
 
       if (index < parts.length - 1) {
         const sep = document.createElement("span");
         sep.className = "catalog-breadcrumb-sep";
         sep.setAttribute("aria-hidden", "true");
-        sep.textContent = ">";
-        breadcrumb.appendChild(sep);
+        sep.textContent = "/";
+        trail.appendChild(sep);
       }
+      trail.appendChild(node);
     });
+    breadcrumb.appendChild(trail);
 
     ensureMobileFilterTrigger();
   }
@@ -1523,6 +1532,9 @@
       const thumb = document.createElement("div");
       thumb.className = "product-thumb";
       let selectedColor = getFirstColor(product);
+      thumb.dataset.hoverSrc = typeof imageUtils.getProductHoverImage === "function"
+        ? imageUtils.getProductHoverImage(product, selectedColor)
+        : "";
       const imagePriority = getCardImagePriority(index);
       const defaultThumbSet = resolveThumbSet(product, null);
       const initialThumbSet = resolveThumbSet(product, selectedColor);
@@ -1698,6 +1710,9 @@
           button.dataset.variantIndex = String(index);
           button.dataset.variantSrc = String(color.thumb || color.thumbnail || color.image || "").trim();
           button.dataset.variantMainSrc = String(color.image || "").trim();
+          button.dataset.variantHoverSrc = typeof imageUtils.getProductHoverImage === "function"
+            ? imageUtils.getProductHoverImage(product, color)
+            : "";
           const previewSrc = String(color.thumb || color.thumbnail || color.image || "").trim();
           if (index < 4) {
             const preview = document.createElement("img");
@@ -1776,7 +1791,6 @@
       if (stockInfo.label !== "Consultar disponibilidad") {
         const stock = document.createElement("p");
         stock.className = "stock-note " + stockInfo.css;
-        stock.setAttribute("aria-hidden", "true");
         stock.textContent = stockInfo.label;
         body.appendChild(stock);
       }
@@ -1837,7 +1851,7 @@
       if (selectedAudience === "nina" && (!isNinosProduct || isNinoProduct)) return false;
     }
 
-    if (state.scope === "catalogo" && state.selected.sections.size) {
+    if ((state.scope === "catalogo" || state.scope === "novedades") && state.selected.sections.size) {
       if (!state.selected.sections.has(product.section)) return false;
     }
 
@@ -1959,10 +1973,10 @@
       if (list.length) params.set(key, list.join(","));
     });
 
-    ["sections", "section", "secciones", "seccion"].forEach((key) => params.delete(key));
     if (state.catalogView.mode === "novedades") {
       params.set("view", "novedades");
     } else if (state.catalogView.mode === "section") {
+      ["sections", "section", "secciones", "seccion"].forEach((key) => params.delete(key));
       if (!document.body.dataset.categoryPage) params.set("sections", state.scope);
     } else if (state.selected.sections.size) {
       params.set("sections", Array.from(state.selected.sections).sort(compareFilterValues).join(","));
@@ -2174,12 +2188,15 @@
     const group = document.getElementById("section-filter-group");
     if (!container || !group) return;
 
-    const showSectionFilter = state.scope === "catalogo";
+    const showSectionFilter = state.scope === "catalogo" || state.scope === "novedades";
     group.hidden = !showSectionFilter;
     if (!showSectionFilter) {
       container.innerHTML = "";
       return;
     }
+
+    const heading = group.querySelector("h3");
+    if (heading) heading.textContent = state.scope === "novedades" ? "PÚBLICO" : "SECCIÓN";
 
     container.innerHTML = "";
     state.optionLabels.sections.clear();
@@ -2220,7 +2237,7 @@
     const helper = document.getElementById("size-helper");
     const sizeMoreButton = document.getElementById("size-more-btn");
 
-    if (state.scope === "catalogo") {
+    if (state.scope === "catalogo" || state.scope === "novedades") {
       const selectedSection = Array.from(state.selected.sections)[0] || "";
       if (!selectedSection) {
         state.sizeValues = [];
@@ -2237,7 +2254,9 @@
         }
         if (helper) {
           helper.hidden = false;
-          helper.textContent = "Seleccioná una sección para ver los talles disponibles";
+          helper.textContent = state.scope === "novedades"
+            ? "Seleccioná Mujer, Hombre o Niños para ver los talles disponibles"
+            : "Seleccioná una sección para ver los talles disponibles";
         }
         return;
       }
@@ -2275,9 +2294,11 @@
     state.optionLabels.sizes.clear();
 
     if (!state.sizeValues.length) {
-      if (helper && state.scope === "catalogo") {
+      if (helper && (state.scope === "catalogo" || state.scope === "novedades")) {
         helper.hidden = false;
-        helper.textContent = "No hay talles disponibles para la sección seleccionada";
+        helper.textContent = state.scope === "novedades"
+          ? "No hay talles disponibles para el público seleccionado"
+          : "No hay talles disponibles para la sección seleccionada";
       }
       if (sizeMoreButton) sizeMoreButton.classList.add("is-hidden");
       return;
@@ -2308,6 +2329,7 @@
   }
 
   function initPageHeader() {
+    document.documentElement.classList.add("romix-catalog-js");
     const config = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
     const title = document.getElementById("page-title");
     if (title && !document.body.dataset.categoryPage) {
@@ -2491,7 +2513,7 @@
         .filter((element) => !element.hidden && element.offsetParent !== null);
       if (!focusable.length) return;
       const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      const last = focusable.at(-1) || first;
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
@@ -2544,12 +2566,14 @@
     renderSizeFilters();
     renderPriceFilters();
     applyFilters();
+    document.documentElement.classList.remove("romix-catalog-hydrating");
     } catch (error) {
       const grid = document.getElementById("product-grid");
       if (grid?.querySelector('.product-card')) {
         const summary = document.getElementById('products-summary');
         if (summary) summary.textContent = 'Los filtros no están disponibles por ahora. Podés abrir los productos del listado.';
         bindStaticVariantCards(grid);
+        document.documentElement.classList.remove("romix-catalog-hydrating");
         console.warn('[romix-catalog] Se conserva el listado generado.', error);
         return;
       }
@@ -2561,6 +2585,7 @@
         grid.appendChild(empty);
       }
       renderSummary();
+      document.documentElement.classList.remove("romix-catalog-hydrating");
       console.error("[romix-catalog]", error);
     }
 

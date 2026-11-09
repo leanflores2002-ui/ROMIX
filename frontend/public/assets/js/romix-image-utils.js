@@ -156,6 +156,39 @@
     return result;
   }
 
+  // Optional secondary view used by product cards on pointer hover. The
+  // catalog remains compatible with its current color-only data: a back view
+  // is used only when it is explicitly provided or when a color has a gallery
+  // with a second image.
+  function getProductHoverImage(product, color) {
+    const colorSource = color && typeof color === "object" ? color : {};
+    const explicit = [
+      colorSource.hoverImage,
+      colorSource.backImage,
+      colorSource.secondaryImage,
+      colorSource.imageBack,
+      product?.hoverImage,
+      product?.backImage,
+      product?.secondaryImage,
+      product?.imageBack
+    ];
+    const colorGallery = [
+      colorSource.images,
+      colorSource.imagenes,
+      colorSource.gallery,
+      colorSource.galeria,
+      colorSource.photos,
+      colorSource.fotos
+    ].find((list) => Array.isArray(list) && list.length > 1);
+    const candidates = explicit.concat(colorGallery ? colorGallery.slice(1) : []);
+    const main = cleanPath(colorSource.image || colorSource.imagen || product?.image);
+    for (const candidate of candidates) {
+      const value = cleanPath(candidate);
+      if (value && value !== main) return value;
+    }
+    return "";
+  }
+
   function findColorImageInLegacyMap(product, colorName) {
     const target = normalizeColorKey(colorName);
     if (!target) return "";
@@ -197,12 +230,13 @@
           || findColorImageInLegacyMap(product, name)
           || cleanPath(imageList[index])
           || firstLegacyImage;
-        return Object.assign({}, color, {
+        return {
+          ...color,
           index: index,
           name: name,
           image: resolvedImage,
           images: colorImages.length ? colorImages : (resolvedImage ? [resolvedImage] : [])
-        });
+        };
       });
     }
 
@@ -254,46 +288,45 @@
     }) || null;
   }
 
+  function resolveColorProductArgs(productOrColor, colorOrProduct) {
+    const firstIsProduct = productOrColor && typeof productOrColor === "object" && Array.isArray(productOrColor.colors);
+    const secondIsProduct = colorOrProduct && typeof colorOrProduct === "object" && (
+      Array.isArray(colorOrProduct.colors) || colorOrProduct.image || colorOrProduct.imageMap || colorOrProduct.images
+    );
+    if (firstIsProduct) return { product: productOrColor, color: colorOrProduct };
+    if (secondIsProduct) return { product: colorOrProduct, color: productOrColor };
+    return { product: colorOrProduct, color: productOrColor };
+  }
+
+  function getDirectColorImage(color) {
+    if (!color || typeof color !== "object") return "";
+    return getColorImageList(color)[0] || "";
+  }
+
+  function getLegacyColorImage(product, color) {
+    if (!color || typeof color !== "object" || !color.name) return "";
+    return findColorImageInLegacyMap(product, color.name) || "";
+  }
+
+  function getIndexedColorImage(product, index) {
+    const colorIndex = Number(index);
+    if (!Number.isFinite(colorIndex) || colorIndex < 0) return "";
+    const imageList = getProductImageList(product);
+    return imageList[colorIndex] ? cleanPath(imageList[colorIndex]) : "";
+  }
+
   function getColorImage(productOrColor, colorOrProduct, index) {
-    let product = null;
-    let color = null;
-    let colorIndex = Number(index);
-
-    if (productOrColor && typeof productOrColor === "object" && Array.isArray(productOrColor.colors)) {
-      product = productOrColor;
-      color = colorOrProduct;
-    } else if (colorOrProduct && typeof colorOrProduct === "object" && (Array.isArray(colorOrProduct.colors) || colorOrProduct.image || colorOrProduct.imageMap || colorOrProduct.images)) {
-      color = productOrColor;
-      product = colorOrProduct;
-    } else {
-      color = productOrColor;
-      product = colorOrProduct;
-    }
-
-    if (color && typeof color === "object") {
-      const colorImages = getColorImageList(color);
-      if (colorImages[0]) return colorImages[0];
-    }
-
-    const namedColor = findProductColor(product, color);
-    if (namedColor?.image) return cleanPath(namedColor.image);
-
-    if (color && typeof color === "object" && color.name) {
-      const legacyImage = findColorImageInLegacyMap(product, color.name);
-      if (legacyImage) return legacyImage;
-    }
-
-    if (Number.isFinite(colorIndex) && colorIndex >= 0) {
-      const imageList = getProductImageList(product);
-      if (imageList[colorIndex]) return cleanPath(imageList[colorIndex]);
-    }
-
-    return getProductMainImage(product);
+    const { product, color } = resolveColorProductArgs(productOrColor, colorOrProduct);
+    return getDirectColorImage(color)
+      || cleanPath(findProductColor(product, color)?.image)
+      || getLegacyColorImage(product, color)
+      || getIndexedColorImage(product, index)
+      || getProductMainImage(product);
   }
 
   function getProductThumbSet(product, color) {
     const colorEntry = color && typeof color === "object"
-      ? Object.assign({}, color, { image: getColorImage(color, product) })
+      ? { ...color, image: getColorImage(color, product) }
       : findProductColor(product, color);
     const mainImage = getColorImage(colorEntry || color, product) || getProductMainImage(product);
     const hasColorEntry = !!colorEntry;
@@ -589,6 +622,7 @@
     getProductLegacyImageMap,
     getProductImageList,
     getColorImageList,
+    getProductHoverImage,
     resolveProductColorEntries,
     getProductMainImage,
     findProductColor,

@@ -483,6 +483,8 @@
     if (!badge) return;
     const { totalItems } = getCartTotals();
     badge.textContent = String(totalItems);
+    badge.hidden = totalItems === 0;
+    badge.setAttribute('aria-hidden', totalItems === 0 ? 'true' : 'false');
   };
 
   const decodeCartText = (value) => {
@@ -754,7 +756,7 @@
         return;
       }
       const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      const last = focusable.at(-1) || first;
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();

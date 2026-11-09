@@ -105,8 +105,8 @@
 
   function normalizeRecommendedSeason(value){
     const key = normalizeText(value).replace(/[\s_]+/g, '-');
-    if (key.indexOf('media-estacion') >= 0 || key === 'media') return 'media-estacion';
-    if (key.indexOf('verano') >= 0) return 'verano';
+    if (key.includes('media-estacion') || key === 'media') return 'media-estacion';
+    if (key.includes('verano')) return 'verano';
     return key;
   }
 
@@ -114,7 +114,7 @@
     const normalized = normalizeText(text).replace(/[^a-z0-9]+/g, ' ').trim();
     const target = normalizeText(alias).replace(/[^a-z0-9]+/g, ' ').trim();
     if (!normalized || !target) return false;
-    return (' ' + normalized + ' ').indexOf(' ' + target + ' ') >= 0;
+    return (' ' + normalized + ' ').includes(' ' + target + ' ');
   }
 
   function categoryFromValue(value){
@@ -179,10 +179,10 @@
     const excludes = Array.isArray(rule.excludes) ? rule.excludes : [];
 
     for (let i = 0; i < includes.length; i += 1){
-      if (text.indexOf(includes[i]) === -1) return false;
+      if (!text.includes(includes[i])) return false;
     }
     for (let i = 0; i < excludes.length; i += 1){
-      if (text.indexOf(excludes[i]) !== -1) return false;
+      if (text.includes(excludes[i])) return false;
     }
     return true;
   }

@@ -29,13 +29,13 @@ function readPublic(relativePath) {
   return fs.readFileSync(path.join(PUBLIC_DIR, ...relativePath.split('/')), 'utf8');
 }
 
-async function renderCatalog(url) {
+async function renderCatalog(url, dataset = fixtures) {
   const window = new JSDOM(readPublic('catalogo.html'), {
     runScripts: 'outside-only',
     url
   }).window;
   window.romixProductsStore = {
-    load: async () => fixtures.filter((item) => item.visible !== false),
+    load: async () => dataset.filter((item) => item.visible !== false),
     isVisible: (item) => !!item && item.visible !== false
   };
   window.romixCart = { updateBadge() {} };
@@ -97,6 +97,28 @@ async function main() {
   await new Promise((resolve) => window.setTimeout(resolve, 10));
   const filteredNames = Array.from(window.document.querySelectorAll('#product-grid .product-name')).map((element) => element.textContent.trim());
   assert(JSON.stringify(filteredNames) === JSON.stringify(['Gris medio']), 'El filtro Gris medio debe seleccionar solo su variante');
+
+  const novedadesFixtures = [
+    { id: 'novedad-mujer', name: 'Novedad mujer', section: 'mujer', featured: true, type: 'calzas', price: 12000, image: 'images/logo-romix.png', colors: [{ name: 'Negro', hex: '#000000' }], sizes: ['2', '6'] },
+    { id: 'novedad-hombre', name: 'Novedad hombre', section: 'hombre', featured: true, type: 'remeras', price: 13000, image: 'images/logo-romix.png', colors: [{ name: 'Azul', hex: '#1E4ED8' }], sizes: ['1', '2'] },
+    { id: 'novedad-nino', name: 'Novedad niño', section: 'ninos', featured: true, type: 'buzos', price: 11000, image: 'images/logo-romix.png', colors: [{ name: 'Rojo', hex: '#FF0000' }], sizes: ['8', '10'] }
+  ];
+  const novedadesWindow = await renderCatalog('http://localhost/catalogo.html?view=novedades', novedadesFixtures);
+  const publicGroup = novedadesWindow.document.getElementById('section-filter-group');
+  assert(publicGroup && !publicGroup.hidden, 'Novedades debe mostrar el filtro de público');
+  assert(publicGroup.querySelector('h3').textContent.trim() === 'PÚBLICO', 'El filtro de Novedades debe identificar el público');
+  assert(novedadesWindow.document.querySelectorAll('#section-options input[data-group="sections"]').length === 3, 'Novedades debe ofrecer Mujer, Hombre y Niños');
+  assert(novedadesWindow.document.querySelectorAll('#size-options input').length === 0, 'Novedades no debe mostrar talles sin público seleccionado');
+  assert(novedadesWindow.document.getElementById('size-helper').textContent.includes('Seleccioná Mujer, Hombre o Niños'), 'Novedades debe explicar por qué se ocultan los talles');
+  const hombre = novedadesWindow.document.querySelector('#section-options input[value="hombre"]');
+  hombre.checked = true;
+  hombre.dispatchEvent(new novedadesWindow.Event('change', { bubbles: true }));
+  await new Promise((resolve) => novedadesWindow.setTimeout(resolve, 10));
+  const novedadesNames = Array.from(novedadesWindow.document.querySelectorAll('#product-grid .product-name')).map((element) => element.textContent.trim());
+  assert(JSON.stringify(novedadesNames) === JSON.stringify(['Novedad hombre']), 'El público de Novedades debe filtrar el listado');
+  assert(novedadesWindow.document.querySelectorAll('#size-options input').length === 2, 'Al elegir público deben aparecer sus talles');
+  assert(novedadesWindow.location.search.includes('sections=hombre'), 'El público seleccionado debe conservarse en la URL');
+  novedadesWindow.close();
 
   window.close();
   console.log('catalogFilterTests: passed');

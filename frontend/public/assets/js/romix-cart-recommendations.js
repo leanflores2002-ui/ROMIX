@@ -252,6 +252,9 @@
       name: String(color?.name || color?.value || `Color ${index + 1}`).trim(),
       src: set.src || set.fallbackSrc || mainSrc || PLACEHOLDER,
       mainSrc: set.originalSrc || mainSrc || set.fallbackSrc || PLACEHOLDER,
+      hoverSrc: typeof imageUtils.getProductHoverImage === "function"
+        ? imageUtils.getProductHoverImage(product, color)
+        : "",
     };
   }
 
@@ -334,6 +337,7 @@
     button.dataset.variantIndex = String(index);
     button.dataset.variantSrc = variant.src || PLACEHOLDER;
     button.dataset.variantMainSrc = variant.mainSrc || variant.src || PLACEHOLDER;
+    button.dataset.variantHoverSrc = variant.hoverSrc || "";
     button.setAttribute("aria-label", `Ver variante ${variant.name || `Color ${index + 1}`} de ${product.name}`);
     button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
     button.setAttribute("aria-current", index === 0 ? "true" : "false");
@@ -383,6 +387,7 @@
 
     const thumb = document.createElement("div");
     thumb.className = "product-thumb";
+    thumb.dataset.hoverSrc = firstColor?.hoverSrc || "";
     thumb.appendChild(createPictureImage(product, firstColor, index));
     const badgeLabel = String(product.badge || product.featuredBadge || "").trim();
     if (badgeLabel) {

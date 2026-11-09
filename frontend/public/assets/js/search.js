@@ -52,12 +52,13 @@
     const out = [];
     (Array.isArray(list) ? list : []).forEach((product) => {
       if (!product || !product.name) return;
-      const copy = Object.assign({}, product);
+      const copy = { ...product };
       ["name", "type", "section", "badge", "description", "season", "collection"].forEach((key) => {
         if (copy[key]) copy[key] = globalFixUtf8(String(copy[key]));
       });
       if (Array.isArray(copy.colors)) {
-        copy.colors = copy.colors.map((color) => Object.assign({}, color, {
+        copy.colors = copy.colors.map((color) => ({
+          ...color,
           name: globalFixUtf8(color?.name)
         }));
       }
@@ -440,8 +441,11 @@
         : source || image;
       const label = (color?.name) || ("Variante " + (index + 1));
       const mainImage = color && (color.image || color.mainImage || color.originalImage) || variantImage;
+      const hoverImage = typeof window.romixImageUtils?.getProductHoverImage === "function"
+        ? window.romixImageUtils.getProductHoverImage(product, color)
+        : "";
       const deferred = index >= 4;
-      return '<button type="button" class="product-variant-thumb' + (index === 0 ? ' is-active' : '') + '" data-variant-index="' + index + '" data-variant-src="' + escapeHtml(variantImage) + '" data-variant-main-src="' + escapeHtml(mainImage) + '" aria-label="Ver variante ' + escapeHtml(label) + '" aria-pressed="' + (index === 0 ? 'true' : 'false') + '" aria-current="' + (index === 0 ? 'true' : 'false') + '"' + (deferred ? ' hidden aria-hidden="true" tabindex="-1"' : '') + '>' +
+      return '<button type="button" class="product-variant-thumb' + (index === 0 ? ' is-active' : '') + '" data-variant-index="' + index + '" data-variant-src="' + escapeHtml(variantImage) + '" data-variant-main-src="' + escapeHtml(mainImage) + '" data-variant-hover-src="' + escapeHtml(hoverImage) + '" aria-label="Ver variante ' + escapeHtml(label) + '" aria-pressed="' + (index === 0 ? 'true' : 'false') + '" aria-current="' + (index === 0 ? 'true' : 'false') + '"' + (deferred ? ' hidden aria-hidden="true" tabindex="-1"' : '') + '>' +
         (deferred ? '' : '<img src="' + escapeHtml(variantImage) + '" alt="' + escapeHtml(label) + '" loading="lazy" decoding="async" />') +
       '</button>';
     }).join("");
@@ -460,10 +464,13 @@
     const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
     const badge = badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '';
     const bagIcon = typeof window.romixIcon === "function" ? window.romixIcon("ShoppingBag", { size: "sm" }) : '';
+    const hoverImage = typeof window.romixImageUtils?.getProductHoverImage === "function"
+      ? window.romixImageUtils.getProductHoverImage(product, colors[0])
+      : "";
 
     return '' +
       '<article class="romix-search-product romix-product-card">' +
-        '<a class="product-thumb romix-search-product__media" href="' + escapeHtml(href) + '">' +
+        '<a class="product-thumb romix-search-product__media" data-hover-src="' + escapeHtml(hoverImage) + '" href="' + escapeHtml(href) + '">' +
           '<img src="' + escapeHtml(image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy" decoding="async" />' +
           badge +
         '</a>' +
@@ -773,7 +780,7 @@
         .filter((element) => !element.disabled && element.getAttribute("aria-hidden") !== "true");
       if (!focusable.length) return;
       const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      const last = focusable.at(-1) || first;
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();

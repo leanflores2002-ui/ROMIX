@@ -6354,6 +6354,7 @@
     "name": "Babucha lycra jogger hombre",
     "season": "media-estacion",
     "image": "images/products/babucha_lycra_jogger_hombre_negro.webp",
+    "hoverImage": "images/products/babucha_lycra_jogger_hombre_negro_espalda.webp",
     "price": 16000,
     "priceByGroup": {
       "common": 16000,

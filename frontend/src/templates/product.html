@@ -1206,7 +1206,19 @@
               ? imageUtils.getColorImageList(color)
               : rawColorImages;
             const list = explicitImages.length ? explicitImages : getSafeProductImageSources(product, colorName, colorIndex);
-            list.forEach((src, imageIndex) => {
+            const hoverImage = typeof imageUtils.getProductHoverImage === 'function'
+              ? imageUtils.getProductHoverImage(product, color)
+              : '';
+            const colorHasExplicitHover = [
+              color && color.hoverImage,
+              color && color.backImage,
+              color && color.secondaryImage,
+              color && color.imageBack
+            ].some(Boolean);
+            const gallerySources = hoverImage && (fallbackEntries.length === 1 || colorHasExplicitHover)
+              ? uniqueGallerySources([list, hoverImage])
+              : list;
+            gallerySources.forEach((src, imageIndex) => {
               const imageSources = imageIndex === 0
                 ? uniqueGallerySources([src, getSafeProductImageSources(product, colorName, colorIndex)])
                 : [src];

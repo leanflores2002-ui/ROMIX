@@ -5062,6 +5062,11 @@
         "image": "images/products/remera_lycra_dry_dama_gris.webp"
       },
       {
+        "name": "Gris oscuro",
+        "hex": "#4B4B4B",
+        "image": "images/products/remera_lycra_dry_dama_gris_oscuro.webp"
+      },
+      {
         "name": "Negro",
         "hex": "#000000",
         "image": "images/products/remera_lycra_dry_dama_negro.webp"
@@ -6354,6 +6359,7 @@
     "name": "Babucha lycra jogger hombre",
     "season": "media-estacion",
     "image": "images/products/babucha_lycra_jogger_hombre_negro.webp",
+    "hoverImage": "images/products/babucha_lycra_jogger_hombre_negro_espalda.webp",
     "price": 16000,
     "priceByGroup": {
       "common": 16000,

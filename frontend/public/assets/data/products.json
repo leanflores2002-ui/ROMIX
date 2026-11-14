@@ -4458,9 +4458,10 @@
   {
     "section": "mujer",
     "type": "ciclistas",
-    "name": "Ciclista jaspeado saplex",
+    "name": "Ciclista lycra suplex jaspeado dama",
     "season": "verano",
     "image": "images/products/ciclista_jaspeado_saplex_gris_melange.webp",
+    "hoverImage": "images/products/ciclista_jaspeado_saplex_gris_melange_espalda.webp",
     "price": 9000,
     "priceByGroup": {
       "common": 9000,
@@ -4483,11 +4484,6 @@
         "image": "images/products/ciclista_jaspeado_saplex_rosa.webp"
       },
       {
-        "name": "Francia",
-        "hex": "#0055A4",
-        "image": "images/products/ciclista_jaspeado_saplex_francia.webp"
-      },
-      {
         "name": "Petroleo",
         "hex": "#005F6A",
         "image": "images/products/ciclista_jaspeado_saplex_petroleo.webp"
@@ -4501,11 +4497,6 @@
         "name": "Gris oscuro",
         "hex": "#4B4B4B",
         "image": "images/products/ciclista_jaspeado_saplex_gris_oscuro.webp"
-      },
-      {
-        "name": "Coral",
-        "hex": "#FF7F50",
-        "image": "images/products/ciclista_jaspeado_saplex_coral.webp"
       }
     ],
     "sizes": [

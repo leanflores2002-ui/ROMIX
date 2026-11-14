@@ -1335,7 +1335,24 @@
               color && color.secondaryImage,
               color && color.imageBack
             ].some(Boolean);
-            const gallerySources = hoverImage && (fallbackEntries.length === 1 || colorHasExplicitHover)
+            // A product-level hoverImage belongs to the default/first color when
+            // the catalog has one shared back view. Keep it in the detail gallery
+            // without attaching the same photo to every color variant.
+            const hasProductLevelHover = Boolean(
+              product && (
+                product.hoverImage
+                || product.backImage
+                || product.secondaryImage
+                || product.imageBack
+              )
+            );
+            const colorPosition = Number(color && color.index);
+            const isDefaultColor = Number.isInteger(colorPosition) ? colorPosition === 0 : index === 0;
+            const gallerySources = hoverImage && (
+              fallbackEntries.length === 1
+              || colorHasExplicitHover
+              || (hasProductLevelHover && isDefaultColor)
+            )
               ? uniqueGallerySources([list, hoverImage])
               : list;
             gallerySources.forEach((src, imageIndex) => {

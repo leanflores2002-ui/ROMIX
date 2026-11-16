@@ -130,7 +130,7 @@
     .link-danger svg { width:20px; height:20px; }
     .cart-recommendations { margin-top:48px; }
     .cart-recommendations__title { color:#17151a; font-size:clamp(28px,3vw,40px); font-weight:850; }
-    .cart-recommendations__card .product-color-count,.cart-recommendations__card .product-variant-thumbs,.cart-recommendations__card .product-cta { display:none !important; }
+    .cart-recommendations__card .product-color-count,.cart-recommendations__card .product-cta { display:none !important; }
     .cart-recommendations__card .product-body { padding:12px 14px 16px; }
     .cart-recommendations__card .product-name { min-height:0; margin-bottom:6px; font-size:19px; font-weight:800; }
     .cart-recommendations__card .product-price { color:#17151a; font-size:22px; font-weight:850; }
@@ -851,6 +851,53 @@
     .cart-page .cart-recommendations__title {
       font-family: var(--romix-font-body, 'Manrope', system-ui, sans-serif);
       letter-spacing: -0.035em;
+    }
+    .cart-page .cart-actions-row .btn {
+      min-height: 56px;
+      border-radius: 999px;
+      font-family: var(--romix-font-body, 'Manrope', system-ui, sans-serif);
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .cart-page .cart-actions-row .btn-primary {
+      border: 0;
+      color: #fff;
+      background: #d80d78;
+    }
+    .cart-page .cart-actions-row .btn-outline {
+      border: 2px solid #d80d78;
+      color: #d80d78;
+      background: #fff;
+    }
+    .cart-page .link-danger {
+      display: flex;
+      width: fit-content;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 18px auto 0;
+      color: #d80d78;
+      font-family: var(--romix-font-body, 'Manrope', system-ui, sans-serif);
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .cart-page .cart-recommendations__card .product-variant-tray {
+      display: flex;
+      z-index: 4;
+    }
+    @media (hover: none), (pointer: coarse) {
+      .cart-page .cart-recommendations__card .product-variant-tray {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+        visibility: visible;
+      }
+    }
+    @media (max-width: 640px) {
+      .cart-page .cart-actions-row .btn {
+        min-height: 52px;
+        font-size: 16px;
+      }
     }
   </style>
   <script defer src="/assets/js/romix-analytics.js?v=3"></script>

@@ -118,21 +118,47 @@
     return `$${Number(value || 0).toLocaleString("es-AR")}`;
   }
 
+  function colorSwatch(value) {
+    const name = String(value || "").trim().toLowerCase();
+    const colors = {
+      negro: "#171719", negra: "#171719", blanco: "#f7f7f7", blanca: "#f7f7f7",
+      bordo: "#7b1433", bordó: "#7b1433", rojo: "#d7193f", rosa: "#e83e8c",
+      fucsia: "#e6007e", violeta: "#7237a7", azul: "#2454a6", celeste: "#60aee8",
+      verde: "#607b43", gris: "#8c8c8c", marron: "#825b42", marrón: "#825b42",
+    };
+    return colors[name] || "#242426";
+  }
+
   function createSelect(label, className, options) {
     const labelElement = document.createElement("label");
     labelElement.className = "romix-cart-drawer-recommendation__field";
+    const isColor = /color/i.test(label);
+    labelElement.dataset.control = isColor ? "color" : "size";
     const labelText = document.createElement("span");
     labelText.className = "sr-only";
     labelText.textContent = label;
+    if (isColor) {
+      const swatch = document.createElement("span");
+      swatch.className = "romix-cart-drawer-recommendation__swatch";
+      swatch.setAttribute("aria-hidden", "true");
+      swatch.style.backgroundColor = colorSwatch(options[0]);
+      labelElement.appendChild(swatch);
+    }
     const select = document.createElement("select");
     select.className = className;
     select.setAttribute("aria-label", label);
     options.forEach((optionValue) => {
       const option = document.createElement("option");
       option.value = optionValue;
-      option.textContent = optionValue;
+      option.textContent = isColor ? optionValue : `Talle: ${optionValue}`;
       select.appendChild(option);
     });
+    if (isColor) {
+      select.addEventListener("change", () => {
+        const swatch = labelElement.querySelector(".romix-cart-drawer-recommendation__swatch");
+        if (swatch) swatch.style.backgroundColor = colorSwatch(select.value);
+      });
+    }
     labelElement.append(labelText, select);
     return { labelElement, select };
   }

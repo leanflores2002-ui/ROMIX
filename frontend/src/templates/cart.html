@@ -71,6 +71,102 @@
     .post-order-state__title { font-size:1.2rem; font-weight:800; margin:0; color:#111; }
     .post-order-state__subtitle { margin:4px 0 0; color:#6c757d; font-size:.95rem; }
     .post-order-state__action { align-self:flex-start; }
+
+    /* Cart reference layout: a clear two-column purchase summary on desktop,
+       with the same hierarchy compressed into a single flow on mobile. */
+    .cart-container { width:min(100%,1440px); margin:0 auto 64px; padding:clamp(28px,4vw,58px) clamp(16px,4vw,56px) 0; }
+    .cart-title { margin:0; color:#17151a; font-size:clamp(42px,5vw,64px); font-weight:850; letter-spacing:-.045em; line-height:1; }
+    .cart-subtitle { margin:10px 0 34px; color:#706a76; font-size:clamp(18px,1.8vw,24px); font-weight:600; }
+    .cart-box { max-width:none; margin:0; padding:0; border:0; background:transparent; box-shadow:none; backdrop-filter:none; -webkit-backdrop-filter:none; }
+    .cart-layout { grid-template-columns:minmax(0,1.58fr) minmax(340px,.78fr); gap:30px; align-items:start; }
+    .cart-products-col { min-width:0; padding:28px 28px 34px; border:1px solid #ece8ee; border-radius:24px; background:#fff; box-shadow:0 14px 34px rgba(46,29,51,.08); }
+    .cart-items-title { margin:0 0 22px; color:#17151a; font-size:clamp(22px,2.2vw,30px); font-weight:850; letter-spacing:-.03em; text-transform:none; }
+    .cart-list { gap:0; }
+    .cart-item { grid-template-columns:30px 124px minmax(0,1fr) auto; grid-template-areas:'check thumb info right'; gap:18px; min-height:172px; padding:20px 0; border:0; border-bottom:1px solid #ebe7ed; border-radius:0; background:transparent; }
+    .cart-item:first-child { padding-top:8px; }
+    .cart-item:last-child { border-bottom:0; padding-bottom:4px; }
+    .item-check { padding-top:0; align-self:center; }
+    .item-check .item-select { width:24px; height:24px; accent-color:#d80d78; }
+    .cart-thumb { width:124px; height:136px; border:0; border-radius:12px; background:#fff6fb; }
+    .cart-thumb img { object-fit:cover; }
+    .cart-info { align-self:center; }
+    .cart-info .brand { margin-bottom:5px; color:#6f6876; font-size:15px; letter-spacing:.02em; }
+    .cart-info .name { margin-bottom:4px; color:#17151a; font-size:22px; font-weight:850; line-height:1.15; }
+    .cart-info .meta { margin-bottom:12px; color:#6e6874; font-size:17px; }
+    .cart-info .unit { color:#17151a; font-size:20px; font-weight:850; }
+    .cart-info .unit-old { font-size:14px; }
+    .cart-right { display:grid; grid-template-columns:148px auto 44px; align-items:center; justify-content:end; gap:26px; min-width:360px; padding:0; }
+    .qty-stepper { width:148px; height:54px; justify-content:space-between; margin:0; padding:4px 9px; border-color:#e7dce8; background:#fff; }
+    .qty-stepper button { width:34px; height:34px; border:0; border-radius:50%; color:#17151a; background:transparent; font-size:20px; }
+    .qty-stepper button:hover,.qty-stepper button:focus-visible { color:#d80d78; background:#fff0f8; }
+    .qty-stepper input { width:42px; font-size:18px; font-weight:800; }
+    .cart-right .subtotal { color:#d80d78; font-size:22px; font-weight:850; }
+    .cart-right .remove { width:44px; height:44px; border:1px solid #ffd4eb; border-radius:12px; color:#d80d78; background:#fff4fa; }
+    .cart-summary-col { min-width:0; position:sticky; top:96px; }
+    .cart-summary { margin:0; padding:0 22px 24px; overflow:hidden; border:1px solid #eadfe9; border-radius:24px; background:#fff; box-shadow:0 14px 34px rgba(46,29,51,.08); }
+    .cart-summary .left { color:#4e4754; }
+    .summary-title { margin:0 -22px 14px; padding:22px; color:#17151a; background:#fff0f8; font-size:28px; font-weight:850; letter-spacing:-.03em; }
+    .summary-items { display:grid; gap:12px; max-height:196px; overflow:auto; padding:0 0 12px; border-bottom:1px solid #ebe7ed; }
+    .summary-item { display:grid; grid-template-columns:64px minmax(0,1fr) auto; gap:12px; align-items:center; }
+    .summary-item-thumb { width:64px; height:64px; overflow:hidden; border-radius:10px; background:#fff6fb; }
+    .summary-item-thumb img { display:block; width:100%; height:100%; object-fit:cover; }
+    .summary-item-info { display:grid; gap:3px; min-width:0; }
+    .summary-item-info strong { overflow:hidden; color:#17151a; font-size:16px; font-weight:800; text-overflow:ellipsis; white-space:nowrap; }
+    .summary-item-info span { color:#746c79; font-size:14px; }
+    .summary-item-price { color:#17151a; font-size:17px; font-weight:850; white-space:nowrap; }
+    .summary-metric,.summary-shipping { display:flex; align-items:center; gap:10px; min-height:48px; margin:0; padding:12px 0; border-bottom:1px solid #ebe7ed; color:#716a77; font-size:16px; }
+    .summary-metric svg,.summary-shipping svg { width:22px; height:22px; color:#6d6472; }
+    .summary-metric strong { color:#4d4652; }
+    .summary-shipping { position:relative; }
+    .summary-info { display:inline-grid; place-items:center; width:20px; height:20px; margin-left:auto; border:1px solid #d80d78; border-radius:50%; color:#d80d78; font-size:12px; font-weight:800; }
+    .summary-total { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:12px 0 16px; padding:12px 16px; border-radius:16px; color:#17151a; background:#fff0f8; font-size:22px; font-weight:800; }
+    .summary-total strong { color:#d80d78; font-size:30px; font-weight:850; }
+    .cart-actions-row { display:grid; gap:12px; margin:0; }
+    .cart-actions-row .btn { min-height:56px; border-radius:999px; font-size:18px; font-weight:850; }
+    .cart-actions-row .btn-primary { background:#d80d78; }
+    .cart-actions-row .btn-outline { color:#d80d78; border:2px solid #d80d78; background:#fff; }
+    .link-danger { display:flex; align-items:center; justify-content:center; gap:8px; width:fit-content; margin:18px auto 0; color:#d80d78; font-size:16px; font-weight:800; }
+    .link-danger svg { width:20px; height:20px; }
+    .cart-recommendations { margin-top:48px; }
+    .cart-recommendations__title { color:#17151a; font-size:clamp(28px,3vw,40px); font-weight:850; }
+    .cart-recommendations__card .product-color-count,.cart-recommendations__card .product-variant-thumbs,.cart-recommendations__card .product-cta { display:none !important; }
+    .cart-recommendations__card .product-body { padding:12px 14px 16px; }
+    .cart-recommendations__card .product-name { min-height:0; margin-bottom:6px; font-size:19px; font-weight:800; }
+    .cart-recommendations__card .product-price { color:#17151a; font-size:22px; font-weight:850; }
+    .cart-recommendations__card .product-thumb { border-radius:16px 16px 0 0; }
+    @media (max-width:979px) { .cart-layout { grid-template-columns:1fr; } .cart-summary-col { position:static; } .cart-products-col { padding:22px; } .cart-right { min-width:0; } }
+    @media (max-width:640px) {
+      .cart-container { margin-bottom:36px; padding:24px 12px 0; }
+      .cart-title { font-size:40px; }
+      .cart-subtitle { margin-bottom:22px; font-size:17px; }
+      .cart-products-col { padding:18px 14px 24px; border-radius:20px; }
+      .cart-items-title { margin-bottom:10px; font-size:22px; }
+      .cart-item { grid-template-columns:22px 84px minmax(0,1fr); grid-template-areas:'check thumb info' 'right right right'; gap:10px; min-height:0; padding:18px 0; }
+      .cart-thumb { width:84px; height:104px; }
+      .item-check .item-select { width:20px; height:20px; }
+      .cart-info .brand { font-size:12px; }
+      .cart-info .name { font-size:17px; }
+      .cart-info .meta { font-size:14px; }
+      .cart-info .unit { font-size:17px; }
+      .cart-right { grid-template-columns:minmax(130px,1fr) auto 40px; width:100%; gap:10px; margin-top:8px; padding-top:12px; border-top:1px solid #ebe7ed; }
+      .qty-stepper { width:132px; height:48px; }
+      .qty-stepper button { width:30px; height:30px; }
+      .cart-right .subtotal { font-size:19px; }
+      .cart-right .remove { width:40px; height:40px; }
+      .cart-summary { border-radius:20px; padding:0 16px 20px; }
+      .summary-title { margin-inline:-16px; padding:18px 16px; font-size:24px; }
+      .summary-item-info strong { font-size:14px; }
+      .summary-item-info span { font-size:12px; }
+      .summary-item-price { font-size:15px; }
+      .summary-total strong { font-size:26px; }
+      .cart-actions-row .btn { min-height:52px; font-size:16px; }
+      .cart-recommendations { margin-top:34px; }
+      .cart-recommendations__title { font-size:28px; }
+      .cart-recommendations__card { flex-basis:calc((100% - 10px) / 2); }
+      .cart-recommendations__card .product-body { padding:9px 9px 12px; }
+      .cart-recommendations__card .product-name { font-size:14px; }
+      .cart-recommendations__card .product-price { font-size:18px; }
+    }
     /* Sugerencias buscador */
     .search-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; border-radius: var(--romix-radius); box-shadow: none; padding:6px 0; z-index:2001; }
     .search-suggestion { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; color:#212529; }
@@ -737,6 +833,25 @@
   <link rel="stylesheet" href="assets/css/romix-product-card.css?v=4" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
+  <style>
+    /* Keep the cart hierarchy close to the reference: readable sans-serif UI text,
+       while leaving the shared ROMIX header and other pages untouched. */
+    .cart-page,
+    .cart-page h1,
+    .cart-page h2,
+    .cart-page h3,
+    .cart-page button,
+    .cart-page a {
+      font-family: var(--romix-font-body, 'Manrope', system-ui, sans-serif);
+    }
+    .cart-page .cart-title,
+    .cart-page .cart-items-title,
+    .cart-page .summary-title,
+    .cart-page .cart-recommendations__title {
+      font-family: var(--romix-font-body, 'Manrope', system-ui, sans-serif);
+      letter-spacing: -0.035em;
+    }
+  </style>
   <script defer src="/assets/js/romix-analytics.js?v=3"></script>
 </head>
 <body>
@@ -744,27 +859,29 @@
 
   <div class="container cart-container">
     <div class="cart-page">
-      <h1 class="cart-title">Mi Carrito</h1>
+      <h1 class="cart-title">Mi carrito</h1>
       <p class="cart-subtitle">Revisa tus productos seleccionados</p>
       <div class="cart-box">
         <div id="cart-alert" class="cart-alert" role="alert" hidden></div>
         <div class="cart-layout">
           <section class="cart-products-col" aria-label="Articulos en carrito">
-            <h2 class="cart-items-title">TODOS LOS ARTICULOS (<span id="cart-items-title-count">0</span>)</h2>
+            <h2 class="cart-items-title">Todos los artículos (<span id="cart-items-title-count">0</span>)</h2>
             <div id="cart-list" class="cart-list"></div>
           </section>
           <aside class="cart-summary-col" aria-label="Resumen del pedido">
             <div class="cart-summary">
               <div class="left">
                 <h3 class="summary-title">Resumen del pedido</h3>
-                <div id="cart-summary-thumbs" class="summary-thumbs"></div>
-                <div class="summary-metric">Total de productos: <span id="cart-count-display">0</span></div>
-                <button id="cart-clear-btn" type="button" class="link-danger romix-btn romix-btn--danger romix-btn--sm"><span data-romix-icon="Trash2" data-romix-icon-size="sm"></span><span>Vaciar carrito</span></button>
+                <div id="cart-summary-thumbs" class="summary-items"></div>
+                <div class="summary-metric"><span data-romix-icon="Package" data-romix-icon-size="sm" aria-hidden="true"></span><span>Total de productos: <strong id="cart-count-display">0</strong></span></div>
+                <div class="summary-shipping"><span data-romix-icon="Truck" data-romix-icon-size="sm" aria-hidden="true"></span><span>Envío a coordinar</span><span class="summary-info" aria-label="La entrega se coordina por WhatsApp">i</span></div>
+                <div class="summary-total"><span>Total</span><strong id="cart-summary-total">$0</strong></div>
               </div>
               <div class="cart-actions-row">
-                <a class="btn btn-outline romix-btn romix-btn--secondary" href="index.html"><span data-romix-icon="ArrowLeft" data-romix-icon-size="sm"></span><span>Continuar comprando</span></a>
                 <button class="btn btn-primary romix-btn romix-btn--primary romix-btn--lg" type="button" id="order-btn"><span data-romix-icon="MessageCircle" data-romix-icon-size="md"></span><span>Enviar pedido</span></button>
+                <a class="btn btn-outline romix-btn romix-btn--secondary" href="index.html"><span data-romix-icon="ArrowLeft" data-romix-icon-size="sm"></span><span>Continuar comprando</span></a>
               </div>
+              <button id="cart-clear-btn" type="button" class="link-danger romix-btn romix-btn--danger romix-btn--sm"><span data-romix-icon="Trash2" data-romix-icon-size="sm"></span><span>Vaciar carrito</span></button>
             </div>
           </aside>
         </div>
@@ -1067,26 +1184,31 @@
       const countDisplay = document.getElementById('cart-count-display');
       const itemsTitleCount = document.getElementById('cart-items-title-count');
       const summaryThumbs = document.getElementById('cart-summary-thumbs');
+      const summaryTotal = document.getElementById('cart-summary-total');
       const badge = document.getElementById('cart-count');
       const orderBtn = document.getElementById('order-btn');
       const clearBtn = document.getElementById('cart-clear-btn');
-      const { totalItems } = window.romixCart.getCartTotals(cart);
+      const { totalItems, totalPrice } = window.romixCart.getCartTotals(cart);
 
       if (countDisplay) countDisplay.textContent = String(totalItems);
       if (itemsTitleCount) itemsTitleCount.textContent = String(cart.length);
       if (badge) badge.textContent = String(totalItems);
+      if (summaryTotal) summaryTotal.textContent = `$${Number(totalPrice || 0).toLocaleString('es-AR')}`;
       if (summaryThumbs) {
         if (cart.length) {
-          const thumbs = cart.slice(0, 4).map((item) => {
+          summaryThumbs.innerHTML = cart.map((item) => {
+            const display = getCartDisplayItem(item);
             const thumbSrc = findImageForItem(item);
-            const label = getCartDisplayItem(item).name || 'Producto';
-            return thumbSrc
-              ? `<img class="summary-thumb" src="${thumbSrc}" alt="${label}" />`
-              : `<span class="summary-thumb summary-thumb-empty" role="img" aria-label="${label}">-</span>`;
+            const qty = Math.max(1, Number(item.qty || item.quantity) || 1);
+            const subtotal = Number(item.subtotal || (qty * Number(item.price || 0)));
+            const label = display.name || 'Producto';
+            return `<div class="summary-item">
+              <div class="summary-item-thumb">${thumbSrc ? `<img src="${thumbSrc}" alt="${label}" />` : '<span class="summary-thumb-empty">-</span>'}</div>
+              <div class="summary-item-info"><strong>${label}</strong><span>${display.color || COLOR_FALLBACK} | Talle: ${display.size || 'U'} · Cant: ${qty}</span></div>
+              <strong class="summary-item-price">$${subtotal.toLocaleString('es-AR')}</strong>
+            </div>`;
           }).join('');
-          const more = cart.length > 4 ? `<span class="summary-thumb-more">+${cart.length - 4}</span>` : '';
-          summaryThumbs.innerHTML = thumbs + more;
-          Array.from(summaryThumbs.querySelectorAll('img.summary-thumb')).forEach((imgEl, index) => {
+          Array.from(summaryThumbs.querySelectorAll('.summary-item-thumb img')).forEach((imgEl, index) => {
             applyCartImage(imgEl, cart[index], imgEl.alt || 'Producto');
           });
         } else {

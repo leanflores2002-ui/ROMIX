@@ -29,11 +29,11 @@
       .replaceAll("'", "&#39;");
   }
 
-  function createArrowIcon() {
+  function createArrowIcon(iconName) {
     var arrow = document.createElement("span");
     arrow.className = "mobile-nav-arrow";
     arrow.setAttribute("aria-hidden", "true");
-    arrow.dataset.romixIcon = "ArrowRight";
+    arrow.dataset.romixIcon = iconName || "ArrowRight";
     arrow.dataset.romixIconSize = "sm";
     return arrow;
   }
@@ -66,6 +66,76 @@
       shortcutNav.appendChild(link);
     });
     nav.appendChild(shortcutNav);
+  }
+
+  function buildMobileSubmenus(header) {
+    var nav = header.querySelector(".mega-nav");
+    if (!nav || nav.querySelector(".mobile-submenu-stack")) return;
+
+    var stack = document.createElement("div");
+    stack.className = "mobile-submenu-stack";
+    stack.setAttribute("aria-live", "polite");
+
+    MENU_CONFIG.forEach(function (item) {
+      var columns = item.mobileColumns || item.columns || [];
+      var submenu = document.createElement("section");
+      submenu.className = "mobile-submenu";
+      submenu.dataset.mobileSubmenuKey = item.key;
+      submenu.hidden = true;
+      submenu.setAttribute("aria-hidden", "true");
+
+      var headerRow = document.createElement("div");
+      headerRow.className = "mobile-submenu-header";
+      var back = document.createElement("button");
+      back.type = "button";
+      back.className = "mobile-submenu-back";
+      back.dataset.mobileSubmenuBack = "true";
+      back.setAttribute("aria-label", "Volver al menú principal");
+      back.appendChild(createArrowIcon("ArrowLeft"));
+      back.appendChild(document.createTextNode("Volver"));
+      headerRow.appendChild(back);
+
+      var title = document.createElement("h2");
+      title.className = "mobile-submenu-title";
+      title.textContent = item.label;
+      headerRow.appendChild(title);
+      submenu.appendChild(headerRow);
+
+      var groups = document.createElement("div");
+      groups.className = "mobile-submenu-groups";
+      columns.forEach(function (column) {
+        var group = document.createElement("section");
+        group.className = "mobile-submenu-group";
+        var groupTitle = document.createElement("h3");
+        groupTitle.textContent = column.title || "Categorías";
+        group.appendChild(groupTitle);
+        var list = document.createElement("ul");
+        (column.links || []).forEach(function (link) {
+          var listItem = document.createElement("li");
+          var anchor = document.createElement("a");
+          anchor.href = link.href || item.page;
+          anchor.dataset.megaLink = "true";
+          anchor.appendChild(document.createTextNode(link.label || "Ver productos"));
+          anchor.appendChild(createArrowIcon());
+          listItem.appendChild(anchor);
+          list.appendChild(listItem);
+        });
+        group.appendChild(list);
+        groups.appendChild(group);
+      });
+
+      var viewAll = document.createElement("a");
+      viewAll.className = "mobile-submenu-viewall";
+      viewAll.href = item.page;
+      viewAll.dataset.megaLink = "true";
+      viewAll.appendChild(document.createTextNode(item.viewAllLabel || "Ver todo"));
+      viewAll.appendChild(createArrowIcon());
+      groups.appendChild(viewAll);
+      submenu.appendChild(groups);
+      stack.appendChild(submenu);
+    });
+
+    nav.insertBefore(stack, nav.querySelector(".mobile-drawer-links"));
   }
 
   function buildHref(page, params) {
@@ -280,7 +350,26 @@
         key: "ofertas",
         label: "Ofertas",
         page: ofertas,
-        utilityOnly: true
+        utilityOnly: true,
+        mobileColumns: [
+          {
+            title: "Ofertas por sección",
+            links: [
+              { label: "Mujer", href: buildHref(ofertas, { section: "mujer" }) },
+              { label: "Hombre", href: buildHref(ofertas, { section: "hombre" }) },
+              { label: "Niños", href: buildHref(ofertas, { section: "ninos" }) }
+            ]
+          },
+          {
+            title: "Categorías en oferta",
+            links: [
+              { label: "Calzas", href: buildHref(ofertas, { tipo: "calzas" }) },
+              { label: "Camperas", href: buildHref(ofertas, { tipo: "camperas" }) },
+              { label: "Pantalones", href: buildHref(ofertas, { tipo: "pantalones" }) },
+              { label: "Remeras", href: buildHref(ofertas, { tipo: "remeras" }) }
+            ]
+          }
+        ]
       }
     ];
   }
@@ -703,6 +792,9 @@
     var nav = header.querySelector(".mega-nav");
     var scrim = document.getElementById("mobile-nav-scrim");
     var closeButton = document.getElementById("close-mobile-nav");
+    var primaryNav = nav && nav.querySelector(".main-nav-wrap");
+    var shortcutNav = nav && nav.querySelector(".mobile-drawer-links");
+    var submenuStack = nav && nav.querySelector(".mobile-submenu-stack");
     if (!toggle || !nav || !scrim) return;
 
     var mobileMedia = window.matchMedia
@@ -714,9 +806,43 @@
     nav.setAttribute("aria-hidden", isMobile() ? "true" : "false");
     nav.inert = isMobile();
 
+    function setSubmenu(key, restoreFocus) {
+      var activeKey = String(key || "");
+      var open = !!activeKey;
+      if (primaryNav) primaryNav.hidden = open;
+      if (shortcutNav) shortcutNav.hidden = open;
+      if (submenuStack) {
+        submenuStack.classList.toggle("is-open", open);
+        submenuStack.querySelectorAll(".mobile-submenu").forEach(function (submenu) {
+          var active = submenu.dataset.mobileSubmenuKey === activeKey;
+          submenu.hidden = !active;
+          submenu.setAttribute("aria-hidden", active ? "false" : "true");
+        });
+      }
+      nav.dataset.mobileSubmenu = activeKey;
+      if (restoreFocus) {
+        var target = open
+          ? submenuStack && submenuStack.querySelector('[data-mobile-submenu-key="' + activeKey + '"] .mobile-submenu-back')
+          : nav.querySelector('.main-nav .mega-trigger');
+        if (target) window.requestAnimationFrame(function () { target.focus(); });
+      }
+    }
+
+    function openSubmenu(key) {
+      if (!isMobile() || !key || !submenuStack) return;
+      setSubmenu(key, true);
+    }
+
+    function closeSubmenu(restoreFocus) {
+      setSubmenu("", !!restoreFocus);
+    }
+
+    closeSubmenu(false);
+
     function setOpen(open, options) {
       var active = !!(open && isMobile());
       var wasOpen = document.body.classList.contains("mobile-nav-open");
+      if (!active) closeSubmenu(false);
       document.body.classList.toggle("mobile-nav-open", active);
       header.classList.toggle("mobile-nav-open", active);
       toggle.setAttribute("aria-expanded", active ? "true" : "false");
@@ -734,10 +860,12 @@
       if (typeof headerState.closeMega === "function") {
         headerState.closeMega();
       }
+      closeSubmenu(false);
       setOpen(false, { restoreFocus: true });
     }
 
     headerState.closeMobileMenu = closeMenu;
+    headerState.closeMobileSubmenu = function () { closeSubmenu(false); };
 
     toggle.addEventListener("click", function () {
       var willOpen = !document.body.classList.contains("mobile-nav-open");
@@ -753,7 +881,24 @@
     nav.addEventListener("click", function (event) {
       var target = event.target;
       if (!target || typeof target.closest !== "function") return;
+      var backButton = target.closest("[data-mobile-submenu-back]");
+      if (backButton && isMobile()) {
+        event.preventDefault();
+        event.stopPropagation();
+        closeSubmenu(true);
+        return;
+      }
       var directLink = target.closest("a[href]");
+      var trigger = directLink && directLink.closest(".mega-trigger");
+      if (trigger && isMobile()) {
+        var item = trigger.closest("[data-menu-key]");
+        if (item) {
+          event.preventDefault();
+          event.stopPropagation();
+          openSubmenu(item.dataset.menuKey || "");
+          return;
+        }
+      }
       if (directLink) {
         closeMenu();
       }
@@ -780,6 +925,7 @@
     });
 
     function handleViewportChange() {
+      closeSubmenu(false);
       if (!isMobile()) setOpen(false);
       nav.setAttribute("aria-hidden", isMobile() ? "true" : "false");
     }
@@ -853,6 +999,7 @@
     });
 
     ensureMobileDrawerLinks(header);
+    buildMobileSubmenus(header);
 
     bindSearchToggle(headerState);
     bindMegaMenu(header, headerState);

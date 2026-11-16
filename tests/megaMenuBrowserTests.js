@@ -81,7 +81,7 @@ async function testMobileNavigation(page, width, height) {
   assert.equal(await page.locator('.mega-panel').first().evaluate((node) => getComputedStyle(node).display), 'none', 'Mega panels should stay hidden on mobile');
   assert.equal(await page.locator('.mega-panel-columns:visible, .mega-panel-column:visible, .mega-panel-list:visible, .mega-promo:visible, .mega-panel-bottom:visible').count(), 0, 'Mobile mega-menu content should stay hidden');
   assert.equal(await page.locator('.mega-chevron').count(), 0, 'Mobile category rows should not show chevrons');
-  assert.equal(await page.locator('.mobile-nav-arrow').count(), 8, 'Mobile drawer should show ArrowRight on every direct link');
+  assert.equal(await page.locator('.main-nav .mega-trigger .mobile-nav-arrow, .mobile-drawer-links .mobile-nav-arrow').count(), 8, 'Mobile drawer should show ArrowRight on every primary link and shortcut');
   for (const key of mobileKeys) {
     assert.equal(await page.locator(`#mega-trigger-${key}`).getAttribute('aria-expanded'), null, `${key} should not expose accordion semantics on mobile`);
     assert.equal(await page.locator(`#mega-trigger-${key}`).getAttribute('aria-controls'), null, `${key} should not control a mobile panel`);
@@ -127,17 +127,12 @@ async function testMobileNavigation(page, width, height) {
       });
     });
     await page.locator(`#mega-trigger-${key}`).click();
-    await page.waitForLoadState('domcontentloaded');
-    await wait(50);
-    const destinationUrl = new URL(page.url());
-    const expectedUrl = new URL(href, BASE_URL);
-    assert.equal(destinationUrl.pathname, expectedUrl.pathname, `${key} should navigate to its native path`);
-    for (const [name, value] of expectedUrl.searchParams) {
-      assert.equal(destinationUrl.searchParams.get(name), value, `${key} should preserve its ${name} query parameter`);
-    }
-    assert.equal(await page.evaluate(() => sessionStorage.getItem('romix-mobile-default-prevented')), 'false', `${key} should not be default-prevented on mobile`);
-    await page.goBack({ waitUntil: 'domcontentloaded' });
-    assert.equal(page.url(), new URL(BASE_URL).href, `${key} should return to the home page with Back`);
+    await page.locator(`.mobile-submenu[data-mobile-submenu-key="${key}"]:not([hidden])`).waitFor();
+    assert.equal(await page.locator(`.mobile-submenu[data-mobile-submenu-key="${key}"]:not([hidden])`).count(), 1, `${key} should open its mobile submenu`);
+    assert.equal(page.url(), new URL(BASE_URL).href, `${key} should keep the drawer open instead of navigating immediately`);
+    assert.ok(await page.locator(`.mobile-submenu[data-mobile-submenu-key="${key}"] a[href]`).count() > 0, `${key} should expose category links`);
+    await page.locator(`.mobile-submenu[data-mobile-submenu-key="${key}"]:not([hidden]) [data-mobile-submenu-back]`).click();
+    await page.locator('.main-nav-wrap:not([hidden])').waitFor();
   }
 
   assert.ok(await page.locator('body').evaluate((node) => node.scrollWidth <= window.innerWidth), 'Mobile page should not overflow horizontally');

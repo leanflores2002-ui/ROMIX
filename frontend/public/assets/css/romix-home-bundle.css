@@ -2581,6 +2581,138 @@ header.romix-shared-header .global-search button[type="submit"] {
   }
 }
 
+/* Mobile category drill-down: reuse the desktop menu groups without leaving
+   the drawer or duplicating navigation logic. */
+.mobile-submenu-stack {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .mobile-submenu-stack {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-header .main-nav .mega-trigger,
+  header.romix-shared-header .main-nav .mega-trigger {
+    min-height: 64px;
+    padding-inline: 28px;
+    font-size: 18px;
+  }
+
+  .mobile-submenu-stack.is-open {
+    display: block;
+  }
+
+  .mobile-submenu[hidden] {
+    display: none !important;
+  }
+
+  .mobile-submenu-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    min-height: 64px;
+    padding: 0 28px;
+    border-bottom: 1px solid var(--romix-border);
+  }
+
+  .mobile-submenu-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--romix-pink-readable);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .mobile-submenu-back .mobile-nav-arrow {
+    order: -1;
+  }
+
+  .mobile-submenu-title {
+    margin: 0;
+    color: var(--romix-ink);
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .mobile-submenu-groups {
+    display: grid;
+    gap: 18px;
+    padding: 18px 28px 28px;
+  }
+
+  .mobile-submenu-group {
+    margin: 0;
+  }
+
+  .mobile-submenu-group h3 {
+    margin: 0;
+    padding: 0 0 8px;
+    color: var(--romix-muted);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .mobile-submenu-group ul {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--romix-border);
+  }
+
+  .mobile-submenu-group li {
+    border-bottom: 1px solid var(--romix-border);
+  }
+
+  .mobile-submenu-group a,
+  .mobile-submenu-viewall {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 50px;
+    padding: 0 2px;
+    color: var(--romix-ink);
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .mobile-submenu-group a:hover,
+  .mobile-submenu-group a:focus-visible,
+  .mobile-submenu-viewall:hover,
+  .mobile-submenu-viewall:focus-visible {
+    color: var(--romix-pink-readable);
+    outline: none;
+  }
+
+  .mobile-submenu-viewall {
+    min-height: 54px;
+    margin-top: 2px;
+    padding-inline: 16px;
+    border-radius: 8px;
+    background: var(--romix-pink);
+    color: var(--romix-white);
+  }
+
+  .mobile-submenu-viewall:hover,
+  .mobile-submenu-viewall:focus-visible {
+    color: var(--romix-white);
+    background: var(--romix-pink-readable);
+  }
+}
+
 @media (max-width: 640px) {
   .site-header .container,
   header.romix-shared-header .container {
@@ -6239,6 +6371,73 @@ header.romix-shared-header .header-icons .cart-pill .icon-badge {
     height: 19px;
     font-size: 10px;
     line-height: 15px;
+  }
+}
+
+/* Mobile drawer sizing: keep the reference layout readable and touch-friendly
+   after the legacy mobile header rules have been loaded. */
+@media (max-width: 900px) {
+  .site-header .main-nav .mega-trigger,
+  header.romix-shared-header .main-nav .mega-trigger {
+    min-height: 72px;
+    height: 72px;
+    padding-inline: 32px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  header.site-header.romix-shared-header .main-nav > li > .mega-trigger {
+    min-height: 72px;
+    height: 72px;
+    padding: 0 32px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  header.site-header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > .mega-trigger {
+    margin: 8px 18px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--romix-pink-readable);
+    color: var(--romix-white);
+  }
+
+  header.site-header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > .mega-trigger:hover,
+  header.site-header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > .mega-trigger:focus-visible {
+    background: var(--romix-pink-hover);
+    color: var(--romix-white);
+  }
+
+  .site-header .mobile-drawer-links,
+  header.romix-shared-header .mobile-drawer-links {
+    margin-top: 24px;
+  }
+
+  .site-header .mobile-drawer-links a,
+  header.romix-shared-header .mobile-drawer-links a {
+    min-height: 64px;
+    padding-inline: 32px;
+    font-size: 18px;
+  }
+
+  .mobile-submenu-header {
+    min-height: 72px;
+    padding-inline: 32px;
+  }
+
+  .mobile-submenu-title {
+    font-size: 22px;
+  }
+
+  .mobile-submenu-groups {
+    gap: 22px;
+    padding: 22px 32px 32px;
+  }
+
+  .mobile-submenu-group a,
+  .mobile-submenu-viewall {
+    min-height: 56px;
+    font-size: 17px;
   }
 }
 

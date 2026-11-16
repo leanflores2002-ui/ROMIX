@@ -6563,6 +6563,34 @@ header.romix-shared-header .header-icons .cart-pill .icon-badge {
   .romix-cart-drawer__close { background: var(--romix-pink-bg); }
 }
 
+@media (max-width: 900px) {
+  header.site-header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > .mega-trigger,
+  header.site-header.romix-shared-header .main-nav > li[data-menu-key="ofertas"] > .mega-trigger > span {
+    color: var(--romix-white) !important;
+  }
+
+  header.site-header.romix-shared-header .mega-nav {
+    border-radius: 0 38px 38px 0;
+    overflow-x: hidden;
+  }
+
+  header.site-header.romix-shared-header .mobile-drawer-brand .site-logo--mobile {
+    width: 170px;
+    height: auto;
+  }
+
+  header.site-header.romix-shared-header .mobile-drawer-close {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+  }
+
+  header.site-header.romix-shared-header .mobile-drawer-close svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 /* Shared product-card anatomy used by home, catalog/category pages, search and related products. */
 .romix-product-card {
   --card-border: transparent;

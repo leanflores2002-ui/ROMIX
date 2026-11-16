@@ -471,10 +471,10 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
 .home .category-item:hover .category-thumb { border-color: var(--romix-pink); }
 
 /* Compact "Comprá por prenda" shortcuts: small editorial bubbles with labels,
-   keeping every existing category link and the horizontal mobile scroller. */
+   keeping the shortcuts compact and fully visible on mobile. */
 .home .quick-category-section .section-head { margin-bottom: 10px; }
 .home .quick-category-section .section-head h2 { font-size: clamp(22px, 2.1vw, 30px); }
-.home .quick-category-section .categories-grid { width: min(100%, 900px); margin-inline: auto; gap: clamp(12px, 2.2vw, 28px); }
+.home .quick-category-section .categories-grid { width: min(100%, 900px); margin-inline: auto; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(12px, 2.2vw, 28px); }
 .home .quick-category-section .category-item { gap: 6px; }
 .home .quick-category-section .category-thumb { width: clamp(84px, 9vw, 124px); aspect-ratio: 1; padding: 0; overflow: hidden; border: 0; border-radius: 50%; background: #f2f2f3; }
 .home .quick-category-section .category-thumb picture,
@@ -575,9 +575,9 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
   .home .categories-grid { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 110px; overflow-x: auto; scroll-snap-type: x proximity; gap: 12px; margin: 0; padding: 3px 3px 10px; }
   .home .category-item { scroll-snap-align: start; }
   .home .category-item span { font-size: 12px; }
-  .home .quick-category-section .categories-grid { width: 100%; grid-auto-columns: 96px; gap: 14px; padding: 2px 2px 8px; }
-  .home .quick-category-section .category-thumb { width: 88px; }
-  .home .quick-category-section .category-item span { font-size: 13px; }
+  .home .quick-category-section .categories-grid { width: 100%; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-auto-flow: row; grid-auto-columns: auto; overflow: visible; gap: clamp(4px, 1.8vw, 10px); padding: 2px 0 8px; }
+  .home .quick-category-section .category-thumb { width: clamp(52px, 15vw, 72px); }
+  .home .quick-category-section .category-item span { font-size: clamp(10px, 3vw, 13px); white-space: nowrap; }
   .home .main-hero-carousel { --hero-height: clamp(320px, 85vw, 560px); }
   .home .main-hero-carousel__viewport { height: var(--hero-height); background: var(--romix-ink); }
   .home .main-hero-carousel__slide::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, transparent 60%, rgba(19,19,23,.34)); }

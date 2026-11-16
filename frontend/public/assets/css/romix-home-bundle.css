@@ -6449,10 +6449,10 @@ header.romix-shared-header .header-icons .cart-pill .icon-badge {
   .cart-drawer-order-label--mobile { display: inline; }
 
   .romix-cart-drawer {
-    width: min(430px, 86vw);
-    max-width: calc(100vw - 28px);
+    width: min(430px, 72vw);
+    max-width: calc(100vw - 24px);
     border-left: 0;
-    border-radius: 28px 0 0 28px;
+    border-radius: 34px 0 0 34px;
   }
 
   .romix-cart-drawer__header {
@@ -6551,10 +6551,40 @@ header.romix-shared-header .header-icons .cart-pill .icon-badge {
     min-width: 42px;
     height: 42px;
     min-height: 42px;
+    border-radius: 50%;
+    background: #fff;
   }
 
   .romix-cart-drawer-recommendations { margin-top: 18px; padding-top: 16px; }
   .romix-cart-drawer-recommendations__header h3 { font-size: 22px; }
+
+  .romix-cart-drawer-recommendations__controls .romix-cart-drawer-recommendations__more-label {
+    display: inline;
+    color: var(--romix-pink-readable, #c21870);
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .romix-cart-drawer-recommendations__controls .romix-icon-btn:first-child { display: none; }
+
+  .romix-cart-drawer-recommendations__controls .romix-icon-btn:last-child {
+    width: auto;
+    min-width: 0;
+    height: 32px;
+    min-height: 32px;
+    gap: 4px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: var(--romix-pink-readable, #c21870);
+    background: transparent;
+  }
+
+  .romix-cart-drawer-recommendations__controls .romix-icon-btn:last-child svg {
+    width: 20px;
+    height: 20px;
+  }
 
   .romix-cart-drawer-recommendation {
     flex-basis: calc((100% - 10px) / 2);
@@ -6580,9 +6610,13 @@ header.romix-shared-header .header-icons .cart-pill .icon-badge {
   .romix-cart-drawer__actions .romix-btn--primary { order: -1; }
 }
 
+.romix-cart-drawer-recommendations__more-label { display: none; }
+
 @media (max-width: 640px) {
   .romix-cart-drawer__item,
   .romix-cart-drawer__close { background: var(--romix-pink-bg); }
+
+  .romix-cart-drawer-recommendations__more-label { display: inline; }
 }
 
 @media (max-width: 900px) {

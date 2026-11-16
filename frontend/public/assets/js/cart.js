@@ -706,7 +706,7 @@
             <h3 id="romix-cart-drawer-recommendations-title">Te puede interesar</h3>
             <div class="romix-cart-drawer-recommendations__controls" aria-label="Controles de recomendaciones">
               <button id="romix-cart-drawer-recommendations-prev" class="romix-icon-btn" type="button" aria-label="Ver recomendaciones anteriores" aria-controls="romix-cart-drawer-recommendations-list"><span data-romix-icon="ChevronLeft" data-romix-icon-size="xs"></span></button>
-              <button id="romix-cart-drawer-recommendations-next" class="romix-icon-btn" type="button" aria-label="Ver recomendaciones siguientes" aria-controls="romix-cart-drawer-recommendations-list"><span data-romix-icon="ChevronRight" data-romix-icon-size="xs"></span></button>
+              <button id="romix-cart-drawer-recommendations-next" class="romix-icon-btn" type="button" aria-label="Ver más recomendaciones" aria-controls="romix-cart-drawer-recommendations-list"><span class="romix-cart-drawer-recommendations__more-label">Ver más</span><span data-romix-icon="ChevronRight" data-romix-icon-size="xs"></span></button>
             </div>
           </div>
           <div class="romix-cart-drawer-recommendations__viewport">

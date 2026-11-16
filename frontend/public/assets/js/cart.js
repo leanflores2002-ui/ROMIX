@@ -718,7 +718,7 @@
         <div class="romix-cart-drawer__subtotal"><span>Subtotal</span><strong>$0</strong></div>
         <div class="romix-cart-drawer__actions">
           <a class="romix-btn romix-btn--secondary" data-cart-drawer-link="cart" href="cart.html">Ver carrito</a>
-          <a class="romix-btn romix-btn--primary" data-cart-drawer-link="order" href="cart.html#order-btn">Enviar pedido</a>
+          <a class="romix-btn romix-btn--primary" data-cart-drawer-link="order" href="cart.html#order-btn"><span class="cart-drawer-order-label--desktop">Enviar pedido</span><span class="cart-drawer-order-label--mobile">Finalizar compra</span></a>
         </div>
       </div>`;
 

@@ -6491,6 +6491,26 @@ header.romix-shared-header .header-icons .cart-pill .icon-badge {
   .romix-cart-drawer__close svg { width: 28px; height: 28px; }
   .romix-cart-drawer__body { padding: 8px 16px 24px; }
 
+  /* Keep the empty state compact so recommendations are visible before the
+     sticky checkout footer, while preserving a comfortable reading rhythm. */
+  .romix-cart-drawer__empty {
+    min-height: 168px;
+    padding: 18px 0 12px;
+    gap: 6px;
+  }
+
+  .romix-cart-drawer__empty-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .romix-cart-drawer__empty h3 {
+    margin-top: 4px;
+    font-size: 20px;
+  }
+
+  .romix-cart-drawer__empty p { font-size: 14px; }
+
   .romix-cart-drawer__item {
     grid-template-columns: 104px minmax(0, 1fr);
     gap: 14px;
@@ -6533,13 +6553,15 @@ header.romix-shared-header .header-icons .cart-pill .icon-badge {
     min-height: 42px;
   }
 
-  .romix-cart-drawer-recommendations { margin-top: 26px; padding-top: 20px; }
+  .romix-cart-drawer-recommendations { margin-top: 18px; padding-top: 16px; }
   .romix-cart-drawer-recommendations__header h3 { font-size: 22px; }
 
   .romix-cart-drawer-recommendation {
     flex-basis: calc((100% - 10px) / 2);
     border-radius: 18px;
   }
+
+  .romix-cart-drawer-recommendation__media { aspect-ratio: 4 / 3; }
 
   .romix-cart-drawer-recommendation__content { padding: 11px; }
   .romix-cart-drawer-recommendation__name { font-size: 13px; }

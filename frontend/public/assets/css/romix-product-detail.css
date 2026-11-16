@@ -271,6 +271,129 @@
   .benefit-item strong { font-size: 13px; }
   .benefit-item div span { font-size: 12px; }
 }
+
+/* Mobile product detail: keep the buying decision above the fold and mirror
+   the compact storefront composition (title/price, image, options, quantity,
+   then purchase actions). */
+@media (max-width: 640px) {
+  .product-detail-page .page-container { padding-top: 14px; }
+  .product-breadcrumb { margin-bottom: 14px; }
+  .detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .mobile-product-name {
+    order: 1;
+    margin: 0;
+  }
+  .mobile-product-name h1 { font-size: clamp(30px, 8.5vw, 38px); }
+  .info-panel { display: contents; }
+  .info-panel > .selector,
+  .info-panel > .product-buy-section,
+  .info-panel > .share-panel,
+  .info-panel > .benefit-strip {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .info-panel .price-area { order: 2; }
+  .gallery { order: 3; width: 100%; }
+  .detail-grid.has-color-options .thumbs-panel { display: none; }
+  .info-panel > .selector:not(.size-selector) { order: 4; }
+  .info-panel .size-selector { order: 5; }
+  .info-panel .product-buy-section { display: contents; }
+  .info-panel .quantity-row { order: 6; }
+  .info-panel .stock-note { order: 7; }
+  .info-panel .purchase-actions { order: 8; }
+  .info-panel .share-panel { order: 9; }
+  .info-panel > .benefit-strip { order: 10; }
+  .detail-extras { order: 11; }
+
+  .main-image {
+    aspect-ratio: 4 / 5;
+    border-radius: 22px;
+  }
+  .romix-price-display--detail {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 4px 14px;
+    align-items: center;
+  }
+  .romix-price-display--detail .romix-price-primary {
+    grid-row: 1 / span 2;
+    align-items: center;
+    gap: 8px;
+  }
+  .romix-price-display--detail .romix-price-current {
+    color: var(--product-pink);
+    font-size: clamp(38px, 10vw, 50px);
+    line-height: .95;
+  }
+  .romix-price-display--detail .romix-discount-pill {
+    min-height: 48px;
+    padding: 0 16px;
+    border-radius: 999px;
+    color: var(--product-ink);
+    background: var(--product-pink-soft);
+    font-size: 16px;
+  }
+  .romix-price-display--detail .romix-price-original,
+  .romix-price-display--detail .romix-savings-label {
+    padding-left: 14px;
+    border-left: 2px solid #e9e5e9;
+    font-size: 16px;
+  }
+  .romix-price-display--detail .romix-savings-label { color: var(--product-success); }
+
+  .selector { gap: 10px; }
+  .color-picker,
+  .color-options { width: 100%; min-width: 0; max-width: 100%; }
+  .selector-label, .color-picker-label { font-size: 24px; }
+  .color-options {
+    flex-wrap: nowrap;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 3px 2px 6px;
+    scrollbar-width: none;
+  }
+  .color-options::-webkit-scrollbar { display: none; }
+  .color-option, .color-swatch {
+    flex: 0 0 104px;
+    width: 104px;
+    height: 100px;
+    min-width: 104px;
+    border-radius: 14px;
+  }
+  .size-selector__header { align-items: center; }
+  .size-options { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
+  .size-chip, .size-option {
+    min-height: 58px;
+    padding: 8px 4px;
+    border-radius: 999px;
+    font-size: 20px;
+  }
+  .product-size-guide-trigger { min-height: 42px; }
+  .product-size-guide-trigger__icon { width: 24px; height: 24px; }
+  .product-size-guide-trigger__copy strong { font-size: 17px; }
+  .quantity-row { align-items: center; }
+  .info-panel .quantity-row,
+  .info-panel .purchase-actions { width: 100%; min-width: 0; max-width: 100%; }
+  .qty-control {
+    grid-template-columns: 66px 66px 66px;
+    width: 198px;
+    height: 60px;
+  }
+  .qty-control button, .qty-control input { height: 58px; font-size: 22px; }
+  .product-buy-section .selector-label { font-size: 24px; }
+  .purchase-actions { gap: 10px; }
+  .purchase-actions .btn, .product-buy-now {
+    min-height: 60px;
+    border-radius: 999px;
+    font-size: 20px;
+  }
+}
 @media (max-width: 370px) { .product-detail-page .page-container { padding-inline: 10px; } .share-btn { font-size: .72rem; } }
 @media (prefers-reduced-motion: reduce) {
   .main-image img, .thumbs img, .product-accordion__content, .related-products__card, .romix-toast { transition: none; }

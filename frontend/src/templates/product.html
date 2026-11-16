@@ -26,7 +26,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=23" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=25">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=26">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=30" />
   <link rel="stylesheet" href="assets/css/romix-product-card.css?v=4" />
@@ -2134,6 +2134,7 @@
           const exists = palette.some(entry => canonicalColor(entry && (entry.name || entry.value)) === canonicalColor(colorName));
           if (!exists) palette.push({ name: colorName });
         });
+        detail.querySelector('.detail-grid')?.classList.toggle('has-color-options', palette.length > 1);
         let defaultColorName = (palette[0].name || palette[0].hex || palette[0].value || 'Unico');
         if (colorParam) {
           const targetKey = normalizeColorKey(colorParam);

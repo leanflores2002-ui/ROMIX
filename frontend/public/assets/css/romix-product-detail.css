@@ -417,19 +417,20 @@
   .product-buy-section .selector-label { font-size: 20px; }
 
   .color-options {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 8px;
     padding: 2px 1px 4px;
-    scroll-snap-type: x proximity;
+    overflow: visible;
   }
   .color-option,
   .color-swatch {
-    /* Show five color previews at once; additional colors remain swipeable. */
-    flex: 0 0 calc((100% - 32px) / 5);
-    width: calc((100% - 32px) / 5);
-    height: 82px;
-    min-width: calc((100% - 32px) / 5);
+    /* Show every color in rows of five on mobile; no horizontal carousel. */
+    flex: none;
+    width: 100%;
+    height: clamp(54px, 15vw, 64px);
+    min-width: 0;
     border-radius: 12px;
-    scroll-snap-align: start;
   }
 
   .size-selector__header { gap: 8px; }

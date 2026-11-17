@@ -395,6 +395,72 @@
   }
 }
 @media (max-width: 370px) { .product-detail-page .page-container { padding-inline: 10px; } .share-btn { font-size: .72rem; } }
+
+/* Keep the mobile buying controls compact without changing desktop sizing. */
+@media (max-width: 640px) {
+  .product-detail-page .page-container { padding-inline: 12px; }
+  .detail-grid { gap: 10px; }
+  .product-breadcrumb { margin-bottom: 10px; font-size: 12px; }
+  .mobile-product-name h1 { font-size: clamp(26px, 7.2vw, 32px); line-height: 1.08; }
+
+  .main-image {
+    aspect-ratio: 1 / 1.1;
+    max-height: min(58dvh, 410px);
+    border-radius: 18px;
+  }
+
+  .info-panel { gap: 10px; }
+  .selector { gap: 6px; }
+  .selector-label,
+  .color-picker-label,
+  .product-buy-section .selector-label { font-size: 20px; }
+
+  .color-options {
+    gap: 8px;
+    padding: 2px 1px 4px;
+  }
+  .color-option,
+  .color-swatch {
+    flex: 0 0 72px;
+    width: 72px;
+    height: 82px;
+    min-width: 72px;
+    border-radius: 12px;
+  }
+
+  .size-selector__header { gap: 8px; }
+  .size-options { gap: 6px; }
+  .size-chip,
+  .size-option {
+    min-height: 44px;
+    padding: 6px 3px;
+    border-radius: 999px;
+    font-size: 16px;
+  }
+  .product-size-guide-trigger { min-height: 36px; gap: 6px; }
+  .product-size-guide-trigger__icon { width: 20px; height: 20px; }
+  .product-size-guide-trigger__copy { gap: 0; }
+  .product-size-guide-trigger__copy strong { font-size: 14px; }
+  .product-size-guide-trigger__copy small { font-size: 10px; line-height: 1.15; }
+
+  .quantity-row { gap: 10px; }
+  .qty-control {
+    grid-template-columns: 48px 52px 48px;
+    width: 148px;
+    height: 48px;
+  }
+  .qty-control button,
+  .qty-control input { height: 46px; font-size: 18px; }
+  .purchase-actions { gap: 8px; }
+  .purchase-actions .btn,
+  .product-buy-now {
+    min-height: 52px;
+    padding-inline: 14px;
+    border-radius: 999px;
+    font-size: 16px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .main-image img, .thumbs img, .product-accordion__content, .related-products__card, .romix-toast { transition: none; }
   .product-skeleton__media, .product-skeleton__line, .product-skeleton__pill, .product-skeleton__button { animation: none; }

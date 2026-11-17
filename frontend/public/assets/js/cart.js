@@ -501,9 +501,9 @@
     if (!Array.isArray(cart) || !cart.length) return '';
     const clean = (value) => decodeCartText(value).replace(/[\r\n]+/g, ' ').trim();
     const lines = [
-      '¡Hola! 👋 Te paso mi pedido de ROMIX.',
+      '\u00a1Hola! \u{1f44b} Te paso mi pedido de ROMIX.',
       '',
-      '🛍️ *DETALLE DEL PEDIDO*',
+      '\u{1f6cd}\ufe0f *DETALLE DEL PEDIDO*',
       '',
     ];
     cart.forEach((item, index) => {
@@ -518,7 +518,7 @@
       if (index < cart.length - 1) lines.push('');
     });
     const totalItems = Math.max(0, Math.round(Number(getCartTotals(cart).totalItems) || 0));
-    lines.push('', `📦 *Total: ${totalItems} unidades*`, '', '¡Gracias! 😊');
+    lines.push('', `\u{1f4e6} *Total: ${totalItems} unidades*`, '', '\u00a1Gracias! \u{1f60a}');
     return encodeURIComponent(lines.join('\n'));
   };
 

@@ -25,17 +25,18 @@
 .main-image:focus-visible { outline: 2px solid var(--product-pink); outline-offset: 3px; }
 .zoom-btn { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 1px solid rgba(25, 24, 31, .12); border-radius: 50%; color: var(--product-ink); background: rgba(255,255,255,.96); box-shadow: 0 6px 18px rgba(25,24,31,.08); cursor: pointer; }
 .zoom-btn:hover, .zoom-btn:focus-visible { border-color: var(--product-pink); color: var(--product-pink); }
-.thumbs-panel { grid-area: thumbs; display: grid; grid-template-rows: 24px minmax(0, 1fr) 24px; gap: 8px; width: 88px; height: auto; max-height: none; align-self: stretch; min-width: 0; min-height: 0; }
+.thumbs-panel { grid-area: thumbs; display: grid; grid-template-rows: 32px minmax(0, 1fr) 32px; gap: 8px; width: 88px; height: min(640px, calc(100dvh - 190px)); max-height: min(640px, calc(100dvh - 190px)); align-self: start; min-width: 0; min-height: 0; }
 .thumbs-panel[hidden] { display: none; }
 .thumbs { display: flex; flex-direction: column; gap: 10px; width: 100%; min-height: 0; max-height: 100%; padding: 2px; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: none; }
 .thumbs::-webkit-scrollbar { display: none; }
 .thumbs img { flex: 0 0 88px; width: 84px; height: 88px; object-fit: cover; border: 1px solid var(--product-line); border-radius: 9px; background: var(--product-soft); opacity: .8; cursor: pointer; transition: opacity 150ms ease, border-color 150ms ease, box-shadow 150ms ease; }
 .thumbs img:hover, .thumbs img:focus-visible { opacity: 1; border-color: #aaa7ae; }
 .thumbs img.active { opacity: 1; border: 2px solid var(--product-pink); box-shadow: 0 0 0 2px var(--product-pink-soft); }
-.thumb-nav { display: grid; place-items: center; width: 100%; height: 24px; padding: 0; border: 0; border-radius: var(--romix-radius); color: #85818a; background: transparent; cursor: pointer; }
+.thumb-nav { display: grid; place-items: center; justify-self: center; width: 40px; height: 32px; padding: 0; border: 1px solid var(--product-line); border-radius: 999px; color: var(--product-ink); background: #fff; box-shadow: 0 4px 12px rgba(25,24,31,.08); cursor: pointer; }
 .thumb-nav.prev svg { transform: rotate(180deg); }
-.thumb-nav:hover:not(:disabled), .thumb-nav:focus-visible:not(:disabled) { color: var(--product-pink); background: var(--product-pink-soft); }
+.thumb-nav:hover:not(:disabled), .thumb-nav:focus-visible:not(:disabled) { border-color: var(--product-pink); color: var(--product-pink); background: var(--product-pink-soft); }
 .thumb-nav:disabled { opacity: .3; cursor: default; }
+.thumb-nav.is-hidden { visibility: hidden; pointer-events: none; }
 .mobile-product-name { display: none; grid-area: name; }
 .info-panel { grid-area: info; position: static; display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 5px 0 0; background: #fff; }
 .product-context { margin: 0 0 8px; color: var(--product-muted); font-size: .75rem; font-weight: 650; text-transform: capitalize; }
@@ -205,7 +206,7 @@
   .detail-grid { grid-template-columns: minmax(0,1.08fr) minmax(370px,.92fr); gap: 42px 32px; }
   .gallery { --product-gallery-height: auto; height: auto; }
   .main-image { height: auto; aspect-ratio: 4 / 5; }
-  .thumbs-panel { height: auto; max-height: none; }
+  .thumbs-panel { height: min(600px, calc(100dvh - 190px)); max-height: min(600px, calc(100dvh - 190px)); }
   .gallery { grid-template-columns: 78px minmax(0,1fr); gap: 13px; }
   .thumbs-panel { width: 78px; }
   .thumbs img { width: 74px; height: 84px; flex-basis: 84px; }
@@ -217,7 +218,7 @@
   .info-panel { position: static; max-width: 720px; }
   .gallery { max-width: 760px; height: auto; }
   .main-image { height: auto; max-height: min(72vh, 620px); aspect-ratio: 4 / 5; }
-  .thumbs-panel { height: auto; max-height: min(72vh, 620px); }
+  .thumbs-panel { height: min(620px, 72dvh); max-height: min(620px, 72dvh); }
 }
 @media (max-width: 900px) {
   .product-detail-page .page-container { width: min(100% - 28px,760px); padding-top: 18px; }

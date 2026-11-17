@@ -499,21 +499,26 @@
 
   const buildWhatsAppMessage = (cart = getCart()) => {
     if (!Array.isArray(cart) || !cart.length) return '';
-    const lines = cart.map((item) => {
-      const qty = Number(item.qty ?? item.quantity) || 0;
-      const name = decodeCartText(item.name) || 'Producto';
-      const type = decodeCartText(item.type);
-      const color = decodeCartText(item.colorName ?? item.color);
-      const size = decodeCartText(item.talle ?? item.size);
+    const clean = (value) => decodeCartText(value).replace(/[\r\n]+/g, ' ').trim();
+    const lines = [
+      '¡Hola! 👋 Te paso mi pedido de ROMIX.',
+      '',
+      '🛍️ *DETALLE DEL PEDIDO*',
+      '',
+    ];
+    cart.forEach((item, index) => {
+      const qty = Math.max(0, Number(item.qty ?? item.quantity) || 0);
+      const name = clean(item.name) || 'Producto';
+      const type = clean(item.type);
+      const color = clean(item.colorName ?? item.color) || 'A confirmar';
+      const size = clean(item.talle ?? item.size) || 'A confirmar';
       const label = type ? `${name} (${type})` : name;
-      const parts = [
-        `- ${label}`,
-        color ? `Color: ${color}` : '',
-        size ? `Talle: ${size}` : '',
-        `Cant: ${qty}`,
-      ].filter(Boolean);
-      return parts.join(' | ');
+      lines.push(`*${index + 1}. ${label}*`);
+      lines.push(`Color: ${color} · Talle: ${size} · Cant: ${qty}`);
+      if (index < cart.length - 1) lines.push('');
     });
+    const totalItems = Math.max(0, Math.round(Number(getCartTotals(cart).totalItems) || 0));
+    lines.push('', `📦 *Total: ${totalItems} unidades*`, '', '¡Gracias! 😊');
     return encodeURIComponent(lines.join('\n'));
   };
 

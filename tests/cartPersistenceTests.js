@@ -23,9 +23,12 @@ const product = { productId: 'p1', name: 'Remerón & algodón', color: 'Azul', s
   try {
     const { romixCart: cart } = dom.window;
     const message = decodeURIComponent(cart.buildWhatsAppMessage([product, { ...product, name: 'Blusa 50% + algodón', size: 'U', qty: 2 }]));
-    assert.equal(message.split('\n').length, 2);
-    assert.ok(message.includes('Remerón & algodón') && message.includes('Blusa 50% + algodón') && message.includes('Talle: U'));
-    assert.ok(!message.includes('$') && !message.includes('Total'));
+    assert.ok(message.startsWith('¡Hola! 👋 Te paso mi pedido de ROMIX.'));
+    assert.ok(message.includes('🛍️ *DETALLE DEL PEDIDO*'));
+    assert.ok(message.includes('*1. Remerón & algodón*') && message.includes('*2. Blusa 50% + algodón*'));
+    assert.ok(message.includes('Color: Azul · Talle: U · Cant: 2'));
+    assert.ok(message.includes('📦 *Total: 3 unidades*') && message.endsWith('¡Gracias! 😊'));
+    assert.ok(!message.includes('$'));
     const measured = [];
     dom.window.addEventListener('romix:analytics-cart-added', event => measured.push(event.detail.item.qty));
     cart.addToCart(product);

@@ -26,7 +26,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=23" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=32">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=31">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=30" />
   <link rel="stylesheet" href="assets/css/romix-product-card.css?v=4" />
@@ -1500,10 +1500,12 @@
           nextBtn.disabled = currentIndex >= total - 1;
         }
 
-        function openAt(index, trigger){
+        function open(trigger){
           if (isOpen) return;
           lastActive = trigger || document.activeElement || openBtn;
-          currentIndex = Math.max(0, Math.min(Number(index) || 0, Math.max(0, items.length - 1)));
+          const src = mainImage.currentSrc || mainImage.src;
+          const idx = items.findIndex(item => item.src === src);
+          currentIndex = idx >= 0 ? idx : 0;
           syncImage();
           lockBackground();
           modal.classList.add('is-open');
@@ -1511,12 +1513,6 @@
           isOpen = true;
           closeBtn.focus();
           document.addEventListener('keydown', onKeydown);
-        }
-
-        function open(trigger){
-          const src = mainImage.currentSrc || mainImage.src;
-          const idx = items.findIndex(item => item.src === src);
-          openAt(idx >= 0 ? idx : 0, trigger);
         }
 
         function close(){
@@ -1730,7 +1726,7 @@
         window.addEventListener('resize', resetForViewportChange);
         if (window.visualViewport) window.visualViewport.addEventListener('resize', resetForViewportChange);
 
-        return { setGallery, reset, close, openAt };
+        return { setGallery, reset, close };
       }
 
       function hasProductValue(value){
@@ -1967,12 +1963,6 @@
         detail.innerHTML = `
           <div class="detail-grid">
             <div class="gallery">
-              <div class="desktop-gallery" id="desktop-gallery" aria-label="Galería principal del producto">
-                <div class="desktop-gallery-grid">
-                  ${gallery.slice(0, 4).map((image, index) => `<button type="button" class="desktop-gallery-tile${index === 0 ? ' is-active' : ''}" data-index="${index}" aria-label="Ver imagen ${index + 1} de ${gallery.length}" aria-pressed="${index === 0 ? 'true' : 'false'}"><img src="${image.webpSrc || image.src}" alt="${image.label || product.name}" width="${productImageSize.width}" height="${productImageSize.height}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async" /></button>`).join('')}
-                </div>
-                ${gallery.length > 4 ? `<button type="button" class="desktop-gallery-more" id="desktop-gallery-more" aria-label="Ver las ${gallery.length - 4} fotos restantes">Ver más <span aria-hidden="true">(${gallery.length - 4})</span></button>` : ''}
-              </div>
               <div class="main-image">
                 <picture id="main-image-picture">
                   ${primaryImage.webpSrc ? `<source srcset="${srcsetUrl(primaryImage.webpSrc)}" sizes="${PRODUCT_IMAGE_SIZES}" type="image/webp" />` : ''}
@@ -2307,19 +2297,6 @@
           });
         }
 
-        function bindDesktopGallery() {
-          const desktopGallery = detail.querySelector('#desktop-gallery');
-          if (!desktopGallery) return;
-          desktopGallery.querySelectorAll('.desktop-gallery-tile[data-index]').forEach((tile) => {
-            const index = Number(tile.dataset.index) || 0;
-            tile.addEventListener('click', () => selectVariant(index));
-          });
-          const moreButton = desktopGallery.querySelector('#desktop-gallery-more');
-          if (moreButton && zoomApi && typeof zoomApi.openAt === 'function') {
-            moreButton.addEventListener('click', () => zoomApi.openAt(4, moreButton));
-          }
-        }
-
         function syncSwatchesForVariant(item, options = {}) {
           if (!item) return;
           const key = item.colorKey || variantColorKey(item.colorName || item.label || '');
@@ -2395,7 +2372,6 @@
           });
           window.addEventListener('resize', updateThumbNav);
         }
-        bindDesktopGallery();
         if (thumbsPrevBtn) {
           thumbsPrevBtn.addEventListener('click', () => scrollThumbs(-1));
         }

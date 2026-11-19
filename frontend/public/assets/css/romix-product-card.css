@@ -1023,6 +1023,26 @@
   width: calc(100% - 24px);
   margin: 12px 12px 0;
   border-radius: 22px;
+  aspect-ratio: auto;
+  height: auto;
+  background: transparent;
+}
+
+.romix-product-card .product-thumb picture,
+.romix-product-card .product-thumb picture img,
+.romix-product-card .product-thumb > img,
+.romix-product-card .related-products__image-wrap > img,
+.romix-product-card .related-products__image {
+  height: auto;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+.romix-product-card .product-thumb picture img,
+.romix-product-card .product-thumb > img,
+.romix-product-card .related-products__image-wrap > img,
+.romix-product-card .related-products__image {
+  object-fit: contain;
 }
 
 .romix-product-card .product-body,

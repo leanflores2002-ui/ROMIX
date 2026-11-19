@@ -214,7 +214,14 @@
 
     renderInto(root, product, { ...opts, currentPrice: values[0], variant: "card" });
     const current = root.querySelector(".romix-price-current");
-    if (current && values.length > 1) current.textContent = "Desde " + formatPrice(values[0]);
+    if (current && values.length > 1) {
+      current.textContent = formatPrice(values[0]);
+      current.classList.add("romix-price-current--range");
+      const prefix = document.createElement("span");
+      prefix.className = "romix-price-prefix";
+      prefix.textContent = "Desde";
+      current.parentElement?.insertBefore(prefix, current);
+    }
     if (values.length > 1) {
       const note = document.createElement("span");
       note.className = "romix-price-range-note";

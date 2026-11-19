@@ -4512,6 +4512,14 @@ header.romix-shared-header .romix-icon-btn:hover {
   .site-header .main-nav,
   header.romix-shared-header .main-nav { gap: clamp(32px, 3vw, 40px); }
 
+  /* The active link already uses its border as the indicator; avoid a duplicate pseudo-line. */
+  .site-header .main-nav > li > a::after,
+  header.romix-shared-header .main-nav > li > a::after,
+  .site-header .main-nav .mega-trigger::after,
+  header.romix-shared-header .main-nav .mega-trigger::after {
+    display: none;
+  }
+
   .site-header .main-nav > li > a,
   header.romix-shared-header .main-nav > li > a,
   .site-header .main-nav .mega-trigger,

@@ -1905,6 +1905,25 @@
     if (target) target.checked = checked;
   }
 
+  const exclusiveFilterGroups = new Set(["categories", "seasons"]);
+
+  function syncExclusiveFilterGroup(group) {
+    if (!exclusiveFilterGroups.has(group)) return;
+    const selected = state.selected[group];
+    const selectedValue = selected && selected.size ? Array.from(selected)[0] : "";
+    document.querySelectorAll(".filters-sidebar input[data-group='" + group + "']").forEach((input) => {
+      const isSelected = selectedValue !== "" && String(input.value || "") === String(selectedValue);
+      const hasSelection = selectedValue !== "";
+      input.checked = isSelected;
+      input.disabled = hasSelection && !isSelected;
+      const option = input.closest(".filter-option");
+      if (option) {
+        option.classList.toggle("is-disabled", input.disabled);
+        option.setAttribute("aria-disabled", String(input.disabled));
+      }
+    });
+  }
+
   function renderActiveFilters() {
     const bar = document.getElementById("active-filters-bar");
     const title = document.getElementById("active-filters-title");
@@ -1918,6 +1937,7 @@
     });
 
     const hasActiveFilters = activeFilters.length > 0;
+    exclusiveFilterGroups.forEach(syncExclusiveFilterGroup);
     if (filtersTitle) filtersTitle.textContent = hasActiveFilters ? "Filtros (" + activeFilters.length + ")" : "Filtros";
     title.textContent = "Filtros activos (" + activeFilters.length + ")";
     clear.disabled = !hasActiveFilters;
@@ -2018,6 +2038,14 @@
       state.selected.sizes.clear();
       state.showAllSizes = false;
       renderSizeFilters();
+      applyFilters();
+      return;
+    }
+
+    if (exclusiveFilterGroups.has(group)) {
+      state.selected[group].clear();
+      if (input.checked) state.selected[group].add(value);
+      syncExclusiveFilterGroup(group);
       applyFilters();
       return;
     }

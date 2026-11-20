@@ -54,13 +54,13 @@ async function checkRoute(url, expectedNames, expectedHeading, expectedDocumentT
 }
 
 async function main() {
-  await checkRoute('http://localhost/catalogo.html', ['Campera lycra mujer', 'Remera oferta hombre', 'Buzo niño'], 'Catálogo ROMIX', 'ROMIX - Catálogo');
-  await checkRoute('http://localhost/catalogo.html?sections=mujer', ['Campera lycra mujer'], 'Mujer', 'ROMIX - Mujer');
-  await checkRoute('http://localhost/catalogo.html?sections=hombre', ['Remera oferta hombre'], 'Hombre', 'ROMIX - Hombre');
-  await checkRoute('http://localhost/catalogo.html?sections=ninos', ['Buzo niño'], 'Niños', 'ROMIX - Niños');
+  await checkRoute('http://localhost/catalogo.html', ['Campera lycra mujer', 'Remera oferta hombre', 'Buzo niño'], 'Catálogo', 'ROMIX - Catálogo');
+  await checkRoute('http://localhost/catalogo.html?sections=mujer', ['Campera lycra mujer'], 'Ropa para mujer', 'ROMIX - Ropa para mujer');
+  await checkRoute('http://localhost/catalogo.html?sections=hombre', ['Remera oferta hombre'], 'Ropa para hombre', 'ROMIX - Ropa para hombre');
+  await checkRoute('http://localhost/catalogo.html?sections=ninos', ['Buzo niño'], 'Ropa para niños', 'ROMIX - Ropa para niños');
   await checkRoute('http://localhost/catalogo.html?view=novedades', ['Campera lycra mujer'], 'Novedades', 'ROMIX - Novedades');
-  await checkRoute('http://localhost/catalogo.html?q=oferta', ['Remera oferta hombre'], 'Catálogo ROMIX', 'ROMIX - Catálogo');
-  await checkRoute('http://localhost/catalogo.html?sections=mujer&q=lycra', ['Campera lycra mujer'], 'Mujer', 'ROMIX - Mujer');
+  await checkRoute('http://localhost/catalogo.html?q=oferta', ['Remera oferta hombre'], 'Ofertas', 'ROMIX - Ofertas');
+  await checkRoute('http://localhost/catalogo.html?sections=mujer&q=lycra', ['Campera lycra mujer'], 'Ropa para mujer', 'ROMIX - Ropa para mujer');
   await checkRoute('http://localhost/catalogo.html?view=novedades&q=lycra', ['Campera lycra mujer'], 'Novedades', 'ROMIX - Novedades');
 
   const redirects = readPublic('../../netlify.toml');

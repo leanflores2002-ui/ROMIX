@@ -34,7 +34,7 @@ function renderCategory(category, catalogHtml, products, origin) {
     .replace(/(<meta (?:name|property)="(description|og:title|og:description|og:url|twitter:title|twitter:description)" content=")[^"]*(")/g,
       (_, before, key, after) => before + escapeHtml(key.endsWith('title') ? category.title : key === 'og:url' ? canonical : category.description) + after)
     .replace('data-catalog-scope="catalogo"', `data-catalog-scope="${category.key}" data-category-page="${category.key}"`)
-    .replace(/(<h1 id="page-title"[^>]*>)[\s\S]*?(<\/h1>)/, (_, before, after) => `${before}Ropa para ${escapeHtml(category.label.toLowerCase())} ROMIX${after}`)
+    .replace(/(<h1 id="page-title"[^>]*>)[\s\S]*?(<\/h1>)/, (_, before, after) => `${before}Ropa para ${escapeHtml(category.label.toLowerCase())}${after}`)
     .replace('<!-- ROMIX:CATEGORY:INTRO -->', () => `<p class="catalog-intro">${escapeHtml(category.intro)}</p>`)
     .replace(/<!-- ROMIX:CATALOG:STATIC:START -->[\s\S]*?<!-- ROMIX:CATALOG:STATIC:END -->|<!-- ROMIX:CATEGORY:PRODUCTS -->/, () => cards)
     .replace(/(<p id="products-summary"[^>]*>)[\s\S]*?(<\/p>)/, (_, before, after) => `${before}${list.length} productos publicados${after}`)

@@ -2417,10 +2417,10 @@
     const pageTitle = document.body.dataset.categoryPage
       ? (title?.textContent || config.title)
       : (state.scope === "novedades"
-        ? "Novedades ROMIX"
+        ? "Novedades"
         : (isOfferView
-          ? "Ofertas ROMIX"
-          : (state.scope === "catalogo" ? "Catálogo completo ROMIX" : "Ropa para " + config.title.toLowerCase() + " ROMIX")));
+          ? "Ofertas"
+          : (state.scope === "catalogo" ? "Catálogo" : "Ropa para " + config.title.toLowerCase())));
     if (title) title.textContent = pageTitle;
     if (!document.body.dataset.categoryPage) document.title = "ROMIX - " + pageTitle.replace(/ ROMIX$/, "");
 

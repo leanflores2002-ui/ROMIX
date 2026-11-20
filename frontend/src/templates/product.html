@@ -26,7 +26,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=23" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=31">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=32">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=31" />
   <link rel="stylesheet" href="assets/css/romix-product-card.css?v=8" />
@@ -1972,6 +1972,7 @@
                   ${window.romixIcon("Search", { size: "md" })}
                 </button>
               </div>
+              <div class="mobile-gallery-dots" id="mobile-gallery-dots" role="tablist" aria-label="Imágenes del producto"></div>
               <div class="thumbs-panel" aria-label="Galería de miniaturas" ${gallery.length > 1 ? '' : 'hidden'}>
 
                 <button type="button" class="romix-icon-btn thumb-nav prev" id="thumbs-prev" aria-label="Ver miniaturas anteriores">
@@ -2065,6 +2066,12 @@
               </section>
             </div>
           </div>
+          <div class="mobile-sticky-buy" id="mobile-sticky-buy" hidden aria-hidden="true">
+            <span class="mobile-sticky-buy__price" id="mobile-sticky-price" aria-live="polite"></span>
+            <button type="button" class="mobile-sticky-buy__button" id="mobile-sticky-add">
+              ${window.romixIcon("ShoppingCart", { size: "sm" })}<span>Agregar al carrito</span>
+            </button>
+          </div>
           <div class="zoom-modal" id="zoom-modal" role="dialog" aria-modal="true" aria-label="Vista ampliada del producto" aria-describedby="zoom-help" aria-hidden="true">
             <div class="zoom-panel" tabindex="-1">
               <p class="sr-only" id="zoom-help">Hace click sobre la imagen para acercar o alejar. Usa las flechas o las miniaturas para cambiar de imagen. Presiona Escape para cerrar.</p>
@@ -2099,6 +2106,10 @@
         const plusBtn = detail.querySelector('#quantity-plus');
         const btnAdd = detail.querySelector('#btn-add');
         const btnBuy = detail.querySelector('#btn-buy');
+        const mobileSticky = detail.querySelector('#mobile-sticky-buy');
+        const mobileStickyPrice = detail.querySelector('#mobile-sticky-price');
+        const mobileStickyAdd = detail.querySelector('#mobile-sticky-add');
+        const mobileGalleryDots = detail.querySelector('#mobile-gallery-dots');
         let colorPickerApi = null;
         const zoomApi = setupZoomModal(detail, gallery);
         if (window.romixSizeGuides && typeof window.romixSizeGuides.mountProductButton === 'function') {
@@ -2177,6 +2188,13 @@
           const target = thumbs[targetIndex];
           if (target) {
             target.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+          }
+          if (mobileGalleryDots) {
+            mobileGalleryDots.querySelectorAll('button').forEach((dot, dotIndex) => {
+              const active = dotIndex === targetIndex;
+              dot.classList.toggle('is-active', active);
+              dot.setAttribute('aria-selected', active ? 'true' : 'false');
+            });
           }
         }
 
@@ -2363,6 +2381,77 @@
           updateSizesStateForColor(product, colorName);
           updatePriceForSize(product, '');
           window.requestAnimationFrame(updateThumbNav);
+        }
+
+        function setupMobileGallery() {
+          if (!mobileGalleryDots || gallery.length < 2) {
+            if (mobileGalleryDots) mobileGalleryDots.hidden = true;
+            return;
+          }
+          mobileGalleryDots.hidden = false;
+          mobileGalleryDots.innerHTML = gallery.map((item, index) => `
+            <button type="button" class="mobile-gallery-dot${index === 0 ? ' is-active' : ''}" data-gallery-index="${index}" role="tab" aria-selected="${index === 0 ? 'true' : 'false'}" aria-label="Ver imagen ${index + 1} de ${gallery.length}"></button>
+          `).join('');
+          mobileGalleryDots.querySelectorAll('button').forEach((dot) => {
+            dot.addEventListener('click', () => selectVariant(Number(dot.dataset.galleryIndex) || 0));
+          });
+
+          let touchStartX = null;
+          mainImage?.addEventListener('touchstart', (event) => {
+            touchStartX = event.touches?.[0]?.clientX ?? null;
+          }, { passive: true });
+          mainImage?.addEventListener('touchend', (event) => {
+            if (touchStartX == null) return;
+            const endX = event.changedTouches?.[0]?.clientX ?? touchStartX;
+            const delta = endX - touchStartX;
+            touchStartX = null;
+            if (Math.abs(delta) < 42) return;
+            const currentIndex = gallery.findIndex((item) => item.src === mainImage.src || item.webpSrc === mainImage.currentSrc);
+            const nextIndex = Math.max(0, Math.min(gallery.length - 1, (currentIndex < 0 ? 0 : currentIndex) + (delta < 0 ? 1 : -1)));
+            if (nextIndex !== currentIndex) selectVariant(nextIndex);
+          }, { passive: true });
+        }
+
+        function setupMobileStickyBuy() {
+          if (!mobileSticky || !mobileStickyAdd || !btnAdd) return;
+          const mobileQuery = window.matchMedia('(max-width: 640px)');
+          const priceArea = detail.querySelector('#product-price-display');
+          const syncPrice = () => {
+            if (!mobileStickyPrice) return;
+            const source = priceArea?.querySelector('.romix-price-current, #product-price, .current-price');
+            mobileStickyPrice.textContent = source?.textContent?.trim() || '';
+          };
+          const setStickyState = (show) => {
+            const active = mobileQuery.matches && show;
+            mobileSticky.hidden = !active;
+            mobileSticky.setAttribute('aria-hidden', active ? 'false' : 'true');
+            mobileStickyAdd.disabled = btnAdd.disabled;
+          };
+          const updateFromViewport = () => {
+            if (!mobileQuery.matches) {
+              setStickyState(false);
+              return;
+            }
+            const rect = btnAdd.getBoundingClientRect();
+            setStickyState(rect.bottom <= 0 || rect.top >= window.innerHeight);
+          };
+          mobileStickyAdd.addEventListener('click', () => btnAdd.click());
+          syncPrice();
+          if (priceArea && typeof MutationObserver === 'function') {
+            new MutationObserver(syncPrice).observe(priceArea, { childList: true, subtree: true, characterData: true });
+          }
+          if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+              const entry = entries[0];
+              setStickyState(mobileQuery.matches && !entry.isIntersecting);
+            }, { threshold: 0.05 });
+            observer.observe(btnAdd);
+          } else {
+            window.addEventListener('scroll', updateFromViewport, { passive: true });
+          }
+          window.addEventListener('resize', updateFromViewport, { passive: true });
+          mobileQuery.addEventListener?.('change', updateFromViewport);
+          updateFromViewport();
         }
 
         if (thumbContainer) {
@@ -2569,6 +2658,8 @@
         }
 
         setActiveColor(defaultColorName);
+        setupMobileGallery();
+        setupMobileStickyBuy();
 
         if (btnAdd) {
           btnAdd.addEventListener('click', (event) => {

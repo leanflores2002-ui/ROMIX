@@ -1337,6 +1337,7 @@
 
   function getBreadcrumbSectionLabel() {
     if (state.scope === "catalogo") {
+      if (hasInitialQueryFlag("sale", "1") || normalizeText(readInitialSearchQuery()) === "oferta") return "Ofertas";
       const sectionValue = getSingleSelectedValue("sections");
       if (sectionValue) return getOptionLabel("sections", sectionValue);
       return "Catálogo";
@@ -1382,23 +1383,26 @@
       parts.push({ label: getOptionLabel("audiences", audienceValue) });
     }
 
+    const currentLabel = heading.textContent.trim();
+    if (currentLabel) parts.push({ label: currentLabel, current: true });
+
     breadcrumb.innerHTML = "";
     breadcrumb.appendChild(back);
 
     const trail = document.createElement("span");
     trail.className = "catalog-breadcrumb-trail";
     parts.forEach((part, index) => {
-      const node = part.href ? document.createElement("a") : document.createElement("span");
-      if (part.href) node.href = part.href;
-      node.textContent = part.label;
-
-      if (index < parts.length - 1) {
+      if (index > 0) {
         const sep = document.createElement("span");
         sep.className = "catalog-breadcrumb-sep";
         sep.setAttribute("aria-hidden", "true");
         sep.textContent = "/";
         trail.appendChild(sep);
       }
+      const node = part.href ? document.createElement("a") : document.createElement("span");
+      if (part.href) node.href = part.href;
+      node.textContent = part.label;
+      if (part.current) node.className = "catalog-breadcrumb-current";
       trail.appendChild(node);
     });
     breadcrumb.appendChild(trail);
@@ -2336,10 +2340,30 @@
     document.documentElement.classList.add("romix-catalog-js");
     const config = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
     const title = document.getElementById("page-title");
-    if (title && !document.body.dataset.categoryPage) {
-      title.textContent = state.scope === "catalogo" ? "Catálogo ROMIX" : config.title;
+    const isOfferView = hasInitialQueryFlag("sale", "1") || normalizeText(readInitialSearchQuery()) === "oferta";
+    const pageTitle = document.body.dataset.categoryPage
+      ? (title?.textContent || config.title)
+      : (state.scope === "novedades"
+        ? "Novedades ROMIX"
+        : (isOfferView
+          ? "Ofertas ROMIX"
+          : (state.scope === "catalogo" ? "Catálogo completo ROMIX" : "Ropa para " + config.title.toLowerCase() + " ROMIX")));
+    if (title) title.textContent = pageTitle;
+    if (!document.body.dataset.categoryPage) document.title = "ROMIX - " + pageTitle.replace(/ ROMIX$/, "");
+
+    let intro = document.querySelector(".catalog-intro");
+    if (!intro && title) {
+      intro = document.createElement("p");
+      intro.className = "catalog-intro";
+      title.insertAdjacentElement("afterend", intro);
     }
-    if (!document.body.dataset.categoryPage) document.title = "ROMIX - " + (state.scope === "catalogo" ? "Catálogo" : config.title);
+    if (intro && !document.body.dataset.categoryPage) {
+      intro.textContent = state.scope === "novedades"
+        ? "Descubrí las últimas prendas incorporadas al catálogo ROMIX y consultá talles, colores y disponibilidad."
+        : isOfferView
+          ? "Aprovechá las ofertas ROMIX y compará precios, talles y colores antes de coordinar tu pedido."
+          : "Explorá el catálogo ROMIX, compará talles, colores y precios, y abrí cada producto para consultar disponibilidad.";
+    }
 
     document.querySelectorAll(".catalog-nav a[data-scope]").forEach((link) => {
       const active = link.dataset.scope === state.scope;

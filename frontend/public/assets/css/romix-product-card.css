@@ -1023,7 +1023,7 @@
 .romix-product-card .related-products__image-wrap {
   width: calc(100% - 24px);
   margin: 12px 12px 0;
-  border-radius: 22px;
+  border-radius: 0;
   aspect-ratio: 4 / 5;
   height: auto;
   background: #f6f5f5;
@@ -1114,7 +1114,7 @@
   .romix-product-card .related-products__image-wrap {
     width: calc(100% - 14px);
     margin: 7px 7px 0;
-    border-radius: 14px;
+    border-radius: 0;
     aspect-ratio: 4 / 5;
   }
 

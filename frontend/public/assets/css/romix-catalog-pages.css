@@ -117,7 +117,7 @@ body[data-catalog-scope] select { font: inherit; }
 .romix-catalog-js .catalog-nav { display: none; }
 .catalog-layout {
   display: grid;
-  grid-template-columns: minmax(270px, 300px) minmax(0, 1fr);
+  grid-template-columns: minmax(300px, 330px) minmax(0, 1fr);
   gap: 30px;
   align-items: start;
 }
@@ -126,7 +126,7 @@ body[data-catalog-scope] select { font: inherit; }
   position: sticky; top: 92px; align-self: start;
   display: flex; flex-direction: column;
   max-height: calc(100dvh - 108px);
-  padding: 0 24px 0 0; overflow: hidden;
+  padding: 0 28px 0 0; overflow: hidden;
   border: 0; border-right: 1px solid var(--catalog-line); border-radius: 0;
   background: transparent; box-shadow: none;
 }
@@ -394,13 +394,18 @@ body[data-catalog-scope] select { font: inherit; }
 .catalog-toast.is-visible { opacity: 1; transform: translateY(0); }
 
 @media (min-width: 961px) {
+  .filters-scroll {
+    /* Deja aire entre las opciones y la barra, sin ocultar el desplazamiento. */
+    padding-right: 10px;
+    scrollbar-gutter: stable;
+  }
   .filters-head .filters-clear { margin-left: auto; }
   .filters-group h3 {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    font-size: 16px;
+    font-size: 17px;
   }
   .filters-group h3::after {
     width: 10px;
@@ -414,17 +419,17 @@ body[data-catalog-scope] select { font: inherit; }
   .filters-group.is-collapsed > h3::after {
     transform: rotate(-45deg) translate(-1px, 2px);
   }
-  .filters-sidebar .filter-list { gap: 6px; }
+  .filters-sidebar .filter-list { gap: 7px; }
   .filters-sidebar .filter-option {
-    min-height: 26px;
+    min-height: 30px;
     gap: 12px;
-    font-size: 14px;
+    font-size: 15px;
   }
-  .filters-sidebar .filter-option input { width: 17px; height: 17px; }
+  .filters-sidebar .filter-option input { width: 19px; height: 19px; }
   .filters-sidebar .filter-more {
     min-height: 30px;
     margin: 5px 0 -4px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
   }
   #category-more-btn:not(.is-hidden)::before {
@@ -435,29 +440,57 @@ body[data-catalog-scope] select { font: inherit; }
     line-height: 0;
   }
   .filters-sidebar .size-grid {
-    grid-template-columns: 1fr;
-    gap: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+    row-gap: 7px;
   }
   .filters-sidebar .size-chip label {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    min-height: 28px;
+    min-height: 30px;
     gap: 12px;
     padding: 0;
     border: 0;
     border-radius: 0;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
   }
   .filters-sidebar .size-chip label::before {
-    width: 17px;
-    height: 17px;
-    flex: 0 0 17px;
+    width: 19px;
+    height: 19px;
+    flex: 0 0 19px;
     border: 1px solid #9ca3af;
     border-radius: 3px;
     background: #fff;
     content: "";
+  }
+  .filters-sidebar #color-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+    row-gap: 7px;
+    padding: 0;
+  }
+  .filters-sidebar #color-options .filter-option {
+    width: auto;
+    min-height: 30px;
+    gap: 10px;
+    font-size: 15px;
+  }
+  .filters-sidebar #color-options .filter-option > span:last-child {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+  .filters-sidebar #color-options .color-dot {
+    width: 24px;
+    height: 24px;
+    flex-basis: 24px;
   }
   .filters-sidebar .size-chip input:checked + label {
     border: 0;
@@ -479,8 +512,8 @@ body[data-catalog-scope] select { font: inherit; }
 }
 @media (max-width: 1180px) {
   .catalog-page { width: min(100% - 32px, 1100px); }
-  .catalog-layout { grid-template-columns: 248px minmax(0, 1fr); gap: 22px; }
-  .filters-sidebar { padding-right: 18px; }
+  .catalog-layout { grid-template-columns: 270px minmax(0, 1fr); gap: 22px; }
+  .filters-sidebar { padding-right: 20px; }
   .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .size-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }

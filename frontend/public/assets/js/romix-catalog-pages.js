@@ -144,10 +144,11 @@
 
   function readDesktopFiltersHidden() {
     try {
-      return window.sessionStorage.getItem(FILTERS_SIDEBAR_STORAGE_KEY) === "1";
+      window.sessionStorage.removeItem(FILTERS_SIDEBAR_STORAGE_KEY);
     } catch (_error) {
-      return false;
+      // Continue with the sidebar visible when storage is unavailable.
     }
+    return false;
   }
 
   function persistDesktopFiltersHidden(hidden) {
@@ -172,7 +173,7 @@
 
   function applyDesktopFiltersState(hidden, options) {
     const settings = options || {};
-    const nextHidden = Boolean(hidden);
+    const nextHidden = false;
     const sidebar = document.getElementById("filters-sidebar");
     const toggle = document.getElementById("toggle-filters");
     const focusInsideSidebar = sidebar && sidebar.contains(document.activeElement);
@@ -1908,6 +1909,7 @@
     const title = document.getElementById("active-filters-title");
     const list = document.getElementById("active-filters-list");
     const clear = document.getElementById("active-filters-clear");
+    const filtersTitle = document.querySelector(".filters-title");
     if (!bar || !title || !list || !clear) return;
 
     const activeFilters = getActiveFilters().sort((a, b) => {
@@ -1915,6 +1917,7 @@
     });
 
     const hasActiveFilters = activeFilters.length > 0;
+    if (filtersTitle) filtersTitle.textContent = hasActiveFilters ? "Filtros (" + activeFilters.length + ")" : "Filtros";
     title.textContent = "Filtros activos (" + activeFilters.length + ")";
     clear.disabled = !hasActiveFilters;
     bar.hidden = !hasActiveFilters;

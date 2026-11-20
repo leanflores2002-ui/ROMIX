@@ -2094,6 +2094,38 @@
     button.textContent = showAll ? "Ver menos" : "Ver más";
   }
 
+  function wireFilterSectionToggles() {
+    document.querySelectorAll(".filters-sidebar .filters-group:not(.mobile-sort-group) > h3").forEach((heading) => {
+      if (heading.dataset.filterToggleReady === "true") return;
+      const group = heading.parentElement;
+      if (!group) return;
+
+      heading.dataset.filterToggleReady = "true";
+      heading.setAttribute("role", "button");
+      heading.setAttribute("tabindex", "0");
+
+      const setExpanded = (expanded) => {
+        if (group.classList.contains("is-disabled")) expanded = false;
+        group.classList.toggle("is-collapsed", !expanded);
+        group.dataset.filterCollapsed = expanded ? "false" : "true";
+        heading.setAttribute("aria-expanded", String(expanded));
+      };
+
+      const toggle = () => {
+        if (group.classList.contains("is-disabled")) return;
+        setExpanded(group.classList.contains("is-collapsed"));
+      };
+
+      heading.addEventListener("click", toggle);
+      heading.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        toggle();
+      });
+      setExpanded(!group.classList.contains("is-collapsed"));
+    });
+  }
+
   function renderColorFilters() {
     const container = document.getElementById("color-options");
     if (!container) return;
@@ -2213,7 +2245,7 @@
     }
 
     const heading = group.querySelector("h3");
-    if (heading) heading.textContent = state.scope === "novedades" ? "PÚBLICO" : "SECCIÓN";
+    if (heading) heading.textContent = state.scope === "novedades" ? "Público" : "Sección";
 
     container.innerHTML = "";
     state.optionLabels.sections.clear();
@@ -2253,6 +2285,7 @@
     const group = document.getElementById("size-filter-group");
     const helper = document.getElementById("size-helper");
     const sizeMoreButton = document.getElementById("size-more-btn");
+    const heading = group ? group.querySelector(":scope > h3") : null;
 
     if (state.scope === "catalogo" || state.scope === "novedades") {
       const selectedSection = Array.from(state.selected.sections)[0] || "";
@@ -2269,6 +2302,7 @@
           group.classList.add("is-disabled", "is-collapsed");
           group.setAttribute("aria-disabled", "true");
         }
+        if (heading) heading.setAttribute("aria-expanded", "false");
         if (helper) {
           helper.hidden = false;
           helper.textContent = state.scope === "novedades"
@@ -2282,6 +2316,7 @@
         group.classList.remove("is-disabled", "is-collapsed");
         group.removeAttribute("aria-disabled");
       }
+      if (heading) heading.setAttribute("aria-expanded", "true");
       if (helper) helper.hidden = true;
       if (sizeMoreButton) {
         sizeMoreButton.disabled = false;
@@ -2299,6 +2334,7 @@
         group.classList.remove("is-disabled", "is-collapsed");
         group.removeAttribute("aria-disabled");
       }
+      if (heading) heading.setAttribute("aria-expanded", "true");
       if (helper) helper.hidden = true;
       if (sizeMoreButton) {
         sizeMoreButton.disabled = false;
@@ -2428,6 +2464,7 @@
   }
 
   function wireUiEvents() {
+    wireFilterSectionToggles();
     const sortControls = ensureSortControl();
     sortControls.forEach((sortSelect) => {
       if (!sortSelect || sortSelect.dataset.sortBound === "1") return;

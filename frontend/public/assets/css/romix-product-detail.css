@@ -488,15 +488,112 @@
   background: var(--product-pink-soft);
 }
 .product-detail-page .main-image { aspect-ratio: 4 / 5; }
+.product-detail-page .gallery-pager {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 38px;
+  margin-top: 2px;
+}
+.product-detail-page .gallery-pager[hidden] { display: none; }
+.gallery-pager__button {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--product-ink);
+  background: transparent;
+  cursor: pointer;
+}
+.gallery-pager__button:hover:not(:disabled),
+.gallery-pager__button:focus-visible:not(:disabled) { background: var(--product-pink-soft); }
+.gallery-pager__button:disabled { opacity: .35; cursor: not-allowed; }
+.gallery-pager__button svg { width: 25px; height: 25px; }
+.gallery-pager .mobile-gallery-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 18px;
+  flex: 1;
+}
+.gallery-pager .mobile-gallery-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #d5d2d9;
+  cursor: pointer;
+}
+.gallery-pager .mobile-gallery-dot.is-active { background: var(--product-pink); }
+.gallery-pager .mobile-gallery-dot:focus-visible { outline: 2px solid var(--product-pink); outline-offset: 3px; }
 .product-detail-page .thumbs-panel {
-  height: min(466px, calc(100dvh - 190px));
-  max-height: min(466px, calc(100dvh - 190px));
+  grid-template-rows: minmax(0, 1fr);
+  width: 104px;
+  height: min(720px, calc(100dvh - 150px));
+  max-height: min(720px, calc(100dvh - 150px));
+  gap: 0;
+}
+.product-detail-page .thumb-nav { display: none; }
+.product-detail-page .thumbs {
+  gap: 12px;
+  padding: 2px 0;
+}
+.product-detail-page .thumbs img {
+  flex-basis: 110px;
+  width: 100px;
+  height: 110px;
+  border-radius: 12px;
 }
 .mobile-gallery-dots,
 .mobile-sticky-buy { display: none; }
 
 @media (max-width: 1020px) and (min-width: 901px) {
   .product-detail-page .info-panel { position: static; }
+}
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .product-detail-page .gallery {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .product-detail-page .thumbs-panel {
+    width: 96px;
+    height: min(680px, calc(100dvh - 150px));
+    max-height: min(680px, calc(100dvh - 150px));
+  }
+  .product-detail-page .thumbs img {
+    flex-basis: 102px;
+    width: 92px;
+    height: 102px;
+  }
+}
+
+@media (max-width: 900px) {
+  .product-detail-page .thumbs-panel {
+    grid-template-rows: none;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    gap: 0;
+  }
+  .product-detail-page .thumbs {
+    gap: 9px;
+    padding: 0 0 4px;
+  }
+  .product-detail-page .thumbs img {
+    flex-basis: 76px;
+    width: 76px;
+    height: 92px;
+    border-radius: 9px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -527,25 +624,23 @@
     max-height: min(78dvh, 620px);
     border-radius: 0;
   }
-  .product-detail-page .thumbs-panel { order: 2; padding-inline: 12px; }
+  .product-detail-page .thumbs-panel {
+    order: 2;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    padding-inline: 12px;
+  }
   .product-detail-page .thumbs { padding-inline: 0; }
-  .mobile-gallery-dots {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    min-height: 18px;
+  .product-detail-page .gallery-pager {
+    grid-column: auto;
+    order: 2;
+    width: 100%;
+    min-height: 40px;
+    margin-top: 0;
+    padding-inline: 8px;
   }
-  .mobile-gallery-dot {
-    width: 7px;
-    height: 7px;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: #d8d5dc;
-    cursor: pointer;
-  }
-  .mobile-gallery-dot.is-active { width: 9px; height: 9px; background: var(--product-pink); }
+  .gallery-pager__button { flex-basis: 40px; width: 40px; height: 40px; }
   .product-detail-page .mobile-product-name { order: 2; margin-top: 2px; }
   .product-detail-page .mobile-product-name h1 { font-size: clamp(26px, 7.2vw, 32px); }
   .product-detail-page .info-panel {

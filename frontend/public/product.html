@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /><noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="assets/css/romix-design-system.css?v=23" />
   <link rel="stylesheet" href="assets/css/size-guide-drawer.css?v=19">
-  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=32">
+  <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=34">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=23" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=31" />
   <link rel="stylesheet" href="assets/css/romix-product-card.css?v=8" />
@@ -2095,7 +2095,15 @@
                   ${window.romixIcon("Search", { size: "md" })}
                 </button>
               </div>
-              <div class="mobile-gallery-dots" id="mobile-gallery-dots" role="tablist" aria-label="Imágenes del producto"></div>
+              <div class="gallery-pager" id="gallery-pager" ${gallery.length > 1 ? '' : 'hidden'} aria-label="Navegación de imágenes">
+                <button type="button" class="gallery-pager__button" id="gallery-pager-prev" aria-label="Ver imagen anterior" disabled>
+                  ${window.romixIcon("ChevronLeft", { size: "md" })}
+                </button>
+                <div class="mobile-gallery-dots" id="mobile-gallery-dots" role="tablist" aria-label="Imágenes del producto"></div>
+                <button type="button" class="gallery-pager__button" id="gallery-pager-next" aria-label="Ver imagen siguiente">
+                  ${window.romixIcon("ChevronRight", { size: "md" })}
+                </button>
+              </div>
               <div class="thumbs-panel" aria-label="Galería de miniaturas" ${gallery.length > 1 ? '' : 'hidden'}>
 
                 <button type="button" class="romix-icon-btn thumb-nav prev" id="thumbs-prev" aria-label="Ver miniaturas anteriores">
@@ -2232,7 +2240,11 @@
         const mobileSticky = detail.querySelector('#mobile-sticky-buy');
         const mobileStickyPrice = detail.querySelector('#mobile-sticky-price');
         const mobileStickyAdd = detail.querySelector('#mobile-sticky-add');
+        const galleryPager = detail.querySelector('#gallery-pager');
+        const galleryPagerPrev = detail.querySelector('#gallery-pager-prev');
+        const galleryPagerNext = detail.querySelector('#gallery-pager-next');
         const mobileGalleryDots = detail.querySelector('#mobile-gallery-dots');
+        let activeGalleryIndex = 0;
         let colorPickerApi = null;
         const zoomApi = setupZoomModal(detail, gallery);
         if (window.romixSizeGuides && typeof window.romixSizeGuides.mountProductButton === 'function') {
@@ -2301,6 +2313,7 @@
         let activeSize = '';
 
         function setActiveThumb(targetIndex) {
+          activeGalleryIndex = targetIndex;
           if (!thumbContainer) return;
           const thumbs = Array.from(thumbContainer.querySelectorAll('[data-index]'));
           thumbs.forEach((el, idx) => {
@@ -2318,6 +2331,10 @@
               dot.classList.toggle('is-active', active);
               dot.setAttribute('aria-selected', active ? 'true' : 'false');
             });
+          }
+          if (galleryPagerPrev && galleryPagerNext) {
+            galleryPagerPrev.disabled = targetIndex <= 0;
+            galleryPagerNext.disabled = targetIndex >= Math.max(0, gallery.length - 1);
           }
         }
 
@@ -2508,9 +2525,10 @@
 
         function setupMobileGallery() {
           if (!mobileGalleryDots || gallery.length < 2) {
-            if (mobileGalleryDots) mobileGalleryDots.hidden = true;
+            if (galleryPager) galleryPager.hidden = true;
             return;
           }
+          if (galleryPager) galleryPager.hidden = false;
           mobileGalleryDots.hidden = false;
           mobileGalleryDots.innerHTML = gallery.map((item, index) => `
             <button type="button" class="mobile-gallery-dot${index === 0 ? ' is-active' : ''}" data-gallery-index="${index}" role="tab" aria-selected="${index === 0 ? 'true' : 'false'}" aria-label="Ver imagen ${index + 1} de ${gallery.length}"></button>
@@ -2518,6 +2536,9 @@
           mobileGalleryDots.querySelectorAll('button').forEach((dot) => {
             dot.addEventListener('click', () => selectVariant(Number(dot.dataset.galleryIndex) || 0));
           });
+          galleryPagerPrev?.addEventListener('click', () => selectVariant(activeGalleryIndex - 1));
+          galleryPagerNext?.addEventListener('click', () => selectVariant(activeGalleryIndex + 1));
+          setActiveThumb(activeGalleryIndex);
 
           let touchStartX = null;
           mainImage?.addEventListener('touchstart', (event) => {

@@ -29,6 +29,11 @@ assert(productCss.includes('flex-direction: row'), 'Las miniaturas mobile deben 
 assert(productCss.includes('.zoom-modal') && productCss.includes('background: #eef1f2'), 'El zoom debe usar un fondo claro');
 assert(productCss.includes('.zoom-thumbs'), 'El zoom debe incluir una franja de miniaturas');
 assert(productHtml.includes('id="zoom-thumbs"'), 'El modal debe renderizar miniaturas para navegar las imágenes');
+assert(productHtml.includes('id="gallery-pager"'), 'La galería debe renderizar un paginador inferior');
+assert(productHtml.includes('id="gallery-pager-prev"') && productHtml.includes('id="gallery-pager-next"'), 'El paginador debe incluir flechas anterior y siguiente');
+assert(productHtml.includes('id="mobile-gallery-dots"'), 'El paginador debe incluir indicadores de imagen');
+assert(productHtml.includes('activeGalleryIndex - 1') && productHtml.includes('activeGalleryIndex + 1'), 'Las flechas deben cambiar la imagen activa');
+assert(productCss.includes('.gallery-pager__button') && productCss.includes('.gallery-pager .mobile-gallery-dot'), 'El paginador debe tener estilos propios responsive');
 assert(productCss.includes('position: static; width: auto; height: auto'), 'La imagen del zoom no debe ocupar el stage por absolute 100%');
 assert(productCss.includes('max-width: calc(100vw - 140px)'), 'La imagen desktop debe respetar los controles laterales');
 assert(productCss.includes('max-height: calc(100dvh - 160px)'), 'La imagen mobile debe respetar el viewport y la tira de miniaturas');

@@ -97,15 +97,25 @@ function renderCards(list) {
       ? `<p class="product-color-count"><span data-romix-icon="Palette" data-romix-icon-size="sm" aria-hidden="true"></span><span>${colorCount}${colorCount === 1 ? ' color disponible' : ' colores disponibles'}</span></p>`
       : '';
     const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
+    const originalPrice = Number(product.originalPrice);
+    const currentPrice = uniquePrices[0] || Number(product.price || 0);
+    const isOnSale = Number.isFinite(originalPrice) && originalPrice > currentPrice && currentPrice > 0;
+    const discountPercent = isOnSale ? Math.max(1, Math.round(((originalPrice - currentPrice) / originalPrice) * 100)) : 0;
+    const priceDisplay = isOnSale
+      ? `<div class="romix-price-display romix-price-display--sale">` +
+        `<span class="romix-price-original" aria-label="Precio anterior: $${originalPrice.toLocaleString('es-AR')}">$${originalPrice.toLocaleString('es-AR')}</span>` +
+        `<span class="romix-price-primary"><span class="product-price romix-price-current">${escapeHtml(price)}</span><span class="discount-pill romix-discount-pill" aria-label="${discountPercent} por ciento de descuento">${discountPercent}% OFF</span></span>` +
+        (priceNote ? `<span class="romix-price-range-note">${escapeHtml(priceNote)}</span>` : '') +
+        `</div>`
+      : `<div class="romix-price-display"><span class="romix-price-primary"><span class="product-price romix-price-current">${escapeHtml(price)}</span></span>${priceNote ? `<span class="romix-price-range-note">${escapeHtml(priceNote)}</span>` : ''}</div>`;
     const fields = {
       DETAIL: detailHref(product, productSlug(product)),
-      NAME: product.name, IMAGE: image, PRICE: price,
+      NAME: product.name, IMAGE: image, PRICE_DISPLAY: priceDisplay,
       BADGE: badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '',
       VARIANTS: variants || more ? '<div class="product-variant-thumbs" aria-label="Variantes fotográficas">' + variants + more + '</div>' : '',
-      PRICE_NOTE: priceNote ? '<span class="romix-price-range-note">' + escapeHtml(priceNote) + '</span>' : '',
       COLOR_COUNT: colorCountMarkup
     };
-    return cardTemplate.replace(/%%([A-Z_]+)%%/g, (_, key) => ['BADGE', 'VARIANTS', 'PRICE_NOTE', 'COLOR_COUNT'].includes(key) ? fields[key] : escapeHtml(fields[key] || ''));
+    return cardTemplate.replace(/%%([A-Z_]+)%%/g, (_, key) => ['BADGE', 'VARIANTS', 'PRICE_DISPLAY', 'COLOR_COUNT'].includes(key) ? fields[key] : escapeHtml(fields[key] || ''));
   }).join('\n');
 }
 function renderCatalog(html) {

@@ -1815,9 +1815,9 @@ body:has(#root) .cta { min-height: 50px; border-radius: var(--romix-radius); }
   min-height: 24px;
   align-items: center;
   padding: 3px 7px;
-  border-radius: var(--romix-radius-sm);
+  border-radius: 999px;
   color: var(--romix-white);
-  background: var(--romix-success);
+  background: #e5242a;
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .01em;
@@ -1834,6 +1834,9 @@ body:has(#root) .cta { min-height: 50px; border-radius: var(--romix-radius); }
   text-decoration-thickness: 1px;
   white-space: nowrap;
 }
+
+.romix-price-display--sale .romix-price-current { color: #e5242a; }
+.romix-price-display--sale .romix-discount-pill { background: #e5242a; }
 
 .romix-price-before {
   text-decoration: none;
@@ -8134,4 +8137,40 @@ header.romix-shared-header .cart-pill__text { display: none; }
     height: 14px;
     flex-basis: 14px;
   }
+}
+
+/* Keep sale emphasis after the compact card rules below. */
+.romix-product-card .romix-price-display--sale .romix-price-current {
+  color: #e5242a;
+}
+.romix-product-card .romix-price-display--sale .romix-discount-pill {
+  color: #fff;
+  background: #e5242a;
+}
+.romix-product-card .romix-price-display--sale .romix-price-original {
+  color: #6b7280;
+  text-decoration: line-through;
+}
+
+/* Match the offer treatment used by catalog cards while keeping the home
+   carousel compact and preserving every size-price note. */
+.romix-product-card .romix-price-display--sale {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  column-gap: 8px;
+  row-gap: 4px;
+}
+.romix-product-card .romix-price-display--sale .romix-price-original { order: 1; }
+.romix-product-card .romix-price-display--sale .romix-price-primary {
+  order: 2;
+  flex: 1 1 auto;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.romix-product-card .romix-price-display--sale .romix-price-range-note {
+  order: 3;
+  flex-basis: 100%;
 }

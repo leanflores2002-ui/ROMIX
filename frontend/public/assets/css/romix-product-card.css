@@ -946,6 +946,13 @@
   line-height: 1.35;
 }
 
+.romix-product-card .romix-price-display--sale .romix-price-current {
+  color: #e5242a;
+}
+.romix-product-card .romix-price-display--sale .romix-discount-pill {
+  background: #e5242a;
+}
+
 .romix-product-card .product-variant-thumbs,
 .romix-product-card .related-products__thumbs {
   order: 3;
@@ -1165,4 +1172,41 @@
     height: 14px;
     flex-basis: 14px;
   }
+}
+
+/* Keep sale emphasis after the compact card rules below. */
+.romix-product-card .romix-price-display--sale .romix-price-current {
+  color: #e5242a;
+}
+.romix-product-card .romix-price-display--sale .romix-discount-pill {
+  color: #fff;
+  background: #e5242a;
+}
+.romix-product-card .romix-price-display--sale .romix-price-original {
+  color: #6b7280;
+  text-decoration: line-through;
+}
+
+/* Keep an offer card compact and scanable: previous price, current price and
+   the discount badge share one line when space allows; size-price notes stay
+   on their own full-width line. */
+.romix-product-card .romix-price-display--sale {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  column-gap: 8px;
+  row-gap: 4px;
+}
+.romix-product-card .romix-price-display--sale .romix-price-original { order: 1; }
+.romix-product-card .romix-price-display--sale .romix-price-primary {
+  order: 2;
+  flex: 1 1 auto;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.romix-product-card .romix-price-display--sale .romix-price-range-note {
+  order: 3;
+  flex-basis: 100%;
 }

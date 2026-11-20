@@ -27,9 +27,9 @@
   min-height: 24px;
   align-items: center;
   padding: 3px 7px;
-  border-radius: var(--romix-radius-sm);
+  border-radius: 999px;
   color: var(--romix-white);
-  background: var(--romix-success);
+  background: #e5242a;
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .01em;
@@ -45,6 +45,16 @@
   text-decoration: line-through;
   text-decoration-thickness: 1px;
   white-space: nowrap;
+}
+
+/* Sale presentation: the previous price stays visibly crossed out while the
+   current amount and discount badge use the offer red. Normal products keep
+   the existing neutral price treatment. */
+.romix-price-display--sale .romix-price-current {
+  color: #e5242a;
+}
+.romix-price-display--sale .romix-discount-pill {
+  background: #e5242a;
 }
 
 .romix-price-before {

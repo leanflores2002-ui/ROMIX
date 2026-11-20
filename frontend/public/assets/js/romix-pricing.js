@@ -212,7 +212,10 @@
       return root;
     }
 
-    renderInto(root, product, { ...opts, currentPrice: values[0], variant: "card" });
+    // Cards show the crossed-out reference price, current offer and badge,
+    // but keep the savings sentence for the detail view where there is more
+    // room to explain the promotion.
+    renderInto(root, product, { ...opts, currentPrice: values[0], variant: "card", showSavings: false });
     const current = root.querySelector(".romix-price-current");
     if (current && values.length > 1) {
       current.textContent = formatPrice(values[0]);
@@ -286,12 +289,13 @@
       }
       original.appendChild(document.createTextNode(formatPrice(sale.originalPrice)));
 
-      const savings = document.createElement("span");
-      savings.className = "savings-label romix-savings-label";
-      savings.textContent = "Ahorrás " + formatPrice(sale.savings);
-
       container.appendChild(original);
-      container.appendChild(savings);
+      if (opts.showSavings !== false) {
+        const savings = document.createElement("span");
+        savings.className = "savings-label romix-savings-label";
+        savings.textContent = "Ahorrás " + formatPrice(sale.savings);
+        container.appendChild(savings);
+      }
     }
 
     return sale;

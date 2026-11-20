@@ -719,6 +719,43 @@
 .share-panel .share-heading { display: block; margin: 0 0 14px; font-size: 1.1rem; font-weight: 800; }
 .share-panel .share-help { display: none; }
 
+/* Offer prices use a clear red treatment in the detail view while retaining
+   the original price as a crossed-out reference. */
+.romix-price-display--detail.romix-price-display--sale .romix-price-current {
+  color: #e5242a !important;
+}
+.romix-price-display--detail.romix-price-display--sale .romix-discount-pill {
+  color: #fff;
+  background: #e5242a;
+}
+.romix-price-display--detail.romix-price-display--sale .romix-price-original {
+  color: #6b7280;
+  text-decoration: line-through;
+}
+
+/* On desktop keep the offer line in the same reading order as the promotion:
+   previous price, current price and discount badge. The mobile grid above is
+   intentionally preserved so the price block remains compact on narrow viewports. */
+@media (min-width: 641px) {
+  .romix-price-display--detail.romix-price-display--sale {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .romix-price-display--detail.romix-price-display--sale .romix-price-original { order: 1; }
+  .romix-price-display--detail.romix-price-display--sale .romix-price-primary {
+    order: 2;
+    flex-direction: row;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .romix-price-display--detail.romix-price-display--sale .romix-savings-label {
+    order: 3;
+    flex-basis: 100%;
+  }
+}
+
 /* Product detail desktop composition: purchase information stays together on the right,
    while the descriptive accordions sit directly below the gallery on the left. */
 @media (min-width: 1021px) {

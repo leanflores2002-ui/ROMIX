@@ -130,6 +130,7 @@
     },
     showAllColors: false,
     showAllSizes: false,
+    showAllCategories: false,
     priceMin: "",
     priceMax: "",
     sizeValues: [],
@@ -2066,8 +2067,12 @@
   }
 
   function toggleExtraOptions(group, showAll) {
-    const selector = group === "colors" ? "#color-options .filter-option" : "#size-options .size-chip";
-    const limit = group === "colors" ? COLOR_LIMIT : SIZE_BASE.length;
+    const selector = group === "colors"
+      ? "#color-options .filter-option"
+      : group === "categories"
+        ? "#category-options .filter-option"
+        : "#size-options .size-chip";
+    const limit = group === "colors" ? COLOR_LIMIT : group === "categories" ? 8 : SIZE_BASE.length;
     const rows = Array.from(document.querySelectorAll(selector));
 
     rows.forEach((row, index) => {
@@ -2078,7 +2083,7 @@
       row.classList.toggle("is-hidden", !showAll);
     });
 
-    const buttonId = group === "colors" ? "color-more-btn" : "size-more-btn";
+    const buttonId = group === "colors" ? "color-more-btn" : group === "categories" ? "category-more-btn" : "size-more-btn";
     const button = document.getElementById(buttonId);
     if (!button) return;
 
@@ -2147,9 +2152,9 @@
     state.optionLabels.categories.clear();
     const options = collectCategoryOptions(state.products);
 
-    options.forEach((option) => {
+    options.forEach((option, index) => {
       const label = document.createElement("label");
-      label.className = "filter-option";
+      label.className = "filter-option" + (index >= 8 && !state.showAllCategories ? " is-hidden" : "");
 
       const input = document.createElement("input");
       input.type = "checkbox";
@@ -2165,6 +2170,7 @@
       label.appendChild(text);
       container.appendChild(label);
     });
+    toggleExtraOptions("categories", state.showAllCategories);
   }
 
   function renderSeasonFilters() {
@@ -2483,6 +2489,14 @@
         const removeButton = target.closest(".active-filter-chip-remove");
         if (!removeButton) return;
         removeActiveFilter(removeButton.dataset.group, removeButton.dataset.value);
+      });
+    }
+
+    const categoryMore = document.getElementById("category-more-btn");
+    if (categoryMore) {
+      categoryMore.addEventListener("click", function () {
+        state.showAllCategories = !state.showAllCategories;
+        toggleExtraOptions("categories", state.showAllCategories);
       });
     }
 

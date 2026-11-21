@@ -1381,3 +1381,69 @@
   .romix-product-card .product-tag,
   .romix-product-card .related-products__badge { margin-bottom: 7px; padding: 5px 9px; font-size: 11px; }
 }
+
+/* Catalog reference layout: variants stay below the image; the former
+   hover tray, arrows and touch toggle are intentionally not part of cards. */
+.romix-product-card .product-variant-nav,
+.romix-product-card .product-variant-toggle {
+  display: none !important;
+}
+
+.romix-product-card .product-variant-tray {
+  position: static;
+  display: block;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  visibility: visible;
+}
+
+.romix-product-card,
+.product-card.romix-product-card,
+.home .romix-product-card,
+.related-products__card.romix-product-card {
+  border: 0;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(31, 29, 35, .12);
+}
+
+.romix-product-card .product-thumb,
+.romix-product-card .related-products__image-wrap {
+  width: calc(100% - 24px);
+  margin: 12px 12px 0;
+  border-radius: 20px;
+  aspect-ratio: 4 / 5;
+}
+
+.romix-product-card .product-variant-thumbs,
+.romix-product-card .related-products__thumbs {
+  position: static;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+@media (max-width: 640px) {
+  .romix-product-card,
+  .product-card.romix-product-card,
+  .home .romix-product-card,
+  .related-products__card.romix-product-card { border-radius: 16px; }
+
+  .romix-product-card .product-thumb,
+  .romix-product-card .related-products__image-wrap {
+    width: calc(100% - 14px);
+    margin: 7px 7px 0;
+    border-radius: 16px;
+  }
+
+  .romix-product-card .product-variant-thumbs,
+  .romix-product-card .related-products__thumbs { margin-top: 10px; }
+}

@@ -91,19 +91,6 @@
     setHoverImage(card, media.dataset.hoverSrc || card.dataset.hoverSrc || "", media.getAttribute("aria-label") || "Vista trasera del producto");
   }
 
-  function ensureMediaShell(card) {
-    const media = getMediaElement(card);
-    if (!media) return null;
-    if (media.parentElement && media.parentElement.classList.contains("product-media-shell")) {
-      return media.parentElement;
-    }
-    const shell = document.createElement("div");
-    shell.className = "product-media-shell";
-    media.parentNode.insertBefore(shell, media);
-    shell.appendChild(media);
-    return shell;
-  }
-
   function getButtons(card) {
     return Array.from(card.querySelectorAll(
       ".product-variant-thumb[data-variant-index], .related-products__thumb[data-variant-index]"
@@ -198,155 +185,21 @@
     image.alt = alt;
   }
 
-  function createNavButton(direction, label) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "product-variant-nav product-variant-nav--" + direction;
-    button.setAttribute("aria-label", label);
-    button.innerHTML = direction === "prev" ? "&#8249;" : "&#8250;";
-    return button;
-  }
-
-  function createTouchToggle() {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "product-variant-toggle";
-    button.setAttribute("aria-expanded", "false");
-    button.setAttribute("aria-label", "Mostrar variantes de color");
-    const icon = typeof window.romixIcon === "function"
-      ? window.romixIcon("Palette", { size: "xs" })
-      : "";
-    button.innerHTML = icon + "<span>Colores</span>";
-    return button;
-  }
-
   function bind(card, options) {
     if (!card) return card;
     bindCardNavigation(card);
     bindHoverImage(card);
     if (card.dataset.romixVariantInteraction === "true") return card;
     const buttons = getButtons(card);
-    if (buttons.length <= 1) {
-      const onlyThumbs = card.querySelector(".product-variant-thumbs, .related-products__thumbs");
-      if (onlyThumbs) onlyThumbs.hidden = true;
-      return card;
-    }
-
     const config = options || {};
-    const shell = ensureMediaShell(card);
     const mediaImage = config.image || card.querySelector(".product-thumb img, .related-products__image, .romix-search-product__media img");
     const thumbs = card.querySelector(".product-variant-thumbs, .related-products__thumbs");
-    if (!shell || !thumbs || !mediaImage) return card;
-    const keyboardFocusTarget = card.matches("[tabindex]")
-      ? card
-      : card.querySelector("a[href], button:not([hidden])");
+    if (!thumbs || !mediaImage || !buttons.length) return card;
 
     card.dataset.romixVariantInteraction = "true";
-    card.classList.add("has-variant-preview");
-
-    const tray = document.createElement("div");
-    tray.className = "product-variant-tray";
-    tray.setAttribute("role", "group");
-    tray.setAttribute("aria-label", "Variantes fotográficas");
-    shell.appendChild(tray);
-    tray.appendChild(thumbs);
-
-    const more = tray.querySelector(".product-variant-more, .related-products__more");
-    if (more && more.tagName !== "BUTTON") {
-      const replacement = document.createElement("button");
-      replacement.type = "button";
-      replacement.className = more.className;
-      replacement.textContent = more.textContent;
-      Array.from(more.attributes).forEach((attribute) => {
-        if (attribute.name !== "class") replacement.setAttribute(attribute.name, attribute.value);
-      });
-      more.replaceWith(replacement);
-    }
-    const moreButton = tray.querySelector(".product-variant-more, .related-products__more");
-    if (moreButton) {
-      moreButton.classList.add("product-variant-more");
-      moreButton.setAttribute("aria-expanded", "false");
-      moreButton.type = "button";
-    }
-
     const variantButtons = getButtons(card);
-    const prevButton = createNavButton("prev", "Ver color anterior");
-    const nextButton = createNavButton("next", "Ver color siguiente");
-    shell.appendChild(prevButton);
-    shell.appendChild(nextButton);
-
-    const touchToggle = createTouchToggle();
-    shell.appendChild(touchToggle);
-    const touchToggleLabel = touchToggle.lastElementChild;
-    let suppressToggleClick = false;
-
-    const isTouch = window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    const moreButton = thumbs.querySelector(".product-variant-more, .related-products__more");
     let activeIndex = Number(config.initialIndex) || 0;
-    let expanded = false;
-    let open = false;
-    let suppressNextFocusShow = false;
-
-    function setButtonVisibility() {
-      tray.classList.toggle("is-expanded", expanded);
-      const thumbWidth = variantButtons[0]
-        ? Math.max(1, variantButtons[0].getBoundingClientRect().width)
-        : 42;
-      const styles = window.getComputedStyle(thumbs);
-      const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
-      const available = Math.max(thumbWidth, thumbs.clientWidth || shell.clientWidth || 180);
-      const moreWidth = moreButton ? Math.max(34, moreButton.getBoundingClientRect().width) + gap : 0;
-      const fitCount = Math.max(1, Math.floor((available - moreWidth + gap) / Math.max(1, thumbWidth + gap)));
-      const visibleCount = Math.min(variantButtons.length, fitCount);
-      variantButtons.forEach((button, index) => {
-        const visible = expanded || index < visibleCount;
-        button.hidden = !visible;
-        button.setAttribute("aria-hidden", visible ? "false" : "true");
-        button.tabIndex = visible ? 0 : -1;
-        if (visible && index >= visibleCount) hydrateThumb(button);
-      });
-      if (moreButton) {
-        const remaining = Math.max(0, variantButtons.length - visibleCount);
-        moreButton.hidden = !expanded && remaining === 0;
-        moreButton.textContent = expanded ? "−" : "+" + remaining;
-        moreButton.setAttribute("aria-label", expanded ? "Ocultar variantes adicionales" : "Mostrar " + remaining + " variantes adicionales");
-        moreButton.title = moreButton.getAttribute("aria-label");
-        moreButton.setAttribute("aria-expanded", expanded ? "true" : "false");
-      }
-    }
-
-    function show() {
-      open = true;
-      card.classList.add(isTouch ? "is-touch-open" : "is-variants-visible");
-      touchToggle.setAttribute("aria-expanded", "true");
-      touchToggle.setAttribute("aria-label", "Cerrar variantes de color");
-      if (touchToggleLabel) touchToggleLabel.textContent = "Cerrar";
-      setButtonVisibility();
-    }
-
-    function restoreInitial() {
-      expanded = false;
-      activeIndex = Number(config.initialIndex) || 0;
-      syncActive(variantButtons, activeIndex);
-      const initialButton = variantButtons[activeIndex];
-      setHoverImage(card, initialButton?.dataset.variantHoverSrc || "", initialButton?.getAttribute("aria-label") || "Vista trasera del producto");
-      if (typeof config.restoreInitial === "function") {
-        config.restoreInitial();
-      } else {
-        setGenericImage(mediaImage, variantButtons[activeIndex]);
-      }
-    }
-
-    function hide(restore) {
-      open = false;
-      expanded = false;
-      card.classList.remove("is-touch-open", "is-variants-visible");
-      tray.classList.remove("is-expanded");
-      touchToggle.setAttribute("aria-expanded", "false");
-      touchToggle.setAttribute("aria-label", "Mostrar variantes de color");
-      if (touchToggleLabel) touchToggleLabel.textContent = "Colores";
-      if (restore) restoreInitial();
-      setButtonVisibility();
-    }
 
     function choose(index, event) {
       const button = variantButtons[index];
@@ -362,99 +215,42 @@
         setGenericImage(mediaImage, button);
       }
       setHoverImage(card, button.dataset.variantHoverSrc || "", button.getAttribute("aria-label") || "Vista trasera del producto");
-      if (!open) show();
     }
 
     variantButtons.forEach((button, index) => {
+      const visible = index < 4;
+      button.hidden = !visible;
+      button.setAttribute("aria-hidden", visible ? "false" : "true");
+      button.tabIndex = visible ? 0 : -1;
       button.addEventListener("click", (event) => choose(index, event));
-      button.addEventListener("pointerenter", () => {
-        if (!isTouch) choose(index);
-      });
+      if (visible) hydrateThumb(button);
     });
 
     if (moreButton) {
+      moreButton.type = "button";
+      moreButton.setAttribute("aria-expanded", "false");
       moreButton.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
-        expanded = !expanded;
-        show();
-        if (!expanded) thumbs.scrollLeft = 0;
-        setButtonVisibility();
+        const expanded = moreButton.getAttribute("aria-expanded") === "true";
+        const nextExpanded = !expanded;
+        moreButton.setAttribute("aria-expanded", nextExpanded ? "true" : "false");
+        moreButton.textContent = nextExpanded
+          ? "−"
+          : "+" + Math.max(0, variantButtons.length - 4);
+        moreButton.setAttribute("aria-label", nextExpanded
+          ? "Ocultar variantes adicionales"
+          : "Mostrar variantes adicionales");
+        variantButtons.forEach((button, index) => {
+          const visible = nextExpanded || index < 4;
+          button.hidden = !visible;
+          button.setAttribute("aria-hidden", visible ? "false" : "true");
+          button.tabIndex = visible ? 0 : -1;
+          if (visible) hydrateThumb(button);
+        });
       });
     }
 
-    prevButton.addEventListener("click", (event) => {
-      choose((activeIndex - 1 + variantButtons.length) % variantButtons.length, event);
-    });
-    nextButton.addEventListener("click", (event) => {
-      choose((activeIndex + 1) % variantButtons.length, event);
-    });
-
-    function toggleTouchSelector(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (open) hide(false);
-      else show();
-    }
-
-    touchToggle.addEventListener("click", (event) => {
-      if (suppressToggleClick) {
-        suppressToggleClick = false;
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-      toggleTouchSelector(event);
-    });
-    touchToggle.addEventListener("pointerdown", (event) => {
-      if (event.pointerType === "touch") suppressToggleClick = true;
-    });
-    touchToggle.addEventListener("pointerup", (event) => {
-      if (event.pointerType !== "touch") return;
-      toggleTouchSelector(event);
-    });
-
-    card.addEventListener("pointerenter", () => {
-      if (!isTouch) show();
-    });
-    card.addEventListener("pointerleave", () => {
-      if (!isTouch) hide(true);
-    });
-    card.addEventListener("focusin", (event) => {
-      if (suppressNextFocusShow) {
-        suppressNextFocusShow = false;
-        return;
-      }
-      // On touch devices a tap focuses the card before the pointer gesture
-      // reaches the explicit selector toggle. Do not auto-open from focus or
-      // the same tap would immediately toggle the selector closed again.
-      if (isTouch) return;
-      show();
-    });
-    card.addEventListener("focusout", () => {
-      window.setTimeout(() => {
-        if (!card.contains(document.activeElement) && !isTouch) hide(true);
-      }, 0);
-    });
-    card.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && open) {
-        event.preventDefault();
-        hide(false);
-        suppressNextFocusShow = true;
-        keyboardFocusTarget?.focus({ preventScroll: true });
-        return;
-      }
-      if (!open || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
-      event.preventDefault();
-      choose((activeIndex + (event.key === "ArrowRight" ? 1 : -1) + variantButtons.length) % variantButtons.length, event);
-    });
-
-    const resizeObserver = typeof ResizeObserver === "function"
-      ? new ResizeObserver(() => setButtonVisibility())
-      : null;
-    resizeObserver?.observe(shell);
-    window.addEventListener("resize", setButtonVisibility, { passive: true });
-    setButtonVisibility();
     return card;
   }
 

@@ -1835,8 +1835,15 @@ body:has(#root) .cta { min-height: 50px; border-radius: var(--romix-radius); }
   white-space: nowrap;
 }
 
-.romix-price-display--sale .romix-price-current { color: #e5242a; }
-.romix-price-display--sale .romix-discount-pill { background: #e5242a; }
+/* Sale presentation: the previous price stays visibly crossed out while the
+   current amount and discount badge use the offer red. Normal products keep
+   the existing neutral price treatment. */
+.romix-price-display--sale .romix-price-current {
+  color: #e5242a;
+}
+.romix-price-display--sale .romix-discount-pill {
+  background: #e5242a;
+}
 
 .romix-price-before {
   text-decoration: none;
@@ -7918,6 +7925,13 @@ header.romix-shared-header .cart-pill__text { display: none; }
   line-height: 1.35;
 }
 
+.romix-product-card .romix-price-display--sale .romix-price-current {
+  color: #e5242a;
+}
+.romix-product-card .romix-price-display--sale .romix-discount-pill {
+  background: #e5242a;
+}
+
 .romix-product-card .product-variant-thumbs,
 .romix-product-card .related-products__thumbs {
   order: 3;
@@ -8152,8 +8166,9 @@ header.romix-shared-header .cart-pill__text { display: none; }
   text-decoration: line-through;
 }
 
-/* Match the offer treatment used by catalog cards while keeping the home
-   carousel compact and preserving every size-price note. */
+/* Keep an offer card compact and scanable: previous price, current price and
+   the discount badge share one line when space allows; size-price notes stay
+   on their own full-width line. */
 .romix-product-card .romix-price-display--sale {
   display: flex;
   flex-flow: row wrap;
@@ -8173,4 +8188,113 @@ header.romix-shared-header .cart-pill__text { display: none; }
 .romix-product-card .romix-price-display--sale .romix-price-range-note {
   order: 3;
   flex-basis: 100%;
+}
+
+/* Shared editorial card layout for new, best-selling and offer products. */
+.romix-product-card {
+  overflow: hidden;
+  border: 0;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(31, 29, 35, .12);
+}
+.romix-product-card .product-thumb {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+  background: #f4f1f2;
+}
+.romix-product-card .product-thumb img,
+.romix-product-card .product-thumb picture {
+  width: 100%;
+  height: 100%;
+}
+.romix-product-card .product-thumb img { object-fit: cover; object-position: center; }
+.romix-product-card .product-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 22px 20px;
+}
+.romix-product-card .product-variant-thumbs {
+  order: 1;
+  margin: 16px 0 12px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+.romix-product-card .product-badge {
+  position: static;
+  order: 2;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 32px;
+  margin: 0 0 10px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  color: #111217;
+  background: #fde7f2;
+  box-shadow: none;
+  font-size: clamp(11px, 1vw, 15px);
+  text-transform: none;
+}
+.romix-product-card .product-badge__icon,
+.romix-product-card .product-badge .romix-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 7px;
+  color: var(--romix-pink-readable, #e6007e);
+  flex: 0 0 18px;
+}
+.romix-product-card .product-name {
+  order: 3;
+  min-height: 0;
+  margin: 0 0 8px;
+  color: #111217;
+  font-size: clamp(15px, 1.4vw, 22px);
+  font-weight: 750;
+  line-height: 1.2;
+}
+.romix-product-card .price-row {
+  order: 4;
+  margin: 0;
+  padding: 0 0 12px;
+  border-bottom: 1px solid #dedde2;
+}
+.romix-product-card .romix-price-current,
+.romix-product-card .product-price { color: var(--romix-pink-readable, #e6007e); }
+.romix-product-card .romix-price-prefix {
+  color: #666b73;
+  font-size: clamp(15px, 1.2vw, 20px);
+  font-weight: 600;
+}
+.romix-product-card .romix-price-range-note {
+  margin: 4px 0 0;
+  padding: 0;
+  border: 0;
+  color: #626873;
+  font-size: clamp(10px, .9vw, 14px);
+  line-height: 1.35;
+}
+.romix-product-card .product-color-count {
+  order: 5;
+  margin: 12px 0 0;
+  color: #545a63;
+  font-size: clamp(12px, 1vw, 16px);
+  font-weight: 600;
+}
+.romix-product-card .catalog-cta,
+.romix-product-card .product-cta { order: 6; margin-top: 14px; }
+
+@media (max-width: 640px) {
+  .romix-product-card { border-radius: 14px; }
+  .romix-product-card .product-thumb { border-radius: 14px 14px 0 0; }
+  .romix-product-card .product-body { padding: 0 10px 14px; }
+  .romix-product-card .product-variant-thumbs { margin: 10px 0 8px; gap: 5px; }
+  .romix-product-card .product-badge { min-height: 27px; margin-bottom: 7px; padding: 5px 9px; font-size: 11px; }
+  .romix-product-card .product-badge .romix-icon { width: 15px; height: 15px; flex-basis: 15px; margin-right: 5px; }
+  .romix-product-card .product-name { font-size: 14px; }
+  .romix-product-card .romix-price-current,
+  .romix-product-card .product-price { font-size: 19px; }
+  .romix-product-card .romix-price-prefix { font-size: 11px; }
 }

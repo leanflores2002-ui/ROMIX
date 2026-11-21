@@ -24,6 +24,16 @@ function uniqueColorEntries(colors) {
   });
 }
 
+function badgePresentation(value) {
+  const label = String(value || '').trim();
+  const normalized = normalizeColorKey(label);
+  if (!label) return {label: '', icon: ''};
+  if (normalized.includes('vendido')) return {label: 'Lo más vendido', icon: 'Star'};
+  if (normalized.includes('nuevo') || normalized.includes('novedad')) return {label: 'Nuevo', icon: 'Sparkles'};
+  if (normalized.includes('oferta')) return {label: 'Oferta', icon: 'Tag'};
+  return {label, icon: ''};
+}
+
 function renderCategory(category, catalogHtml, products, origin) {
   const list = publicProducts(products, category.key);
   const cards = renderCards(list);
@@ -96,7 +106,7 @@ function renderCards(list) {
     const colorCountMarkup = colorCount > 0
       ? `<p class="product-color-count"><span data-romix-icon="Palette" data-romix-icon-size="sm" aria-hidden="true"></span><span>${colorCount}${colorCount === 1 ? ' color disponible' : ' colores disponibles'}</span></p>`
       : '';
-    const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
+    const badge = badgePresentation(product.badge || product.featuredBadge);
     const originalPrice = Number(product.originalPrice);
     const currentPrice = uniquePrices[0] || Number(product.price || 0);
     const isOnSale = Number.isFinite(originalPrice) && originalPrice > currentPrice && currentPrice > 0;
@@ -111,11 +121,15 @@ function renderCards(list) {
     const fields = {
       DETAIL: detailHref(product, productSlug(product)),
       NAME: product.name, IMAGE: image, PRICE_DISPLAY: priceDisplay,
-      BADGE: badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '',
+      BADGE_BODY: badge.label
+        ? '<span class="product-badge product-badge--' + normalizeColorKey(badge.label).replace(/[^a-z0-9]+/g, '-') + '">' +
+          (badge.icon ? '<span class="product-badge__icon" data-romix-icon="' + badge.icon + '" data-romix-icon-size="sm" aria-hidden="true"></span>' : '') +
+          '<span>' + escapeHtml(badge.label) + '</span></span>'
+        : '',
       VARIANTS: variants || more ? '<div class="product-variant-thumbs" aria-label="Variantes fotográficas">' + variants + more + '</div>' : '',
       COLOR_COUNT: colorCountMarkup
     };
-    return cardTemplate.replace(/%%([A-Z_]+)%%/g, (_, key) => ['BADGE', 'VARIANTS', 'PRICE_DISPLAY', 'COLOR_COUNT'].includes(key) ? fields[key] : escapeHtml(fields[key] || ''));
+    return cardTemplate.replace(/%%([A-Z_]+)%%/g, (_, key) => ['BADGE_BODY', 'VARIANTS', 'PRICE_DISPLAY', 'COLOR_COUNT'].includes(key) ? fields[key] : escapeHtml(fields[key] || ''));
   }).join('\n');
 }
 function renderCatalog(html) {

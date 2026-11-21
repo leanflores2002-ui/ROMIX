@@ -413,6 +413,16 @@
       return labels.some((label) => label === "nuevo" || label.includes("nuevo"));
     }
 
+    function getBadgePresentation(value) {
+      const label = String(value || "").trim();
+      const normalized = normalizeText(label);
+      if (!label) return { label: "", icon: "" };
+      if (normalized.includes("vendido")) return { label: "Lo más vendido", icon: "Star" };
+      if (normalized.includes("nuevo") || normalized.includes("novedad")) return { label: "Nuevo", icon: "Sparkles" };
+      if (normalized.includes("oferta")) return { label: "Oferta", icon: "Tag" };
+      return { label, icon: "" };
+    }
+
     function getNovedadesSource(products) {
       const source = Array.isArray(products) ? products : [];
       const novedades = source.filter((item) => isNewProduct(item) && !isOfferProduct(item));
@@ -528,13 +538,7 @@
         thumbLink.dataset.hoverSrc = variantsData[0]?.hoverSrc || (typeof imageUtils.getProductHoverImage === "function"
           ? imageUtils.getProductHoverImage(product, null)
           : "");
-        const badgeLabel = String(product && (product.badge || product.featuredBadge) || "").trim();
-        if (badgeLabel) {
-          const badge = document.createElement("span");
-          badge.className = "product-badge";
-          badge.textContent = badgeLabel;
-          thumbLink.appendChild(badge);
-        }
+        const badgeInfo = getBadgePresentation(product && (product.badge || product.featuredBadge));
         const media = typeof imageUtils.createPicture === "function"
           ? imageUtils.createPicture({
               src: defaultThumbSet.src,
@@ -736,6 +740,16 @@
           if (initial) setImg(initial, initial.name);
         }
 
+        if (thumbs) body.appendChild(thumbs);
+        if (badgeInfo.label) {
+          const badge = document.createElement("span");
+          badge.className = "product-badge product-badge--" + normalizeText(badgeInfo.label).replace(/[^a-z0-9]+/g, "-");
+          badge.innerHTML = (badgeInfo.icon && typeof window.romixIcon === "function"
+            ? window.romixIcon(badgeInfo.icon, { size: "sm" })
+            : "") + "<span>" + badgeInfo.label + "</span>";
+          body.appendChild(badge);
+        }
+
         const nameEl = document.createElement("a");
         nameEl.className = "product-name";
         nameEl.href = href;
@@ -767,8 +781,6 @@
             "</span>";
           body.appendChild(colorCount);
         }
-        if (thumbs) body.appendChild(thumbs);
-
         if (stockInfo.label !== "Consultar disponibilidad") {
           const stock = document.createElement("p");
           stock.className = "stock-note " + stockInfo.cssClass;

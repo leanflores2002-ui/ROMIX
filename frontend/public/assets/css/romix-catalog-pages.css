@@ -306,7 +306,7 @@ body[data-catalog-scope] select { font: inherit; }
   border-radius: var(--romix-radius);
 }
 
-.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--romix-space-4); align-items: stretch; }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
 .product-card {
   display: flex; min-width: 0; height: 100%; overflow: hidden; flex-direction: column;
   border: 0; border-radius: var(--romix-radius);
@@ -558,7 +558,7 @@ body[data-catalog-scope] select { font: inherit; }
   .products-top { min-height: 32px; margin-bottom: 10px; }
   .products-summary { font-size: var(--romix-text-sm); }
   .filters-open-btn { display: none; }
-  .grid { gap: 10px 8px; }
+  .grid { gap: 8px 6px; }
   .product-card { border-radius: var(--romix-radius); box-shadow: none; }
   .product-body { gap: var(--romix-space-2); padding: 12px; }
   .product-name { font-size: 14px; }

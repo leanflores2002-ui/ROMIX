@@ -1,8 +1,8 @@
 :root {
   --page-gutter: clamp(16px, 4vw, 32px);
-  --card-gap: clamp(20px, 2.8vw, 36px);
-  --card-gap-tablet: 20px;
-  --card-gap-mobile: 16px;
+  --card-gap: clamp(12px, 1.4vw, 18px);
+  --card-gap-tablet: 12px;
+  --card-gap-mobile: 8px;
 }
 
 *,

@@ -1410,9 +1410,9 @@
 .home .romix-product-card,
 .related-products__card.romix-product-card {
   border: 0;
-  border-radius: 20px;
+  border-radius: 0;
   background: #fff;
-  box-shadow: 0 4px 16px rgba(31, 29, 35, .12);
+  box-shadow: none;
 }
 
 .romix-product-card .product-thumb,
@@ -1435,7 +1435,7 @@
   .romix-product-card,
   .product-card.romix-product-card,
   .home .romix-product-card,
-  .related-products__card.romix-product-card { border-radius: 16px; }
+  .related-products__card.romix-product-card { border-radius: 0; }
 
   .romix-product-card .product-thumb,
   .romix-product-card .related-products__image-wrap {

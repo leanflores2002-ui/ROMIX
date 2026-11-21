@@ -394,7 +394,7 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
 
 /* Real products keep their names, prices, availability and photographic variants. */
 .home .products-shell { position: relative; }
-.home .products-row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 54px) / 4); gap: 18px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; padding: 0 0 10px; scroll-padding-inline: 8px; }
+.home .products-row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 42px) / 4); gap: 14px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; padding: 0 0 10px; scroll-padding-inline: 8px; }
 .home .products-section--offers { margin-top: 12px; }
 .home .products-row::-webkit-scrollbar { height: 8px; }
 .home .products-row::-webkit-scrollbar-thumb { border-radius: 999px; background: var(--romix-pink-readable); }
@@ -523,7 +523,7 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
   .home .campaign-hero h2 { font-size: 64px; }
   .home .campaign-hero p { max-width: 310px; font-size: 18px; }
   .home .product-name { font-size: 13px; }
-  .home .products-row { gap: 12px; grid-auto-columns: calc((100% - 36px) / 4); }
+  .home .products-row { gap: 10px; grid-auto-columns: calc((100% - 30px) / 4); }
   .home .why-item { padding: 20px 12px; }
   .home .trust-item { padding: 20px 14px; }
   .home .editorial-card { min-height: 0; aspect-ratio: 3 / 2; }
@@ -544,7 +544,7 @@ h1, h2, .sec-title, .catalog-heading, .cart-title, .product-title {
   .home #ofertas-titulo { white-space: nowrap; }
   .home #ofertas-reales-titulo { white-space: normal; font-size: clamp(22px, 6vw, 30px); }
   .home .section-link { min-height: 44px; font-size: 12px; }
-  .home .products-row { grid-auto-flow: column; grid-auto-columns: calc((100% - 12px) / 2); grid-template-columns: none; gap: 12px; overflow-x: auto; overflow-y: hidden; padding-bottom: 10px; scroll-snap-type: x mandatory; }
+  .home .products-row { grid-auto-flow: column; grid-auto-columns: calc((100% - 8px) / 2); grid-template-columns: none; gap: 8px; overflow-x: auto; overflow-y: hidden; padding-bottom: 10px; scroll-snap-type: x mandatory; }
   .home .product-body { padding: 10px 0 0; gap: 7px; }
   .home .product-badge {
     top: 8px;
@@ -8389,9 +8389,9 @@ header.romix-shared-header .cart-pill__text { display: none; }
 .home .romix-product-card,
 .related-products__card.romix-product-card {
   border: 0;
-  border-radius: 20px;
+  border-radius: 0;
   background: #fff;
-  box-shadow: 0 4px 16px rgba(31, 29, 35, .12);
+  box-shadow: none;
 }
 
 .romix-product-card .product-thumb,
@@ -8414,7 +8414,7 @@ header.romix-shared-header .cart-pill__text { display: none; }
   .romix-product-card,
   .product-card.romix-product-card,
   .home .romix-product-card,
-  .related-products__card.romix-product-card { border-radius: 16px; }
+  .related-products__card.romix-product-card { border-radius: 0; }
 
   .romix-product-card .product-thumb,
   .romix-product-card .related-products__image-wrap {

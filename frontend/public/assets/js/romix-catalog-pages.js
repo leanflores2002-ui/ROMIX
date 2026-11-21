@@ -174,7 +174,7 @@
 
   function applyDesktopFiltersState(hidden, options) {
     const settings = options || {};
-    const nextHidden = false;
+    const nextHidden = Boolean(hidden);
     const sidebar = document.getElementById("filters-sidebar");
     const toggle = document.getElementById("toggle-filters");
     const focusInsideSidebar = sidebar && sidebar.contains(document.activeElement);
@@ -1234,8 +1234,7 @@
     const target = document.getElementById("products-summary");
     if (!target) return;
 
-    const visible = Math.min(state.visibleCount, state.view.length);
-    target.innerHTML = "Mostrando <strong>" + visible + "</strong> de <strong>" + state.view.length + "</strong> productos";
+    target.innerHTML = "<strong>" + state.view.length + "</strong> resultados";
   }
 
   function ensureLoadMoreControls() {
@@ -1336,7 +1335,11 @@
       mobileTrigger.innerHTML = triggerMarkup;
     }
 
-    if (heading.nextSibling !== mobileTrigger) {
+    const headingRow = heading.closest(".catalog-title-row");
+    const header = heading.closest(".catalog-header");
+    if (headingRow && header && headingRow.nextSibling !== mobileTrigger) {
+      header.insertBefore(mobileTrigger, headingRow.nextSibling);
+    } else if (!headingRow && heading.nextSibling !== mobileTrigger) {
       heading.parentNode.insertBefore(mobileTrigger, heading.nextSibling);
     }
   }
@@ -1370,7 +1373,9 @@
       breadcrumb.id = "catalog-breadcrumb";
       breadcrumb.className = "catalog-breadcrumb";
       breadcrumb.setAttribute("aria-label", "Breadcrumb");
-      main.insertBefore(breadcrumb, heading);
+      const slot = main.querySelector(".catalog-breadcrumb-slot");
+      if (slot) slot.appendChild(breadcrumb);
+      else main.insertBefore(breadcrumb, heading);
     }
 
     const backHref = state.scope === "catalogo" ? "index.html" : "catalogo.html";
@@ -2420,8 +2425,14 @@
     const config = PAGE_CONFIG[state.scope] || PAGE_CONFIG.catalogo;
     const title = document.getElementById("page-title");
     const isOfferView = hasInitialQueryFlag("sale", "1") || normalizeText(readInitialSearchQuery()) === "oferta";
+    const cleanTitle = function (value) {
+      return String(value || "")
+        .replace(/\s+ROMIX\s*$/i, "")
+        .replace(/\s+(?:\(\s*\d+\s*\)|\d+)\s*$/i, "")
+        .trim();
+    };
     const pageTitle = document.body.dataset.categoryPage
-      ? (title?.textContent || config.title)
+      ? cleanTitle(title?.textContent || config.title)
       : (state.scope === "novedades"
         ? "Novedades"
         : (isOfferView
@@ -2434,7 +2445,9 @@
     if (!intro && title) {
       intro = document.createElement("p");
       intro.className = "catalog-intro";
-      title.insertAdjacentElement("afterend", intro);
+      const header = title.closest(".catalog-header");
+      if (header) header.insertAdjacentElement("afterend", intro);
+      else title.insertAdjacentElement("afterend", intro);
     }
     if (intro && !document.body.dataset.categoryPage) {
       intro.textContent = state.scope === "novedades"

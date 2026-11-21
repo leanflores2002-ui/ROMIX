@@ -235,14 +235,10 @@
     if (sizeSelect) sizeSelect.addEventListener("change", updatePreview);
     updatePreview();
 
-    const action = colors.length && sizes.length && window.romixCart && typeof window.romixCart.addToCart === "function"
-      ? document.createElement("button")
-      : document.createElement("a");
-    action.className = "romix-cart-drawer-recommendation__action romix-btn romix-btn--primary";
-    if (action.tagName === "A") {
-      action.href = href;
-      action.textContent = "Ver producto";
-    } else {
+    const canAddToCart = colors.length && sizes.length && window.romixCart && typeof window.romixCart.addToCart === "function";
+    if (canAddToCart) {
+      const action = document.createElement("button");
+      action.className = "romix-cart-drawer-recommendation__action romix-btn romix-btn--primary";
       action.type = "button";
       action.innerHTML = iconMarkup("ShoppingBag", { size: "xs" }) + "<span>Agregar al carrito</span>";
       action.addEventListener("click", (event) => {
@@ -266,8 +262,8 @@
           image: variant.mainSrc || variant.src,
         });
       });
+      content.appendChild(action);
     }
-    content.appendChild(action);
     card.append(mediaLink, content);
     return card;
   }
@@ -482,12 +478,6 @@
         + `<span>${colors.length}${colors.length === 1 ? " color disponible" : " colores disponibles"}</span>`;
       body.appendChild(colorCount);
     }
-
-    const cta = document.createElement("a");
-    cta.className = "product-cta romix-btn romix-btn--primary romix-btn--sm";
-    cta.href = href;
-    cta.innerHTML = iconMarkup("ShoppingBag", { size: "sm" }) + "<span>Ver producto</span>";
-    body.appendChild(cta);
 
     card.append(thumb, body);
     return card;

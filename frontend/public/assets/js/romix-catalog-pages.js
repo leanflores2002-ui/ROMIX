@@ -1817,12 +1817,6 @@
         body.appendChild(stock);
       }
 
-      const detailsLink = document.createElement("a");
-      detailsLink.className = "catalog-cta romix-btn romix-btn--primary romix-btn--sm";
-      detailsLink.href = productDetailUrl;
-      detailsLink.innerHTML = iconMarkup("ShoppingBag", { size: "sm" }) + "<span>Ver producto</span>";
-      body.appendChild(detailsLink);
-
       card.appendChild(thumb);
       card.appendChild(body);
       if (window.romixProductCard && typeof window.romixProductCard.bind === "function") {

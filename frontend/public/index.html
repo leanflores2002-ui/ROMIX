@@ -911,12 +911,6 @@
           body.appendChild(stock);
         }
 
-        const cta = document.createElement("a");
-        cta.className = "product-cta romix-btn romix-btn--primary romix-btn--sm";
-        cta.href = href;
-        cta.innerHTML = window.romixIcon("ShoppingBag", { size: "sm" }) + "<span>Ver producto</span>";
-        body.appendChild(cta);
-
         card.appendChild(thumbLink);
         card.appendChild(body);
         if (window.romixProductCard && typeof window.romixProductCard.bind === "function") {

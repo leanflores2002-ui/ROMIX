@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=36">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=24" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=31" />
-  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=12" />
+  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=13" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/romix-analytics.js?v=3"></script>
@@ -3035,11 +3035,6 @@
             '</span>';
           content.appendChild(colorCount);
         }
-        const cta = document.createElement('a');
-        cta.className = 'related-products__cta romix-btn romix-btn--primary romix-btn--sm';
-        cta.href = href;
-        cta.innerHTML = window.romixIcon("ShoppingBag", { size: "sm" }) + '<span>Ver producto</span>';
-        content.appendChild(cta);
         card.appendChild(imageLink);
         card.appendChild(content);
 

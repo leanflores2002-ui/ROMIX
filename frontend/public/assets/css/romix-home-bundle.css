@@ -8398,7 +8398,7 @@ header.romix-shared-header .cart-pill__text { display: none; }
 .romix-product-card .related-products__image-wrap {
   width: calc(100% - 24px);
   margin: 12px 12px 0;
-  border-radius: 20px;
+  border-radius: 0;
   aspect-ratio: 4 / 5;
 }
 
@@ -8420,7 +8420,7 @@ header.romix-shared-header .cart-pill__text { display: none; }
   .romix-product-card .related-products__image-wrap {
     width: calc(100% - 14px);
     margin: 7px 7px 0;
-    border-radius: 16px;
+    border-radius: 0;
   }
 
   .romix-product-card .product-variant-thumbs,

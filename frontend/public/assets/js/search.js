@@ -475,7 +475,6 @@
           (badgeInfo.icon && typeof window.romixIcon === 'function' ? window.romixIcon(badgeInfo.icon, { size: 'sm' }) : '') +
           '<span>' + escapeHtml(badgeInfo.label) + '</span></span>'
       : '';
-    const bagIcon = typeof window.romixIcon === "function" ? window.romixIcon("ShoppingBag", { size: "sm" }) : '';
     const hoverImage = typeof window.romixImageUtils?.getProductHoverImage === "function"
       ? window.romixImageUtils.getProductHoverImage(product, colors[0])
       : "";
@@ -491,7 +490,6 @@
           '<a class="product-name" href="' + escapeHtml(href) + '">' + escapeHtml(product.name) + '</a>' +
           '<div class="price-row">' + priceMarkup + '</div>' +
           colorCount +
-          '<a class="catalog-cta romix-btn romix-btn--primary romix-btn--sm" href="' + escapeHtml(href) + '">' + bagIcon + '<span>Ver producto</span></a>' +
         '</div>' +
       '</article>';
   }

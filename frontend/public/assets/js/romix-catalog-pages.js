@@ -1177,6 +1177,15 @@
     return Array.from(values).sort((a, b) => a.localeCompare(b, "es", { numeric: true }));
   }
 
+  function appendFilterCount(label, count) {
+    if (!label || !Number.isFinite(Number(count))) return;
+    const countNode = document.createElement("span");
+    countNode.className = "filter-option-count";
+    countNode.textContent = "(" + Number(count) + ")";
+    countNode.setAttribute("aria-label", Number(count) + " productos");
+    label.appendChild(countNode);
+  }
+
   function collectCategoryOptions(list) {
     const predefinedOrder = new Map(CATEGORY_OPTIONS.map((entry, index) => [entry.key, index]));
     const predefinedLabels = new Map(CATEGORY_OPTIONS.map((entry) => [entry.key, entry.label]));
@@ -2211,7 +2220,13 @@
     if (minInput) minInput.value = state.priceMin;
     if (maxInput) maxInput.value = state.priceMax;
     const saleInput = document.querySelector('.filters-sidebar input[data-group="sale"]');
-    if (saleInput) saleInput.checked = state.selected.sale.has("1");
+    if (saleInput) {
+      saleInput.checked = state.selected.sale.has("1");
+      const saleLabel = saleInput.closest(".filter-option");
+      if (saleLabel && !saleLabel.querySelector(".filter-option-count")) {
+        appendFilterCount(saleLabel, state.products.filter(isProductOffer).length);
+      }
+    }
     if (error) error.hidden = true;
   }
 
@@ -2239,6 +2254,7 @@
 
       label.appendChild(input);
       label.appendChild(text);
+      appendFilterCount(label, option.count);
       container.appendChild(label);
     });
     toggleExtraOptions("categories", state.showAllCategories);
@@ -2252,6 +2268,7 @@
     state.optionLabels.seasons.clear();
 
     SEASON_OPTIONS.forEach((option) => {
+      const count = state.products.filter((product) => product.seasonKey === option.key).length;
       const label = document.createElement("label");
       label.className = "filter-option";
 
@@ -2267,6 +2284,7 @@
 
       label.appendChild(input);
       label.appendChild(text);
+      appendFilterCount(label, count);
       container.appendChild(label);
     });
   }

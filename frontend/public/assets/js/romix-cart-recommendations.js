@@ -26,6 +26,16 @@
   const getImageUtils = () => window.romixImageUtils || {};
   const getPricing = () => window.romixPricing || {};
 
+  function badgePresentation(value) {
+    const label = String(value || "").trim();
+    const normalized = normalize(label);
+    if (!label) return { label: "", icon: "" };
+    if (normalized.includes("vendido")) return { label: "Lo más vendido", icon: "Star" };
+    if (normalized.includes("nuevo") || normalized.includes("novedad")) return { label: "Nuevo", icon: "Sparkles" };
+    if (normalized.includes("oferta")) return { label: "Oferta", icon: "Tag" };
+    return { label, icon: "" };
+  }
+
   function normalize(value) {
     const raw = String(value == null ? "" : value).trim();
     try {
@@ -415,16 +425,33 @@
     thumb.className = "product-thumb";
     thumb.dataset.hoverSrc = firstColor?.hoverSrc || "";
     thumb.appendChild(createPictureImage(product, firstColor, index));
-    const badgeLabel = String(product.badge || product.featuredBadge || "").trim();
-    if (badgeLabel) {
-      const badge = document.createElement("span");
-      badge.className = "product-tag";
-      badge.textContent = badgeLabel;
-      thumb.appendChild(badge);
-    }
-
     const body = document.createElement("div");
     body.className = "product-body";
+
+    if (variants.length > 1) {
+      const thumbs = document.createElement("div");
+      thumbs.className = "product-variant-thumbs";
+      thumbs.setAttribute("aria-label", `Variantes de color de ${product.name}`);
+      variants.forEach((variant, variantIndex) => thumbs.appendChild(createVariantThumb(variant, product, variantIndex)));
+      if (variants.length > 4) {
+        const more = document.createElement("button");
+        more.type = "button";
+        more.className = "product-variant-more";
+        more.textContent = `+${variants.length - 4}`;
+        more.setAttribute("aria-expanded", "false");
+        more.setAttribute("aria-label", `Mostrar ${variants.length - 4} variantes adicionales de ${product.name}`);
+        thumbs.appendChild(more);
+      }
+      body.appendChild(thumbs);
+    }
+
+    const badgeInfo = badgePresentation(product.badge || product.featuredBadge);
+    if (badgeInfo.label) {
+      const badge = document.createElement("span");
+      badge.className = "product-badge product-badge--" + key(badgeInfo.label);
+      badge.innerHTML = (badgeInfo.icon ? iconMarkup(badgeInfo.icon, { size: "sm" }) : "") + `<span>${badgeInfo.label}</span>`;
+      body.appendChild(badge);
+    }
 
     const name = document.createElement("a");
     name.className = "product-name";
@@ -454,23 +481,6 @@
       colorCount.innerHTML = iconMarkup("Palette", { size: "sm" })
         + `<span>${colors.length}${colors.length === 1 ? " color disponible" : " colores disponibles"}</span>`;
       body.appendChild(colorCount);
-    }
-
-    if (variants.length > 1) {
-      const thumbs = document.createElement("div");
-      thumbs.className = "product-variant-thumbs";
-      thumbs.setAttribute("aria-label", `Variantes de color de ${product.name}`);
-      variants.forEach((variant, variantIndex) => thumbs.appendChild(createVariantThumb(variant, product, variantIndex)));
-      if (variants.length > 4) {
-        const more = document.createElement("button");
-        more.type = "button";
-        more.className = "product-variant-more";
-        more.textContent = `+${variants.length - 4}`;
-        more.setAttribute("aria-expanded", "false");
-        more.setAttribute("aria-label", `Mostrar ${variants.length - 4} variantes adicionales de ${product.name}`);
-        thumbs.appendChild(more);
-      }
-      body.appendChild(thumbs);
     }
 
     const cta = document.createElement("a");

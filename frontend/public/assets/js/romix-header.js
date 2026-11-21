@@ -956,7 +956,7 @@
 
     return new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/js/search.js?v=14";
+      script.src = "assets/js/search.js?v=15";
       script.async = false;
       script.dataset.romixSearch = "1";
       script.addEventListener("load", function () {

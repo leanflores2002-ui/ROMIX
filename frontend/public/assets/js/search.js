@@ -450,7 +450,7 @@
       '</button>';
     }).join("");
     const variants = variantButtons
-      ? '<div class="product-variant-thumbs" aria-label="Miniaturas de variantes">' + variantButtons + (colors.length > 1
+      ? '<div class="product-variant-thumbs" aria-label="Miniaturas de variantes">' + variantButtons + (colors.length > 4
           ? '<button type="button" class="product-variant-more" aria-expanded="false" aria-label="Hay ' + Math.max(0, colors.length - 4) + ' variantes adicionales">+' + Math.max(0, colors.length - 4) + '</button>'
           : '') + '</div>'
       : '';
@@ -462,7 +462,19 @@
         '</p>'
       : '';
     const badgeLabel = String(product.badge || product.featuredBadge || '').trim();
-    const badge = badgeLabel ? '<span class="product-tag">' + escapeHtml(badgeLabel) + '</span>' : '';
+    const normalizedBadge = norm(badgeLabel);
+    const badgeInfo = normalizedBadge.includes('vendido')
+      ? { label: 'Lo más vendido', icon: 'Star' }
+      : (normalizedBadge.includes('nuevo') || normalizedBadge.includes('novedad'))
+        ? { label: 'Nuevo', icon: 'Sparkles' }
+        : normalizedBadge.includes('oferta')
+          ? { label: 'Oferta', icon: 'Tag' }
+          : { label: badgeLabel, icon: '' };
+    const badge = badgeInfo.label
+      ? '<span class="product-badge product-badge--' + escapeHtml(norm(badgeInfo.label).replace(/[^a-z0-9]+/g, '-')) + '">' +
+          (badgeInfo.icon && typeof window.romixIcon === 'function' ? window.romixIcon(badgeInfo.icon, { size: 'sm' }) : '') +
+          '<span>' + escapeHtml(badgeInfo.label) + '</span></span>'
+      : '';
     const bagIcon = typeof window.romixIcon === "function" ? window.romixIcon("ShoppingBag", { size: "sm" }) : '';
     const hoverImage = typeof window.romixImageUtils?.getProductHoverImage === "function"
       ? window.romixImageUtils.getProductHoverImage(product, colors[0])
@@ -472,13 +484,13 @@
       '<article class="romix-search-product romix-product-card">' +
         '<a class="product-thumb romix-search-product__media" data-hover-src="' + escapeHtml(hoverImage) + '" href="' + escapeHtml(href) + '">' +
           '<img src="' + escapeHtml(image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy" decoding="async" />' +
-          badge +
         '</a>' +
         '<div class="product-body romix-search-product__body">' +
+          variants +
+          badge +
           '<a class="product-name" href="' + escapeHtml(href) + '">' + escapeHtml(product.name) + '</a>' +
           '<div class="price-row">' + priceMarkup + '</div>' +
           colorCount +
-          variants +
           '<a class="catalog-cta romix-btn romix-btn--primary romix-btn--sm" href="' + escapeHtml(href) + '">' + bagIcon + '<span>Ver producto</span></a>' +
         '</div>' +
       '</article>';

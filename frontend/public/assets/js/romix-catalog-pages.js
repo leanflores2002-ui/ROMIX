@@ -1065,6 +1065,16 @@
     return badge === "oferta" || badge.includes("oferta") || (Number(product.originalPrice) > Number(product.price));
   }
 
+  function badgePresentation(value) {
+    const label = String(value || "").trim();
+    const normalized = normalizeText(label);
+    if (!label) return { label: "", icon: "" };
+    if (normalized.includes("vendido")) return { label: "Lo más vendido", icon: "Star" };
+    if (normalized.includes("nuevo") || normalized.includes("novedad")) return { label: "Nuevo", icon: "Sparkles" };
+    if (normalized.includes("oferta")) return { label: "Oferta", icon: "Tag" };
+    return { label, icon: "" };
+  }
+
   async function loadProducts() {
     if (window.romixProductsStore && typeof window.romixProductsStore.load === "function") {
       const data = await window.romixProductsStore.load();
@@ -1666,14 +1676,6 @@
         console.warn("No se pudo cargar la imagen del producto", product.id, error);
       });
 
-      const badgeLabel = product.badge || product.featuredBadge;
-      if (badgeLabel) {
-        const tag = document.createElement("span");
-        tag.className = "product-tag";
-        tag.textContent = badgeLabel;
-        thumb.appendChild(tag);
-      }
-
       const body = document.createElement("div");
       body.className = "product-body";
 
@@ -1749,7 +1751,7 @@
           variantControls.push(button);
         });
 
-        if (product.colors.length > 1) {
+        if (product.colors.length > 4) {
           const more = document.createElement("button");
           more.type = "button";
           more.className = "product-variant-more variant-more";
@@ -1758,6 +1760,18 @@
           more.setAttribute("aria-expanded", "false");
           thumbs.appendChild(more);
         }
+      }
+
+      if (thumbs) body.appendChild(thumbs);
+
+      const badgeInfo = badgePresentation(product.badge || product.featuredBadge);
+      if (badgeInfo.label) {
+        const badge = document.createElement("span");
+        badge.className = "product-badge product-badge--" + normalizeText(badgeInfo.label).replace(/[^a-z0-9]+/g, "-");
+        badge.innerHTML = (badgeInfo.icon && typeof window.romixIcon === "function"
+          ? window.romixIcon(badgeInfo.icon, { size: "sm" })
+          : "") + "<span>" + badgeInfo.label + "</span>";
+        body.appendChild(badge);
       }
 
       const name = document.createElement("a");
@@ -1794,8 +1808,6 @@
           "</span>";
         body.appendChild(colorCount);
       }
-
-      if (thumbs) body.appendChild(thumbs);
 
       const stockInfo = STOCK_META[product.stockStatus] || STOCK_META.unknown;
       if (stockInfo.label !== "Consultar disponibilidad") {

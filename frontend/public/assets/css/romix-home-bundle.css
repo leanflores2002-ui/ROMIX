@@ -8298,3 +8298,65 @@ header.romix-shared-header .cart-pill__text { display: none; }
   .romix-product-card .product-price { font-size: 19px; }
   .romix-product-card .romix-price-prefix { font-size: 11px; }
 }
+
+/* Final shared card contract: every catalog, home and recommendation card keeps
+   its variants, badge, pricing details, color count and visible product CTA. */
+.romix-product-card .catalog-cta,
+.romix-product-card .product-cta,
+.romix-product-card .related-products__cta {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 14px;
+  padding: 10px 14px;
+}
+
+.romix-product-card .product-variant-thumbs,
+.romix-product-card .related-products__thumbs {
+  display: flex !important;
+  align-items: center;
+  visibility: visible;
+  opacity: 1;
+}
+
+.romix-product-card .product-badge,
+.romix-product-card .product-tag,
+.romix-product-card .related-products__badge {
+  position: static;
+  display: inline-flex !important;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 10px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  color: #111217;
+  background: #fde7f2;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1;
+  text-transform: none;
+}
+
+.romix-product-card .product-badge .romix-icon,
+.romix-product-card .product-badge__icon,
+.romix-product-card .product-tag .romix-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 7px;
+  color: var(--romix-pink-readable, #e6007e);
+  flex: 0 0 18px;
+}
+
+@media (max-width: 640px) {
+  .romix-product-card .catalog-cta,
+  .romix-product-card .product-cta,
+  .romix-product-card .related-products__cta { min-height: 40px; margin-top: 12px; padding: 9px 10px; }
+  .romix-product-card .product-badge,
+  .romix-product-card .product-tag,
+  .romix-product-card .related-products__badge { margin-bottom: 7px; padding: 5px 9px; font-size: 11px; }
+}

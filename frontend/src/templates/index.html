@@ -727,7 +727,7 @@
             thumbs.appendChild(button);
             variantControls.push(button);
           });
-          if (variantsData.length > 1) {
+          if (variantsData.length > variantLimit) {
             const more = document.createElement("button");
             more.type = "button";
             more.className = "product-variant-more variant-more";

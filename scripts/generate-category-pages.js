@@ -100,7 +100,7 @@ function renderCards(list) {
         const deferred = index >= 4;
         return `<button type="button" class="product-variant-thumb${index === 0 ? ' is-active' : ''}" data-variant-index="${index}" data-variant-src="${escapeHtml(fallback)}" data-variant-main-src="${escapeHtml(fallback)}" aria-label="Ver variante ${label}" aria-pressed="${index === 0 ? 'true' : 'false'}" aria-current="${index === 0 ? 'true' : 'false'}"${deferred ? ' hidden aria-hidden="true" tabindex="-1"' : ''}>${deferred ? '' : `<img src="${escapeHtml(fallback)}" alt="${label}" width="96" height="128" loading="lazy" decoding="async" />`}</button>`;
       }).join('') : '';
-    const more = colors.length > 1
+    const more = colors.length > 4
       ? `<button type="button" class="product-variant-more" aria-expanded="false" aria-label="Hay ${Math.max(0, colors.length - 4)} variantes adicionales">+${Math.max(0, colors.length - 4)}</button>` : '';
     const colorCount = colors.length;
     const colorCountMarkup = colorCount > 0

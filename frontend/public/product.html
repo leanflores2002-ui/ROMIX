@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="assets/css/romix-product-detail.css?v=36">
   <link rel="stylesheet" href="assets/css/romix-pricing.css?v=24" />
   <link rel="stylesheet" href="assets/css/romix-header.css?v=31" />
-  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=10" />
+  <link rel="stylesheet" href="assets/css/romix-product-card.css?v=11" />
   <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />
   <link rel="stylesheet" href="assets/css/romix-footer.css?v=23" />
   <script defer src="/assets/js/romix-analytics.js?v=3"></script>
@@ -111,7 +111,7 @@
 <script src="assets/js/romix-icons.js?v=19"></script>
   <script src="assets/js/romix-product-card.js?v=4"></script>
   <script src="assets/js/romix-pricing.js?v=26"></script>
-  <script src="assets/js/romix-cart-recommendations.js?v=4"></script>
+  <script src="assets/js/romix-cart-recommendations.js?v=5"></script>
 <!-- ROMIX:SHELL:HEADER:END -->
 
 
@@ -3024,10 +3024,21 @@
         imageLink.href = href;
 
         const badgeLabel = getBadgeLabel(p);
-        const badge = badgeLabel ? document.createElement('span') : null;
+        const badgeInfo = (() => {
+          const label = String(badgeLabel || '').trim();
+          const normalized = label.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+          if (!label) return { label: '', icon: '' };
+          if (normalized.includes('vendido')) return { label: 'Lo más vendido', icon: 'Star' };
+          if (normalized.includes('nuevo') || normalized.includes('novedad')) return { label: 'Nuevo', icon: 'Sparkles' };
+          if (normalized.includes('oferta')) return { label: 'Oferta', icon: 'Tag' };
+          return { label, icon: '' };
+        })();
+        const badge = badgeInfo.label ? document.createElement('span') : null;
         if (badge) {
-          badge.className = 'related-products__badge';
-          badge.textContent = badgeLabel;
+          badge.className = 'related-products__badge product-badge product-badge--' + badgeInfo.label.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+          badge.innerHTML = (badgeInfo.icon && typeof window.romixIcon === 'function'
+            ? window.romixIcon(badgeInfo.icon, { size: 'sm' })
+            : '') + '<span>' + badgeInfo.label + '</span>';
         }
 
         const img = document.createElement('img');
@@ -3043,7 +3054,6 @@
           img.onerror = null;
           img.src = PLACEHOLDER;
         };
-        if (badge) imageWrap.appendChild(badge);
         imageWrap.appendChild(img);
         imageLink.appendChild(imageWrap);
 
@@ -3103,7 +3113,7 @@
             thumbs.appendChild(thumb);
             thumbControls.push(thumb);
           });
-          if (variantThumbs.length > 1) {
+          if (variantThumbs.length > 4) {
             const more = document.createElement('button');
             more.type = 'button';
             more.className = 'related-products__more product-variant-more';
@@ -3133,6 +3143,8 @@
           price.textContent = '$' + Number(p.price || 0).toLocaleString('es-AR');
         }
 
+        if (variantThumbs.length) content.appendChild(thumbs);
+        if (badge) content.appendChild(badge);
         content.appendChild(name);
         footer.appendChild(price);
         content.appendChild(footer);
@@ -3146,7 +3158,6 @@
             '</span>';
           content.appendChild(colorCount);
         }
-        if (variantThumbs.length) content.appendChild(thumbs);
         const cta = document.createElement('a');
         cta.className = 'related-products__cta romix-btn romix-btn--primary romix-btn--sm';
         cta.href = href;

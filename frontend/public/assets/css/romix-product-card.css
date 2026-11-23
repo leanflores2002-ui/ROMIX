@@ -811,6 +811,47 @@
   outline-offset: 3px;
 }
 
+/* Related products on the detail page: fill each row cleanly. The previous
+   basis subtracted six gaps for a four-card row even though flex only creates
+   three gaps, leaving a sliver of the next card visible at the viewport edge. */
+.product-detail-page .related-products__list {
+  gap: 12px;
+  padding-inline: 0;
+}
+
+.product-detail-page .related-products__card {
+  flex: 0 0 calc((100% - 36px) / 4);
+  min-width: 0;
+}
+
+.product-detail-page .related-products__thumbs {
+  min-width: 0;
+  padding-inline: 0;
+}
+
+@media (max-width: 1180px) {
+  .product-detail-page .related-products__card {
+    flex-basis: calc((100% - 24px) / 3);
+  }
+}
+
+@media (max-width: 900px) {
+  .product-detail-page .related-products__card {
+    flex-basis: calc((100% - 12px) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  .product-detail-page .related-products__list {
+    gap: 10px;
+    padding-inline: 0;
+  }
+
+  .product-detail-page .related-products__card {
+    flex-basis: calc((100% - 10px) / 2);
+  }
+}
+
 @media (max-width: 1180px) {
   .cart-recommendations__card {
     flex-basis: calc((100% - 28px) / 3);
@@ -1446,4 +1487,11 @@
 
   .romix-product-card .product-variant-thumbs,
   .romix-product-card .related-products__thumbs { margin-top: 10px; }
+}
+
+/* Related cards on the detail page are navigational previews. Keep the
+   shared legacy CTA available to other surfaces, but do not reserve a large
+   button inside this compact carousel. */
+.product-detail-page .related-products__cta {
+  display: none !important;
 }

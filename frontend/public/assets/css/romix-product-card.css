@@ -1575,3 +1575,15 @@
     left: 16px;
   }
 }
+
+/* Related cards on product details follow the same rhythm as catalog cards;
+   cart recommendations remain governed by their own styles. */
+.product-detail-page .related-products__list {
+  column-gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .product-detail-page .related-products__list {
+    column-gap: 8px;
+  }
+}

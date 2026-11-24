@@ -8426,3 +8426,17 @@ header.romix-shared-header .cart-pill__text { display: none; }
   .romix-product-card .product-variant-thumbs,
   .romix-product-card .related-products__thumbs { margin-top: 10px; }
 }
+
+/* Match the shared catalog card rhythm on both home carousels. The cart
+   sidebar has independent recommendation styles and is not affected. */
+.home .products-row {
+  column-gap: 12px;
+  grid-auto-columns: calc((100% - 36px) / 4);
+}
+
+@media (max-width: 640px) {
+  .home .products-row {
+    column-gap: 8px;
+    grid-auto-columns: calc((100% - 8px) / 2);
+  }
+}

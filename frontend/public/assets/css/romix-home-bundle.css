@@ -5793,6 +5793,154 @@ header.romix-shared-header .global-search.romix-search-form .romix-search-result
   }
 }
 
+/* Compact visible search field in the desktop header. The predictive panel
+   remains available below the field and the mobile experience keeps its
+   existing full-screen search interaction. */
+@media (min-width: 901px) {
+  .site-header .header-icons,
+  header.romix-shared-header .header-icons {
+    gap: 10px;
+  }
+
+  .site-header .header-search-desktop,
+  header.romix-shared-header .header-search-desktop {
+    display: none;
+  }
+
+  .site-header .header-icons > .search-panel,
+  header.romix-shared-header .header-icons > .search-panel {
+    position: relative;
+    flex: 0 0 190px;
+    width: 190px;
+    max-height: none !important;
+    height: auto;
+    overflow: visible;
+    visibility: visible;
+    opacity: 1;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .site-header .header-icons > .search-panel .container,
+  header.romix-shared-header .header-icons > .search-panel .container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-form,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-form {
+    width: 100%;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-shell,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-shell {
+    display: block;
+    width: 100%;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-input-wrap,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-input-wrap {
+    width: 100%;
+  }
+
+  .site-header .header-icons > .search-panel input[type="search"],
+  header.romix-shared-header .header-icons > .search-panel input[type="search"] {
+    height: 36px;
+    padding: 0 40px 0 11px;
+    border: 1px solid #dfe3e8;
+    border-radius: 8px;
+    color: #242426;
+    background: #f1f3f5;
+    font-size: .88rem;
+    font-weight: 500;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-icon,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-icon {
+    right: 12px;
+    left: auto;
+    width: 19px;
+    height: 19px;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-clear,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-clear {
+    right: 2px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-cancel,
+  .site-header .header-icons > .search-panel .romix-search-status,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-cancel,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-status {
+    display: none;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-overlay,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-overlay {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 1300;
+    display: none;
+    width: min(420px, 46vw);
+    max-height: min(520px, calc(100vh - 150px));
+    padding: 12px;
+    overflow-y: auto;
+    border: 1px solid #e5e1e5;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 18px 42px rgba(29, 22, 27, .16);
+  }
+
+  .site-header .header-icons > .search-panel.is-open .romix-search-overlay,
+  .site-header .header-icons > .search-panel.romix-search-panel-open .romix-search-overlay,
+  header.romix-shared-header .header-icons > .search-panel.is-open .romix-search-overlay,
+  header.romix-shared-header .header-icons > .search-panel.romix-search-panel-open .romix-search-overlay {
+    display: block;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-header .header-icons > .search-panel,
+  header.romix-shared-header .header-icons > .search-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 3200;
+    width: 100vw;
+    height: 100dvh;
+    max-height: 0 !important;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    border: 0;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .site-header .header-icons > .search-panel.is-open,
+  .site-header .header-icons > .search-panel.romix-search-panel-open,
+  header.romix-shared-header .header-icons > .search-panel.is-open,
+  header.romix-shared-header .header-icons > .search-panel.romix-search-panel-open {
+    max-height: none !important;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .site-header .header-icons > .search-panel .container,
+  header.romix-shared-header .header-icons > .search-panel .container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .romix-search-product__media img {
     transition: none;
@@ -6977,6 +7125,123 @@ header.romix-shared-header .cart-pill__text { display: none; }
   .romix-announcement__icon svg { width: 20px; height: 20px; }
 }
 
+/* Header search field: final overrides kept at the end so legacy header
+   rules cannot replace the compact desktop field. */
+@media (min-width: 901px) {
+  .site-header .header-search-desktop,
+  header.romix-shared-header .header-search-desktop { display: none !important; }
+
+  .site-header .header-icons > .search-panel,
+  header.romix-shared-header .header-icons > .search-panel {
+    position: relative;
+    flex: 0 0 190px;
+    width: 190px;
+    height: auto;
+    max-height: none !important;
+    overflow: visible;
+    visibility: visible;
+    opacity: 1;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .site-header .header-icons > .search-panel .container,
+  header.romix-shared-header .header-icons > .search-panel .container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-form,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-form,
+  .site-header .header-icons > .search-panel .romix-search-shell,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-shell {
+    display: block;
+    width: 100%;
+  }
+
+  .site-header .header-icons > .search-panel input[type="search"],
+  header.romix-shared-header .header-icons > .search-panel input[type="search"] {
+    height: 36px;
+    padding: 0 40px 0 11px;
+    border: 1px solid #dfe3e8;
+    border-radius: 8px;
+    color: #242426;
+    background: #f1f3f5;
+    font-size: .88rem;
+    font-weight: 500;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-icon,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-icon {
+    right: 12px;
+    left: auto;
+  }
+
+  .site-header .header-icons > .search-panel .romix-search-cancel,
+  .site-header .header-icons > .search-panel .romix-search-status,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-cancel,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-status { display: none; }
+
+  .site-header .header-icons > .search-panel .romix-search-overlay,
+  header.romix-shared-header .header-icons > .search-panel .romix-search-overlay {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 1300;
+    display: none;
+    width: min(420px, 46vw);
+    max-height: min(520px, calc(100vh - 150px));
+    padding: 12px;
+    overflow-y: auto;
+    border: 1px solid #e5e1e5;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 18px 42px rgba(29, 22, 27, .16);
+  }
+
+  .site-header .header-icons > .search-panel.is-open .romix-search-overlay,
+  .site-header .header-icons > .search-panel.romix-search-panel-open .romix-search-overlay,
+  header.romix-shared-header .header-icons > .search-panel.is-open .romix-search-overlay,
+  header.romix-shared-header .header-icons > .search-panel.romix-search-panel-open .romix-search-overlay { display: block; }
+}
+
+@media (max-width: 900px) {
+  .site-header .header-icons > .search-panel,
+  header.romix-shared-header .header-icons > .search-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 3200;
+    width: 100vw;
+    height: 100dvh;
+    max-height: 0 !important;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    border: 0;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .site-header .header-icons > .search-panel.is-open,
+  .site-header .header-icons > .search-panel.romix-search-panel-open,
+  header.romix-shared-header .header-icons > .search-panel.is-open,
+  header.romix-shared-header .header-icons > .search-panel.romix-search-panel-open {
+    max-height: none !important;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .site-header .header-icons > .search-panel .container,
+  header.romix-shared-header .header-icons > .search-panel .container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
 /* Shared product-card anatomy used by home, catalog/category pages, search and related products. */
 .romix-product-card {
   --card-border: transparent;
@@ -7790,6 +8055,47 @@ header.romix-shared-header .cart-pill__text { display: none; }
   outline-offset: 3px;
 }
 
+/* Related products on the detail page: fill each row cleanly. The previous
+   basis subtracted six gaps for a four-card row even though flex only creates
+   three gaps, leaving a sliver of the next card visible at the viewport edge. */
+.product-detail-page .related-products__list {
+  gap: 12px;
+  padding-inline: 0;
+}
+
+.product-detail-page .related-products__card {
+  flex: 0 0 calc((100% - 36px) / 4);
+  min-width: 0;
+}
+
+.product-detail-page .related-products__thumbs {
+  min-width: 0;
+  padding-inline: 0;
+}
+
+@media (max-width: 1180px) {
+  .product-detail-page .related-products__card {
+    flex-basis: calc((100% - 24px) / 3);
+  }
+}
+
+@media (max-width: 900px) {
+  .product-detail-page .related-products__card {
+    flex-basis: calc((100% - 12px) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  .product-detail-page .related-products__list {
+    gap: 10px;
+    padding-inline: 0;
+  }
+
+  .product-detail-page .related-products__card {
+    flex-basis: calc((100% - 10px) / 2);
+  }
+}
+
 @media (max-width: 1180px) {
   .cart-recommendations__card {
     flex-basis: calc((100% - 28px) / 3);
@@ -8427,16 +8733,101 @@ header.romix-shared-header .cart-pill__text { display: none; }
   .romix-product-card .related-products__thumbs { margin-top: 10px; }
 }
 
-/* Match the shared catalog card rhythm on both home carousels. The cart
-   sidebar has independent recommendation styles and is not affected. */
-.home .products-row {
-  column-gap: 12px;
-  grid-auto-columns: calc((100% - 36px) / 4);
+/* Related cards on the detail page are navigational previews. Keep the
+   shared legacy CTA available to other surfaces, but do not reserve a large
+   button inside this compact carousel. */
+.product-detail-page .related-products__cta {
+  display: none !important;
+}
+
+/* Related cards use the same visual hierarchy as catalog cards.  Their HTML
+   is shared with the detail carousel, so keep the content flow explicit here
+   instead of relying on the older detail-page rules. */
+.product-detail-page .related-products__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 22px 20px;
+}
+
+.product-detail-page .related-products__thumbs {
+  order: 1;
+  gap: 6px;
+  margin: 16px 0 12px;
+}
+
+.product-detail-page .related-products__thumb {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 54px;
+  border-radius: 8px;
+}
+
+.product-detail-page .related-products__badge {
+  order: 2;
+}
+
+.product-detail-page .related-products__name {
+  order: 3;
+}
+
+.product-detail-page .related-products__footer {
+  order: 4;
+}
+
+.product-detail-page .related-products__content .product-color-count {
+  order: 5;
+}
+
+/* Product labels belong to the media area, matching the catalog-card
+   reference.  Keep the badge in the shared markup, but take it out of the
+   content flow so it overlays the top-left of the product image. */
+.romix-product-card {
+  position: relative;
+}
+
+.romix-product-card .product-badge,
+.romix-product-card .product-tag,
+.romix-product-card .related-products__badge {
+  position: absolute;
+  z-index: 3;
+  top: 24px;
+  left: 24px;
+  margin: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 640px) {
-  .home .products-row {
+  .product-detail-page .related-products__content {
+    padding: 0 10px 14px;
+  }
+
+  .product-detail-page .related-products__thumbs {
+    margin: 10px 0 8px;
+  }
+
+  .product-detail-page .related-products__thumb {
+    flex-basis: 38px;
+    width: 38px;
+    height: 48px;
+  }
+
+  .romix-product-card .product-badge,
+  .romix-product-card .product-tag,
+  .romix-product-card .related-products__badge {
+    top: 16px;
+    left: 16px;
+  }
+}
+
+/* Related cards on product details follow the same rhythm as catalog cards;
+   cart recommendations remain governed by their own styles. */
+.product-detail-page .related-products__list {
+  column-gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .product-detail-page .related-products__list {
     column-gap: 8px;
-    grid-auto-columns: calc((100% - 8px) / 2);
   }
 }

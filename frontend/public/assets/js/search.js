@@ -697,7 +697,7 @@
     if (!form.getAttribute("method")) form.setAttribute("method", "get");
     input.setAttribute("aria-label", "Buscar productos");
     input.setAttribute("autocomplete", "off");
-    input.setAttribute("placeholder", "Encontr\u00e1 lo que busc\u00e1s");
+    input.setAttribute("placeholder", "Buscar");
 
     const submit = form.querySelector('button[type="submit"]');
     if (submit) submit.classList.add("romix-search-submit", "romix-btn", "romix-btn--primary");

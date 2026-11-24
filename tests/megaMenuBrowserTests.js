@@ -59,11 +59,20 @@ async function testDesktop(page, width, height) {
 
   await page.locator('#mega-trigger-mujer').hover();
   await wait(120);
-  await page.locator('[data-search-toggle="true"]').first().click();
+  const visibleSearchToggle = page.locator('[data-search-toggle="true"]:visible').first();
+  if (await visibleSearchToggle.count()) {
+    await visibleSearchToggle.click();
+  } else {
+    await page.locator('#global-search-form input[name="q"]').click();
+  }
   await wait(120);
   assert.equal(await isOpen(page, 'mujer'), false, 'Opening search should close the mega menu');
 
-  await page.locator('[data-search-toggle="true"]').first().click();
+  if (await visibleSearchToggle.count()) {
+    await visibleSearchToggle.click();
+  } else {
+    await page.keyboard.press('Escape');
+  }
   await page.locator('#mega-trigger-mujer').hover();
   await wait(120);
   await page.locator('#toggle-utility-menu').click();

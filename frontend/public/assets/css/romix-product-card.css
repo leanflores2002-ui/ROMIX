@@ -1495,3 +1495,83 @@
 .product-detail-page .related-products__cta {
   display: none !important;
 }
+
+/* Related cards use the same visual hierarchy as catalog cards.  Their HTML
+   is shared with the detail carousel, so keep the content flow explicit here
+   instead of relying on the older detail-page rules. */
+.product-detail-page .related-products__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 22px 20px;
+}
+
+.product-detail-page .related-products__thumbs {
+  order: 1;
+  gap: 6px;
+  margin: 16px 0 12px;
+}
+
+.product-detail-page .related-products__thumb {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 54px;
+  border-radius: 8px;
+}
+
+.product-detail-page .related-products__badge {
+  order: 2;
+}
+
+.product-detail-page .related-products__name {
+  order: 3;
+}
+
+.product-detail-page .related-products__footer {
+  order: 4;
+}
+
+.product-detail-page .related-products__content .product-color-count {
+  order: 5;
+}
+
+/* Product labels belong to the media area, matching the catalog-card
+   reference.  Keep the badge in the shared markup, but take it out of the
+   content flow so it overlays the top-left of the product image. */
+.romix-product-card {
+  position: relative;
+}
+
+.romix-product-card .product-badge,
+.romix-product-card .product-tag,
+.romix-product-card .related-products__badge {
+  position: absolute;
+  z-index: 3;
+  top: 24px;
+  left: 24px;
+  margin: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .product-detail-page .related-products__content {
+    padding: 0 10px 14px;
+  }
+
+  .product-detail-page .related-products__thumbs {
+    margin: 10px 0 8px;
+  }
+
+  .product-detail-page .related-products__thumb {
+    flex-basis: 38px;
+    width: 38px;
+    height: 48px;
+  }
+
+  .romix-product-card .product-badge,
+  .romix-product-card .product-tag,
+  .romix-product-card .related-products__badge {
+    top: 16px;
+    left: 16px;
+  }
+}

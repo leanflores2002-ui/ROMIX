@@ -5206,7 +5206,7 @@ header.romix-shared-header .cart-pill__text { display: none; }
    rules cannot replace the compact desktop field. */
 @media (min-width: 901px) {
   .site-header .header-search-desktop,
-  header.romix-shared-header .header-search-desktop { display: none !important; }
+  header.romix-shared-header .header-search-desktop { display: inline-flex !important; }
 
   .site-header .header-icons > .search-panel,
   header.romix-shared-header .header-icons > .search-panel {
